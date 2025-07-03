@@ -156,42 +156,49 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
   };
 
   return (
-    <Card className="glass-card h-full flex flex-col overflow-hidden">
-      <CardContent className="p-0 flex-1 flex flex-col min-h-0">
-        <ScrollArea className="flex-1">
-          <div className="min-w-full p-4">
+    <Card className="glass-card h-full max-h-full flex flex-col overflow-hidden">
+      <CardContent className="p-0 flex-1 flex flex-col min-h-0 max-h-full">
+        {/* Fixed Table Header */}
+        <div className="flex-shrink-0 p-2 md:p-4 pb-0">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="min-w-[300px]">Item Details</TableHead>
+                <TableHead className="min-w-[140px]">SKU</TableHead>
+                <TableHead className="min-w-[100px]">Category</TableHead>
+                <TableHead className="min-w-[80px] text-center">Stock</TableHead>
+                <TableHead className="min-w-[80px] text-center">Available</TableHead>
+                <TableHead className="min-w-[100px] text-right">Unit Price</TableHead>
+                <TableHead className="min-w-[100px] text-right">Total Value</TableHead>
+                <TableHead className="min-w-[100px] text-center">Status</TableHead>
+                <TableHead className="min-w-[120px]">Location</TableHead>
+                <TableHead className="min-w-[100px]">Last Updated</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Table Body */}
+        <ScrollArea className="flex-1 min-h-0 max-h-full">
+          <div className="min-w-full px-2 md:px-4 pb-2 md:pb-4">
             <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="min-w-[300px]">Item Details</TableHead>
-                  <TableHead className="min-w-[140px]">SKU</TableHead>
-                  <TableHead className="min-w-[100px]">Category</TableHead>
-                  <TableHead className="min-w-[80px] text-center">Stock</TableHead>
-                  <TableHead className="min-w-[80px] text-center">Available</TableHead>
-                  <TableHead className="min-w-[100px] text-right">Unit Price</TableHead>
-                  <TableHead className="min-w-[100px] text-right">Total Value</TableHead>
-                  <TableHead className="min-w-[100px] text-center">Status</TableHead>
-                  <TableHead className="min-w-[120px]">Location</TableHead>
-                  <TableHead className="min-w-[100px]">Last Updated</TableHead>
-                </TableRow>
-              </TableHeader>
               <TableBody>
                 {items.map(item => (
                   <TableRow key={item.id}>
-                    <TableCell>
+                    <TableCell className="min-w-[300px]">
                       <div>
                         <div className="font-semibold text-white mb-1">{item.name}</div>
                         <div className="text-sm text-white/80 mb-1 leading-relaxed">{item.description}</div>
                         <div className="text-xs text-white/60 italic">by {item.supplier}</div>
                       </div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="min-w-[140px]">
                       <code className="text-sm text-white/90 bg-white/10 px-2 py-1 rounded">
                         {item.sku}
                       </code>
                     </TableCell>
-                    <TableCell className="text-white/90">{item.category}</TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="min-w-[100px] text-white/90">{item.category}</TableCell>
+                    <TableCell className="min-w-[80px] text-center">
                       <Badge variant="success" className="mb-1">
                         {item.stockQuantity}
                       </Badge>
@@ -201,26 +208,26 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
                         </div>
                       )}
                     </TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="min-w-[80px] text-center">
                       <Badge 
                         variant={getAvailableQuantity(item) === 0 ? 'destructive' : 'secondary'}
                       >
                         {getAvailableQuantity(item)}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right font-semibold text-white/90">
+                    <TableCell className="min-w-[100px] text-right font-semibold text-white/90">
                       {formatCurrency(item.unitPrice)}
                     </TableCell>
-                    <TableCell className="text-right font-semibold text-white/90">
+                    <TableCell className="min-w-[100px] text-right font-semibold text-white/90">
                       {formatCurrency(item.totalValue)}
                     </TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="min-w-[100px] text-center">
                       <Badge variant={getStatusVariant(item.status)}>
                         {item.status.replace('-', ' ')}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-white/80">{item.location}</TableCell>
-                    <TableCell className="text-white/70 text-sm">
+                    <TableCell className="min-w-[120px] text-white/80">{item.location}</TableCell>
+                    <TableCell className="min-w-[100px] text-white/70 text-sm">
                       {formatDate(item.lastUpdated)}
                     </TableCell>
                   </TableRow>
@@ -232,12 +239,12 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
         
         {/* Pagination Section */}
         <div className="flex-shrink-0 border-t border-white/20 bg-white/5 backdrop-blur-sm">
-          <div className="flex items-center justify-between px-4 py-3">
-            <div className="text-sm text-white/70">
+          <div className="flex flex-col md:flex-row items-center justify-between px-2 md:px-4 py-2 md:py-3 gap-2">
+            <div className="text-xs md:text-sm text-white/70 text-center md:text-left">
               Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
             </div>
             
-            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-center md:justify-end">
               {totalPages > 1 && (
                 <Pagination>
                   <PaginationContent>

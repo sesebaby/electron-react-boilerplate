@@ -26,26 +26,26 @@ const App: React.FC = () => {
 
   return (
     <div className="app-bg">
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-screen flex flex-col">
-        {/* Header - Fixed height */}
-        <header className="text-center py-6 flex-shrink-0">
-          <h1 className="text-3xl md:text-4xl font-bold text-gradient mb-1">
+      <div className="relative z-10 max-w-full 2xl:max-w-[95%] mx-auto px-2 sm:px-4 lg:px-6 2xl:px-4 h-screen flex flex-col">
+        {/* Header - Compact on mobile */}
+        <header className="text-center py-2 md:py-6 flex-shrink-0">
+          <h1 className="text-xl md:text-3xl lg:text-4xl font-bold text-gradient mb-1">
             📦 Inventory Management System
           </h1>
-          <p className="text-base text-white/80">
+          <p className="text-sm md:text-base text-white/80 hidden sm:block">
             Manage your inventory with style and efficiency
           </p>
         </header>
 
-        {/* Main Content - Flexible height */}
+        {/* Main Content - Flexible height, prioritize table */}
         <main className="animate-fade-in-up flex-1 flex flex-col min-h-0">
-          {/* Dashboard Cards - Fixed height */}
-          <div className="flex-shrink-0 mb-6">
+          {/* Dashboard Cards - Compact on mobile, collapsible */}
+          <div className="flex-shrink-0 mb-2 md:mb-4 lg:mb-6">
             <Dashboard summary={summary} />
           </div>
           
-          {/* Search and Filters - Fixed height */}
-          <div className="flex-shrink-0 mb-6">
+          {/* Search and Filters - Compact on mobile */}
+          <div className="flex-shrink-0 mb-2 md:mb-4 lg:mb-6">
             <SearchAndFilters
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
@@ -57,8 +57,8 @@ const App: React.FC = () => {
             />
           </div>
 
-          {/* Inventory Table - Flexible height with scroll */}
-          <div className="flex-1 min-h-0">
+          {/* Inventory Table - PRIORITY: Takes most available space */}
+          <div className="flex-1 min-h-0 overflow-hidden">
             <InventoryTable
               items={items}
               onUpdateItem={updateItem}
@@ -71,8 +71,8 @@ const App: React.FC = () => {
           </div>
         </main>
 
-        {/* Footer - Fixed height with top margin */}
-        <footer className="flex-shrink-0 pt-6 pb-4">
+        {/* Footer - Compact on mobile, ensure no overlap */}
+        <footer className="flex-shrink-0 pt-1 md:pt-2 pb-1 md:pb-2">
           <StatusBar summary={summary} />
         </footer>
       </div>

@@ -25,8 +25,8 @@ export const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
 }) => {
   return (
     <Card className="glass-card">
-      <CardContent className="p-6">
-        <div className="flex flex-col lg:flex-row gap-4">
+      <CardContent className="p-2 md:p-4 lg:p-6">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/50" />
             <Input
@@ -34,13 +34,13 @@ export const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
               placeholder="Search by name, SKU, or description..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 glass-input"
+              className="pl-10 glass-input text-sm md:text-base"
             />
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 lg:w-auto">
+          <div className="flex flex-row gap-2 md:gap-4 md:w-auto">
             <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-full sm:w-[180px] glass-input">
+              <SelectTrigger className="flex-1 md:w-[140px] lg:w-[180px] glass-input text-sm md:text-base">
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
               <SelectContent>
@@ -52,7 +52,7 @@ export const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
             </Select>
 
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full sm:w-[160px] glass-input">
+              <SelectTrigger className="flex-1 md:w-[120px] lg:w-[160px] glass-input text-sm md:text-base">
                 <SelectValue placeholder="All Status" />
               </SelectTrigger>
               <SelectContent>
