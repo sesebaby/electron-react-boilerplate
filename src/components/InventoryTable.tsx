@@ -237,33 +237,35 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
               Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
             </div>
             
-            {totalPages > 1 && (
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious 
-                      onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-                      style={{ 
-                        pointerEvents: currentPage === 1 ? 'none' : 'auto',
-                        opacity: currentPage === 1 ? 0.5 : 1
-                      }}
-                    />
-                  </PaginationItem>
-                  
-                  {renderPaginationItems()}
-                  
-                  <PaginationItem>
-                    <PaginationNext 
-                      onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-                      style={{ 
-                        pointerEvents: currentPage === totalPages ? 'none' : 'auto',
-                        opacity: currentPage === totalPages ? 0.5 : 1
-                      }}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            )}
+            <div className="flex items-center justify-end">
+              {totalPages > 1 && (
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        onClick={() => onPageChange(Math.max(1, currentPage - 1))}
+                        style={{ 
+                          pointerEvents: currentPage === 1 ? 'none' : 'auto',
+                          opacity: currentPage === 1 ? 0.5 : 1
+                        }}
+                      />
+                    </PaginationItem>
+                    
+                    {renderPaginationItems()}
+                    
+                    <PaginationItem>
+                      <PaginationNext 
+                        onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
+                        style={{ 
+                          pointerEvents: currentPage === totalPages ? 'none' : 'auto',
+                          opacity: currentPage === totalPages ? 0.5 : 1
+                        }}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              )}
+            </div>
           </div>
         </div>
       </CardContent>
