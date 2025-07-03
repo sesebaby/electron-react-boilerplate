@@ -36,13 +36,14 @@ export const StatusBar: React.FC<StatusBarProps> = ({ summary }) => {
 
   const systemStatus = getSystemStatus();
 
+
   return (
-    <Card className="glass-card mt-8">
-      <CardContent className="p-6">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-          <div className="flex flex-wrap items-center gap-4">
+    <Card className="glass-card w-full">
+      <CardContent className="p-4 sm:p-6">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 lg:gap-6">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <div className="flex items-center gap-2">
-              <div className={`w-2 h-2 rounded-full ${
+              <div className={`w-3 h-3 rounded-full ${
                 systemStatus.status === 'error' 
                   ? 'bg-red-500 animate-pulse' 
                   : systemStatus.status === 'warning' 
@@ -54,43 +55,43 @@ export const StatusBar: React.FC<StatusBarProps> = ({ summary }) => {
               </span>
             </div>
             
-            <Badge variant="default" className="flex items-center gap-1">
+            <Badge variant="default" className="flex items-center gap-1 text-xs">
               <BarChart3 className="h-3 w-3" />
               Items: {summary.totalItems}
             </Badge>
             
-            <Badge variant="default" className="flex items-center gap-1">
+            <Badge variant="default" className="flex items-center gap-1 text-xs">
               <DollarSign className="h-3 w-3" />
               Value: ${summary.totalValue.toLocaleString()}
             </Badge>
             
             {summary.lowStockItems > 0 && (
-              <Badge variant="warning" className="flex items-center gap-1">
+              <Badge variant="warning" className="flex items-center gap-1 text-xs">
                 <AlertTriangle className="h-3 w-3" />
                 Low Stock: {summary.lowStockItems}
               </Badge>
             )}
             
             {summary.outOfStockItems > 0 && (
-              <Badge variant="destructive" className="flex items-center gap-1">
+              <Badge variant="destructive" className="flex items-center gap-1 text-xs">
                 <X className="h-3 w-3" />
                 Out of Stock: {summary.outOfStockItems}
               </Badge>
             )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <Badge variant="secondary" className="flex items-center gap-1">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+            <Badge variant="secondary" className="flex items-center gap-1 text-xs">
               <RefreshCw className="h-3 w-3" />
               Auto-sync: ON
             </Badge>
             
-            <Badge variant="secondary" className="flex items-center gap-1">
+            <Badge variant="secondary" className="flex items-center gap-1 text-xs">
               <Clock className="h-3 w-3" />
               {currentTime}
             </Badge>
             
-            <Badge variant="secondary" className="flex items-center gap-1">
+            <Badge variant="secondary" className="flex items-center gap-1 text-xs">
               <User className="h-3 w-3" />
               Admin User
             </Badge>

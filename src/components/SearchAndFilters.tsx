@@ -24,7 +24,7 @@ export const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
   categories
 }) => {
   return (
-    <Card className="glass-card mb-6">
+    <Card className="glass-card">
       <CardContent className="p-6">
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="flex-1 relative">

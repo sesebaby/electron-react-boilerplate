@@ -21,36 +21,50 @@ const App: React.FC = () => {
 
   return (
     <div className="app-bg">
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gradient mb-2">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-screen flex flex-col">
+        {/* Header - Fixed height */}
+        <header className="text-center py-6 flex-shrink-0">
+          <h1 className="text-3xl md:text-4xl font-bold text-gradient mb-1">
             📦 Inventory Management System
           </h1>
-          <p className="text-lg text-white/80">
+          <p className="text-base text-white/80">
             Manage your inventory with style and efficiency
           </p>
         </header>
 
-        <main className="animate-fade-in-up">
-          <Dashboard summary={summary} />
+        {/* Main Content - Flexible height */}
+        <main className="animate-fade-in-up flex-1 flex flex-col min-h-0">
+          {/* Dashboard Cards - Fixed height */}
+          <div className="flex-shrink-0 mb-6">
+            <Dashboard summary={summary} />
+          </div>
           
-          <SearchAndFilters
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            categoryFilter={categoryFilter}
-            setCategoryFilter={setCategoryFilter}
-            statusFilter={statusFilter}
-            setStatusFilter={setStatusFilter}
-            categories={summary.categories}
-          />
+          {/* Search and Filters - Fixed height */}
+          <div className="flex-shrink-0 mb-6">
+            <SearchAndFilters
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              categoryFilter={categoryFilter}
+              setCategoryFilter={setCategoryFilter}
+              statusFilter={statusFilter}
+              setStatusFilter={setStatusFilter}
+              categories={summary.categories}
+            />
+          </div>
 
-          <InventoryTable
-            items={items}
-            onUpdateItem={updateItem}
-          />
+          {/* Inventory Table - Flexible height with scroll */}
+          <div className="flex-1 min-h-0">
+            <InventoryTable
+              items={items}
+              onUpdateItem={updateItem}
+            />
+          </div>
         </main>
 
-        <StatusBar summary={summary} />
+        {/* Footer - Fixed height with top margin */}
+        <footer className="flex-shrink-0 pt-6 pb-4">
+          <StatusBar summary={summary} />
+        </footer>
       </div>
     </div>
   );

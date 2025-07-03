@@ -18,8 +18,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ summary }) => {
 
 
   return (
-    <div className="mb-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+    <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         <Card className="glass-card glass-card-hover">
           <CardContent className="flex items-center gap-4 p-4">
             <div className="p-3 rounded-full bg-green-500/20 backdrop-blur-sm">
