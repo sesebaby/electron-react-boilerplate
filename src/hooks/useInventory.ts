@@ -7,6 +7,10 @@ export const useInventory = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
 
   const filteredItems = useMemo(() => {
     return items.filter(item => {
@@ -20,6 +24,15 @@ export const useInventory = () => {
       return matchesSearch && matchesCategory && matchesStatus;
     });
   }, [items, searchTerm, categoryFilter, statusFilter]);
+
+  // Paginated items
+  const paginatedItems = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredItems.slice(startIndex, endIndex);
+  }, [filteredItems, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
   const summary: InventorySummary = useMemo(() => {
     const totalItems = items.length;
@@ -56,8 +69,8 @@ export const useInventory = () => {
   };
 
   return {
-    items: filteredItems,
-    allItems: items,
+    items: paginatedItems,
+    allItems: filteredItems,
     summary,
     searchTerm,
     setSearchTerm,
@@ -67,6 +80,12 @@ export const useInventory = () => {
     setStatusFilter,
     updateItem,
     addItem,
-    deleteItem
+    deleteItem,
+    // Pagination
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    itemsPerPage,
+    totalItems: filteredItems.length
   };
 };

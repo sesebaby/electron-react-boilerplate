@@ -16,7 +16,12 @@ const App: React.FC = () => {
     setCategoryFilter,
     statusFilter,
     setStatusFilter,
-    updateItem
+    updateItem,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    itemsPerPage,
+    totalItems
   } = useInventory();
 
   return (
@@ -57,6 +62,11 @@ const App: React.FC = () => {
             <InventoryTable
               items={items}
               onUpdateItem={updateItem}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              totalItems={totalItems}
+              itemsPerPage={itemsPerPage}
             />
           </div>
         </main>

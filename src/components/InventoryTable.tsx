@@ -4,14 +4,30 @@ import { Card, CardContent } from './ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 import { Badge } from './ui/badge';
 import { ScrollArea } from './ui/scroll-area';
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from './ui/pagination';
+import { Separator } from './ui/separator';
 import { Package } from 'lucide-react';
 
 interface InventoryTableProps {
   items: InventoryItem[];
   onUpdateItem: (id: string, updates: Partial<InventoryItem>) => void;
+  // Pagination props
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+  itemsPerPage: number;
 }
 
-export const InventoryTable: React.FC<InventoryTableProps> = ({ items, onUpdateItem }) => {
+export const InventoryTable: React.FC<InventoryTableProps> = ({ 
+  items, 
+  onUpdateItem,
+  currentPage,
+  totalPages,
+  onPageChange,
+  totalItems,
+  itemsPerPage
+}) => {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -55,11 +71,95 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({ items, onUpdateI
     );
   }
 
+  const renderPaginationItems = () => {
+    const items = [];
+    const showEllipsis = totalPages > 7;
+    
+    if (showEllipsis) {
+      // Show first page
+      items.push(
+        <PaginationItem key={1}>
+          <PaginationLink
+            onClick={() => onPageChange(1)}
+            isActive={currentPage === 1}
+          >
+            1
+          </PaginationLink>
+        </PaginationItem>
+      );
+      
+      // Show ellipsis if needed
+      if (currentPage > 3) {
+        items.push(
+          <PaginationItem key="ellipsis1">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+      
+      // Show current page and neighbors
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+      
+      for (let i = start; i <= end; i++) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink
+              onClick={() => onPageChange(i)}
+              isActive={currentPage === i}
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+      
+      // Show ellipsis if needed
+      if (currentPage < totalPages - 2) {
+        items.push(
+          <PaginationItem key="ellipsis2">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+      
+      // Show last page
+      if (totalPages > 1) {
+        items.push(
+          <PaginationItem key={totalPages}>
+            <PaginationLink
+              onClick={() => onPageChange(totalPages)}
+              isActive={currentPage === totalPages}
+            >
+              {totalPages}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    } else {
+      // Show all pages if total is small
+      for (let i = 1; i <= totalPages; i++) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink
+              onClick={() => onPageChange(i)}
+              isActive={currentPage === i}
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    }
+    
+    return items;
+  };
+
   return (
     <Card className="glass-card h-full flex flex-col overflow-hidden">
       <CardContent className="p-0 flex-1 flex flex-col min-h-0">
         <ScrollArea className="flex-1">
-          <div className="min-w-full p-4 pb-8">
+          <div className="min-w-full p-4">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -129,6 +229,43 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({ items, onUpdateI
             </Table>
           </div>
         </ScrollArea>
+        
+        {/* Pagination Section */}
+        <div className="flex-shrink-0 border-t border-white/20 bg-white/5 backdrop-blur-sm">
+          <div className="flex items-center justify-between px-4 py-3">
+            <div className="text-sm text-white/70">
+              Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
+            </div>
+            
+            {totalPages > 1 && (
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious 
+                      onClick={() => onPageChange(Math.max(1, currentPage - 1))}
+                      style={{ 
+                        pointerEvents: currentPage === 1 ? 'none' : 'auto',
+                        opacity: currentPage === 1 ? 0.5 : 1
+                      }}
+                    />
+                  </PaginationItem>
+                  
+                  {renderPaginationItems()}
+                  
+                  <PaginationItem>
+                    <PaginationNext 
+                      onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
+                      style={{ 
+                        pointerEvents: currentPage === totalPages ? 'none' : 'auto',
+                        opacity: currentPage === totalPages ? 0.5 : 1
+                      }}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
