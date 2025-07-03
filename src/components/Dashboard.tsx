@@ -14,6 +14,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ summary }) => {
     }).format(amount);
   };
 
+
   return (
     <div className="dashboard">
       <div className="dashboard-grid">
