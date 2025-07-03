@@ -1,6 +1,8 @@
 import React from 'react';
 import { InventorySummary } from '../types/inventory';
-import './StatusBar.css';
+import { Card, CardContent } from './ui/card';
+import { Badge } from './ui/badge';
+import { Clock, BarChart3, DollarSign, AlertTriangle, X, RefreshCw, User } from 'lucide-react';
 
 interface StatusBarProps {
   summary: InventorySummary;
@@ -35,48 +37,66 @@ export const StatusBar: React.FC<StatusBarProps> = ({ summary }) => {
   const systemStatus = getSystemStatus();
 
   return (
-    <div className="status-bar">
-      <div className="status-bar-left">
-        <div className="status-item">
-          <span className={`status-dot ${systemStatus.status === 'error' ? 'error' : systemStatus.status === 'warning' ? 'warning' : ''}`}></span>
-          <span>System Status: {systemStatus.text}</span>
-        </div>
-        <div className="status-item">
-          <span>📊</span>
-          <span>Items: {summary.totalItems}</span>
-        </div>
-        <div className="status-item">
-          <span>💰</span>
-          <span>Value: ${summary.totalValue.toLocaleString()}</span>
-        </div>
-        {summary.lowStockItems > 0 && (
-          <div className="status-item">
-            <span>⚠️</span>
-            <span>Low Stock: {summary.lowStockItems}</span>
+    <Card className="glass-card mt-8">
+      <CardContent className="p-6">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className={`w-2 h-2 rounded-full ${
+                systemStatus.status === 'error' 
+                  ? 'bg-red-500 animate-pulse' 
+                  : systemStatus.status === 'warning' 
+                  ? 'bg-yellow-500 animate-pulse' 
+                  : 'bg-green-500'
+              }`} />
+              <span className="text-sm font-medium text-white/90">
+                System Status: {systemStatus.text}
+              </span>
+            </div>
+            
+            <Badge variant="default" className="flex items-center gap-1">
+              <BarChart3 className="h-3 w-3" />
+              Items: {summary.totalItems}
+            </Badge>
+            
+            <Badge variant="default" className="flex items-center gap-1">
+              <DollarSign className="h-3 w-3" />
+              Value: ${summary.totalValue.toLocaleString()}
+            </Badge>
+            
+            {summary.lowStockItems > 0 && (
+              <Badge variant="warning" className="flex items-center gap-1">
+                <AlertTriangle className="h-3 w-3" />
+                Low Stock: {summary.lowStockItems}
+              </Badge>
+            )}
+            
+            {summary.outOfStockItems > 0 && (
+              <Badge variant="destructive" className="flex items-center gap-1">
+                <X className="h-3 w-3" />
+                Out of Stock: {summary.outOfStockItems}
+              </Badge>
+            )}
           </div>
-        )}
-        {summary.outOfStockItems > 0 && (
-          <div className="status-item">
-            <span>❌</span>
-            <span>Out of Stock: {summary.outOfStockItems}</span>
-          </div>
-        )}
-      </div>
 
-      <div className="status-bar-right">
-        <div className="status-item">
-          <span>🔄</span>
-          <span>Auto-sync: ON</span>
+          <div className="flex flex-wrap items-center gap-4">
+            <Badge variant="secondary" className="flex items-center gap-1">
+              <RefreshCw className="h-3 w-3" />
+              Auto-sync: ON
+            </Badge>
+            
+            <Badge variant="secondary" className="flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              {currentTime}
+            </Badge>
+            
+            <Badge variant="secondary" className="flex items-center gap-1">
+              <User className="h-3 w-3" />
+              Admin User
+            </Badge>
+          </div>
         </div>
-        <div className="status-item">
-          <span>🕒</span>
-          <span>{currentTime}</span>
-        </div>
-        <div className="status-item">
-          <span>👤</span>
-          <span>Admin User</span>
-        </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };

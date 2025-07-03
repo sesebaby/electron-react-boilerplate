@@ -4,7 +4,7 @@ import { SearchAndFilters } from './components/SearchAndFilters';
 import { InventoryTable } from './components/InventoryTable';
 import { StatusBar } from './components/StatusBar';
 import { useInventory } from './hooks/useInventory';
-import './App.css';
+import './globals.css';
 
 const App: React.FC = () => {
   const {
@@ -20,14 +20,18 @@ const App: React.FC = () => {
   } = useInventory();
 
   return (
-    <div className="app">
-      <div className="app-container">
-        <header className="app-header">
-          <h1>📦 Inventory Management System</h1>
-          <p>Manage your inventory with style and efficiency</p>
+    <div className="app-bg">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen">
+        <header className="text-center mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold text-gradient mb-2">
+            📦 Inventory Management System
+          </h1>
+          <p className="text-lg text-white/80">
+            Manage your inventory with style and efficiency
+          </p>
         </header>
 
-        <main className="app-main">
+        <main className="animate-fade-in-up">
           <Dashboard summary={summary} />
           
           <SearchAndFilters

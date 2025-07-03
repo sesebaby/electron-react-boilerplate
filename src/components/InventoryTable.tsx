@@ -1,6 +1,9 @@
 import React from 'react';
 import { InventoryItem } from '../types/inventory';
-import './InventoryTable.css';
+import { Card, CardContent } from './ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
+import { Badge } from './ui/badge';
+import { Package } from 'lucide-react';
 
 interface InventoryTableProps {
   items: InventoryItem[];
@@ -23,13 +26,13 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({ items, onUpdateI
     }).format(date);
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "success" | "warning" => {
     switch (status) {
-      case 'in-stock': return '#4CAF50';
-      case 'low-stock': return '#FFC107';
-      case 'out-of-stock': return '#F44336';
-      case 'discontinued': return '#9E9E9E';
-      default: return '#2196F3';
+      case 'in-stock': return 'success';
+      case 'low-stock': return 'warning';
+      case 'out-of-stock': return 'destructive';
+      case 'discontinued': return 'secondary';
+      default: return 'default';
     }
   };
 
@@ -39,74 +42,89 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({ items, onUpdateI
 
   if (items.length === 0) {
     return (
-      <div className="empty-state">
-        <div className="empty-icon">📦</div>
-        <h3>No items found</h3>
-        <p>Try adjusting your search or filters</p>
-      </div>
+      <Card className="glass-card">
+        <CardContent className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="p-4 rounded-full bg-white/10 backdrop-blur-sm mb-4">
+            <Package className="h-16 w-16 text-white/50" />
+          </div>
+          <h3 className="text-xl font-semibold text-white/90 mb-2">No items found</h3>
+          <p className="text-white/70">Try adjusting your search or filters</p>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="inventory-table-container">
-      <div className="table-wrapper">
-        <table className="inventory-table">
-          <thead>
-            <tr>
-              <th>Item Details</th>
-              <th>SKU</th>
-              <th>Category</th>
-              <th>Stock</th>
-              <th>Available</th>
-              <th>Unit Price</th>
-              <th>Total Value</th>
-              <th>Status</th>
-              <th>Location</th>
-              <th>Last Updated</th>
-            </tr>
-          </thead>
-          <tbody>
+    <Card className="glass-card overflow-hidden">
+      <div className="max-h-[60vh] overflow-auto">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="min-w-[300px]">Item Details</TableHead>
+              <TableHead className="min-w-[140px]">SKU</TableHead>
+              <TableHead className="min-w-[100px]">Category</TableHead>
+              <TableHead className="min-w-[80px] text-center">Stock</TableHead>
+              <TableHead className="min-w-[80px] text-center">Available</TableHead>
+              <TableHead className="min-w-[100px] text-right">Unit Price</TableHead>
+              <TableHead className="min-w-[100px] text-right">Total Value</TableHead>
+              <TableHead className="min-w-[100px] text-center">Status</TableHead>
+              <TableHead className="min-w-[120px]">Location</TableHead>
+              <TableHead className="min-w-[100px]">Last Updated</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {items.map(item => (
-              <tr key={item.id} className="table-row">
-                <td className="item-details">
-                  <div className="item-name">{item.name}</div>
-                  <div className="item-description">{item.description}</div>
-                  <div className="item-supplier">by {item.supplier}</div>
-                </td>
-                <td className="sku">{item.sku}</td>
-                <td className="category">{item.category}</td>
-                <td className="stock-quantity">
-                  <span className="quantity-badge">
+              <TableRow key={item.id}>
+                <TableCell>
+                  <div>
+                    <div className="font-semibold text-white mb-1">{item.name}</div>
+                    <div className="text-sm text-white/80 mb-1 leading-relaxed">{item.description}</div>
+                    <div className="text-xs text-white/60 italic">by {item.supplier}</div>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <code className="text-sm text-white/90 bg-white/10 px-2 py-1 rounded">
+                    {item.sku}
+                  </code>
+                </TableCell>
+                <TableCell className="text-white/90">{item.category}</TableCell>
+                <TableCell className="text-center">
+                  <Badge variant="success" className="mb-1">
                     {item.stockQuantity}
-                  </span>
+                  </Badge>
                   {item.reservedQuantity > 0 && (
-                    <span className="reserved-info">
+                    <div className="text-xs text-white/60 mt-1">
                       ({item.reservedQuantity} reserved)
-                    </span>
+                    </div>
                   )}
-                </td>
-                <td className="available-quantity">
-                  <span className={`available-badge ${getAvailableQuantity(item) === 0 ? 'zero' : ''}`}>
-                    {getAvailableQuantity(item)}
-                  </span>
-                </td>
-                <td className="unit-price">{formatCurrency(item.unitPrice)}</td>
-                <td className="total-value">{formatCurrency(item.totalValue)}</td>
-                <td className="status">
-                  <span
-                    className="status-badge"
-                    style={{ backgroundColor: getStatusColor(item.status) }}
+                </TableCell>
+                <TableCell className="text-center">
+                  <Badge 
+                    variant={getAvailableQuantity(item) === 0 ? 'destructive' : 'secondary'}
                   >
+                    {getAvailableQuantity(item)}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-right font-semibold text-white/90">
+                  {formatCurrency(item.unitPrice)}
+                </TableCell>
+                <TableCell className="text-right font-semibold text-white/90">
+                  {formatCurrency(item.totalValue)}
+                </TableCell>
+                <TableCell className="text-center">
+                  <Badge variant={getStatusVariant(item.status)}>
                     {item.status.replace('-', ' ')}
-                  </span>
-                </td>
-                <td className="location">{item.location}</td>
-                <td className="last-updated">{formatDate(item.lastUpdated)}</td>
-              </tr>
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-white/80">{item.location}</TableCell>
+                <TableCell className="text-white/70 text-sm">
+                  {formatDate(item.lastUpdated)}
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
-    </div>
+    </Card>
   );
 };
