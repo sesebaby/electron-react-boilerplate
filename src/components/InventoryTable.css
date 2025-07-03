@@ -12,6 +12,7 @@
   max-height: 60vh;
   overflow-y: auto;
   min-width: 100%;
+  position: relative;
 }
 
 .inventory-table {
@@ -22,17 +23,19 @@
 }
 
 .inventory-table th {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   padding: 1rem;
   text-align: left;
   font-weight: 600;
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   position: sticky;
   top: 0;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .inventory-table td {
@@ -43,6 +46,8 @@
 
 .table-row {
   transition: all 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .table-row:hover {
