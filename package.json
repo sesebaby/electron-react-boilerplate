@@ -1,0 +1,35 @@
+{
+  "name": "inventory-management",
+  "version": "1.0.0",
+  "description": "Beautiful inventory management system built with Electron and React",
+  "main": "public/main.js",
+  "scripts": {
+    "start": "concurrently \"npm run build:watch\" \"npm run electron\"",
+    "build": "webpack --mode production",
+    "build:watch": "webpack --mode development --watch",
+    "electron": "electron .",
+    "dev": "webpack serve --mode development",
+    "lint": "eslint src --ext .ts,.tsx",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",
+    "html-webpack-plugin": "^5.6.0",
+    "css-loader": "^7.1.1",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0"
+  },
+  "author": "",
+  "license": "MIT"
+}
