@@ -8,7 +8,8 @@
     "build": "webpack --mode production",
     "build:watch": "webpack --mode development --watch",
     "electron": "electron .",
-    "dev": "webpack serve --mode development",
+    "dev": "webpack serve --config webpack.dev.config.js",
+    "dev:electron": "webpack serve --mode development",
     "lint": "eslint src --ext .ts,.tsx",
     "test": "jest"
   },
