@@ -16,7 +16,7 @@
             --spacing-lg: 24px;
         }
 
-        /* 玻璃未来风主题 - 基于 Indigo 色块系列 */
+        /* 玻璃未来风主题 - 改用白色系文字，调整背景确保可读性 */
         [data-theme="glass-future"] {
             --theme-name: 'glass-future';
             --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);
@@ -24,16 +24,18 @@
             --card-background: oklch(0.93 0.034 272.788 / 0.08);
             --hover-background: oklch(0.87 0.065 274.039 / 0.18);
             --active-background: oklch(0.785 0.115 274.713 / 0.22);
-            --popup-background: oklch(0.962 0.018 272.314 / 0.85);
-            --popup-header-background: oklch(0.962 0.018 272.314 / 0.95);
-            --popup-content-background: oklch(0.962 0.018 272.314 / 0.8);
-            --popup-text-primary: oklch(0.359 0.144 278.697);
-            --popup-text-secondary: oklch(0.398 0.195 277.366);
-            --popup-text-tertiary: oklch(0.457 0.24 277.023);
-            --popup-text-shadow: 0 1px 3px oklch(0.962 0.018 272.314 / 0.8);
-            --text-primary: oklch(0.359 0.144 278.697);
-            --text-secondary: oklch(0.398 0.195 277.366);
-            --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.4);
+            /* 调整为更深的背景以确保白色文字可读性 */
+            --popup-background: oklch(0.511 0.262 276.966 / 0.9);
+            --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);
+            --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);
+            /* 白色系文字颜色 - 增强阴影确保可读性 */
+            --popup-text-primary: oklch(1 0 0);
+            --popup-text-secondary: oklch(0.984 0.003 247.858);
+            --popup-text-tertiary: oklch(0.968 0.007 247.896);
+            --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8);
+            --text-primary: oklch(1 0 0);
+            --text-secondary: oklch(0.984 0.003 247.858);
+            --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);
         }
 
         /* 深色科技风主题 - 基于 Slate 色块系列 */
@@ -242,13 +244,13 @@
 
             <h2>🎯 设计原则验证</h2>
             <h3>✅ 色彩一致性原则</h3>
-            <p>• 玻璃未来风：基于 <strong>Indigo</strong> 色块系列</p>
+            <p>• 玻璃未来风：<strong>深Indigo背景 + 白色文字</strong> (高对比度)</p>
             <p>• 深色科技风：基于 <strong>Slate</strong> 色块系列</p>
             <p>• 温暖商务风：基于 <strong>Amber</strong> 色块系列</p>
 
             <h3>✅ 对比度原则</h3>
             <p>• 深色背景：使用浅色文字 (slate-100/200)</p>
-            <p>• 蓝色背景：使用深色文字 (indigo-900/800)</p>
+            <p>• 深蓝色背景：使用白色文字 (white/gray-50) - 高对比度</p>
             <p>• 暖色背景：使用深色文字 (amber-900/800)</p>
 
             <div class="color-palette">
@@ -267,7 +269,7 @@
             <div class="theme-content">
                 <div class="theme-option">
                     <h4>玻璃未来风</h4>
-                    <p>透明玻璃感，科技未来风格 - 基于 Indigo 色块系列</p>
+                    <p>透明玻璃感，科技未来风格 - 深Indigo背景 + 白色文字</p>
                 </div>
                 <div class="theme-option">
                     <h4>深色科技风</h4>

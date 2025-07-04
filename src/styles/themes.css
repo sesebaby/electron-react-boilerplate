@@ -28,10 +28,10 @@
   --glass-shadow-active: 0 16px 48px oklch(0.257 0.09 281.288 / 0.25);
 
   /* 文字颜色系统 - indigo-900/800 深色文字，适合浅色背景 */
-  --text-primary: oklch(0.359 0.144 278.697);
-  --text-secondary: oklch(0.398 0.195 277.366);
-  --text-tertiary: oklch(0.457 0.24 277.023);
-  --text-accent: oklch(0.257 0.09 281.288);
+  --text-primary: oklch(84.45% 0.0111 286.039);
+  --text-secondary: oklch(73.282% 0.00578 286.049);
+  --text-tertiary: oklch(49.841% 0.00643 297.377);
+  --text-accent: oklch(37.566% 0.00172 285.952);
 
   /* 弹出窗体文字颜色 - 深色文字确保可读性 */
   --popup-text-primary: oklch(0.359 0.144 278.697);
@@ -72,26 +72,26 @@
   --hover-background: oklch(0.87 0.065 274.039 / 0.18);
   --active-background: oklch(0.785 0.115 274.713 / 0.22);
 
-  /* 弹出窗体背景系统 - indigo-50 系列，高可读性 */
-  --popup-background: oklch(0.962 0.018 272.314 / 0.85);
-  --popup-header-background: oklch(0.962 0.018 272.314 / 0.95);
-  --popup-content-background: oklch(0.962 0.018 272.314 / 0.8);
+  /* 弹出窗体背景系统 - 调整为更深的indigo色调，确保白色文字可读性 */
+  --popup-background: oklch(0.511 0.262 276.966 / 0.9);
+  --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);
+  --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);
   --popup-blur: blur(35px);
-  --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.4);
-  --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.3);
-  --popup-shadow-hover: 0 30px 100px oklch(0.257 0.09 281.288 / 0.35);
+  --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);
+  --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);
+  --popup-shadow-hover: 0 30px 100px oklch(0.257 0.09 281.288 / 0.45);
 
-  /* 弹出窗体文字颜色 - indigo-900/800 深色文字，确保对比度 */
-  --popup-text-primary: oklch(0.359 0.144 278.697);
-  --popup-text-secondary: oklch(0.398 0.195 277.366);
-  --popup-text-tertiary: oklch(0.457 0.24 277.023);
-  --popup-text-shadow: 0 1px 3px oklch(0.962 0.018 272.314 / 0.8);
+  /* 弹出窗体文字颜色 - 改用白色系，增强文字阴影确保可读性 */
+  --popup-text-primary: oklch(1 0 0);
+  --popup-text-secondary: oklch(0.984 0.003 247.858);
+  --popup-text-tertiary: oklch(0.968 0.007 247.896);
+  --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8);
 
-  /* 主题文字颜色 - 深色文字适合浅色背景 */
-  --text-primary: oklch(0.359 0.144 278.697);
-  --text-secondary: oklch(0.398 0.195 277.366);
-  --text-tertiary: oklch(0.457 0.24 277.023);
-  --text-accent: oklch(0.257 0.09 281.288);
+  /* 主题文字颜色 - 基于白色系，增强视觉效果 */
+  --text-primary: oklch(1 0 0);
+  --text-secondary: oklch(0.984 0.003 247.858);
+  --text-tertiary: oklch(0.968 0.007 247.896);
+  --text-accent: oklch(0.929 0.013 255.508);
 
   /* 玻璃感效果增强 */
   --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);
