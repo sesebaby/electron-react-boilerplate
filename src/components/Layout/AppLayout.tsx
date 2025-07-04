@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
-import TopBar from './TopBar';
+import SidebarTailwind from './SidebarTailwind';
+import TopBarTailwind from './TopBarTailwind';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -40,29 +40,31 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="h-screen overflow-hidden">
       {/* 左侧导航栏 */}
-      <Sidebar 
+      <SidebarTailwind 
         collapsed={sidebarCollapsed}
         onToggle={toggleSidebar}
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />
       
-      {/* 右侧主内容区 */}
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
-        {/* 顶部导航栏 */}
-        <TopBar 
-          currentPage={currentPage}
-          onToggleSidebar={toggleSidebar}
-          sidebarCollapsed={sidebarCollapsed}
-        />
-        
-        {/* 主内容区 */}
-        <main className="flex-1 overflow-auto p-6 bg-transparent">
+      {/* 顶部导航栏 */}
+      <TopBarTailwind 
+        currentPage={currentPage}
+        onToggleSidebar={toggleSidebar}
+        sidebarCollapsed={sidebarCollapsed}
+      />
+      
+      {/* 主内容区 */}
+      <main className={`
+        pt-16 overflow-auto transition-all duration-300 h-screen
+        ${sidebarCollapsed ? 'ml-16' : 'ml-64'}
+      `}>
+        <div className="p-6">
           {children}
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

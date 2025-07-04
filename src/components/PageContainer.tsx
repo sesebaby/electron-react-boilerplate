@@ -1,10 +1,10 @@
 import React from 'react';
-import Dashboard from './Dashboard/Dashboard';
+import { DashboardTailwind } from './Dashboard/DashboardTailwind';
 import MinimalDashboard from './MinimalDashboard';
 import InventoryOverview from './Inventory/InventoryOverview';
 import InventoryList from './Inventory/InventoryList';
-import ProductManagement from './Inventory/ProductManagement';
-import CategoryManagement from './Inventory/CategoryManagement';
+import { ProductManagementTailwind } from './Inventory/ProductManagementTailwind';
+import { CategoryManagementTailwind } from './Inventory/CategoryManagementTailwind';
 import WarehouseManagement from './Inventory/WarehouseManagement';
 import StockIn from './Inventory/StockIn';
 import StockOut from './Inventory/StockOut';
@@ -30,12 +30,12 @@ interface PageContainerProps {
 
 // 页面映射
 const pageComponents: Record<string, React.ComponentType> = {
-  'dashboard': Dashboard,
+  'dashboard': DashboardTailwind,
   'dashboard-minimal': MinimalDashboard,
   'inventory-overview': InventoryOverview,
   'inventory-products': InventoryList,
-  'products': ProductManagement,
-  'categories': CategoryManagement,
+  'products': ProductManagementTailwind,
+  'categories': CategoryManagementTailwind,
   'warehouses': WarehouseManagement,
   'stock-in': StockIn,
   'stock-out': StockOut,
