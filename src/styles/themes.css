@@ -1,36 +1,43 @@
 /* ===== 主题系统架构 ===== */
 
-/* CSS 变量定义 - 支持主题切换 */
+/* CSS 变量定义 - 基于Tailwind CSS颜色系统重构 */
 :root {
   /* 主题切换变量 */
   --theme-name: 'glass-future';
-  
-  /* 颜色系统 */
-  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-  
-  /* 背景系统 */
-  --app-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --surface-background: rgba(255, 255, 255, 0.15);
-  --card-background: rgba(255, 255, 255, 0.1);
-  --hover-background: rgba(255, 255, 255, 0.2);
-  --active-background: rgba(255, 255, 255, 0.25);
-  
+
+  /* ===== 玻璃未来风主题 - 基于 Indigo 色块系列 ===== */
+  /* 应用背景 - indigo-500 到 indigo-600 渐变 */
+  --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);
+
+  /* 表面和卡片背景 - indigo-100 系列，半透明 */
+  --surface-background: oklch(0.93 0.034 272.788 / 0.15);
+  --card-background: oklch(0.93 0.034 272.788 / 0.1);
+  --hover-background: oklch(0.87 0.065 274.039 / 0.2);
+  --active-background: oklch(0.785 0.115 274.713 / 0.25);
+
+  /* 弹出窗体背景系统 - indigo-50 系列 */
+  --popup-background: oklch(0.962 0.018 272.314 / 0.85);
+  --popup-header-background: oklch(0.962 0.018 272.314 / 0.95);
+  --popup-content-background: oklch(0.962 0.018 272.314 / 0.8);
+
   /* 玻璃感效果 */
   --glass-blur: blur(20px);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.3);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
-  --glass-shadow-active: 0 16px 48px rgba(0, 0, 0, 0.2);
-  
-  /* 文字颜色 */
-  --text-primary: rgba(255, 255, 255, 0.95);
-  --text-secondary: rgba(255, 255, 255, 0.8);
-  --text-tertiary: rgba(255, 255, 255, 0.6);
-  --text-accent: rgba(255, 255, 255, 1);
+  --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.4);
+  --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);
+  --glass-shadow-hover: 0 12px 40px oklch(0.257 0.09 281.288 / 0.2);
+  --glass-shadow-active: 0 16px 48px oklch(0.257 0.09 281.288 / 0.25);
+
+  /* 文字颜色系统 - indigo-900/800 深色文字，适合浅色背景 */
+  --text-primary: oklch(0.359 0.144 278.697);
+  --text-secondary: oklch(0.398 0.195 277.366);
+  --text-tertiary: oklch(0.457 0.24 277.023);
+  --text-accent: oklch(0.257 0.09 281.288);
+
+  /* 弹出窗体文字颜色 - 深色文字确保可读性 */
+  --popup-text-primary: oklch(0.359 0.144 278.697);
+  --popup-text-secondary: oklch(0.398 0.195 277.366);
+  --popup-text-tertiary: oklch(0.457 0.24 277.023);
+  --popup-text-shadow: 0 1px 3px oklch(0.962 0.018 272.314 / 0.8);
   
   /* 交互状态 */
   --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -52,37 +59,43 @@
   --spacing-2xl: 48px;
 }
 
-/* ===== 玻璃感未来风主题 ===== */
+/* ===== 玻璃未来风主题 - 基于 Indigo 色块系列重构 ===== */
 [data-theme="glass-future"] {
   --theme-name: 'glass-future';
-  
-  /* 专属渐变背景 */
-  --app-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  
-  /* 增强玻璃感效果 */
-  --surface-background: rgba(255, 255, 255, 0.12);
-  --card-background: rgba(255, 255, 255, 0.08);
-  --hover-background: rgba(255, 255, 255, 0.18);
-  --active-background: rgba(255, 255, 255, 0.22);
 
-  /* 弹出窗体专用样式 - 大幅提升可读性 */
-  --popup-background: rgba(255, 255, 255, 0.75);
-  --popup-header-background: rgba(255, 255, 255, 0.85);
-  --popup-content-background: rgba(255, 255, 255, 0.7);
+  /* 应用背景 - indigo-500 到 indigo-600 渐变 */
+  --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);
+
+  /* 表面和卡片背景 - indigo-100 系列，增强透明度 */
+  --surface-background: oklch(0.93 0.034 272.788 / 0.12);
+  --card-background: oklch(0.93 0.034 272.788 / 0.08);
+  --hover-background: oklch(0.87 0.065 274.039 / 0.18);
+  --active-background: oklch(0.785 0.115 274.713 / 0.22);
+
+  /* 弹出窗体背景系统 - indigo-50 系列，高可读性 */
+  --popup-background: oklch(0.962 0.018 272.314 / 0.85);
+  --popup-header-background: oklch(0.962 0.018 272.314 / 0.95);
+  --popup-content-background: oklch(0.962 0.018 272.314 / 0.8);
   --popup-blur: blur(35px);
-  --popup-border: 1px solid rgba(255, 255, 255, 0.4);
-  --popup-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
-  --popup-shadow-hover: 0 30px 100px rgba(0, 0, 0, 0.35);
+  --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.4);
+  --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.3);
+  --popup-shadow-hover: 0 30px 100px oklch(0.257 0.09 281.288 / 0.35);
 
-  /* 弹出窗体文字样式 - 增强对比度 */
-  --popup-text-primary: rgba(0, 0, 0, 0.9) !important;
-  --popup-text-secondary: rgba(0, 0, 0, 0.7);
-  --popup-text-tertiary: rgba(0, 0, 0, 0.6);
-  --popup-text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+  /* 弹出窗体文字颜色 - indigo-900/800 深色文字，确保对比度 */
+  --popup-text-primary: oklch(0.359 0.144 278.697);
+  --popup-text-secondary: oklch(0.398 0.195 277.366);
+  --popup-text-tertiary: oklch(0.457 0.24 277.023);
+  --popup-text-shadow: 0 1px 3px oklch(0.962 0.018 272.314 / 0.8);
 
-  /* 主题色系 - 用于card背景 */
-  --theme-primary-color: rgba(102, 126, 234, 0.85);
-  --theme-secondary-color: rgba(118, 75, 162, 0.85);
+  /* 主题文字颜色 - 深色文字适合浅色背景 */
+  --text-primary: oklch(0.359 0.144 278.697);
+  --text-secondary: oklch(0.398 0.195 277.366);
+  --text-tertiary: oklch(0.457 0.24 277.023);
+  --text-accent: oklch(0.257 0.09 281.288);
+
+  /* 玻璃感效果增强 */
+  --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);
+  --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);
 
   /* 弹出窗体交互状态颜色 */
   --popup-divider-color: rgba(0, 0, 0, 0.1);
@@ -103,60 +116,92 @@
   --glass-glow-hover: 0 0 30px rgba(255, 255, 255, 0.15);
 }
 
-/* ===== 深色科技风主题 (预留) ===== */
+/* ===== 深色科技风主题 - 基于 Slate 色块系列重构 ===== */
 [data-theme="dark-tech"] {
   --theme-name: 'dark-tech';
-  --app-background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
-  --surface-background: rgba(255, 255, 255, 0.05);
-  --card-background: rgba(255, 255, 255, 0.03);
-  --text-primary: rgba(255, 255, 255, 0.9);
-  --text-secondary: rgba(255, 255, 255, 0.7);
 
-  /* 深色主题弹出窗体样式 */
-  --popup-background: rgba(20, 20, 20, 0.85);
-  --popup-header-background: rgba(30, 30, 30, 0.9);
-  --popup-content-background: rgba(15, 15, 15, 0.8);
-  --popup-text-primary: rgba(255, 255, 255, 0.95);
-  --popup-text-secondary: rgba(255, 255, 255, 0.8);
-  --popup-text-tertiary: rgba(255, 255, 255, 0.6);
-  --popup-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  /* 应用背景 - slate-900 到 slate-800 渐变 */
+  --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);
 
-  /* 深色主题弹出窗体交互状态颜色 */
-  --popup-divider-color: rgba(255, 255, 255, 0.15);
-  --popup-item-hover-bg: rgba(100, 149, 237, 0.2);
-  --popup-item-active-bg: rgba(100, 149, 237, 0.3);
-  --popup-item-active-hover-bg: rgba(100, 149, 237, 0.4);
-  --popup-item-danger-hover-bg: rgba(248, 113, 113, 0.2);
-  --accent-color: #6495ed;
-  --danger-color: #f87171;
+  /* 表面和卡片背景 - slate-800/700 系列，深色透明 */
+  --surface-background: oklch(0.279 0.041 260.031 / 0.05);
+  --card-background: oklch(0.279 0.041 260.031 / 0.03);
+  --hover-background: oklch(0.372 0.044 257.287 / 0.08);
+  --active-background: oklch(0.446 0.043 257.281 / 0.12);
+
+  /* 主题文字颜色 - slate-100/200 浅色文字，适合深色背景 */
+  --text-primary: oklch(0.968 0.007 247.896);
+  --text-secondary: oklch(0.929 0.013 255.508);
+  --text-tertiary: oklch(0.869 0.022 252.894);
+  --text-accent: oklch(0.984 0.003 247.858);
+
+  /* 弹出窗体背景系统 - slate-700/800 深色系列 */
+  --popup-background: oklch(0.279 0.041 260.031 / 0.85);
+  --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);
+  --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);
+
+  /* 弹出窗体文字颜色 - slate-100/200 浅色文字，确保对比度 */
+  --popup-text-primary: oklch(0.968 0.007 247.896);
+  --popup-text-secondary: oklch(0.929 0.013 255.508);
+  --popup-text-tertiary: oklch(0.869 0.022 252.894);
+  --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8);
+
+  /* 深色主题交互状态颜色 - slate系列 */
+  --popup-divider-color: oklch(0.446 0.043 257.281 / 0.15);
+  --popup-item-hover-bg: oklch(0.446 0.043 257.281 / 0.2);
+  --popup-item-active-bg: oklch(0.554 0.046 257.417 / 0.3);
+  --popup-item-active-hover-bg: oklch(0.554 0.046 257.417 / 0.4);
+  --popup-item-danger-hover-bg: oklch(0.637 0.237 25.331 / 0.2);
+  --accent-color: oklch(0.704 0.04 256.788);
+  --danger-color: oklch(0.637 0.237 25.331);
+
+  /* 玻璃感效果调整 */
+  --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);
+  --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.3);
 }
 
-/* ===== 温暖商务风主题 (预留) ===== */
+/* ===== 温暖商务风主题 - 基于 Amber 色块系列重构 ===== */
 [data-theme="warm-business"] {
   --theme-name: 'warm-business';
-  --app-background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-  --surface-background: rgba(255, 255, 255, 0.6);
-  --card-background: rgba(255, 255, 255, 0.4);
-  --text-primary: rgba(51, 51, 51, 0.9);
-  --text-secondary: rgba(51, 51, 51, 0.7);
 
-  /* 温暖主题弹出窗体样式 */
-  --popup-background: rgba(255, 255, 255, 0.8);
-  --popup-header-background: rgba(255, 255, 255, 0.9);
-  --popup-content-background: rgba(255, 255, 255, 0.75);
-  --popup-text-primary: rgba(51, 51, 51, 0.95);
-  --popup-text-secondary: rgba(51, 51, 51, 0.8);
-  --popup-text-tertiary: rgba(51, 51, 51, 0.6);
-  --popup-text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+  /* 应用背景 - amber-400 到 amber-500 渐变 */
+  --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);
 
-  /* 温暖主题弹出窗体交互状态颜色 */
-  --popup-divider-color: rgba(51, 51, 51, 0.1);
-  --popup-item-hover-bg: rgba(252, 182, 159, 0.3);
-  --popup-item-active-bg: rgba(252, 182, 159, 0.4);
-  --popup-item-active-hover-bg: rgba(252, 182, 159, 0.5);
-  --popup-item-danger-hover-bg: rgba(239, 68, 68, 0.15);
-  --accent-color: #fcb69f;
-  --danger-color: #ef4444;
+  /* 表面和卡片背景 - amber-50 系列，温暖透明 */
+  --surface-background: oklch(0.987 0.022 95.277 / 0.6);
+  --card-background: oklch(0.987 0.022 95.277 / 0.4);
+  --hover-background: oklch(0.962 0.059 95.617 / 0.5);
+  --active-background: oklch(0.924 0.12 95.746 / 0.6);
+
+  /* 主题文字颜色 - amber-900/800 深色文字，适合浅色背景 */
+  --text-primary: oklch(0.414 0.112 45.904);
+  --text-secondary: oklch(0.473 0.137 46.201);
+  --text-tertiary: oklch(0.555 0.163 48.998);
+  --text-accent: oklch(0.279 0.077 45.635);
+
+  /* 弹出窗体背景系统 - amber-50 系列，高可读性 */
+  --popup-background: oklch(0.987 0.022 95.277 / 0.85);
+  --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);
+  --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);
+
+  /* 弹出窗体文字颜色 - amber-900/800 深色文字，确保对比度 */
+  --popup-text-primary: oklch(0.414 0.112 45.904);
+  --popup-text-secondary: oklch(0.473 0.137 46.201);
+  --popup-text-tertiary: oklch(0.555 0.163 48.998);
+  --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9);
+
+  /* 温暖主题交互状态颜色 - amber系列 */
+  --popup-divider-color: oklch(0.414 0.112 45.904 / 0.1);
+  --popup-item-hover-bg: oklch(0.924 0.12 95.746 / 0.3);
+  --popup-item-active-bg: oklch(0.879 0.169 91.605 / 0.4);
+  --popup-item-active-hover-bg: oklch(0.828 0.189 84.429 / 0.5);
+  --popup-item-danger-hover-bg: oklch(0.637 0.237 25.331 / 0.15);
+  --accent-color: oklch(0.769 0.188 70.08);
+  --danger-color: oklch(0.637 0.237 25.331);
+
+  /* 玻璃感效果调整 */
+  --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
+  --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);
 }
 
 /* ===== 弹出窗体专用样式类 ===== */

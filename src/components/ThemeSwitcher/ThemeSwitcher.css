@@ -85,58 +85,158 @@
   text-shadow: var(--popup-text-shadow, 0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-/* 玻璃未来风主题 - 强制黑色文字和主题色背景 */
+/* ===== 玻璃未来风主题 - 基于 Indigo 色块系列 ===== */
 [data-theme="glass-future"] .theme-dropdown-header h3 {
-  color: rgba(0, 0, 0, 0.9) !important;
-  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8) !important;
+  color: oklch(0.359 0.144 278.697) !important;
+  text-shadow: 0 1px 3px oklch(0.962 0.018 272.314 / 0.8) !important;
 }
 
-/* 玻璃未来风主题 - 使用主题色作为card背景 */
 [data-theme="glass-future"] .theme-dropdown {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
+  background: oklch(0.962 0.018 272.314 / 0.85);
   -webkit-backdrop-filter: blur(35px);
   backdrop-filter: blur(35px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid oklch(0.87 0.065 274.039 / 0.4);
+  box-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.3);
 }
 
 [data-theme="glass-future"] .theme-dropdown-header {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: oklch(0.962 0.018 272.314 / 0.95);
+  border-bottom: 1px solid oklch(0.87 0.065 274.039 / 0.3);
 }
 
-/* 玻璃未来风主题 - 主题选项卡片背景和文字 */
+/* 玻璃未来风主题 - 主题选项卡片样式 */
 [data-theme="glass-future"] .theme-option {
-  background: rgba(255, 255, 255, 0.15) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: rgba(0, 0, 0, 0.9) !important;
+  background: oklch(0.93 0.034 272.788 / 0.15) !important;
+  border: 1px solid oklch(0.87 0.065 274.039 / 0.3) !important;
+  color: oklch(0.359 0.144 278.697) !important;
 }
 
 [data-theme="glass-future"] .theme-option h4 {
-  color: rgba(0, 0, 0, 0.95) !important;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+  color: oklch(0.359 0.144 278.697) !important;
+  text-shadow: 0 1px 2px oklch(0.962 0.018 272.314 / 0.8);
 }
 
 [data-theme="glass-future"] .theme-option p {
-  color: rgba(0, 0, 0, 0.7) !important;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+  color: oklch(0.398 0.195 277.366) !important;
+  text-shadow: 0 1px 2px oklch(0.962 0.018 272.314 / 0.6);
 }
 
 [data-theme="glass-future"] .theme-option:hover {
-  background: rgba(255, 255, 255, 0.25) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  background: oklch(0.87 0.065 274.039 / 0.25) !important;
+  border: 1px solid oklch(0.785 0.115 274.713 / 0.4) !important;
 }
 
 [data-theme="glass-future"] .theme-option.active {
-  background: rgba(255, 255, 255, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  background: oklch(0.785 0.115 274.713 / 0.3) !important;
+  border: 1px solid oklch(0.673 0.182 276.935 / 0.5) !important;
 }
 
 /* 玻璃未来风主题 - 关闭按钮样式 */
 [data-theme="glass-future"] .close-button {
-  color: rgba(0, 0, 0, 0.8) !important;
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+  color: oklch(0.398 0.195 277.366) !important;
+  background: oklch(0.93 0.034 272.788 / 0.3);
+  border: 1px solid oklch(0.87 0.065 274.039 / 0.4);
+  text-shadow: 0 1px 2px oklch(0.962 0.018 272.314 / 0.8);
+}
+
+/* ===== 深色科技风主题 - 基于 Slate 色块系列 ===== */
+[data-theme="dark-tech"] .theme-dropdown-header h3 {
+  color: oklch(0.968 0.007 247.896) !important;
+  text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8) !important;
+}
+
+[data-theme="dark-tech"] .theme-dropdown {
+  background: oklch(0.279 0.041 260.031 / 0.85);
+  border: 1px solid oklch(0.446 0.043 257.281 / 0.3);
+  box-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.4);
+}
+
+[data-theme="dark-tech"] .theme-dropdown-header {
+  background: oklch(0.372 0.044 257.287 / 0.9);
+  border-bottom: 1px solid oklch(0.446 0.043 257.281 / 0.3);
+}
+
+[data-theme="dark-tech"] .theme-option {
+  background: oklch(0.372 0.044 257.287 / 0.15) !important;
+  border: 1px solid oklch(0.446 0.043 257.281 / 0.3) !important;
+  color: oklch(0.968 0.007 247.896) !important;
+}
+
+[data-theme="dark-tech"] .theme-option h4 {
+  color: oklch(0.968 0.007 247.896) !important;
+  text-shadow: 0 1px 2px oklch(0.129 0.042 264.695 / 0.8);
+}
+
+[data-theme="dark-tech"] .theme-option p {
+  color: oklch(0.929 0.013 255.508) !important;
+  text-shadow: 0 1px 2px oklch(0.129 0.042 264.695 / 0.6);
+}
+
+[data-theme="dark-tech"] .theme-option:hover {
+  background: oklch(0.446 0.043 257.281 / 0.25) !important;
+  border: 1px solid oklch(0.554 0.046 257.417 / 0.4) !important;
+}
+
+[data-theme="dark-tech"] .theme-option.active {
+  background: oklch(0.554 0.046 257.417 / 0.3) !important;
+  border: 1px solid oklch(0.704 0.04 256.788 / 0.5) !important;
+}
+
+[data-theme="dark-tech"] .close-button {
+  color: oklch(0.929 0.013 255.508) !important;
+  background: oklch(0.372 0.044 257.287 / 0.3);
+  border: 1px solid oklch(0.446 0.043 257.281 / 0.4);
+  text-shadow: 0 1px 2px oklch(0.129 0.042 264.695 / 0.8);
+}
+
+/* ===== 温暖商务风主题 - 基于 Amber 色块系列 ===== */
+[data-theme="warm-business"] .theme-dropdown-header h3 {
+  color: oklch(0.414 0.112 45.904) !important;
+  text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9) !important;
+}
+
+[data-theme="warm-business"] .theme-dropdown {
+  background: oklch(0.987 0.022 95.277 / 0.85);
+  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
+  box-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);
+}
+
+[data-theme="warm-business"] .theme-dropdown-header {
+  background: oklch(0.987 0.022 95.277 / 0.95);
+  border-bottom: 1px solid oklch(0.924 0.12 95.746 / 0.4);
+}
+
+[data-theme="warm-business"] .theme-option {
+  background: oklch(0.962 0.059 95.617 / 0.15) !important;
+  border: 1px solid oklch(0.924 0.12 95.746 / 0.3) !important;
+  color: oklch(0.414 0.112 45.904) !important;
+}
+
+[data-theme="warm-business"] .theme-option h4 {
+  color: oklch(0.414 0.112 45.904) !important;
+  text-shadow: 0 1px 2px oklch(0.987 0.022 95.277 / 0.8);
+}
+
+[data-theme="warm-business"] .theme-option p {
+  color: oklch(0.473 0.137 46.201) !important;
+  text-shadow: 0 1px 2px oklch(0.987 0.022 95.277 / 0.6);
+}
+
+[data-theme="warm-business"] .theme-option:hover {
+  background: oklch(0.924 0.12 95.746 / 0.25) !important;
+  border: 1px solid oklch(0.879 0.169 91.605 / 0.4) !important;
+}
+
+[data-theme="warm-business"] .theme-option.active {
+  background: oklch(0.879 0.169 91.605 / 0.3) !important;
+  border: 1px solid oklch(0.828 0.189 84.429 / 0.5) !important;
+}
+
+[data-theme="warm-business"] .close-button {
+  color: oklch(0.473 0.137 46.201) !important;
+  background: oklch(0.962 0.059 95.617 / 0.3);
+  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
+  text-shadow: 0 1px 2px oklch(0.987 0.022 95.277 / 0.8);
 }
 
 .close-button {

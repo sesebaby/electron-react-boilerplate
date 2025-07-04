@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS 颜色系统重构测试</title>
+    <style>
+        /* 基于Tailwind CSS颜色系统重构的主题 */
+        :root {
+            --theme-name: 'glass-future';
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+        }
+
+        /* 玻璃未来风主题 - 基于 Indigo 色块系列 */
+        [data-theme="glass-future"] {
+            --theme-name: 'glass-future';
+            --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);
+            --surface-background: oklch(0.93 0.034 272.788 / 0.12);
+            --card-background: oklch(0.93 0.034 272.788 / 0.08);
+            --hover-background: oklch(0.87 0.065 274.039 / 0.18);
+            --active-background: oklch(0.785 0.115 274.713 / 0.22);
+            --popup-background: oklch(0.962 0.018 272.314 / 0.85);
+            --popup-header-background: oklch(0.962 0.018 272.314 / 0.95);
+            --popup-content-background: oklch(0.962 0.018 272.314 / 0.8);
+            --popup-text-primary: oklch(0.359 0.144 278.697);
+            --popup-text-secondary: oklch(0.398 0.195 277.366);
+            --popup-text-tertiary: oklch(0.457 0.24 277.023);
+            --popup-text-shadow: 0 1px 3px oklch(0.962 0.018 272.314 / 0.8);
+            --text-primary: oklch(0.359 0.144 278.697);
+            --text-secondary: oklch(0.398 0.195 277.366);
+            --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.4);
+        }
+
+        /* 深色科技风主题 - 基于 Slate 色块系列 */
+        [data-theme="dark-tech"] {
+            --theme-name: 'dark-tech';
+            --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);
+            --surface-background: oklch(0.279 0.041 260.031 / 0.05);
+            --card-background: oklch(0.279 0.041 260.031 / 0.03);
+            --hover-background: oklch(0.372 0.044 257.287 / 0.08);
+            --active-background: oklch(0.446 0.043 257.281 / 0.12);
+            --popup-background: oklch(0.279 0.041 260.031 / 0.85);
+            --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);
+            --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);
+            --popup-text-primary: oklch(0.968 0.007 247.896);
+            --popup-text-secondary: oklch(0.929 0.013 255.508);
+            --popup-text-tertiary: oklch(0.869 0.022 252.894);
+            --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8);
+            --text-primary: oklch(0.968 0.007 247.896);
+            --text-secondary: oklch(0.929 0.013 255.508);
+            --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);
+        }
+
+        /* 温暖商务风主题 - 基于 Amber 色块系列 */
+        [data-theme="warm-business"] {
+            --theme-name: 'warm-business';
+            --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);
+            --surface-background: oklch(0.987 0.022 95.277 / 0.6);
+            --card-background: oklch(0.987 0.022 95.277 / 0.4);
+            --hover-background: oklch(0.962 0.059 95.617 / 0.5);
+            --active-background: oklch(0.924 0.12 95.746 / 0.6);
+            --popup-background: oklch(0.987 0.022 95.277 / 0.85);
+            --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);
+            --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);
+            --popup-text-primary: oklch(0.414 0.112 45.904);
+            --popup-text-secondary: oklch(0.473 0.137 46.201);
+            --popup-text-tertiary: oklch(0.555 0.163 48.998);
+            --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9);
+            --text-primary: oklch(0.414 0.112 45.904);
+            --text-secondary: oklch(0.473 0.137 46.201);
+            --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: var(--app-background);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .info-panel {
+            background: var(--card-background);
+            padding: 30px;
+            border-radius: var(--border-radius-md);
+            border: var(--glass-border);
+            backdrop-filter: blur(20px);
+        }
+
+        .theme-demo {
+            background: var(--popup-background);
+            border-radius: var(--border-radius-md);
+            border: var(--glass-border);
+            backdrop-filter: blur(35px);
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-header {
+            background: var(--popup-header-background);
+            padding: var(--spacing-md);
+            border-bottom: var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .theme-header h3 {
+            margin: 0;
+            color: var(--popup-text-primary);
+            text-shadow: var(--popup-text-shadow);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: var(--hover-background);
+            border: var(--glass-border);
+            border-radius: 4px;
+            padding: 4px 8px;
+            color: var(--popup-text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .theme-content {
+            padding: var(--spacing-md);
+        }
+
+        .theme-option {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            background: var(--hover-background);
+            border: var(--glass-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-option:hover {
+            background: var(--active-background);
+        }
+
+        .theme-option h4 {
+            margin: 0 0 4px 0;
+            color: var(--popup-text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .theme-option p {
+            margin: 0;
+            color: var(--popup-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .theme-switcher {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .theme-btn {
+            padding: 10px 20px;
+            border: var(--glass-border);
+            border-radius: 6px;
+            background: var(--card-background);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-btn:hover {
+            background: var(--hover-background);
+        }
+
+        .theme-btn.active {
+            background: var(--active-background);
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .color-swatch {
+            height: 60px;
+            border-radius: 6px;
+            border: var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .swatch-primary { background: var(--popup-text-primary); color: white; }
+        .swatch-secondary { background: var(--popup-text-secondary); color: white; }
+        .swatch-bg { background: var(--popup-background); color: var(--popup-text-primary); }
+        .swatch-card { background: var(--card-background); color: var(--text-primary); }
+
+        h1, h2 { color: var(--text-primary); }
+        h3 { color: var(--text-secondary); }
+        p { color: var(--text-secondary); }
+
+        .current-theme {
+            font-weight: bold;
+            color: var(--text-primary);
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+<body data-theme="glass-future">
+    <div class="test-container">
+        <div class="info-panel">
+            <h1>🎨 Tailwind CSS 颜色系统重构测试</h1>
+            <p>当前主题: <span class="current-theme" id="current-theme">glass-future</span></p>
+            
+            <div class="theme-switcher">
+                <button class="theme-btn active" onclick="switchTheme('glass-future')">玻璃未来风</button>
+                <button class="theme-btn" onclick="switchTheme('dark-tech')">深色科技风</button>
+                <button class="theme-btn" onclick="switchTheme('warm-business')">温暖商务风</button>
+            </div>
+
+            <h2>🎯 设计原则验证</h2>
+            <h3>✅ 色彩一致性原则</h3>
+            <p>• 玻璃未来风：基于 <strong>Indigo</strong> 色块系列</p>
+            <p>• 深色科技风：基于 <strong>Slate</strong> 色块系列</p>
+            <p>• 温暖商务风：基于 <strong>Amber</strong> 色块系列</p>
+
+            <h3>✅ 对比度原则</h3>
+            <p>• 深色背景：使用浅色文字 (slate-100/200)</p>
+            <p>• 蓝色背景：使用深色文字 (indigo-900/800)</p>
+            <p>• 暖色背景：使用深色文字 (amber-900/800)</p>
+
+            <div class="color-palette">
+                <div class="color-swatch swatch-primary">主要文字</div>
+                <div class="color-swatch swatch-secondary">次要文字</div>
+                <div class="color-swatch swatch-bg">弹窗背景</div>
+                <div class="color-swatch swatch-card">卡片背景</div>
+            </div>
+        </div>
+
+        <div class="theme-demo">
+            <div class="theme-header">
+                <h3>选择主题</h3>
+                <div class="close-btn">✕</div>
+            </div>
+            <div class="theme-content">
+                <div class="theme-option">
+                    <h4>玻璃未来风</h4>
+                    <p>透明玻璃感，科技未来风格 - 基于 Indigo 色块系列</p>
+                </div>
+                <div class="theme-option">
+                    <h4>深色科技风</h4>
+                    <p>深色背景，科技感界面 - 基于 Slate 色块系列</p>
+                </div>
+                <div class="theme-option">
+                    <h4>温暖商务风</h4>
+                    <p>温暖色调，商务专业风格 - 基于 Amber 色块系列</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            document.getElementById('current-theme').textContent = theme;
+            
+            // 更新按钮状态
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // 初始化
+        switchTheme('glass-future');
+    </script>
+</body>
+</html>
