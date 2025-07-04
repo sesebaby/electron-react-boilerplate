@@ -62,20 +62,20 @@ export const TopBar: React.FC<TopBarProps> = ({
           ☰
         </button>
 
-        {/* 面包屑导航 */}
-        <nav className="breadcrumb">
-          {currentPageInfo.breadcrumb.map((crumb, index) => (
-            <span key={index} className="breadcrumb-item">
-              {index > 0 && <span className="breadcrumb-separator">/</span>}
-              <span className={index === currentPageInfo.breadcrumb.length - 1 ? 'current' : ''}>
-                {crumb}
+        {/* 面包屑导航和标题 */}
+        <div className="breadcrumb-title-wrapper">
+          <nav className="breadcrumb">
+            {currentPageInfo.breadcrumb.map((crumb, index) => (
+              <span key={index} className="breadcrumb-item">
+                {index > 0 && <span className="breadcrumb-separator">/</span>}
+                <span className={index === currentPageInfo.breadcrumb.length - 1 ? 'current' : ''}>
+                  {crumb}
+                </span>
               </span>
-            </span>
-          ))}
-        </nav>
-
-        {/* 页面标题 */}
-        <h1 className="page-title">{currentPageInfo.title}</h1>
+            ))}
+          </nav>
+          <h1 className="page-title">{currentPageInfo.title}</h1>
+        </div>
       </div>
 
       <div className="topbar-center">
