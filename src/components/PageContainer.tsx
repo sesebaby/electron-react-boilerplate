@@ -3,6 +3,16 @@ import Dashboard from './Dashboard/Dashboard';
 import MinimalDashboard from './MinimalDashboard';
 import InventoryOverview from './Inventory/InventoryOverview';
 import InventoryList from './Inventory/InventoryList';
+import ProductManagement from './Inventory/ProductManagement';
+import CategoryManagement from './Inventory/CategoryManagement';
+import WarehouseManagement from './Inventory/WarehouseManagement';
+import StockIn from './Inventory/StockIn';
+import StockOut from './Inventory/StockOut';
+import StockAdjust from './Inventory/StockAdjust';
+import TransactionRecords from './Inventory/TransactionRecords';
+import SupplierManagement from './Purchase/SupplierManagement';
+import PurchaseOrderManagement from './Purchase/PurchaseOrderManagement';
+import PurchaseReceiptManagement from './Purchase/PurchaseReceiptManagement';
 
 interface PageContainerProps {
   currentPage: string;
@@ -13,7 +23,17 @@ const pageComponents: Record<string, React.ComponentType> = {
   'dashboard': Dashboard,
   'dashboard-minimal': MinimalDashboard,
   'inventory-overview': InventoryOverview,
-  'inventory-products': InventoryList
+  'inventory-products': InventoryList,
+  'products': ProductManagement,
+  'categories': CategoryManagement,
+  'warehouses': WarehouseManagement,
+  'stock-in': StockIn,
+  'stock-out': StockOut,
+  'stock-adjust': StockAdjust,
+  'transaction-records': TransactionRecords,
+  'suppliers': SupplierManagement,
+  'purchase-orders': PurchaseOrderManagement,
+  'purchase-receipts': PurchaseReceiptManagement
 };
 
 // 开发中的页面组件
@@ -51,18 +71,9 @@ const createDevelopmentPage = (title: string, description: string) =>
 const allPageComponents: Record<string, React.ComponentType> = {
   ...pageComponents,
   
-  // 库存管理模块 - 部分已实现
-  'products': createDevelopmentPage('商品管理', '管理商品信息、分类、规格等基础数据'),
-  'categories': createDevelopmentPage('分类管理', '管理商品分类、层级关系和分类属性'),
-  'warehouses': createDevelopmentPage('仓库管理', '管理仓库信息、位置和仓库配置'),
-  'stock-in': createDevelopmentPage('入库管理', '处理商品入库、验收和库存增加操作'),
-  'stock-out': createDevelopmentPage('出库管理', '处理商品出库、发货和库存减少操作'),
-  'stock-adjust': createDevelopmentPage('库存调整', '处理库存盘点、调整和异常处理'),
+  // 库存管理模块 - 已完成
   
-  // 采购管理模块
-  'suppliers': createDevelopmentPage('供应商管理', '管理供应商信息、评级和合作关系'),
-  'purchase-orders': createDevelopmentPage('采购订单', '创建、管理和跟踪采购订单'),
-  'purchase-receipts': createDevelopmentPage('采购收货', '处理采购收货、验收和入库'),
+  // 采购管理模块 - 已完成
   
   // 销售管理模块
   'customers': createDevelopmentPage('客户管理', '管理客户信息、等级和销售关系'),

@@ -7,6 +7,8 @@ import warehouseService from './warehouseService';
 import inventoryStockService from './inventoryStockService';
 import supplierService from './supplierService';
 import customerService from './customerService';
+import purchaseOrderService from './purchaseOrderService';
+import purchaseReceiptService from './purchaseReceiptService';
 
 // 导出所有服务实例
 export {
@@ -16,7 +18,9 @@ export {
   warehouseService,
   inventoryStockService,
   supplierService,
-  customerService
+  customerService,
+  purchaseOrderService,
+  purchaseReceiptService
 };
 
 // 服务管理器
@@ -47,6 +51,12 @@ export class BusinessServiceManager {
 
       // 3. 库存服务（依赖产品和仓库）
       await inventoryStockService.initialize();
+
+      // 4. 采购订单服务（依赖产品和供应商）
+      await purchaseOrderService.initialize();
+
+      // 5. 采购收货服务（依赖采购订单和库存）
+      await purchaseReceiptService.initialize();
 
       this.initialized = true;
       console.log('All business services initialized successfully');
@@ -117,6 +127,20 @@ export class BusinessServiceManager {
         details: inventoryStats
       });
 
+      const purchaseOrderStats = await purchaseOrderService.getOrderStats();
+      services.push({
+        name: 'PurchaseOrderService',
+        status: 'active' as const,
+        details: purchaseOrderStats
+      });
+
+      const purchaseReceiptStats = await purchaseReceiptService.getReceiptStats();
+      services.push({
+        name: 'PurchaseReceiptService',
+        status: 'active' as const,
+        details: purchaseReceiptStats
+      });
+
     } catch (error) {
       services.push({
         name: 'Unknown',
@@ -142,6 +166,10 @@ export class BusinessServiceManager {
     transactions: number;
     lowStockItems: number;
     totalInventoryValue: number;
+    purchaseOrders: number;
+    totalPurchaseValue: number;
+    purchaseReceipts: number;
+    totalReceiptValue: number;
   }> {
     const [
       categoryStats,
@@ -150,7 +178,9 @@ export class BusinessServiceManager {
       productStats,
       supplierStats,
       customerStats,
-      inventoryStats
+      inventoryStats,
+      purchaseOrderStats,
+      purchaseReceiptStats
     ] = await Promise.all([
       categoryService.getCategoryStats(),
       unitService.getUnitStats(),
@@ -158,7 +188,9 @@ export class BusinessServiceManager {
       productService.getProductStats(),
       supplierService.getSupplierStats(),
       customerService.getCustomerStats(),
-      inventoryStockService.getInventorySummary()
+      inventoryStockService.getInventorySummary(),
+      purchaseOrderService.getOrderStats(),
+      purchaseReceiptService.getReceiptStats()
     ]);
 
     return {
@@ -171,7 +203,11 @@ export class BusinessServiceManager {
       stockItems: inventoryStats.totalProducts,
       transactions: inventoryStats.totalTransactions,
       lowStockItems: inventoryStats.lowStockCount,
-      totalInventoryValue: inventoryStats.totalValue
+      totalInventoryValue: inventoryStats.totalValue,
+      purchaseOrders: purchaseOrderStats.total,
+      totalPurchaseValue: purchaseOrderStats.totalValue,
+      purchaseReceipts: purchaseReceiptStats.total,
+      totalReceiptValue: purchaseReceiptStats.totalValue
     };
   }
 
