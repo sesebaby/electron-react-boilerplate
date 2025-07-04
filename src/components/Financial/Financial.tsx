@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import AccountsPayableManagement from './AccountsPayableManagement';
-import AccountsReceivableManagement from './AccountsReceivableManagement';
-import PaymentRecordsManagement from './PaymentRecordsManagement';
-import ReceiptRecordsManagement from './ReceiptRecordsManagement';
+import AccountsPayableManagementTailwind from './AccountsPayableManagementTailwind';
+import AccountsReceivableManagementTailwind from './AccountsReceivableManagementTailwind';
+import PaymentRecordsManagementTailwind from './PaymentRecordsManagementTailwind';
+import ReceiptRecordsManagementTailwind from './ReceiptRecordsManagementTailwind';
 
 interface FinancialProps {
   className?: string;
@@ -43,23 +43,25 @@ export const Financial: React.FC<FinancialProps> = ({ className }) => {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'payables':
-        return <AccountsPayableManagement />;
+        return <AccountsPayableManagementTailwind />;
       case 'receivables':
-        return <AccountsReceivableManagement />;
+        return <AccountsReceivableManagementTailwind />;
       case 'payments':
-        return <PaymentRecordsManagement />;
+        return <PaymentRecordsManagementTailwind />;
       case 'receipts':
-        return <ReceiptRecordsManagement />;
+        return <ReceiptRecordsManagementTailwind />;
       case 'reports':
         return (
-          <div className="coming-soon">
-            <div className="coming-soon-icon">🚧</div>
-            <h3>财务报表</h3>
-            <p>此功能正在开发中，敬请期待...</p>
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <div className="text-center">
+              <div className="text-6xl mb-4">🚧</div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">财务报表</h3>
+              <p className="text-gray-600">此功能正在开发中，敬请期待...</p>
+            </div>
           </div>
         );
       default:
-        return <AccountsPayableManagement />;
+        return <AccountsPayableManagementTailwind />;
     }
   };
 

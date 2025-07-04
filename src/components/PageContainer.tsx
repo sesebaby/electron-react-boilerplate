@@ -1,26 +1,26 @@
 import React from 'react';
 import { DashboardTailwind } from './Dashboard/DashboardTailwind';
 import MinimalDashboard from './MinimalDashboard';
-import InventoryOverview from './Inventory/InventoryOverview';
-import InventoryList from './Inventory/InventoryList';
+import { InventoryOverviewTailwind } from './Inventory/InventoryOverviewTailwind';
+import { InventoryListTailwind } from './Inventory/InventoryListTailwind';
 import { ProductManagementTailwind } from './Inventory/ProductManagementTailwind';
 import { CategoryManagementTailwind } from './Inventory/CategoryManagementTailwind';
-import WarehouseManagement from './Inventory/WarehouseManagement';
-import StockIn from './Inventory/StockIn';
-import StockOut from './Inventory/StockOut';
-import StockAdjust from './Inventory/StockAdjust';
-import TransactionRecords from './Inventory/TransactionRecords';
-import SupplierManagement from './Purchase/SupplierManagement';
-import PurchaseOrderManagement from './Purchase/PurchaseOrderManagement';
-import PurchaseReceiptManagement from './Purchase/PurchaseReceiptManagement';
-import CustomerManagement from './Sales/CustomerManagement';
-import SalesOrderManagement from './Sales/SalesOrderManagement';
-import SalesDeliveryManagement from './Sales/SalesDeliveryManagement';
+import { WarehouseManagementTailwind } from './Inventory/WarehouseManagementTailwind';
+import { StockInTailwind } from './Inventory/StockInTailwind';
+import { StockOutTailwind } from './Inventory/StockOutTailwind';
+import { StockAdjustTailwind } from './Inventory/StockAdjustTailwind';
+import { TransactionRecordsTailwind } from './Inventory/TransactionRecordsTailwind';
+import SupplierManagementTailwind from './Purchase/SupplierManagementTailwind';
+import PurchaseOrderManagementTailwind from './Purchase/PurchaseOrderManagementTailwind';
+import PurchaseReceiptManagementTailwind from './Purchase/PurchaseReceiptManagementTailwind';
+import CustomerManagementTailwind from './Sales/CustomerManagementTailwind';
+import SalesOrderManagementTailwind from './Sales/SalesOrderManagementTailwind';
+import SalesDeliveryManagementTailwind from './Sales/SalesDeliveryManagementTailwind';
 import InventoryReports from './Reports/InventoryReports';
 import SalesReports from './Reports/SalesReports';
 import PurchaseReports from './Reports/PurchaseReports';
 import FinancialReports from './Reports/FinancialReports';
-import Financial from './Financial/Financial';
+import FinancialTailwind from './Financial/FinancialTailwind';
 import SystemManagement from './SystemManagement/SystemManagement';
 import System from './System/System';
 
@@ -32,26 +32,26 @@ interface PageContainerProps {
 const pageComponents: Record<string, React.ComponentType> = {
   'dashboard': DashboardTailwind,
   'dashboard-minimal': MinimalDashboard,
-  'inventory-overview': InventoryOverview,
-  'inventory-products': InventoryList,
+  'inventory-overview': InventoryOverviewTailwind,
+  'inventory-products': InventoryListTailwind,
   'products': ProductManagementTailwind,
   'categories': CategoryManagementTailwind,
-  'warehouses': WarehouseManagement,
-  'stock-in': StockIn,
-  'stock-out': StockOut,
-  'stock-adjust': StockAdjust,
-  'transaction-records': TransactionRecords,
-  'suppliers': SupplierManagement,
-  'purchase-orders': PurchaseOrderManagement,
-  'purchase-receipts': PurchaseReceiptManagement,
-  'customers': CustomerManagement,
-  'sales-orders': SalesOrderManagement,
-  'sales-delivery': SalesDeliveryManagement,
+  'warehouses': WarehouseManagementTailwind,
+  'stock-in': StockInTailwind,
+  'stock-out': StockOutTailwind,
+  'stock-adjust': StockAdjustTailwind,
+  'transaction-records': TransactionRecordsTailwind,
+  'suppliers': SupplierManagementTailwind,
+  'purchase-orders': PurchaseOrderManagementTailwind,
+  'purchase-receipts': PurchaseReceiptManagementTailwind,
+  'customers': CustomerManagementTailwind,
+  'sales-orders': SalesOrderManagementTailwind,
+  'sales-delivery': SalesDeliveryManagementTailwind,
   'inventory-reports': InventoryReports,
   'sales-reports': SalesReports,
   'purchase-reports': PurchaseReports,
   'financial-reports': FinancialReports,
-  'financial': Financial,
+  'financial': FinancialTailwind,
   'system-management': SystemManagement
 };
 
@@ -97,10 +97,10 @@ const allPageComponents: Record<string, React.ComponentType> = {
   // 销售管理模块 - 已完成
   
   // 财务管理模块 - 已完成基础功能
-  'accounts-payable': Financial,
-  'accounts-receivable': Financial,
-  'payments': Financial,
-  'receipts': Financial,
+  'accounts-payable': FinancialTailwind,
+  'accounts-receivable': FinancialTailwind,
+  'payments': FinancialTailwind,
+  'receipts': FinancialTailwind,
   
   // 报表分析模块 - 部分完成
   
