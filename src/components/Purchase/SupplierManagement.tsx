@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supplierService } from '../../services/business';
 import { Supplier, SupplierStatus, SupplierRating } from '../../types/entities';
-import './Purchase.css';
 
 interface SupplierManagementProps {
   className?: string;

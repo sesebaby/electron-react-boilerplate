@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { warehouseService } from '../../services/business';
 import { Warehouse } from '../../types/entities';
-import './Inventory.css';
 
 interface WarehouseManagementProps {
   className?: string;

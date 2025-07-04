@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { productService, warehouseService, inventoryStockService } from '../../services/business';
 import { Product, Warehouse, InventoryStock } from '../../types/entities';
-import './Inventory.css';
 
 interface StockOutProps {
   className?: string;

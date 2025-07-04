@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import UserManagement from './UserManagement';
-import './System.css';
 
 interface SystemProps {
   className?: string;

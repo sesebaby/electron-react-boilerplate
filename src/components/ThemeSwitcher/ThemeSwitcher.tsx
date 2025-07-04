@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from '../../hooks/useTheme';
-import './ThemeSwitcher.css';
 
 interface ThemeSwitcherProps {
   className?: string;

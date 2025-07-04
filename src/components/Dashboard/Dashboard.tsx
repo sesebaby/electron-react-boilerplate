@@ -3,7 +3,6 @@ import DashboardOverview from './DashboardOverview';
 import DashboardCharts from './DashboardCharts';
 import DashboardQuickActions from './DashboardQuickActions';
 import { businessServiceManager } from '../../services/business';
-import './Dashboard.css';
 
 interface DashboardProps {
   className?: string;

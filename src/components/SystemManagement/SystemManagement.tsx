@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { systemTester, TestResult, SystemTestReport } from '../../utils/systemTest';
 import { systemOptimizer, OptimizationResult, SystemOptimizationReport } from '../../utils/systemOptimization';
 import { systemHealthMonitor, HealthCheckResult, SystemHealthReport } from '../../utils/systemHealth';
-import './SystemManagement.css';
 
 interface SystemManagementProps {
   className?: string;

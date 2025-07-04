@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import accountsPayableService from '../../services/business/accountsPayableService';
 import { supplierService } from '../../services/business';
 import { Payment, PaymentMethod, Supplier } from '../../types/entities';
-import './Financial.css';
 
 interface PaymentRecordsManagementProps {
   className?: string;

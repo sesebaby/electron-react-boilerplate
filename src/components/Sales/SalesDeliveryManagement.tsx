@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { salesDeliveryService, salesOrderService, customerService, warehouseService, productService } from '../../services/business';
 import { SalesDelivery, SalesDeliveryItem, DeliveryStatus, SalesOrder, SalesOrderStatus, Customer, Warehouse, Product } from '../../types/entities';
-import './Sales.css';
 
 interface SalesDeliveryManagementProps {
   className?: string;

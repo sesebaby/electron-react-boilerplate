@@ -3,7 +3,6 @@ import AccountsPayableManagement from './AccountsPayableManagement';
 import AccountsReceivableManagement from './AccountsReceivableManagement';
 import PaymentRecordsManagement from './PaymentRecordsManagement';
 import ReceiptRecordsManagement from './ReceiptRecordsManagement';
-import './Financial.css';
 
 interface FinancialProps {
   className?: string;

@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 引入主题系统 */
-@import './styles/themes.css';
-
 @layer base {
   :root {
     --background: 220 20% 14%;

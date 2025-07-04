@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { purchaseOrderService, supplierService, productService } from '../../services/business';
 import { PurchaseOrder, PurchaseOrderItem, PurchaseOrderStatus, Supplier, Product } from '../../types/entities';
-import './Purchase.css';
 
 interface PurchaseOrderManagementProps {
   className?: string;

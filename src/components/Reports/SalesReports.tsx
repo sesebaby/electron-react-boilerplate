@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { salesOrderService, salesDeliveryService, customerService, productService } from '../../services/business';
 import { SalesOrder, SalesDelivery, Customer, Product } from '../../types/entities';
-import './Reports.css';
 
 interface SalesReportsProps {
   className?: string;

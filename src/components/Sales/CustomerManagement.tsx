@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { customerService } from '../../services/business';
 import { Customer, CustomerType, CustomerLevel, CustomerStatus } from '../../types/entities';
-import './Sales.css';
 
 interface CustomerManagementProps {
   className?: string;

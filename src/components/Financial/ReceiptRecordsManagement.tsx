@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import accountsReceivableService from '../../services/business/accountsReceivableService';
 import { customerService } from '../../services/business';
 import { Receipt, PaymentMethod, Customer } from '../../types/entities';
-import './Financial.css';
 
 interface ReceiptRecordsManagementProps {
   className?: string;

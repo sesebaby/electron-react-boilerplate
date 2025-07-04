@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import dashboardService, { DashboardChartData } from '../../services/dashboard/dashboardService';
-import './Dashboard.css';
 
 interface DashboardChartsProps {
   className?: string;

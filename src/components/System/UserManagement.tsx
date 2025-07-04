@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { userService } from '../../services/business';
 import { User, UserRole, UserStatus } from '../../types/entities';
-import './System.css';
 
 interface UserManagementProps {
   className?: string;

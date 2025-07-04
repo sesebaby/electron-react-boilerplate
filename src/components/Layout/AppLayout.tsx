@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import TopBar from './TopBar';
-import './Layout.css';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -41,7 +40,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="app-layout">
+    <div className="flex h-screen overflow-hidden">
       {/* 左侧导航栏 */}
       <Sidebar 
         collapsed={sidebarCollapsed}
@@ -51,7 +50,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       />
       
       {/* 右侧主内容区 */}
-      <div className={`main-layout ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
         {/* 顶部导航栏 */}
         <TopBar 
           currentPage={currentPage}
@@ -60,7 +59,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         />
         
         {/* 主内容区 */}
-        <main className="main-content">
+        <main className="flex-1 overflow-auto p-6 bg-transparent">
           {children}
         </main>
       </div>

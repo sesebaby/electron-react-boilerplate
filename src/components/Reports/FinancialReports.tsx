@@ -15,7 +15,6 @@ import {
   SalesOrder, 
   PurchaseOrder 
 } from '../../types/entities';
-import './Reports.css';
 
 interface FinancialReportsProps {
   className?: string;

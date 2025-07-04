@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import dashboardService, { DashboardOverview as DashboardOverviewType, QuickStats, SystemHealth } from '../../services/dashboard/dashboardService';
-import './Dashboard.css';
 
 interface DashboardOverviewProps {
   className?: string;

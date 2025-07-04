@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { productService, categoryService, unitService } from '../../services/business';
 import { Product, Category, Unit, ProductStatus } from '../../types/entities';
-import './Inventory.css';
 
 interface ProductManagementProps {
   className?: string;

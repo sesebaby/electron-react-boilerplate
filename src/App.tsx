@@ -14,7 +14,16 @@ const App: React.FC = () => {
     // 初始化主题
     const savedTheme = localStorage.getItem('inventory-system-theme') || 'glass-future';
     document.documentElement.setAttribute('data-theme', savedTheme);
-    document.body.className = `theme-${savedTheme}`;
+    
+    // 应用Tailwind主题背景
+    const themeColors = {
+      'glass-future': 'linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%)',
+      'dark-tech': 'linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%)',
+      'warm-business': 'linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%)'
+    };
+    document.body.style.background = themeColors[savedTheme as keyof typeof themeColors] || themeColors['glass-future'];
+    document.body.style.minHeight = '100vh';
+    document.body.style.color = 'white';
     
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
@@ -58,25 +67,25 @@ const App: React.FC = () => {
   // 加载状态
   if (isLoading) {
     return (
-      <div className="app-loading">
-        <div className="loading-container">
-          <div className="loading-animation">
-            <div className="loading-spinner"></div>
-            <div className="loading-dots">
-              <span></span>
-              <span></span>
-              <span></span>
+      <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-500 to-indigo-600">
+        <div className="glass-card p-12 text-center max-w-md w-full mx-4">
+          <div className="mb-8">
+            <div className="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-6"></div>
+            <div className="flex justify-center gap-2 mb-4">
+              <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+              <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+              <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
             </div>
           </div>
-          <h2 className="loading-title">进销存管理系统</h2>
-          <p className="loading-text">系统正在初始化...</p>
-          <div className="loading-progress">
-            <div className="progress-bar"></div>
+          <h2 className="text-2xl font-bold text-white mb-2">进销存管理系统</h2>
+          <p className="text-white/90 mb-6">系统正在初始化...</p>
+          <div className="w-full bg-white/20 rounded-full h-2 mb-6">
+            <div className="bg-gradient-to-r from-blue-400 to-cyan-400 h-2 rounded-full animate-pulse" style={{width: '70%'}}></div>
           </div>
-          <div className="loading-tips">
-            <p>✨ 全新UI界面设计</p>
-            <p>🚀 左侧导航栏可收缩</p>
-            <p>📊 丰富的Dashboard功能</p>
+          <div className="space-y-2 text-left">
+            <p className="text-white/80 text-sm flex items-center gap-2">✨ 全新UI界面设计</p>
+            <p className="text-white/80 text-sm flex items-center gap-2">🚀 左侧导航栏可收缩</p>
+            <p className="text-white/80 text-sm flex items-center gap-2">📊 丰富的Dashboard功能</p>
           </div>
         </div>
       </div>
@@ -86,13 +95,15 @@ const App: React.FC = () => {
   // 错误状态
   if (error) {
     return (
-      <div className="app-error">
-        <div className="error-container">
-          <div className="error-icon">❌</div>
-          <h2 className="error-title">系统初始化失败</h2>
-          <p className="error-message">{error}</p>
+      <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-red-500 to-red-600">
+        <div className="glass-card p-12 text-center max-w-md w-full mx-4">
+          <div className="text-6xl mb-6">❌</div>
+          <h2 className="text-2xl font-bold text-white mb-4">系统初始化失败</h2>
+          <div className="bg-red-500/20 border border-red-400/30 rounded-lg p-4 mb-6">
+            <p className="text-white/90">{error}</p>
+          </div>
           <button 
-            className="error-retry"
+            className="glass-button px-6 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-lg font-medium hover:transform hover:-translate-y-0.5 transition-all duration-300"
             onClick={() => window.location.reload()}
           >
             重新加载
@@ -104,7 +115,7 @@ const App: React.FC = () => {
 
   // 主应用界面
   return (
-    <div className="app">
+    <div className="min-h-screen">
       <AppLayout>
         <PageContainer currentPage={currentPage} />
       </AppLayout>

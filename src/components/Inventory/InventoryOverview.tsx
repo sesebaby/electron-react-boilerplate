@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { inventoryStockService } from '../../services/business';
 import { InventoryStock } from '../../types/entities';
-import './Inventory.css';
 
 interface InventoryOverviewProps {
   className?: string;

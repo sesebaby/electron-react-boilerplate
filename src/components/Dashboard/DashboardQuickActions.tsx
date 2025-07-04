@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import dashboardService, { RecentActivity } from '../../services/dashboard/dashboardService';
-import './Dashboard.css';
 
 interface DashboardQuickActionsProps {
   className?: string;
