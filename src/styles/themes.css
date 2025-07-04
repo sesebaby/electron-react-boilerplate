@@ -64,7 +64,22 @@
   --card-background: rgba(255, 255, 255, 0.08);
   --hover-background: rgba(255, 255, 255, 0.18);
   --active-background: rgba(255, 255, 255, 0.22);
-  
+
+  /* 弹出窗体专用样式 - 大幅提升可读性 */
+  --popup-background: rgba(255, 255, 255, 0.75);
+  --popup-header-background: rgba(255, 255, 255, 0.85);
+  --popup-content-background: rgba(255, 255, 255, 0.7);
+  --popup-blur: blur(35px);
+  --popup-border: 1px solid rgba(255, 255, 255, 0.4);
+  --popup-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+  --popup-shadow-hover: 0 30px 100px rgba(0, 0, 0, 0.35);
+
+  /* 弹出窗体文字样式 - 增强对比度 */
+  --popup-text-primary: rgba(0, 0, 0, 0.9);
+  --popup-text-secondary: rgba(0, 0, 0, 0.7);
+  --popup-text-tertiary: rgba(0, 0, 0, 0.6);
+  --popup-text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+
   /* 更强烈的模糊效果 */
   --glass-blur: blur(25px);
   --glass-border: 1px solid rgba(255, 255, 255, 0.25);
@@ -83,6 +98,15 @@
   --card-background: rgba(255, 255, 255, 0.03);
   --text-primary: rgba(255, 255, 255, 0.9);
   --text-secondary: rgba(255, 255, 255, 0.7);
+
+  /* 深色主题弹出窗体样式 */
+  --popup-background: rgba(20, 20, 20, 0.85);
+  --popup-header-background: rgba(30, 30, 30, 0.9);
+  --popup-content-background: rgba(15, 15, 15, 0.8);
+  --popup-text-primary: rgba(255, 255, 255, 0.95);
+  --popup-text-secondary: rgba(255, 255, 255, 0.8);
+  --popup-text-tertiary: rgba(255, 255, 255, 0.6);
+  --popup-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 /* ===== 温暖商务风主题 (预留) ===== */
@@ -93,13 +117,116 @@
   --card-background: rgba(255, 255, 255, 0.4);
   --text-primary: rgba(51, 51, 51, 0.9);
   --text-secondary: rgba(51, 51, 51, 0.7);
+
+  /* 温暖主题弹出窗体样式 */
+  --popup-background: rgba(255, 255, 255, 0.8);
+  --popup-header-background: rgba(255, 255, 255, 0.9);
+  --popup-content-background: rgba(255, 255, 255, 0.75);
+  --popup-text-primary: rgba(51, 51, 51, 0.95);
+  --popup-text-secondary: rgba(51, 51, 51, 0.8);
+  --popup-text-tertiary: rgba(51, 51, 51, 0.6);
+  --popup-text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+/* ===== 弹出窗体专用样式类 ===== */
+.popup-dropdown {
+  background: var(--popup-background);
+  -webkit-backdrop-filter: var(--popup-blur);
+  backdrop-filter: var(--popup-blur);
+  border: var(--popup-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--popup-shadow);
+  transition: var(--transition-base);
+  position: absolute;
+  z-index: var(--z-dropdown);
+  overflow: hidden;
+}
+
+.popup-dropdown:hover {
+  box-shadow: var(--popup-shadow-hover);
+}
+
+.popup-header {
+  background: var(--popup-header-background);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  padding: var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+}
+
+.popup-content {
+  background: var(--popup-content-background);
+  padding: var(--spacing-md);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* 弹出窗体内文字样式增强 */
+.popup-dropdown p,
+.popup-dropdown span,
+.popup-dropdown div,
+.popup-dropdown li {
+  color: var(--popup-text-primary) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 500;
+}
+
+.popup-dropdown .secondary-text {
+  color: var(--popup-text-secondary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.popup-dropdown .tertiary-text {
+  color: var(--popup-text-tertiary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+/* 弹出窗体按钮样式增强 */
+.popup-dropdown button {
+  color: var(--popup-text-primary) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.popup-dropdown .close-button {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: var(--popup-text-primary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  z-index: calc(var(--z-dropdown) - 1);
+  animation: overlayFadeIn 0.3s ease;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* ===== 基础玻璃感组件类 ===== */
 .glass-surface {
   background: var(--surface-background);
-  backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   border: var(--glass-border);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--glass-shadow);

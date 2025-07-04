@@ -20,6 +20,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
   return (
     <div className={`theme-switcher ${className || ''}`}>
       <button
+        type="button"
         className="theme-toggle-button glass-button"
         onClick={() => setIsOpen(!isOpen)}
         title="切换主题"
@@ -30,52 +31,49 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
       </button>
 
       {isOpen && (
-        <div className="theme-dropdown glass-surface">
-          <div className="theme-dropdown-header">
-            <h3>选择主题</h3>
-            <button 
-              className="close-button glass-button"
-              onClick={() => setIsOpen(false)}
-            >
-              ✕
-            </button>
-          </div>
-          
-          <div className="theme-list">
-            {availableThemes.map((theme) => (
-              <div
-                key={theme.name}
-                className={`theme-option ${currentTheme === theme.name ? 'active' : ''}`}
-                onClick={() => handleThemeSelect(theme.name)}
+        <>
+          <div className="theme-dropdown popup-dropdown">
+            <div className="theme-dropdown-header popup-header">
+              <h3>选择主题</h3>
+              <button
+                type="button"
+                className="close-button glass-button"
+                onClick={() => setIsOpen(false)}
               >
-                <div className="theme-preview">
-                  <div 
-                    className="preview-gradient"
-                    style={{ background: theme.preview }}
-                  ></div>
-                </div>
-                <div className="theme-info">
-                  <h4 className="theme-title">{theme.displayName}</h4>
-                  <p className="theme-description">{theme.description}</p>
-                </div>
-                {currentTheme === theme.name && (
-                  <div className="active-indicator">✓</div>
-                )}
-              </div>
-            ))}
-          </div>
-          
-          <div className="theme-footer">
-            <p className="theme-tip">💡 主题会自动保存到本地存储</p>
-          </div>
-        </div>
-      )}
+                ✕
+              </button>
+            </div>
 
-      {isOpen && (
-        <div 
-          className="theme-overlay" 
-          onClick={() => setIsOpen(false)}
-        ></div>
+            <div className="theme-list popup-content">
+              {availableThemes.map((theme) => (
+                <div
+                  key={theme.name}
+                  className={`theme-option ${currentTheme === theme.name ? 'active' : ''}`}
+                  onClick={() => handleThemeSelect(theme.name)}
+                >
+                  <div className="theme-preview">
+                    <div
+                      className="preview-gradient"
+                      style={{ background: theme.preview }}
+                    ></div>
+                  </div>
+                  <div className="theme-info">
+                    <h4 className="theme-title">{theme.displayName}</h4>
+                    <p className="theme-description">{theme.description}</p>
+                  </div>
+                  {currentTheme === theme.name && (
+                    <div className="active-indicator">✓</div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="theme-footer">
+              <p className="theme-tip">💡 主题会自动保存到本地存储</p>
+            </div>
+          </div>
+          <div className="popup-overlay" onClick={() => setIsOpen(false)}></div>
+        </>
       )}
     </div>
   );

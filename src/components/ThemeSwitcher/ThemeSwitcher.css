@@ -51,17 +51,9 @@
 
 /* 主题下拉菜单 */
 .theme-dropdown {
-  position: absolute;
   top: calc(100% + var(--spacing-sm));
   right: 0;
   width: 320px;
-  background: var(--surface-background);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: var(--glass-border);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--glass-shadow-hover);
-  overflow: hidden;
   animation: dropdownSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -219,23 +211,7 @@
   font-style: italic;
 }
 
-/* 覆盖层 */
-.theme-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(2px);
-  z-index: 999;
-  animation: overlayFadeIn 0.3s ease;
-}
-
-@keyframes overlayFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+/* 覆盖层使用统一的popup-overlay样式 */
 
 /* 响应式适配 */
 @media (max-width: 768px) {

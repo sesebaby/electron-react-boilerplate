@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 
 interface TopBarProps {
@@ -25,14 +25,36 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
   'system': { title: '系统管理', breadcrumb: ['系统管理'] }
 };
 
-export const TopBar: React.FC<TopBarProps> = ({ 
-  currentPage, 
-  onToggleSidebar, 
-  sidebarCollapsed 
+export const TopBar: React.FC<TopBarProps> = ({
+  currentPage,
+  onToggleSidebar,
+  sidebarCollapsed
 }) => {
   const [searchValue, setSearchValue] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const notificationRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // 点击外部关闭弹出窗体
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+        setShowNotifications(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setShowUserMenu(false);
+      }
+    };
+
+    if (showNotifications || showUserMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [showNotifications, showUserMenu]);
 
   const currentPageInfo = pageTitles[currentPage] || { 
     title: '未知页面', 
@@ -118,8 +140,9 @@ export const TopBar: React.FC<TopBarProps> = ({
         </div>
 
         {/* 通知 */}
-        <div className="notification-wrapper">
-          <button 
+        <div className="notification-wrapper" ref={notificationRef}>
+          <button
+            type="button"
             className="notification-btn"
             onClick={() => setShowNotifications(!showNotifications)}
           >
@@ -128,36 +151,41 @@ export const TopBar: React.FC<TopBarProps> = ({
           </button>
 
           {showNotifications && (
-            <div className="notification-dropdown">
-              <div className="notification-header">
-                <h3>通知消息</h3>
-                <button 
-                  className="close-btn"
-                  onClick={() => setShowNotifications(false)}
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="notification-list">
-                {notifications.map(notification => (
-                  <div key={notification.id} className={`notification-item ${notification.type}`}>
-                    <div className="notification-content">
-                      <p>{notification.message}</p>
-                      <span className="notification-time">{notification.time}</span>
+            <>
+              <div className="notification-dropdown popup-dropdown">
+                <div className="notification-header popup-header">
+                  <h3>通知消息</h3>
+                  <button
+                    type="button"
+                    className="close-btn"
+                    onClick={() => setShowNotifications(false)}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div className="notification-list popup-content">
+                  {notifications.map(notification => (
+                    <div key={notification.id} className={`notification-item ${notification.type}`}>
+                      <div className="notification-content">
+                        <p className="notification-message">{notification.message}</p>
+                        <span className="notification-time secondary-text">{notification.time}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <div className="notification-footer">
+                  <button type="button" className="view-all-btn">查看全部</button>
+                </div>
               </div>
-              <div className="notification-footer">
-                <button className="view-all-btn">查看全部</button>
-              </div>
-            </div>
+              <div className="popup-overlay" onClick={() => setShowNotifications(false)}></div>
+            </>
           )}
         </div>
 
         {/* 用户菜单 */}
-        <div className="user-menu-wrapper">
-          <button 
+        <div className="user-menu-wrapper" ref={userMenuRef}>
+          <button
+            type="button"
             className="user-menu-btn"
             onClick={() => setShowUserMenu(!showUserMenu)}
           >
@@ -167,50 +195,53 @@ export const TopBar: React.FC<TopBarProps> = ({
           </button>
 
           {showUserMenu && (
-            <div className="user-dropdown">
-              <div className="user-info">
-                <div className="avatar-large">👤</div>
-                <div className="user-details">
-                  <div className="name">系统管理员</div>
-                  <div className="role">Administrator</div>
-                  <div className="email">admin@system.com</div>
+            <>
+              <div className="user-dropdown popup-dropdown">
+                <div className="user-info popup-header">
+                  <div className="avatar-large">👤</div>
+                  <div className="user-details">
+                    <div className="name user-name-primary">系统管理员</div>
+                    <div className="role secondary-text">Administrator</div>
+                    <div className="email tertiary-text">admin@system.com</div>
+                  </div>
                 </div>
+                <div className="user-menu-divider"></div>
+                <ul className="user-menu-list popup-content">
+                  <li>
+                    <button type="button" className="user-menu-item">
+                      <span className="menu-icon">👤</span>
+                      个人资料
+                    </button>
+                  </li>
+                  <li>
+                    <button type="button" className="user-menu-item">
+                      <span className="menu-icon">⚙️</span>
+                      系统设置
+                    </button>
+                  </li>
+                  <li>
+                    <button type="button" className="user-menu-item">
+                      <span className="menu-icon">🔐</span>
+                      修改密码
+                    </button>
+                  </li>
+                  <li>
+                    <button type="button" className="user-menu-item">
+                      <span className="menu-icon">📋</span>
+                      操作日志
+                    </button>
+                  </li>
+                  <li className="menu-divider"></li>
+                  <li>
+                    <button type="button" className="user-menu-item logout">
+                      <span className="menu-icon">🚪</span>
+                      退出登录
+                    </button>
+                  </li>
+                </ul>
               </div>
-              <div className="user-menu-divider"></div>
-              <ul className="user-menu-list">
-                <li>
-                  <button className="user-menu-item">
-                    <span className="menu-icon">👤</span>
-                    个人资料
-                  </button>
-                </li>
-                <li>
-                  <button className="user-menu-item">
-                    <span className="menu-icon">⚙️</span>
-                    系统设置
-                  </button>
-                </li>
-                <li>
-                  <button className="user-menu-item">
-                    <span className="menu-icon">🔐</span>
-                    修改密码
-                  </button>
-                </li>
-                <li>
-                  <button className="user-menu-item">
-                    <span className="menu-icon">📋</span>
-                    操作日志
-                  </button>
-                </li>
-                <li className="menu-divider"></li>
-                <li>
-                  <button className="user-menu-item logout">
-                    <span className="menu-icon">🚪</span>
-                    退出登录
-                  </button>
-                </li>
-              </ul>
-            </div>
+              <div className="popup-overlay" onClick={() => setShowUserMenu(false)}></div>
+            </>
           )}
         </div>
 
