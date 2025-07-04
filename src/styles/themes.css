@@ -82,8 +82,8 @@
   --popup-shadow-hover: 0 30px 100px oklch(0.257 0.09 281.288 / 0.45);
 
   /* 弹出窗体文字颜色 - 改用白色系，增强文字阴影确保可读性 */
-  --popup-text-primary: oklch(1 0 0);
-  --popup-text-secondary: oklch(0.984 0.003 247.858);
+  --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);
+  --popup-text-secondary: oklch(92.369% 0.00263 230.33);
   --popup-text-tertiary: oklch(0.968 0.007 247.896);
   --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8);
 
