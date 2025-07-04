@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
-  target: 'web',
+  target: 'electron-renderer',
   module: {
     rules: [
       {
@@ -19,6 +19,18 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    fallback: {
+      "fs": false,
+      "path": require.resolve("path-browserify"),
+      "util": require.resolve("util/"),
+      "crypto": require.resolve("crypto-browserify"),
+      "stream": require.resolve("stream-browserify"),
+      "buffer": require.resolve("buffer/"),
+      "process": require.resolve("process/browser")
+    }
+  },
+  externals: {
+    'sqlite3': 'commonjs sqlite3'
   },
   output: {
     filename: 'bundle.js',

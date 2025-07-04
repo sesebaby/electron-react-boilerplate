@@ -1,12 +1,14 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { InventoryItem, InventorySummary } from '../types/inventory';
-import { mockInventoryData } from '../data/mockData';
+import InventoryService from '../services/inventory/inventoryService';
 
 export const useInventory = () => {
-  const [items, setItems] = useState<InventoryItem[]>(mockInventoryData);
+  const [items, setItems] = useState<InventoryItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,39 +36,132 @@ export const useInventory = () => {
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
-  const summary: InventorySummary = useMemo(() => {
-    const totalItems = items.length;
-    const totalValue = items.reduce((sum, item) => sum + item.totalValue, 0);
-    const lowStockItems = items.filter(item => item.status === 'low-stock').length;
-    const outOfStockItems = items.filter(item => item.status === 'out-of-stock').length;
-    const categories = Array.from(new Set(items.map(item => item.category)));
-
-    return {
-      totalItems,
-      totalValue,
-      lowStockItems,
-      outOfStockItems,
-      categories
+  // Initialize service and load data
+  useEffect(() => {
+    const initializeAndLoadData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        await InventoryService.initialize();
+        await loadItems();
+      } catch (err) {
+        setError(err instanceof Error ? err.message : '初始化失败');
+      } finally {
+        setLoading(false);
+      }
     };
-  }, [items]);
 
-  const updateItem = (id: string, updates: Partial<InventoryItem>) => {
-    setItems(prev => prev.map(item => 
-      item.id === id ? { ...item, ...updates, lastUpdated: new Date() } : item
-    ));
-  };
+    initializeAndLoadData();
+  }, []);
 
-  const addItem = (newItem: Omit<InventoryItem, 'id'>) => {
-    const item: InventoryItem = {
-      ...newItem,
-      id: Date.now().toString(),
+  const loadItems = useCallback(async () => {
+    try {
+      const allItems = await InventoryService.getAllItems();
+      setItems(allItems);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '加载数据失败');
+    }
+  }, []);
+
+  const [summary, setSummary] = useState<InventorySummary>({
+    totalItems: 0,
+    totalValue: 0,
+    lowStockItems: 0,
+    outOfStockItems: 0,
+    categories: []
+  });
+
+  // Update summary when items change
+  useEffect(() => {
+    const updateSummary = async () => {
+      try {
+        const newSummary = await InventoryService.calculateSummary();
+        setSummary(newSummary);
+      } catch (err) {
+        console.error('Failed to calculate summary:', err);
+      }
     };
-    setItems(prev => [...prev, item]);
-  };
+    
+    if (!loading) {
+      updateSummary();
+    }
+  }, [items, loading]);
 
-  const deleteItem = (id: string) => {
-    setItems(prev => prev.filter(item => item.id !== id));
-  };
+  const updateItem = useCallback(async (id: string, updates: Partial<InventoryItem>) => {
+    try {
+      setError(null);
+      const updatedItem = await InventoryService.updateItem(id, updates);
+      setItems(prev => prev.map(item => 
+        item.id === id ? updatedItem : item
+      ));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '更新失败');
+      throw err;
+    }
+  }, []);
+
+  const addItem = useCallback(async (newItem: Omit<InventoryItem, 'id' | 'lastUpdated'>) => {
+    try {
+      setError(null);
+      const createdItem = await InventoryService.createItem(newItem);
+      setItems(prev => [...prev, createdItem]);
+      return createdItem;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '创建失败');
+      throw err;
+    }
+  }, []);
+
+  const deleteItem = useCallback(async (id: string) => {
+    try {
+      setError(null);
+      const success = await InventoryService.deleteItem(id);
+      if (success) {
+        setItems(prev => prev.filter(item => item.id !== id));
+      }
+      return success;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '删除失败');
+      throw err;
+    }
+  }, []);
+
+  const searchItems = useCallback(async (term: string) => {
+    try {
+      setError(null);
+      const results = await InventoryService.searchItems(term);
+      setItems(results);
+      setCurrentPage(1); // Reset to first page
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '搜索失败');
+    }
+  }, []);
+
+  const updateStock = useCallback(async (id: string, quantity: number, type: 'in' | 'out' | 'adjust') => {
+    try {
+      setError(null);
+      const updatedItem = await InventoryService.updateStock(id, quantity, type);
+      setItems(prev => prev.map(item => 
+        item.id === id ? updatedItem : item
+      ));
+      return updatedItem;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '库存更新失败');
+      throw err;
+    }
+  }, []);
+
+  const bulkCreateItems = useCallback(async (items: Array<Omit<InventoryItem, 'id' | 'lastUpdated'>>) => {
+    try {
+      setError(null);
+      const createdItems = await InventoryService.bulkCreateItems(items);
+      await loadItems(); // Reload all items
+      return createdItems;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '批量创建失败');
+      throw err;
+    }
+  }, [loadItems]);
 
   return {
     items: paginatedItems,
@@ -81,6 +176,13 @@ export const useInventory = () => {
     updateItem,
     addItem,
     deleteItem,
+    searchItems,
+    updateStock,
+    bulkCreateItems,
+    loadItems,
+    loading,
+    error,
+    setError,
     // Pagination
     currentPage,
     setCurrentPage,
