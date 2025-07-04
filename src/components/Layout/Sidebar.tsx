@@ -141,13 +141,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
           )}
         </div>
-        <button 
-          className="sidebar-toggle"
-          onClick={onToggle}
-          title={collapsed ? '展开导航栏' : '收缩导航栏'}
-        >
-          {collapsed ? '➡️' : '⬅️'}
-        </button>
       </div>
 
       {/* 导航菜单 */}
