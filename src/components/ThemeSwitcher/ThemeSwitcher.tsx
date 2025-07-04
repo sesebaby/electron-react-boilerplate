@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import './ThemeSwitcher.css';
 
@@ -9,6 +9,23 @@ interface ThemeSwitcherProps {
 export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
   const { currentTheme, switchTheme, availableThemes, getCurrentTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const themeSwitcherRef = useRef<HTMLDivElement>(null);
+
+  // 点击外部关闭主题选择器
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (themeSwitcherRef.current && !themeSwitcherRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [isOpen]);
 
   const handleThemeSelect = (themeName: string) => {
     switchTheme(themeName as any);
@@ -18,7 +35,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
   const currentThemeInfo = getCurrentTheme();
 
   return (
-    <div className={`theme-switcher ${className || ''}`}>
+    <div className={`theme-switcher ${className || ''}`} ref={themeSwitcherRef}>
       <button
         type="button"
         className="theme-toggle-button glass-button"
@@ -31,8 +48,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
       </button>
 
       {isOpen && (
-        <>
-          <div className="theme-dropdown popup-dropdown">
+        <div className="theme-dropdown popup-dropdown">
             <div className="theme-dropdown-header popup-header">
               <h3>选择主题</h3>
               <button
@@ -72,8 +88,6 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
               <p className="theme-tip">💡 主题会自动保存到本地存储</p>
             </div>
           </div>
-          <div className="popup-overlay" onClick={() => setIsOpen(false)}></div>
-        </>
       )}
     </div>
   );

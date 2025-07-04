@@ -80,6 +80,15 @@
   --popup-text-tertiary: rgba(0, 0, 0, 0.6);
   --popup-text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
 
+  /* 弹出窗体交互状态颜色 */
+  --popup-divider-color: rgba(0, 0, 0, 0.1);
+  --popup-item-hover-bg: rgba(74, 144, 226, 0.1);
+  --popup-item-active-bg: rgba(74, 144, 226, 0.15);
+  --popup-item-active-hover-bg: rgba(74, 144, 226, 0.2);
+  --popup-item-danger-hover-bg: rgba(239, 68, 68, 0.1);
+  --accent-color: #4a90e2;
+  --danger-color: #ef4444;
+
   /* 更强烈的模糊效果 */
   --glass-blur: blur(25px);
   --glass-border: 1px solid rgba(255, 255, 255, 0.25);
@@ -107,6 +116,15 @@
   --popup-text-secondary: rgba(255, 255, 255, 0.8);
   --popup-text-tertiary: rgba(255, 255, 255, 0.6);
   --popup-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+
+  /* 深色主题弹出窗体交互状态颜色 */
+  --popup-divider-color: rgba(255, 255, 255, 0.15);
+  --popup-item-hover-bg: rgba(100, 149, 237, 0.2);
+  --popup-item-active-bg: rgba(100, 149, 237, 0.3);
+  --popup-item-active-hover-bg: rgba(100, 149, 237, 0.4);
+  --popup-item-danger-hover-bg: rgba(248, 113, 113, 0.2);
+  --accent-color: #6495ed;
+  --danger-color: #f87171;
 }
 
 /* ===== 温暖商务风主题 (预留) ===== */
@@ -126,6 +144,15 @@
   --popup-text-secondary: rgba(51, 51, 51, 0.8);
   --popup-text-tertiary: rgba(51, 51, 51, 0.6);
   --popup-text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+
+  /* 温暖主题弹出窗体交互状态颜色 */
+  --popup-divider-color: rgba(51, 51, 51, 0.1);
+  --popup-item-hover-bg: rgba(252, 182, 159, 0.3);
+  --popup-item-active-bg: rgba(252, 182, 159, 0.4);
+  --popup-item-active-hover-bg: rgba(252, 182, 159, 0.5);
+  --popup-item-danger-hover-bg: rgba(239, 68, 68, 0.15);
+  --accent-color: #fcb69f;
+  --danger-color: #ef4444;
 }
 
 /* ===== 弹出窗体专用样式类 ===== */
@@ -202,6 +229,110 @@
   border: 1px solid rgba(255, 255, 255, 0.4);
   color: var(--popup-text-primary) !important;
   text-shadow: var(--popup-text-shadow);
+}
+
+/* ===== 弹出窗体选项列表优化 ===== */
+
+/* 通知列表项样式 */
+.notification-item {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--popup-divider-color);
+  transition: var(--transition-base);
+  cursor: pointer;
+  position: relative;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item:hover {
+  background: var(--popup-item-hover-bg);
+  transform: translateX(2px);
+}
+
+.notification-item.unread {
+  background: var(--popup-item-active-bg);
+  border-left: 3px solid var(--accent-color);
+}
+
+/* 用户菜单项样式 */
+.user-menu-item {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background: transparent;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: var(--transition-base);
+  cursor: pointer;
+  border-bottom: 1px solid var(--popup-divider-color);
+}
+
+.user-menu-item:last-child {
+  border-bottom: none;
+}
+
+.user-menu-item:hover {
+  background: var(--popup-item-hover-bg);
+  transform: translateX(2px);
+}
+
+.user-menu-item.logout:hover {
+  background: var(--popup-item-danger-hover-bg);
+  color: var(--danger-color) !important;
+}
+
+.user-menu-item .menu-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+/* 主题选择器选项样式 */
+.theme-option {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--popup-divider-color);
+  transition: var(--transition-base);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  position: relative;
+}
+
+.theme-option:last-child {
+  border-bottom: none;
+}
+
+.theme-option:hover {
+  background: var(--popup-item-hover-bg);
+  transform: translateX(2px);
+}
+
+.theme-option.active {
+  background: var(--popup-item-active-bg);
+  border-left: 3px solid var(--accent-color);
+}
+
+.theme-option.active:hover {
+  background: var(--popup-item-active-hover-bg);
+}
+
+/* 菜单分隔线样式 */
+.menu-divider {
+  height: 1px;
+  background: var(--popup-divider-color);
+  margin: var(--spacing-xs) 0;
+  border: none;
+}
+
+.user-menu-divider {
+  height: 1px;
+  background: var(--popup-divider-color);
+  margin: var(--spacing-sm) 0;
 }
 
 .popup-overlay {
