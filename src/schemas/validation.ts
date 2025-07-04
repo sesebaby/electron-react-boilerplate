@@ -12,6 +12,7 @@ import {
   CustomerStatus,
   SalesOrderStatus,
   PaymentStatus,
+  DeliveryStatus,
   PayableStatus,
   ReceivableStatus,
   PaymentMethod,
@@ -239,13 +240,46 @@ export const SalesOrderItemSchema = z.object({
   unitPrice: z.number().min(0, '单价不能为负数'),
   discountRate: z.number().min(0).max(1, '折扣率必须在0-1之间'),
   amount: positiveNumberSchema,
-  shippedQuantity: positiveNumberSchema,
+  deliveredQuantity: positiveNumberSchema,
   status: z.nativeEnum(OrderItemStatus),
   createdAt: dateSchema.optional(),
   updatedAt: dateSchema.optional()
-}).refine(data => data.shippedQuantity <= data.quantity, {
-  message: '发货数量不能超过销售数量',
-  path: ['shippedQuantity']
+}).refine(data => data.deliveredQuantity <= data.quantity, {
+  message: '配送数量不能超过销售数量',
+  path: ['deliveredQuantity']
+});
+
+// 销售出库验证 Schema
+export const SalesDeliverySchema = z.object({
+  id: idSchema.optional(),
+  deliveryNo: z.string().min(1, '出库单号不能为空'),
+  orderId: idSchema,
+  customerId: idSchema,
+  warehouseId: idSchema,
+  deliveryDate: dateSchema,
+  status: z.nativeEnum(DeliveryStatus),
+  totalQuantity: positiveNumberSchema,
+  totalAmount: positiveNumberSchema,
+  deliveryPerson: requiredStringSchema,
+  remark: z.string().max(200, '备注长度不能超过200字符').optional(),
+  createdAt: dateSchema.optional(),
+  updatedAt: dateSchema.optional()
+});
+
+// 销售出库明细验证 Schema
+export const SalesDeliveryItemSchema = z.object({
+  id: idSchema.optional(),
+  deliveryId: idSchema,
+  productId: idSchema,
+  orderItemId: idSchema,
+  quantity: z.number().min(1, '出库数量必须大于0'),
+  unitPrice: z.number().min(0, '单价不能为负数'),
+  amount: positiveNumberSchema,
+  createdAt: dateSchema.optional(),
+  updatedAt: dateSchema.optional()
+}).refine(data => data.amount === data.quantity * data.unitPrice, {
+  message: '金额计算错误',
+  path: ['amount']
 });
 
 // 应付账款验证 Schema

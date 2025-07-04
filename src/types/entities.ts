@@ -292,12 +292,55 @@ export interface SalesOrderItem extends BaseEntity {
   unitPrice: number;              // 销售单价
   discountRate: number;           // 折扣率
   amount: number;                 // 明细金额
-  shippedQuantity: number;        // 已发货数量
+  deliveredQuantity: number;      // 已配送数量
   status: OrderItemStatus;        // 明细状态
   
   // 关联实体
   order?: SalesOrder;
   product?: Product;
+}
+
+// 销售出库实体
+export interface SalesDelivery extends BaseEntity {
+  deliveryNo: string;             // 出库单号
+  orderId: string;                // 销售订单ID
+  customerId: string;             // 客户ID
+  warehouseId: string;            // 出库仓库ID
+  deliveryDate: Date;             // 出库日期
+  status: DeliveryStatus;         // 状态
+  totalQuantity: number;          // 出库总数量
+  totalAmount: number;            // 出库总金额
+  deliveryPerson: string;         // 配送人
+  remark?: string;                // 备注
+  
+  // 关联实体
+  order?: SalesOrder;
+  customer?: Customer;
+  warehouse?: Warehouse;
+  items?: SalesDeliveryItem[];
+}
+
+export enum DeliveryStatus {
+  DRAFT = 'draft',
+  CONFIRMED = 'confirmed',
+  SHIPPED = 'shipped',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled'
+}
+
+// 销售出库明细实体
+export interface SalesDeliveryItem extends BaseEntity {
+  deliveryId: string;             // 出库单ID
+  productId: string;              // 商品ID
+  orderItemId: string;            // 订单明细ID
+  quantity: number;               // 出库数量
+  unitPrice: number;              // 单价
+  amount: number;                 // 金额
+  
+  // 关联实体
+  delivery?: SalesDelivery;
+  product?: Product;
+  orderItem?: SalesOrderItem;
 }
 
 // 应付账款实体

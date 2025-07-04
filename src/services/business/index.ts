@@ -9,6 +9,8 @@ import supplierService from './supplierService';
 import customerService from './customerService';
 import purchaseOrderService from './purchaseOrderService';
 import purchaseReceiptService from './purchaseReceiptService';
+import salesOrderService from './salesOrderService';
+import salesDeliveryService from './salesDeliveryService';
 
 // 导出所有服务实例
 export {
@@ -20,7 +22,9 @@ export {
   supplierService,
   customerService,
   purchaseOrderService,
-  purchaseReceiptService
+  purchaseReceiptService,
+  salesOrderService,
+  salesDeliveryService
 };
 
 // 服务管理器
@@ -57,6 +61,12 @@ export class BusinessServiceManager {
 
       // 5. 采购收货服务（依赖采购订单和库存）
       await purchaseReceiptService.initialize();
+
+      // 6. 销售订单服务（依赖产品和客户）
+      await salesOrderService.initialize();
+
+      // 7. 销售出库服务（依赖销售订单和库存）
+      await salesDeliveryService.initialize();
 
       this.initialized = true;
       console.log('All business services initialized successfully');
@@ -141,6 +151,20 @@ export class BusinessServiceManager {
         details: purchaseReceiptStats
       });
 
+      const salesOrderStats = await salesOrderService.getOrderStats();
+      services.push({
+        name: 'SalesOrderService',
+        status: 'active' as const,
+        details: salesOrderStats
+      });
+
+      const salesDeliveryStats = await salesDeliveryService.getDeliveryStats();
+      services.push({
+        name: 'SalesDeliveryService',
+        status: 'active' as const,
+        details: salesDeliveryStats
+      });
+
     } catch (error) {
       services.push({
         name: 'Unknown',
@@ -170,6 +194,10 @@ export class BusinessServiceManager {
     totalPurchaseValue: number;
     purchaseReceipts: number;
     totalReceiptValue: number;
+    salesOrders: number;
+    totalSalesValue: number;
+    salesDeliveries: number;
+    totalDeliveryValue: number;
   }> {
     const [
       categoryStats,
@@ -180,7 +208,9 @@ export class BusinessServiceManager {
       customerStats,
       inventoryStats,
       purchaseOrderStats,
-      purchaseReceiptStats
+      purchaseReceiptStats,
+      salesOrderStats,
+      salesDeliveryStats
     ] = await Promise.all([
       categoryService.getCategoryStats(),
       unitService.getUnitStats(),
@@ -190,7 +220,9 @@ export class BusinessServiceManager {
       customerService.getCustomerStats(),
       inventoryStockService.getInventorySummary(),
       purchaseOrderService.getOrderStats(),
-      purchaseReceiptService.getReceiptStats()
+      purchaseReceiptService.getReceiptStats(),
+      salesOrderService.getOrderStats(),
+      salesDeliveryService.getDeliveryStats()
     ]);
 
     return {
@@ -207,7 +239,11 @@ export class BusinessServiceManager {
       purchaseOrders: purchaseOrderStats.total,
       totalPurchaseValue: purchaseOrderStats.totalValue,
       purchaseReceipts: purchaseReceiptStats.total,
-      totalReceiptValue: purchaseReceiptStats.totalValue
+      totalReceiptValue: purchaseReceiptStats.totalValue,
+      salesOrders: salesOrderStats.total,
+      totalSalesValue: salesOrderStats.totalValue,
+      salesDeliveries: salesDeliveryStats.total,
+      totalDeliveryValue: salesDeliveryStats.totalValue
     };
   }
 

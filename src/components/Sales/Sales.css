@@ -1,0 +1,371 @@
+/* 销售管理模块样式 */
+
+/* 客户等级标签样式 */
+.customer-level {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.level-vip {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #744210;
+}
+
+.level-gold {
+  background: linear-gradient(135deg, #ffa500 0%, #ffb84d 100%);
+  color: #7a4100;
+}
+
+.level-silver {
+  background: linear-gradient(135deg, #c0c0c0 0%, #d3d3d3 100%);
+  color: #4a4a4a;
+}
+
+.level-bronze {
+  background: linear-gradient(135deg, #cd7f32 0%, #d4956a 100%);
+  color: #5c3317;
+}
+
+/* 客户类型样式 */
+.customer-type {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 2px;
+  display: block;
+}
+
+/* 信用额度样式 */
+.credit-cell {
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+/* 折扣率样式 */
+.discount-cell {
+  font-weight: 500;
+  color: var(--success-color);
+}
+
+/* 联系信息样式 */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact-info .phone,
+.contact-info .email,
+.contact-info .address {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 客户信息单元格样式 */
+.customer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.customer-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.customer-code {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.contact-person {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 类型等级组合样式 */
+.type-level {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+/* 销售订单相关样式 */
+.order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.order-no {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.order-creator {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.order-remark {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 订单金额样式 */
+.amount-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.final-amount {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.item-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 付款状态样式 */
+.payment-status-unpaid {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+}
+
+.payment-status-partial {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+}
+
+.payment-status-paid {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #166534;
+}
+
+/* 逾期订单样式 */
+.order-overdue {
+  background: rgba(239, 68, 68, 0.05);
+  border-left: 3px solid #ef4444;
+}
+
+.date-overdue {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.overdue-indicator {
+  margin-left: 4px;
+}
+
+/* 销售出库相关样式 */
+.delivery-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.delivery-no {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.delivery-person {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.delivery-remark {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 出库数量信息样式 */
+.quantity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.total-quantity {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* 出库状态样式 */
+.status-shipped {
+  background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+  color: #6b21a8;
+}
+
+/* 表单验证和交互样式 */
+.form-validation-error {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.form-validation-success {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.05);
+}
+
+/* 批量操作样式 */
+.batch-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  margin-bottom: 16px;
+}
+
+.batch-select-all {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.batch-operations {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* 输入框带按钮样式 */
+.input-with-button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-with-button .glass-input {
+  flex: 1;
+}
+
+.generate-btn {
+  padding: 8px 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.generate-btn:hover {
+  background: var(--hover-bg);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+/* 大型模态框样式 */
+.large-modal {
+  max-width: 1000px;
+  width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* 销售汇总样式 */
+.order-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.summary-row.total {
+  border-top: 1px solid var(--glass-border);
+  padding-top: 8px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.summary-label {
+  color: var(--text-secondary);
+}
+
+.summary-value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.summary-row.total .summary-value {
+  color: var(--primary-color);
+  font-size: 16px;
+}
+
+/* 产品信息在项目表格中 */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.product-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.product-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .type-level {
+    align-items: center;
+  }
+  
+  .customer-level {
+    font-size: 10px;
+    padding: 1px 4px;
+  }
+  
+  .large-modal {
+    width: 98vw;
+    max-height: 95vh;
+  }
+  
+  .contact-info .phone,
+  .contact-info .email,
+  .contact-info .address {
+    font-size: 11px;
+  }
+}

@@ -13,6 +13,14 @@ import TransactionRecords from './Inventory/TransactionRecords';
 import SupplierManagement from './Purchase/SupplierManagement';
 import PurchaseOrderManagement from './Purchase/PurchaseOrderManagement';
 import PurchaseReceiptManagement from './Purchase/PurchaseReceiptManagement';
+import CustomerManagement from './Sales/CustomerManagement';
+import SalesOrderManagement from './Sales/SalesOrderManagement';
+import SalesDeliveryManagement from './Sales/SalesDeliveryManagement';
+import InventoryReports from './Reports/InventoryReports';
+import SalesReports from './Reports/SalesReports';
+import PurchaseReports from './Reports/PurchaseReports';
+import FinancialReports from './Reports/FinancialReports';
+import SystemManagement from './SystemManagement/SystemManagement';
 
 interface PageContainerProps {
   currentPage: string;
@@ -33,7 +41,15 @@ const pageComponents: Record<string, React.ComponentType> = {
   'transaction-records': TransactionRecords,
   'suppliers': SupplierManagement,
   'purchase-orders': PurchaseOrderManagement,
-  'purchase-receipts': PurchaseReceiptManagement
+  'purchase-receipts': PurchaseReceiptManagement,
+  'customers': CustomerManagement,
+  'sales-orders': SalesOrderManagement,
+  'sales-delivery': SalesDeliveryManagement,
+  'inventory-reports': InventoryReports,
+  'sales-reports': SalesReports,
+  'purchase-reports': PurchaseReports,
+  'financial-reports': FinancialReports,
+  'system-management': SystemManagement
 };
 
 // 开发中的页面组件
@@ -75,10 +91,7 @@ const allPageComponents: Record<string, React.ComponentType> = {
   
   // 采购管理模块 - 已完成
   
-  // 销售管理模块
-  'customers': createDevelopmentPage('客户管理', '管理客户信息、等级和销售关系'),
-  'sales-orders': createDevelopmentPage('销售订单', '创建、管理和跟踪销售订单'),
-  'sales-delivery': createDevelopmentPage('销售出库', '处理销售出库、发货和配送'),
+  // 销售管理模块 - 已完成
   
   // 财务管理模块
   'accounts-payable': createDevelopmentPage('应付账款', '管理应付账款、付款计划和供应商结算'),
@@ -86,13 +99,9 @@ const allPageComponents: Record<string, React.ComponentType> = {
   'payments': createDevelopmentPage('付款记录', '记录和管理所有付款交易'),
   'receipts': createDevelopmentPage('收款记录', '记录和管理所有收款交易'),
   
-  // 报表分析模块
-  'inventory-reports': createDevelopmentPage('库存报表', '库存分析、周转率和库存预警报表'),
-  'sales-reports': createDevelopmentPage('销售报表', '销售业绩、趋势分析和客户分析报表'),
-  'purchase-reports': createDevelopmentPage('采购报表', '采购分析、供应商评估和成本分析报表'),
-  'financial-reports': createDevelopmentPage('财务报表', '财务状况、现金流和盈利分析报表'),
+  // 报表分析模块 - 部分完成
   
-  // 系统管理模块
+  // 系统管理模块 - 部分完成
   'users': createDevelopmentPage('用户管理', '管理系统用户、角色和访问权限'),
   'permissions': createDevelopmentPage('权限管理', '配置用户权限、角色权限和功能权限'),
   'settings': createDevelopmentPage('系统设置', '系统配置、参数设置和个性化选项'),
