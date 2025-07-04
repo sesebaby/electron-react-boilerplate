@@ -1,5 +1,204 @@
 /* 报表分析模块样式 */
 
+/* 采购报表特殊样式 */
+.report-content {
+  margin-top: 20px;
+}
+
+.report-overview {
+  margin-bottom: 20px;
+}
+
+.supplier-analysis h3,
+.product-analysis h3,
+.trend-analysis h3,
+.performance-analysis h3 {
+  margin: 0 0 20px 0;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.supplier-info,
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.supplier-name,
+.product-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.supplier-code,
+.product-sku {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.number-cell {
+  text-align: right;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+.amount-cell {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.percentage-cell {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+/* 绩效分析样式 */
+.performance-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.metric-item {
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  padding: 20px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.metric-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+}
+
+.metric-description {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* 财务报表特殊样式 */
+.financial-overview {
+  margin-bottom: 20px;
+}
+
+.cashflow-analysis h3,
+.profit-loss-statement h3,
+.balance-sheet h3 {
+  margin: 0 0 20px 0;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.amount-cell.positive {
+  color: #10b981;
+}
+
+.amount-cell.negative {
+  color: #ef4444;
+}
+
+.financial-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.metric-group {
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.metric-group h4 {
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.aging-section {
+  margin-bottom: 32px;
+}
+
+.aging-section h3 {
+  margin: 0 0 20px 0;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.aging-item.warning {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+  border-color: #f59e0b;
+}
+
+.aging-item.danger {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
+  border-color: #ef4444;
+}
+
+.aging-item.critical {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.2) 0%, rgba(239, 68, 68, 0.2) 100%);
+  border-color: #dc2626;
+}
+
+.balance-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.balance-section {
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.balance-section h4 {
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
 /* 导出选项样式 */
 .export-options {
   margin-bottom: 20px;

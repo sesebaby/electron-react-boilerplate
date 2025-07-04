@@ -11,6 +11,9 @@ import purchaseOrderService from './purchaseOrderService';
 import purchaseReceiptService from './purchaseReceiptService';
 import salesOrderService from './salesOrderService';
 import salesDeliveryService from './salesDeliveryService';
+import accountsPayableService from './accountsPayableService';
+import accountsReceivableService from './accountsReceivableService';
+import userService from './userService';
 
 // 导出所有服务实例
 export {
@@ -24,7 +27,10 @@ export {
   purchaseOrderService,
   purchaseReceiptService,
   salesOrderService,
-  salesDeliveryService
+  salesDeliveryService,
+  accountsPayableService,
+  accountsReceivableService,
+  userService
 };
 
 // 服务管理器
@@ -47,7 +53,8 @@ export class BusinessServiceManager {
         unitService.initialize(),
         warehouseService.initialize(),
         supplierService.initialize(),
-        customerService.initialize()
+        customerService.initialize(),
+        userService.initialize()
       ]);
 
       // 2. 产品服务（依赖分类和单位）
@@ -67,6 +74,12 @@ export class BusinessServiceManager {
 
       // 7. 销售出库服务（依赖销售订单和库存）
       await salesDeliveryService.initialize();
+
+      // 8. 财务服务（依赖采购和销售数据）
+      await Promise.all([
+        accountsPayableService.initialize(),
+        accountsReceivableService.initialize()
+      ]);
 
       this.initialized = true;
       console.log('All business services initialized successfully');
@@ -163,6 +176,27 @@ export class BusinessServiceManager {
         name: 'SalesDeliveryService',
         status: 'active' as const,
         details: salesDeliveryStats
+      });
+
+      const accountsPayableStats = await accountsPayableService.getPayableStats();
+      services.push({
+        name: 'AccountsPayableService',
+        status: 'active' as const,
+        details: accountsPayableStats
+      });
+
+      const accountsReceivableStats = await accountsReceivableService.getReceivableStats();
+      services.push({
+        name: 'AccountsReceivableService',
+        status: 'active' as const,
+        details: accountsReceivableStats
+      });
+
+      const userStats = await userService.getUserStats();
+      services.push({
+        name: 'UserService',
+        status: 'active' as const,
+        details: userStats
       });
 
     } catch (error) {

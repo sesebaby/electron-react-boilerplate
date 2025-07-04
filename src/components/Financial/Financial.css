@@ -1,0 +1,737 @@
+/* 财务管理模块样式 */
+
+/* 财务管理主页面 */
+.financial-management {
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  padding: 20px;
+}
+
+/* 标签导航样式 */
+.tab-navigation {
+  margin-bottom: 24px;
+}
+
+.tab-list {
+  display: flex;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tab-list::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  border-radius: 8px;
+  margin: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tab-button:hover {
+  background: var(--hover-bg);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.tab-button.active {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+}
+
+.tab-icon {
+  font-size: 16px;
+}
+
+.tab-label {
+  font-weight: 500;
+}
+
+/* 内容区域 */
+.tab-content {
+  background: transparent;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* 敬请期待页面样式 */
+.coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  padding: 40px;
+}
+
+.coming-soon-icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  opacity: 0.7;
+}
+
+.coming-soon h3 {
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.coming-soon p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 16px;
+  max-width: 400px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .tab-button {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .tab-icon {
+    font-size: 14px;
+  }
+  
+  .coming-soon {
+    min-height: 300px;
+    padding: 30px 20px;
+  }
+  
+  .coming-soon-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  .coming-soon h3 {
+    font-size: 20px;
+  }
+  
+  .coming-soon p {
+    font-size: 14px;
+  }
+}
+
+/* 应付/应收账款特殊样式 */
+.payable-overdue,
+.receivable-overdue {
+  background: rgba(239, 68, 68, 0.05);
+  border-left: 3px solid #ef4444;
+}
+
+.date-overdue {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.overdue-indicator {
+  margin-left: 4px;
+}
+
+/* 账单信息样式 */
+.bill-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bill-no {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.order-ref {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 供应商/客户信息样式 */
+.supplier-info,
+.customer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.supplier-name,
+.customer-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* 付款状态样式 */
+.status-unpaid {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+}
+
+.status-partial {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+}
+
+.status-paid {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #166534;
+}
+
+/* 金额显示样式 */
+.amount-cell {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  text-align: right;
+}
+
+.balance-amount {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.payment-amount {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.amount-highlight {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* 统计卡片特殊样式 */
+.stat-item.unpaid .stat-icon {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+}
+
+.stat-item.partial .stat-icon {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+}
+
+.stat-item.paid .stat-icon {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+}
+
+.stat-item.overdue .stat-icon {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+}
+
+.stat-item.amount .stat-icon {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+}
+
+/* 应付账款汇总样式 */
+.payable-summary,
+.receivable-summary {
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  padding: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.payable-summary h4,
+.receivable-summary h4 {
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--glass-bg);
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+}
+
+.summary-item .label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.summary-item .value {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* 付款/收款表单样式 */
+.payment-form,
+.receipt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field-hint {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* 付款记录历史样式 */
+.payment-history,
+.receipt-history {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.payment-list h4,
+.receipt-list h4 {
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.empty-payments,
+.empty-receipts {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+}
+
+.empty-payments .empty-icon,
+.empty-receipts .empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.empty-payments h4,
+.empty-receipts h4 {
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.empty-payments p,
+.empty-receipts p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+/* 付款方式显示样式 */
+.method-cell {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.payment-no-cell,
+.receipt-no-cell {
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.operator-cell {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.remark-cell {
+  color: var(--text-muted);
+  font-size: 13px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 大型模态框 */
+.large-modal {
+  max-width: 1000px;
+  width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* 复选框样式 */
+.glass-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--glass-border);
+  border-radius: 4px;
+  background: var(--glass-bg);
+  margin-right: 8px;
+  cursor: pointer;
+  appearance: none;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.glass-checkbox:checked {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.glass-checkbox:checked::before {
+  content: '✓';
+  position: absolute;
+  top: -2px;
+  left: 1px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.glass-checkbox:hover {
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+/* 输入框带按钮样式 */
+.input-with-button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-with-button .glass-input {
+  flex: 1;
+}
+
+.generate-btn {
+  padding: 8px 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.generate-btn:hover {
+  background: var(--hover-bg);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+/* 操作按钮特殊样式 */
+.action-btn.payment {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  color: white;
+}
+
+.action-btn.payment:hover {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  transform: scale(1.1);
+}
+
+.action-btn.history {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+  color: white;
+}
+
+.action-btn.history:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+  transform: scale(1.1);
+}
+
+.action-btn.receipt {
+  background: linear-gradient(135deg, #06b6d4 0%, #67e8f9 100%);
+  color: white;
+}
+
+.action-btn.receipt:hover {
+  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+  transform: scale(1.1);
+}
+
+/* 账龄分析样式 */
+.aging-analysis {
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  padding: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.aging-analysis h4 {
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.aging-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.aging-item {
+  text-align: center;
+  padding: 16px;
+  background: var(--glass-bg);
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+}
+
+.aging-period {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.aging-amount {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.aging-count {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* 财务报表特殊样式 */
+.financial-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.financial-metric:last-child {
+  border-bottom: none;
+}
+
+.metric-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.metric-value {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.metric-value.positive {
+  color: #10b981;
+}
+
+.metric-value.negative {
+  color: #ef4444;
+}
+
+.metric-value.neutral {
+  color: var(--text-secondary);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .aging-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .large-modal {
+    width: 98vw;
+    max-height: 95vh;
+  }
+  
+  .input-with-button {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .payable-summary,
+  .receivable-summary {
+    padding: 16px;
+  }
+}
+
+/* 深色主题调整 */
+[data-theme="dark"] .payable-overdue,
+[data-theme="dark"] .receivable-overdue {
+  background: rgba(239, 68, 68, 0.1);
+  border-left-color: #ef4444;
+}
+
+[data-theme="dark"] .payable-summary,
+[data-theme="dark"] .receivable-summary,
+[data-theme="dark"] .aging-analysis {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 付款记录管理特殊样式 */
+.payment-method-stats {
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  padding: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.payment-method-stats h3 {
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.method-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.method-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px;
+  background: var(--glass-bg);
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+}
+
+.method-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.method-data {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.method-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.method-amount {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-color);
+  font-family: var(--font-mono);
+}
+
+.method-badge {
+  padding: 4px 8px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.datetime-cell {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.stat-item.today .stat-icon {
+  background: linear-gradient(135deg, #06b6d4 0%, #67e8f9 100%);
+}
+
+.stat-item.today-amount .stat-icon {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+}
+
+/* 收款记录管理特殊样式 */
+.receipt-method-stats {
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  padding: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.receipt-method-stats h3 {
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 打印样式 */
+@media print {
+  .header-actions,
+  .filter-section,
+  .actions-cell {
+    display: none;
+  }
+  
+  .payable-overdue,
+  .receivable-overdue {
+    border-left: 2px solid #000;
+    background: #f5f5f5;
+  }
+  
+  .glass-table-container {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  .glass-table {
+    background: white;
+    color: black;
+  }
+  
+  .status-badge {
+    border: 1px solid #999;
+    background: white !important;
+    color: black !important;
+  }
+}

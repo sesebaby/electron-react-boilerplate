@@ -435,6 +435,7 @@ export class AccountsPayableService {
     const payments = await this.findAllPayments();
     const stats: Record<PaymentMethod, { count: number; amount: number }> = {
       [PaymentMethod.CASH]: { count: 0, amount: 0 },
+      [PaymentMethod.BANK]: { count: 0, amount: 0 },
       [PaymentMethod.BANK_TRANSFER]: { count: 0, amount: 0 },
       [PaymentMethod.CHECK]: { count: 0, amount: 0 },
       [PaymentMethod.CREDIT_CARD]: { count: 0, amount: 0 },

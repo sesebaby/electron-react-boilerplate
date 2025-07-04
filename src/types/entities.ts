@@ -410,7 +410,10 @@ export interface Payment extends BaseEntity {
 export enum PaymentMethod {
   CASH = 'cash',
   BANK = 'bank',
-  CHECK = 'check'
+  BANK_TRANSFER = 'bank_transfer',
+  CHECK = 'check',
+  CREDIT_CARD = 'credit_card',
+  OTHER = 'other'
 }
 
 // 收款记录实体

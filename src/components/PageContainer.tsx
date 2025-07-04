@@ -20,7 +20,9 @@ import InventoryReports from './Reports/InventoryReports';
 import SalesReports from './Reports/SalesReports';
 import PurchaseReports from './Reports/PurchaseReports';
 import FinancialReports from './Reports/FinancialReports';
+import Financial from './Financial/Financial';
 import SystemManagement from './SystemManagement/SystemManagement';
+import System from './System/System';
 
 interface PageContainerProps {
   currentPage: string;
@@ -49,6 +51,7 @@ const pageComponents: Record<string, React.ComponentType> = {
   'sales-reports': SalesReports,
   'purchase-reports': PurchaseReports,
   'financial-reports': FinancialReports,
+  'financial': Financial,
   'system-management': SystemManagement
 };
 
@@ -93,19 +96,19 @@ const allPageComponents: Record<string, React.ComponentType> = {
   
   // 销售管理模块 - 已完成
   
-  // 财务管理模块
-  'accounts-payable': createDevelopmentPage('应付账款', '管理应付账款、付款计划和供应商结算'),
-  'accounts-receivable': createDevelopmentPage('应收账款', '管理应收账款、收款计划和客户结算'),
-  'payments': createDevelopmentPage('付款记录', '记录和管理所有付款交易'),
-  'receipts': createDevelopmentPage('收款记录', '记录和管理所有收款交易'),
+  // 财务管理模块 - 已完成基础功能
+  'accounts-payable': Financial,
+  'accounts-receivable': Financial,
+  'payments': Financial,
+  'receipts': Financial,
   
   // 报表分析模块 - 部分完成
   
-  // 系统管理模块 - 部分完成
-  'users': createDevelopmentPage('用户管理', '管理系统用户、角色和访问权限'),
-  'permissions': createDevelopmentPage('权限管理', '配置用户权限、角色权限和功能权限'),
-  'settings': createDevelopmentPage('系统设置', '系统配置、参数设置和个性化选项'),
-  'logs': createDevelopmentPage('操作日志', '查看系统操作记录、审计跟踪和异常日志')
+  // 系统管理模块 - 用户管理已完成，其他开发中
+  'users': System,
+  'permissions': System,
+  'settings': System,
+  'logs': System
 };
 
 export const PageContainer: React.FC<PageContainerProps> = ({ currentPage }) => {

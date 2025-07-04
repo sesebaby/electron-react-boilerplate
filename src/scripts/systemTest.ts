@@ -141,7 +141,11 @@ function printRecommendations(testReport: any, optimizationReport: any, healthRe
   console.log('\n💡 系统改进建议:');
   console.log('='.repeat(50));
 
-  const recommendations = [];
+  const recommendations: Array<{
+    priority: string;
+    category: string;
+    message: string;
+  }> = [];
 
   // 测试相关建议
   if (testReport.failedTests > 0) {
