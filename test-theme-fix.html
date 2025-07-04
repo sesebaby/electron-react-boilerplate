@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>玻璃未来风主题测试</title>
+    <style>
+        /* 复制关键的CSS样式进行测试 */
+        :root {
+            --theme-name: 'glass-future';
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --app-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --surface-background: rgba(255, 255, 255, 0.15);
+            --card-background: rgba(255, 255, 255, 0.1);
+            --hover-background: rgba(255, 255, 255, 0.2);
+            --active-background: rgba(255, 255, 255, 0.25);
+            --glass-blur: blur(20px);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+        }
+
+        [data-theme="glass-future"] {
+            --theme-name: 'glass-future';
+            --app-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --surface-background: rgba(255, 255, 255, 0.12);
+            --card-background: rgba(255, 255, 255, 0.08);
+            --hover-background: rgba(255, 255, 255, 0.18);
+            --active-background: rgba(255, 255, 255, 0.22);
+            --popup-background: rgba(255, 255, 255, 0.75);
+            --popup-header-background: rgba(255, 255, 255, 0.85);
+            --popup-content-background: rgba(255, 255, 255, 0.7);
+            --popup-blur: blur(35px);
+            --popup-border: 1px solid rgba(255, 255, 255, 0.4);
+            --popup-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            --popup-text-primary: rgba(0, 0, 0, 0.9) !important;
+            --popup-text-secondary: rgba(0, 0, 0, 0.7);
+            --popup-text-tertiary: rgba(0, 0, 0, 0.6);
+            --popup-text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+            --theme-primary-color: rgba(102, 126, 234, 0.85);
+            --theme-secondary-color: rgba(118, 75, 162, 0.85);
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: var(--app-background);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+        }
+
+        .test-container {
+            max-width: 400px;
+            margin: 50px auto;
+        }
+
+        /* 主题选择器样式 */
+        .theme-dropdown {
+            position: relative;
+            min-width: 300px;
+            max-width: 400px;
+            background: var(--card-background);
+            -webkit-backdrop-filter: var(--glass-blur);
+            backdrop-filter: var(--glass-blur);
+            border: var(--glass-border);
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--glass-shadow);
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .theme-dropdown-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 通用标题样式 */
+        .theme-dropdown-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--popup-text-primary, rgba(255, 255, 255, 0.95)) !important;
+            text-shadow: var(--popup-text-shadow, 0 1px 2px rgba(0, 0, 0, 0.1));
+        }
+
+        /* 玻璃未来风主题特定样式 */
+        [data-theme="glass-future"] .theme-dropdown-header h3 {
+            color: rgba(0, 0, 0, 0.9) !important;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8) !important;
+        }
+
+        [data-theme="glass-future"] .theme-dropdown {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
+            -webkit-backdrop-filter: blur(35px);
+            backdrop-filter: blur(35px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        [data-theme="glass-future"] .theme-dropdown-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .theme-option {
+            padding: var(--spacing-md);
+            margin: var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="glass-future"] .theme-option {
+            background: rgba(255, 255, 255, 0.15) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: rgba(0, 0, 0, 0.9) !important;
+        }
+
+        [data-theme="glass-future"] .theme-option:hover {
+            background: rgba(255, 255, 255, 0.25) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .close-button {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            color: rgba(0, 0, 0, 0.9);
+        }
+
+        .test-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .switch-theme {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+    </style>
+</head>
+<body data-theme="glass-future">
+    <div class="test-container">
+        <div class="test-info">
+            <h2>玻璃未来风主题测试</h2>
+            <p>当前主题: <span id="current-theme">glass-future</span></p>
+            <p>测试项目:</p>
+            <ul>
+                <li>✅ "选择主题"标题应该显示为黑色</li>
+                <li>✅ Card背景应该使用主题色（淡蓝色渐变）</li>
+                <li>✅ 文字在浅色背景下应该清晰可见</li>
+            </ul>
+            <button class="switch-theme" onclick="switchTheme('glass-future')">玻璃未来风</button>
+            <button class="switch-theme" onclick="switchTheme('dark-tech')">深色科技风</button>
+        </div>
+
+        <div class="theme-dropdown">
+            <div class="theme-dropdown-header">
+                <h3>选择主题</h3>
+                <button class="close-button">✕</button>
+            </div>
+            <div class="theme-option">
+                <h4>玻璃未来风</h4>
+                <p>透明玻璃感，科技未来风格</p>
+            </div>
+            <div class="theme-option">
+                <h4>深色科技风</h4>
+                <p>深色背景，科技感界面</p>
+            </div>
+            <div class="theme-option">
+                <h4>温暖商务风</h4>
+                <p>温暖色调，商务专业风格</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            document.getElementById('current-theme').textContent = theme;
+            
+            // 更新CSS变量以模拟主题切换
+            if (theme === 'glass-future') {
+                document.documentElement.style.setProperty('--popup-text-primary', 'rgba(0, 0, 0, 0.9)');
+            } else if (theme === 'dark-tech') {
+                document.documentElement.style.setProperty('--popup-text-primary', 'rgba(255, 255, 255, 0.95)');
+            }
+        }
+
+        // 初始化
+        switchTheme('glass-future');
+    </script>
+</body>
+</html>

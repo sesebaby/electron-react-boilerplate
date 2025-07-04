@@ -75,10 +75,14 @@
   --popup-shadow-hover: 0 30px 100px rgba(0, 0, 0, 0.35);
 
   /* 弹出窗体文字样式 - 增强对比度 */
-  --popup-text-primary: rgba(0, 0, 0, 0.9);
+  --popup-text-primary: rgba(0, 0, 0, 0.9) !important;
   --popup-text-secondary: rgba(0, 0, 0, 0.7);
   --popup-text-tertiary: rgba(0, 0, 0, 0.6);
   --popup-text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+
+  /* 主题色系 - 用于card背景 */
+  --theme-primary-color: rgba(102, 126, 234, 0.85);
+  --theme-secondary-color: rgba(118, 75, 162, 0.85);
 
   /* 弹出窗体交互状态颜色 */
   --popup-divider-color: rgba(0, 0, 0, 0.1);

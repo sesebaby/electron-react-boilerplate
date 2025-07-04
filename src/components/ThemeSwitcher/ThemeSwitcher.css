@@ -11,8 +11,8 @@
   gap: var(--spacing-sm);
   padding: var(--spacing-sm) var(--spacing-md);
   background: var(--card-background);
-  backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   border: var(--glass-border);
   border-radius: var(--border-radius-sm);
   color: var(--text-primary);
@@ -76,18 +76,67 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* 主题选择器标题样式 - 通用设置 */
 .theme-dropdown-header h3 {
-  color: var(--popup-text-primary, var(--text-primary)) !important;
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  color: var(--popup-text-primary, rgba(255, 255, 255, 0.95)) !important;
+  text-shadow: var(--popup-text-shadow, 0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-/* 玻璃未来风主题下强制使用黑色文字 */
+/* 玻璃未来风主题 - 强制黑色文字和主题色背景 */
 [data-theme="glass-future"] .theme-dropdown-header h3 {
   color: rgba(0, 0, 0, 0.9) !important;
-  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* 玻璃未来风主题 - 使用主题色作为card背景 */
+[data-theme="glass-future"] .theme-dropdown {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
+  -webkit-backdrop-filter: blur(35px);
+  backdrop-filter: blur(35px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="glass-future"] .theme-dropdown-header {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 玻璃未来风主题 - 主题选项卡片背景和文字 */
+[data-theme="glass-future"] .theme-option {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: rgba(0, 0, 0, 0.9) !important;
+}
+
+[data-theme="glass-future"] .theme-option h4 {
+  color: rgba(0, 0, 0, 0.95) !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="glass-future"] .theme-option p {
+  color: rgba(0, 0, 0, 0.7) !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="glass-future"] .theme-option:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-theme="glass-future"] .theme-option.active {
+  background: rgba(255, 255, 255, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 玻璃未来风主题 - 关闭按钮样式 */
+[data-theme="glass-future"] .close-button {
+  color: rgba(0, 0, 0, 0.8) !important;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .close-button {
