@@ -1,5 +1,15 @@
 // 测试数据生成器
-import { businessServiceManager } from './business';
+import { 
+  businessServiceManager,
+  categoryService,
+  unitService,
+  warehouseService,
+  productService,
+  inventoryStockService,
+  supplierService,
+  customerService
+} from './business';
+import { ProductStatus, SupplierStatus, CustomerLevel, CustomerType, CustomerStatus, SupplierRating } from '../types/entities';
 
 export class TestDataGenerator {
   static async initializeTestData(): Promise<void> {
@@ -11,26 +21,26 @@ export class TestDataGenerator {
       
       // 创建测试分类
       const categories = [
-        { name: '电子产品', description: '电子设备和配件', code: 'ELEC' },
-        { name: '办公用品', description: '办公室用品和设备', code: 'OFFICE' },
-        { name: '日用品', description: '日常生活用品', code: 'DAILY' },
-        { name: '图书', description: '各类书籍和资料', code: 'BOOK' }
+        { name: '电子产品', description: '电子设备和配件', code: 'ELEC', level: 1, sortOrder: 1, isActive: true },
+        { name: '办公用品', description: '办公室用品和设备', code: 'OFFICE', level: 1, sortOrder: 2, isActive: true },
+        { name: '日用品', description: '日常生活用品', code: 'DAILY', level: 1, sortOrder: 3, isActive: true },
+        { name: '图书', description: '各类书籍和资料', code: 'BOOK', level: 1, sortOrder: 4, isActive: true }
       ];
       
       for (const cat of categories) {
-        await businessServiceManager.categoryService.create(cat);
+        await categoryService.create(cat);
       }
       
       // 创建测试单位
       const units = [
-        { name: '件', symbol: 'pcs', description: '计件单位' },
-        { name: '台', symbol: 'set', description: '设备单位' },
-        { name: '盒', symbol: 'box', description: '盒装单位' },
-        { name: '本', symbol: 'book', description: '图书单位' }
+        { name: '件', symbol: 'pcs', description: '计件单位', precision: 0 },
+        { name: '台', symbol: 'set', description: '设备单位', precision: 0 },
+        { name: '盒', symbol: 'box', description: '盒装单位', precision: 0 },
+        { name: '本', symbol: 'book', description: '图书单位', precision: 0 }
       ];
       
       for (const unit of units) {
-        await businessServiceManager.unitService.create(unit);
+        await unitService.create(unit);
       }
       
       // 创建测试仓库
@@ -54,80 +64,95 @@ export class TestDataGenerator {
       ];
       
       for (const wh of warehouses) {
-        await businessServiceManager.warehouseService.create(wh);
+        await warehouseService.create(wh);
       }
       
       // 获取创建的数据ID
-      const allCategories = await businessServiceManager.categoryService.findAll();
-      const allUnits = await businessServiceManager.unitService.findAll();
-      const allWarehouses = await businessServiceManager.warehouseService.findAll();
+      const allCategories = await categoryService.findAll();
+      const allUnits = await unitService.findAll();
+      const allWarehouses = await warehouseService.findAll();
       
       // 创建测试商品
       const products = [
         {
           name: 'iPhone 15 Pro',
           code: 'IP15PRO',
+          sku: 'IP15PRO-256-BLK',
           categoryId: allCategories[0].id,
           unitId: allUnits[1].id,
           description: '苹果最新旗舰手机',
           specification: '256GB 深空黑色',
           purchasePrice: 8000,
           salePrice: 9999,
-          status: 'active' as const
+          minStock: 5,
+          maxStock: 50,
+          status: ProductStatus.ACTIVE
         },
         {
           name: 'MacBook Air M2',
           code: 'MBA2023',
+          sku: 'MBA2023-512-SLV',
           categoryId: allCategories[0].id,
           unitId: allUnits[1].id,
           description: '苹果笔记本电脑',
           specification: '13寸 512GB SSD',
           purchasePrice: 9000,
           salePrice: 11999,
-          status: 'active' as const
+          minStock: 3,
+          maxStock: 20,
+          status: ProductStatus.ACTIVE
         },
         {
           name: '办公椅',
           code: 'CHAIR001',
+          sku: 'CHAIR001-BLK-L',
           categoryId: allCategories[1].id,
           unitId: allUnits[0].id,
           description: '人体工学办公椅',
           specification: '黑色真皮',
           purchasePrice: 800,
           salePrice: 1200,
-          status: 'active' as const
+          minStock: 10,
+          maxStock: 100,
+          status: ProductStatus.ACTIVE
         },
         {
           name: 'A4复印纸',
           code: 'PAPER001',
+          sku: 'PAPER001-A4-500',
           categoryId: allCategories[1].id,
           unitId: allUnits[2].id,
           description: '高品质复印纸',
           specification: '500张/包',
           purchasePrice: 25,
           salePrice: 35,
-          status: 'active' as const
+          minStock: 50,
+          maxStock: 500,
+          status: ProductStatus.ACTIVE
         },
         {
           name: '无线鼠标',
           code: 'MOUSE001',
+          sku: 'MOUSE001-2.4G-BLK',
           categoryId: allCategories[0].id,
           unitId: allUnits[0].id,
           description: '无线蓝牙鼠标',
           specification: '2.4G无线',
           purchasePrice: 50,
           salePrice: 89,
-          status: 'active' as const
+          minStock: 20,
+          maxStock: 200,
+          status: ProductStatus.ACTIVE
         }
       ];
       
       for (const product of products) {
-        await businessServiceManager.productService.create(product);
+        await productService.create(product);
       }
       
       // 获取创建的商品
-      const allProducts = await businessServiceManager.productService.findAll();
-      const mainWarehouse = allWarehouses.find(w => w.isDefault);
+      const allProducts = await productService.findAll();
+      const mainWarehouse = allWarehouses.find((w: any) => w.isDefault);
       
       if (mainWarehouse) {
         // 创建库存数据
@@ -146,7 +171,7 @@ export class TestDataGenerator {
           };
           stockData.availableStock = stockData.currentStock - stockData.reservedStock;
           
-          await businessServiceManager.inventoryStockService.createOrUpdateStock(stockData);
+          await inventoryStockService.createOrUpdateStock(stockData);
         }
       }
       
@@ -159,8 +184,9 @@ export class TestDataGenerator {
           phone: '400-666-8888',
           email: 'wang@apple-dealer.com',
           address: '北京市海淀区中关村大街XX号',
-          rating: 'A' as const,
-          status: 'active' as const
+          rating: SupplierRating.A,
+          creditLimit: 1000000,
+          status: SupplierStatus.ACTIVE
         },
         {
           name: '办公用品批发商',
@@ -169,13 +195,14 @@ export class TestDataGenerator {
           phone: '010-88888888',
           email: 'liu@office-supply.com',
           address: '上海市静安区南京西路XX号',
-          rating: 'B' as const,
-          status: 'active' as const
+          rating: SupplierRating.B,
+          creditLimit: 500000,
+          status: SupplierStatus.ACTIVE
         }
       ];
       
       for (const supplier of suppliers) {
-        await businessServiceManager.supplierService.create(supplier);
+        await supplierService.create(supplier);
       }
       
       // 创建测试客户
@@ -187,9 +214,11 @@ export class TestDataGenerator {
           phone: '021-99999999',
           email: 'chen@abc-tech.com',
           address: '深圳市南山区科技园XX号',
-          level: 'VIP' as const,
+          level: CustomerLevel.VIP,
+          customerType: CustomerType.COMPANY,
           creditLimit: 100000,
-          status: 'active' as const
+          discountRate: 0.1,
+          status: CustomerStatus.ACTIVE
         },
         {
           name: 'XYZ贸易公司',
@@ -198,14 +227,16 @@ export class TestDataGenerator {
           phone: '0755-77777777',
           email: 'zhao@xyz-trade.com',
           address: '广州市天河区珠江新城XX号',
-          level: 'REGULAR' as const,
+          level: CustomerLevel.BRONZE,
+          customerType: CustomerType.COMPANY,
           creditLimit: 50000,
-          status: 'active' as const
+          discountRate: 0.05,
+          status: CustomerStatus.ACTIVE
         }
       ];
       
       for (const customer of customers) {
-        await businessServiceManager.customerService.create(customer);
+        await customerService.create(customer);
       }
       
       console.log('测试数据初始化完成！');

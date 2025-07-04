@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 
 interface TopBarProps {
   currentPage: string;
@@ -212,6 +213,9 @@ export const TopBar: React.FC<TopBarProps> = ({
             </div>
           )}
         </div>
+
+        {/* 主题切换器 */}
+        <ThemeSwitcher />
 
         {/* 系统状态 */}
         <div className="system-status">

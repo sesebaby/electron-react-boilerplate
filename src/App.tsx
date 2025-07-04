@@ -4,6 +4,7 @@ import PageContainer from './components/PageContainer';
 import TestDataGenerator from './services/testData';
 import './globals.css';
 import './components/Layout/Layout.css';
+import './components/ThemeSwitcher/ThemeSwitcher.css';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('dashboard');
@@ -12,6 +13,11 @@ const App: React.FC = () => {
 
   // 简单的哈希路由处理
   useEffect(() => {
+    // 初始化主题
+    const savedTheme = localStorage.getItem('inventory-system-theme') || 'glass-future';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.body.className = `theme-${savedTheme}`;
+    
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
       if (hash) {
