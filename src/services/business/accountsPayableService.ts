@@ -28,8 +28,7 @@ export class AccountsPayableService {
 
     console.log('Initializing AccountsPayableService...');
     
-    // 创建示例应付账款数据
-    await this.createSampleData();
+    // 不再自动创建示例数据，保持空白状态
     
     this.initialized = true;
     console.log('AccountsPayableService initialized successfully');

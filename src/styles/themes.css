@@ -44,6 +44,9 @@
   --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   
+  /* 主要渐变色 */
+  --primary-gradient: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);
+  
   /* 尺寸系统 */
   --border-radius-sm: 8px;
   --border-radius-md: 12px;
@@ -116,6 +119,55 @@
   --glass-glow-hover: 0 0 30px rgba(255, 255, 255, 0.15);
 }
 
+/* 玻璃未来风主题专用控件样式 */
+[data-theme="glass-future"] .glass-select {
+  background: var(--popup-background);
+  backdrop-filter: var(--popup-blur);
+  border: var(--popup-border);
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+  box-shadow: var(--popup-shadow);
+}
+
+[data-theme="glass-future"] .glass-select:focus,
+[data-theme="glass-future"] .glass-select:hover {
+  background: oklch(0.457 0.24 277.023 / 0.95);
+  border-color: oklch(0.785 0.115 274.713 / 0.7);
+  box-shadow: var(--popup-shadow-hover);
+}
+
+[data-theme="glass-future"] .glass-textarea {
+  background: var(--popup-background);
+  backdrop-filter: var(--popup-blur);
+  border: var(--popup-border);
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+  box-shadow: var(--popup-shadow);
+}
+
+[data-theme="glass-future"] .glass-textarea:focus,
+[data-theme="glass-future"] .glass-textarea:hover {
+  background: oklch(0.457 0.24 277.023 / 0.95);
+  border-color: oklch(0.785 0.115 274.713 / 0.7);
+  box-shadow: var(--popup-shadow-hover);
+}
+
+[data-theme="glass-future"] .glass-input {
+  background: var(--popup-background);
+  backdrop-filter: var(--popup-blur);
+  border: var(--popup-border);
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+  box-shadow: var(--popup-shadow);
+}
+
+[data-theme="glass-future"] .glass-input:focus,
+[data-theme="glass-future"] .glass-input:hover {
+  background: oklch(0.457 0.24 277.023 / 0.95);
+  border-color: oklch(0.785 0.115 274.713 / 0.7);
+  box-shadow: var(--popup-shadow-hover);
+}
+
 /* ===== 深色科技风主题 - 基于 Slate 色块系列重构 ===== */
 [data-theme="dark-tech"] {
   --theme-name: 'dark-tech';
@@ -160,6 +212,46 @@
   --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.3);
 }
 
+/* 深色科技风主题专用控件样式 */
+[data-theme="dark-tech"] .glass-select {
+  background: var(--popup-background);
+  border: 1px solid oklch(0.446 0.043 257.281 / 0.3);
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+}
+
+[data-theme="dark-tech"] .glass-select:focus,
+[data-theme="dark-tech"] .glass-select:hover {
+  background: var(--popup-item-hover-bg);
+  border-color: oklch(0.554 0.046 257.417 / 0.5);
+}
+
+[data-theme="dark-tech"] .glass-textarea {
+  background: var(--popup-background);
+  border: 1px solid oklch(0.446 0.043 257.281 / 0.3);
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+}
+
+[data-theme="dark-tech"] .glass-textarea:focus,
+[data-theme="dark-tech"] .glass-textarea:hover {
+  background: var(--popup-item-hover-bg);
+  border-color: oklch(0.554 0.046 257.417 / 0.5);
+}
+
+[data-theme="dark-tech"] .glass-input {
+  background: var(--popup-background);
+  border: 1px solid oklch(0.446 0.043 257.281 / 0.3);
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+}
+
+[data-theme="dark-tech"] .glass-input:focus,
+[data-theme="dark-tech"] .glass-input:hover {
+  background: var(--popup-item-hover-bg);
+  border-color: oklch(0.554 0.046 257.417 / 0.5);
+}
+
 /* ===== 温暖商务风主题 - 基于 Amber 色块系列重构 ===== */
 [data-theme="warm-business"] {
   --theme-name: 'warm-business';
@@ -202,6 +294,46 @@
   /* 玻璃感效果调整 */
   --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
   --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);
+}
+
+/* 温暖商务风主题专用控件样式 */
+[data-theme="warm-business"] .glass-select {
+  background: var(--popup-background);
+  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+}
+
+[data-theme="warm-business"] .glass-select:focus,
+[data-theme="warm-business"] .glass-select:hover {
+  background: var(--popup-item-hover-bg);
+  border-color: oklch(0.879 0.169 91.605 / 0.6);
+}
+
+[data-theme="warm-business"] .glass-textarea {
+  background: var(--popup-background);
+  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+}
+
+[data-theme="warm-business"] .glass-textarea:focus,
+[data-theme="warm-business"] .glass-textarea:hover {
+  background: var(--popup-item-hover-bg);
+  border-color: oklch(0.879 0.169 91.605 / 0.6);
+}
+
+[data-theme="warm-business"] .glass-input {
+  background: var(--popup-background);
+  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+}
+
+[data-theme="warm-business"] .glass-input:focus,
+[data-theme="warm-business"] .glass-input:hover {
+  background: var(--popup-item-hover-bg);
+  border-color: oklch(0.879 0.169 91.605 / 0.6);
 }
 
 /* ===== 弹出窗体专用样式类 ===== */
@@ -532,6 +664,62 @@
   color: var(--text-tertiary);
 }
 
+/* 玻璃感下拉框 */
+.glass-select {
+  background: var(--card-background);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: var(--transition-base);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-sm) center;
+  background-size: 16px;
+  padding-right: calc(var(--spacing-md) + 24px);
+}
+
+.glass-select:focus {
+  background: var(--hover-background);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+.glass-select:hover {
+  background: var(--hover-background);
+}
+
+/* 玻璃感文本域 */
+.glass-textarea {
+  background: var(--card-background);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: var(--transition-base);
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.glass-textarea:focus {
+  background: var(--hover-background);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+.glass-textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
 /* 响应式适配 */
 @media (max-width: 768px) {
   :root {
@@ -561,4 +749,126 @@
   bottom: 0;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   animation: glass-shimmer 1.5s infinite;
+}
+
+/* 下拉框option样式 */
+.glass-select option {
+  background: var(--popup-background);
+  color: var(--popup-text-primary);
+  padding: var(--spacing-sm);
+  border: none;
+  font-weight: 500;
+}
+
+/* 控件禁用状态 */
+.glass-input:disabled,
+.glass-select:disabled,
+.glass-textarea:disabled,
+.glass-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+  background: var(--surface-background);
+}
+
+/* 控件错误状态 */
+.glass-input.error,
+.glass-select.error,
+.glass-textarea.error {
+  border-color: var(--danger-color);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* 控件成功状态 */
+.glass-input.success,
+.glass-select.success,
+.glass-textarea.success {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* 表单组样式 */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+  color: var(--popup-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* 必填字段标记 */
+.form-group label.required::after {
+  content: ' *';
+  color: var(--danger-color);
+  font-weight: bold;
+}
+
+/* 字段帮助文本 */
+.field-help {
+  font-size: 0.75rem;
+  color: var(--popup-text-tertiary);
+  margin-top: var(--spacing-xs);
+  font-style: italic;
+}
+
+/* 字段错误消息 */
+.field-error {
+  font-size: 0.75rem;
+  color: var(--danger-color);
+  margin-top: var(--spacing-xs);
+  font-weight: 500;
+}
+
+/* 字段成功消息 */
+.field-success {
+  font-size: 0.75rem;
+  color: #10b981;
+  margin-top: var(--spacing-xs);
+  font-weight: 500;
+}
+
+/* 搜索输入框特殊样式 */
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input-wrapper .search-icon {
+  position: absolute;
+  left: var(--spacing-md);
+  color: var(--popup-text-tertiary);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.search-input-wrapper .glass-input {
+  padding-left: calc(var(--spacing-md) + 24px);
+}
+
+/* 清除按钮样式 */
+.clear-button {
+  position: absolute;
+  right: var(--spacing-sm);
+  background: none;
+  border: none;
+  color: var(--popup-text-tertiary);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition-base);
+  z-index: 1;
+}
+
+.clear-button:hover {
+  background: var(--hover-background);
+  color: var(--popup-text-primary);
 }

@@ -21,7 +21,7 @@ import {
 } from '../types/entities';
 
 // 通用验证规则
-const idSchema = z.string().uuid('无效的ID格式');
+const idSchema = z.string().min(1, 'ID不能为空');
 const dateSchema = z.date();
 const positiveNumberSchema = z.number().min(0, '数值不能为负数');
 const requiredStringSchema = z.string().min(1, '此字段不能为空');
@@ -287,7 +287,7 @@ export const AccountsPayableSchema = z.object({
   id: idSchema.optional(),
   billNo: z.string().min(1, '账单编号不能为空'),
   supplierId: idSchema,
-  orderId: idSchema.optional(),
+  orderId: z.string().min(1).optional(),
   billDate: dateSchema,
   dueDate: dateSchema,
   totalAmount: positiveNumberSchema,
@@ -309,7 +309,7 @@ export const AccountsReceivableSchema = z.object({
   id: idSchema.optional(),
   billNo: z.string().min(1, '账单编号不能为空'),
   customerId: idSchema,
-  orderId: idSchema.optional(),
+  orderId: z.string().min(1).optional(),
   billDate: dateSchema,
   dueDate: dateSchema,
   totalAmount: positiveNumberSchema,
@@ -367,7 +367,10 @@ export const UserSchema = z.object({
   nickname: z.string().min(1, '昵称不能为空').max(20, '昵称最多20个字符'),
   email: emailSchema,
   phone: phoneSchema,
-  avatar: z.string().url('头像地址格式不正确').optional(),
+  avatar: z.string().refine(
+    (val) => !val || val === '' || z.string().url().safeParse(val).success,
+    '头像地址格式不正确'
+  ).optional(),
   role: z.nativeEnum(UserRole),
   status: z.nativeEnum(UserStatus),
   lastLoginAt: dateSchema.optional(),

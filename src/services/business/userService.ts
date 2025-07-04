@@ -25,7 +25,7 @@ export class UserService {
       nickname: '系统管理员',
       email: 'admin@system.com',
       phone: '13800138000',
-      avatar: '',
+      avatar: undefined,
       role: UserRole.ADMIN,
       status: UserStatus.ACTIVE,
       lastLoginAt: new Date()

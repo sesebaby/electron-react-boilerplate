@@ -3,8 +3,6 @@ import AppLayout from './components/Layout/AppLayout';
 import PageContainer from './components/PageContainer';
 import TestDataGenerator from './services/testData';
 import './globals.css';
-import './components/Layout/Layout.css';
-import './components/ThemeSwitcher/ThemeSwitcher.css';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('dashboard');

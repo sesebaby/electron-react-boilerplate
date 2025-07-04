@@ -28,8 +28,7 @@ export class AccountsReceivableService {
 
     console.log('Initializing AccountsReceivableService...');
     
-    // 创建示例应收账款数据
-    await this.createSampleData();
+    // 不再自动创建示例数据，保持空白状态
     
     this.initialized = true;
     console.log('AccountsReceivableService initialized successfully');

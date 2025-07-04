@@ -141,18 +141,15 @@ function printRecommendations(testReport: any, optimizationReport: any, healthRe
   console.log('\n💡 系统改进建议:');
   console.log('='.repeat(50));
 
-  const recommendations: Array<{
-    priority: string;
-    category: string;
-    message: string;
-  }> = [];
+  const recommendations: any[] = [];
 
   // 测试相关建议
   if (testReport.failedTests > 0) {
     recommendations.push({
       priority: 'high',
       category: '测试',
-      suggestion: `修复 ${testReport.failedTests} 个失败的测试用例`,
+      message: `修复 ${testReport.failedTests} 个失败的测试用例`,
+      suggestion: `检查测试代码，确保所有用例正确执行`,
       impact: '提升系统稳定性'
     });
   }
@@ -163,7 +160,7 @@ function printRecommendations(testReport: any, optimizationReport: any, healthRe
     recommendations.push({
       priority: 'medium',
       category: '优化',
-      suggestion: `实施 ${pendingOptimizations} 项待完成的优化措施`,
+      message: `实施 ${pendingOptimizations} 项待完成的优化措施`,
       impact: '提升系统性能'
     });
   }
@@ -173,7 +170,7 @@ function printRecommendations(testReport: any, optimizationReport: any, healthRe
     recommendations.push({
       priority: 'high',
       category: '健康',
-      suggestion: `紧急处理 ${healthReport.summary.critical} 个严重问题`,
+      message: `紧急处理 ${healthReport.summary.critical} 个严重问题`,
       impact: '确保系统稳定运行'
     });
   }
@@ -182,7 +179,7 @@ function printRecommendations(testReport: any, optimizationReport: any, healthRe
     recommendations.push({
       priority: 'medium',
       category: '健康',
-      suggestion: `关注并解决 ${healthReport.summary.warnings} 个警告问题`,
+      message: `关注并解决 ${healthReport.summary.warnings} 个警告问题`,
       impact: '预防潜在问题'
     });
   }
