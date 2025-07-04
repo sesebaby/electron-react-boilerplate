@@ -116,6 +116,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
+  // 检查菜单项是否应该显示为激活状态
+  const isMenuActive = (item: MenuItem): boolean => {
+    if (currentPage === item.id) {
+      return true;
+    }
+    // 如果当前页面是该菜单的子页面，也显示为激活状态
+    if (item.children) {
+      return item.children.some(child => child.id === currentPage);
+    }
+    return false;
+  };
+
   return (
     <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
       {/* Logo和标题区域 */}
@@ -144,7 +156,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {menuItems.map(item => (
             <li key={item.id} className="nav-item">
               <button
-                className={`nav-link ${currentPage === item.id ? 'active' : ''}`}
+                className={`nav-link ${isMenuActive(item) ? 'active' : ''}`}
                 onClick={() => handleMenuClick(item)}
                 title={collapsed ? item.label : undefined}
               >
@@ -154,11 +166,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <span className="nav-label">{item.label}</span>
                     {item.badge && (
                       <span className="nav-badge">{item.badge}</span>
-                    )}
-                    {item.children && (
-                      <span className={`nav-arrow ${expandedMenus.includes(item.id) ? 'expanded' : ''}`}>
-                        ⏷
-                      </span>
                     )}
                   </>
                 )}

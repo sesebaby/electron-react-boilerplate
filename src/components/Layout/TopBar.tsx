@@ -9,7 +9,7 @@ interface TopBarProps {
 
 // 页面标题映射
 const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
-  'dashboard': { title: '仪表板', breadcrumb: ['首页', '仪表板'] },
+  'dashboard': { title: '仪表板', breadcrumb: ['仪表板'] },
   'inventory-overview': { title: '库存概览', breadcrumb: ['库存管理', '库存概览'] },
   'products': { title: '商品管理', breadcrumb: ['库存管理', '商品管理'] },
   'categories': { title: '分类管理', breadcrumb: ['库存管理', '分类管理'] },
