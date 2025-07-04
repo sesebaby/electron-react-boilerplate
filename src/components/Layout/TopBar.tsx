@@ -10,6 +10,8 @@ interface TopBarProps {
 // 页面标题映射
 const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
   'dashboard': { title: '仪表板', breadcrumb: ['仪表板'] },
+
+  // 库存管理
   'inventory-overview': { title: '库存概览', breadcrumb: ['库存管理', '库存概览'] },
   'products': { title: '商品管理', breadcrumb: ['库存管理', '商品管理'] },
   'categories': { title: '分类管理', breadcrumb: ['库存管理', '分类管理'] },
@@ -17,12 +19,34 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
   'stock-in': { title: '入库管理', breadcrumb: ['库存管理', '入库管理'] },
   'stock-out': { title: '出库管理', breadcrumb: ['库存管理', '出库管理'] },
   'stock-adjust': { title: '库存调整', breadcrumb: ['库存管理', '库存调整'] },
+
+  // 采购管理
   'suppliers': { title: '供应商管理', breadcrumb: ['采购管理', '供应商管理'] },
   'purchase-orders': { title: '采购订单', breadcrumb: ['采购管理', '采购订单'] },
+  'purchase-receipts': { title: '采购收货', breadcrumb: ['采购管理', '采购收货'] },
+
+  // 销售管理
   'customers': { title: '客户管理', breadcrumb: ['销售管理', '客户管理'] },
   'sales-orders': { title: '销售订单', breadcrumb: ['销售管理', '销售订单'] },
-  'reports': { title: '报表分析', breadcrumb: ['报表分析'] },
-  'system': { title: '系统管理', breadcrumb: ['系统管理'] }
+  'sales-delivery': { title: '销售出库', breadcrumb: ['销售管理', '销售出库'] },
+
+  // 财务管理
+  'accounts-payable': { title: '应付账款', breadcrumb: ['财务管理', '应付账款'] },
+  'accounts-receivable': { title: '应收账款', breadcrumb: ['财务管理', '应收账款'] },
+  'payments': { title: '付款记录', breadcrumb: ['财务管理', '付款记录'] },
+  'receipts': { title: '收款记录', breadcrumb: ['财务管理', '收款记录'] },
+
+  // 报表分析
+  'inventory-reports': { title: '库存报表', breadcrumb: ['报表分析', '库存报表'] },
+  'sales-reports': { title: '销售报表', breadcrumb: ['报表分析', '销售报表'] },
+  'purchase-reports': { title: '采购报表', breadcrumb: ['报表分析', '采购报表'] },
+  'financial-reports': { title: '财务报表', breadcrumb: ['报表分析', '财务报表'] },
+
+  // 系统管理
+  'users': { title: '用户管理', breadcrumb: ['系统管理', '用户管理'] },
+  'permissions': { title: '权限管理', breadcrumb: ['系统管理', '权限管理'] },
+  'settings': { title: '系统设置', breadcrumb: ['系统管理', '系统设置'] },
+  'logs': { title: '操作日志', breadcrumb: ['系统管理', '操作日志'] }
 };
 
 export const TopBar: React.FC<TopBarProps> = ({

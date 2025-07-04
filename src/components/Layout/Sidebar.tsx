@@ -147,7 +147,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <nav className="sidebar-nav">
         <ul className="nav-list">
           {menuItems.map(item => (
-            <li key={item.id} className="nav-item">
+            <li key={item.id} className={`nav-item ${expandedMenus.includes(item.id) ? 'expanded' : ''}`}>
               <button
                 className={`nav-link ${isMenuActive(item) ? 'active' : ''}`}
                 onClick={() => handleMenuClick(item)}
@@ -160,16 +160,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     {item.badge && (
                       <span className="nav-badge">{item.badge}</span>
                     )}
+                    {item.children && item.children.length > 0 && (
+                      <span className={`nav-arrow ${expandedMenus.includes(item.id) ? 'expanded' : ''}`}>
+                        ⏷
+                      </span>
+                    )}
                   </>
                 )}
               </button>
 
               {/* 子菜单 */}
-              {item.children && !collapsed && expandedMenus.includes(item.id) && (
+              {item.children && !collapsed && (
                 <ul className="nav-submenu">
                   {item.children.map(child => (
                     <li key={child.id} className="nav-subitem">
                       <button
+                        type="button"
                         className={`nav-sublink ${currentPage === child.id ? 'active' : ''}`}
                         onClick={() => onPageChange(child.id)}
                       >
