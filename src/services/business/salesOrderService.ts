@@ -3,6 +3,7 @@ import { SalesOrderSchema, SalesOrderItemSchema, validateEntity } from '../../sc
 import { v4 as uuidv4 } from 'uuid';
 import customerService from './customerService';
 import productService from './productService';
+import inventoryStockService from './inventoryStockService';
 import { logger } from '../../utils/secureLogger';
 import userService from './userService';
 
@@ -488,6 +489,33 @@ export class SalesOrderService {
       throw new Error(`产品不存在: ${data.productId}`);
     }
 
+    // 检查库存是否足够（使用默认仓库，实际应从产品或订单配置中获取）
+    const warehouseId = 'default-warehouse'; // TODO: 从产品或订单配置中获取仓库ID
+    const stock = await inventoryStockService.findStockByProductAndWarehouse(data.productId, warehouseId);
+    
+    if (!stock || stock.availableStock < data.quantity) {
+      throw new Error(`库存不足：产品 ${product.name} 可用库存 ${stock?.availableStock || 0}，订单需求 ${data.quantity}`);
+    }
+
+    // 预留库存
+    try {
+      await inventoryStockService.reserveStock(data.productId, warehouseId, data.quantity);
+      logger.info('Stock reserved for order item', { 
+        productId: data.productId, 
+        warehouseId, 
+        quantity: data.quantity,
+        orderId 
+      });
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : '未知错误';
+      logger.error('Failed to reserve stock for order item', { 
+        productId: data.productId, 
+        quantity: data.quantity, 
+        error: errorMsg 
+      });
+      throw new Error(`库存预留失败: ${errorMsg}`);
+    }
+
     // 计算金额
     const amount = data.quantity * data.unitPrice * (1 - data.discountRate);
     
@@ -803,6 +831,208 @@ export class SalesOrderService {
     const canDeliver = orderItems.some(item => item.canDeliver);
 
     return { orderItems, canDeliver };
+  }
+
+  // =============== 库存管理相关方法 ===============
+
+  /**
+   * 取消订单项目并释放预留库存
+   */
+  async cancelOrderItem(orderItemId: string, currentUserId?: string): Promise<void> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized order item cancellation attempt', { userId: currentUserId, orderItemId });
+        throw new Error('无权限取消订单项目');
+      }
+    }
+
+    const orderItem = this.orderItems.get(orderItemId);
+    if (!orderItem) {
+      throw new Error(`订单项目不存在: ${orderItemId}`);
+    }
+
+    // 获取产品信息以确定仓库
+    const product = await productService.findById(orderItem.productId);
+    if (!product) {
+      throw new Error(`产品不存在: ${orderItem.productId}`);
+    }
+
+    const warehouseId = 'default-warehouse'; // TODO: 从产品或订单配置中获取仓库ID
+
+    try {
+      // 释放预留库存
+      await inventoryStockService.releaseReservedStock(
+        orderItem.productId, 
+        warehouseId, 
+        orderItem.quantity - orderItem.deliveredQuantity
+      );
+      
+      logger.info('Stock released for cancelled order item', {
+        orderItemId,
+        productId: orderItem.productId,
+        warehouseId,
+        releasedQuantity: orderItem.quantity - orderItem.deliveredQuantity
+      });
+
+      // 更新订单项目状态
+      orderItem.status = OrderItemStatus.CANCELLED;
+      orderItem.updatedAt = new Date();
+      this.orderItems.set(orderItemId, orderItem);
+
+      // 重新计算订单总额
+      await this.recalculateOrderTotals(orderItem.orderId);
+
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : '未知错误';
+      logger.error('Failed to release stock for cancelled order item', {
+        orderItemId,
+        error: errorMsg
+      });
+      throw new Error(`释放库存失败: ${errorMsg}`);
+    }
+  }
+
+  /**
+   * 发货时扣减库存
+   */
+  async deliverOrderItem(orderItemId: string, deliveredQuantity: number, currentUserId?: string): Promise<void> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized order item delivery attempt', { userId: currentUserId, orderItemId });
+        throw new Error('无权限执行发货操作');
+      }
+    }
+
+    const orderItem = this.orderItems.get(orderItemId);
+    if (!orderItem) {
+      throw new Error(`订单项目不存在: ${orderItemId}`);
+    }
+
+    if (deliveredQuantity <= 0) {
+      throw new Error('发货数量必须大于0');
+    }
+
+    const remainingQuantity = orderItem.quantity - orderItem.deliveredQuantity;
+    if (deliveredQuantity > remainingQuantity) {
+      throw new Error(`发货数量不能超过剩余数量: ${remainingQuantity}`);
+    }
+
+    // 获取产品信息以确定仓库
+    const product = await productService.findById(orderItem.productId);
+    if (!product) {
+      throw new Error(`产品不存在: ${orderItem.productId}`);
+    }
+
+    const warehouseId = 'default-warehouse'; // TODO: 从产品或订单配置中获取仓库ID
+
+    try {
+      // 从预留库存中扣减（这会自动释放预留并扣减实际库存）
+      await inventoryStockService.stockOut({
+        productId: orderItem.productId,
+        warehouseId,
+        quantity: deliveredQuantity,
+        unitPrice: orderItem.unitPrice,
+        referenceType: 'sales_order_delivery',
+        referenceId: orderItem.orderId,
+        remark: `销售订单发货: ${orderItem.orderId}`,
+        operator: currentUserId || 'system'
+      });
+
+      // 同时释放对应的预留库存
+      await inventoryStockService.releaseReservedStock(
+        orderItem.productId,
+        warehouseId,
+        deliveredQuantity
+      );
+
+      logger.info('Stock delivered for order item', {
+        orderItemId,
+        productId: orderItem.productId,
+        warehouseId,
+        deliveredQuantity
+      });
+
+      // 更新订单项目
+      orderItem.deliveredQuantity += deliveredQuantity;
+      if (orderItem.deliveredQuantity >= orderItem.quantity) {
+        orderItem.status = OrderItemStatus.COMPLETED;
+      } else {
+        orderItem.status = OrderItemStatus.PARTIAL;
+      }
+      orderItem.updatedAt = new Date();
+      this.orderItems.set(orderItemId, orderItem);
+
+      // 重新计算订单总额
+      await this.recalculateOrderTotals(orderItem.orderId);
+
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : '未知错误';
+      logger.error('Failed to deliver order item', {
+        orderItemId,
+        deliveredQuantity,
+        error: errorMsg
+      });
+      throw new Error(`发货失败: ${errorMsg}`);
+    }
+  }
+
+  /**
+   * 取消整个订单并释放所有预留库存
+   */
+  async cancelOrder(orderId: string, currentUserId?: string): Promise<void> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized order cancellation attempt', { userId: currentUserId, orderId });
+        throw new Error('无权限取消订单');
+      }
+    }
+
+    const order = this.orders.get(orderId);
+    if (!order) {
+      throw new Error(`订单不存在: ${orderId}`);
+    }
+
+    if (order.status === SalesOrderStatus.CANCELLED) {
+      throw new Error('订单已经被取消');
+    }
+
+    if (order.status === SalesOrderStatus.COMPLETED) {
+      throw new Error('已完成的订单不能取消');
+    }
+
+    // 获取订单的所有项目
+    const orderItemIds = this.orderItemsByOrder.get(orderId) || [];
+    
+    try {
+      // 取消所有未发货的订单项目
+      for (const itemId of orderItemIds) {
+        const orderItem = this.orderItems.get(itemId);
+        if (orderItem && orderItem.status !== OrderItemStatus.COMPLETED && orderItem.status !== OrderItemStatus.CANCELLED) {
+          await this.cancelOrderItem(itemId, currentUserId);
+        }
+      }
+
+      // 更新订单状态
+      order.status = SalesOrderStatus.CANCELLED;
+      order.updatedAt = new Date();
+      this.orders.set(orderId, order);
+
+      logger.info('Order cancelled successfully', { orderId, userId: currentUserId });
+
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : '未知错误';
+      logger.error('Failed to cancel order', {
+        orderId,
+        error: errorMsg
+      });
+      throw new Error(`取消订单失败: ${errorMsg}`);
+    }
   }
 }
 

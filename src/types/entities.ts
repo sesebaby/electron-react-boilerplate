@@ -174,7 +174,8 @@ export interface PurchaseOrderItem extends BaseEntity {
 export enum OrderItemStatus {
   PENDING = 'pending',
   PARTIAL = 'partial',
-  COMPLETED = 'completed'
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled'
 }
 
 // 采购收货实体
