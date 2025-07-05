@@ -1,53 +1,117 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, useReducer } from 'react';
 import { InventoryItem, InventorySummary } from '../types/inventory';
 import InventoryService from '../services/inventory/inventoryService';
 
+// 定义状态接口
+interface InventoryState {
+  items: InventoryItem[];
+  searchTerm: string;
+  categoryFilter: string;
+  statusFilter: string;
+  loading: boolean;
+  error: string | null;
+  currentPage: number;
+  itemsPerPage: number;
+}
+
+// 定义Action类型
+type InventoryAction = 
+  | { type: 'SET_ITEMS'; payload: InventoryItem[] }
+  | { type: 'SET_SEARCH_TERM'; payload: string }
+  | { type: 'SET_CATEGORY_FILTER'; payload: string }
+  | { type: 'SET_STATUS_FILTER'; payload: string }
+  | { type: 'SET_LOADING'; payload: boolean }
+  | { type: 'SET_ERROR'; payload: string | null }
+  | { type: 'SET_CURRENT_PAGE'; payload: number }
+  | { type: 'UPDATE_ITEM'; payload: { id: string; item: InventoryItem } }
+  | { type: 'ADD_ITEM'; payload: InventoryItem }
+  | { type: 'REMOVE_ITEM'; payload: string }
+  | { type: 'RESET_PAGE' };
+
+// Reducer函数
+function inventoryReducer(state: InventoryState, action: InventoryAction): InventoryState {
+  switch (action.type) {
+    case 'SET_ITEMS':
+      return { ...state, items: action.payload };
+    case 'SET_SEARCH_TERM':
+      return { ...state, searchTerm: action.payload, currentPage: 1 };
+    case 'SET_CATEGORY_FILTER':
+      return { ...state, categoryFilter: action.payload, currentPage: 1 };
+    case 'SET_STATUS_FILTER':
+      return { ...state, statusFilter: action.payload, currentPage: 1 };
+    case 'SET_LOADING':
+      return { ...state, loading: action.payload };
+    case 'SET_ERROR':
+      return { ...state, error: action.payload };
+    case 'SET_CURRENT_PAGE':
+      return { ...state, currentPage: action.payload };
+    case 'UPDATE_ITEM':
+      return {
+        ...state,
+        items: state.items.map(item => 
+          item.id === action.payload.id ? action.payload.item : item
+        )
+      };
+    case 'ADD_ITEM':
+      return { ...state, items: [...state.items, action.payload] };
+    case 'REMOVE_ITEM':
+      return { ...state, items: state.items.filter(item => item.id !== action.payload) };
+    case 'RESET_PAGE':
+      return { ...state, currentPage: 1 };
+    default:
+      return state;
+  }
+}
+
+// 初始状态
+const initialState: InventoryState = {
+  items: [],
+  searchTerm: '',
+  categoryFilter: 'all',
+  statusFilter: 'all',
+  loading: true,
+  error: null,
+  currentPage: 1,
+  itemsPerPage: 5
+};
+
 export const useInventory = () => {
-  const [items, setItems] = useState<InventoryItem[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  
-  // Pagination state
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [state, dispatch] = useReducer(inventoryReducer, initialState);
 
   const filteredItems = useMemo(() => {
-    return items.filter(item => {
-      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           item.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           item.description.toLowerCase().includes(searchTerm.toLowerCase());
+    return state.items.filter(item => {
+      const matchesSearch = item.name.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
+                           item.sku.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
+                           item.description.toLowerCase().includes(state.searchTerm.toLowerCase());
       
-      const matchesCategory = categoryFilter === 'all' || item.category === categoryFilter;
-      const matchesStatus = statusFilter === 'all' || item.status === statusFilter;
+      const matchesCategory = state.categoryFilter === 'all' || item.category === state.categoryFilter;
+      const matchesStatus = state.statusFilter === 'all' || item.status === state.statusFilter;
       
       return matchesSearch && matchesCategory && matchesStatus;
     });
-  }, [items, searchTerm, categoryFilter, statusFilter]);
+  }, [state.items, state.searchTerm, state.categoryFilter, state.statusFilter]);
 
   // Paginated items
   const paginatedItems = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
+    const startIndex = (state.currentPage - 1) * state.itemsPerPage;
+    const endIndex = startIndex + state.itemsPerPage;
     return filteredItems.slice(startIndex, endIndex);
-  }, [filteredItems, currentPage, itemsPerPage]);
+  }, [filteredItems, state.currentPage, state.itemsPerPage]);
 
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredItems.length / state.itemsPerPage);
 
   // Initialize service and load data
   useEffect(() => {
     const initializeAndLoadData = async () => {
       try {
-        setLoading(true);
-        setError(null);
+        dispatch({ type: 'SET_LOADING', payload: true });
+        dispatch({ type: 'SET_ERROR', payload: null });
         await InventoryService.initialize();
         await loadItems();
       } catch (err) {
-        setError(err instanceof Error ? err.message : '初始化失败');
+        dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '初始化失败' });
       } finally {
-        setLoading(false);
+        dispatch({ type: 'SET_LOADING', payload: false });
       }
     };
 
@@ -57,9 +121,9 @@ export const useInventory = () => {
   const loadItems = useCallback(async () => {
     try {
       const allItems = await InventoryService.getAllItems();
-      setItems(allItems);
+      dispatch({ type: 'SET_ITEMS', payload: allItems });
     } catch (err) {
-      setError(err instanceof Error ? err.message : '加载数据失败');
+      dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '加载数据失败' });
     }
   }, []);
 
@@ -82,96 +146,113 @@ export const useInventory = () => {
       }
     };
     
-    if (!loading) {
+    if (!state.loading) {
       updateSummary();
     }
-  }, [items, loading]);
+  }, [state.items, state.loading]);
 
   const updateItem = useCallback(async (id: string, updates: Partial<InventoryItem>) => {
     try {
-      setError(null);
+      dispatch({ type: 'SET_ERROR', payload: null });
       const updatedItem = await InventoryService.updateItem(id, updates);
-      setItems(prev => prev.map(item => 
-        item.id === id ? updatedItem : item
-      ));
+      dispatch({ type: 'UPDATE_ITEM', payload: { id, item: updatedItem } });
     } catch (err) {
-      setError(err instanceof Error ? err.message : '更新失败');
+      dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '更新失败' });
       throw err;
     }
   }, []);
 
   const addItem = useCallback(async (newItem: Omit<InventoryItem, 'id' | 'lastUpdated'>) => {
     try {
-      setError(null);
+      dispatch({ type: 'SET_ERROR', payload: null });
       const createdItem = await InventoryService.createItem(newItem);
-      setItems(prev => [...prev, createdItem]);
+      dispatch({ type: 'ADD_ITEM', payload: createdItem });
       return createdItem;
     } catch (err) {
-      setError(err instanceof Error ? err.message : '创建失败');
+      dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '创建失败' });
       throw err;
     }
   }, []);
 
   const deleteItem = useCallback(async (id: string) => {
     try {
-      setError(null);
+      dispatch({ type: 'SET_ERROR', payload: null });
       const success = await InventoryService.deleteItem(id);
       if (success) {
-        setItems(prev => prev.filter(item => item.id !== id));
+        dispatch({ type: 'REMOVE_ITEM', payload: id });
       }
       return success;
     } catch (err) {
-      setError(err instanceof Error ? err.message : '删除失败');
+      dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '删除失败' });
       throw err;
     }
   }, []);
 
   const searchItems = useCallback(async (term: string) => {
     try {
-      setError(null);
+      dispatch({ type: 'SET_ERROR', payload: null });
       const results = await InventoryService.searchItems(term);
-      setItems(results);
-      setCurrentPage(1); // Reset to first page
+      dispatch({ type: 'SET_ITEMS', payload: results });
+      dispatch({ type: 'RESET_PAGE' });
     } catch (err) {
-      setError(err instanceof Error ? err.message : '搜索失败');
+      dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '搜索失败' });
     }
   }, []);
 
   const updateStock = useCallback(async (id: string, quantity: number, type: 'in' | 'out' | 'adjust') => {
     try {
-      setError(null);
+      dispatch({ type: 'SET_ERROR', payload: null });
       const updatedItem = await InventoryService.updateStock(id, quantity, type);
-      setItems(prev => prev.map(item => 
-        item.id === id ? updatedItem : item
-      ));
+      dispatch({ type: 'UPDATE_ITEM', payload: { id, item: updatedItem } });
       return updatedItem;
     } catch (err) {
-      setError(err instanceof Error ? err.message : '库存更新失败');
+      dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '库存更新失败' });
       throw err;
     }
   }, []);
 
   const bulkCreateItems = useCallback(async (items: Array<Omit<InventoryItem, 'id' | 'lastUpdated'>>) => {
     try {
-      setError(null);
+      dispatch({ type: 'SET_ERROR', payload: null });
       const createdItems = await InventoryService.bulkCreateItems(items);
       await loadItems(); // Reload all items
       return createdItems;
     } catch (err) {
-      setError(err instanceof Error ? err.message : '批量创建失败');
+      dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '批量创建失败' });
       throw err;
     }
   }, [loadItems]);
+
+  // 新的setter函数
+  const setSearchTerm = useCallback((term: string) => {
+    dispatch({ type: 'SET_SEARCH_TERM', payload: term });
+  }, []);
+
+  const setCategoryFilter = useCallback((category: string) => {
+    dispatch({ type: 'SET_CATEGORY_FILTER', payload: category });
+  }, []);
+
+  const setStatusFilter = useCallback((status: string) => {
+    dispatch({ type: 'SET_STATUS_FILTER', payload: status });
+  }, []);
+
+  const setCurrentPage = useCallback((page: number) => {
+    dispatch({ type: 'SET_CURRENT_PAGE', payload: page });
+  }, []);
+
+  const setError = useCallback((error: string | null) => {
+    dispatch({ type: 'SET_ERROR', payload: error });
+  }, []);
 
   return {
     items: paginatedItems,
     allItems: filteredItems,
     summary,
-    searchTerm,
+    searchTerm: state.searchTerm,
     setSearchTerm,
-    categoryFilter,
+    categoryFilter: state.categoryFilter,
     setCategoryFilter,
-    statusFilter,
+    statusFilter: state.statusFilter,
     setStatusFilter,
     updateItem,
     addItem,
@@ -180,14 +261,14 @@ export const useInventory = () => {
     updateStock,
     bulkCreateItems,
     loadItems,
-    loading,
-    error,
+    loading: state.loading,
+    error: state.error,
     setError,
     // Pagination
-    currentPage,
+    currentPage: state.currentPage,
     setCurrentPage,
     totalPages,
-    itemsPerPage,
+    itemsPerPage: state.itemsPerPage,
     totalItems: filteredItems.length
   };
 };

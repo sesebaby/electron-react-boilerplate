@@ -1,12 +1,19 @@
 import { Product, ProductStatus } from '../../types/entities';
 import { ProductSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
+import { InventoryService } from '../inventory/inventoryService';
 
 export class ProductService {
   private products: Map<string, Product> = new Map();
   private skuIndex: Map<string, string> = new Map(); // SKU -> ID mapping
+  private inventoryService: InventoryService;
+
+  constructor() {
+    this.inventoryService = new InventoryService();
+  }
 
   async initialize(): Promise<void> {
+    await this.inventoryService.initialize();
     console.log('Product service initialized');
   }
 
@@ -148,9 +155,27 @@ export class ProductService {
   }
 
   async getLowStockProducts(): Promise<Product[]> {
-    // 需要结合库存信息，这里先返回空数组
-    // 实际实现需要与InventoryService配合
-    return [];
+    try {
+      // 获取库存不足的商品
+      const lowStockItems = await this.inventoryService.getLowStockItems();
+      
+      // 根据SKU匹配产品信息
+      const lowStockProducts: Product[] = [];
+      for (const item of lowStockItems) {
+        const productId = this.skuIndex.get(item.sku);
+        if (productId) {
+          const product = this.products.get(productId);
+          if (product && product.status === ProductStatus.ACTIVE) {
+            lowStockProducts.push(product);
+          }
+        }
+      }
+      
+      return lowStockProducts;
+    } catch (error) {
+      console.error('获取低库存产品失败:', error);
+      return [];
+    }
   }
 
   async getActiveProducts(): Promise<Product[]> {

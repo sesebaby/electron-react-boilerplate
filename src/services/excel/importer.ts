@@ -1,7 +1,7 @@
 import * as XLSX from 'xlsx';
 import { InventoryItem } from '../../types/inventory';
 import { ExcelImportOptions, ImportResult, ImportError, ColumnMapping } from '../../types/excel';
-import { validateExcelRow, ExcelRowInput } from '../../utils/validation';
+import { validateExcelRow, ExcelRowInput } from '../../schemas/validation';
 import { DEFAULT_COLUMN_MAPPING, APP_CONFIG } from '../../utils/constants';
 import { v4 as uuidv4 } from 'uuid';
 

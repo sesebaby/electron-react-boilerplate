@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
+import { InventoryService } from '../../services/inventory/inventoryService';
+import { InventoryItem } from '../../types/inventory';
 
 interface TopBarProps {
   currentPage: string;
@@ -57,9 +59,14 @@ export const TopBar: React.FC<TopBarProps> = ({
   const [searchValue, setSearchValue] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [searchResults, setSearchResults] = useState<InventoryItem[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const notificationRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const searchResultsRef = useRef<HTMLDivElement>(null);
+  const inventoryService = useRef(new InventoryService());
 
   // 点击外部关闭弹出窗体
   useEffect(() => {
@@ -70,15 +77,18 @@ export const TopBar: React.FC<TopBarProps> = ({
       if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
         setShowUserMenu(false);
       }
+      if (searchResultsRef.current && !searchResultsRef.current.contains(event.target as Node)) {
+        setShowSearchResults(false);
+      }
     };
 
-    if (showNotifications || showUserMenu) {
+    if (showNotifications || showUserMenu || showSearchResults) {
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }
-  }, [showNotifications, showUserMenu]);
+  }, [showNotifications, showUserMenu, showSearchResults]);
 
   const currentPageInfo = pageTitles[currentPage] || { 
     title: '未知页面', 
@@ -91,10 +101,47 @@ export const TopBar: React.FC<TopBarProps> = ({
     { id: 3, type: 'success', message: '销售订单SO20240104已完成', time: '1小时前' }
   ];
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('搜索:', searchValue);
-    // TODO: 实现搜索功能
+    if (!searchValue.trim()) {
+      setShowSearchResults(false);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      await inventoryService.current.initialize();
+      const results = await inventoryService.current.searchItems(searchValue.trim());
+      setSearchResults(results);
+      setShowSearchResults(true);
+    } catch (error) {
+      console.error('搜索失败:', error);
+      setSearchResults([]);
+      setShowSearchResults(false);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // 实时搜索
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (searchValue.trim()) {
+        handleSearch({ preventDefault: () => {} } as React.FormEvent);
+      } else {
+        setShowSearchResults(false);
+        setSearchResults([]);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchValue]);
+
+  const handleSearchResultClick = (item: InventoryItem) => {
+    console.log('选择商品:', item);
+    setShowSearchResults(false);
+    setSearchValue('');
+    // TODO: 导航到商品详情页或相关页面
   };
 
   const getNotificationTypeStyles = (type: string) => {
@@ -146,27 +193,89 @@ export const TopBar: React.FC<TopBarProps> = ({
 
         {/* 中间区域 - 搜索框 */}
         <div className="flex-1 max-w-md mx-8 hidden md:block">
-          <form onSubmit={handleSearch}>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60">🔍</span>
-              <input
-                type="text"
-                className="w-full h-10 pl-10 pr-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
-                placeholder="搜索商品、订单、客户..."
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-              {searchValue && (
-                <button 
-                  type="button"
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white/80 transition-colors"
-                  onClick={() => setSearchValue('')}
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          </form>
+          <div className="relative" ref={searchResultsRef}>
+            <form onSubmit={handleSearch}>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60">
+                  {isSearching ? '⏳' : '🔍'}
+                </span>
+                <input
+                  type="text"
+                  className="w-full h-10 pl-10 pr-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
+                  placeholder="搜索商品、订单、客户..."
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                />
+                {searchValue && (
+                  <button 
+                    type="button"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white/80 transition-colors"
+                    onClick={() => {
+                      setSearchValue('');
+                      setShowSearchResults(false);
+                    }}
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+            </form>
+
+            {/* 搜索结果下拉框 */}
+            {showSearchResults && (
+              <div className="absolute top-12 left-0 right-0 glass-card border border-white/20 shadow-xl z-50 max-h-80 overflow-y-auto">
+                {searchResults.length > 0 ? (
+                  <>
+                    <div className="p-3 border-b border-white/10">
+                      <h3 className="text-sm font-medium text-white/80">
+                        找到 {searchResults.length} 个商品
+                      </h3>
+                    </div>
+                    {searchResults.map(item => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        className="w-full p-3 text-left hover:bg-white/10 transition-colors border-b border-white/5 last:border-b-0"
+                        onClick={() => handleSearchResultClick(item)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-white/60 text-sm">
+                            📦
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-white font-medium truncate">{item.name}</div>
+                            <div className="text-white/60 text-sm truncate">
+                              SKU: {item.sku} | 分类: {item.category}
+                            </div>
+                            <div className="text-white/50 text-xs">
+                              库存: {item.stockQuantity} | ¥{item.unitPrice}
+                            </div>
+                          </div>
+                          <div className={`px-2 py-1 rounded text-xs font-medium ${
+                            item.status === 'in-stock' ? 'bg-green-500/20 text-green-300' :
+                            item.status === 'low-stock' ? 'bg-yellow-500/20 text-yellow-300' :
+                            item.status === 'out-of-stock' ? 'bg-red-500/20 text-red-300' :
+                            'bg-gray-500/20 text-gray-300'
+                          }`}>
+                            {item.status === 'in-stock' ? '有库存' :
+                             item.status === 'low-stock' ? '库存不足' :
+                             item.status === 'out-of-stock' ? '缺货' : '已停产'}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </>
+                ) : (
+                  <div className="p-6 text-center">
+                    <div className="text-white/40 text-4xl mb-2">🔍</div>
+                    <div className="text-white/60 text-sm">
+                      {isSearching ? '搜索中...' : `未找到包含 "${searchValue}" 的商品`}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* 右侧区域 */}

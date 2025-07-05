@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import DashboardOverview from './DashboardOverview';
 import DashboardCharts from './DashboardCharts';
 import DashboardQuickActions from './DashboardQuickActions';
@@ -9,17 +9,13 @@ interface DashboardProps {
   className?: string;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ className }) => {
+const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'charts' | 'actions'>('overview');
   const [initialized, setInitialized] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    initializeDashboard();
-  }, []);
-
-  const initializeDashboard = async () => {
+  const initializeDashboard = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -37,13 +33,17 @@ const Dashboard: React.FC<DashboardProps> = ({ className }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const tabItems = [
+  useEffect(() => {
+    initializeDashboard();
+  }, [initializeDashboard]);
+
+  const tabItems = useMemo(() => [
     { key: 'overview', label: '📊 概览', icon: '📊' },
     { key: 'charts', label: '📈 图表', icon: '📈' },
     { key: 'actions', label: '⚡ 操作', icon: '⚡' }
-  ];
+  ], []);
 
   if (loading) {
     return (
@@ -92,7 +92,7 @@ const Dashboard: React.FC<DashboardProps> = ({ className }) => {
     );
   }
 
-  const renderContent = () => {
+  const renderContent = useMemo(() => {
     switch (activeTab) {
       case 'overview':
         return <DashboardOverview />;
@@ -103,7 +103,7 @@ const Dashboard: React.FC<DashboardProps> = ({ className }) => {
       default:
         return <DashboardOverview />;
     }
-  };
+  }, [activeTab]);
 
   return (
     <div className={`space-y-6 ${className || ''}`}>
@@ -139,11 +139,11 @@ const Dashboard: React.FC<DashboardProps> = ({ className }) => {
 
       {/* 内容区域 */}
       <div className="min-h-96">
-        {renderContent()}
+        {renderContent}
       </div>
     </div>
   );
-};
+});
 
 export { Dashboard };
 export default Dashboard;

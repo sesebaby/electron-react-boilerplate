@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { inventoryStockService } from '../../services/business';
 import { InventoryStock } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
@@ -15,9 +15,8 @@ interface InventoryFilters {
   sortOrder: 'asc' | 'desc';
 }
 
-export const InventoryList: React.FC<InventoryListProps> = ({ className }) => {
+export const InventoryList: React.FC<InventoryListProps> = React.memo(({ className }) => {
   const [inventories, setInventories] = useState<InventoryStock[]>([]);
-  const [filteredInventories, setFilteredInventories] = useState<InventoryStock[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<InventoryFilters>({
@@ -28,15 +27,7 @@ export const InventoryList: React.FC<InventoryListProps> = ({ className }) => {
     sortOrder: 'asc'
   });
 
-  useEffect(() => {
-    loadInventories();
-  }, []);
-
-  useEffect(() => {
-    applyFilters();
-  }, [inventories, filters]);
-
-  const loadInventories = async () => {
+  const loadInventories = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -48,9 +39,14 @@ export const InventoryList: React.FC<InventoryListProps> = ({ className }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const applyFilters = () => {
+  useEffect(() => {
+    loadInventories();
+  }, [loadInventories]);
+
+  // 使用useMemo优化过滤和排序逻辑
+  const filteredInventories = useMemo(() => {
     let filtered = [...inventories];
 
     // 搜索过滤
@@ -107,35 +103,40 @@ export const InventoryList: React.FC<InventoryListProps> = ({ className }) => {
       }
     });
 
-    setFilteredInventories(filtered);
-  };
+    return filtered;
+  }, [inventories, filters]);
 
-  const getStockStatusStyles = (item: InventoryStock): string => {
+  const getStockStatusStyles = useCallback((item: InventoryStock): string => {
     if (item.currentStock === 0) return 'text-red-300 bg-red-500/20 border-red-400/30';
     if (item.currentStock <= item.minStock) return 'text-yellow-300 bg-yellow-500/20 border-yellow-400/30';
     return 'text-green-300 bg-green-500/20 border-green-400/30';
-  };
+  }, []);
 
-  const getStockStatusText = (item: InventoryStock): string => {
+  const getStockStatusText = useCallback((item: InventoryStock): string => {
     if (item.currentStock === 0) return '缺货';
     if (item.currentStock <= item.minStock) return '低库存';
     return '正常';
-  };
+  }, []);
 
-  const formatCurrency = (value: number): string => {
-    return new Intl.NumberFormat('zh-CN', {
-      style: 'currency',
-      currency: 'CNY'
-    }).format(value);
-  };
+  // 缓存格式化器以避免重复创建
+  const currencyFormatter = useMemo(() => new Intl.NumberFormat('zh-CN', {
+    style: 'currency',
+    currency: 'CNY'
+  }), []);
 
-  const formatNumber = (value: number): string => {
-    return new Intl.NumberFormat('zh-CN').format(value);
-  };
+  const numberFormatter = useMemo(() => new Intl.NumberFormat('zh-CN'), []);
 
-  const handleFilterChange = (key: keyof InventoryFilters, value: any) => {
+  const formatCurrency = useCallback((value: number): string => {
+    return currencyFormatter.format(value);
+  }, [currencyFormatter]);
+
+  const formatNumber = useCallback((value: number): string => {
+    return numberFormatter.format(value);
+  }, [numberFormatter]);
+
+  const handleFilterChange = useCallback((key: keyof InventoryFilters, value: any) => {
     setFilters(prev => ({ ...prev, [key]: value }));
-  };
+  }, []);
 
   if (loading) {
     return (
@@ -338,6 +339,6 @@ export const InventoryList: React.FC<InventoryListProps> = ({ className }) => {
       </GlassCard>
     </div>
   );
-};
+});
 
 export default InventoryList;

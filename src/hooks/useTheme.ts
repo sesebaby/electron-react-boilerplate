@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 export type ThemeName = 'glass-future' | 'dark-tech' | 'warm-business';
 
@@ -44,47 +44,76 @@ export const useTheme = () => {
     applyTheme(savedTheme || 'glass-future');
   }, []);
 
-  // 应用主题到DOM
-  const applyTheme = (theme: ThemeName) => {
-    document.documentElement.setAttribute('data-theme', theme);
-    document.body.className = `theme-${theme}`;
-    
-    // 根据UI设计系统规范，更新body背景
-    const themeBackgrounds = {
-      'glass-future': 'linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%)',
-      'dark-tech': 'linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%)',
-      'warm-business': 'linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%)'
+  // 防抖函数
+  const debounce = useCallback((func: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any[]) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func.apply(null, args), delay);
     };
-    
-    document.body.style.background = themeBackgrounds[theme];
-    document.body.style.minHeight = '100vh';
-    
-    // 根据主题设置文字颜色
-    if (theme === 'warm-business') {
-      document.body.style.color = 'oklch(0.414 0.112 45.904)'; // amber-900
-    } else {
-      document.body.style.color = 'white';
+  }, []);
+
+  // 主题配置缓存
+  const themeConfigs = useMemo(() => ({
+    'glass-future': {
+      background: 'linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%)',
+      color: 'white'
+    },
+    'dark-tech': {
+      background: 'linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%)',
+      color: 'white'
+    },
+    'warm-business': {
+      background: 'linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%)',
+      color: 'oklch(0.414 0.112 45.904)'
     }
-  };
+  }), []);
+
+  // 优化的主题应用函数
+  const applyTheme = useCallback((theme: ThemeName) => {
+    // 使用 requestAnimationFrame 进行批量DOM更新
+    requestAnimationFrame(() => {
+      const config = themeConfigs[theme];
+      if (!config) return;
+
+      // 批量更新DOM属性
+      document.documentElement.setAttribute('data-theme', theme);
+      
+      // 使用CSS变量而不是直接操作style
+      document.documentElement.style.setProperty('--theme-background', config.background);
+      document.documentElement.style.setProperty('--theme-color', config.color);
+      
+      document.body.className = `theme-${theme}`;
+      document.body.style.background = config.background;
+      document.body.style.color = config.color;
+      document.body.style.minHeight = '100vh';
+    });
+  }, [themeConfigs]);
+
+  // 防抖的主题应用函数
+  const debouncedApplyTheme = useMemo(
+    () => debounce(applyTheme, 100),
+    [debounce, applyTheme]
+  );
 
   // 切换主题
-  const switchTheme = (theme: ThemeName) => {
+  const switchTheme = useCallback((theme: ThemeName) => {
     setCurrentTheme(theme);
-    applyTheme(theme);
+    debouncedApplyTheme(theme);
     localStorage.setItem(THEME_STORAGE_KEY, theme);
-  };
+  }, [debouncedApplyTheme]);
 
   // 获取当前主题信息
-  const getCurrentTheme = () => {
+  const getCurrentTheme = useCallback(() => {
     return AVAILABLE_THEMES.find(t => t.name === currentTheme) || AVAILABLE_THEMES[0];
-  };
+  }, [currentTheme]);
 
   // 切换到下一个主题
-  const nextTheme = () => {
+  const nextTheme = useCallback(() => {
     const currentIndex = AVAILABLE_THEMES.findIndex(t => t.name === currentTheme);
     const nextIndex = (currentIndex + 1) % AVAILABLE_THEMES.length;
     switchTheme(AVAILABLE_THEMES[nextIndex].name);
-  };
+  }, [currentTheme, switchTheme]);
 
   return {
     currentTheme,

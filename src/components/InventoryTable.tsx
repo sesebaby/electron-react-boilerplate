@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { InventoryItem } from '../types/inventory';
 import { Card, CardContent } from './ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
@@ -19,7 +19,7 @@ interface InventoryTableProps {
   itemsPerPage: number;
 }
 
-export const InventoryTable: React.FC<InventoryTableProps> = ({ 
+export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({ 
   items, 
   onUpdateItem,
   currentPage,
@@ -28,22 +28,27 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
   totalItems,
   itemsPerPage
 }) => {
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(amount);
-  };
+  // 缓存格式化器以避免重复创建
+  const currencyFormatter = useMemo(() => new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  }), []);
 
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    }).format(date);
-  };
+  const dateFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  }), []);
 
-  const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "success" | "warning" => {
+  const formatCurrency = useCallback((amount: number) => {
+    return currencyFormatter.format(amount);
+  }, [currencyFormatter]);
+
+  const formatDate = useCallback((date: Date) => {
+    return dateFormatter.format(date);
+  }, [dateFormatter]);
+
+  const getStatusVariant = useCallback((status: string): "default" | "secondary" | "destructive" | "success" | "warning" => {
     switch (status) {
       case 'in-stock': return 'success';
       case 'low-stock': return 'warning';
@@ -51,11 +56,11 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
       case 'discontinued': return 'secondary';
       default: return 'default';
     }
-  };
+  }, []);
 
-  const getAvailableQuantity = (item: InventoryItem) => {
+  const getAvailableQuantity = useCallback((item: InventoryItem) => {
     return Math.max(0, item.stockQuantity - item.reservedQuantity);
-  };
+  }, []);
 
   if (items.length === 0) {
     return (
@@ -71,7 +76,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
     );
   }
 
-  const renderPaginationItems = () => {
+  const renderPaginationItems = useMemo(() => {
     const items = [];
     const showEllipsis = totalPages > 7;
     
@@ -153,7 +158,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
     }
     
     return items;
-  };
+  }, [totalPages, currentPage, onPageChange]);
 
   return (
     <Card className="glass-card h-full max-h-full flex flex-col overflow-hidden">
@@ -258,7 +263,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
                       />
                     </PaginationItem>
                     
-                    {renderPaginationItems()}
+                    {renderPaginationItems}
                     
                     <PaginationItem>
                       <PaginationNext 
@@ -278,4 +283,4 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
       </CardContent>
     </Card>
   );
-};
+});

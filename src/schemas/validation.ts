@@ -409,6 +409,45 @@ export type ReceiptInput = z.infer<typeof ReceiptSchema>;
 export type UserInput = z.infer<typeof UserSchema>;
 export type SystemConfigInput = z.infer<typeof SystemConfigSchema>;
 
+// Excel导入验证 Schema
+export const ExcelRowSchema = z.object({
+  '商品名称': z.string().min(1, '商品名称不能为空'),
+  '商品描述': z.string().optional(),
+  'SKU': z.string().min(1, 'SKU不能为空'),
+  '分类': z.string().min(1, '分类不能为空'),
+  '供应商': z.string().optional(),
+  '库存数量': z.number().min(0, '库存数量不能为负数'),
+  '预留数量': z.number().min(0, '预留数量不能为负数').optional(),
+  '单价': z.number().min(0, '单价不能为负数'),
+  '状态': z.enum(['in-stock', 'low-stock', 'out-of-stock', 'discontinued']).optional(),
+  '存放位置': z.string().optional(),
+  '补货提醒': z.number().min(0, '补货提醒不能为负数').optional(),
+  '最大库存': z.number().min(0, '最大库存不能为负数').optional()
+});
+
+// 库存项目验证 Schema (简化版，用于兼容)
+export const InventoryItemSchema = z.object({
+  id: idSchema.optional(),
+  name: z.string().min(1, '商品名称不能为空'),
+  description: z.string().min(1, '商品描述不能为空'),
+  sku: z.string().min(1, 'SKU不能为空'),
+  category: z.string().min(1, '分类不能为空'),
+  supplier: z.string(),
+  stockQuantity: z.number().min(0, '库存数量不能为负数'),
+  reservedQuantity: z.number().min(0, '预留数量不能为负数'),
+  unitPrice: z.number().min(0, '单价不能为负数'),
+  totalValue: z.number().min(0, '总价值不能为负数'),
+  lastUpdated: dateSchema.optional(),
+  status: z.enum(['in-stock', 'low-stock', 'out-of-stock', 'discontinued']),
+  location: z.string(),
+  reorderLevel: z.number().min(0, '补货提醒不能为负数'),
+  maxStock: z.number().min(0, '最大库存不能为负数')
+});
+
+// 导出类型
+export type ExcelRowInput = z.infer<typeof ExcelRowSchema>;
+export type InventoryItemInput = z.infer<typeof InventoryItemSchema>;
+
 // 通用验证函数
 export const validateEntity = <T>(schema: z.ZodSchema<T>, data: unknown): {
   success: boolean;
@@ -427,4 +466,22 @@ export const validateEntity = <T>(schema: z.ZodSchema<T>, data: unknown): {
     }
     return { success: false, errors: ['验证失败'] };
   }
+};
+
+// Excel验证函数 (统一到主验证系统)
+export const validateExcelRow = (data: any): { 
+  success: boolean; 
+  data?: ExcelRowInput; 
+  errors?: string[] 
+} => {
+  return validateEntity(ExcelRowSchema, data);
+};
+
+// 库存项目验证函数
+export const validateInventoryItem = (data: any): { 
+  success: boolean; 
+  data?: InventoryItemInput; 
+  errors?: string[] 
+} => {
+  return validateEntity(InventoryItemSchema, data);
 };

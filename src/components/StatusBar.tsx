@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { InventorySummary } from '../types/inventory';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
@@ -8,33 +8,36 @@ interface StatusBarProps {
   summary: InventorySummary;
 }
 
-export const StatusBar: React.FC<StatusBarProps> = ({ summary }) => {
-  const getCurrentTime = () => {
-    return new Intl.DateTimeFormat('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true
-    }).format(new Date());
-  };
+export const StatusBar: React.FC<StatusBarProps> = React.memo(({ summary }) => {
+  // 缓存DateTimeFormat实例以避免重复创建
+  const timeFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true
+  }), []);
 
-  const [currentTime, setCurrentTime] = React.useState(getCurrentTime());
+  const getCurrentTime = useCallback(() => {
+    return timeFormatter.format(new Date());
+  }, [timeFormatter]);
 
-  React.useEffect(() => {
+  const [currentTime, setCurrentTime] = useState(getCurrentTime());
+
+  useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(getCurrentTime());
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [getCurrentTime]);
 
-  const getSystemStatus = () => {
+  const getSystemStatus = useCallback(() => {
     if (summary.outOfStockItems > 0) return { status: 'error', text: 'Critical Issues' };
     if (summary.lowStockItems > 0) return { status: 'warning', text: 'Attention Needed' };
     return { status: 'success', text: 'All Systems Normal' };
-  };
+  }, [summary.outOfStockItems, summary.lowStockItems]);
 
-  const systemStatus = getSystemStatus();
+  const systemStatus = useMemo(() => getSystemStatus(), [getSystemStatus]);
 
 
   return (
@@ -100,4 +103,4 @@ export const StatusBar: React.FC<StatusBarProps> = ({ summary }) => {
       </CardContent>
     </Card>
   );
-};
+});
