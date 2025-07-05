@@ -2,6 +2,7 @@ import { User, UserRole, UserStatus } from '../../types/entities';
 import { UserSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
 import { hash, compare } from 'bcryptjs';
+import { logger } from '../../utils/secureLogger';
 
 export class UserService {
   private users: Map<string, User> = new Map();
@@ -15,7 +16,7 @@ export class UserService {
     if (this.users.size === 0) {
       await this.createDefaultAdmin();
     }
-    console.log('User service initialized');
+    logger.info('User service initialized');
   }
 
   private async createDefaultAdmin(): Promise<void> {
@@ -34,12 +35,12 @@ export class UserService {
     };
 
     await this.create(adminUser);
-    console.log('Default admin user created. Please change the password on first login.');
+    logger.info('Default admin user created. Please change the password on first login.');
     
     // Store temporary password securely (in production, this should be displayed once and not logged)
     if (process.env.NODE_ENV === 'development') {
-      console.log(`SECURITY WARNING: Temporary admin password: ${temporaryPassword}`);
-      console.log('This password will be shown only once. Please change it immediately.');
+      logger.security('Temporary admin password generated', { adminId: 'admin' });
+      logger.warn('Default admin password should be changed immediately');
     }
   }
 
@@ -163,7 +164,7 @@ export class UserService {
     this.users.set(id, updatedUser);
     this.updateIndexes(updatedUser);
 
-    console.log(`User updated: ${updatedUser.nickname} (ID: ${id})`);
+    logger.audit('update', 'user', { userId: id, nickname: updatedUser.nickname });
     return this.sanitizeUser(updatedUser);
   }
 
@@ -189,7 +190,7 @@ export class UserService {
     };
 
     this.users.set(id, updatedUser);
-    console.log(`Password changed for user ID: ${id}`);
+    logger.security('Password changed', { userId: id });
   }
 
   async resetPassword(id: string, newPassword: string): Promise<void> {
@@ -208,7 +209,7 @@ export class UserService {
     };
 
     this.users.set(id, updatedUser);
-    console.log(`Password reset for user ID: ${id}`);
+    logger.security('Password reset by admin', { userId: id });
   }
 
   async setStatus(id: string, status: UserStatus): Promise<User> {
@@ -224,7 +225,7 @@ export class UserService {
     };
 
     this.users.set(id, updatedUser);
-    console.log(`User status changed: ID ${id} -> ${status}`);
+    logger.audit('status_change', 'user', { userId: id, newStatus: status });
     return this.sanitizeUser(updatedUser);
   }
 
@@ -242,7 +243,7 @@ export class UserService {
 
     this.removeFromIndexes(user);
     this.users.delete(id);
-    console.log(`User deleted: ID ${id}`);
+    logger.audit('delete', 'user', { userId: id });
   }
 
   // Authentication methods
@@ -271,7 +272,7 @@ export class UserService {
     this.users.set(user.id, updatedUser);
     this.currentUser = this.sanitizeUser(updatedUser);
 
-    console.log(`User logged in: ID ${user.id}`);
+    logger.audit('login', 'user', { userId: user.id });
     return this.currentUser;
   }
 
