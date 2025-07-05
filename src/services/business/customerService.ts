@@ -1,6 +1,8 @@
 import { Customer, CustomerStatus, CustomerType, CustomerLevel } from '../../types/entities';
 import { CustomerSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
+import { logger } from '../../utils/secureLogger';
+import userService from './userService';
 
 export class CustomerService {
   private customers: Map<string, Customer> = new Map();
@@ -107,7 +109,16 @@ export class CustomerService {
     );
   }
 
-  async create(data: Omit<Customer, 'id' | 'createdAt' | 'updatedAt'>): Promise<Customer> {
+  async create(data: Omit<Customer, 'id' | 'createdAt' | 'updatedAt'>, currentUserId?: string): Promise<Customer> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'customers.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized customer creation attempt', { userId: currentUserId });
+        throw new Error('无权限创建客户');
+      }
+    }
+
     // 检查编码唯一性
     if (this.codeIndex.has(data.code)) {
       throw new Error(`客户编码已存在: ${data.code}`);
@@ -132,7 +143,16 @@ export class CustomerService {
     return customer;
   }
 
-  async update(id: string, data: Partial<Omit<Customer, 'id' | 'createdAt' | 'updatedAt'>>): Promise<Customer> {
+  async update(id: string, data: Partial<Omit<Customer, 'id' | 'createdAt' | 'updatedAt'>>, currentUserId?: string): Promise<Customer> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'customers.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized customer update attempt', { userId: currentUserId, customerId: id });
+        throw new Error('无权限修改客户信息');
+      }
+    }
+
     const existingCustomer = this.customers.get(id);
     if (!existingCustomer) {
       throw new Error(`客户不存在: ${id}`);
@@ -167,19 +187,103 @@ export class CustomerService {
     return updatedCustomer;
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string, currentUserId?: string): Promise<boolean> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'customers.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized customer deletion attempt', { userId: currentUserId, customerId: id });
+        throw new Error('无权限删除客户');
+      }
+    }
+
     const customer = this.customers.get(id);
     if (!customer) {
+      logger.warn(`Delete failed: Customer not found`, { customerId: id, userId: currentUserId });
       return false;
     }
 
-    // 检查是否有关联的销售订单
-    // TODO: 实现销售订单关联检查
-    // 这里需要与SalesService配合检查
+    // 检查数据完整性 - 是否有关联的销售订单
+    await this.checkCustomerRelationships(id, customer.name);
+
+    // 检查客户状态 - 不能删除活跃客户（除非管理员强制）
+    if (customer.status === CustomerStatus.ACTIVE) {
+      logger.security('Attempted to delete active customer', { 
+        customerId: id, 
+        customerName: customer.name,
+        userId: currentUserId 
+      });
+      throw new Error('无法删除活跃客户。请先将客户状态设置为非活跃状态，或联系管理员。');
+    }
 
     this.customers.delete(id);
     this.codeIndex.delete(customer.code);
+    
+    logger.audit('delete', 'customer', { 
+      customerId: id, 
+      customerName: customer.name,
+      customerCode: customer.code,
+      userId: currentUserId 
+    });
+    
     return true;
+  }
+
+  // 数据完整性检查 - 检查客户关联关系
+  private async checkCustomerRelationships(customerId: string, customerName: string): Promise<void> {
+    // 模拟检查销售订单关联
+    // 在实际应用中，这里会查询销售订单服务
+    const hasRelatedOrders = await this.hasRelatedSalesOrders(customerId);
+    
+    if (hasRelatedOrders) {
+      logger.warn('Delete blocked: Customer has related sales orders', { 
+        customerId, 
+        customerName 
+      });
+      throw new Error(
+        `无法删除客户"${customerName}"，因为该客户存在关联的销售订单。` +
+        `请先处理相关订单或联系系统管理员。`
+      );
+    }
+
+    // 检查其他可能的关联数据
+    const hasRelatedPayables = await this.hasRelatedAccountsReceivable(customerId);
+    if (hasRelatedPayables) {
+      logger.warn('Delete blocked: Customer has pending receivables', { 
+        customerId, 
+        customerName 
+      });
+      throw new Error(
+        `无法删除客户"${customerName}"，因为该客户存在未结清的应收账款。` +
+        `请先处理财务记录或联系财务部门。`
+      );
+    }
+  }
+
+  // 检查是否有关联的销售订单
+  private async hasRelatedSalesOrders(customerId: string): Promise<boolean> {
+    try {
+      // 动态导入避免循环依赖
+      const { default: salesOrderService } = await import('./salesOrderService');
+      const orders = await salesOrderService.findByCustomer(customerId);
+      return orders.length > 0;
+    } catch (error) {
+      logger.warn('Could not check sales orders relationships', { customerId, error });
+      // 为安全起见，如果无法检查关系，假设存在关联
+      return true;
+    }
+  }
+
+  // 检查是否有关联的应收账款
+  private async hasRelatedAccountsReceivable(customerId: string): Promise<boolean> {
+    try {
+      // 这里应该检查财务服务中的应收账款
+      // 目前返回false作为占位符
+      return false;
+    } catch (error) {
+      logger.warn('Could not check accounts receivable relationships', { customerId, error });
+      return false;
+    }
   }
 
   async validateCode(code: string, excludeId?: string): Promise<boolean> {

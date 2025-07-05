@@ -2,6 +2,8 @@ import { Product, ProductStatus } from '../../types/entities';
 import { ProductSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
 import { InventoryService } from '../inventory/inventoryService';
+import userService from './userService';
+import { logger } from '../../utils/secureLogger';
 
 export class ProductService {
   private products: Map<string, Product> = new Map();
@@ -55,7 +57,16 @@ export class ProductService {
     );
   }
 
-  async create(data: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>): Promise<Product> {
+  async create(data: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>, currentUserId?: string): Promise<Product> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'products.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized product creation attempt', { userId: currentUserId });
+        throw new Error('无权限创建产品');
+      }
+    }
+
     // 验证输入数据
     const validation = validateEntity(ProductSchema, {
       ...data,
@@ -86,7 +97,16 @@ export class ProductService {
     return product;
   }
 
-  async update(id: string, data: Partial<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>): Promise<Product> {
+  async update(id: string, data: Partial<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>, currentUserId?: string): Promise<Product> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'products.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized product update attempt', { userId: currentUserId, productId: id });
+        throw new Error('无权限修改产品');
+      }
+    }
+
     const existingProduct = this.products.get(id);
     if (!existingProduct) {
       throw new Error(`产品不存在: ${id}`);
@@ -121,7 +141,16 @@ export class ProductService {
     return updatedProduct;
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string, currentUserId?: string): Promise<boolean> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'products.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized product deletion attempt', { userId: currentUserId, productId: id });
+        throw new Error('无权限删除产品');
+      }
+    }
+
     const product = this.products.get(id);
     if (!product) {
       return false;
@@ -132,16 +161,25 @@ export class ProductService {
     return true;
   }
 
-  async bulkCreate(products: Array<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>): Promise<{
+  async bulkCreate(products: Array<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>, currentUserId?: string): Promise<{
     created: Product[];
     errors: Array<{ index: number; error: string }>;
   }> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'products.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized bulk product creation attempt', { userId: currentUserId });
+        throw new Error('无权限批量创建产品');
+      }
+    }
+
     const created: Product[] = [];
     const errors: Array<{ index: number; error: string }> = [];
 
     for (let i = 0; i < products.length; i++) {
       try {
-        const product = await this.create(products[i]);
+        const product = await this.create(products[i], currentUserId);
         created.push(product);
       } catch (error) {
         errors.push({

@@ -3,6 +3,8 @@ import { SalesOrderSchema, SalesOrderItemSchema, validateEntity } from '../../sc
 import { v4 as uuidv4 } from 'uuid';
 import customerService from './customerService';
 import productService from './productService';
+import { logger } from '../../utils/secureLogger';
+import userService from './userService';
 
 export class SalesOrderService {
   private orders: Map<string, SalesOrder> = new Map();
@@ -11,7 +13,7 @@ export class SalesOrderService {
   private orderItemsByOrder: Map<string, string[]> = new Map(); // OrderID -> ItemIDs
 
   async initialize(): Promise<void> {
-    console.log('Sales order service initialized');
+    logger.info('Sales order service initialized');
     
     // 创建默认销售订单用于演示
     if (this.orders.size === 0) {
@@ -159,7 +161,16 @@ export class SalesOrderService {
     return orders;
   }
 
-  async create(data: Omit<SalesOrder, 'id' | 'orderNo' | 'totalAmount' | 'finalAmount' | 'createdAt' | 'updatedAt'>): Promise<SalesOrder> {
+  async create(data: Omit<SalesOrder, 'id' | 'orderNo' | 'totalAmount' | 'finalAmount' | 'createdAt' | 'updatedAt'>, currentUserId?: string): Promise<SalesOrder> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized sales order creation attempt', { userId: currentUserId });
+        throw new Error('无权限创建销售订单');
+      }
+    }
+
     // 验证客户是否存在
     const customer = await customerService.findById(data.customerId);
     if (!customer) {
@@ -192,7 +203,16 @@ export class SalesOrderService {
     return order;
   }
 
-  async update(id: string, data: Partial<Omit<SalesOrder, 'id' | 'orderNo' | 'createdAt' | 'updatedAt'>>): Promise<SalesOrder> {
+  async update(id: string, data: Partial<Omit<SalesOrder, 'id' | 'orderNo' | 'createdAt' | 'updatedAt'>>, currentUserId?: string): Promise<SalesOrder> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized sales order update attempt', { userId: currentUserId, orderId: id });
+        throw new Error('无权限修改销售订单');
+      }
+    }
+
     const existingOrder = this.orders.get(id);
     if (!existingOrder) {
       throw new Error(`销售订单不存在: ${id}`);
@@ -214,11 +234,24 @@ export class SalesOrderService {
     return updatedOrder;
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string, currentUserId?: string): Promise<boolean> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized sales order deletion attempt', { userId: currentUserId, orderId: id });
+        throw new Error('无权限删除销售订单');
+      }
+    }
+
     const order = this.orders.get(id);
     if (!order) {
+      logger.warn('Delete failed: Sales order not found', { orderId: id, userId: currentUserId });
       return false;
     }
+
+    // 业务逻辑验证 - 检查订单是否可以删除
+    await this.validateOrderDeletion(order, currentUserId);
 
     // 删除订单项目
     const itemIds = this.orderItemsByOrder.get(id) || [];
@@ -229,11 +262,203 @@ export class SalesOrderService {
     this.orders.delete(id);
     this.orderNoIndex.delete(order.orderNo);
     this.orderItemsByOrder.delete(id);
+    
+    logger.audit('delete', 'sales_order', { 
+      orderId: id, 
+      orderNo: order.orderNo,
+      status: order.status,
+      totalAmount: order.finalAmount,
+      userId: currentUserId 
+    });
+    
     return true;
   }
 
-  async updateStatus(id: string, status: SalesOrderStatus): Promise<SalesOrder> {
-    return this.update(id, { status });
+  // 验证订单是否可以删除
+  private async validateOrderDeletion(order: SalesOrder, currentUserId?: string): Promise<void> {
+    // 不能删除已确认及以后状态的订单
+    const undeletableStatuses = [
+      SalesOrderStatus.CONFIRMED,
+      SalesOrderStatus.SHIPPED,
+      SalesOrderStatus.COMPLETED
+    ];
+
+    if (undeletableStatuses.includes(order.status)) {
+      logger.security('Attempted to delete confirmed/completed order', {
+        orderId: order.id,
+        orderNo: order.orderNo,
+        status: order.status,
+        userId: currentUserId
+      });
+      throw new Error(
+        `无法删除${this.getStatusDisplayName(order.status)}状态的订单。` +
+        `只有草稿状态的订单才能被删除。`
+      );
+    }
+
+    // 检查支付状态 - 已付款的订单不能删除
+    if (order.paymentStatus === PaymentStatus.PAID) {
+      logger.security('Attempted to delete paid order', {
+        orderId: order.id,
+        orderNo: order.orderNo,
+        paymentStatus: order.paymentStatus,
+        userId: currentUserId
+      });
+      throw new Error('无法删除已付款的订单。请先处理退款或联系财务部门。');
+    }
+
+    // 部分付款的订单需要特殊权限才能删除
+    if (order.paymentStatus === PaymentStatus.PARTIAL) {
+      logger.security('Attempted to delete partially paid order', {
+        orderId: order.id,
+        orderNo: order.orderNo,
+        paymentStatus: order.paymentStatus,
+        userId: currentUserId
+      });
+      throw new Error('无法删除部分付款的订单。请先处理退款或联系管理员。');
+    }
+  }
+
+  async updateStatus(id: string, status: SalesOrderStatus, currentUserId?: string): Promise<SalesOrder> {
+    const order = this.orders.get(id);
+    if (!order) {
+      throw new Error(`销售订单不存在: ${id}`);
+    }
+
+    // 状态机验证 - 检查状态转换是否合法
+    await this.validateStatusTransition(order, status, currentUserId);
+
+    const updatedOrder = await this.update(id, { status });
+    
+    logger.audit('status_change', 'sales_order', {
+      orderId: id,
+      orderNo: order.orderNo,
+      fromStatus: order.status,
+      toStatus: status,
+      userId: currentUserId
+    });
+
+    return updatedOrder;
+  }
+
+  // 状态机验证 - 定义允许的状态转换
+  private async validateStatusTransition(
+    order: SalesOrder, 
+    newStatus: SalesOrderStatus, 
+    currentUserId?: string
+  ): Promise<void> {
+    const currentStatus = order.status;
+    
+    // 如果状态没有变化，直接返回
+    if (currentStatus === newStatus) {
+      return;
+    }
+
+    // 定义状态转换规则
+    const allowedTransitions: Record<SalesOrderStatus, SalesOrderStatus[]> = {
+      [SalesOrderStatus.DRAFT]: [
+        SalesOrderStatus.CONFIRMED,
+        SalesOrderStatus.CANCELLED
+      ],
+      [SalesOrderStatus.CONFIRMED]: [
+        SalesOrderStatus.SHIPPED,
+        SalesOrderStatus.CANCELLED,
+        SalesOrderStatus.DRAFT // 允许回退到草稿（管理员权限）
+      ],
+      [SalesOrderStatus.SHIPPED]: [
+        SalesOrderStatus.COMPLETED,
+        SalesOrderStatus.CANCELLED // 特殊情况下可以取消
+      ],
+      [SalesOrderStatus.COMPLETED]: [
+        // 已完成的订单一般不允许状态变更
+        // 除非有特殊的管理员权限
+      ],
+      [SalesOrderStatus.CANCELLED]: [
+        SalesOrderStatus.DRAFT // 取消的订单可以重新激活为草稿
+      ]
+    };
+
+    const allowedStatuses = allowedTransitions[currentStatus] || [];
+    
+    if (!allowedStatuses.includes(newStatus)) {
+      logger.security('Invalid status transition attempted', {
+        orderId: order.id,
+        orderNo: order.orderNo,
+        fromStatus: currentStatus,
+        toStatus: newStatus,
+        userId: currentUserId
+      });
+      
+      throw new Error(
+        `不允许的状态转换：无法将订单从"${this.getStatusDisplayName(currentStatus)}"` +
+        `变更为"${this.getStatusDisplayName(newStatus)}"。` +
+        `请按照正确的业务流程进行操作。`
+      );
+    }
+
+    // 额外的业务规则验证
+    await this.validateBusinessRules(order, newStatus, currentUserId);
+  }
+
+  // 业务规则验证
+  private async validateBusinessRules(
+    order: SalesOrder,
+    newStatus: SalesOrderStatus,
+    currentUserId?: string
+  ): Promise<void> {
+    // 规则1: 确认订单时必须有订单项目
+    if (newStatus === SalesOrderStatus.CONFIRMED) {
+      const orderItems = this.orderItemsByOrder.get(order.id) || [];
+      if (orderItems.length === 0) {
+        throw new Error('无法确认订单：订单必须包含至少一个商品。');
+      }
+    }
+
+    // 规则2: 发货时检查库存
+    if (newStatus === SalesOrderStatus.SHIPPED) {
+      // 这里应该检查库存是否足够
+      // 目前作为占位符
+    }
+
+    // 规则3: 完成订单时检查支付状态
+    if (newStatus === SalesOrderStatus.COMPLETED) {
+      if (order.paymentStatus !== PaymentStatus.PAID) {
+        throw new Error('无法完成订单：订单必须已完成付款。');
+      }
+    }
+
+    // 规则4: 某些状态变更需要特殊权限
+    const restrictedTransitions = [
+      { from: SalesOrderStatus.COMPLETED, to: SalesOrderStatus.DRAFT },
+      { from: SalesOrderStatus.CONFIRMED, to: SalesOrderStatus.DRAFT }
+    ];
+
+    const isRestrictedTransition = restrictedTransitions.some(
+      t => t.from === order.status && t.to === newStatus
+    );
+
+    if (isRestrictedTransition) {
+      // 这里应该检查用户权限
+      logger.security('Restricted status transition attempted', {
+        orderId: order.id,
+        fromStatus: order.status,
+        toStatus: newStatus,
+        userId: currentUserId
+      });
+      throw new Error('此状态变更需要管理员权限。请联系系统管理员。');
+    }
+  }
+
+  // 获取状态显示名称
+  private getStatusDisplayName(status: SalesOrderStatus): string {
+    const statusNames: Record<SalesOrderStatus, string> = {
+      [SalesOrderStatus.DRAFT]: '草稿',
+      [SalesOrderStatus.CONFIRMED]: '已确认',
+      [SalesOrderStatus.SHIPPED]: '已发货',
+      [SalesOrderStatus.COMPLETED]: '已完成',
+      [SalesOrderStatus.CANCELLED]: '已取消'
+    };
+    return statusNames[status] || status;
   }
 
   async updatePaymentStatus(id: string, paymentStatus: PaymentStatus): Promise<SalesOrder> {
@@ -242,7 +467,16 @@ export class SalesOrderService {
 
   // =============== 订单项目管理 ===============
 
-  async addOrderItem(orderId: string, data: Omit<SalesOrderItem, 'id' | 'orderId' | 'amount' | 'status' | 'createdAt' | 'updatedAt'>): Promise<SalesOrderItem> {
+  async addOrderItem(orderId: string, data: Omit<SalesOrderItem, 'id' | 'orderId' | 'amount' | 'status' | 'createdAt' | 'updatedAt'>, currentUserId?: string): Promise<SalesOrderItem> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized order item addition attempt', { userId: currentUserId, orderId });
+        throw new Error('无权限添加订单项目');
+      }
+    }
+
     const order = this.orders.get(orderId);
     if (!order) {
       throw new Error(`销售订单不存在: ${orderId}`);
@@ -293,7 +527,16 @@ export class SalesOrderService {
     return orderItem;
   }
 
-  async updateOrderItem(itemId: string, data: Partial<Omit<SalesOrderItem, 'id' | 'orderId' | 'createdAt' | 'updatedAt'>>): Promise<SalesOrderItem> {
+  async updateOrderItem(itemId: string, data: Partial<Omit<SalesOrderItem, 'id' | 'orderId' | 'createdAt' | 'updatedAt'>>, currentUserId?: string): Promise<SalesOrderItem> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized order item update attempt', { userId: currentUserId, itemId });
+        throw new Error('无权限修改订单项目');
+      }
+    }
+
     const existingItem = this.orderItems.get(itemId);
     if (!existingItem) {
       throw new Error(`订单项目不存在: ${itemId}`);
@@ -336,7 +579,16 @@ export class SalesOrderService {
     return updatedItem;
   }
 
-  async removeOrderItem(itemId: string): Promise<boolean> {
+  async removeOrderItem(itemId: string, currentUserId?: string): Promise<boolean> {
+    // 权限检查
+    if (currentUserId) {
+      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      if (!hasPermission) {
+        logger.security('Unauthorized order item removal attempt', { userId: currentUserId, itemId });
+        throw new Error('无权限删除订单项目');
+      }
+    }
+
     const item = this.orderItems.get(itemId);
     if (!item) {
       return false;
