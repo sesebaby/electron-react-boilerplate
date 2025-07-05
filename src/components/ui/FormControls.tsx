@@ -1,5 +1,21 @@
 import React from 'react';
 
+// Security utility functions
+const sanitizeText = (text: string): string => {
+  if (typeof text !== 'string') return '';
+  return text.replace(/[<>\"']/g, '');
+};
+
+const sanitizeHtml = (html: string): string => {
+  if (typeof html !== 'string') return '';
+  return html
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;');
+};
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
@@ -20,21 +36,30 @@ export const GlassInput: React.FC<InputProps> = ({
   label, 
   error, 
   className = '', 
+  value,
   ...props 
 }) => {
+  // Sanitize potentially dangerous props
+  const sanitizedProps = { ...props };
+  delete sanitizedProps.dangerouslySetInnerHTML;
+  
+  // Sanitize value if it's a string
+  const sanitizedValue = typeof value === 'string' ? sanitizeText(value) : value;
+  
   return (
     <div className="space-y-2">
       {label && (
         <label className="block text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
-          {label}
+          {sanitizeText(label)}
         </label>
       )}
       <input
-        {...props}
-        className={`glass-input w-full px-4 py-3 rounded-lg ${className}`}
+        {...sanitizedProps}
+        value={sanitizedValue}
+        className={`glass-input w-full px-4 py-3 rounded-lg ${sanitizeText(className)}`}
       />
       {error && (
-        <p className="text-sm text-red-400">{error}</p>
+        <p className="text-sm text-red-400">{sanitizeText(error)}</p>
       )}
     </div>
   );
@@ -47,21 +72,25 @@ export const GlassSelect: React.FC<SelectProps> = ({
   className = '', 
   ...props 
 }) => {
+  // Sanitize potentially dangerous props
+  const sanitizedProps = { ...props };
+  delete sanitizedProps.dangerouslySetInnerHTML;
+  
   return (
     <div className="space-y-2">
       {label && (
         <label className="block text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
-          {label}
+          {sanitizeText(label)}
         </label>
       )}
       <select
-        {...props}
-        className={`glass-input glass-select w-full px-4 py-3 rounded-lg ${className}`}
+        {...sanitizedProps}
+        className={`glass-input glass-select w-full px-4 py-3 rounded-lg ${sanitizeText(className)}`}
       >
         {children}
       </select>
       {error && (
-        <p className="text-sm text-red-400">{error}</p>
+        <p className="text-sm text-red-400">{sanitizeText(error)}</p>
       )}
     </div>
   );
@@ -130,7 +159,7 @@ export const GlassCard: React.FC<{
 }> = ({ children, className = '', title }) => {
   return (
     <div 
-      className={`glass-card p-6 rounded-2xl ${className}`}
+      className={`glass-card p-6 rounded-2xl ${sanitizeText(className)}`}
       style={{
         background: 'var(--card-background)',
         border: 'var(--glass-border)',
@@ -141,7 +170,7 @@ export const GlassCard: React.FC<{
     >
       {title && (
         <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>
-          {title}
+          {sanitizeText(title)}
         </h3>
       )}
       {children}

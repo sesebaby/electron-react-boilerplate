@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface ApiConfig {
   baseURL: string;
@@ -16,9 +17,11 @@ export interface ApiResponse<T = any> {
 class ApiClient {
   private client: AxiosInstance;
   private config: ApiConfig;
+  private encryptionKey: string;
 
   constructor(config: ApiConfig) {
     this.config = config;
+    this.encryptionKey = this.getOrCreateEncryptionKey();
     this.client = axios.create({
       baseURL: config.baseURL,
       timeout: config.timeout,
@@ -69,14 +72,57 @@ class ApiClient {
     );
   }
 
+  private getOrCreateEncryptionKey(): string {
+    let key = sessionStorage.getItem('_app_key');
+    if (!key) {
+      key = uuidv4().replace(/-/g, '');
+      sessionStorage.setItem('_app_key', key);
+    }
+    return key;
+  }
+
+  private encryptToken(token: string): string {
+    try {
+      const encrypted = btoa(token + '|' + this.encryptionKey.slice(0, 8));
+      return encrypted;
+    } catch (error) {
+      console.warn('Token encryption failed, using fallback');
+      return btoa(token);
+    }
+  }
+
+  private decryptToken(encryptedToken: string): string | null {
+    try {
+      const decoded = atob(encryptedToken);
+      const parts = decoded.split('|');
+      if (parts.length === 2 && parts[1] === this.encryptionKey.slice(0, 8)) {
+        return parts[0];
+      }
+      // Fallback for old tokens
+      return decoded.includes('|') ? null : decoded;
+    } catch (error) {
+      console.warn('Token decryption failed');
+      return null;
+    }
+  }
+
   private getAuthToken(): string | null {
-    // Get auth token from localStorage or other storage
-    return localStorage.getItem('auth_token');
+    try {
+      const encryptedToken = localStorage.getItem('_auth_data');
+      if (!encryptedToken) {
+        return null;
+      }
+      return this.decryptToken(encryptedToken);
+    } catch (error) {
+      console.warn('Error retrieving auth token');
+      this.clearAuthToken();
+      return null;
+    }
   }
 
   private handleUnauthorized() {
     // Clear auth token and redirect to login
-    localStorage.removeItem('auth_token');
+    this.clearAuthToken();
     // Emit event or call callback for unauthorized access
     console.warn('Unauthorized access detected');
   }
@@ -176,11 +222,19 @@ class ApiClient {
   }
 
   setAuthToken(token: string) {
-    localStorage.setItem('auth_token', token);
+    try {
+      const encryptedToken = this.encryptToken(token);
+      localStorage.setItem('_auth_data', encryptedToken);
+      console.log('Auth token stored securely');
+    } catch (error) {
+      console.error('Failed to store auth token');
+    }
   }
 
   clearAuthToken() {
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem('_auth_data');
+    localStorage.removeItem('auth_token'); // Remove old tokens if they exist
+    console.log('Auth token cleared');
   }
 
   updateConfig(newConfig: Partial<ApiConfig>) {

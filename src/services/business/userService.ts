@@ -19,9 +19,11 @@ export class UserService {
   }
 
   private async createDefaultAdmin(): Promise<void> {
+    const temporaryPassword = this.generateSecurePassword();
+    
     const adminUser: Omit<User, 'id' | 'createdAt' | 'updatedAt'> = {
       username: 'admin',
-      password: 'admin123', // Will be hashed
+      password: temporaryPassword,
       nickname: '系统管理员',
       email: 'admin@system.com',
       phone: '13800138000',
@@ -32,7 +34,13 @@ export class UserService {
     };
 
     await this.create(adminUser);
-    console.log('Default admin user created: username=admin, password=admin123');
+    console.log('Default admin user created. Please change the password on first login.');
+    
+    // Store temporary password securely (in production, this should be displayed once and not logged)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`SECURITY WARNING: Temporary admin password: ${temporaryPassword}`);
+      console.log('This password will be shown only once. Please change it immediately.');
+    }
   }
 
   async findAll(): Promise<User[]> {
@@ -112,7 +120,7 @@ export class UserService {
     this.users.set(user.id, user);
     this.updateIndexes(user);
 
-    console.log(`User created: ${user.username} (${user.nickname})`);
+    console.log(`User created: ${user.nickname} (ID: ${user.id})`);
     return this.sanitizeUser(user);
   }
 
@@ -155,7 +163,7 @@ export class UserService {
     this.users.set(id, updatedUser);
     this.updateIndexes(updatedUser);
 
-    console.log(`User updated: ${updatedUser.username} (${updatedUser.nickname})`);
+    console.log(`User updated: ${updatedUser.nickname} (ID: ${id})`);
     return this.sanitizeUser(updatedUser);
   }
 
@@ -181,7 +189,7 @@ export class UserService {
     };
 
     this.users.set(id, updatedUser);
-    console.log(`Password changed for user: ${user.username}`);
+    console.log(`Password changed for user ID: ${id}`);
   }
 
   async resetPassword(id: string, newPassword: string): Promise<void> {
@@ -200,7 +208,7 @@ export class UserService {
     };
 
     this.users.set(id, updatedUser);
-    console.log(`Password reset for user: ${user.username}`);
+    console.log(`Password reset for user ID: ${id}`);
   }
 
   async setStatus(id: string, status: UserStatus): Promise<User> {
@@ -216,7 +224,7 @@ export class UserService {
     };
 
     this.users.set(id, updatedUser);
-    console.log(`User status changed: ${user.username} -> ${status}`);
+    console.log(`User status changed: ID ${id} -> ${status}`);
     return this.sanitizeUser(updatedUser);
   }
 
@@ -234,7 +242,7 @@ export class UserService {
 
     this.removeFromIndexes(user);
     this.users.delete(id);
-    console.log(`User deleted: ${user.username}`);
+    console.log(`User deleted: ID ${id}`);
   }
 
   // Authentication methods
@@ -263,7 +271,7 @@ export class UserService {
     this.users.set(user.id, updatedUser);
     this.currentUser = this.sanitizeUser(updatedUser);
 
-    console.log(`User logged in: ${user.username}`);
+    console.log(`User logged in: ID ${user.id}`);
     return this.currentUser;
   }
 
@@ -273,7 +281,7 @@ export class UserService {
 
   logout(): void {
     if (this.currentUser) {
-      console.log(`User logged out: ${this.currentUser.username}`);
+      console.log(`User logged out: ID ${this.currentUser.id}`);
       this.currentUser = null;
     }
   }
@@ -409,6 +417,18 @@ export class UserService {
     if (user.phone) {
       this.phoneIndex.delete(user.phone);
     }
+  }
+
+  private generateSecurePassword(): string {
+    const length = 12;
+    const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let password = '';
+    
+    for (let i = 0; i < length; i++) {
+      password += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    
+    return password;
   }
 }
 

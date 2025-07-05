@@ -11,10 +11,12 @@ function createWindow() {
     width: 1400,
     height: 900,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true,
-      preload: path.join(__dirname, 'preload.js')
+      nodeIntegration: false,        // Security: Disable node integration in renderer
+      contextIsolation: true,        // Security: Enable context isolation
+      enableRemoteModule: false,     // Security: Disable deprecated remote module
+      preload: path.join(__dirname, 'preload.js'),
+      sandbox: false,                // Keep false for IPC communication
+      webSecurity: true              // Security: Enable web security
     },
     titleBarStyle: 'hiddenInset',
     show: false
