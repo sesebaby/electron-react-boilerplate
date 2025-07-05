@@ -101,7 +101,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
                   <div className="h-6 bg-white/10 rounded-full overflow-hidden">
                     <div 
                       className={`h-full bg-gradient-to-r ${getBarColor(index)} transition-all duration-1000 ease-out`}
-                      style={{ width: `${percentage}%` }}
+                      style={{width: `${percentage}%`}}
                     ></div>
                   </div>
                 </div>
@@ -148,7 +148,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
                     <div className="flex items-end gap-1 h-32">
                       <div 
                         className="w-6 bg-green-500 rounded-t transition-all duration-1000 ease-out flex items-end justify-center"
-                        style={{ height: `${maxValue > 0 ? (item.stockIn / maxValue) * 100 : 0}%` }}
+                        style={{height: `${maxValue > 0 ? (item.stockIn / maxValue) * 100 : 0}%`}}
                       >
                         {item.stockIn > 0 && (
                           <span className="text-xs text-white font-medium mb-1">{item.stockIn}</span>
@@ -156,7 +156,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
                       </div>
                       <div 
                         className="w-6 bg-red-500 rounded-t transition-all duration-1000 ease-out flex items-end justify-center"
-                        style={{ height: `${maxValue > 0 ? (item.stockOut / maxValue) * 100 : 0}%` }}
+                        style={{height: `${maxValue > 0 ? (item.stockOut / maxValue) * 100 : 0}%`}}
                       >
                         {item.stockOut > 0 && (
                           <span className="text-xs text-white font-medium mb-1">{item.stockOut}</span>
@@ -164,7 +164,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
                       </div>
                       <div 
                         className="w-6 bg-yellow-500 rounded-t transition-all duration-1000 ease-out flex items-end justify-center"
-                        style={{ height: `${maxValue > 0 ? (item.adjustment / maxValue) * 100 : 0}%` }}
+                        style={{height: `${maxValue > 0 ? (item.adjustment / maxValue) * 100 : 0}%`}}
                       >
                         {item.adjustment > 0 && (
                           <span className="text-xs text-white font-medium mb-1">{item.adjustment}</span>
@@ -217,7 +217,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
                   <div className="w-24 h-2 bg-white/10 rounded-full overflow-hidden">
                     <div 
                       className={`h-full bg-gradient-to-r ${getBarColor(index)} transition-all duration-1000 ease-out`}
-                      style={{ width: `${percentage}%` }}
+                      style={{width: `${percentage}%`}}
                     ></div>
                   </div>
                 </div>
@@ -248,7 +248,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
                   <div className="h-4 bg-white/10 rounded-full overflow-hidden">
                     <div 
                       className={`h-full bg-gradient-to-r ${getBarColor(index)} transition-all duration-1000 ease-out`}
-                      style={{ width: `${item.percentage}%` }}
+                      style={{width: `${item.percentage}%`}}
                     ></div>
                   </div>
                 </div>

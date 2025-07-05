@@ -275,8 +275,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4" style={{ borderBottomColor: 'var(--text-primary)' }}></div>
-          <p style={{ color: 'var(--text-secondary)' }}>加载用户数据中...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white/30 border-b-white mx-auto mb-4"></div>
+          <p className="text-white/70">加载用户数据中...</p>
         </div>
       </div>
     );
@@ -287,8 +287,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
       {/* 页面头部 */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>用户管理</h2>
-          <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>管理系统用户账号、角色和权限</p>
+          <h2 className="text-2xl font-bold text-white">用户管理</h2>
+          <p className="mt-1 text-white/70">管理系统用户账号、角色和权限</p>
         </div>
         <div className="flex gap-3">
           <GlassButton 

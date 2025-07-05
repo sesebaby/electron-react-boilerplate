@@ -72,15 +72,15 @@ const App: React.FC = () => {
           <div className="mb-8">
             <div className="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-6"></div>
             <div className="flex justify-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-              <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-              <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+              <div className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0ms]"></div>
+              <div className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:150ms]"></div>
+              <div className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:300ms]"></div>
             </div>
           </div>
           <h2 className="text-2xl font-bold text-white mb-2">进销存管理系统</h2>
           <p className="text-white/90 mb-6">系统正在初始化...</p>
           <div className="w-full bg-white/20 rounded-full h-2 mb-6">
-            <div className="bg-gradient-to-r from-blue-400 to-cyan-400 h-2 rounded-full animate-pulse" style={{width: '70%'}}></div>
+            <div className="bg-gradient-to-r from-blue-400 to-cyan-400 h-2 rounded-full animate-pulse w-[70%]"></div>
           </div>
           <div className="space-y-2 text-left">
             <p className="text-white/80 text-sm flex items-center gap-2">✨ 全新UI界面设计</p>

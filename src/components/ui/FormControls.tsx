@@ -49,7 +49,7 @@ export const GlassInput: React.FC<InputProps> = ({
   return (
     <div className="space-y-2">
       {label && (
-        <label className="block text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+        <label className="block text-sm font-medium text-white">
           {sanitizeText(label)}
         </label>
       )}
@@ -79,7 +79,7 @@ export const GlassSelect: React.FC<SelectProps> = ({
   return (
     <div className="space-y-2">
       {label && (
-        <label className="block text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+        <label className="block text-sm font-medium text-white">
           {sanitizeText(label)}
         </label>
       )}
@@ -106,32 +106,16 @@ export const GlassButton: React.FC<ButtonProps> = ({
 }) => {
   const baseClasses = 'glass-button px-6 py-3 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2';
   
-  const getButtonStyle = () => {
+  const getVariantClasses = () => {
     switch (variant) {
       case 'primary':
-        return {
-          background: 'var(--popup-background)',
-          color: 'var(--popup-text-primary)',
-          border: 'var(--popup-border)',
-          backdropFilter: 'var(--popup-blur)'
-        };
+        return 'bg-blue-500/20 text-blue-300 border-blue-400/30 backdrop-blur-lg';
       case 'success':
-        return {
-          background: 'linear-gradient(to right, #10b981, #059669)',
-          color: 'white'
-        };
+        return 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white';
       case 'danger':
-        return {
-          background: 'linear-gradient(to right, #ef4444, #dc2626)',
-          color: 'white'
-        };
+        return 'bg-gradient-to-r from-red-500 to-red-600 text-white';
       default:
-        return {
-          background: 'var(--card-background)',
-          color: 'var(--text-primary)',
-          border: 'var(--glass-border)',
-          backdropFilter: 'blur(10px)'
-        };
+        return 'bg-white/10 text-white border-white/20 backdrop-blur-lg';
     }
   };
 
@@ -139,10 +123,9 @@ export const GlassButton: React.FC<ButtonProps> = ({
     <button
       {...props}
       disabled={disabled || loading}
-      className={`${baseClasses} ${className} ${
+      className={`${baseClasses} ${getVariantClasses()} ${className} ${
         (disabled || loading) ? 'opacity-50 cursor-not-allowed' : 'hover:transform hover:-translate-y-0.5'
       }`}
-      style={getButtonStyle()}
     >
       {loading && (
         <div className="w-4 h-4 border-2 opacity-30 border-t-current rounded-full animate-spin" />
@@ -159,17 +142,10 @@ export const GlassCard: React.FC<{
 }> = ({ children, className = '', title }) => {
   return (
     <div 
-      className={`glass-card p-6 rounded-2xl ${sanitizeText(className)}`}
-      style={{
-        background: 'var(--card-background)',
-        border: 'var(--glass-border)',
-        backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)',
-        boxShadow: 'var(--glass-shadow)'
-      }}
+      className={`glass-card p-6 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-lg shadow-2xl ${sanitizeText(className)}`}
     >
       {title && (
-        <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>
+        <h3 className="text-lg font-semibold mb-4 text-white">
           {sanitizeText(title)}
         </h3>
       )}
