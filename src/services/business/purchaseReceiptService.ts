@@ -342,20 +342,68 @@ export class PurchaseReceiptService {
     const receipt = await this.findById(receiptId);
     if (!receipt || !receipt.items) return;
 
-    for (const item of receipt.items) {
-      try {
+    const successfulTransactions: Array<{
+      itemId: string;
+      productId: string;
+      warehouseId: string;
+      quantity: number;
+      unitPrice: number;
+    }> = [];
+
+    try {
+      // 尝试处理所有项目的库存入库
+      for (const item of receipt.items) {
         await inventoryStockService.stockIn({
           productId: item.productId,
           warehouseId: receipt.warehouseId,
           quantity: item.quantity,
           unitPrice: item.unitPrice,
+          referenceType: 'purchase_receipt',
           referenceId: receiptId,
           remark: `采购收货 - ${receipt.receiptNo}`,
           operator: receipt.receiver
         });
-      } catch (error) {
-        console.error(`Failed to update inventory for item ${item.id}:`, error);
+
+        // 记录成功的入库操作，以备回滚
+        successfulTransactions.push({
+          itemId: item.id,
+          productId: item.productId,
+          warehouseId: receipt.warehouseId,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice
+        });
+
+        console.log(`Successfully updated inventory for item ${item.id}, product ${item.productId}, quantity ${item.quantity}`);
       }
+    } catch (error) {
+      console.error(`Failed to update inventory during receipt confirmation:`, error);
+      
+      // 回滚已经成功的库存操作
+      if (successfulTransactions.length > 0) {
+        console.log(`Rolling back ${successfulTransactions.length} successful inventory transactions...`);
+        
+        for (const transaction of successfulTransactions) {
+          try {
+            await inventoryStockService.stockOut({
+              productId: transaction.productId,
+              warehouseId: transaction.warehouseId,
+              quantity: transaction.quantity,
+              unitPrice: transaction.unitPrice,
+              referenceType: 'purchase_receipt_rollback',
+              referenceId: receiptId,
+              remark: `采购收货回滚 - ${receipt.receiptNo}`,
+              operator: 'system'
+            });
+            console.log(`Rolled back inventory for item ${transaction.itemId}`);
+          } catch (rollbackError) {
+            console.error(`CRITICAL: Failed to rollback inventory for item ${transaction.itemId}:`, rollbackError);
+            // 这种情况需要人工干预
+          }
+        }
+      }
+      
+      // 抛出原始错误，阻止收货单状态变更
+      throw new Error(`库存更新失败，收货单确认中止: ${error instanceof Error ? error.message : '未知错误'}`);
     }
 
     // 更新采购订单项目的已收货数量

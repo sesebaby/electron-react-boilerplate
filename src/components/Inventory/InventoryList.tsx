@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { inventoryStockService } from '../../services/business';
 import { InventoryStock } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { InventoryListSkeleton, ErrorState } from '../ui/SkeletonLoader';
+import { formatCurrency, formatNumber, debounce } from '../../utils/formatters';
 
 interface InventoryListProps {
   className?: string;
@@ -118,21 +120,6 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
     return '正常';
   }, []);
 
-  // 缓存格式化器以避免重复创建
-  const currencyFormatter = useMemo(() => new Intl.NumberFormat('zh-CN', {
-    style: 'currency',
-    currency: 'CNY'
-  }), []);
-
-  const numberFormatter = useMemo(() => new Intl.NumberFormat('zh-CN'), []);
-
-  const formatCurrency = useCallback((value: number): string => {
-    return currencyFormatter.format(value);
-  }, [currencyFormatter]);
-
-  const formatNumber = useCallback((value: number): string => {
-    return numberFormatter.format(value);
-  }, [numberFormatter]);
 
   const handleFilterChange = useCallback((key: keyof InventoryFilters, value: any) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -141,12 +128,7 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
   if (loading) {
     return (
       <div className={`space-y-6 ${className || ''}`}>
-        <div className="flex items-center justify-center min-h-96">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-            <p className="text-white/80">加载库存数据中...</p>
-          </div>
-        </div>
+        <InventoryListSkeleton />
       </div>
     );
   }
@@ -154,14 +136,12 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
   if (error) {
     return (
       <div className={`space-y-6 ${className || ''}`}>
-        <GlassCard className="p-12 text-center">
-          <div className="text-6xl mb-4">❌</div>
-          <h3 className="text-xl font-semibold text-white mb-2">加载失败</h3>
-          <p className="text-white/70 mb-6">{error}</p>
-          <GlassButton onClick={loadInventories} variant="primary">
-            重新加载
-          </GlassButton>
-        </GlassCard>
+        <ErrorState
+          title="加载失败"
+          message={error}
+          onRetry={loadInventories}
+          retryLabel="重新加载"
+        />
       </div>
     );
   }

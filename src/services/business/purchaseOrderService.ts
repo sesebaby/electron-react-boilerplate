@@ -3,6 +3,7 @@ import { PurchaseOrderSchema, PurchaseOrderItemSchema, validateEntity } from '..
 import { v4 as uuidv4 } from 'uuid';
 import supplierService from './supplierService';
 import productService from './productService';
+import accountsPayableService from './accountsPayableService';
 
 export class PurchaseOrderService {
   private orders: Map<string, PurchaseOrder> = new Map();
@@ -209,6 +210,18 @@ export class PurchaseOrderService {
     }
 
     this.orders.set(id, updatedOrder);
+
+    // 财务集成：自动生成应付账款
+    if (data.status && 
+        (data.status === PurchaseOrderStatus.CONFIRMED || data.status === PurchaseOrderStatus.COMPLETED) &&
+        existingOrder.status !== data.status) {
+      try {
+        await accountsPayableService.createFromPurchaseOrder(updatedOrder);
+      } catch (error) {
+        console.warn(`自动生成应付账款失败: ${error instanceof Error ? error.message : '未知错误'}`);
+      }
+    }
+
     return updatedOrder;
   }
 

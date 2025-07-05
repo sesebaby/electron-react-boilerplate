@@ -338,26 +338,6 @@ export class AccountsPayableService {
     }
   }
 
-  // 生成下一个账单编号
-  async generateBillNo(): Promise<string> {
-    const prefix = 'AP';
-    const year = new Date().getFullYear().toString().slice(-2);
-    const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
-    
-    let maxNumber = 0;
-    const pattern = new RegExp(`^${prefix}${year}${month}(\\d{3})$`);
-    
-    for (const billNo of this.billNoIndex.keys()) {
-      const match = billNo.match(pattern);
-      if (match) {
-        const number = parseInt(match[1]);
-        maxNumber = Math.max(maxNumber, number);
-      }
-    }
-    
-    const nextNumber = (maxNumber + 1).toString().padStart(3, '0');
-    return `${prefix}${year}${month}${nextNumber}`;
-  }
 
   // 生成下一个付款单号
   async generatePaymentNo(): Promise<string> {
@@ -447,6 +427,57 @@ export class AccountsPayableService {
     });
 
     return stats;
+  }
+
+  // =============== 业务集成方法 ===============
+
+  /**
+   * 从采购订单自动生成应付账款
+   */
+  async createFromPurchaseOrder(purchaseOrder: PurchaseOrder, paymentTermsDays: number = 30): Promise<AccountsPayable> {
+    // 检查是否已经为此订单生成过应付账款
+    const existingPayable = Array.from(this.payables.values())
+      .find(p => p.orderId === purchaseOrder.id);
+    
+    if (existingPayable) {
+      console.log(`应付账款已存在于订单 ${purchaseOrder.orderNo}: ${existingPayable.billNo}`);
+      return existingPayable;
+    }
+
+    // 生成应付账款单号
+    const billNo = await this.generateBillNo();
+    
+    // 计算到期日期（根据付款条件）
+    const billDate = new Date();
+    const dueDate = new Date(billDate.getTime() + paymentTermsDays * 24 * 60 * 60 * 1000);
+
+    const payableData = {
+      billNo,
+      supplierId: purchaseOrder.supplierId,
+      orderId: purchaseOrder.id,
+      billDate,
+      dueDate,
+      totalAmount: purchaseOrder.finalAmount,
+      paidAmount: 0,
+      balanceAmount: purchaseOrder.finalAmount,
+      status: PayableStatus.UNPAID,
+      terms: `${paymentTermsDays}天付款期`,
+      reference: `采购订单: ${purchaseOrder.orderNo}`
+    };
+
+    console.log(`自动生成应付账款: 订单 ${purchaseOrder.orderNo} -> 应付账款 ${billNo}, 金额 ${purchaseOrder.finalAmount}`);
+    
+    return await this.create(payableData);
+  }
+
+  /**
+   * 生成应付账款单号
+   */
+  async generateBillNo(): Promise<string> {
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const sequence = String(this.payables.size + 1).padStart(3, '0');
+    return `AP${dateStr}${sequence}`;
   }
 }
 

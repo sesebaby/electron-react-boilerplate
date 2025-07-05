@@ -448,6 +448,57 @@ export class AccountsReceivableService {
 
     return stats;
   }
+
+  // =============== 业务集成方法 ===============
+
+  /**
+   * 从销售订单自动生成应收账款
+   */
+  async createFromSalesOrder(salesOrder: SalesOrder, paymentTermsDays: number = 30): Promise<AccountsReceivable> {
+    // 检查是否已经为此订单生成过应收账款
+    const existingReceivable = Array.from(this.receivables.values())
+      .find(r => r.orderId === salesOrder.id);
+    
+    if (existingReceivable) {
+      console.log(`应收账款已存在于订单 ${salesOrder.orderNo}: ${existingReceivable.billNo}`);
+      return existingReceivable;
+    }
+
+    // 生成应收账款单号
+    const billNo = await this.generateBillNo();
+    
+    // 计算到期日期（根据付款条件）
+    const billDate = new Date();
+    const dueDate = new Date(billDate.getTime() + paymentTermsDays * 24 * 60 * 60 * 1000);
+
+    const receivableData = {
+      billNo,
+      customerId: salesOrder.customerId,
+      orderId: salesOrder.id,
+      billDate,
+      dueDate,
+      totalAmount: salesOrder.finalAmount,
+      receivedAmount: 0,
+      balanceAmount: salesOrder.finalAmount,
+      status: ReceivableStatus.UNPAID,
+      terms: `${paymentTermsDays}天付款期`,
+      reference: `销售订单: ${salesOrder.orderNo}`
+    };
+
+    console.log(`自动生成应收账款: 订单 ${salesOrder.orderNo} -> 应收账款 ${billNo}, 金额 ${salesOrder.finalAmount}`);
+    
+    return await this.create(receivableData);
+  }
+
+  /**
+   * 生成应收账款单号
+   */
+  private async generateBillNo(): Promise<string> {
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const sequence = String(this.receivables.size + 1).padStart(3, '0');
+    return `AR${dateStr}${sequence}`;
+  }
 }
 
 // 创建并导出服务实例

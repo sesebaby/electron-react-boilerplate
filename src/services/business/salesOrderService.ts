@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import customerService from './customerService';
 import productService from './productService';
 import inventoryStockService from './inventoryStockService';
+import accountsReceivableService from './accountsReceivableService';
 import { logger } from '../../utils/secureLogger';
 import userService from './userService';
 
@@ -232,6 +233,30 @@ export class SalesOrderService {
     }
 
     this.orders.set(id, updatedOrder);
+
+    // 财务集成：当订单状态变为已发货或已完成时，自动生成应收账款
+    if (data.status && 
+        (data.status === SalesOrderStatus.SHIPPED || data.status === SalesOrderStatus.COMPLETED) &&
+        existingOrder.status !== data.status) {
+      
+      try {
+        await accountsReceivableService.createFromSalesOrder(updatedOrder);
+        logger.info('Auto-generated accounts receivable for order', {
+          orderId: id,
+          orderNo: updatedOrder.orderNo,
+          status: data.status,
+          amount: updatedOrder.finalAmount
+        });
+      } catch (error) {
+        logger.error('Failed to auto-generate accounts receivable', {
+          orderId: id,
+          orderNo: updatedOrder.orderNo,
+          error: error instanceof Error ? error.message : '未知错误'
+        });
+        // 不阻止订单状态更新，但记录错误
+      }
+    }
+
     return updatedOrder;
   }
 

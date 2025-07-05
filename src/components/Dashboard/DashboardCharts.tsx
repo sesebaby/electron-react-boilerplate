@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import dashboardService, { DashboardChartData } from '../../services/dashboard/dashboardService';
 import { GlassCard, GlassButton } from '../ui/FormControls';
+import { formatCurrency, formatNumber, getBarColor, calculatePercentage, findMaxValue } from '../../utils/formatters';
+import { ChartSkeleton, ErrorState } from '../ui/SkeletonLoader';
 
 interface DashboardChartsProps {
   className?: string;
 }
 
-export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) => {
+export const DashboardCharts: React.FC<DashboardChartsProps> = React.memo(({ className }) => {
   const [chartData, setChartData] = useState<DashboardChartData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -14,7 +16,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
     loadChartData();
   }, []);
 
-  const loadChartData = async () => {
+  const loadChartData = useCallback(async () => {
     try {
       setLoading(true);
       const data = await dashboardService.getChartData();
@@ -24,43 +26,34 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const formatCurrency = (value: number): string => {
-    return new Intl.NumberFormat('zh-CN', {
-      style: 'currency',
-      currency: 'CNY',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(value);
-  };
+  // 缓存复杂计算结果
+  const categoryMaxValue = useMemo(() => {
+    return chartData?.inventoryByCategory ? findMaxValue(chartData.inventoryByCategory) : 0;
+  }, [chartData?.inventoryByCategory]);
 
-  const formatNumber = (value: number): string => {
-    return new Intl.NumberFormat('zh-CN').format(value);
-  };
+  const stockMovementMaxValue = useMemo(() => {
+    if (!chartData?.stockMovement) return 0;
+    return Math.max(
+      ...chartData.stockMovement.flatMap(d => [d.stockIn, d.stockOut, d.adjustment])
+    );
+  }, [chartData?.stockMovement]);
 
-  const getBarColor = (index: number): string => {
-    const colors = [
-      'from-blue-500 to-blue-600',
-      'from-green-500 to-green-600',
-      'from-purple-500 to-purple-600',
-      'from-yellow-500 to-yellow-600',
-      'from-red-500 to-red-600',
-      'from-indigo-500 to-indigo-600',
-      'from-pink-500 to-pink-600',
-      'from-cyan-500 to-cyan-600'
-    ];
-    return colors[index % colors.length];
-  };
+  const topProductsMaxValue = useMemo(() => {
+    return chartData?.topProducts ? findMaxValue(chartData.topProducts) : 0;
+  }, [chartData?.topProducts]);
+
 
   if (loading) {
     return (
-      <div className={`${className || ''}`}>
-        <div className="flex items-center justify-center min-h-96">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-            <p className="text-white/80">加载图表数据中...</p>
-          </div>
+      <div className={`space-y-6 ${className || ''}`}>
+        <ChartSkeleton title="按分类库存分布" />
+        <ChartSkeleton title="近期库存流水趋势" />
+        <ChartSkeleton title="库存价值TOP10商品" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <ChartSkeleton title="供应商评级分布" />
+          <ChartSkeleton title="客户等级分布" />
         </div>
       </div>
     );
@@ -69,12 +62,12 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
   if (!chartData) {
     return (
       <div className={`${className || ''}`}>
-        <GlassCard className="text-center">
-          <div className="text-6xl mb-4">📊</div>
-          <h3 className="text-xl font-semibold text-white mb-2">暂无图表数据</h3>
-          <p className="text-white/70 mb-4">无法加载图表数据，请重试</p>
-          <GlassButton onClick={loadChartData} variant="primary">重新加载</GlassButton>
-        </GlassCard>
+        <ErrorState
+          title="暂无图表数据"
+          message="无法加载图表数据，请重试"
+          onRetry={loadChartData}
+          retryLabel="重新加载"
+        />
       </div>
     );
   }
@@ -86,8 +79,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
         {chartData.inventoryByCategory.length > 0 ? (
           <div className="space-y-4">
             {chartData.inventoryByCategory.map((item, index) => {
-              const maxValue = Math.max(...chartData.inventoryByCategory.map(d => d.value));
-              const percentage = maxValue > 0 ? (item.value / maxValue) * 100 : 0;
+              const percentage = calculatePercentage(item.value, categoryMaxValue);
               
               return (
                 <div key={index} className="space-y-2">
@@ -139,16 +131,13 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
             {/* 图表 */}
             <div className="flex items-end justify-between gap-2 h-48 border-b border-white/10">
               {chartData.stockMovement.map((item, index) => {
-                const maxValue = Math.max(
-                  ...chartData.stockMovement.flatMap(d => [d.stockIn, d.stockOut, d.adjustment])
-                );
                 
                 return (
                   <div key={index} className="flex-1 flex flex-col items-center gap-2">
                     <div className="flex items-end gap-1 h-32">
                       <div 
                         className="w-6 bg-green-500 rounded-t transition-all duration-1000 ease-out flex items-end justify-center"
-                        style={{height: `${maxValue > 0 ? (item.stockIn / maxValue) * 100 : 0}%`}}
+                        style={{height: `${calculatePercentage(item.stockIn, stockMovementMaxValue)}%`}}
                       >
                         {item.stockIn > 0 && (
                           <span className="text-xs text-white font-medium mb-1">{item.stockIn}</span>
@@ -156,7 +145,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
                       </div>
                       <div 
                         className="w-6 bg-red-500 rounded-t transition-all duration-1000 ease-out flex items-end justify-center"
-                        style={{height: `${maxValue > 0 ? (item.stockOut / maxValue) * 100 : 0}%`}}
+                        style={{height: `${calculatePercentage(item.stockOut, stockMovementMaxValue)}%`}}
                       >
                         {item.stockOut > 0 && (
                           <span className="text-xs text-white font-medium mb-1">{item.stockOut}</span>
@@ -164,7 +153,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
                       </div>
                       <div 
                         className="w-6 bg-yellow-500 rounded-t transition-all duration-1000 ease-out flex items-end justify-center"
-                        style={{height: `${maxValue > 0 ? (item.adjustment / maxValue) * 100 : 0}%`}}
+                        style={{height: `${calculatePercentage(item.adjustment, stockMovementMaxValue)}%`}}
                       >
                         {item.adjustment > 0 && (
                           <span className="text-xs text-white font-medium mb-1">{item.adjustment}</span>
@@ -195,8 +184,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
         {chartData.topProducts.length > 0 ? (
           <div className="space-y-4">
             {chartData.topProducts.slice(0, 10).map((item, index) => {
-              const maxValue = Math.max(...chartData.topProducts.map(p => p.value));
-              const percentage = maxValue > 0 ? (item.value / maxValue) * 100 : 0;
+              const percentage = calculatePercentage(item.value, topProductsMaxValue);
               
               return (
                 <div key={index} className="flex items-center gap-4">
@@ -304,6 +292,8 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ className }) =
       </div>
     </div>
   );
-};
+});
+
+DashboardCharts.displayName = 'DashboardCharts';
 
 export default DashboardCharts;
