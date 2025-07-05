@@ -85,22 +85,22 @@
   text-shadow: var(--popup-text-shadow, 0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-/* ===== 玻璃未来风主题 - 改用白色系文字 ===== */
+/* ===== 玻璃未来风主题 - 符合UI设计系统规范 ===== */
 [data-theme="glass-future"] .theme-dropdown-header h3 {
-  color: oklch(1 0 0) !important;
-  text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8) !important;
+  color: var(--popup-text-primary) !important;
+  text-shadow: var(--popup-text-shadow) !important;
 }
 
 [data-theme="glass-future"] .theme-dropdown {
-  background: oklch(0.511 0.262 276.966 / 0.9);
-  -webkit-backdrop-filter: blur(35px);
-  backdrop-filter: blur(35px);
-  border: 1px solid oklch(0.87 0.065 274.039 / 0.6);
-  box-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);
+  background: var(--popup-background);
+  -webkit-backdrop-filter: var(--popup-blur);
+  backdrop-filter: var(--popup-blur);
+  border: var(--popup-border);
+  box-shadow: var(--popup-shadow);
 }
 
 [data-theme="glass-future"] .theme-dropdown-header {
-  background: oklch(0.457 0.24 277.023 / 0.95);
+  background: var(--popup-header-background);
   border-bottom: 1px solid oklch(0.87 0.065 274.039 / 0.5);
 }
 
@@ -108,16 +108,16 @@
 [data-theme="glass-future"] .theme-option {
   background: oklch(0.585 0.233 277.117 / 0.3) !important;
   border: 1px solid oklch(0.87 0.065 274.039 / 0.5) !important;
-  color: oklch(1 0 0) !important;
+  color: var(--popup-text-primary) !important;
 }
 
 [data-theme="glass-future"] .theme-option h4 {
-  color: oklch(1 0 0) !important;
+  color: var(--popup-text-primary) !important;
   text-shadow: 0 2px 6px oklch(0.257 0.09 281.288 / 0.8);
 }
 
 [data-theme="glass-future"] .theme-option p {
-  color: oklch(0.984 0.003 247.858) !important;
+  color: var(--popup-text-secondary) !important;
   text-shadow: 0 2px 6px oklch(0.257 0.09 281.288 / 0.6);
 }
 
@@ -133,42 +133,44 @@
 
 /* 玻璃未来风主题 - 关闭按钮样式 */
 [data-theme="glass-future"] .close-button {
-  color: oklch(0.984 0.003 247.858) !important;
+  color: var(--popup-text-secondary) !important;
   background: oklch(0.585 0.233 277.117 / 0.4);
   border: 1px solid oklch(0.87 0.065 274.039 / 0.6);
-  text-shadow: 0 2px 6px oklch(0.257 0.09 281.288 / 0.8);
+  text-shadow: var(--popup-text-shadow);
 }
 
-/* ===== 深色科技风主题 - 基于 Slate 色块系列 ===== */
+/* ===== 深色科技风主题 - 符合UI设计系统规范 ===== */
 [data-theme="dark-tech"] .theme-dropdown-header h3 {
-  color: oklch(0.968 0.007 247.896) !important;
-  text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8) !important;
+  color: var(--popup-text-primary) !important;
+  text-shadow: var(--popup-text-shadow) !important;
 }
 
 [data-theme="dark-tech"] .theme-dropdown {
-  background: oklch(0.279 0.041 260.031 / 0.85);
-  border: 1px solid oklch(0.446 0.043 257.281 / 0.3);
-  box-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.4);
+  background: var(--popup-background);
+  border: var(--popup-border);
+  backdrop-filter: var(--popup-blur);
+  -webkit-backdrop-filter: var(--popup-blur);
+  box-shadow: var(--popup-shadow);
 }
 
 [data-theme="dark-tech"] .theme-dropdown-header {
-  background: oklch(0.372 0.044 257.287 / 0.9);
+  background: var(--popup-header-background);
   border-bottom: 1px solid oklch(0.446 0.043 257.281 / 0.3);
 }
 
 [data-theme="dark-tech"] .theme-option {
   background: oklch(0.372 0.044 257.287 / 0.15) !important;
   border: 1px solid oklch(0.446 0.043 257.281 / 0.3) !important;
-  color: oklch(0.968 0.007 247.896) !important;
+  color: var(--popup-text-primary) !important;
 }
 
 [data-theme="dark-tech"] .theme-option h4 {
-  color: oklch(0.968 0.007 247.896) !important;
+  color: var(--popup-text-primary) !important;
   text-shadow: 0 1px 2px oklch(0.129 0.042 264.695 / 0.8);
 }
 
 [data-theme="dark-tech"] .theme-option p {
-  color: oklch(0.929 0.013 255.508) !important;
+  color: var(--popup-text-secondary) !important;
   text-shadow: 0 1px 2px oklch(0.129 0.042 264.695 / 0.6);
 }
 
@@ -183,42 +185,44 @@
 }
 
 [data-theme="dark-tech"] .close-button {
-  color: oklch(0.929 0.013 255.508) !important;
+  color: var(--popup-text-secondary) !important;
   background: oklch(0.372 0.044 257.287 / 0.3);
   border: 1px solid oklch(0.446 0.043 257.281 / 0.4);
-  text-shadow: 0 1px 2px oklch(0.129 0.042 264.695 / 0.8);
+  text-shadow: var(--popup-text-shadow);
 }
 
-/* ===== 温暖商务风主题 - 基于 Amber 色块系列 ===== */
+/* ===== 温暖商务风主题 - 符合UI设计系统规范 ===== */
 [data-theme="warm-business"] .theme-dropdown-header h3 {
-  color: oklch(0.414 0.112 45.904) !important;
-  text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9) !important;
+  color: var(--popup-text-primary) !important;
+  text-shadow: var(--popup-text-shadow) !important;
 }
 
 [data-theme="warm-business"] .theme-dropdown {
-  background: oklch(0.987 0.022 95.277 / 0.85);
-  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
-  box-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);
+  background: var(--popup-background);
+  border: var(--popup-border);
+  backdrop-filter: var(--popup-blur);
+  -webkit-backdrop-filter: var(--popup-blur);
+  box-shadow: var(--popup-shadow);
 }
 
 [data-theme="warm-business"] .theme-dropdown-header {
-  background: oklch(0.987 0.022 95.277 / 0.95);
+  background: var(--popup-header-background);
   border-bottom: 1px solid oklch(0.924 0.12 95.746 / 0.4);
 }
 
 [data-theme="warm-business"] .theme-option {
   background: oklch(0.962 0.059 95.617 / 0.15) !important;
   border: 1px solid oklch(0.924 0.12 95.746 / 0.3) !important;
-  color: oklch(0.414 0.112 45.904) !important;
+  color: var(--popup-text-primary) !important;
 }
 
 [data-theme="warm-business"] .theme-option h4 {
-  color: oklch(0.414 0.112 45.904) !important;
+  color: var(--popup-text-primary) !important;
   text-shadow: 0 1px 2px oklch(0.987 0.022 95.277 / 0.8);
 }
 
 [data-theme="warm-business"] .theme-option p {
-  color: oklch(0.473 0.137 46.201) !important;
+  color: var(--popup-text-secondary) !important;
   text-shadow: 0 1px 2px oklch(0.987 0.022 95.277 / 0.6);
 }
 
@@ -233,10 +237,10 @@
 }
 
 [data-theme="warm-business"] .close-button {
-  color: oklch(0.473 0.137 46.201) !important;
+  color: var(--popup-text-secondary) !important;
   background: oklch(0.962 0.059 95.617 / 0.3);
   border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
-  text-shadow: 0 1px 2px oklch(0.987 0.022 95.277 / 0.8);
+  text-shadow: var(--popup-text-shadow);
 }
 
 .close-button {

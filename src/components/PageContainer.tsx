@@ -16,13 +16,17 @@ import PurchaseReceiptManagementTailwind from './Purchase/PurchaseReceiptManagem
 import CustomerManagementTailwind from './Sales/CustomerManagementTailwind';
 import SalesOrderManagementTailwind from './Sales/SalesOrderManagementTailwind';
 import SalesDeliveryManagementTailwind from './Sales/SalesDeliveryManagementTailwind';
-import InventoryReports from './Reports/InventoryReports';
-import SalesReports from './Reports/SalesReports';
-import PurchaseReports from './Reports/PurchaseReports';
-import FinancialReports from './Reports/FinancialReports';
+import InventoryReportsTailwind from './Reports/InventoryReportsTailwind';
+import SalesReportsTailwind from './Reports/SalesReportsTailwind';
+import PurchaseReportsTailwind from './Reports/PurchaseReportsTailwind';
+import FinancialReportsTailwind from './Reports/FinancialReportsTailwind';
 import FinancialTailwind from './Financial/FinancialTailwind';
-import SystemManagement from './SystemManagement/SystemManagement';
-import System from './System/System';
+import AccountsPayableManagementTailwind from './Financial/AccountsPayableManagementTailwind';
+import AccountsReceivableManagementTailwind from './Financial/AccountsReceivableManagementTailwind';
+import PaymentRecordsManagementTailwind from './Financial/PaymentRecordsManagementTailwind';
+import ReceiptRecordsManagementTailwind from './Financial/ReceiptRecordsManagementTailwind';
+import SystemManagementTailwind from './SystemManagement/SystemManagementTailwind';
+import SystemTailwind from './System/SystemTailwind';
 
 interface PageContainerProps {
   currentPage: string;
@@ -47,12 +51,12 @@ const pageComponents: Record<string, React.ComponentType> = {
   'customers': CustomerManagementTailwind,
   'sales-orders': SalesOrderManagementTailwind,
   'sales-delivery': SalesDeliveryManagementTailwind,
-  'inventory-reports': InventoryReports,
-  'sales-reports': SalesReports,
-  'purchase-reports': PurchaseReports,
-  'financial-reports': FinancialReports,
+  'inventory-reports': InventoryReportsTailwind,
+  'sales-reports': SalesReportsTailwind,
+  'purchase-reports': PurchaseReportsTailwind,
+  'financial-reports': FinancialReportsTailwind,
   'financial': FinancialTailwind,
-  'system-management': SystemManagement
+  'system-management': SystemManagementTailwind
 };
 
 // 开发中的页面组件
@@ -97,18 +101,19 @@ const allPageComponents: Record<string, React.ComponentType> = {
   // 销售管理模块 - 已完成
   
   // 财务管理模块 - 已完成基础功能
-  'accounts-payable': FinancialTailwind,
-  'accounts-receivable': FinancialTailwind,
-  'payments': FinancialTailwind,
-  'receipts': FinancialTailwind,
+  'accounts-payable': AccountsPayableManagementTailwind,
+  'accounts-receivable': AccountsReceivableManagementTailwind,
+  'payments': PaymentRecordsManagementTailwind,
+  'receipts': ReceiptRecordsManagementTailwind,
+  'financial': FinancialTailwind,
   
   // 报表分析模块 - 部分完成
   
   // 系统管理模块 - 用户管理已完成，其他开发中
-  'users': System,
-  'permissions': System,
-  'settings': System,
-  'logs': System
+  'users': SystemTailwind,
+  'permissions': SystemTailwind,
+  'settings': SystemTailwind,
+  'logs': SystemTailwind
 };
 
 export const PageContainer: React.FC<PageContainerProps> = ({ currentPage }) => {

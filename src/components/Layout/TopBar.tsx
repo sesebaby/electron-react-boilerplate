@@ -93,8 +93,10 @@ export const TopBar: React.FC<TopBarProps> = ({
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('搜索:', searchValue);
-    // TODO: 实现搜索功能
+    if (searchValue.trim()) {
+      // Navigate to search results page with query parameter
+      window.location.hash = `#/search?q=${encodeURIComponent(searchValue.trim())}`;
+    }
   };
 
   return (
@@ -232,32 +234,73 @@ export const TopBar: React.FC<TopBarProps> = ({
                 <div className="user-menu-divider"></div>
                 <ul className="user-menu-list popup-content">
                   <li>
-                    <button type="button" className="user-menu-item">
+                    <button 
+                      type="button" 
+                      className="user-menu-item"
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        window.location.hash = '#/profile';
+                      }}
+                    >
                       <span className="menu-icon">👤</span>
                       个人资料
                     </button>
                   </li>
                   <li>
-                    <button type="button" className="user-menu-item">
+                    <button 
+                      type="button" 
+                      className="user-menu-item"
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        window.location.hash = '#/settings';
+                      }}
+                    >
                       <span className="menu-icon">⚙️</span>
                       系统设置
                     </button>
                   </li>
                   <li>
-                    <button type="button" className="user-menu-item">
+                    <button 
+                      type="button" 
+                      className="user-menu-item"
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        window.location.hash = '#/change-password';
+                      }}
+                    >
                       <span className="menu-icon">🔐</span>
                       修改密码
                     </button>
                   </li>
                   <li>
-                    <button type="button" className="user-menu-item">
+                    <button 
+                      type="button" 
+                      className="user-menu-item"
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        window.location.hash = '#/logs';
+                      }}
+                    >
                       <span className="menu-icon">📋</span>
                       操作日志
                     </button>
                   </li>
                   <li className="menu-divider"></li>
                   <li>
-                    <button type="button" className="user-menu-item logout">
+                    <button 
+                      type="button" 
+                      className="user-menu-item logout"
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        if (confirm('确定要退出登录吗？')) {
+                          // Clear any stored authentication data
+                          localStorage.clear();
+                          sessionStorage.clear();
+                          // Redirect to login page
+                          window.location.hash = '#/login';
+                        }
+                      }}
+                    >
                       <span className="menu-icon">🚪</span>
                       退出登录
                     </button>

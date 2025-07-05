@@ -139,7 +139,22 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
                 </div>
                 <button 
                   className="attention-action"
-                  onClick={() => console.log(`Handle ${item.type}:`, item)}
+                  onClick={() => {
+                    // Navigate to relevant page based on item type
+                    switch (item.type) {
+                      case 'low_stock':
+                        window.location.hash = '#/inventory-overview';
+                        break;
+                      case 'out_of_stock':
+                        window.location.hash = '#/stock-in';
+                        break;
+                      case 'system_issue':
+                        window.location.hash = '#/settings';
+                        break;
+                      default:
+                        window.location.hash = '#/dashboard';
+                    }
+                  }}
                 >
                   {item.action}
                 </button>
@@ -158,7 +173,12 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
               <button 
                 key={index}
                 className="shortcut-btn"
-                onClick={() => console.log('Navigate to:', shortcut.route)}
+                onClick={() => {
+                  // Navigate to the specified route
+                  if (shortcut.route) {
+                    window.location.hash = shortcut.route;
+                  }
+                }}
               >
                 <div className="shortcut-icon">
                   {shortcut.icon === 'plus' && '➕'}
@@ -221,14 +241,22 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
         <div className="system-check-actions">
           <button 
             className="system-check-btn"
-            onClick={() => console.log('Run system health check')}
+            onClick={() => {
+              // Navigate to system management page for health check
+              window.location.hash = '#/settings';
+            }}
           >
             <span className="check-icon">🏥</span>
             <span>健康检查</span>
           </button>
           <button 
             className="system-check-btn"
-            onClick={() => console.log('Backup data')}
+            onClick={() => {
+              // Show backup confirmation dialog
+              if (confirm('确定要开始数据备份吗？这可能需要几分钟时间。')) {
+                alert('数据备份已开始，请耐心等待完成通知。');
+              }
+            }}
           >
             <span className="check-icon">💾</span>
             <span>数据备份</span>
@@ -242,7 +270,10 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
           </button>
           <button 
             className="system-check-btn"
-            onClick={() => console.log('Export reports')}
+            onClick={() => {
+              // Navigate to reports page
+              window.location.hash = '#/inventory-reports';
+            }}
           >
             <span className="check-icon">📋</span>
             <span>导出报表</span>

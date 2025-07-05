@@ -231,12 +231,32 @@ export const AccountsPayableManagementTailwind: React.FC<AccountsPayableManageme
     }
   };
 
-  const getStatusClass = (status: PayableStatus): string => {
+  const getStatusStyle = (status: PayableStatus) => {
     switch (status) {
-      case PayableStatus.UNPAID: return 'text-red-600 bg-red-50 border-red-200';
-      case PayableStatus.PARTIAL: return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case PayableStatus.PAID: return 'text-green-600 bg-green-50 border-green-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case PayableStatus.UNPAID: 
+        return { 
+          color: '#dc2626', 
+          backgroundColor: 'rgba(239, 68, 68, 0.1)', 
+          borderColor: 'rgba(239, 68, 68, 0.3)' 
+        };
+      case PayableStatus.PARTIAL: 
+        return { 
+          color: '#d97706', 
+          backgroundColor: 'rgba(245, 158, 11, 0.1)', 
+          borderColor: 'rgba(245, 158, 11, 0.3)' 
+        };
+      case PayableStatus.PAID: 
+        return { 
+          color: '#059669', 
+          backgroundColor: 'rgba(16, 185, 129, 0.1)', 
+          borderColor: 'rgba(16, 185, 129, 0.3)' 
+        };
+      default: 
+        return { 
+          color: 'var(--text-tertiary)', 
+          backgroundColor: 'var(--card-background)', 
+          border: 'var(--glass-border)' 
+        };
     }
   };
 
@@ -278,11 +298,17 @@ export const AccountsPayableManagementTailwind: React.FC<AccountsPayableManageme
 
   if (loading) {
     return (
-      <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`}>
+      <div 
+        className={`min-h-screen ${className || ''}`}
+        style={{ background: 'var(--app-background)' }}
+      >
         <div className="flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">加载应付账款数据中...</p>
+            <div 
+              className="animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4"
+              style={{ borderBottomColor: 'var(--text-primary)' }}
+            ></div>
+            <p style={{ color: 'var(--text-secondary)' }}>加载应付账款数据中...</p>
           </div>
         </div>
       </div>
@@ -290,19 +316,30 @@ export const AccountsPayableManagementTailwind: React.FC<AccountsPayableManageme
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`}>
+    <div 
+      className={`min-h-screen ${className || ''}`}
+      style={{ background: 'var(--app-background)' }}
+    >
       <div className="p-6 space-y-6">
         {/* 页面头部 */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 
+              className="text-3xl font-bold"
+              style={{ color: 'var(--text-primary)' }}
+            >
               应付账款管理
             </h1>
-            <p className="text-gray-600 mt-1">管理供应商应付账款和付款记录</p>
+            <p 
+              className="mt-1"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              管理供应商应付账款和付款记录
+            </p>
           </div>
           <GlassButton 
             onClick={() => setShowPayableForm(true)}
-            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700"
+            variant="primary"
           >
             <span className="mr-2">💰</span>
             新建应付账款
@@ -484,7 +521,10 @@ export const AccountsPayableManagementTailwind: React.FC<AccountsPayableManageme
                       <div className="font-medium text-gray-900">¥{payable.balanceAmount.toLocaleString()}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full border ${getStatusClass(payable.status)}`}>
+                      <span 
+                        className="px-2 py-1 text-xs font-medium rounded-full border"
+                        style={getStatusStyle(payable.status)}
+                      >
                         {getStatusText(payable.status)}
                       </span>
                     </td>

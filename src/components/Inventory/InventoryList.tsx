@@ -167,10 +167,44 @@ export const InventoryList: React.FC<InventoryListProps> = ({ className }) => {
       <div className="inventory-header">
         <h2>库存列表</h2>
         <div className="inventory-actions">
-          <button className="action-button primary">
+          <button 
+            className="action-button primary"
+            onClick={() => {
+              // Navigate to product management page to create new product
+              window.location.hash = '#/products';
+            }}
+          >
             ➕ 新建库存
           </button>
-          <button className="action-button secondary">
+          <button 
+            className="action-button secondary"
+            onClick={() => {
+              // Export inventory data as CSV
+              const headers = ['商品ID', '仓库ID', '当前库存', '最小库存', '最大库存', '单价', '总价值', '状态', '最后更新'];
+              const csvData = filteredInventories.map(item => [
+                item.productId,
+                item.warehouseId,
+                item.currentStock,
+                item.minStock,
+                item.maxStock,
+                item.unitPrice,
+                item.currentStock * item.unitPrice,
+                getStockStatusText(item),
+                item.lastMovementDate?.toLocaleDateString('zh-CN') || '-'
+              ]);
+              
+              const csvContent = [headers, ...csvData]
+                .map(row => row.map(field => `"${field}"`).join(','))
+                .join('\n');
+              
+              const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+              const link = document.createElement('a');
+              const url = URL.createObjectURL(blob);
+              link.href = url;
+              link.download = `库存列表_${new Date().toISOString().split('T')[0]}.csv`;
+              link.click();
+            }}
+          >
             📤 导出数据
           </button>
         </div>
@@ -283,9 +317,37 @@ export const InventoryList: React.FC<InventoryListProps> = ({ className }) => {
                     {item.lastMovementDate?.toLocaleDateString('zh-CN') || '-'}
                   </td>
                   <td className="actions-cell">
-                    <button className="action-btn edit">✏️</button>
-                    <button className="action-btn adjust">📝</button>
-                    <button className="action-btn delete">🗑️</button>
+                    <button 
+                      className="action-btn edit" 
+                      title="编辑库存"
+                      onClick={() => {
+                        // Navigate to stock adjustment page for this item
+                        window.location.hash = `#/stock-adjust?product=${item.productId}&warehouse=${item.warehouseId}`;
+                      }}
+                    >
+                      ✏️
+                    </button>
+                    <button 
+                      className="action-btn adjust" 
+                      title="库存调整"
+                      onClick={() => {
+                        // Navigate to stock adjustment page
+                        window.location.hash = `#/stock-adjust?product=${item.productId}&warehouse=${item.warehouseId}`;
+                      }}
+                    >
+                      📝
+                    </button>
+                    <button 
+                      className="action-btn delete" 
+                      title="删除库存记录"
+                      onClick={() => {
+                        if (confirm(`确定要删除商品 ${item.productId} 在仓库 ${item.warehouseId} 的库存记录吗？`)) {
+                          alert('删除功能需要后端API支持，请联系开发人员实现。');
+                        }
+                      }}
+                    >
+                      🗑️
+                    </button>
                   </td>
                 </tr>
               ))}

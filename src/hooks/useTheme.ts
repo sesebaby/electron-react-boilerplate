@@ -14,19 +14,19 @@ export const AVAILABLE_THEMES: Theme[] = [
     name: 'glass-future',
     displayName: '玻璃未来风',
     description: '透明玻璃感，科技未来风格',
-    preview: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+    preview: 'linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%)'
   },
   {
     name: 'dark-tech',
     displayName: '深色科技风',
     description: '深色背景，科技感界面',
-    preview: 'linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%)'
+    preview: 'linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%)'
   },
   {
     name: 'warm-business',
     displayName: '温暖商务风',
     description: '温暖色调，商务专业风格',
-    preview: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)'
+    preview: 'linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%)'
   }
 ];
 
@@ -48,6 +48,23 @@ export const useTheme = () => {
   const applyTheme = (theme: ThemeName) => {
     document.documentElement.setAttribute('data-theme', theme);
     document.body.className = `theme-${theme}`;
+    
+    // 根据UI设计系统规范，更新body背景
+    const themeBackgrounds = {
+      'glass-future': 'linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%)',
+      'dark-tech': 'linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%)',
+      'warm-business': 'linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%)'
+    };
+    
+    document.body.style.background = themeBackgrounds[theme];
+    document.body.style.minHeight = '100vh';
+    
+    // 根据主题设置文字颜色
+    if (theme === 'warm-business') {
+      document.body.style.color = 'oklch(0.414 0.112 45.904)'; // amber-900
+    } else {
+      document.body.style.color = 'white';
+    }
   };
 
   // 切换主题
