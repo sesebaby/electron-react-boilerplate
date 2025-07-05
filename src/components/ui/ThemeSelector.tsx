@@ -101,13 +101,11 @@ export const ThemeSelector: React.FC = () => {
 
             <div className="flex gap-2">
               <div 
-                className="w-8 h-8 rounded-lg border-2 border-white/20"
-                style={{ backgroundColor: currentThemeData.colors.primary }}
+                className="w-8 h-8 rounded-lg border-2 border-white/20 bg-blue-500"
                 title="主色调"
               />
               <div 
-                className="w-8 h-8 rounded-lg border-2 border-white/20"
-                style={{ backgroundColor: currentThemeData.colors.secondary }}
+                className="w-8 h-8 rounded-lg border-2 border-white/20 bg-purple-500"
                 title="辅助色调"
               />
             </div>

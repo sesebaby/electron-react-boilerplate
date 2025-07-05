@@ -45,23 +45,16 @@ export const System: React.FC<SystemProps> = ({ className }) => {
 
   return (
     <div 
-      className={`min-h-screen ${className || ''}`}
-      style={{ background: 'var(--app-background)' }}
+      className={`min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 ${className || ''}`}
     >
       <div className="p-6 space-y-6">
         {/* 页面头部 */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 
-              className="text-3xl font-bold"
-              style={{ color: 'var(--text-primary)' }}
-            >
+            <h1 className="text-3xl font-bold text-white">
               系统管理
             </h1>
-            <p 
-              className="mt-1"
-              style={{ color: 'var(--text-secondary)' }}
-            >
+            <p className="mt-1 text-white/80">
               用户、权限、设置和日志管理
             </p>
           </div>
@@ -75,26 +68,18 @@ export const System: React.FC<SystemProps> = ({ className }) => {
                 key={tab.id}
                 className={`
                   flex-1 min-w-0 px-6 py-4 rounded-xl transition-all duration-300 flex flex-col items-center text-center
-                  ${activeTab === tab.id ? 'shadow-lg transform scale-105' : ''}
+                  ${activeTab === tab.id 
+                    ? 'bg-white/20 text-white border border-white/30 shadow-lg transform scale-105' 
+                    : 'bg-white/10 text-white/70 hover:bg-white/15'
+                  }
                 `}
-                style={activeTab === tab.id ? {
-                  background: 'var(--popup-background)',
-                  color: 'var(--popup-text-primary)',
-                  border: 'var(--popup-border)'
-                } : {
-                  background: 'var(--hover-background)',
-                  color: 'var(--text-secondary)'
-                }}
                 onClick={() => handleTabChange(tab.id)}
               >
                 <span className="text-2xl mb-2">{tab.icon}</span>
                 <span className="font-medium text-sm">{tab.label}</span>
-                <span 
-                  className="text-xs mt-1"
-                  style={{ 
-                    color: activeTab === tab.id ? 'var(--popup-text-secondary)' : 'var(--text-tertiary)'
-                  }}
-                >
+                <span className={`text-xs mt-1 ${
+                  activeTab === tab.id ? 'text-white/90' : 'text-white/60'
+                }`}>
                   {tab.description}
                 </span>
               </button>

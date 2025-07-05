@@ -57,22 +57,13 @@ export const Financial: React.FC<FinancialProps> = ({ className }) => {
             <div className="flex items-center justify-center min-h-[50vh]">
               <GlassCard className="text-center p-12">
                 <div className="text-6xl mb-6">🚧</div>
-                <h3 
-                  className="text-2xl font-bold mb-3"
-                  style={{ color: 'var(--text-primary)' }}
-                >
+                <h3 className="text-2xl font-bold mb-3 text-white">
                   财务报表
                 </h3>
-                <p 
-                  className="text-lg"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
+                <p className="text-lg text-white/80">
                   此功能正在开发中，敬请期待...
                 </p>
-                <div 
-                  className="mt-6 text-sm"
-                  style={{ color: 'var(--text-tertiary)' }}
-                >
+                <div className="mt-6 text-sm text-white/60">
                   即将推出：收支分析、资金流向、盈利报表等功能
                 </div>
               </GlassCard>
@@ -86,19 +77,15 @@ export const Financial: React.FC<FinancialProps> = ({ className }) => {
 
   return (
     <div 
-      className={`min-h-screen ${className || ''}`}
-      style={{ background: 'var(--app-background)' }}
+      className={`min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 ${className || ''}`}
     >
       {/* 页面头部 */}
       <div className="p-6 pb-0">
         <div className="mb-6">
-          <h1 
-            className="text-3xl font-bold mb-2"
-            style={{ color: 'var(--text-primary)' }}
-          >
+          <h1 className="text-3xl font-bold mb-2 text-white">
             财务管理
           </h1>
-          <p style={{ color: 'var(--text-secondary)' }}>管理应付账款、应收账款和财务报表</p>
+          <p className="text-white/80">管理应付账款、应收账款和财务报表</p>
         </div>
 
         {/* 标签导航 */}
@@ -109,26 +96,18 @@ export const Financial: React.FC<FinancialProps> = ({ className }) => {
                 key={tab.id}
                 className={`
                   flex-1 min-w-0 px-4 py-3 rounded-xl transition-all duration-300 flex flex-col items-center text-center
-                  ${activeTab === tab.id ? 'shadow-lg transform scale-105' : ''}
+                  ${activeTab === tab.id 
+                    ? 'bg-white/20 text-white border border-white/30 shadow-lg transform scale-105' 
+                    : 'bg-white/10 text-white/70 hover:bg-white/15'
+                  }
                 `}
-                style={activeTab === tab.id ? {
-                  background: 'var(--popup-background)',
-                  color: 'var(--popup-text-primary)',
-                  border: 'var(--popup-border)'
-                } : {
-                  background: 'var(--hover-background)',
-                  color: 'var(--text-secondary)'
-                }}
                 onClick={() => setActiveTab(tab.id)}
               >
                 <span className="text-xl mb-1">{tab.icon}</span>
                 <span className="font-medium text-sm">{tab.label}</span>
-                <span 
-                  className="text-xs mt-1"
-                  style={{ 
-                    color: activeTab === tab.id ? 'var(--popup-text-secondary)' : 'var(--text-tertiary)'
-                  }}
-                >
+                <span className={`text-xs mt-1 ${
+                  activeTab === tab.id ? 'text-white/90' : 'text-white/60'
+                }`}>
                   {tab.description}
                 </span>
               </button>

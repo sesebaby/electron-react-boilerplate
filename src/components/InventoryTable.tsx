@@ -256,10 +256,9 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                     <PaginationItem>
                       <PaginationPrevious 
                         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-                        style={{ 
-                          pointerEvents: currentPage === 1 ? 'none' : 'auto',
-                          opacity: currentPage === 1 ? 0.5 : 1
-                        }}
+                        className={`${
+                          currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'
+                        }`}
                       />
                     </PaginationItem>
                     
@@ -268,10 +267,9 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                     <PaginationItem>
                       <PaginationNext 
                         onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-                        style={{ 
-                          pointerEvents: currentPage === totalPages ? 'none' : 'auto',
-                          opacity: currentPage === totalPages ? 0.5 : 1
-                        }}
+                        className={`${
+                          currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'
+                        }`}
                       />
                     </PaginationItem>
                   </PaginationContent>
