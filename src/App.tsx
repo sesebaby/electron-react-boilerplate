@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AppLayout from './components/Layout/AppLayout';
+import { AppLayout } from './components/Layout/AppLayout';
 import PageContainer from './components/PageContainer';
 import TestDataGenerator from './services/testData';
 import './globals.css';

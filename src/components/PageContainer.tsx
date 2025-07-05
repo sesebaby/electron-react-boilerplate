@@ -1,32 +1,32 @@
 import React from 'react';
-import { DashboardTailwind } from './Dashboard/DashboardTailwind';
+import { Dashboard } from './Dashboard/Dashboard';
 import MinimalDashboard from './MinimalDashboard';
-import { InventoryOverviewTailwind } from './Inventory/InventoryOverviewTailwind';
-import { InventoryListTailwind } from './Inventory/InventoryListTailwind';
-import { ProductManagementTailwind } from './Inventory/ProductManagementTailwind';
-import { CategoryManagementTailwind } from './Inventory/CategoryManagementTailwind';
-import { WarehouseManagementTailwind } from './Inventory/WarehouseManagementTailwind';
-import { StockInTailwind } from './Inventory/StockInTailwind';
-import { StockOutTailwind } from './Inventory/StockOutTailwind';
-import { StockAdjustTailwind } from './Inventory/StockAdjustTailwind';
-import { TransactionRecordsTailwind } from './Inventory/TransactionRecordsTailwind';
-import SupplierManagementTailwind from './Purchase/SupplierManagementTailwind';
-import PurchaseOrderManagementTailwind from './Purchase/PurchaseOrderManagementTailwind';
-import PurchaseReceiptManagementTailwind from './Purchase/PurchaseReceiptManagementTailwind';
-import CustomerManagementTailwind from './Sales/CustomerManagementTailwind';
-import SalesOrderManagementTailwind from './Sales/SalesOrderManagementTailwind';
-import SalesDeliveryManagementTailwind from './Sales/SalesDeliveryManagementTailwind';
-import InventoryReportsTailwind from './Reports/InventoryReportsTailwind';
-import SalesReportsTailwind from './Reports/SalesReportsTailwind';
-import PurchaseReportsTailwind from './Reports/PurchaseReportsTailwind';
-import FinancialReportsTailwind from './Reports/FinancialReportsTailwind';
-import FinancialTailwind from './Financial/FinancialTailwind';
-import AccountsPayableManagementTailwind from './Financial/AccountsPayableManagementTailwind';
-import AccountsReceivableManagementTailwind from './Financial/AccountsReceivableManagementTailwind';
-import PaymentRecordsManagementTailwind from './Financial/PaymentRecordsManagementTailwind';
-import ReceiptRecordsManagementTailwind from './Financial/ReceiptRecordsManagementTailwind';
-import SystemManagementTailwind from './SystemManagement/SystemManagementTailwind';
-import SystemTailwind from './System/SystemTailwind';
+import { InventoryOverview } from './Inventory/InventoryOverview';
+import { InventoryList } from './Inventory/InventoryList';
+import { ProductManagement } from './Inventory/ProductManagement';
+import { CategoryManagement } from './Inventory/CategoryManagement';
+import { WarehouseManagement } from './Inventory/WarehouseManagement';
+import { StockIn } from './Inventory/StockIn';
+import { StockOut } from './Inventory/StockOut';
+import { StockAdjust } from './Inventory/StockAdjust';
+import { TransactionRecords } from './Inventory/TransactionRecords';
+import SupplierManagement from './Purchase/SupplierManagement';
+import PurchaseOrderManagement from './Purchase/PurchaseOrderManagement';
+import PurchaseReceiptManagement from './Purchase/PurchaseReceiptManagement';
+import CustomerManagement from './Sales/CustomerManagement';
+import SalesOrderManagement from './Sales/SalesOrderManagement';
+import SalesDeliveryManagement from './Sales/SalesDeliveryManagement';
+import InventoryReports from './Reports/InventoryReports';
+import SalesReports from './Reports/SalesReports';
+import PurchaseReports from './Reports/PurchaseReports';
+import FinancialReports from './Reports/FinancialReports';
+import Financial from './Financial/Financial';
+import AccountsPayableManagement from './Financial/AccountsPayableManagement';
+import AccountsReceivableManagement from './Financial/AccountsReceivableManagement';
+import PaymentRecordsManagement from './Financial/PaymentRecordsManagement';
+import ReceiptRecordsManagement from './Financial/ReceiptRecordsManagement';
+import SystemManagement from './SystemManagement/SystemManagement';
+import System from './System/System';
 
 interface PageContainerProps {
   currentPage: string;
@@ -34,29 +34,29 @@ interface PageContainerProps {
 
 // 页面映射
 const pageComponents: Record<string, React.ComponentType> = {
-  'dashboard': DashboardTailwind,
+  'dashboard': Dashboard,
   'dashboard-minimal': MinimalDashboard,
-  'inventory-overview': InventoryOverviewTailwind,
-  'inventory-products': InventoryListTailwind,
-  'products': ProductManagementTailwind,
-  'categories': CategoryManagementTailwind,
-  'warehouses': WarehouseManagementTailwind,
-  'stock-in': StockInTailwind,
-  'stock-out': StockOutTailwind,
-  'stock-adjust': StockAdjustTailwind,
-  'transaction-records': TransactionRecordsTailwind,
-  'suppliers': SupplierManagementTailwind,
-  'purchase-orders': PurchaseOrderManagementTailwind,
-  'purchase-receipts': PurchaseReceiptManagementTailwind,
-  'customers': CustomerManagementTailwind,
-  'sales-orders': SalesOrderManagementTailwind,
-  'sales-delivery': SalesDeliveryManagementTailwind,
-  'inventory-reports': InventoryReportsTailwind,
-  'sales-reports': SalesReportsTailwind,
-  'purchase-reports': PurchaseReportsTailwind,
-  'financial-reports': FinancialReportsTailwind,
-  'financial': FinancialTailwind,
-  'system-management': SystemManagementTailwind
+  'inventory-overview': InventoryOverview,
+  'inventory-products': InventoryList,
+  'products': ProductManagement,
+  'categories': CategoryManagement,
+  'warehouses': WarehouseManagement,
+  'stock-in': StockIn,
+  'stock-out': StockOut,
+  'stock-adjust': StockAdjust,
+  'transaction-records': TransactionRecords,
+  'suppliers': SupplierManagement,
+  'purchase-orders': PurchaseOrderManagement,
+  'purchase-receipts': PurchaseReceiptManagement,
+  'customers': CustomerManagement,
+  'sales-orders': SalesOrderManagement,
+  'sales-delivery': SalesDeliveryManagement,
+  'inventory-reports': InventoryReports,
+  'sales-reports': SalesReports,
+  'purchase-reports': PurchaseReports,
+  'financial-reports': FinancialReports,
+  'financial': Financial,
+  'system-management': SystemManagement
 };
 
 // 开发中的页面组件
@@ -101,19 +101,19 @@ const allPageComponents: Record<string, React.ComponentType> = {
   // 销售管理模块 - 已完成
   
   // 财务管理模块 - 已完成基础功能
-  'accounts-payable': AccountsPayableManagementTailwind,
-  'accounts-receivable': AccountsReceivableManagementTailwind,
-  'payments': PaymentRecordsManagementTailwind,
-  'receipts': ReceiptRecordsManagementTailwind,
-  'financial': FinancialTailwind,
+  'accounts-payable': AccountsPayableManagement,
+  'accounts-receivable': AccountsReceivableManagement,
+  'payments': PaymentRecordsManagement,
+  'receipts': ReceiptRecordsManagement,
+  'financial': Financial,
   
   // 报表分析模块 - 部分完成
   
   // 系统管理模块 - 用户管理已完成，其他开发中
-  'users': SystemTailwind,
-  'permissions': SystemTailwind,
-  'settings': SystemTailwind,
-  'logs': SystemTailwind
+  'users': System,
+  'permissions': System,
+  'settings': System,
+  'logs': System
 };
 
 export const PageContainer: React.FC<PageContainerProps> = ({ currentPage }) => {
