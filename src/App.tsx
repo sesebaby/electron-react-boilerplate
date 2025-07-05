@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppLayout } from './components/Layout/AppLayout';
 import PageContainer from './components/PageContainer';
 import TestDataGenerator from './services/testData';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import './globals.css';
 
 const App: React.FC = () => {
@@ -115,11 +116,18 @@ const App: React.FC = () => {
 
   // 主应用界面
   return (
-    <div className="min-h-screen">
-      <AppLayout>
-        <PageContainer currentPage={currentPage} />
-      </AppLayout>
-    </div>
+    <ErrorBoundary
+      onError={(error, errorInfo) => {
+        console.error('Application Error:', error, errorInfo);
+        // 这里可以发送错误报告到监控服务
+      }}
+    >
+      <div className="min-h-screen">
+        <AppLayout>
+          <PageContainer currentPage={currentPage} />
+        </AppLayout>
+      </div>
+    </ErrorBoundary>
   );
 };
 
