@@ -233,10 +233,10 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
 
   const getStatusClass = (status: ReceivableStatus): string => {
     switch (status) {
-      case ReceivableStatus.UNPAID: return 'text-red-600 bg-red-50 border-red-200';
-      case ReceivableStatus.PARTIAL: return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case ReceivableStatus.PAID: return 'text-green-600 bg-green-50 border-green-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case ReceivableStatus.UNPAID: return 'text-red-300 bg-red-500/20 border-red-400/30';
+      case ReceivableStatus.PARTIAL: return 'text-yellow-300 bg-yellow-500/20 border-yellow-400/30';
+      case ReceivableStatus.PAID: return 'text-green-300 bg-green-500/20 border-green-400/30';
+      default: return 'text-gray-300 bg-gray-500/20 border-gray-400/30';
     }
   };
 

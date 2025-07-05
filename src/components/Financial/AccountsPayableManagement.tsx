@@ -231,32 +231,16 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     }
   };
 
-  const getStatusStyle = (status: PayableStatus) => {
+  const getStatusClass = (status: PayableStatus): string => {
     switch (status) {
       case PayableStatus.UNPAID: 
-        return { 
-          color: '#dc2626', 
-          backgroundColor: 'rgba(239, 68, 68, 0.1)', 
-          borderColor: 'rgba(239, 68, 68, 0.3)' 
-        };
+        return 'text-red-300 bg-red-500/20 border-red-400/30';
       case PayableStatus.PARTIAL: 
-        return { 
-          color: '#d97706', 
-          backgroundColor: 'rgba(245, 158, 11, 0.1)', 
-          borderColor: 'rgba(245, 158, 11, 0.3)' 
-        };
+        return 'text-yellow-300 bg-yellow-500/20 border-yellow-400/30';
       case PayableStatus.PAID: 
-        return { 
-          color: '#059669', 
-          backgroundColor: 'rgba(16, 185, 129, 0.1)', 
-          borderColor: 'rgba(16, 185, 129, 0.3)' 
-        };
+        return 'text-green-300 bg-green-500/20 border-green-400/30';
       default: 
-        return { 
-          color: 'var(--text-tertiary)', 
-          backgroundColor: 'var(--card-background)', 
-          border: 'var(--glass-border)' 
-        };
+        return 'text-gray-300 bg-gray-500/20 border-gray-400/30';
     }
   };
 
@@ -522,8 +506,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span 
-                        className="px-2 py-1 text-xs font-medium rounded-full border"
-                        style={getStatusStyle(payable.status)}
+                        className={`px-2 py-1 text-xs font-medium rounded-full border ${getStatusClass(payable.status)}`}
                       >
                         {getStatusText(payable.status)}
                       </span>
