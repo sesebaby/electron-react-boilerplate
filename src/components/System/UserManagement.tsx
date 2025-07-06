@@ -285,28 +285,34 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
   return (
     <div className={`space-y-6 ${className || ''}`}>
       {/* 页面头部 */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-white">用户管理</h2>
-          <p className="mt-1 text-white/70">管理系统用户账号、角色和权限</p>
+      <GlassCard className="p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-white">
+              用户管理
+            </h1>
+            <p className="mt-1 text-white/80">
+              管理系统用户账号、角色和权限
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <GlassButton
+              onClick={loadData}
+              variant="secondary"
+            >
+              <span className="mr-2">🔄</span>
+              刷新
+            </GlassButton>
+            <GlassButton
+              onClick={handleCreate}
+              variant="primary"
+            >
+              <span className="mr-2">➕</span>
+              新增用户
+            </GlassButton>
+          </div>
         </div>
-        <div className="flex gap-3">
-          <GlassButton 
-            onClick={loadData}
-            variant="secondary"
-          >
-            <span className="mr-2">🔄</span>
-            刷新
-          </GlassButton>
-          <GlassButton 
-            onClick={handleCreate}
-            variant="primary"
-          >
-            <span className="mr-2">➕</span>
-            新增用户
-          </GlassButton>
-        </div>
-      </div>
+      </GlassCard>
 
       {/* 错误消息 */}
       {error && (

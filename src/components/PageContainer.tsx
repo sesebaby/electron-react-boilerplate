@@ -26,6 +26,10 @@ import PaymentRecordsManagement from './Financial/PaymentRecordsManagement';
 import ReceiptRecordsManagement from './Financial/ReceiptRecordsManagement';
 // import SystemManagement from './SystemManagement/SystemManagement';
 import System from './System/System';
+import UserManagement from './System/UserManagement';
+import PermissionManagement from './System/PermissionManagement';
+import SystemSettings from './System/SystemSettings';
+import OperationLogs from './System/OperationLogs';
 
 interface PageContainerProps {
   currentPage: string;
@@ -107,11 +111,11 @@ const allPageComponents: Record<string, React.ComponentType> = {
   
   // 报表分析模块 - 部分完成
   
-  // 系统管理模块 - 用户管理已完成，其他开发中
-  'users': System,
-  'permissions': System,
-  'settings': System,
-  'logs': System
+  // 系统管理模块 - 独立页面组件
+  'users': UserManagement,
+  'permissions': PermissionManagement,
+  'settings': SystemSettings,
+  'logs': OperationLogs
 };
 
 export const PageContainer: React.FC<PageContainerProps> = ({ currentPage }) => {
