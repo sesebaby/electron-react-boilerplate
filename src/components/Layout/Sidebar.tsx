@@ -148,16 +148,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* 导航菜单 */}
-      <nav className="flex-1 overflow-y-auto py-4 px-2">
+      <nav className="flex-1 overflow-y-auto py-4 px-2 sidebar-scrollbar">
         <ul className="space-y-1">
           {menuItems.map(item => (
             <li key={item.id}>
               <button
+                type="button"
                 className={`
                   w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left
                   transition-all duration-200 group
-                  ${isMenuActive(item) 
-                    ? 'bg-white/20 text-white border border-white/30' 
+                  ${isMenuActive(item)
+                    ? 'bg-white/20 text-white border border-white/30'
                     : 'text-white/80 hover:bg-white/10 hover:text-white border border-transparent'
                   }
                 `}
@@ -199,8 +200,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                           className={`
                             w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left
                             transition-all duration-200 text-sm
-                            ${currentPage === child.id 
-                              ? 'bg-white/15 text-white border border-white/20' 
+                            ${currentPage === child.id
+                              ? 'bg-white/15 text-white border border-white/20'
                               : 'text-white/70 hover:bg-white/8 hover:text-white border border-transparent'
                             }
                           `}

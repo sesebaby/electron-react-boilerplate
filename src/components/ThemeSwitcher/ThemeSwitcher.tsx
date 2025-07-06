@@ -54,8 +54,8 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
 
       {/* 主题选择下拉菜单 */}
       {isOpen && (
-        <GlassCard className="absolute top-12 right-0 w-48 p-2 border border-white/20 shadow-xl z-50">
-          <div className="space-y-1">
+        <div className="absolute top-12 right-0 w-48 popup-dropdown z-50">
+          <div className="p-2 space-y-1">
             {availableThemes.map((theme) => (
               <button
                 key={theme.name}
@@ -67,7 +67,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
                     : 'text-white/80 hover:text-white'
                 }`}
               >
-                <span className="w-4 h-4 rounded-full border border-white/30" 
+                <span className="w-4 h-4 rounded-full border border-white/30"
                       style={{ background: theme.preview }}></span>
                 <span className="flex-1">{theme.displayName}</span>
                 {currentTheme === theme.name && (
@@ -76,13 +76,13 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
               </button>
             ))}
           </div>
-          
+
           <div className="mt-3 pt-2 border-t border-white/10">
             <div className="text-xs text-white/50 px-3 py-1">
               主题设置已自动保存
             </div>
           </div>
-        </GlassCard>
+        </div>
       )}
     </div>
   );

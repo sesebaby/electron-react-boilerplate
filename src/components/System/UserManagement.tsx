@@ -515,17 +515,18 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
 
       {/* 模态框 */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <div className="popup-overlay flex items-center justify-center p-4 z-50">
+          <div className="popup-dropdown max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b border-white/20">
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h3 className="text-lg font-semibold text-white">
                 {modalMode === 'create' && '新增用户'}
                 {modalMode === 'edit' && '编辑用户'}
                 {modalMode === 'view' && '用户详情'}
                 {modalMode === 'password' && '修改密码'}
               </h3>
-              <button 
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              <button
+                type="button"
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white/70 hover:text-white"
                 onClick={() => setShowModal(false)}
               >
                 ✕
@@ -537,8 +538,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                 <form onSubmit={handlePasswordSubmit} className="space-y-4">
                   {currentUser?.id === selectedUser?.id && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        当前密码 <span className="text-red-500">*</span>
+                      <label className="block text-sm font-medium text-white mb-2">
+                        当前密码 <span className="text-red-400">*</span>
                       </label>
                       <GlassInput
                         type="password"
@@ -551,8 +552,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                   )}
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      新密码 <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-white mb-2">
+                      新密码 <span className="text-red-400">*</span>
                     </label>
                     <GlassInput
                       type="password"
@@ -565,8 +566,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      确认新密码 <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-white mb-2">
+                      确认新密码 <span className="text-red-400">*</span>
                     </label>
                     <GlassInput
                       type="password"
@@ -598,40 +599,40 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <label className="block text-gray-600 mb-1">用户名</label>
-                      <div className="font-medium text-gray-900">{selectedUser.username}</div>
+                      <label className="block text-white/70 mb-1">用户名</label>
+                      <div className="font-medium text-white">{selectedUser.username}</div>
                     </div>
                     <div>
-                      <label className="block text-gray-600 mb-1">昵称</label>
-                      <div className="font-medium text-gray-900">{selectedUser.nickname}</div>
+                      <label className="block text-white/70 mb-1">昵称</label>
+                      <div className="font-medium text-white">{selectedUser.nickname}</div>
                     </div>
                     <div>
-                      <label className="block text-gray-600 mb-1">邮箱</label>
-                      <div className="font-medium text-gray-900">{selectedUser.email || '未设置'}</div>
+                      <label className="block text-white/70 mb-1">邮箱</label>
+                      <div className="font-medium text-white">{selectedUser.email || '未设置'}</div>
                     </div>
                     <div>
-                      <label className="block text-gray-600 mb-1">手机号</label>
-                      <div className="font-medium text-gray-900">{selectedUser.phone || '未设置'}</div>
+                      <label className="block text-white/70 mb-1">手机号</label>
+                      <div className="font-medium text-white">{selectedUser.phone || '未设置'}</div>
                     </div>
                     <div>
-                      <label className="block text-gray-600 mb-1">角色</label>
+                      <label className="block text-white/70 mb-1">角色</label>
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${roleColors[selectedUser.role]}`}>
                         {roleLabels[selectedUser.role]}
                       </span>
                     </div>
                     <div>
-                      <label className="block text-gray-600 mb-1">状态</label>
+                      <label className="block text-white/70 mb-1">状态</label>
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${statusColors[selectedUser.status]}`}>
                         {statusLabels[selectedUser.status]}
                       </span>
                     </div>
                     <div>
-                      <label className="block text-gray-600 mb-1">注册时间</label>
-                      <div className="font-medium text-gray-900">{new Date(selectedUser.createdAt).toLocaleString('zh-CN')}</div>
+                      <label className="block text-white/70 mb-1">注册时间</label>
+                      <div className="font-medium text-white">{new Date(selectedUser.createdAt).toLocaleString('zh-CN')}</div>
                     </div>
                     <div>
-                      <label className="block text-gray-600 mb-1">最后登录</label>
-                      <div className="font-medium text-gray-900">
+                      <label className="block text-white/70 mb-1">最后登录</label>
+                      <div className="font-medium text-white">
                         {selectedUser.lastLoginAt ? new Date(selectedUser.lastLoginAt).toLocaleString('zh-CN') : '从未登录'}
                       </div>
                     </div>
@@ -641,8 +642,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        用户名 <span className="text-red-500">*</span>
+                      <label className="block text-sm font-medium text-white mb-2">
+                        用户名 <span className="text-red-400">*</span>
                       </label>
                       <GlassInput
                         type="text"
@@ -655,8 +656,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        昵称 <span className="text-red-500">*</span>
+                      <label className="block text-sm font-medium text-white mb-2">
+                        昵称 <span className="text-red-400">*</span>
                       </label>
                       <GlassInput
                         type="text"
@@ -671,7 +672,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">邮箱</label>
+                      <label className="block text-sm font-medium text-white mb-2">邮箱</label>
                       <GlassInput
                         type="email"
                         value={formData.email}
@@ -682,7 +683,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">手机号</label>
+                      <label className="block text-sm font-medium text-white mb-2">手机号</label>
                       <GlassInput
                         type="tel"
                         value={formData.phone}
@@ -695,8 +696,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                   
                   {modalMode === 'create' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        密码 <span className="text-red-500">*</span>
+                      <label className="block text-sm font-medium text-white mb-2">
+                        密码 <span className="text-red-400">*</span>
                       </label>
                       <GlassInput
                         type="password"
@@ -711,8 +712,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        角色 <span className="text-red-500">*</span>
+                      <label className="block text-sm font-medium text-white mb-2">
+                        角色 <span className="text-red-400">*</span>
                       </label>
                       <GlassSelect
                         value={formData.role}
@@ -727,8 +728,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        状态 <span className="text-red-500">*</span>
+                      <label className="block text-sm font-medium text-white mb-2">
+                        状态 <span className="text-red-400">*</span>
                       </label>
                       <GlassSelect
                         value={formData.status}

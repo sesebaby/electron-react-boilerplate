@@ -233,7 +233,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 
             {/* 搜索结果下拉框 */}
             {showSearchResults && (
-              <div className="absolute top-12 left-0 right-0 glass-card border border-white/20 shadow-xl z-50 max-h-80 overflow-y-auto">
+              <div className="absolute top-12 left-0 right-0 popup-dropdown z-50 max-h-80 overflow-y-auto">
                 {searchResults.length > 0 ? (
                   <>
                     <div className="p-3 border-b border-white/10">
@@ -327,7 +327,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 
             {showNotifications && (
               <>
-                <div className="absolute top-12 right-0 w-80 glass-card border border-white/20 shadow-xl z-50">
+                <div className="absolute top-12 right-0 w-80 popup-dropdown z-50">
                   <div className="flex items-center justify-between p-4 border-b border-white/10">
                     <h3 className="text-lg font-semibold text-white">通知消息</h3>
                     <button
@@ -354,7 +354,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                     </button>
                   </div>
                 </div>
-                <div className="fixed inset-0 z-40" onClick={() => setShowNotifications(false)}></div>
+                <div className="popup-overlay" onClick={() => setShowNotifications(false)}></div>
               </>
             )}
           </div>
@@ -375,7 +375,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 
             {showUserMenu && (
               <>
-                <div className="absolute top-12 right-0 w-64 glass-card border border-white/20 shadow-xl z-50">
+                <div className="absolute top-12 right-0 w-64 popup-dropdown z-50">
                   <div className="p-4 border-b border-white/10">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
@@ -412,7 +412,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                     </button>
                   </div>
                 </div>
-                <div className="fixed inset-0 z-40" onClick={() => setShowUserMenu(false)}></div>
+                <div className="popup-overlay" onClick={() => setShowUserMenu(false)}></div>
               </>
             )}
           </div>

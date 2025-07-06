@@ -104,6 +104,10 @@
   --popup-text-tertiary: oklch(0.968 0.007 247.896);
   --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8);
 
+  /* 滚动条颜色 - indigo系列，半透明 */
+  --scrollbar-thumb-color: oklch(0.87 0.065 274.039 / 0.4);
+  --scrollbar-thumb-hover-color: oklch(0.87 0.065 274.039 / 0.6);
+
   /* 主题文字颜色 - 基于白色系，增强视觉效果 */
   --text-primary: oklch(1 0 0);
   --text-secondary: oklch(0.984 0.003 247.858);
@@ -222,6 +226,10 @@
   --popup-text-tertiary: oklch(0.869 0.022 252.894);
   --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8);
 
+  /* 滚动条颜色 - slate系列，半透明 */
+  --scrollbar-thumb-color: oklch(0.446 0.043 257.281 / 0.5);
+  --scrollbar-thumb-hover-color: oklch(0.446 0.043 257.281 / 0.7);
+
   /* 深色主题交互状态颜色 - slate系列 */
   --popup-divider-color: oklch(0.446 0.043 257.281 / 0.15);
   --popup-item-hover-bg: oklch(0.446 0.043 257.281 / 0.2);
@@ -316,6 +324,10 @@
   --popup-text-tertiary: oklch(0.555 0.163 48.998);
   --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9);
 
+  /* 滚动条颜色 - amber系列，半透明 */
+  --scrollbar-thumb-color: oklch(0.879 0.169 91.605 / 0.4);
+  --scrollbar-thumb-hover-color: oklch(0.879 0.169 91.605 / 0.6);
+
   /* 温暖主题交互状态颜色 - amber系列 */
   --popup-divider-color: oklch(0.414 0.112 45.904 / 0.1);
   --popup-item-hover-bg: oklch(0.924 0.12 95.746 / 0.3);
@@ -392,6 +404,8 @@
   position: absolute;
   z-index: var(--z-dropdown);
   overflow: hidden;
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
 }
 
 .popup-dropdown:hover {
@@ -566,9 +580,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.1);
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
+  background: rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   z-index: calc(var(--z-dropdown) - 1);
   animation: overlayFadeIn 0.3s ease;
 }
@@ -576,6 +590,31 @@
 @keyframes overlayFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* ===== 侧边栏滚动条样式 ===== */
+.sidebar-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb-color) transparent;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  border-radius: 3px;
+  transition: var(--transition-base);
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover-color);
 }
 
 /* ===== 基础玻璃感组件类 ===== */
