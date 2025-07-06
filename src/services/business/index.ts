@@ -13,11 +13,11 @@ import purchaseOrderService from './purchaseOrderService';
 import purchaseReceiptService from './purchaseReceiptService';
 import salesOrderService from './salesOrderService';
 import salesDeliveryService from './salesDeliveryService';
-// 暂时注释掉财务服务以测试其他服务
-// import accountsPayableService from './accountsPayableService';
+// 尝试导入简化版财务服务
+import accountsPayableService from './accountsPayableServiceSimple';
 // import accountsReceivableService from './accountsReceivableService';
 
-// 导出所有服务实例（暂时不包括财务服务）
+// 导出所有服务实例（包括简化版财务服务）
 export {
   categoryService,
   unitService,
@@ -30,8 +30,8 @@ export {
   purchaseOrderService,
   purchaseReceiptService,
   salesOrderService,
-  salesDeliveryService
-  // accountsPayableService,
+  salesDeliveryService,
+  accountsPayableService
   // accountsReceivableService
 };
 
@@ -71,8 +71,8 @@ export class BusinessServiceManager {
       await salesOrderService.initialize();
       await salesDeliveryService.initialize();
 
-      // 财务服务（暂时注释掉）
-      // await accountsPayableService.initialize();
+      // 财务服务（简化版）
+      await accountsPayableService.initialize();
       // await accountsReceivableService.initialize();
 
       console.log('所有业务服务初始化完成');
@@ -279,8 +279,8 @@ export class BusinessServiceManager {
     const purchaseReceiptStats = await purchaseReceiptService.getReceiptStats();
     const salesOrderStats = await salesOrderService.getOrderStats();
     const salesDeliveryStats = await salesDeliveryService.getDeliveryStats();
-    // 暂时注释掉财务服务统计
-    // const accountsPayableStats = await accountsPayableService.getPayableStats();
+    // 财务服务统计（简化版）
+    const accountsPayableStats = await accountsPayableService.getPayableStats();
     // const accountsReceivableStats = await accountsReceivableService.getReceivableStats();
 
     return {

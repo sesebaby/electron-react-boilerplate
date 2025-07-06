@@ -50835,18 +50835,24 @@ const FinancialReports = ({ className }) => {
         try {
             setLoading(true);
             setError(null);
-            const [payablesData, receivablesData, paymentsData, receiptsData, salesData, purchaseData] = yield Promise.all([
-                _services_business__WEBPACK_IMPORTED_MODULE_2__.accountsPayableService.findAll(),
-                _services_business__WEBPACK_IMPORTED_MODULE_2__.accountsReceivableService.findAll(),
-                _services_business__WEBPACK_IMPORTED_MODULE_2__.accountsPayableService.findAllPayments(),
-                _services_business__WEBPACK_IMPORTED_MODULE_2__.accountsReceivableService.findAllReceipts(),
+            const [
+            // payablesData,
+            // receivablesData,
+            // paymentsData,
+            // receiptsData,
+            salesData, purchaseData] = yield Promise.all([
+                // accountsPayableService.findAll(),
+                // accountsReceivableService.findAll(),
+                // accountsPayableService.findAllPayments(),
+                // accountsReceivableService.findAllReceipts(),
                 _services_business__WEBPACK_IMPORTED_MODULE_2__.salesOrderService.findAll(),
                 _services_business__WEBPACK_IMPORTED_MODULE_2__.purchaseOrderService.findAll()
             ]);
-            setPayables(payablesData);
-            setReceivables(receivablesData);
-            setPayments(paymentsData);
-            setReceipts(receiptsData);
+            // 暂时注释掉财务数据设置
+            // setPayables(payablesData);
+            // setReceivables(receivablesData);
+            // setPayments(paymentsData);
+            // setReceipts(receiptsData);
             setSalesOrders(salesData);
             setPurchaseOrders(purchaseData);
         }
@@ -54459,6 +54465,79 @@ const accountsPayableService = new AccountsPayableService();
 
 /***/ }),
 
+/***/ "./src/services/business/accountsPayableServiceSimple.ts":
+/*!***************************************************************!*\
+  !*** ./src/services/business/accountsPayableServiceSimple.ts ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   AccountsPayableServiceSimple: () => (/* binding */ AccountsPayableServiceSimple),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+// 简化版应付账款服务 - 用于测试导入
+class AccountsPayableServiceSimple {
+    constructor() {
+        this.initialized = false;
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.initialized) {
+                console.log('AccountsPayableServiceSimple already initialized');
+                return;
+            }
+            console.log('Initializing AccountsPayableServiceSimple...');
+            this.initialized = true;
+            console.log('AccountsPayableServiceSimple initialized successfully');
+        });
+    }
+    // 获取应付账款统计
+    getPayableStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return {
+                total: 0,
+                unpaid: 0,
+                partial: 0,
+                paid: 0,
+                overdue: 0,
+                totalAmount: 0,
+                paidAmount: 0,
+                balanceAmount: 0,
+                avgPaymentPeriod: 0
+            };
+        });
+    }
+    // 查找所有应付账款
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return [];
+        });
+    }
+    // 获取所有付款记录
+    findAllPayments() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return [];
+        });
+    }
+}
+// 创建并导出服务实例
+const accountsPayableServiceSimple = new AccountsPayableServiceSimple();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (accountsPayableServiceSimple);
+
+
+/***/ }),
+
 /***/ "./src/services/business/accountsReceivableService.ts":
 /*!************************************************************!*\
   !*** ./src/services/business/accountsReceivableService.ts ***!
@@ -55823,6 +55902,7 @@ class CustomerService {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   BusinessServiceManager: () => (/* binding */ BusinessServiceManager),
+/* harmony export */   accountsPayableService: () => (/* reexport safe */ _accountsPayableServiceSimple__WEBPACK_IMPORTED_MODULE_12__["default"]),
 /* harmony export */   businessServiceManager: () => (/* binding */ businessServiceManager),
 /* harmony export */   categoryService: () => (/* reexport safe */ _categoryService__WEBPACK_IMPORTED_MODULE_0__["default"]),
 /* harmony export */   customerService: () => (/* reexport safe */ _customerService__WEBPACK_IMPORTED_MODULE_4__["default"]),
@@ -55850,6 +55930,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _purchaseReceiptService__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./purchaseReceiptService */ "./src/services/business/purchaseReceiptService.ts");
 /* harmony import */ var _salesOrderService__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./salesOrderService */ "./src/services/business/salesOrderService.ts");
 /* harmony import */ var _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./salesDeliveryService */ "./src/services/business/salesDeliveryService.ts");
+/* harmony import */ var _accountsPayableServiceSimple__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./accountsPayableServiceSimple */ "./src/services/business/accountsPayableServiceSimple.ts");
 // 核心业务服务层 - 统一入口和服务管理
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -55873,10 +55954,10 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-// 暂时注释掉财务服务以测试其他服务
-// import accountsPayableService from './accountsPayableService';
+// 尝试导入简化版财务服务
+
 // import accountsReceivableService from './accountsReceivableService';
-// 导出所有服务实例（暂时不包括财务服务）
+// 导出所有服务实例（包括简化版财务服务）
 
 // 服务管理器
 class BusinessServiceManager {
@@ -55908,8 +55989,8 @@ class BusinessServiceManager {
                 yield _purchaseReceiptService__WEBPACK_IMPORTED_MODULE_9__["default"].initialize();
                 yield _salesOrderService__WEBPACK_IMPORTED_MODULE_10__["default"].initialize();
                 yield _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__["default"].initialize();
-                // 财务服务（暂时注释掉）
-                // await accountsPayableService.initialize();
+                // 财务服务（简化版）
+                yield _accountsPayableServiceSimple__WEBPACK_IMPORTED_MODULE_12__["default"].initialize();
                 // await accountsReceivableService.initialize();
                 console.log('所有业务服务初始化完成');
                 // 暂时注释掉其他服务的初始化
@@ -56073,8 +56154,8 @@ class BusinessServiceManager {
             const purchaseReceiptStats = yield _purchaseReceiptService__WEBPACK_IMPORTED_MODULE_9__["default"].getReceiptStats();
             const salesOrderStats = yield _salesOrderService__WEBPACK_IMPORTED_MODULE_10__["default"].getOrderStats();
             const salesDeliveryStats = yield _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__["default"].getDeliveryStats();
-            // 暂时注释掉财务服务统计
-            // const accountsPayableStats = await accountsPayableService.getPayableStats();
+            // 财务服务统计（简化版）
+            const accountsPayableStats = yield _accountsPayableServiceSimple__WEBPACK_IMPORTED_MODULE_12__["default"].getPayableStats();
             // const accountsReceivableStats = await accountsReceivableService.getReceivableStats();
             return {
                 categories: categoryStats.total,

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  accountsPayableService, 
-  accountsReceivableService, 
-  salesOrderService, 
+import {
+  // accountsPayableService,
+  // accountsReceivableService,
+  salesOrderService,
   purchaseOrderService,
   salesDeliveryService,
   purchaseReceiptService
@@ -49,25 +49,26 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
       setError(null);
       
       const [
-        payablesData, 
-        receivablesData, 
-        paymentsData, 
-        receiptsData,
+        // payablesData,
+        // receivablesData,
+        // paymentsData,
+        // receiptsData,
         salesData,
         purchaseData
       ] = await Promise.all([
-        accountsPayableService.findAll(),
-        accountsReceivableService.findAll(),
-        accountsPayableService.findAllPayments(),
-        accountsReceivableService.findAllReceipts(),
+        // accountsPayableService.findAll(),
+        // accountsReceivableService.findAll(),
+        // accountsPayableService.findAllPayments(),
+        // accountsReceivableService.findAllReceipts(),
         salesOrderService.findAll(),
         purchaseOrderService.findAll()
       ]);
       
-      setPayables(payablesData);
-      setReceivables(receivablesData);
-      setPayments(paymentsData);
-      setReceipts(receiptsData);
+      // 暂时注释掉财务数据设置
+      // setPayables(payablesData);
+      // setReceivables(receivablesData);
+      // setPayments(paymentsData);
+      // setReceipts(receiptsData);
       setSalesOrders(salesData);
       setPurchaseOrders(purchaseData);
     } catch (err) {
