@@ -11,7 +11,9 @@
     "dev": "webpack serve --config webpack.dev.config.js",
     "dev:electron": "webpack serve --mode development",
     "lint": "eslint src --ext .ts,.tsx",
-    "test": "jest"
+    "test": "jest",
+    "cleanup-data": "ts-node scripts/cleanup-data.ts",
+    "test-data-flow": "ts-node scripts/test-data-flow.ts"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
@@ -31,6 +33,7 @@
     "style-loader": "^4.0.0",
     "tailwindcss": "^3.3.7",
     "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "util": "^0.12.5",
     "webpack": "^5.91.0",

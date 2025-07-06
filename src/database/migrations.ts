@@ -486,6 +486,61 @@ export const migrations: Migration[] = [
   },
   {
     version: 7,
+    name: 'create_sales_delivery_tables',
+    up: `
+      -- 销售出库表
+      CREATE TABLE sales_deliveries (
+        id TEXT PRIMARY KEY,
+        delivery_no TEXT UNIQUE NOT NULL,
+        order_id TEXT NOT NULL,
+        customer_id TEXT NOT NULL,
+        warehouse_id TEXT NOT NULL,
+        delivery_date DATE NOT NULL,
+        status TEXT NOT NULL CHECK(status IN ('draft', 'confirmed', 'shipped', 'completed', 'cancelled')) DEFAULT 'draft',
+        total_quantity REAL NOT NULL DEFAULT 0,
+        total_amount REAL NOT NULL DEFAULT 0,
+        delivery_person TEXT NOT NULL,
+        remark TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (order_id) REFERENCES sales_orders(id) ON DELETE RESTRICT,
+        FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE RESTRICT,
+        FOREIGN KEY (warehouse_id) REFERENCES warehouses(id) ON DELETE RESTRICT
+      );
+
+      -- 销售出库明细表
+      CREATE TABLE sales_delivery_items (
+        id TEXT PRIMARY KEY,
+        delivery_id TEXT NOT NULL,
+        product_id TEXT NOT NULL,
+        order_item_id TEXT NOT NULL,
+        quantity REAL NOT NULL,
+        unit_price REAL NOT NULL,
+        amount REAL NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (delivery_id) REFERENCES sales_deliveries(id) ON DELETE CASCADE,
+        FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT,
+        FOREIGN KEY (order_item_id) REFERENCES sales_order_items(id) ON DELETE RESTRICT
+      );
+
+      -- 创建索引
+      CREATE INDEX idx_sales_deliveries_no ON sales_deliveries(delivery_no);
+      CREATE INDEX idx_sales_deliveries_order ON sales_deliveries(order_id);
+      CREATE INDEX idx_sales_deliveries_customer ON sales_deliveries(customer_id);
+      CREATE INDEX idx_sales_deliveries_warehouse ON sales_deliveries(warehouse_id);
+      CREATE INDEX idx_sales_deliveries_date ON sales_deliveries(delivery_date);
+      CREATE INDEX idx_sales_delivery_items_delivery ON sales_delivery_items(delivery_id);
+      CREATE INDEX idx_sales_delivery_items_product ON sales_delivery_items(product_id);
+      CREATE INDEX idx_sales_delivery_items_order_item ON sales_delivery_items(order_item_id);
+    `,
+    down: `
+      DROP TABLE IF EXISTS sales_delivery_items;
+      DROP TABLE IF EXISTS sales_deliveries;
+    `
+  },
+  {
+    version: 8,
     name: 'create_triggers',
     up: `
       -- 自动更新 updated_at 字段的触发器
@@ -537,6 +592,11 @@ export const migrations: Migration[] = [
       CREATE TRIGGER update_sales_orders_timestamp AFTER UPDATE ON sales_orders
       BEGIN
         UPDATE sales_orders SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+      END;
+
+      CREATE TRIGGER update_sales_deliveries_timestamp AFTER UPDATE ON sales_deliveries
+      BEGIN
+        UPDATE sales_deliveries SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
       END;
 
       -- 库存变动时自动更新库存统计
