@@ -63,23 +63,24 @@ const WarehouseCard: React.FC<WarehouseCardProps> = ({
   return (
     <div
       className={`
-        glass-surface rounded-lg p-4 cursor-pointer transition-all duration-200 hover:shadow-lg
-        ${isSelected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}
+        glass-surface rounded-lg p-3 sm:p-4 cursor-pointer transition-all duration-200 hover:shadow-lg hover:scale-[1.02]
+        ${isSelected ? 'ring-2 ring-blue-500 ring-opacity-50 scale-[1.02]' : ''}
         ${getStockStatusStyle()}
+        min-h-[280px] sm:min-h-[320px] flex flex-col
       `}
       onClick={onClick}
     >
       {/* 卡片头部 */}
-      <div className="flex items-start justify-between mb-3">
+      <div className="flex items-start justify-between mb-3 sm:mb-4">
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 truncate">
+          <h3 className="font-semibold text-gray-900 truncate text-sm sm:text-base">
             {warehouse.warehouseName}
           </h3>
-          <p className="text-sm text-gray-600 truncate">
+          <p className="text-xs sm:text-sm text-gray-600 truncate">
             {warehouse.warehouseCode}
           </p>
           {warehouse.description && (
-            <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+            <p className="text-xs text-gray-500 mt-1 line-clamp-2 hidden sm:block">
               {warehouse.description}
             </p>
           )}
@@ -90,15 +91,15 @@ const WarehouseCard: React.FC<WarehouseCardProps> = ({
       </div>
 
       {/* 统计信息 */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className="text-center p-2 bg-white/30 rounded-lg">
-          <div className="text-lg font-bold text-blue-600">
+      <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-3 sm:mb-4">
+        <div className="text-center p-2 sm:p-3 bg-white/30 rounded-lg">
+          <div className="text-base sm:text-lg font-bold text-blue-600">
             {warehouse.totalProducts}
           </div>
           <div className="text-xs text-gray-600">商品种类</div>
         </div>
-        <div className="text-center p-2 bg-white/30 rounded-lg">
-          <div className="text-lg font-bold text-green-600">
+        <div className="text-center p-2 sm:p-3 bg-white/30 rounded-lg">
+          <div className="text-base sm:text-lg font-bold text-green-600">
             {formatCurrency(warehouse.totalValue)}
           </div>
           <div className="text-xs text-gray-600">总价值</div>
@@ -128,22 +129,22 @@ const WarehouseCard: React.FC<WarehouseCardProps> = ({
       </div>
 
       {/* 产品列表预览 */}
-      <div className="space-y-2">
+      <div className="flex-1 space-y-2">
         <div className="flex items-center justify-between">
-          <h4 className="text-sm font-medium text-gray-700">商品列表</h4>
+          <h4 className="text-xs sm:text-sm font-medium text-gray-700">商品列表</h4>
           {warehouse.products.length > 3 && (
             <span className="text-xs text-gray-500">
               显示 3/{warehouse.products.length} 项
             </span>
           )}
         </div>
-        
+
         {warehouse.products.length === 0 ? (
-          <div className="text-center py-4 text-gray-500 text-sm">
+          <div className="text-center py-3 sm:py-4 text-gray-500 text-xs sm:text-sm">
             暂无商品数据
           </div>
         ) : (
-          <div className="max-h-32 overflow-y-auto space-y-1">
+          <div className="max-h-24 sm:max-h-32 overflow-y-auto space-y-1">
             {warehouse.products.slice(0, 3).map(product => (
               <ProductItem
                 key={product.productId}

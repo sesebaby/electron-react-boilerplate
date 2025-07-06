@@ -13,6 +13,9 @@ import purchaseOrderService from './purchaseOrderService';
 import purchaseReceiptService from './purchaseReceiptService';
 import salesOrderService from './salesOrderService';
 import salesDeliveryService from './salesDeliveryService';
+import inventoryCardService from './inventoryCardService';
+import { unitConversionService } from './unitConversionService';
+import { calendarDataService, CalendarDataService } from './calendarDataService';
 // 导入完整的财务服务
 import accountsPayableService from './accountsPayableService';
 import accountsReceivableService from './accountsReceivableService';
@@ -33,6 +36,10 @@ export {
   purchaseReceiptService,
   salesOrderService,
   salesDeliveryService,
+  inventoryCardService,
+  unitConversionService,
+  calendarDataService,
+  CalendarDataService,
   accountsPayableService,
   accountsReceivableService,
   permissionService

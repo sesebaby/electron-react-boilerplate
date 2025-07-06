@@ -39,6 +39,16 @@ export const BaseEntitySchema = z.object({
   updatedAt: dateSchema
 });
 
+// 单位转换验证 Schema
+export const UnitConversionSchema = BaseEntitySchema.extend({
+  productId: idSchema,
+  baseUnitId: idSchema,
+  packageUnitId: idSchema,
+  conversionRate: z.number().positive('转换比率必须大于0'),
+  isActive: z.boolean(),
+  description: optionalStringSchema
+});
+
 // 商品验证 Schema
 export const ProductSchema = z.object({
   id: idSchema.optional(),

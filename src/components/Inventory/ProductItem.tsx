@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProductStockInfo } from '../../types/inventoryCard';
+import { unitConversionHelper } from '../../utils/unitConversionHelper';
 
 interface ProductItemProps {
   product: ProductStockInfo;
@@ -12,6 +13,77 @@ const ProductItem: React.FC<ProductItemProps> = ({
   compact = false,
   onClick
 }) => {
+  const [displayMode, setDisplayMode] = useState<'base' | 'package'>('base');
+  const [hasConversion, setHasConversion] = useState(false);
+  const [quantityDisplay, setQuantityDisplay] = useState({
+    current: `${product.currentStock} ${product.unit}`,
+    min: `${product.minStock} ${product.unit}`,
+    max: product.maxStock ? `${product.maxStock} ${product.unit}` : null
+  });
+
+  // 检查并设置单位转换
+  useEffect(() => {
+    const checkConversion = async () => {
+      try {
+        const hasRule = await unitConversionHelper.hasConversionRule(product.productId);
+        setHasConversion(hasRule);
+
+        if (hasRule) {
+          await updateQuantityDisplay('base');
+        }
+      } catch (error) {
+        console.error('检查单位转换失败:', error);
+      }
+    };
+
+    checkConversion();
+  }, [product.productId]);
+
+  // 更新数量显示
+  const updateQuantityDisplay = async (mode: 'base' | 'package') => {
+    try {
+      if (mode === 'base') {
+        setQuantityDisplay({
+          current: `${product.currentStock} ${product.unit}`,
+          min: `${product.minStock} ${product.unit}`,
+          max: product.maxStock ? `${product.maxStock} ${product.unit}` : null
+        });
+      } else {
+        const currentDisplay = await unitConversionHelper.getSmartQuantityDisplay(
+          product.productId,
+          product.currentStock,
+          true
+        );
+        const minDisplay = await unitConversionHelper.getSmartQuantityDisplay(
+          product.productId,
+          product.minStock,
+          true
+        );
+        const maxDisplay = product.maxStock
+          ? await unitConversionHelper.getSmartQuantityDisplay(product.productId, product.maxStock, true)
+          : null;
+
+        setQuantityDisplay({
+          current: currentDisplay,
+          min: minDisplay,
+          max: maxDisplay
+        });
+      }
+    } catch (error) {
+      console.error('更新数量显示失败:', error);
+    }
+  };
+
+  // 切换显示单位
+  const toggleDisplayMode = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // 防止触发父组件的点击事件
+
+    if (!hasConversion) return;
+
+    const newMode = displayMode === 'base' ? 'package' : 'base';
+    setDisplayMode(newMode);
+    await updateQuantityDisplay(newMode);
+  };
   // 获取库存状态
   const getStockStatus = () => {
     if (product.isOutOfStock) {
@@ -85,11 +157,23 @@ const ProductItem: React.FC<ProductItemProps> = ({
           </div>
         </div>
         <div className="text-right flex-shrink-0 ml-2">
-          <div className={`text-sm font-medium ${stockStatus.color}`}>
-            {product.currentStock} {product.unit}
+          <div className="flex items-center gap-1">
+            <div className={`text-sm font-medium ${stockStatus.color}`}>
+              {quantityDisplay.current}
+            </div>
+            {hasConversion && (
+              <button
+                type="button"
+                onClick={toggleDisplayMode}
+                className="text-xs text-blue-500 hover:text-blue-700 transition-colors"
+                title={displayMode === 'base' ? '切换到包装单位' : '切换到基础单位'}
+              >
+                📦
+              </button>
+            )}
           </div>
           <div className="text-xs text-gray-500">
-            最低: {product.minStock}
+            最低: {quantityDisplay.min}
           </div>
         </div>
       </div>
@@ -126,9 +210,21 @@ const ProductItem: React.FC<ProductItemProps> = ({
       {/* 库存信息 */}
       <div className="grid grid-cols-2 gap-4 mb-3">
         <div>
-          <div className="text-xs text-gray-500 mb-1">当前库存</div>
+          <div className="flex items-center justify-between mb-1">
+            <div className="text-xs text-gray-500">当前库存</div>
+            {hasConversion && (
+              <button
+                type="button"
+                onClick={toggleDisplayMode}
+                className="text-xs text-blue-500 hover:text-blue-700 transition-colors px-1 py-0.5 rounded"
+                title={displayMode === 'base' ? '切换到包装单位' : '切换到基础单位'}
+              >
+                📦
+              </button>
+            )}
+          </div>
           <div className={`text-lg font-bold ${stockStatus.color}`}>
-            {product.currentStock} {product.unit}
+            {quantityDisplay.current}
           </div>
         </div>
         <div>
@@ -143,11 +239,11 @@ const ProductItem: React.FC<ProductItemProps> = ({
       <div className="flex justify-between items-center mb-3 text-sm">
         <div className="flex items-center gap-4">
           <span className="text-gray-600">
-            最低: <span className="font-medium">{product.minStock} {product.unit}</span>
+            最低: <span className="font-medium">{quantityDisplay.min}</span>
           </span>
-          {product.maxStock && (
+          {quantityDisplay.max && (
             <span className="text-gray-600">
-              最高: <span className="font-medium">{product.maxStock} {product.unit}</span>
+              最高: <span className="font-medium">{quantityDisplay.max}</span>
             </span>
           )}
         </div>

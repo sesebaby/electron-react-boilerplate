@@ -3,7 +3,10 @@ import { WarehouseCardData, InventoryFilterOptions, InventoryCardViewState } fro
 import WarehouseCard from '../components/Inventory/WarehouseCard';
 import InventoryFilter from '../components/Inventory/InventoryFilter';
 import InventorySearch from '../components/Inventory/InventorySearch';
+import WarehouseDetailModal from '../components/Inventory/WarehouseDetailModal';
+import WarehouseCardSkeleton from '../components/Inventory/WarehouseCardSkeleton';
 import { notificationHelper } from '../utils/notificationHelper';
+import { inventoryCardService } from '../services/business';
 
 const InventoryCardView: React.FC = () => {
   const [state, setState] = useState<InventoryCardViewState>({
@@ -22,42 +25,38 @@ const InventoryCardView: React.FC = () => {
     selectedWarehouse: null
   });
 
+  const [showDetailModal, setShowDetailModal] = useState(false);
+
   // 加载仓库数据
   const loadWarehouseData = async () => {
     try {
       setState(prev => ({ ...prev, loading: true, error: null }));
-      
-      // TODO: 实现实际的数据获取逻辑
-      // const warehouses = await inventoryService.getWarehouseCardData();
-      
-      // 模拟数据（第2天会替换为真实数据）
-      const mockWarehouses: WarehouseCardData[] = [
-        {
-          warehouseId: '1',
-          warehouseName: '主仓库',
-          warehouseCode: 'WH001',
-          description: '主要存储仓库',
-          products: [],
-          totalProducts: 0,
-          lowStockCount: 0,
-          outOfStockCount: 0,
-          totalValue: 0
-        }
-      ];
+
+      // 获取真实的仓库卡片数据
+      const warehouses = await inventoryCardService.getWarehouseCardData();
 
       setState(prev => ({
         ...prev,
-        warehouses: mockWarehouses,
-        filteredWarehouses: mockWarehouses,
+        warehouses,
+        filteredWarehouses: warehouses,
         loading: false
       }));
 
-    } catch (error) {
+      // 检查是否有库存预警
+      const lowStockWarnings = await inventoryCardService.getLowStockWarnings();
+      if (lowStockWarnings.length > 0) {
+        notificationHelper.showWarning(
+          '库存预警',
+          `发现 ${lowStockWarnings.length} 个商品库存不足，请及时补货`
+        );
+      }
+
+    } catch (error: any) {
       console.error('加载仓库数据失败:', error);
       setState(prev => ({
         ...prev,
         loading: false,
-        error: '加载仓库数据失败，请重试'
+        error: error?.message || '加载仓库数据失败，请重试'
       }));
       notificationHelper.showError('数据加载失败', '无法获取仓库数据，请检查网络连接后重试');
     }
@@ -164,7 +163,27 @@ const InventoryCardView: React.FC = () => {
       ...prev,
       selectedWarehouse: warehouseId
     }));
-    // TODO: 可以添加导航到仓库详情页面的逻辑
+
+    // 打开详情模态框
+    setShowDetailModal(true);
+
+    // 显示选中反馈
+    const warehouse = state.warehouses.find(w => w.warehouseId === warehouseId);
+    if (warehouse) {
+      notificationHelper.showInfo(
+        '仓库详情',
+        `正在查看 ${warehouse.warehouseName} 的详细信息`
+      );
+    }
+  };
+
+  // 关闭详情模态框
+  const handleCloseDetailModal = () => {
+    setShowDetailModal(false);
+    setState(prev => ({
+      ...prev,
+      selectedWarehouse: null
+    }));
   };
 
   // 刷新数据
@@ -176,8 +195,12 @@ const InventoryCardView: React.FC = () => {
     return (
       <div className="flex items-center justify-center min-h-96">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">正在加载仓库数据...</p>
+          <div className="relative">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent absolute top-0 left-1/2 transform -translate-x-1/2"></div>
+          </div>
+          <p className="text-gray-600 text-lg font-medium">正在加载仓库数据...</p>
+          <p className="text-gray-500 text-sm mt-2">请稍候，正在获取最新的库存信息</p>
         </div>
       </div>
     );
@@ -191,6 +214,7 @@ const InventoryCardView: React.FC = () => {
           <h3 className="text-lg font-medium text-gray-900 mb-2">加载失败</h3>
           <p className="text-gray-600 mb-4">{state.error}</p>
           <button
+            type="button"
             onClick={handleRefresh}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
           >
@@ -210,6 +234,7 @@ const InventoryCardView: React.FC = () => {
           <p className="text-gray-600 mt-1">查看各仓库库存情况</p>
         </div>
         <button
+          type="button"
           onClick={handleRefresh}
           className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
         >
@@ -218,7 +243,7 @@ const InventoryCardView: React.FC = () => {
       </div>
 
       {/* 搜索和筛选区域 */}
-      <div className="glass-surface rounded-lg p-4 space-y-4">
+      <div className="glass-surface rounded-lg p-4 lg:p-6 space-y-4 lg:space-y-6">
         <InventorySearch
           value={state.filters.searchKeyword}
           onChange={(keyword) => handleFilterChange({ searchKeyword: keyword })}
@@ -231,41 +256,45 @@ const InventoryCardView: React.FC = () => {
       </div>
 
       {/* 统计信息 */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="glass-surface rounded-lg p-4">
-          <div className="text-2xl font-bold text-blue-600">{state.filteredWarehouses.length}</div>
-          <div className="text-sm text-gray-600">仓库总数</div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+        <div className="glass-surface rounded-lg p-3 lg:p-4 text-center">
+          <div className="text-xl lg:text-2xl font-bold text-blue-600">{state.filteredWarehouses.length}</div>
+          <div className="text-xs lg:text-sm text-gray-600">仓库总数</div>
         </div>
-        <div className="glass-surface rounded-lg p-4">
-          <div className="text-2xl font-bold text-green-600">
+        <div className="glass-surface rounded-lg p-3 lg:p-4 text-center">
+          <div className="text-xl lg:text-2xl font-bold text-green-600">
             {state.filteredWarehouses.reduce((sum, w) => sum + w.totalProducts, 0)}
           </div>
-          <div className="text-sm text-gray-600">商品种类</div>
+          <div className="text-xs lg:text-sm text-gray-600">商品种类</div>
         </div>
-        <div className="glass-surface rounded-lg p-4">
-          <div className="text-2xl font-bold text-yellow-600">
+        <div className="glass-surface rounded-lg p-3 lg:p-4 text-center">
+          <div className="text-xl lg:text-2xl font-bold text-yellow-600">
             {state.filteredWarehouses.reduce((sum, w) => sum + w.lowStockCount, 0)}
           </div>
-          <div className="text-sm text-gray-600">低库存商品</div>
+          <div className="text-xs lg:text-sm text-gray-600">低库存商品</div>
         </div>
-        <div className="glass-surface rounded-lg p-4">
-          <div className="text-2xl font-bold text-red-600">
+        <div className="glass-surface rounded-lg p-3 lg:p-4 text-center">
+          <div className="text-xl lg:text-2xl font-bold text-red-600">
             {state.filteredWarehouses.reduce((sum, w) => sum + w.outOfStockCount, 0)}
           </div>
-          <div className="text-sm text-gray-600">缺货商品</div>
+          <div className="text-xs lg:text-sm text-gray-600">缺货商品</div>
         </div>
       </div>
 
       {/* 仓库卡片网格 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {state.filteredWarehouses.map(warehouse => (
-          <WarehouseCard
-            key={warehouse.warehouseId}
-            warehouse={warehouse}
-            onClick={() => handleWarehouseClick(warehouse.warehouseId)}
-            isSelected={state.selectedWarehouse === warehouse.warehouseId}
-          />
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 lg:gap-6">
+        {state.loading ? (
+          <WarehouseCardSkeleton count={6} />
+        ) : (
+          state.filteredWarehouses.map(warehouse => (
+            <WarehouseCard
+              key={warehouse.warehouseId}
+              warehouse={warehouse}
+              onClick={() => handleWarehouseClick(warehouse.warehouseId)}
+              isSelected={state.selectedWarehouse === warehouse.warehouseId}
+            />
+          ))
+        )}
       </div>
 
       {/* 空状态 */}
@@ -276,6 +305,13 @@ const InventoryCardView: React.FC = () => {
           <p className="text-gray-600">请检查筛选条件或联系管理员</p>
         </div>
       )}
+
+      {/* 仓库详情模态框 */}
+      <WarehouseDetailModal
+        warehouse={state.selectedWarehouse ? state.warehouses.find(w => w.warehouseId === state.selectedWarehouse) || null : null}
+        isOpen={showDetailModal}
+        onClose={handleCloseDetailModal}
+      />
     </div>
   );
 };

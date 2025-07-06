@@ -6,6 +6,75 @@ export interface BaseEntity {
   updatedAt: Date;
 }
 
+// =============== 单位转换 ===============
+
+export interface UnitConversion extends BaseEntity {
+  productId: string;        // 关联的商品ID
+  baseUnitId: string;       // 基础单位ID（如：个、克、毫升）
+  packageUnitId: string;    // 包装单位ID（如：箱、包、件）
+  conversionRate: number;   // 转换比率：1个包装单位 = conversionRate个基础单位
+  isActive: boolean;        // 是否启用
+  description?: string;     // 转换规则描述
+}
+
+// =============== 日历视图 ===============
+
+export interface DailyBusinessSummary {
+  date: Date;
+  purchases: {
+    totalAmount: number;      // 采购总数量
+    totalValue: number;       // 采购总金额
+    orderCount: number;       // 采购订单数
+    topProducts: Array<{
+      productId: string;
+      productName: string;
+      quantity: number;
+      value: number;
+    }>;
+  };
+  sales: {
+    totalAmount: number;      // 销售总数量
+    totalValue: number;       // 销售总金额
+    orderCount: number;       // 销售订单数
+    topProducts: Array<{
+      productId: string;
+      productName: string;
+      quantity: number;
+      value: number;
+    }>;
+  };
+  inventory: {
+    totalValue: number;       // 库存总价值
+    lowStockCount: number;    // 低库存商品数
+    outOfStockCount: number;  // 缺货商品数
+    newProductCount: number;  // 新增商品数
+  };
+  movements: {
+    inbound: number;          // 入库总量
+    outbound: number;         // 出库总量
+    adjustments: number;      // 调整数量
+  };
+}
+
+export interface WeeklyCalendarData {
+  weekStart: Date;
+  weekEnd: Date;
+  days: DailyBusinessSummary[];
+  weeklyTotals: {
+    purchases: number;
+    sales: number;
+    netChange: number;        // 净变化（入库-出库）
+  };
+}
+
+export interface CalendarViewOptions {
+  startDate: Date;
+  endDate: Date;
+  warehouseId?: string;
+  categoryId?: string;
+  productId?: string;
+}
+
 // 商品实体
 export interface Product extends BaseEntity {
   sku: string;                    // 商品编码

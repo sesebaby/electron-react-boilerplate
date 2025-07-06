@@ -3,6 +3,7 @@ import { AppLayout } from './components/Layout/AppLayout';
 import PageContainer from './components/PageContainer';
 import { businessServiceManager } from './services/business';
 import { dataInitializer } from './services/dataInitializer';
+import { testDataInitializer } from './utils/testDataInitializer';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import './globals.css';
 
@@ -48,6 +49,9 @@ const App: React.FC = () => {
 
         // 初始化种子数据
         await dataInitializer.initializeData();
+
+        // TODO: 初始化库存卡片视图测试数据（暂时禁用）
+        // await testDataInitializer.initializeInventoryCardTestData();
 
         setIsLoading(false);
       } catch (error) {
