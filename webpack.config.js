@@ -36,6 +36,10 @@ module.exports = {
       "process": require.resolve("process/browser"),
       "vm": false,
       "os": false
+    },
+    alias: {
+      // 修复 bcryptjs 的 process 依赖问题
+      "process/browser": require.resolve("process/browser")
     }
   },
   externals: {

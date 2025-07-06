@@ -540,7 +540,13 @@ export class SalesOrderService {
     }
 
     // 检查库存是否足够（使用默认仓库，实际应从产品或订单配置中获取）
-    const warehouseId = 'default-warehouse'; // TODO: 从产品或订单配置中获取仓库ID
+    // 使用延迟导入避免循环依赖
+    const { default: warehouseService } = await import('./warehouseService');
+    const defaultWarehouse = await warehouseService.findDefault();
+    if (!defaultWarehouse) {
+      throw new Error('系统未配置默认仓库，无法检查库存');
+    }
+    const warehouseId = defaultWarehouse.id;
     const stock = await inventoryStockService.findStockByProductAndWarehouse(data.productId, warehouseId);
     
     if (!stock || stock.availableStock < data.quantity) {

@@ -67,7 +67,7 @@ export class SystemHealthMonitor {
 
   private async checkBusinessServices(): Promise<HealthCheckResult> {
     try {
-      if (!businessServiceManager.isInitialized()) {
+      if (!businessServiceManager.isInitialized) {
         return {
           component: '业务服务',
           status: 'critical',

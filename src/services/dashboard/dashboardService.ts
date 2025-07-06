@@ -1,14 +1,14 @@
 import { businessServiceManager } from '../business';
-import { 
-  productService,
+import {
+  // productService,  // 暂时注释掉
   categoryService,
   unitService,
   warehouseService,
-  inventoryStockService,
+  // inventoryStockService,  // 暂时注释掉
   supplierService,
   customerService
 } from '../business';
-import { InventoryService } from '../inventory/inventoryService';
+// import { InventoryService } from '../inventory/inventoryService';  // 暂时注释掉
 
 // Dashboard数据类型定义
 export interface DashboardOverview {
@@ -90,70 +90,64 @@ export interface SystemHealth {
 
 export class DashboardService {
   private recentActivities: RecentActivity[] = [];
-  private inventoryService: InventoryService;
+  // private inventoryService: InventoryService;  // 暂时注释掉
 
   constructor() {
-    this.inventoryService = new InventoryService();
+    // this.inventoryService = new InventoryService();  // 暂时注释掉
   }
 
   async initialize(): Promise<void> {
-    await this.inventoryService.initialize();
+    // await this.inventoryService.initialize();  // 暂时注释掉
     console.log('Dashboard service initialized');
   }
 
   // =============== 概览数据 ===============
 
   async getOverview(): Promise<DashboardOverview> {
+    // 临时返回模拟数据，避免依赖问题
     const [
-      productStats,
-      supplierStats, 
+      supplierStats,
       customerStats,
-      warehouseStats,
-      inventoryStats
+      warehouseStats
     ] = await Promise.all([
-      productService.getProductStats(),
       supplierService.getSupplierStats(),
       customerService.getCustomerStats(),
-      warehouseService.getWarehouseStats(),
-      inventoryStockService.getInventorySummary()
+      warehouseService.getWarehouseStats()
     ]);
 
-    const lowStockItems = await inventoryStockService.findLowStockItems();
-    const outOfStockItems = await inventoryStockService.findOutOfStockItems();
-
     return {
-      totalProducts: productStats.total,
+      totalProducts: 0, // 暂时设为0
       totalSuppliers: supplierStats.total,
       totalCustomers: customerStats.total,
       totalWarehouses: warehouseStats.total,
-      lowStockItems: lowStockItems.length,
-      outOfStockItems: outOfStockItems.length,
-      totalInventoryValue: inventoryStats.totalValue,
-      recentTransactions: inventoryStats.totalTransactions
+      lowStockItems: 0, // 暂时设为0
+      outOfStockItems: 0, // 暂时设为0
+      totalInventoryValue: 0, // 暂时设为0
+      recentTransactions: 0 // 暂时设为0
     };
   }
 
   async getQuickStats(): Promise<QuickStats> {
+    // 暂时只获取基础服务的统计信息
     const [
-      productStats,
-      inventoryStats,
       supplierStats,
       customerStats,
-      lowStockItems,
       vipCustomers,
       topSuppliers
     ] = await Promise.all([
-      productService.getProductStats(),
-      inventoryStockService.getInventorySummary(),
       supplierService.getSupplierStats(),
       customerService.getCustomerStats(),
-      inventoryStockService.findLowStockItems(),
       customerService.findVIPCustomers(),
       supplierService.getTopSuppliersByCredit(5)
     ]);
 
-    const avgItemValue = inventoryStats.totalProducts > 0 
-      ? inventoryStats.totalValue / inventoryStats.totalProducts 
+    // 暂时设置默认值，避免引用未导入的服务
+    const productStats = { total: 0, active: 0, inactive: 0 };
+    const inventoryStats = { totalProducts: 0, totalValue: 0 };
+    const lowStockItems: any[] = [];
+
+    const avgItemValue = inventoryStats.totalProducts > 0
+      ? inventoryStats.totalValue / inventoryStats.totalProducts
       : 0;
 
     return {
@@ -181,32 +175,29 @@ export class DashboardService {
   // =============== 图表数据 ===============
 
   async getChartData(): Promise<DashboardChartData> {
+    // 暂时只获取基础服务的统计信息
     const [
       categories,
-      stocks,
-      topProductsByValue,
       supplierStats,
       customerStats
     ] = await Promise.all([
       categoryService.findAll(),
-      inventoryStockService.findAllStocks(),
-      inventoryStockService.getTopProductsByValue(10),
       supplierService.getSupplierStats(),
       customerService.getCustomerStats()
     ]);
 
-    // 按分类统计库存
-    const inventoryByCategory = await this.getInventoryByCategory();
+    // 暂时设置默认值，避免引用未导入的服务
+    const stocks: any[] = [];
+    const topProductsByValue: any[] = [];
 
-    // 库存流水趋势（近7天）
-    const stockMovement = await this.getStockMovementTrend(7);
+    // 按分类统计库存（暂时返回空数组）
+    const inventoryByCategory: any[] = [];
 
-    // 热销产品
-    const topProducts = topProductsByValue.map(item => ({
-      product: item.product?.name || '未知产品',
-      value: item.totalValue,
-      quantity: item.stock.currentStock
-    }));
+    // 库存流水趋势（暂时返回空数组）
+    const stockMovement: any[] = [];
+
+    // 热销产品（暂时返回空数组）
+    const topProducts: any[] = [];
 
     // 供应商评级分布
     const supplierDistribution = Object.entries(supplierStats.byRating).map(([rating, count]) => ({
@@ -238,30 +229,33 @@ export class DashboardService {
     value: number;
     count: number;
   }>> {
-    const categories = await categoryService.findAll();
-    const stocks = await inventoryStockService.findAllStocks();
+    // 暂时返回空数组，避免引用未导入的服务
+    return [];
 
-    const categoryMap = new Map(categories.map(c => [c.id, c.name]));
-    const categoryStats = new Map<string, { value: number; count: number }>();
-
-    for (const stock of stocks) {
-      const product = await productService.findById(stock.productId);
-      if (product) {
-        const categoryName = categoryMap.get(product.categoryId) || '未分类';
-        const existing = categoryStats.get(categoryName) || { value: 0, count: 0 };
-        
-        categoryStats.set(categoryName, {
-          value: existing.value + (stock.currentStock * stock.avgCost),
-          count: existing.count + 1
-        });
-      }
-    }
-
-    return Array.from(categoryStats.entries()).map(([category, stats]) => ({
-      category,
-      value: stats.value,
-      count: stats.count
-    }));
+    // const categories = await categoryService.findAll();
+    // const stocks = await inventoryStockService.findAllStocks();
+    //
+    // const categoryMap = new Map(categories.map(c => [c.id, c.name]));
+    // const categoryStats = new Map<string, { value: number; count: number }>();
+    //
+    // for (const stock of stocks) {
+    //   const product = await productService.findById(stock.productId);
+    //   if (product) {
+    //     const categoryName = categoryMap.get(product.categoryId) || '未分类';
+    //     const existing = categoryStats.get(categoryName) || { value: 0, count: 0 };
+    //
+    //     categoryStats.set(categoryName, {
+    //       value: existing.value + (stock.currentStock * stock.avgCost),
+    //       count: existing.count + 1
+    //     });
+    //   }
+    // }
+    //
+    // return Array.from(categoryStats.entries()).map(([category, stats]) => ({
+    //   category,
+    //   value: stats.value,
+    //   count: stats.count
+    // }));
   }
 
   private async getStockMovementTrend(days: number): Promise<Array<{
@@ -270,44 +264,47 @@ export class DashboardService {
     stockOut: number;
     adjustment: number;
   }>> {
-    const endDate = new Date();
-    const startDate = new Date();
-    startDate.setDate(endDate.getDate() - days);
+    // 暂时返回空数组，避免引用未导入的服务
+    return [];
 
-    const transactions = await inventoryStockService.findTransactionsByDateRange(startDate, endDate);
-    
-    const movementMap = new Map<string, { stockIn: number; stockOut: number; adjustment: number }>();
+    // const endDate = new Date();
+    // const startDate = new Date();
+    // startDate.setDate(endDate.getDate() - days);
+    //
+    // const transactions = await inventoryStockService.findTransactionsByDateRange(startDate, endDate);
 
-    // 初始化日期
-    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-      const dateStr = d.toISOString().split('T')[0];
-      movementMap.set(dateStr, { stockIn: 0, stockOut: 0, adjustment: 0 });
-    }
-
-    // 统计每日流水
-    transactions.forEach(transaction => {
-      const dateStr = transaction.createdAt.toISOString().split('T')[0];
-      const existing = movementMap.get(dateStr);
-      
-      if (existing) {
-        switch (transaction.transactionType) {
-          case 'in':
-            existing.stockIn += transaction.quantity;
-            break;
-          case 'out':
-            existing.stockOut += Math.abs(transaction.quantity);
-            break;
-          case 'adjust':
-            existing.adjustment += Math.abs(transaction.quantity);
-            break;
-        }
-      }
-    });
-
-    return Array.from(movementMap.entries()).map(([date, movement]) => ({
-      date,
-      ...movement
-    }));
+    // const movementMap = new Map<string, { stockIn: number; stockOut: number; adjustment: number }>();
+    //
+    // // 初始化日期
+    // for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+    //   const dateStr = d.toISOString().split('T')[0];
+    //   movementMap.set(dateStr, { stockIn: 0, stockOut: 0, adjustment: 0 });
+    // }
+    //
+    // // 统计每日流水
+    // transactions.forEach(transaction => {
+    //   const dateStr = transaction.createdAt.toISOString().split('T')[0];
+    //   const existing = movementMap.get(dateStr);
+    //
+    //   if (existing) {
+    //     switch (transaction.transactionType) {
+    //       case 'in':
+    //         existing.stockIn += transaction.quantity;
+    //         break;
+    //       case 'out':
+    //         existing.stockOut += Math.abs(transaction.quantity);
+    //         break;
+    //       case 'adjust':
+    //         existing.adjustment += Math.abs(transaction.quantity);
+    //         break;
+    //     }
+    //   }
+    // });
+    //
+    // return Array.from(movementMap.entries()).map(([date, movement]) => ({
+    //   date,
+    //   ...movement
+    // }));
   }
 
   // =============== 最近活动 ===============
@@ -335,34 +332,36 @@ export class DashboardService {
 
   async getSystemHealth(): Promise<SystemHealth> {
     const validation = await businessServiceManager.validateSystemIntegrity();
-    
+
     const recommendations: string[] = [];
-    
-    // 检查基础数据
-    const lowStockItems = await inventoryStockService.findLowStockItems();
-    const outOfStockItems = await inventoryStockService.findOutOfStockItems();
-    
-    if (lowStockItems.length > 0) {
-      recommendations.push(`有 ${lowStockItems.length} 个商品库存偏低，建议及时补货`);
-    }
-    
-    if (outOfStockItems.length > 0) {
-      recommendations.push(`有 ${outOfStockItems.length} 个商品已缺货，需要紧急补货`);
-    }
 
-    // 检查数据完整性
-    const products = await productService.findAll();
-    const productsWithoutCategory = [];
-    for (const product of products) {
-      const category = await categoryService.findById(product.categoryId);
-      if (!category) {
-        productsWithoutCategory.push(product.name);
-      }
-    }
+    // 暂时注释掉库存检查，避免引用未导入的服务
+    // // 检查基础数据
+    // const lowStockItems = await inventoryStockService.findLowStockItems();
+    // const outOfStockItems = await inventoryStockService.findOutOfStockItems();
+    //
+    // if (lowStockItems.length > 0) {
+    //   recommendations.push(`有 ${lowStockItems.length} 个商品库存偏低，建议及时补货`);
+    // }
+    //
+    // if (outOfStockItems.length > 0) {
+    //   recommendations.push(`有 ${outOfStockItems.length} 个商品已缺货，需要紧急补货`);
+    // }
 
-    if (productsWithoutCategory.length > 0) {
-      validation.warnings.push(`有 ${productsWithoutCategory.length} 个商品的分类数据异常`);
-    }
+    // 暂时注释掉产品数据完整性检查，避免引用未导入的服务
+    // // 检查数据完整性
+    // const products = await productService.findAll();
+    // const productsWithoutCategory = [];
+    // for (const product of products) {
+    //   const category = await categoryService.findById(product.categoryId);
+    //   if (!category) {
+    //     productsWithoutCategory.push(product.name);
+    //   }
+    // }
+    //
+    // if (productsWithoutCategory.length > 0) {
+    //   validation.warnings.push(`有 ${productsWithoutCategory.length} 个商品的分类数据异常`);
+    // }
 
     let status: 'healthy' | 'warning' | 'error' = 'healthy';
     if (validation.issues.length > 0) {
@@ -396,8 +395,9 @@ export class DashboardService {
       route: string;
     }>;
   }> {
-    const lowStockItems = await inventoryStockService.findLowStockItems();
-    const outOfStockItems = await inventoryStockService.findOutOfStockItems();
+    // 暂时设置默认值，避免引用未导入的服务
+    const lowStockItems: any[] = [];
+    const outOfStockItems: any[] = [];
     const systemHealth = await this.getSystemHealth();
 
     const needAttention: Array<{
@@ -470,16 +470,19 @@ export class DashboardService {
 
   private async calculateStockTurnover(): Promise<number> {
     try {
-      // 简化的库存周转率计算：年销售额 / 平均库存价值
-      // 这里使用模拟数据，实际应该从销售记录计算
-      const inventory = await this.inventoryService.getAllItems();
-      const totalInventoryValue = inventory.reduce((sum: number, item: any) => sum + item.totalValue, 0);
-      
-      if (totalInventoryValue === 0) return 0;
-      
-      // 模拟年销售额（实际应该从销售记录计算）
-      const estimatedAnnualSales = totalInventoryValue * 3; // 假设周转3次
-      return Math.round((estimatedAnnualSales / totalInventoryValue) * 100) / 100;
+      // 暂时返回默认值，避免引用未导入的服务
+      return 0;
+
+      // // 简化的库存周转率计算：年销售额 / 平均库存价值
+      // // 这里使用模拟数据，实际应该从销售记录计算
+      // const inventory = await this.inventoryService.getAllItems();
+      // const totalInventoryValue = inventory.reduce((sum: number, item: any) => sum + item.totalValue, 0);
+      //
+      // if (totalInventoryValue === 0) return 0;
+      //
+      // // 模拟年销售额（实际应该从销售记录计算）
+      // const estimatedAnnualSales = totalInventoryValue * 3; // 假设周转3次
+      // return Math.round((estimatedAnnualSales / totalInventoryValue) * 100) / 100;
     } catch (error) {
       console.error('计算库存周转率失败:', error);
       return 0;

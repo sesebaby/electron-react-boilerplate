@@ -21,7 +21,7 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
       setError(null);
 
       // 确保业务服务已初始化
-      if (!businessServiceManager.isInitialized()) {
+      if (!businessServiceManager.isInitialized) {
         console.log('Initializing business services...');
         await businessServiceManager.initialize();
       }

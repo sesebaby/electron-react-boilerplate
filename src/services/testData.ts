@@ -1,11 +1,11 @@
 // 测试数据生成器
-import { 
+import {
   businessServiceManager,
   categoryService,
   unitService,
   warehouseService,
-  productService,
-  inventoryStockService,
+  // productService,  // 暂时注释掉
+  // inventoryStockService,  // 暂时注释掉
   supplierService,
   customerService
 } from './business';

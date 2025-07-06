@@ -11,9 +11,9 @@ function createWindow() {
     width: 1400,
     height: 900,
     webPreferences: {
-      nodeIntegration: true,         // Enable node integration for require() to work
-      contextIsolation: false,       // Disable context isolation to allow require() in renderer
-      enableRemoteModule: true,      // Enable remote module for additional functionality
+      nodeIntegration: false,        // Disable node integration for security
+      contextIsolation: true,        // Enable context isolation for security
+      enableRemoteModule: false,     // Disable remote module for security
       preload: path.join(__dirname, 'preload.js'),
       sandbox: false,                // Keep false for IPC communication
       webSecurity: true              // Keep web security enabled

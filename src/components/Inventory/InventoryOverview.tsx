@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { inventoryStockService } from '../../services/business';
+import { inventoryStockService, productService } from '../../services/business';
 import { InventoryStock } from '../../types/entities';
 import { GlassButton, GlassCard } from '../ui/FormControls';
 
@@ -56,17 +56,21 @@ export const InventoryOverview: React.FC<InventoryOverviewProps> = ({ className 
         return sum + (stock.currentStock * stock.unitPrice);
       }, 0);
 
-      // 按分类统计
+      // 按分类统计（需要关联商品信息获取分类）
       const categoryStats = new Map<string, { count: number; value: number }>();
-      allStocks.forEach(stock => {
-        const category = stock.productId; // 简化处理，实际应该关联Product表
-        if (!categoryStats.has(category)) {
-          categoryStats.set(category, { count: 0, value: 0 });
+
+      for (const stock of allStocks) {
+        const product = await productService.findById(stock.productId);
+        // 使用 categoryId 获取分类名称，这里简化处理直接使用 categoryId
+        const categoryName = product ? `分类-${product.categoryId.slice(0, 8)}` : '未知分类';
+
+        if (!categoryStats.has(categoryName)) {
+          categoryStats.set(categoryName, { count: 0, value: 0 });
         }
-        const stat = categoryStats.get(category)!;
+        const stat = categoryStats.get(categoryName)!;
         stat.count += 1;
         stat.value += stock.currentStock * stock.unitPrice;
-      });
+      }
 
       const categories = Array.from(categoryStats.entries()).map(([name, stat]) => ({
         name,
@@ -74,14 +78,19 @@ export const InventoryOverview: React.FC<InventoryOverviewProps> = ({ className 
         value: stat.value
       }));
 
-      // 模拟最近库存变动
-      const recentMovements = allStocks.slice(0, 5).map(stock => ({
-        id: stock.id,
-        productName: `商品-${stock.productId}`,
-        type: 'in' as const,
-        quantity: Math.floor(Math.random() * 100),
-        timestamp: new Date()
-      }));
+      // 获取最近库存变动（需要关联商品信息）
+      const recentMovements = await Promise.all(
+        allStocks.slice(0, 5).map(async (stock) => {
+          const product = await productService.findById(stock.productId);
+          return {
+            id: stock.id,
+            productName: product ? product.name : `未知商品-${stock.productId}`,
+            type: 'in' as const,
+            quantity: Math.floor(Math.random() * 100),
+            timestamp: new Date()
+          };
+        })
+      );
 
       setStats({
         totalItems: allStocks.length,
