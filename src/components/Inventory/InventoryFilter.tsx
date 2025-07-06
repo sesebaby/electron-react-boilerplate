@@ -43,8 +43,6 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
   // 重置筛选条件
   const handleReset = () => {
     onChange({
-      warehouseIds: [],
-      searchKeyword: '',
       stockStatus: 'all',
       category: '',
       sortBy: 'name',
@@ -55,7 +53,6 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
   // 检查是否有活动筛选条件
   const hasActiveFilters = () => {
     return (
-      filters.warehouseIds.length > 0 ||
       filters.stockStatus !== 'all' ||
       filters.category !== '' ||
       filters.sortBy !== 'name' ||
@@ -70,6 +67,7 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
         <h3 className="text-sm font-medium text-gray-700">筛选条件</h3>
         {hasActiveFilters() && (
           <button
+            type="button"
             onClick={handleReset}
             className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
           >
@@ -78,37 +76,7 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* 仓库筛选 */}
-        <div>
-          <label className="block text-xs font-medium text-gray-700 mb-2">
-            选择仓库
-          </label>
-          <select
-            multiple
-            value={filters.warehouseIds}
-            onChange={(e) => {
-              const selectedIds = Array.from(e.target.selectedOptions, option => option.value);
-              onChange({ warehouseIds: selectedIds });
-            }}
-            className="
-              block w-full px-3 py-2 border border-gray-300 rounded-lg
-              bg-white/50 backdrop-blur-sm text-sm
-              focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-              transition-all duration-200
-            "
-            size={Math.min(4, warehouses.length)}
-          >
-            {warehouses.map(warehouse => (
-              <option key={warehouse.warehouseId} value={warehouse.warehouseId}>
-                {warehouse.warehouseName} ({warehouse.warehouseCode})
-              </option>
-            ))}
-          </select>
-          <p className="text-xs text-gray-500 mt-1">
-            按住 Ctrl/Cmd 多选
-          </p>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
         {/* 库存状态筛选 */}
         <div>
@@ -180,8 +148,9 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
               ))}
             </select>
             <button
-              onClick={() => onChange({ 
-                sortOrder: filters.sortOrder === 'asc' ? 'desc' : 'asc' 
+              type="button"
+              onClick={() => onChange({
+                sortOrder: filters.sortOrder === 'asc' ? 'desc' : 'asc'
               })}
               className="
                 px-3 py-2 border border-gray-300 rounded-lg
@@ -201,23 +170,12 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
       {hasActiveFilters() && (
         <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-200">
           <span className="text-xs text-gray-500">活动筛选:</span>
-          
-          {filters.warehouseIds.length > 0 && (
-            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
-              仓库: {filters.warehouseIds.length} 个
-              <button
-                onClick={() => onChange({ warehouseIds: [] })}
-                className="ml-1 text-blue-600 hover:text-blue-800"
-              >
-                ×
-              </button>
-            </span>
-          )}
 
           {filters.stockStatus !== 'all' && (
             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">
               状态: {stockStatusOptions.find(opt => opt.value === filters.stockStatus)?.label}
               <button
+                type="button"
                 onClick={() => onChange({ stockStatus: 'all' })}
                 className="ml-1 text-yellow-600 hover:text-yellow-800"
               >
@@ -230,6 +188,7 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
               分类: {filters.category}
               <button
+                type="button"
                 onClick={() => onChange({ category: '' })}
                 className="ml-1 text-green-600 hover:text-green-800"
               >

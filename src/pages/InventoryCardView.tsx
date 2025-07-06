@@ -3,6 +3,7 @@ import { WarehouseCardData, InventoryFilterOptions, InventoryCardViewState } fro
 import WarehouseCard from '../components/Inventory/WarehouseCard';
 import InventoryFilter from '../components/Inventory/InventoryFilter';
 import InventorySearch from '../components/Inventory/InventorySearch';
+import WarehouseSelector from '../components/Inventory/WarehouseSelector';
 import WarehouseDetailModal from '../components/Inventory/WarehouseDetailModal';
 import WarehouseCardSkeleton from '../components/Inventory/WarehouseCardSkeleton';
 import { notificationHelper } from '../utils/notificationHelper';
@@ -242,12 +243,23 @@ const InventoryCardView: React.FC = () => {
         </button>
       </div>
 
-      {/* 搜索和筛选区域 */}
-      <div className="glass-surface backdrop-blur-lg rounded-xl p-4 lg:p-6 space-y-4 lg:space-y-6 border border-white/20">
+      {/* 搜索区域 */}
+      <div className="glass-surface backdrop-blur-lg rounded-xl p-4 lg:p-6 border border-white/20">
         <InventorySearch
           value={state.filters.searchKeyword}
           onChange={(keyword) => handleFilterChange({ searchKeyword: keyword })}
         />
+      </div>
+
+      {/* 仓库选择区域 */}
+      <WarehouseSelector
+        warehouses={state.warehouses}
+        selectedIds={state.filters.warehouseIds}
+        onChange={(warehouseIds) => handleFilterChange({ warehouseIds })}
+      />
+
+      {/* 筛选区域 */}
+      <div className="glass-surface backdrop-blur-lg rounded-xl p-4 lg:p-6 border border-white/20">
         <InventoryFilter
           filters={state.filters}
           warehouses={state.warehouses}
