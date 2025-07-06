@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Category, Product, Warehouse, Unit, InventoryStock, InventoryTransaction, ProductStatus } from '../types/entities';
+import { Category, Product, Warehouse, Unit, InventoryStock, InventoryTransaction, ProductStatus, Supplier, SupplierStatus, SupplierRating } from '../types/entities';
 
 // 单位数据
 export const seedUnits: Unit[] = [
@@ -292,6 +292,100 @@ export const seedInventoryStocks: InventoryStock[] = [
     unitPrice: 120.00,
     lastInDate: new Date('2024-12-10'),
     lastOutDate: new Date('2024-12-20'),
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
+];
+
+// 供应商数据
+export const seedSuppliers: Supplier[] = [
+  {
+    id: 'sup-001',
+    code: 'SUP001',
+    name: '苹果科技有限公司',
+    contactPerson: '张经理',
+    phone: '400-666-8888',
+    email: 'zhang@apple-tech.com',
+    address: '北京市朝阳区科技园区苹果大厦',
+    paymentTerms: '月结30天',
+    creditLimit: 1000000.00,
+    rating: SupplierRating.A,
+    status: SupplierStatus.ACTIVE,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'sup-002',
+    code: 'SUP002',
+    name: '三星电子贸易公司',
+    contactPerson: '李总监',
+    phone: '400-888-6666',
+    email: 'li@samsung-trade.com',
+    address: '上海市浦东新区张江高科技园区三星中心',
+    paymentTerms: '现金',
+    creditLimit: 800000.00,
+    rating: SupplierRating.A,
+    status: SupplierStatus.ACTIVE,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'sup-003',
+    code: 'SUP003',
+    name: '罗技科技设备公司',
+    contactPerson: '王主管',
+    phone: '021-12345678',
+    email: 'wang@logitech-equip.com',
+    address: '深圳市南山区科技园罗技大厦',
+    paymentTerms: '月结15天',
+    creditLimit: 500000.00,
+    rating: SupplierRating.B,
+    status: SupplierStatus.ACTIVE,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'sup-004',
+    code: 'SUP004',
+    name: '戴尔计算机配件商行',
+    contactPerson: '赵老板',
+    phone: '010-87654321',
+    email: 'zhao@dell-parts.com',
+    address: '北京市海淀区中关村大街戴尔专卖店',
+    paymentTerms: '货到付款',
+    creditLimit: 300000.00,
+    rating: SupplierRating.B,
+    status: SupplierStatus.ACTIVE,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'sup-005',
+    code: 'SUP005',
+    name: '厨具世界批发中心',
+    contactPerson: '刘经理',
+    phone: '0755-98765432',
+    email: 'liu@kitchen-world.com',
+    address: '广州市天河区厨具批发市场A区',
+    paymentTerms: '月结45天',
+    creditLimit: 200000.00,
+    rating: SupplierRating.C,
+    status: SupplierStatus.ACTIVE,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'sup-006',
+    code: 'SUP006',
+    name: '华为技术设备供应商',
+    contactPerson: '陈总',
+    phone: '0755-12345678',
+    email: 'chen@huawei-supply.com',
+    address: '深圳市龙岗区华为基地',
+    paymentTerms: '月结60天',
+    creditLimit: 1500000.00,
+    rating: SupplierRating.A,
+    status: SupplierStatus.ACTIVE,
     createdAt: new Date(),
     updatedAt: new Date()
   }

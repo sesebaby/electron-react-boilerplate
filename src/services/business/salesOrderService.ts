@@ -5,6 +5,7 @@ import customerService from './customerService';
 import productService from './productService';
 import inventoryStockService from './inventoryStockService';
 import accountsReceivableService from './accountsReceivableService';
+import { notificationHelper } from '../../utils/notificationHelper';
 import { logger } from '../../utils/secureLogger';
 import userService from './userService';
 import { ValidationError, BusinessError } from '../../utils/errors';
@@ -298,7 +299,7 @@ export class SalesOrderService {
     await this.validateStatusTransition(order, status, currentUserId);
 
     const updatedOrder = await this.update(id, { status });
-    
+
     logger.audit('status_change', 'sales_order', {
       orderId: id,
       orderNo: order.orderNo,
@@ -306,6 +307,17 @@ export class SalesOrderService {
       toStatus: status,
       userId: currentUserId
     });
+
+    // 触发订单状态变更通知
+    try {
+      notificationHelper.showOrderStatusChange(
+        order.orderNo,
+        status,
+        'sales'
+      );
+    } catch (error) {
+      console.error('创建订单状态变更通知失败:', error);
+    }
 
     return updatedOrder;
   }

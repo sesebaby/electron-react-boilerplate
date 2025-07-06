@@ -3669,6 +3669,9 @@ video {
 .ml-2 {
   margin-left: 0.5rem;
 }
+.ml-3 {
+  margin-left: 0.75rem;
+}
 .ml-4 {
   margin-left: 1rem;
 }
@@ -3686,6 +3689,9 @@ video {
 }
 .mr-2 {
   margin-right: 0.5rem;
+}
+.mr-3 {
+  margin-right: 0.75rem;
 }
 .mt-1 {
   margin-top: 0.25rem;
@@ -3957,6 +3963,9 @@ video {
 .max-w-6xl {
   max-width: 72rem;
 }
+.max-w-7xl {
+  max-width: 80rem;
+}
 .max-w-md {
   max-width: 28rem;
 }
@@ -4157,6 +4166,10 @@ video {
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
 }
+.divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-divide-opacity));
+}
 .divide-gray-200\\/50 > :not([hidden]) ~ :not([hidden]) {
   border-color: rgb(229 231 235 / 0.5);
 }
@@ -4185,6 +4198,9 @@ video {
 }
 .whitespace-nowrap {
   white-space: nowrap;
+}
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
 }
 .rounded {
   border-radius: 0.25rem;
@@ -4245,11 +4261,19 @@ video {
   --tw-border-opacity: 1;
   border-color: rgb(191 219 254 / var(--tw-border-opacity));
 }
+.border-blue-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(96 165 250 / var(--tw-border-opacity));
+}
 .border-blue-400\\/20 {
   border-color: rgb(96 165 250 / 0.2);
 }
 .border-blue-400\\/30 {
   border-color: rgb(96 165 250 / 0.3);
+}
+.border-blue-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(59 130 246 / var(--tw-border-opacity));
 }
 .border-blue-500\\/20 {
   border-color: rgb(59 130 246 / 0.2);
@@ -4365,10 +4389,6 @@ video {
 .border-yellow-500\\/20 {
   border-color: rgb(234 179 8 / 0.2);
 }
-.border-blue-400 {
-  --tw-border-opacity: 1;
-  border-color: rgb(96 165 250 / var(--tw-border-opacity));
-}
 .border-b-white {
   --tw-border-opacity: 1;
   border-bottom-color: rgb(255 255 255 / var(--tw-border-opacity));
@@ -4410,6 +4430,13 @@ video {
   --tw-border-opacity: 1;
   border-top-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
+.border-t-white\\/60 {
+  border-top-color: rgb(255 255 255 / 0.6);
+}
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
 .bg-black\\/20 {
   background-color: rgb(0 0 0 / 0.2);
 }
@@ -4420,9 +4447,16 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(219 234 254 / var(--tw-bg-opacity));
 }
+.bg-blue-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(96 165 250 / var(--tw-bg-opacity));
+}
 .bg-blue-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(239 246 255 / var(--tw-bg-opacity));
+}
+.bg-blue-50\\/50 {
+  background-color: rgb(239 246 255 / 0.5);
 }
 .bg-blue-500 {
   --tw-bg-opacity: 1;
@@ -4434,6 +4468,10 @@ video {
 .bg-blue-500\\/20 {
   background-color: rgb(59 130 246 / 0.2);
 }
+.bg-blue-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+}
 .bg-current {
   background-color: currentColor;
 }
@@ -4443,6 +4481,14 @@ video {
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+.bg-gray-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+.bg-gray-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
 }
 .bg-gray-50 {
   --tw-bg-opacity: 1;
@@ -4460,6 +4506,10 @@ video {
 }
 .bg-gray-500\\/20 {
   background-color: rgb(107 114 128 / 0.2);
+}
+.bg-green-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 252 231 / var(--tw-bg-opacity));
 }
 .bg-green-400 {
   --tw-bg-opacity: 1;
@@ -4484,6 +4534,10 @@ video {
 }
 .bg-muted\\/50 {
   background-color: hsl(var(--muted) / 0.5);
+}
+.bg-orange-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 237 213 / var(--tw-bg-opacity));
 }
 .bg-orange-50 {
   --tw-bg-opacity: 1;
@@ -4513,6 +4567,10 @@ video {
 .bg-purple-500\\/20 {
   background-color: rgb(168 85 247 / 0.2);
 }
+.bg-red-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
+}
 .bg-red-50\\/30 {
   background-color: rgb(254 242 242 / 0.3);
 }
@@ -4531,6 +4589,10 @@ video {
 }
 .bg-red-500\\/30 {
   background-color: rgb(239 68 68 / 0.3);
+}
+.bg-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 .bg-transparent {
   background-color: transparent;
@@ -4563,6 +4625,10 @@ video {
 .bg-white\\/90 {
   background-color: rgb(255 255 255 / 0.9);
 }
+.bg-yellow-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 249 195 / var(--tw-bg-opacity));
+}
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity));
@@ -4573,9 +4639,8 @@ video {
 .bg-yellow-500\\/20 {
   background-color: rgb(234 179 8 / 0.2);
 }
-.bg-blue-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+.bg-opacity-50 {
+  --tw-bg-opacity: 0.5;
 }
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
@@ -4811,6 +4876,10 @@ video {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -4951,6 +5020,14 @@ video {
   --tw-text-opacity: 1;
   color: rgb(37 99 235 / var(--tw-text-opacity));
 }
+.text-blue-700 {
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
+}
+.text-blue-800 {
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity));
+}
 .text-cyan-300 {
   --tw-text-opacity: 1;
   color: rgb(103 232 249 / var(--tw-text-opacity));
@@ -5007,6 +5084,10 @@ video {
   --tw-text-opacity: 1;
   color: rgb(22 163 74 / var(--tw-text-opacity));
 }
+.text-green-800 {
+  --tw-text-opacity: 1;
+  color: rgb(22 101 52 / var(--tw-text-opacity));
+}
 .text-indigo-300 {
   --tw-text-opacity: 1;
   color: rgb(165 180 252 / var(--tw-text-opacity));
@@ -5022,9 +5103,9 @@ video {
   --tw-text-opacity: 1;
   color: rgb(234 88 12 / var(--tw-text-opacity));
 }
-.text-purple-100 {
+.text-orange-800 {
   --tw-text-opacity: 1;
-  color: rgb(243 232 255 / var(--tw-text-opacity));
+  color: rgb(154 52 18 / var(--tw-text-opacity));
 }
 .text-purple-200 {
   --tw-text-opacity: 1;
@@ -5060,6 +5141,10 @@ video {
 .text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity));
+}
+.text-red-800 {
+  --tw-text-opacity: 1;
+  color: rgb(153 27 27 / var(--tw-text-opacity));
 }
 .text-white {
   --tw-text-opacity: 1;
@@ -5101,13 +5186,17 @@ video {
 .text-yellow-300\\/80 {
   color: rgb(253 224 71 / 0.8);
 }
+.text-yellow-400 {
+  --tw-text-opacity: 1;
+  color: rgb(250 204 21 / var(--tw-text-opacity));
+}
 .text-yellow-600 {
   --tw-text-opacity: 1;
   color: rgb(202 138 4 / var(--tw-text-opacity));
 }
-.text-yellow-400 {
+.text-yellow-800 {
   --tw-text-opacity: 1;
-  color: rgb(250 204 21 / var(--tw-text-opacity));
+  color: rgb(133 77 14 / var(--tw-text-opacity));
 }
 .underline-offset-4 {
   text-underline-offset: 4px;
@@ -5152,6 +5241,11 @@ video {
 .shadow-md {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow-sm {
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 .shadow-xl {
@@ -5589,9 +5683,24 @@ video {
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
+.hover\\:bg-blue-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+}
+
 .hover\\:bg-gray-200:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+
+.hover\\:bg-gray-400:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
+}
+
+.hover\\:bg-gray-50:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .hover\\:bg-green-500\\/20:hover {
@@ -5630,6 +5739,11 @@ video {
   background-color: rgb(239 68 68 / 0.4);
 }
 
+.hover\\:bg-red-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+}
+
 .hover\\:bg-white\\/10:hover {
   background-color: rgb(255 255 255 / 0.1);
 }
@@ -5662,11 +5776,6 @@ video {
   background-color: rgb(234 179 8 / 0.3);
 }
 
-.hover\\:bg-blue-700:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
-}
-
 .hover\\:from-blue-600:hover {
   --tw-gradient-from: #2563eb var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(37 99 235 / 0) var(--tw-gradient-to-position);
@@ -5695,6 +5804,11 @@ video {
 .hover\\:text-gray-600:hover {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+
+.hover\\:text-gray-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity));
 }
 
 .hover\\:text-green-800:hover {
@@ -5760,6 +5874,11 @@ video {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.focus\\:border-blue-500:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(59 130 246 / var(--tw-border-opacity));
 }
 
 .focus\\:border-red-400\\/50:focus {
@@ -5911,6 +6030,193 @@ video {
   opacity: 0.5;
 }
 
+:is(.dark .dark\\:divide-gray-700) > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-opacity: 1;
+  border-color: rgb(55 65 81 / var(--tw-divide-opacity));
+}
+
+:is(.dark .dark\\:border-blue-800) {
+  --tw-border-opacity: 1;
+  border-color: rgb(30 64 175 / var(--tw-border-opacity));
+}
+
+:is(.dark .dark\\:border-gray-600) {
+  --tw-border-opacity: 1;
+  border-color: rgb(75 85 99 / var(--tw-border-opacity));
+}
+
+:is(.dark .dark\\:border-gray-700) {
+  --tw-border-opacity: 1;
+  border-color: rgb(55 65 81 / var(--tw-border-opacity));
+}
+
+:is(.dark .dark\\:bg-blue-800) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 64 175 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:bg-blue-900) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 58 138 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:bg-blue-900\\/10) {
+  background-color: rgb(30 58 138 / 0.1);
+}
+
+:is(.dark .dark\\:bg-blue-900\\/20) {
+  background-color: rgb(30 58 138 / 0.2);
+}
+
+:is(.dark .dark\\:bg-gray-600) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:bg-gray-700) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:bg-gray-800) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:bg-gray-900) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:bg-green-900) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(20 83 45 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:bg-orange-800) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(154 52 18 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:bg-orange-900) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(124 45 18 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:bg-orange-900\\/20) {
+  background-color: rgb(124 45 18 / 0.2);
+}
+
+:is(.dark .dark\\:bg-red-900) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(127 29 29 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:bg-yellow-900) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(113 63 18 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:text-blue-200) {
+  --tw-text-opacity: 1;
+  color: rgb(191 219 254 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-blue-300) {
+  --tw-text-opacity: 1;
+  color: rgb(147 197 253 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-blue-400) {
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-gray-200) {
+  --tw-text-opacity: 1;
+  color: rgb(229 231 235 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-gray-300) {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-gray-400) {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-green-200) {
+  --tw-text-opacity: 1;
+  color: rgb(187 247 208 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-orange-200) {
+  --tw-text-opacity: 1;
+  color: rgb(254 215 170 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-orange-400) {
+  --tw-text-opacity: 1;
+  color: rgb(251 146 60 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-red-200) {
+  --tw-text-opacity: 1;
+  color: rgb(254 202 202 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-red-400) {
+  --tw-text-opacity: 1;
+  color: rgb(248 113 113 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-white) {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:text-yellow-200) {
+  --tw-text-opacity: 1;
+  color: rgb(254 240 138 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:hover\\:bg-gray-500:hover) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:hover\\:bg-gray-600:hover) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:hover\\:bg-gray-700:hover) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\\:hover\\:text-blue-300:hover) {
+  --tw-text-opacity: 1;
+  color: rgb(147 197 253 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:hover\\:text-gray-200:hover) {
+  --tw-text-opacity: 1;
+  color: rgb(229 231 235 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:hover\\:text-gray-300:hover) {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\\:hover\\:text-red-300:hover) {
+  --tw-text-opacity: 1;
+  color: rgb(252 165 165 / var(--tw-text-opacity));
+}
+
 @media (min-width: 640px) {
 
   .sm\\:block {
@@ -5939,6 +6245,11 @@ video {
 
   .sm\\:self-auto {
     align-self: auto;
+  }
+
+  .sm\\:px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 
   .sm\\:text-base {
@@ -6107,6 +6418,11 @@ video {
   .lg\\:p-6 {
     padding: 1.5rem;
   }
+
+  .lg\\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 @media (min-width: 1280px) {
@@ -6134,7 +6450,7 @@ video {
 
 .\\[\\&_tr\\]\\:border-b tr {
   border-bottom-width: 1px;
-}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"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BAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAn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AA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,sEAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,gBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB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","sourcesContent":["@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n/* 导入主题样式 */\n@import './styles/themes.css';\n\n@layer base {\n  :root {\n    --background: 220 20% 14%;\n    --foreground: 220 8% 95%;\n    --card: 220 20% 10%;\n    --card-foreground: 220 8% 95%;\n    --popover: 220 20% 10%;\n    --popover-foreground: 220 8% 95%;\n    --primary: 220 8% 95%;\n    --primary-foreground: 220 20% 14%;\n    --secondary: 220 20% 14%;\n    --secondary-foreground: 220 8% 95%;\n    --muted: 220 20% 14%;\n    --muted-foreground: 220 8% 65%;\n    --accent: 220 20% 14%;\n    --accent-foreground: 220 8% 95%;\n    --destructive: 0 84% 60%;\n    --destructive-foreground: 0 0% 98%;\n    --border: 220 13% 18%;\n    --input: 220 13% 18%;\n    --ring: 220 8% 95%;\n    --radius: 0.5rem;\n    \n    /* Theme System Variables */\n    --spacing-xs: 0.25rem;\n    --spacing-sm: 0.5rem;\n    --spacing-md: 1rem;\n    --spacing-lg: 1.5rem;\n    --spacing-xl: 2rem;\n    \n    --border-radius-sm: 0.375rem;\n    --border-radius-md: 0.5rem;\n    --border-radius-lg: 0.75rem;\n    \n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n    --glass-blur: blur(20px);\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\n  }\n  \n  /* Animation utilities */\n  @keyframes slide-in-right {\n    from {\n      transform: translateX(100%);\n      opacity: 0;\n    }\n    to {\n      transform: translateX(0);\n      opacity: 1;\n    }\n  }\n  \n  @keyframes fade-in {\n    from {\n      opacity: 0;\n    }\n    to {\n      opacity: 1;\n    }\n  }\n  \n  @keyframes bounce-in {\n    0% {\n      transform: scale(0.3);\n      opacity: 0;\n    }\n    50% {\n      transform: scale(1.05);\n    }\n    70% {\n      transform: scale(0.9);\n    }\n    100% {\n      transform: scale(1);\n      opacity: 1;\n    }\n  }\n  \n  .animate-slide-in-right {\n    animation: slide-in-right 0.3s ease-out;\n  }\n  \n  .animate-fade-in {\n    animation: fade-in 0.3s ease-out;\n  }\n  \n  .animate-bounce-in {\n    animation: bounce-in 0.5s ease-out;\n  }\n  \n  /* Glass Future Theme - 基于Indigo色块系列 */\n  [data-theme=\"glass-future\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\n    \n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\n    \n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\n    --text-secondary: oklch(92.369% 0.00263 230.33);\n    --text-accent: oklch(0.968 0.007 247.896);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n  }\n  \n  /* Dark Tech Theme - 基于Slate色块系列 */\n  [data-theme=\"dark-tech\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\n    \n    /* 弹出窗体背景 - Slate深色系列 */\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\n    \n    /* 文字颜色 - Slate浅色系，适合深色背景 */\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\n    --text-primary: oklch(0.968 0.007 247.896);\n    --text-secondary: oklch(0.929 0.013 255.508);\n    --text-accent: oklch(0.869 0.022 252.894);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\n  }\n  \n  /* Warm Business Theme - 基于Amber色块系列 */\n  [data-theme=\"warm-business\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\n    \n    /* 弹出窗体背景 - Amber浅色系列 */\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\n    \n    /* 文字颜色 - Amber深色系，适合浅色背景 */\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\n    --text-primary: oklch(0.414 0.112 45.904);\n    --text-secondary: oklch(0.473 0.137 46.201);\n    --text-accent: oklch(0.555 0.163 48.998);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\n  }\n}\n\n@layer base {\n  * {\n    border-color: hsl(var(--border));\n  }\n  body {\n    background-color: hsl(var(--background));\n    color: hsl(var(--foreground));\n    margin: 0;\n    padding: 0;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\n    min-height: 100vh;\n    overflow-x: hidden;\n  }\n}\n\n/* Custom glassmorphism styles matching current design */\n.app-bg {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  min-height: 100vh;\n  position: relative;\n}\n\n.app-bg::before {\n  content: '';\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: \n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\n  pointer-events: none;\n  z-index: 1;\n}\n\n@layer utilities {\n  .glass-card {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(12px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    border-radius: 16px;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  }\n  \n  /* Popup/Dropdown Styles */\n  .popup-dropdown {\n    position: absolute;\n    z-index: 1000;\n    border-radius: 16px;\n    backdrop-filter: blur(20px);\n    -webkit-backdrop-filter: blur(20px);\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\n    overflow: hidden;\n  }\n  \n  .popup-header {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n  }\n  \n  .popup-content {\n    background: transparent;\n  }\n  \n  .glass-card-hover {\n    transition: all 0.3s ease;\n  }\n  \n  .glass-card-hover:hover {\n    background: rgba(255, 255, 255, 0.15);\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\n    transform: translateY(-2px);\n  }\n  \n  .glass-input {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(8px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: white;\n  }\n  \n  .glass-input::placeholder {\n    color: rgba(255, 255, 255, 0.5);\n  }\n  \n  .glass-input:focus {\n    outline: none;\n    ring: 2px;\n    ring-color: rgba(255, 255, 255, 0.3);\n    ring-offset: 2px;\n  }\n  \n  .text-gradient {\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    background-clip: text;\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\n  }\n  \n  .animate-fade-in-up {\n    animation: fadeInUp 0.6s ease-out;\n  }\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n/* ===== App加载动画样式 ===== */\n.app-loading,\n.app-error {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 9999;\n}\n\n.loading-container,\n.error-container {\n  background: rgba(255, 255, 255, 0.1);\n  backdrop-filter: blur(20px);\n  border-radius: 24px;\n  padding: 48px;\n  text-align: center;\n  max-width: 420px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\n}\n\n/* 加载动画 */\n.loading-animation {\n  position: relative;\n  margin-bottom: 32px;\n}\n\n.loading-spinner {\n  width: 60px;\n  height: 60px;\n  border: 4px solid rgba(255, 255, 255, 0.3);\n  border-top: 4px solid white;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n  margin: 0 auto 20px;\n}\n\n.loading-dots {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n}\n\n.loading-dots span {\n  width: 8px;\n  height: 8px;\n  background: white;\n  border-radius: 50%;\n  animation: bounce 1.4s ease-in-out infinite both;\n}\n\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\n\n.loading-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 8px;\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\n}\n\n.loading-text {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1.1rem;\n  margin-bottom: 24px;\n}\n\n.loading-progress {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n  margin-bottom: 24px;\n}\n\n.progress-bar {\n  height: 100%;\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\n  border-radius: 2px;\n  animation: progress 2s ease-in-out infinite;\n}\n\n.loading-tips {\n  text-align: left;\n  background: rgba(255, 255, 255, 0.1);\n  border-radius: 12px;\n  padding: 16px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.loading-tips p {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 0.9rem;\n  margin-bottom: 6px;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.loading-tips p:last-child {\n  margin-bottom: 0;\n}\n\n/* 错误状态样式 */\n.error-icon {\n  font-size: 4rem;\n  margin-bottom: 20px;\n}\n\n.error-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 12px;\n}\n\n.error-message {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1rem;\n  margin-bottom: 24px;\n  background: rgba(255, 77, 79, 0.2);\n  padding: 12px 16px;\n  border-radius: 8px;\n  border: 1px solid rgba(255, 77, 79, 0.3);\n}\n\n.error-retry {\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\n  color: white;\n  border: none;\n  padding: 12px 24px;\n  border-radius: 8px;\n  font-size: 1rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\n}\n\n.error-retry:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\n}\n\n/* 主App容器 */\n.app {\n  width: 100%;\n  height: 100vh;\n  overflow: hidden;\n}\n\n/* 新增动画定义 */\n@keyframes spin {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes bounce {\n  0%, 80%, 100% {\n    transform: scale(0);\n  }\n  40% {\n    transform: scale(1);\n  }\n}\n\n@keyframes progress {\n  0% {\n    width: 0%;\n    opacity: 1;\n  }\n  50% {\n    width: 70%;\n    opacity: 1;\n  }\n  100% {\n    width: 100%;\n    opacity: 0;\n  }\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"AAAA;;CAAc,CAAd;;;CAAc;;AAAd;;;EAAA,sBAAc,EAAd,MAAc;EAAd,eAAc,EAAd,MAAc;EAAd,mBAAc,EAAd,MAAc;EAAd,qBAAc,EAAd,MAAc;AAAA;;AAAd;;EAAA,gBAAc;AAAA;;AAAd;;;;;;;CAAc;;AAAd;EAAA,gBAAc,EAAd,MAAc;EAAd,8BAAc,EAAd,MAAc;EAAd,gBAAc,EAAd,MAAc;EAAd,cAAc;KAAd,WAAc,EAAd,MAAc;EAAd,4NAAc,EAAd,MAAc;EAAd,6BAAc,EAAd,MAAc;EAAd,+BAAc,EAAd,MAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,SAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;AAAA;;AAAd;;;;CAAc;;AAAd;EAAA,SAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;EAAd,qBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,yCAAc;UAAd,iCAAc;AAAA;;AAAd;;CAAc;;AAAd;;;;;;EAAA,kBAAc;EAAd,oBAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,cAAc;EAAd,wBAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,mBAAc;AAAA;;AAAd;;;;;CAAc;;AAAd;;;;EAAA,+GAAc,EAAd,MAAc;EAAd,6BAAc,EAAd,MAAc;EAAd,+BAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,cAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,cAAc;EAAd,cAAc;EAAd,kBAAc;EAAd,wBAAc;AAAA;;AAAd;EAAA,eAAc;AAAA;;AAAd;EAAA,WAAc;AAAA;;AAAd;;;;CAAc;;AAAd;EAAA,cAAc,EAAd,MAAc;EAAd,qBAAc,EAAd,MAAc;EAAd,yBAAc,EAAd,MAAc;AAAA;;AAAd;;;;CAAc;;AAAd;;;;;EAAA,oBAAc,EAAd,MAAc;EAAd,8BAAc,EAAd,MAAc;EAAd,gCAAc,EAAd,MAAc;EAAd,eAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;EAAd,SAAc,EAAd,MAAc;EAAd,UAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,oBAAc;AAAA;;AAAd;;;CAAc;;AAAd;;;;EAAA,0BAAc,EAAd,MAAc;EAAd,6BAAc,EAAd,MAAc;EAAd,sBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,aAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,gBAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,wBAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,YAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,6BAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,wBAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,0BAAc,EAAd,MAAc;EAAd,aAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,kBAAc;AAAA;;AAAd;;CAAc;;AAAd;;;;;;;;;;;;;EAAA,SAAc;AAAA;;AAAd;EAAA,SAAc;EAAd,UAAc;AAAA;;AAAd;EAAA,UAAc;AAAA;;AAAd;;;EAAA,gBAAc;EAAd,SAAc;EAAd,UAAc;AAAA;;AAAd;;CAAc;AAAd;EAAA,UAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,gBAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,UAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;AAAA;;AAAd;;EAAA,UAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,eAAc;AAAA;;AAAd;;CAAc;AAAd;EAAA,eAAc;AAAA;;AAAd;;;;CAAc;;AAAd;;;;;;;;EAAA,cAAc,EAAd,MAAc;EAAd,sBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,eAAc;EAAd,YAAc;AAAA;;AAAd,wEAAc;AAAd;EAAA,aAAc;AAAA;EAAd;IAAA,yBAAc;IAAd,wBAAc;IAAd,mBAAc;IAAd,6BAAc;IAAd,sBAAc;IAAd,gCAAc;IAAd,qBAAc;IAAd,iCAAc;IAAd,wBAAc;IAAd,kCAAc;IAAd,oBAAc;IAAd,8BAAc;IAAd,qBAAc;IAAd,+BAAc;IAAd,wBAAc;IAAd,kCAAc;IAAd,qBAAc;IAAd,oBAAc;IAAd,kBAAc;IAAd,gBAAc;;IAAd,2BAAc;IAAd,qBAAc;IAAd,oBAAc;IAAd,kBAAc;IAAd,oBAAc;IAAd,kBAAc;;IAAd,4BAAc;IAAd,0BAAc;IAAd,2BAAc;;IAAd,wDAAc;IAAd,wBAAc;IAAd,kDAAc;EAAA;;EAAd,wBAAc;EAAd;IAAA;MAAA,2BAAc;MAAd,UAAc;IAAA;IAAd;MAAA,wBAAc;MAAd,UAAc;IAAA;EAAA;;EAAd;IAAA;MAAA,UAAc;IAAA;IAAd;MAAA,UAAc;IAAA;EAAA;;EAAd;IAAA;MAAA,qBAAc;MAAd,UAAc;IAAA;IAAd;MAAA,sBAAc;IAAA;IAAd;MAAA,qBAAc;IAAA;IAAd;MAAA,mBAAc;MAAd,UAAc;IAAA;EAAA;;EAAd;IAAA,uCAAc;EAAA;;EAAd,sCAAc;EAAd;IAAA,SAAc;IAAd,yGAAc;;IAAd,SAAc;IAAd,sDAAc,GAAd,mBAAc;IAAd,mDAAc,MAAd,kBAAc;IAAd,oDAAc,KAAd,mBAAc;IAAd,sDAAc,GAAd,mBAAc;;IAAd,yBAAc;IAAd,oDAAc,YAAd,mBAAc;IAAd,2DAAc,KAAd,mBAAc;IAAd,6DAAc,GAAd,mBAAc;;IAAd,yBAAc;IAAd,yDAAc,OAAd,SAAc;IAAd,qDAAc,WAAd,SAAc;IAAd,iDAAc,eAAd,aAAc;IAAd,mDAAc;IAAd,+CAAc;IAAd,yCAAc;;IAAd,SAAc;IAAd,8DAAc,EAAd,SAAc;IAAd,wBAAc;IAAd,yDAAc,QAAd,iBAAc;IAAd,2DAAc,MAAd,SAAc;IAAd,yDAAc;IAAd,2DAAc;EAAA;;EAAd,kCAAc;EAAd;IAAA,SAAc;IAAd,yGAAc;;IAAd,SAAc;IAAd,uDAAc,SAAd,iBAAc;IAAd,oDAAc,YAAd,iBAAc;IAAd,qDAAc,WAAd,iBAAc;IAAd,sDAAc,UAAd,kBAAc;;IAAd,uBAAc;IAAd,qDAAc,WAAd,kBAAc;IAAd,2DAAc,KAAd,kBAAc;IAAd,4DAAc,IAAd,kBAAc;;IAAd,2BAAc;IAAd,gDAAc,gBAAd,cAAc;IAAd,kDAAc,cAAd,cAAc;IAAd,iDAAc,eAAd,cAAc;IAAd,0CAAc;IAAd,4CAAc;IAAd,yCAAc;;IAAd,SAAc;IAAd,+DAAc,EAAd,SAAc;IAAd,wBAAc;IAAd,0DAAc;IAAd,4DAAc;IAAd,0DAAc;IAAd,4DAAc;EAAA;;EAAd,sCAAc;EAAd;IAAA,SAAc;IAAd,sGAAc;;IAAd,SAAc;IAAd,qDAAc,WAAd,iBAAc;IAAd,kDAAc,cAAd,iBAAc;IAAd,mDAAc,aAAd,kBAAc;IAAd,mDAAc,aAAd,kBAAc;;IAAd,uBAAc;IAAd,oDAAc,YAAd,iBAAc;IAAd,2DAAc,KAAd,iBAAc;IAAd,2DAAc,KAAd,iBAAc;;IAAd,2BAAc;IAAd,+CAAc,iBAAd,cAAc;IAAd,iDAAc,eAAd,cAAc;IAAd,gDAAc,gBAAd,cAAc;IAAd,yCAAc;IAAd,2CAAc;IAAd,wCAAc;;IAAd,SAAc;IAAd,8DAAc,EAAd,SAAc;IAAd,wBAAc;IAAd,wDAAc;IAAd,2DAAc;IAAd,wDAAc;IAAd,2DAAc;EAAA;EAAd;IAAA,gCAAc;EAAA;EAAd;IAAA,wCAAc;IAAd,6BAAc;IAAd,SAAc;IAAd,UAAc;IAAd,iHAAc;IAAd,iBAAc;IAAd,kBAAc;EAAA;;AAAd;EAAA,wBAAc;EAAd,wBAAc;EAAd,mBAAc;EAAd,mBAAc;EAAd,cAAc;EAAd,cAAc;EAAd,cAAc;EAAd,eAAc;EAAd,eAAc;EAAd,aAAc;EAAd,aAAc;EAAd,kBAAc;EAAd,sCAAc;EAAd,8BAAc;EAAd,6BAAc;EAAd,4BAAc;EAAd,eAAc;EAAd,oBAAc;EAAd,sBAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,kBAAc;EAAd,2BAAc;EAAd,4BAAc;EAAd,sCAAc;EAAd,kCAAc;EAAd,2BAAc;EAAd,sBAAc;EAAd,8BAAc;EAAd,YAAc;EAAd,kBAAc;EAAd,gBAAc;EAAd,iBAAc;EAAd,kBAAc;EAAd,cAAc;EAAd,gBAAc;EAAd,aAAc;EAAd,mBAAc;EAAd,qBAAc;EAAd,2BAAc;EAAd,yBAAc;EAAd,0BAAc;EAAd,2BAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,yBAAc;EAAd;AAAc;;AAAd;EAAA,wBAAc;EAAd,wBAAc;EAAd,mBAAc;EAAd,mBAAc;EAAd,cAAc;EAAd,cAAc;EAAd,cAAc;EAAd,eAAc;EAAd,eAAc;EAAd,aAAc;EAAd,aAAc;EAAd,kBAAc;EAAd,sCAAc;EAAd,8BAAc;EAAd,6BAAc;EAAd,4BAAc;EAAd,eAAc;EAAd,oBAAc;EAAd,sBAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,kBAAc;EAAd,2BAAc;EAAd,4BAAc;EAAd,sCAAc;EAAd,kCAAc;EAAd,2BAAc;EAAd,sBAAc;EAAd,8BAAc;EAAd,YAAc;EAAd,kBAAc;EAAd,gBAAc;EAAd,iBAAc;EAAd,kBAAc;EAAd,cAAc;EAAd,gBAAc;EAAd,aAAc;EAAd,mBAAc;EAAd,qBAAc;EAAd,2BAAc;EAAd,yBAAc;EAAd,0BAAc;EAAd,2BAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,yBAAc;EAAd;AAAc;AACd;EAAA,4CAAoB;EAApB,iDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,iDAAoB;EAApB;AAAoB;AAApB;EAAA,aAAoB;EAApB,4CAAoB;EAApB,wCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,iDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,2CAAoB;EAApB;AAAoB;AAApB;EAAA,wBAAoB;KAApB,qBAAoB;UAApB,gBAAoB;EAApB,qBAAoB;EAApB,yDAAoB;EAApB,wCAAoB;EAApB,4BAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,kDAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,kDAAoB;EAApB;AAAoB;AAApB;EAAA,aAAoB;EAApB,4CAAoB;EAApB,wCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,kDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,wCAAoB;EAApB;AAAoB;AAApB;EAAA,wBAAoB;KAApB,qBAAoB;UAApB,gBAAoB;EAApB,qBAAoB;EAApB,yDAAoB;EAApB,wCAAoB;EAApB,4BAAoB;EAApB;AAAoB;AAApB;EAAA,2CAAoB;EAApB,gDAAoB;EAApB;AAAoB;AAApB;EAAA,2CAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,gDAAoB;EAApB;AAAoB;AAApB;EAAA,aAAoB;EAApB,4CAAoB;EAApB,uCAAoB;EAApB;AAAoB;AAApB;EAAA,gCAAoB;EAApB;AAAoB;AAApB;EAAA,gCAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,gDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,uCAAoB;EAApB;AAAoB;AAApB;EAAA,wBAAoB;KAApB,qBAAoB;UAApB,gBAAoB;EAApB,qBAAoB;EAApB,yDAAoB;EAApB,wCAAoB;EAApB,4BAAoB;EAApB;AAAoB;AACpB;EAAA,kBAAmB;EAAnB,UAAmB;EAAnB,WAAmB;EAAnB,UAAmB;EAAnB,YAAmB;EAAnB,gBAAmB;EAAnB,sBAAmB;EAAnB,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,QAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAn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AA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,+BAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,sEAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,gBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAA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","sourcesContent":["@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n/* 导入主题样式 */\n@import './styles/themes.css';\n\n@layer base {\n  :root {\n    --background: 220 20% 14%;\n    --foreground: 220 8% 95%;\n    --card: 220 20% 10%;\n    --card-foreground: 220 8% 95%;\n    --popover: 220 20% 10%;\n    --popover-foreground: 220 8% 95%;\n    --primary: 220 8% 95%;\n    --primary-foreground: 220 20% 14%;\n    --secondary: 220 20% 14%;\n    --secondary-foreground: 220 8% 95%;\n    --muted: 220 20% 14%;\n    --muted-foreground: 220 8% 65%;\n    --accent: 220 20% 14%;\n    --accent-foreground: 220 8% 95%;\n    --destructive: 0 84% 60%;\n    --destructive-foreground: 0 0% 98%;\n    --border: 220 13% 18%;\n    --input: 220 13% 18%;\n    --ring: 220 8% 95%;\n    --radius: 0.5rem;\n    \n    /* Theme System Variables */\n    --spacing-xs: 0.25rem;\n    --spacing-sm: 0.5rem;\n    --spacing-md: 1rem;\n    --spacing-lg: 1.5rem;\n    --spacing-xl: 2rem;\n    \n    --border-radius-sm: 0.375rem;\n    --border-radius-md: 0.5rem;\n    --border-radius-lg: 0.75rem;\n    \n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n    --glass-blur: blur(20px);\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\n  }\n  \n  /* Animation utilities */\n  @keyframes slide-in-right {\n    from {\n      transform: translateX(100%);\n      opacity: 0;\n    }\n    to {\n      transform: translateX(0);\n      opacity: 1;\n    }\n  }\n  \n  @keyframes fade-in {\n    from {\n      opacity: 0;\n    }\n    to {\n      opacity: 1;\n    }\n  }\n  \n  @keyframes bounce-in {\n    0% {\n      transform: scale(0.3);\n      opacity: 0;\n    }\n    50% {\n      transform: scale(1.05);\n    }\n    70% {\n      transform: scale(0.9);\n    }\n    100% {\n      transform: scale(1);\n      opacity: 1;\n    }\n  }\n  \n  .animate-slide-in-right {\n    animation: slide-in-right 0.3s ease-out;\n  }\n  \n  .animate-fade-in {\n    animation: fade-in 0.3s ease-out;\n  }\n  \n  .animate-bounce-in {\n    animation: bounce-in 0.5s ease-out;\n  }\n  \n  /* Glass Future Theme - 基于Indigo色块系列 */\n  [data-theme=\"glass-future\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\n    \n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\n    \n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\n    --text-secondary: oklch(92.369% 0.00263 230.33);\n    --text-accent: oklch(0.968 0.007 247.896);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n  }\n  \n  /* Dark Tech Theme - 基于Slate色块系列 */\n  [data-theme=\"dark-tech\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\n    \n    /* 弹出窗体背景 - Slate深色系列 */\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\n    \n    /* 文字颜色 - Slate浅色系，适合深色背景 */\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\n    --text-primary: oklch(0.968 0.007 247.896);\n    --text-secondary: oklch(0.929 0.013 255.508);\n    --text-accent: oklch(0.869 0.022 252.894);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\n  }\n  \n  /* Warm Business Theme - 基于Amber色块系列 */\n  [data-theme=\"warm-business\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\n    \n    /* 弹出窗体背景 - Amber浅色系列 */\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\n    \n    /* 文字颜色 - Amber深色系，适合浅色背景 */\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\n    --text-primary: oklch(0.414 0.112 45.904);\n    --text-secondary: oklch(0.473 0.137 46.201);\n    --text-accent: oklch(0.555 0.163 48.998);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\n  }\n}\n\n@layer base {\n  * {\n    border-color: hsl(var(--border));\n  }\n  body {\n    background-color: hsl(var(--background));\n    color: hsl(var(--foreground));\n    margin: 0;\n    padding: 0;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\n    min-height: 100vh;\n    overflow-x: hidden;\n  }\n}\n\n/* Custom glassmorphism styles matching current design */\n.app-bg {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  min-height: 100vh;\n  position: relative;\n}\n\n.app-bg::before {\n  content: '';\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: \n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\n  pointer-events: none;\n  z-index: 1;\n}\n\n@layer utilities {\n  .glass-card {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(12px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    border-radius: 16px;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  }\n  \n  /* Popup/Dropdown Styles */\n  .popup-dropdown {\n    position: absolute;\n    z-index: 1000;\n    border-radius: 16px;\n    backdrop-filter: blur(20px);\n    -webkit-backdrop-filter: blur(20px);\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\n    overflow: hidden;\n  }\n  \n  .popup-header {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n  }\n  \n  .popup-content {\n    background: transparent;\n  }\n  \n  .glass-card-hover {\n    transition: all 0.3s ease;\n  }\n  \n  .glass-card-hover:hover {\n    background: rgba(255, 255, 255, 0.15);\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\n    transform: translateY(-2px);\n  }\n  \n  .glass-input {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(8px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: white;\n  }\n  \n  .glass-input::placeholder {\n    color: rgba(255, 255, 255, 0.5);\n  }\n  \n  .glass-input:focus {\n    outline: none;\n    ring: 2px;\n    ring-color: rgba(255, 255, 255, 0.3);\n    ring-offset: 2px;\n  }\n  \n  .text-gradient {\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    background-clip: text;\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\n  }\n  \n  .animate-fade-in-up {\n    animation: fadeInUp 0.6s ease-out;\n  }\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n/* ===== App加载动画样式 ===== */\n.app-loading,\n.app-error {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 9999;\n}\n\n.loading-container,\n.error-container {\n  background: rgba(255, 255, 255, 0.1);\n  backdrop-filter: blur(20px);\n  border-radius: 24px;\n  padding: 48px;\n  text-align: center;\n  max-width: 420px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\n}\n\n/* 加载动画 */\n.loading-animation {\n  position: relative;\n  margin-bottom: 32px;\n}\n\n.loading-spinner {\n  width: 60px;\n  height: 60px;\n  border: 4px solid rgba(255, 255, 255, 0.3);\n  border-top: 4px solid white;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n  margin: 0 auto 20px;\n}\n\n.loading-dots {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n}\n\n.loading-dots span {\n  width: 8px;\n  height: 8px;\n  background: white;\n  border-radius: 50%;\n  animation: bounce 1.4s ease-in-out infinite both;\n}\n\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\n\n.loading-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 8px;\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\n}\n\n.loading-text {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1.1rem;\n  margin-bottom: 24px;\n}\n\n.loading-progress {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n  margin-bottom: 24px;\n}\n\n.progress-bar {\n  height: 100%;\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\n  border-radius: 2px;\n  animation: progress 2s ease-in-out infinite;\n}\n\n.loading-tips {\n  text-align: left;\n  background: rgba(255, 255, 255, 0.1);\n  border-radius: 12px;\n  padding: 16px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.loading-tips p {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 0.9rem;\n  margin-bottom: 6px;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.loading-tips p:last-child {\n  margin-bottom: 0;\n}\n\n/* 错误状态样式 */\n.error-icon {\n  font-size: 4rem;\n  margin-bottom: 20px;\n}\n\n.error-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 12px;\n}\n\n.error-message {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1rem;\n  margin-bottom: 24px;\n  background: rgba(255, 77, 79, 0.2);\n  padding: 12px 16px;\n  border-radius: 8px;\n  border: 1px solid rgba(255, 77, 79, 0.3);\n}\n\n.error-retry {\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\n  color: white;\n  border: none;\n  padding: 12px 24px;\n  border-radius: 8px;\n  font-size: 1rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\n}\n\n.error-retry:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\n}\n\n/* 主App容器 */\n.app {\n  width: 100%;\n  height: 100vh;\n  overflow: hidden;\n}\n\n/* 新增动画定义 */\n@keyframes spin {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes bounce {\n  0%, 80%, 100% {\n    transform: scale(0);\n  }\n  40% {\n    transform: scale(1);\n  }\n}\n\n@keyframes progress {\n  0% {\n    width: 0%;\n    opacity: 1;\n  }\n  50% {\n    width: 70%;\n    opacity: 1;\n  }\n  100% {\n    width: 100%;\n    opacity: 0;\n  }\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54216,6 +54532,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ThemeSwitcher_ThemeSwitcher__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ThemeSwitcher/ThemeSwitcher */ "./src/components/ThemeSwitcher/ThemeSwitcher.tsx");
 /* harmony import */ var _services_inventory_inventoryService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/inventory/inventoryService */ "./src/services/inventory/inventoryService.ts");
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -54225,6 +54543,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
+
 
 
 
@@ -54271,6 +54591,10 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
     const [showSearchResults, setShowSearchResults] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
     const [searchResults, setSearchResults] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
     const [isSearching, setIsSearching] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    // 通知相关状态
+    const [notifications, setNotifications] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [unreadCount, setUnreadCount] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
+    const [isLoadingNotifications, setIsLoadingNotifications] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
     const notificationRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
     const userMenuRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
     const searchResultsRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
@@ -54299,11 +54623,84 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
         title: '未知页面',
         breadcrumb: ['未知页面']
     };
-    const notifications = [
-        { id: 1, type: 'warning', message: '有3个商品库存不足', time: '5分钟前' },
-        { id: 2, type: 'info', message: '采购订单PO20240104已确认', time: '10分钟前' },
-        { id: 3, type: 'success', message: '销售订单SO20240104已完成', time: '1小时前' }
-    ];
+    // 加载通知数据
+    const loadNotifications = () => __awaiter(void 0, void 0, void 0, function* () {
+        setIsLoadingNotifications(true);
+        try {
+            yield _services_business__WEBPACK_IMPORTED_MODULE_4__.notificationService.initialize();
+            // 假设当前用户ID为 'current-user'，实际应该从认证系统获取
+            const currentUserId = 'current-user';
+            // 从系统配置读取最大显示数量
+            const getMaxDisplayCount = () => {
+                try {
+                    const savedNotifications = localStorage.getItem('systemSettings.notifications');
+                    if (savedNotifications) {
+                        const settings = JSON.parse(savedNotifications);
+                        return settings.maxDisplayCount || 5;
+                    }
+                }
+                catch (error) {
+                    console.error('读取通知配置失败:', error);
+                }
+                return 5; // 默认5条
+            };
+            const recentNotifications = yield _services_business__WEBPACK_IMPORTED_MODULE_4__.notificationService.getRecentNotifications(currentUserId, getMaxDisplayCount());
+            const unreadCount = yield _services_business__WEBPACK_IMPORTED_MODULE_4__.notificationService.getUnreadCount(currentUserId);
+            setNotifications(recentNotifications);
+            setUnreadCount(unreadCount);
+        }
+        catch (error) {
+            console.error('加载通知失败:', error);
+            setNotifications([]);
+            setUnreadCount(0);
+        }
+        finally {
+            setIsLoadingNotifications(false);
+        }
+    });
+    // 组件挂载时加载通知
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        loadNotifications();
+    }, []);
+    // 实时更新通知（根据系统配置的间隔刷新）
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        // 从系统配置读取刷新间隔，默认30秒
+        const getRefreshInterval = () => {
+            try {
+                const savedNotifications = localStorage.getItem('systemSettings.notifications');
+                if (savedNotifications) {
+                    const settings = JSON.parse(savedNotifications);
+                    return (settings.autoRefreshInterval || 30) * 1000; // 转换为毫秒
+                }
+            }
+            catch (error) {
+                console.error('读取通知配置失败:', error);
+            }
+            return 30000; // 默认30秒
+        };
+        const interval = setInterval(() => {
+            loadNotifications();
+        }, getRefreshInterval());
+        return () => clearInterval(interval);
+    }, []);
+    // 标记通知为已读
+    const handleNotificationClick = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const currentUserId = 'current-user';
+            yield _services_business__WEBPACK_IMPORTED_MODULE_4__.notificationService.markAsRead(notificationId, currentUserId);
+            // 重新加载通知数据
+            yield loadNotifications();
+        }
+        catch (error) {
+            console.error('标记通知已读失败:', error);
+        }
+    });
+    // 查看全部通知
+    const handleViewAllNotifications = () => {
+        setShowNotifications(false);
+        // 跳转到通知管理页面
+        window.location.hash = 'notifications';
+    };
     const handleSearch = (e) => __awaiter(void 0, void 0, void 0, function* () {
         e.preventDefault();
         if (!searchValue.trim()) {
@@ -54354,9 +54751,10 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
     };
     const getNotificationTypeStyles = (type) => {
         switch (type) {
-            case 'warning': return 'border-l-4 border-l-yellow-400 bg-yellow-500/10';
-            case 'info': return 'border-l-4 border-l-blue-400 bg-blue-500/10';
-            case 'success': return 'border-l-4 border-l-green-400 bg-green-500/10';
+            case _types_entities__WEBPACK_IMPORTED_MODULE_5__.NotificationType.WARNING: return 'border-l-4 border-l-yellow-400 bg-yellow-500/10';
+            case _types_entities__WEBPACK_IMPORTED_MODULE_5__.NotificationType.INFO: return 'border-l-4 border-l-blue-400 bg-blue-500/10';
+            case _types_entities__WEBPACK_IMPORTED_MODULE_5__.NotificationType.SUCCESS: return 'border-l-4 border-l-green-400 bg-green-500/10';
+            case _types_entities__WEBPACK_IMPORTED_MODULE_5__.NotificationType.ERROR: return 'border-l-4 border-l-red-400 bg-red-500/10';
             default: return 'border-l-4 border-l-gray-400 bg-gray-500/10';
         }
     };
@@ -54374,9 +54772,346 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
                                                                 item.status === 'out-of-stock' ? 'bg-red-500/20 text-red-300' :
                                                                     'bg-gray-500/20 text-gray-300'}`, children: item.status === 'in-stock' ? '有库存' :
                                                             item.status === 'low-stock' ? '库存不足' :
-                                                                item.status === 'out-of-stock' ? '缺货' : '已停产' })] }) }, item.id)))] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/40 text-4xl mb-2", children: "\uD83D\uDD0D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/60 text-sm", children: isSearching ? '搜索中...' : `未找到包含 "${searchValue}" 的商品` })] })) }))] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "hidden lg:flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u65B0\u589E\u5546\u54C1", children: "\u2795" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u5237\u65B0\u6570\u636E", children: "\uD83D\uDD04" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u5BFC\u51FA\u6570\u636E", children: "\uD83D\uDCCA" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: notificationRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "relative w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", onClick: () => setShowNotifications(!showNotifications), children: ["\uD83D\uDD14", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center", children: "3" })] }), showNotifications && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-80 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-4 border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white", children: "\u901A\u77E5\u6D88\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-white/70 hover:text-white transition-colors", onClick: () => setShowNotifications(false), children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "max-h-80 overflow-y-auto", children: notifications.map(notification => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `p-4 hover:bg-white/5 transition-colors ${getNotificationTypeStyles(notification.type)}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white text-sm font-medium mb-1", children: notification.message }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/60 text-xs", children: notification.time })] }) }, notification.id))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-3 border-t border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-full text-center text-white/80 hover:text-white text-sm font-medium py-2 rounded-lg hover:bg-white/10 transition-colors", children: "\u67E5\u770B\u5168\u90E8" }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "popup-overlay", onClick: () => setShowNotifications(false) })] }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: userMenuRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all border border-white/10 hover:border-white/20", onClick: () => setShowUserMenu(!showUserMenu), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white text-sm font-medium hidden sm:block", children: "\u7BA1\u7406\u5458" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/60 text-xs hidden sm:block", children: "\u23F7" })] }), showUserMenu && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-64 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 border-b border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-semibold truncate", children: "\u7CFB\u7EDF\u7BA1\u7406\u5458" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm truncate", children: "Administrator" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/50 text-xs truncate", children: "admin@system.com" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "py-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u4E2A\u4EBA\u8D44\u6599" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\u2699\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u7CFB\u7EDF\u8BBE\u7F6E" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDD10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u4FEE\u6539\u5BC6\u7801" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDCCB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u64CD\u4F5C\u65E5\u5FD7" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "my-2 border-t border-white/10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-red-300 hover:text-red-200 hover:bg-red-500/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDEAA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u9000\u51FA\u767B\u5F55" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "popup-overlay", onClick: () => setShowUserMenu(false) })] }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ThemeSwitcher_ThemeSwitcher__WEBPACK_IMPORTED_MODULE_2__["default"], {}), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-green-400 rounded-full animate-pulse" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/70 text-sm", children: "\u5728\u7EBF" })] })] })] }) }));
+                                                                item.status === 'out-of-stock' ? '缺货' : '已停产' })] }) }, item.id)))] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/40 text-4xl mb-2", children: "\uD83D\uDD0D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/60 text-sm", children: isSearching ? '搜索中...' : `未找到包含 "${searchValue}" 的商品` })] })) }))] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "hidden lg:flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u65B0\u589E\u5546\u54C1", children: "\u2795" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u5237\u65B0\u6570\u636E", children: "\uD83D\uDD04" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u5BFC\u51FA\u6570\u636E", children: "\uD83D\uDCCA" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: notificationRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "relative w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", onClick: () => setShowNotifications(!showNotifications), children: ["\uD83D\uDD14", unreadCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center", children: unreadCount > 99 ? '99+' : unreadCount }))] }), showNotifications && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-80 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-4 border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white", children: "\u901A\u77E5\u6D88\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-white/70 hover:text-white transition-colors", onClick: () => setShowNotifications(false), children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "max-h-80 overflow-y-auto", children: isLoadingNotifications ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 text-center text-white/60", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin w-6 h-6 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2" }), "\u52A0\u8F7D\u4E2D..."] })) : notifications.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 text-center text-white/60", children: "\u6682\u65E0\u901A\u77E5\u6D88\u606F" })) : (notifications.map(notification => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `p-4 hover:bg-white/5 transition-colors cursor-pointer ${getNotificationTypeStyles(notification.type)}`, onClick: () => handleNotificationClick(notification.id), children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white text-sm font-medium mb-1", children: notification.title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 text-xs mb-2", children: notification.message }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/60 text-xs", children: new Date(notification.createdAt).toLocaleString('zh-CN', {
+                                                                                month: 'numeric',
+                                                                                day: 'numeric',
+                                                                                hour: '2-digit',
+                                                                                minute: '2-digit'
+                                                                            }) }), notification.status === 'unread' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-blue-400 rounded-full" }))] })] }) }, notification.id)))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-3 border-t border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-full text-center text-white/80 hover:text-white text-sm font-medium py-2 rounded-lg hover:bg-white/10 transition-colors", onClick: handleViewAllNotifications, children: "\u67E5\u770B\u5168\u90E8" }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "popup-overlay", onClick: () => setShowNotifications(false) })] }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: userMenuRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all border border-white/10 hover:border-white/20", onClick: () => setShowUserMenu(!showUserMenu), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white text-sm font-medium hidden sm:block", children: "\u7BA1\u7406\u5458" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/60 text-xs hidden sm:block", children: "\u23F7" })] }), showUserMenu && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-64 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 border-b border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-semibold truncate", children: "\u7CFB\u7EDF\u7BA1\u7406\u5458" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm truncate", children: "Administrator" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/50 text-xs truncate", children: "admin@system.com" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "py-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u4E2A\u4EBA\u8D44\u6599" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\u2699\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u7CFB\u7EDF\u8BBE\u7F6E" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDD10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u4FEE\u6539\u5BC6\u7801" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDCCB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u64CD\u4F5C\u65E5\u5FD7" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "my-2 border-t border-white/10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-red-300 hover:text-red-200 hover:bg-red-500/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDEAA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u9000\u51FA\u767B\u5F55" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "popup-overlay", onClick: () => setShowUserMenu(false) })] }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ThemeSwitcher_ThemeSwitcher__WEBPACK_IMPORTED_MODULE_2__["default"], {}), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-green-400 rounded-full animate-pulse" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/70 text-sm", children: "\u5728\u7EBF" })] })] })] }) }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TopBar);
+
+
+/***/ }),
+
+/***/ "./src/components/Notifications/NotificationDetail.tsx":
+/*!*************************************************************!*\
+  !*** ./src/components/Notifications/NotificationDetail.tsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+
+
+const NotificationDetail = ({ notification, onClose, onMarkAsRead, onDelete }) => {
+    // 获取通知类型样式
+    const getNotificationTypeStyles = (type) => {
+        const baseClasses = "px-3 py-1 rounded-full text-sm font-medium";
+        switch (type) {
+            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.INFO:
+                return `${baseClasses} bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200`;
+            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.SUCCESS:
+                return `${baseClasses} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200`;
+            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.WARNING:
+                return `${baseClasses} bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200`;
+            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.ERROR:
+                return `${baseClasses} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200`;
+            default:
+                return `${baseClasses} bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200`;
+        }
+    };
+    // 获取优先级样式
+    const getPriorityStyles = (priority) => {
+        const baseClasses = "px-3 py-1 rounded-full text-sm font-medium";
+        switch (priority) {
+            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.CRITICAL:
+                return `${baseClasses} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200`;
+            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.HIGH:
+                return `${baseClasses} bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200`;
+            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.MEDIUM:
+                return `${baseClasses} bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200`;
+            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.LOW:
+                return `${baseClasses} bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200`;
+            default:
+                return `${baseClasses} bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200`;
+        }
+    };
+    // 获取类型显示文本
+    const getTypeDisplayText = (type) => {
+        const typeMap = {
+            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.INFO]: '信息',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.SUCCESS]: '成功',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.WARNING]: '警告',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.ERROR]: '错误'
+        };
+        return typeMap[type] || type;
+    };
+    // 获取优先级显示文本
+    const getPriorityDisplayText = (priority) => {
+        const priorityMap = {
+            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.LOW]: '低',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.MEDIUM]: '中',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.HIGH]: '高',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.CRITICAL]: '紧急'
+        };
+        return priorityMap[priority] || priority;
+    };
+    // 获取状态显示文本
+    const getStatusDisplayText = (status) => {
+        const statusMap = {
+            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationStatus.UNREAD]: '未读',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationStatus.READ]: '已读',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationStatus.DELETED]: '已删除'
+        };
+        return statusMap[status] || status;
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-xl font-semibold text-gray-900 dark:text-white", children: "\u901A\u77E5\u8BE6\u60C5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: onClose, className: "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-6 h-6", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-medium text-gray-900 dark:text-white", children: notification.title }), notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationStatus.UNREAD && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-3 h-3 bg-blue-500 rounded-full" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-wrap gap-2 mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: getNotificationTypeStyles(notification.type), children: getTypeDisplayText(notification.type) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: getPriorityStyles(notification.priority), children: ["\u4F18\u5148\u7EA7: ", getPriorityDisplayText(notification.priority)] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200", children: getStatusDisplayText(notification.status) })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u6D88\u606F\u5185\u5BB9" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-gray-50 dark:bg-gray-700 rounded-lg p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-900 dark:text-white whitespace-pre-wrap", children: notification.message }) })] }), notification.relatedEntity && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u5173\u8054\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-gray-50 dark:bg-gray-700 rounded-lg p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-gray-600 dark:text-gray-400", children: "\u7C7B\u578B:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-2 text-sm text-gray-900 dark:text-white", children: notification.relatedEntity.type })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-gray-600 dark:text-gray-400", children: "ID:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-2 text-sm text-gray-900 dark:text-white font-mono", children: notification.relatedEntity.id })] })] }) })] })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u65F6\u95F4\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-gray-50 dark:bg-gray-700 rounded-lg p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-gray-600 dark:text-gray-400", children: "\u521B\u5EFA\u65F6\u95F4:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-2 text-sm text-gray-900 dark:text-white", children: new Date(notification.createdAt).toLocaleString('zh-CN') })] }), notification.readAt && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-gray-600 dark:text-gray-400", children: "\u5DF2\u8BFB\u65F6\u95F4:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-2 text-sm text-gray-900 dark:text-white", children: new Date(notification.readAt).toLocaleString('zh-CN') })] })), notification.expiresAt && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-gray-600 dark:text-gray-400", children: "\u8FC7\u671F\u65F6\u95F4:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-2 text-sm text-gray-900 dark:text-white", children: new Date(notification.expiresAt).toLocaleString('zh-CN') })] }))] }) })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-end space-x-3 p-6 border-t border-gray-200 dark:border-gray-700", children: [notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationStatus.UNREAD && onMarkAsRead && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onMarkAsRead(notification.id), className: "px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors", children: "\u6807\u8BB0\u5DF2\u8BFB" })), onDelete && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onDelete(notification.id), className: "px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition-colors", children: "\u5220\u9664" })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: onClose, className: "px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-md hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors", children: "\u5173\u95ED" })] })] }) }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NotificationDetail);
+
+
+/***/ }),
+
+/***/ "./src/components/Notifications/NotificationManagement.tsx":
+/*!*****************************************************************!*\
+  !*** ./src/components/Notifications/NotificationManagement.tsx ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var _NotificationDetail__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NotificationDetail */ "./src/components/Notifications/NotificationDetail.tsx");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+const NotificationManagement = () => {
+    const [notifications, setNotifications] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [filteredNotifications, setFilteredNotifications] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+    const [selectedNotifications, setSelectedNotifications] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(new Set());
+    const [searchTerm, setSearchTerm] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('');
+    const [filterType, setFilterType] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('all');
+    const [filterStatus, setFilterStatus] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('all');
+    const [filterPriority, setFilterPriority] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('all');
+    const [currentPage, setCurrentPage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
+    const [itemsPerPage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(20);
+    const [selectedNotificationForDetail, setSelectedNotificationForDetail] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    // 加载通知数据
+    const loadNotifications = () => __awaiter(void 0, void 0, void 0, function* () {
+        setLoading(true);
+        try {
+            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.initialize();
+            const currentUserId = 'current-user'; // 实际应该从认证系统获取
+            const userNotifications = yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.findByUser(currentUserId);
+            setNotifications(userNotifications);
+            setFilteredNotifications(userNotifications);
+        }
+        catch (error) {
+            console.error('加载通知失败:', error);
+            setNotifications([]);
+            setFilteredNotifications([]);
+        }
+        finally {
+            setLoading(false);
+        }
+    });
+    // 组件挂载时加载数据
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        loadNotifications();
+    }, []);
+    // 应用筛选和搜索
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        let filtered = notifications;
+        // 搜索过滤
+        if (searchTerm) {
+            filtered = filtered.filter(notification => notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                notification.message.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+        // 类型过滤
+        if (filterType !== 'all') {
+            filtered = filtered.filter(notification => notification.type === filterType);
+        }
+        // 状态过滤
+        if (filterStatus !== 'all') {
+            filtered = filtered.filter(notification => notification.status === filterStatus);
+        }
+        // 优先级过滤
+        if (filterPriority !== 'all') {
+            filtered = filtered.filter(notification => notification.priority === filterPriority);
+        }
+        setFilteredNotifications(filtered);
+        setCurrentPage(1); // 重置到第一页
+    }, [notifications, searchTerm, filterType, filterStatus, filterPriority]);
+    // 分页数据
+    const totalPages = Math.ceil(filteredNotifications.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedNotifications = filteredNotifications.slice(startIndex, startIndex + itemsPerPage);
+    // 标记单个通知为已读
+    const handleMarkAsRead = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const currentUserId = 'current-user';
+            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.markAsRead(notificationId, currentUserId);
+            yield loadNotifications();
+        }
+        catch (error) {
+            console.error('标记通知已读失败:', error);
+        }
+    });
+    // 删除单个通知
+    const handleDeleteNotification = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.delete(notificationId);
+            yield loadNotifications();
+        }
+        catch (error) {
+            console.error('删除通知失败:', error);
+        }
+    });
+    // 批量标记已读
+    const handleBatchMarkAsRead = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const currentUserId = 'current-user';
+            for (const notificationId of selectedNotifications) {
+                yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.markAsRead(notificationId, currentUserId);
+            }
+            setSelectedNotifications(new Set());
+            yield loadNotifications();
+        }
+        catch (error) {
+            console.error('批量标记已读失败:', error);
+        }
+    });
+    // 批量删除
+    const handleBatchDelete = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            for (const notificationId of selectedNotifications) {
+                yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.delete(notificationId);
+            }
+            setSelectedNotifications(new Set());
+            yield loadNotifications();
+        }
+        catch (error) {
+            console.error('批量删除失败:', error);
+        }
+    });
+    // 全选/取消全选
+    const handleSelectAll = () => {
+        if (selectedNotifications.size === paginatedNotifications.length) {
+            setSelectedNotifications(new Set());
+        }
+        else {
+            setSelectedNotifications(new Set(paginatedNotifications.map(n => n.id)));
+        }
+    };
+    // 单选通知
+    const handleSelectNotification = (notificationId) => {
+        const newSelected = new Set(selectedNotifications);
+        if (newSelected.has(notificationId)) {
+            newSelected.delete(notificationId);
+        }
+        else {
+            newSelected.add(notificationId);
+        }
+        setSelectedNotifications(newSelected);
+    };
+    // 查看通知详情
+    const handleViewNotificationDetail = (notification) => {
+        setSelectedNotificationForDetail(notification);
+    };
+    // 关闭通知详情
+    const handleCloseNotificationDetail = () => {
+        setSelectedNotificationForDetail(null);
+    };
+    // 从详情页面标记已读
+    const handleMarkAsReadFromDetail = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
+        yield handleMarkAsRead(notificationId);
+        setSelectedNotificationForDetail(null);
+    });
+    // 从详情页面删除
+    const handleDeleteFromDetail = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
+        yield handleDeleteNotification(notificationId);
+        setSelectedNotificationForDetail(null);
+    });
+    // 获取通知类型样式
+    const getNotificationTypeStyles = (type) => {
+        const baseClasses = "px-2 py-1 rounded-full text-xs font-medium";
+        switch (type) {
+            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.INFO:
+                return `${baseClasses} bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200`;
+            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.SUCCESS:
+                return `${baseClasses} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200`;
+            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.WARNING:
+                return `${baseClasses} bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200`;
+            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.ERROR:
+                return `${baseClasses} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200`;
+            default:
+                return `${baseClasses} bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200`;
+        }
+    };
+    // 获取优先级样式
+    const getPriorityStyles = (priority) => {
+        switch (priority) {
+            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.CRITICAL:
+                return "text-red-600 font-bold";
+            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.HIGH:
+                return "text-orange-600 font-semibold";
+            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.MEDIUM:
+                return "text-yellow-600";
+            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.LOW:
+                return "text-gray-600";
+            default:
+                return "text-gray-600";
+        }
+    };
+    // 获取类型显示文本
+    const getTypeDisplayText = (type) => {
+        const typeMap = {
+            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.INFO]: '信息',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.SUCCESS]: '成功',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.WARNING]: '警告',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.ERROR]: '错误'
+        };
+        return typeMap[type] || type;
+    };
+    // 获取优先级显示文本
+    const getPriorityDisplayText = (priority) => {
+        const priorityMap = {
+            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.LOW]: '低',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.MEDIUM]: '中',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.HIGH]: '高',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.CRITICAL]: '紧急'
+        };
+        return priorityMap[priority] || priority;
+    };
+    // 获取状态显示文本
+    const getStatusDisplayText = (status) => {
+        const statusMap = {
+            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD]: '未读',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.READ]: '已读',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.DELETED]: '已删除'
+        };
+        return statusMap[status] || status;
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "min-h-screen bg-gray-50 dark:bg-gray-900", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "py-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-2xl font-bold text-gray-900 dark:text-white", children: "\u901A\u77E5\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "mt-2 text-sm text-gray-600 dark:text-gray-400", children: "\u7BA1\u7406\u60A8\u7684\u7CFB\u7EDF\u901A\u77E5\u6D88\u606F" })] }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "lg:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "search", className: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u641C\u7D22\u901A\u77E5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "text", id: "search", value: searchTerm, onChange: (e) => setSearchTerm(e.target.value), placeholder: "\u641C\u7D22\u6807\u9898\u6216\u5185\u5BB9...", className: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "type-filter", className: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u7C7B\u578B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", { id: "type-filter", value: filterType, onChange: (e) => setFilterType(e.target.value), className: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "all", children: "\u5168\u90E8\u7C7B\u578B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.INFO, children: "\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.SUCCESS, children: "\u6210\u529F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.WARNING, children: "\u8B66\u544A" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.ERROR, children: "\u9519\u8BEF" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "status-filter", className: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", { id: "status-filter", value: filterStatus, onChange: (e) => setFilterStatus(e.target.value), className: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "all", children: "\u5168\u90E8\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD, children: "\u672A\u8BFB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.READ, children: "\u5DF2\u8BFB" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "priority-filter", className: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u4F18\u5148\u7EA7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", { id: "priority-filter", value: filterPriority, onChange: (e) => setFilterPriority(e.target.value), className: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "all", children: "\u5168\u90E8\u4F18\u5148\u7EA7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.LOW, children: "\u4F4E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.MEDIUM, children: "\u4E2D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.HIGH, children: "\u9AD8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.CRITICAL, children: "\u7D27\u6025" })] })] })] }) }), selectedNotifications.size > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-sm text-blue-700 dark:text-blue-300", children: ["\u5DF2\u9009\u62E9 ", selectedNotifications.size, " \u6761\u901A\u77E5"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleBatchMarkAsRead, className: "px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors", children: "\u6807\u8BB0\u5DF2\u8BFB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleBatchDelete, className: "px-3 py-1 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 transition-colors", children: "\u6279\u91CF\u5220\u9664" })] })] }) })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700", children: loading ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-8 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-600 dark:text-gray-400", children: "\u52A0\u8F7D\u4E2D..." })] })) : filteredNotifications.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-8 text-center", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-600 dark:text-gray-400", children: "\u6682\u65E0\u901A\u77E5\u6D88\u606F" }) })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "border-b border-gray-200 dark:border-gray-700 p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: selectedNotifications.size === paginatedNotifications.length && paginatedNotifications.length > 0, onChange: handleSelectAll, className: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-3 text-sm font-medium text-gray-700 dark:text-gray-300", children: "\u5168\u9009" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "divide-y divide-gray-200 dark:divide-gray-700", children: paginatedNotifications.map((notification) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-start space-x-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: selectedNotifications.has(notification.id), onChange: () => handleSelectNotification(notification.id), className: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center space-x-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: `text-sm font-medium ${notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD
+                                                                                ? 'text-gray-900 dark:text-white'
+                                                                                : 'text-gray-600 dark:text-gray-400'}`, children: notification.title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: getNotificationTypeStyles(notification.type), children: getTypeDisplayText(notification.type) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: getPriorityStyles(notification.priority), children: getPriorityDisplayText(notification.priority) }), notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-blue-500 rounded-full" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-gray-500 dark:text-gray-400", children: new Date(notification.createdAt).toLocaleString('zh-CN') })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-sm text-gray-600 dark:text-gray-400 mb-3 cursor-pointer hover:text-gray-800 dark:hover:text-gray-200 transition-colors", onClick: () => handleViewNotificationDetail(notification), title: "\u70B9\u51FB\u67E5\u770B\u8BE6\u60C5", children: notification.message }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-xs text-gray-500 dark:text-gray-400", children: ["\u72B6\u6001: ", getStatusDisplayText(notification.status)] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex space-x-2", children: [notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleMarkAsRead(notification.id), className: "text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300", children: "\u6807\u8BB0\u5DF2\u8BFB" })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleDeleteNotification(notification.id), className: "text-xs text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300", children: "\u5220\u9664" })] })] })] })] }) }, notification.id))) }), totalPages > 1 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "border-t border-gray-200 dark:border-gray-700 p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-sm text-gray-700 dark:text-gray-300", children: ["\u663E\u793A ", startIndex + 1, " \u5230 ", Math.min(startIndex + itemsPerPage, filteredNotifications.length), " \u6761\uFF0C \u5171 ", filteredNotifications.length, " \u6761"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex space-x-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => setCurrentPage(Math.max(1, currentPage - 1)), disabled: currentPage === 1, className: "px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed", children: "\u4E0A\u4E00\u9875" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "px-3 py-1 text-sm text-gray-700 dark:text-gray-300", children: [currentPage, " / ", totalPages] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => setCurrentPage(Math.min(totalPages, currentPage + 1)), disabled: currentPage === totalPages, className: "px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed", children: "\u4E0B\u4E00\u9875" })] })] }) }))] })) })] }), selectedNotificationForDetail && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_NotificationDetail__WEBPACK_IMPORTED_MODULE_4__["default"], { notification: selectedNotificationForDetail, onClose: handleCloseNotificationDetail, onMarkAsRead: handleMarkAsReadFromDetail, onDelete: handleDeleteFromDetail }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NotificationManagement);
 
 
 /***/ }),
@@ -54423,6 +55158,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./System/PermissionManagement */ "./src/components/System/PermissionManagement.tsx");
 /* harmony import */ var _System_SystemSettings__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./System/SystemSettings */ "./src/components/System/SystemSettings.tsx");
 /* harmony import */ var _System_OperationLogs__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./System/OperationLogs */ "./src/components/System/OperationLogs.tsx");
+/* harmony import */ var _Notifications_NotificationManagement__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./Notifications/NotificationManagement */ "./src/components/Notifications/NotificationManagement.tsx");
+
 
 
 
@@ -54492,7 +55229,7 @@ const allPageComponents = Object.assign(Object.assign({}, pageComponents), {
     'accounts-payable': _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_22__["default"], 'accounts-receivable': _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_23__["default"], 'payments': _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_24__["default"], 'receipts': _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_25__["default"], 'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_21__["default"], 
     // 报表分析模块 - 部分完成
     // 系统管理模块 - 独立页面组件
-    'users': _System_UserManagement__WEBPACK_IMPORTED_MODULE_26__["default"], 'permissions': _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_27__["default"], 'settings': _System_SystemSettings__WEBPACK_IMPORTED_MODULE_28__["default"], 'logs': _System_OperationLogs__WEBPACK_IMPORTED_MODULE_29__["default"] });
+    'users': _System_UserManagement__WEBPACK_IMPORTED_MODULE_26__["default"], 'permissions': _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_27__["default"], 'settings': _System_SystemSettings__WEBPACK_IMPORTED_MODULE_28__["default"], 'logs': _System_OperationLogs__WEBPACK_IMPORTED_MODULE_29__["default"], 'notifications': _Notifications_NotificationManagement__WEBPACK_IMPORTED_MODULE_30__["default"] });
 const PageContainer = ({ currentPage }) => {
     const PageComponent = allPageComponents[currentPage];
     if (!PageComponent) {
@@ -57424,6 +58161,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -57433,6 +58172,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
+
 
 
 
@@ -57460,6 +58201,15 @@ const SystemSettings = ({ className }) => {
         currencySymbol: '¥',
         taxRate: 0.13
     });
+    const [notificationSettings, setNotificationSettings] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+        enabledTypes: [_types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.INFO, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.WARNING, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.ERROR, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.SUCCESS],
+        enabledPriorities: [_types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.LOW, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.MEDIUM, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.HIGH, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.CRITICAL],
+        enableSound: true,
+        enableDesktop: false,
+        autoRefreshInterval: 30,
+        maxDisplayCount: 5,
+        enableCriticalForce: true
+    });
     (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
         loadSettings();
     }, []);
@@ -57469,10 +58219,25 @@ const SystemSettings = ({ className }) => {
             // 从localStorage或API加载设置
             const savedBasic = localStorage.getItem('systemSettings.basic');
             const savedBusiness = localStorage.getItem('systemSettings.business');
+            const savedNotifications = localStorage.getItem('systemSettings.notifications');
             if (savedBasic)
                 setBasicSettings(JSON.parse(savedBasic));
             if (savedBusiness)
                 setBusinessSettings(JSON.parse(savedBusiness));
+            if (savedNotifications)
+                setNotificationSettings(JSON.parse(savedNotifications));
+            // 同时加载用户的通知配置
+            try {
+                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.notificationService.initialize();
+                const currentUserId = 'current-user'; // 实际应该从认证系统获取
+                const userConfig = yield _services_business__WEBPACK_IMPORTED_MODULE_3__.notificationService.getUserConfig(currentUserId);
+                if (userConfig) {
+                    setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enabledTypes: userConfig.enabledTypes, enabledPriorities: userConfig.enabledPriorities, enableSound: userConfig.enableSound, enableDesktop: userConfig.enableDesktop })));
+                }
+            }
+            catch (error) {
+                console.error('加载用户通知配置失败:', error);
+            }
         }
         catch (error) {
             console.error('加载设置失败:', error);
@@ -57487,6 +58252,20 @@ const SystemSettings = ({ className }) => {
             // 保存到localStorage或API
             localStorage.setItem('systemSettings.basic', JSON.stringify(basicSettings));
             localStorage.setItem('systemSettings.business', JSON.stringify(businessSettings));
+            localStorage.setItem('systemSettings.notifications', JSON.stringify(notificationSettings));
+            // 同时更新用户的通知配置
+            try {
+                const currentUserId = 'current-user'; // 实际应该从认证系统获取
+                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.notificationService.updateUserConfig(currentUserId, {
+                    enabledTypes: notificationSettings.enabledTypes,
+                    enabledPriorities: notificationSettings.enabledPriorities,
+                    enableSound: notificationSettings.enableSound,
+                    enableDesktop: notificationSettings.enableDesktop
+                });
+            }
+            catch (error) {
+                console.error('保存用户通知配置失败:', error);
+            }
             setHasChanges(false);
             alert('设置保存成功！');
         }
@@ -57516,7 +58295,36 @@ const SystemSettings = ({ className }) => {
                                 ? 'text-white bg-white/10 border-b-2 border-blue-400'
                                 : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83C\uDFE2" }), "\u57FA\u672C\u914D\u7F6E"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('business'), className: `flex-1 px-6 py-4 text-sm font-medium transition-colors ${activeTab === 'business'
                                 ? 'text-white bg-white/10 border-b-2 border-blue-400'
-                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCCA" }), "\u4E1A\u52A1\u53C2\u6570"] })] }) }), activeTab === 'basic' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u57FA\u672C\u914D\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7CFB\u7EDF\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.systemName, onChange: (e) => handleBasicChange('systemName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u7CFB\u7EDF\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyName, onChange: (e) => handleBasicChange('companyName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u5730\u5740" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyAddress, onChange: (e) => handleBasicChange('companyAddress', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u5730\u5740" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u7535\u8BDD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "tel", value: basicSettings.contactPhone, onChange: (e) => handleBasicChange('contactPhone', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u7535\u8BDD" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u90AE\u7BB1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "email", value: basicSettings.contactEmail, onChange: (e) => handleBasicChange('contactEmail', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u90AE\u7BB1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u7F51\u7AD9" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.website, onChange: (e) => handleBasicChange('website', e.target.value), placeholder: "https://www.example.com" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8Logo URL" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.logo, onChange: (e) => handleBasicChange('logo', e.target.value), placeholder: "\u8BF7\u8F93\u5165Logo\u56FE\u7247URL" })] })] })] })), activeTab === 'business' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u4E1A\u52A1\u53C2\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u5E93\u5B58\u9884\u8B66\u9608\u503C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.stockWarningThreshold, onChange: (e) => handleBusinessChange('stockWarningThreshold', parseInt(e.target.value) || 0), placeholder: "10", min: "0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-white/60 mt-1", children: "\u5F53\u5E93\u5B58\u4F4E\u4E8E\u6B64\u503C\u65F6\u53D1\u51FA\u9884\u8B66" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u4EF7\u683C\u5C0F\u6570\u4F4D\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.priceDecimalPlaces, onChange: (e) => handleBusinessChange('priceDecimalPlaces', parseInt(e.target.value)), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 0, children: "0\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 1, children: "1\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 2, children: "2\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 3, children: "3\u4F4D\u5C0F\u6570" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u9ED8\u8BA4\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.defaultWarehouse, onChange: (e) => handleBusinessChange('defaultWarehouse', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "main", children: "\u4E3B\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "backup", children: "\u5907\u7528\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "temp", children: "\u4E34\u65F6\u4ED3\u5E93" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8D27\u5E01\u7B26\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.currencySymbol, onChange: (e) => handleBusinessChange('currencySymbol', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A5", children: "\u4EBA\u6C11\u5E01 (\u00A5)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "$", children: "\u7F8E\u5143 ($)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u20AC", children: "\u6B27\u5143 (\u20AC)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A3", children: "\u82F1\u9551 (\u00A3)" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7A0E\u7387 (%)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.taxRate * 100, onChange: (e) => handleBusinessChange('taxRate', (parseFloat(e.target.value) || 0) / 100), placeholder: "13", min: "0", max: "100", step: "0.1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u4E1A\u52A1\u89C4\u5219" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.autoStockOut, onChange: (e) => handleBusinessChange('autoStockOut', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u81EA\u52A8\u51FA\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u9500\u552E\u8BA2\u5355\u786E\u8BA4\u540E\u81EA\u52A8\u6267\u884C\u51FA\u5E93\u64CD\u4F5C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.requireApproval, onChange: (e) => handleBusinessChange('requireApproval', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u9700\u8981\u5BA1\u6279" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u5927\u989D\u8BA2\u5355\u9700\u8981\u7BA1\u7406\u5458\u5BA1\u6279" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.enableBarcode, onChange: (e) => handleBusinessChange('enableBarcode', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u542F\u7528\u6761\u7801\u626B\u63CF" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u652F\u6301\u6761\u7801\u626B\u63CF\u8FDB\u884C\u5FEB\u901F\u64CD\u4F5C" })] })] })] })] })] })), hasChanges && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-4 border-l-4 border-yellow-400", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-yellow-400 mr-2", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u60A8\u6709\u672A\u4FDD\u5B58\u7684\u66F4\u6539\uFF0C\u8BF7\u8BB0\u5F97\u4FDD\u5B58\u8BBE\u7F6E\u3002" })] }) }))] }));
+                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCCA" }), "\u4E1A\u52A1\u53C2\u6570"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('notifications'), className: `flex-1 px-6 py-4 text-sm font-medium transition-colors ${activeTab === 'notifications'
+                                ? 'text-white bg-white/10 border-b-2 border-blue-400'
+                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD14" }), "\u901A\u77E5\u914D\u7F6E"] })] }) }), activeTab === 'basic' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u57FA\u672C\u914D\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7CFB\u7EDF\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.systemName, onChange: (e) => handleBasicChange('systemName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u7CFB\u7EDF\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyName, onChange: (e) => handleBasicChange('companyName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u5730\u5740" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyAddress, onChange: (e) => handleBasicChange('companyAddress', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u5730\u5740" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u7535\u8BDD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "tel", value: basicSettings.contactPhone, onChange: (e) => handleBasicChange('contactPhone', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u7535\u8BDD" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u90AE\u7BB1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "email", value: basicSettings.contactEmail, onChange: (e) => handleBasicChange('contactEmail', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u90AE\u7BB1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u7F51\u7AD9" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.website, onChange: (e) => handleBasicChange('website', e.target.value), placeholder: "https://www.example.com" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8Logo URL" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.logo, onChange: (e) => handleBasicChange('logo', e.target.value), placeholder: "\u8BF7\u8F93\u5165Logo\u56FE\u7247URL" })] })] })] })), activeTab === 'business' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u4E1A\u52A1\u53C2\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u5E93\u5B58\u9884\u8B66\u9608\u503C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.stockWarningThreshold, onChange: (e) => handleBusinessChange('stockWarningThreshold', parseInt(e.target.value) || 0), placeholder: "10", min: "0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-white/60 mt-1", children: "\u5F53\u5E93\u5B58\u4F4E\u4E8E\u6B64\u503C\u65F6\u53D1\u51FA\u9884\u8B66" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u4EF7\u683C\u5C0F\u6570\u4F4D\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.priceDecimalPlaces, onChange: (e) => handleBusinessChange('priceDecimalPlaces', parseInt(e.target.value)), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 0, children: "0\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 1, children: "1\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 2, children: "2\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 3, children: "3\u4F4D\u5C0F\u6570" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u9ED8\u8BA4\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.defaultWarehouse, onChange: (e) => handleBusinessChange('defaultWarehouse', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "main", children: "\u4E3B\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "backup", children: "\u5907\u7528\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "temp", children: "\u4E34\u65F6\u4ED3\u5E93" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8D27\u5E01\u7B26\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.currencySymbol, onChange: (e) => handleBusinessChange('currencySymbol', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A5", children: "\u4EBA\u6C11\u5E01 (\u00A5)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "$", children: "\u7F8E\u5143 ($)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u20AC", children: "\u6B27\u5143 (\u20AC)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A3", children: "\u82F1\u9551 (\u00A3)" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7A0E\u7387 (%)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.taxRate * 100, onChange: (e) => handleBusinessChange('taxRate', (parseFloat(e.target.value) || 0) / 100), placeholder: "13", min: "0", max: "100", step: "0.1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u4E1A\u52A1\u89C4\u5219" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.autoStockOut, onChange: (e) => handleBusinessChange('autoStockOut', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u81EA\u52A8\u51FA\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u9500\u552E\u8BA2\u5355\u786E\u8BA4\u540E\u81EA\u52A8\u6267\u884C\u51FA\u5E93\u64CD\u4F5C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.requireApproval, onChange: (e) => handleBusinessChange('requireApproval', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u9700\u8981\u5BA1\u6279" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u5927\u989D\u8BA2\u5355\u9700\u8981\u7BA1\u7406\u5458\u5BA1\u6279" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.enableBarcode, onChange: (e) => handleBusinessChange('enableBarcode', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u542F\u7528\u6761\u7801\u626B\u63CF" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u652F\u6301\u6761\u7801\u626B\u63CF\u8FDB\u884C\u5FEB\u901F\u64CD\u4F5C" })] })] })] })] })] })), activeTab === 'notifications' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u901A\u77E5\u914D\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u542F\u7528\u7684\u901A\u77E5\u7C7B\u578B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-4", children: Object.values(_types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType).map((type) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3 cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: notificationSettings.enabledTypes.includes(type), onChange: (e) => {
+                                                const newTypes = e.target.checked
+                                                    ? [...notificationSettings.enabledTypes, type]
+                                                    : notificationSettings.enabledTypes.filter(t => t !== type);
+                                                setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enabledTypes: newTypes })));
+                                                setHasChanges(true);
+                                            }, className: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-white/80", children: [type === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.INFO && '📢 信息', type === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.SUCCESS && '✅ 成功', type === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.WARNING && '⚠️ 警告', type === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.ERROR && '❌ 错误'] })] }, type))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u542F\u7528\u7684\u4F18\u5148\u7EA7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-4", children: Object.values(_types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority).map((priority) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3 cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: notificationSettings.enabledPriorities.includes(priority), onChange: (e) => {
+                                                const newPriorities = e.target.checked
+                                                    ? [...notificationSettings.enabledPriorities, priority]
+                                                    : notificationSettings.enabledPriorities.filter(p => p !== priority);
+                                                setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enabledPriorities: newPriorities })));
+                                                setHasChanges(true);
+                                            }, className: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-white/80", children: [priority === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.LOW && '🔵 低', priority === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.MEDIUM && '🟡 中', priority === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.HIGH && '🟠 高', priority === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.CRITICAL && '🔴 紧急'] })] }, priority))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u901A\u77E5\u529F\u80FD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3 cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: notificationSettings.enableSound, onChange: (e) => {
+                                                    setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enableSound: e.target.checked })));
+                                                    setHasChanges(true);
+                                                }, className: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/80", children: "\uD83D\uDD0A \u542F\u7528\u58F0\u97F3\u63D0\u9192" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3 cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: notificationSettings.enableDesktop, onChange: (e) => {
+                                                    setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enableDesktop: e.target.checked })));
+                                                    setHasChanges(true);
+                                                }, className: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/80", children: "\uD83D\uDDA5\uFE0F \u542F\u7528\u684C\u9762\u901A\u77E5" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3 cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: notificationSettings.enableCriticalForce, onChange: (e) => {
+                                                    setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enableCriticalForce: e.target.checked })));
+                                                    setHasChanges(true);
+                                                }, className: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/80", children: "\uD83D\uDEA8 \u5F3A\u5236\u663E\u793A\u7D27\u6025\u901A\u77E5" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u81EA\u52A8\u5237\u65B0\u95F4\u9694\uFF08\u79D2\uFF09" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", min: "10", max: "300", value: notificationSettings.autoRefreshInterval, onChange: (e) => {
+                                            setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { autoRefreshInterval: parseInt(e.target.value) || 30 })));
+                                            setHasChanges(true);
+                                        }, className: "w-full" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-white/60 mt-1", children: "\u8BBE\u7F6E\u901A\u77E5\u81EA\u52A8\u5237\u65B0\u7684\u65F6\u95F4\u95F4\u9694\uFF0C\u5EFA\u8BAE10-300\u79D2" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u9876\u680F\u6700\u5927\u663E\u793A\u6570\u91CF" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", min: "3", max: "10", value: notificationSettings.maxDisplayCount, onChange: (e) => {
+                                            setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { maxDisplayCount: parseInt(e.target.value) || 5 })));
+                                            setHasChanges(true);
+                                        }, className: "w-full" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-white/60 mt-1", children: "\u8BBE\u7F6E\u9876\u680F\u901A\u77E5\u5F39\u51FA\u6846\u6700\u591A\u663E\u793A\u7684\u901A\u77E5\u6570\u91CF" })] })] })] })), hasChanges && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-4 border-l-4 border-yellow-400", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-yellow-400 mr-2", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u60A8\u6709\u672A\u4FDD\u5B58\u7684\u66F4\u6539\uFF0C\u8BF7\u8BB0\u5F97\u4FDD\u5B58\u8BBE\u7F6E\u3002" })] }) }))] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SystemSettings);
 
@@ -58092,6 +58900,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   seedCategories: () => (/* binding */ seedCategories),
 /* harmony export */   seedInventoryStocks: () => (/* binding */ seedInventoryStocks),
 /* harmony export */   seedProducts: () => (/* binding */ seedProducts),
+/* harmony export */   seedSuppliers: () => (/* binding */ seedSuppliers),
 /* harmony export */   seedUnits: () => (/* binding */ seedUnits),
 /* harmony export */   seedWarehouses: () => (/* binding */ seedWarehouses)
 /* harmony export */ });
@@ -58388,6 +59197,99 @@ const seedInventoryStocks = [
         updatedAt: new Date()
     }
 ];
+// 供应商数据
+const seedSuppliers = [
+    {
+        id: 'sup-001',
+        code: 'SUP001',
+        name: '苹果科技有限公司',
+        contactPerson: '张经理',
+        phone: '400-666-8888',
+        email: 'zhang@apple-tech.com',
+        address: '北京市朝阳区科技园区苹果大厦',
+        paymentTerms: '月结30天',
+        creditLimit: 1000000.00,
+        rating: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierRating.A,
+        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierStatus.ACTIVE,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        id: 'sup-002',
+        code: 'SUP002',
+        name: '三星电子贸易公司',
+        contactPerson: '李总监',
+        phone: '400-888-6666',
+        email: 'li@samsung-trade.com',
+        address: '上海市浦东新区张江高科技园区三星中心',
+        paymentTerms: '现金',
+        creditLimit: 800000.00,
+        rating: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierRating.A,
+        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierStatus.ACTIVE,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        id: 'sup-003',
+        code: 'SUP003',
+        name: '罗技科技设备公司',
+        contactPerson: '王主管',
+        phone: '021-12345678',
+        email: 'wang@logitech-equip.com',
+        address: '深圳市南山区科技园罗技大厦',
+        paymentTerms: '月结15天',
+        creditLimit: 500000.00,
+        rating: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierRating.B,
+        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierStatus.ACTIVE,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        id: 'sup-004',
+        code: 'SUP004',
+        name: '戴尔计算机配件商行',
+        contactPerson: '赵老板',
+        phone: '010-87654321',
+        email: 'zhao@dell-parts.com',
+        address: '北京市海淀区中关村大街戴尔专卖店',
+        paymentTerms: '货到付款',
+        creditLimit: 300000.00,
+        rating: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierRating.B,
+        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierStatus.ACTIVE,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        id: 'sup-005',
+        code: 'SUP005',
+        name: '厨具世界批发中心',
+        contactPerson: '刘经理',
+        phone: '0755-98765432',
+        email: 'liu@kitchen-world.com',
+        address: '广州市天河区厨具批发市场A区',
+        paymentTerms: '月结45天',
+        creditLimit: 200000.00,
+        rating: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierRating.C,
+        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierStatus.ACTIVE,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        id: 'sup-006',
+        code: 'SUP006',
+        name: '华为技术设备供应商',
+        contactPerson: '陈总',
+        phone: '0755-12345678',
+        email: 'chen@huawei-supply.com',
+        address: '深圳市龙岗区华为基地',
+        paymentTerms: '月结60天',
+        creditLimit: 1500000.00,
+        rating: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierRating.A,
+        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierStatus.ACTIVE,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    }
+];
 
 
 /***/ }),
@@ -58604,6 +59506,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   InventoryItemSchema: () => (/* binding */ InventoryItemSchema),
 /* harmony export */   InventoryStockSchema: () => (/* binding */ InventoryStockSchema),
 /* harmony export */   InventoryTransactionSchema: () => (/* binding */ InventoryTransactionSchema),
+/* harmony export */   NotificationConfigSchema: () => (/* binding */ NotificationConfigSchema),
+/* harmony export */   NotificationSchema: () => (/* binding */ NotificationSchema),
 /* harmony export */   PaymentSchema: () => (/* binding */ PaymentSchema),
 /* harmony export */   ProductSchema: () => (/* binding */ ProductSchema),
 /* harmony export */   PurchaseOrderItemSchema: () => (/* binding */ PurchaseOrderItemSchema),
@@ -59028,6 +59932,36 @@ const validateExcelRow = (data) => {
 const validateInventoryItem = (data) => {
     return validateEntity(InventoryItemSchema, data);
 };
+// =============== 通知系统验证 ===============
+// 通知验证 Schema
+const NotificationSchema = zod__WEBPACK_IMPORTED_MODULE_1__.object({
+    id: idSchema.optional(),
+    type: zod__WEBPACK_IMPORTED_MODULE_1__.nativeEnum(_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType, { errorMap: () => ({ message: '请选择有效的通知类型' }) }),
+    title: zod__WEBPACK_IMPORTED_MODULE_1__.string().min(1, '通知标题不能为空').max(100, '通知标题长度不能超过100字符'),
+    message: zod__WEBPACK_IMPORTED_MODULE_1__.string().min(1, '通知消息不能为空').max(500, '通知消息长度不能超过500字符'),
+    priority: zod__WEBPACK_IMPORTED_MODULE_1__.nativeEnum(_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority, { errorMap: () => ({ message: '请选择有效的优先级' }) }),
+    status: zod__WEBPACK_IMPORTED_MODULE_1__.nativeEnum(_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus, { errorMap: () => ({ message: '请选择有效的状态' }) }),
+    targetUsers: zod__WEBPACK_IMPORTED_MODULE_1__.array(zod__WEBPACK_IMPORTED_MODULE_1__.string()).min(1, '目标用户不能为空'),
+    relatedEntity: zod__WEBPACK_IMPORTED_MODULE_1__.object({
+        type: zod__WEBPACK_IMPORTED_MODULE_1__.string().min(1, '关联实体类型不能为空'),
+        id: zod__WEBPACK_IMPORTED_MODULE_1__.string().min(1, '关联实体ID不能为空')
+    }).optional(),
+    readAt: dateSchema.optional(),
+    expiresAt: dateSchema.optional(),
+    createdAt: dateSchema.optional(),
+    updatedAt: dateSchema.optional()
+});
+// 通知配置验证 Schema
+const NotificationConfigSchema = zod__WEBPACK_IMPORTED_MODULE_1__.object({
+    id: idSchema.optional(),
+    userId: idSchema,
+    enabledTypes: zod__WEBPACK_IMPORTED_MODULE_1__.array(zod__WEBPACK_IMPORTED_MODULE_1__.nativeEnum(_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType)).min(1, '至少需要启用一种通知类型'),
+    enabledPriorities: zod__WEBPACK_IMPORTED_MODULE_1__.array(zod__WEBPACK_IMPORTED_MODULE_1__.nativeEnum(_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority)).min(1, '至少需要启用一种优先级'),
+    enableSound: zod__WEBPACK_IMPORTED_MODULE_1__.boolean(),
+    enableDesktop: zod__WEBPACK_IMPORTED_MODULE_1__.boolean(),
+    createdAt: dateSchema.optional(),
+    updatedAt: dateSchema.optional()
+});
 
 
 /***/ }),
@@ -60647,6 +61581,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   customerService: () => (/* reexport safe */ _customerService__WEBPACK_IMPORTED_MODULE_4__["default"]),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   inventoryStockService: () => (/* reexport safe */ _inventoryStockService__WEBPACK_IMPORTED_MODULE_6__["default"]),
+/* harmony export */   notificationService: () => (/* reexport safe */ _notificationService__WEBPACK_IMPORTED_MODULE_15__["default"]),
 /* harmony export */   permissionService: () => (/* reexport safe */ _permissionService__WEBPACK_IMPORTED_MODULE_14__["default"]),
 /* harmony export */   productService: () => (/* reexport safe */ _productService__WEBPACK_IMPORTED_MODULE_7__["default"]),
 /* harmony export */   purchaseOrderService: () => (/* reexport safe */ _purchaseOrderService__WEBPACK_IMPORTED_MODULE_8__["default"]),
@@ -60673,6 +61608,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _accountsPayableService__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./accountsPayableService */ "./src/services/business/accountsPayableService.ts");
 /* harmony import */ var _accountsReceivableService__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./accountsReceivableService */ "./src/services/business/accountsReceivableService.ts");
 /* harmony import */ var _permissionService__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./permissionService */ "./src/services/business/permissionService.ts");
+/* harmony import */ var _notificationService__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./notificationService */ "./src/services/business/notificationService.ts");
 // 核心业务服务层 - 统一入口和服务管理
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -60700,6 +61636,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 // 导入权限服务
+
+// 导入通知服务
 
 // 导出所有服务实例（包括完整的财务服务）
 
@@ -60738,6 +61676,8 @@ class BusinessServiceManager {
                 yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_13__["default"].initialize();
                 // 权限服务
                 yield _permissionService__WEBPACK_IMPORTED_MODULE_14__["default"].initialize();
+                // 通知服务
+                yield _notificationService__WEBPACK_IMPORTED_MODULE_15__["default"].initialize();
                 console.log('所有业务服务初始化完成');
                 // 暂时注释掉其他服务的初始化
                 // // 2. 产品服务（依赖分类和单位）
@@ -61026,12 +61966,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 /* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
 /* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
 /* harmony import */ var _warehouseService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./warehouseService */ "./src/services/business/warehouseService.ts");
-/* harmony import */ var _utils_concurrency__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/concurrency */ "./src/utils/concurrency.ts");
-/* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
-/* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
+/* harmony import */ var _notificationService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./notificationService */ "./src/services/business/notificationService.ts");
+/* harmony import */ var _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/concurrency */ "./src/utils/concurrency.ts");
+/* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
+/* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -61041,6 +61982,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -61096,6 +62038,13 @@ class InventoryStockService {
                 const product = yield _productService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(stock.productId);
                 if (product && stock.currentStock <= product.minStock) {
                     lowStocks.push(stock);
+                    // 触发库存不足通知
+                    try {
+                        yield _notificationService__WEBPACK_IMPORTED_MODULE_4__["default"].createStockLowNotification(product.id, product.name, stock.currentStock, product.minStock);
+                    }
+                    catch (error) {
+                        console.error('创建库存不足通知失败:', error);
+                    }
                 }
             }
             return lowStocks;
@@ -61124,7 +62073,7 @@ class InventoryStockService {
                 return this.updateStock(existingStock.id, data);
             }
             // 创建新库存记录
-            const stock = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(), createdAt: new Date(), updatedAt: new Date() });
+            const stock = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(), createdAt: new Date(), updatedAt: new Date() });
             // 验证数据
             const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.InventoryStockSchema, stock);
             if (!validation.success) {
@@ -61189,14 +62138,14 @@ class InventoryStockService {
         return __awaiter(this, void 0, void 0, function* () {
             // 输入验证
             if (params.quantity <= 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('入库数量必须大于0', { quantity: params.quantity });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('入库数量必须大于0', { quantity: params.quantity });
             }
             if (params.unitPrice < 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('单价不能为负数', { unitPrice: params.unitPrice });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('单价不能为负数', { unitPrice: params.unitPrice });
             }
             // 使用库存锁，确保并发安全
             const lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
-            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_4__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
                 return this.processStockTransaction(Object.assign(Object.assign({}, params), { transactionType: _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.IN }));
             }));
         });
@@ -61205,31 +62154,39 @@ class InventoryStockService {
         return __awaiter(this, void 0, void 0, function* () {
             // 输入验证
             if (params.quantity <= 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('出库数量必须大于0', { quantity: params.quantity });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('出库数量必须大于0', { quantity: params.quantity });
             }
             if (params.unitPrice < 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('单价不能为负数', { unitPrice: params.unitPrice });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('单价不能为负数', { unitPrice: params.unitPrice });
             }
             // 使用库存锁，确保原子性操作，防止并发竞态条件
             const lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
-            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_4__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
                 // 在锁内重新检查库存（防止检查后其他事务修改库存）
                 const currentStock = yield this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
                 if (!currentStock) {
-                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('商品在该仓库中无库存记录', {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('商品在该仓库中无库存记录', {
                         productId: params.productId,
                         warehouseId: params.warehouseId
                     });
                 }
                 if (currentStock.availableStock < params.quantity) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.warn('Stock out attempt failed - insufficient stock', {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.warn('Stock out attempt failed - insufficient stock', {
                         productId: params.productId,
                         warehouseId: params.warehouseId,
                         requestedQuantity: params.quantity,
                         availableStock: currentStock.availableStock,
                         operator: params.operator
                     });
-                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('库存不足，无法出库', {
+                    // 触发库存不足错误通知
+                    try {
+                        const product = yield _productService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(params.productId);
+                        yield _notificationService__WEBPACK_IMPORTED_MODULE_4__["default"].createSystemOperationNotification('库存出库', 'error', `库存不足，无法出库：${(product === null || product === void 0 ? void 0 : product.name) || params.productId}，需要${params.quantity}，可用${currentStock.availableStock}`, ['all']);
+                    }
+                    catch (notificationError) {
+                        console.error('创建库存不足错误通知失败:', notificationError);
+                    }
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('库存不足，无法出库', {
                         requestedQuantity: params.quantity,
                         availableStock: currentStock.availableStock,
                         productId: params.productId,
@@ -61246,22 +62203,22 @@ class InventoryStockService {
         return __awaiter(this, void 0, void 0, function* () {
             // 增强输入验证
             if (!params.productId || !params.warehouseId || !params.operator) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('产品ID、仓库ID和操作人不能为空', params);
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('产品ID、仓库ID和操作人不能为空', params);
             }
             if (typeof params.newQuantity !== 'number' || isNaN(params.newQuantity)) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('调整数量必须是有效数字', { newQuantity: params.newQuantity });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('调整数量必须是有效数字', { newQuantity: params.newQuantity });
             }
             if (params.newQuantity < 0) {
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.warn('Attempted negative stock adjustment', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.warn('Attempted negative stock adjustment', {
                     productId: params.productId,
                     warehouseId: params.warehouseId,
                     newQuantity: params.newQuantity,
                     operator: params.operator
                 });
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('调整后的库存数量不能为负数', { newQuantity: params.newQuantity });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('调整后的库存数量不能为负数', { newQuantity: params.newQuantity });
             }
             if (typeof params.unitPrice !== 'number' || isNaN(params.unitPrice) || params.unitPrice < 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('单价必须是非负数字', { unitPrice: params.unitPrice });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('单价必须是非负数字', { unitPrice: params.unitPrice });
             }
             // 获取当前库存
             const currentStock = yield this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
@@ -61288,7 +62245,7 @@ class InventoryStockService {
             const transactionNo = yield this.generateTransactionNo(params.transactionType);
             // 创建库存流水记录
             const transaction = {
-                id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
+                id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
                 transactionNo,
                 productId: params.productId,
                 warehouseId: params.warehouseId,
@@ -61365,27 +62322,27 @@ class InventoryStockService {
         return __awaiter(this, void 0, void 0, function* () {
             // 输入验证
             if (quantity <= 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('预留数量必须大于0', { quantity });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('预留数量必须大于0', { quantity });
             }
             if (!productId || !warehouseId) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('产品ID和仓库ID不能为空', { productId, warehouseId });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('产品ID和仓库ID不能为空', { productId, warehouseId });
             }
             // 使用库存锁，确保原子性操作
             const lockKey = `stock-reserve-${productId}-${warehouseId}`;
-            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_4__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
                 const stock = yield this.findStockByProductAndWarehouse(productId, warehouseId);
                 if (!stock) {
-                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('库存记录不存在', { productId, warehouseId });
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('库存记录不存在', { productId, warehouseId });
                 }
                 if (stock.availableStock < quantity) {
-                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('可用库存不足，无法预留', {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('可用库存不足，无法预留', {
                         availableStock: stock.availableStock,
                         requestedQuantity: quantity,
                         productId,
                         warehouseId
                     });
                 }
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Stock reserved', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.info('Stock reserved', {
                     productId,
                     warehouseId,
                     quantity,
@@ -61403,27 +62360,27 @@ class InventoryStockService {
         return __awaiter(this, void 0, void 0, function* () {
             // 输入验证
             if (quantity <= 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('释放数量必须大于0', { quantity });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('释放数量必须大于0', { quantity });
             }
             if (!productId || !warehouseId) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('产品ID和仓库ID不能为空', { productId, warehouseId });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('产品ID和仓库ID不能为空', { productId, warehouseId });
             }
             // 使用库存锁，确保原子性操作
             const lockKey = `stock-reserve-${productId}-${warehouseId}`;
-            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_4__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
                 const stock = yield this.findStockByProductAndWarehouse(productId, warehouseId);
                 if (!stock) {
-                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('库存记录不存在', { productId, warehouseId });
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('库存记录不存在', { productId, warehouseId });
                 }
                 if (stock.reservedStock < quantity) {
-                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('预留库存不足，无法释放', {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('预留库存不足，无法释放', {
                         reservedStock: stock.reservedStock,
                         requestedQuantity: quantity,
                         productId,
                         warehouseId
                     });
                 }
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Reserved stock released', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.info('Reserved stock released', {
                     productId,
                     warehouseId,
                     quantity,
@@ -61516,6 +62473,305 @@ class InventoryStockService {
 // 创建并导出服务实例
 const inventoryStockService = new InventoryStockService();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (inventoryStockService);
+
+
+/***/ }),
+
+/***/ "./src/services/business/notificationService.ts":
+/*!******************************************************!*\
+  !*** ./src/services/business/notificationService.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   NotificationService: () => (/* binding */ NotificationService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+// 通知服务
+
+
+class NotificationService {
+    constructor() {
+        this.notifications = new Map();
+        this.configs = new Map();
+        this.userNotifications = new Map(); // userId -> notificationIds
+        this.initialized = false;
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.initialized) {
+                console.log('NotificationService already initialized');
+                return;
+            }
+            console.log('Initializing NotificationService...');
+            // 不再自动创建示例数据，保持空白状态
+            this.initialized = true;
+            console.log('NotificationService initialized successfully');
+        });
+    }
+    // =============== CRUD操作 ===============
+    // 创建通知
+    create(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.NotificationSchema, data);
+            if (!validation.success) {
+                throw new Error(`通知数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            const notification = Object.assign(Object.assign({}, data), { id: `notification-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, createdAt: new Date(), updatedAt: new Date() });
+            this.notifications.set(notification.id, notification);
+            // 为每个目标用户建立索引
+            for (const userId of notification.targetUsers) {
+                if (!this.userNotifications.has(userId)) {
+                    this.userNotifications.set(userId, []);
+                }
+                this.userNotifications.get(userId).push(notification.id);
+            }
+            return notification;
+        });
+    }
+    // 查找所有通知
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.notifications.values())
+                .filter(notification => notification.status !== _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.DELETED)
+                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        });
+    }
+    // 根据ID查找通知
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const notification = this.notifications.get(id);
+            return notification && notification.status !== _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.DELETED ? notification : null;
+        });
+    }
+    // 根据用户查找通知
+    findByUser(userId, limit) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userNotificationIds = this.userNotifications.get(userId) || [];
+            const notifications = userNotificationIds
+                .map(id => this.notifications.get(id))
+                .filter((notification) => notification !== undefined && notification.status !== _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.DELETED)
+                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+            return limit ? notifications.slice(0, limit) : notifications;
+        });
+    }
+    // 获取用户的最新通知（用于TopBar显示）
+    getRecentNotifications(userId_1) {
+        return __awaiter(this, arguments, void 0, function* (userId, limit = 5) {
+            return this.findByUser(userId, limit);
+        });
+    }
+    // 更新通知
+    update(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const existingNotification = this.notifications.get(id);
+            if (!existingNotification) {
+                throw new Error(`通知不存在: ${id}`);
+            }
+            const updatedNotification = Object.assign(Object.assign(Object.assign({}, existingNotification), data), { updatedAt: new Date() });
+            // 验证更新后的数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.NotificationSchema, updatedNotification);
+            if (!validation.success) {
+                throw new Error(`通知数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            this.notifications.set(id, updatedNotification);
+            return updatedNotification;
+        });
+    }
+    // 删除通知（软删除）
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const notification = this.notifications.get(id);
+            if (!notification) {
+                throw new Error(`通知不存在: ${id}`);
+            }
+            yield this.update(id, { status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.DELETED });
+        });
+    }
+    // =============== 状态管理 ===============
+    // 标记为已读
+    markAsRead(id, userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const notification = this.notifications.get(id);
+            if (!notification) {
+                throw new Error(`通知不存在: ${id}`);
+            }
+            if (!notification.targetUsers.includes(userId)) {
+                throw new Error('用户无权限操作此通知');
+            }
+            yield this.update(id, {
+                status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.READ,
+                readAt: new Date()
+            });
+        });
+    }
+    // 标记所有通知为已读
+    markAllAsRead(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userNotifications = yield this.findByUser(userId);
+            const unreadNotifications = userNotifications.filter(n => n.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD);
+            for (const notification of unreadNotifications) {
+                yield this.markAsRead(notification.id, userId);
+            }
+        });
+    }
+    // 获取未读通知数量
+    getUnreadCount(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userNotifications = yield this.findByUser(userId);
+            return userNotifications.filter(n => n.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD).length;
+        });
+    }
+    // =============== 业务触发接口 ===============
+    // 创建库存不足通知
+    createStockLowNotification(productId, productName, currentStock, minStock) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.create({
+                type: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.WARNING,
+                title: '库存不足警告',
+                message: `商品"${productName}"库存不足，当前库存：${currentStock}，最低库存：${minStock}`,
+                priority: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.HIGH,
+                status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD,
+                targetUsers: ['all'], // 所有用户都能看到库存警告
+                relatedEntity: {
+                    type: 'product',
+                    id: productId
+                }
+            });
+        });
+    }
+    // 创建订单状态变更通知
+    createOrderStatusNotification(orderId_1, orderNo_1, status_1) {
+        return __awaiter(this, arguments, void 0, function* (orderId, orderNo, status, targetUsers = ['all']) {
+            const statusMessages = {
+                'confirmed': '已确认',
+                'shipped': '已发货',
+                'completed': '已完成',
+                'cancelled': '已取消'
+            };
+            const message = statusMessages[status] || status;
+            yield this.create({
+                type: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.INFO,
+                title: '订单状态更新',
+                message: `订单 ${orderNo} 状态已更新为：${message}`,
+                priority: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.MEDIUM,
+                status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD,
+                targetUsers,
+                relatedEntity: {
+                    type: 'sales_order',
+                    id: orderId
+                }
+            });
+        });
+    }
+    // 创建系统操作结果通知
+    createSystemOperationNotification(operation_1, result_1, details_1) {
+        return __awaiter(this, arguments, void 0, function* (operation, result, details, targetUsers = ['all']) {
+            const type = result === 'success' ? _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.SUCCESS : _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.ERROR;
+            const priority = result === 'success' ? _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.LOW : _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.HIGH;
+            yield this.create({
+                type,
+                title: result === 'success' ? '操作成功' : '操作失败',
+                message: details || `${operation}${result === 'success' ? '成功' : '失败'}`,
+                priority,
+                status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD,
+                targetUsers
+            });
+        });
+    }
+    // =============== 通知配置管理 ===============
+    // 获取用户通知配置
+    getUserConfig(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.configs.get(userId) || null;
+        });
+    }
+    // 更新用户通知配置
+    updateUserConfig(userId, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b, _c;
+            const existingConfig = this.configs.get(userId);
+            const notificationConfig = {
+                id: (existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.id) || `config-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                userId,
+                enabledTypes: config.enabledTypes || (existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.enabledTypes) || [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.INFO, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.WARNING, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.ERROR, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.SUCCESS],
+                enabledPriorities: config.enabledPriorities || (existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.enabledPriorities) || [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.LOW, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.MEDIUM, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.HIGH, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.CRITICAL],
+                enableSound: config.enableSound !== undefined ? config.enableSound : ((_a = existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.enableSound) !== null && _a !== void 0 ? _a : true),
+                enableDesktop: config.enableDesktop !== undefined ? config.enableDesktop : ((_b = existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.enableDesktop) !== null && _b !== void 0 ? _b : true),
+                createdAt: (existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.createdAt) || new Date(),
+                updatedAt: new Date()
+            };
+            // 验证配置数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.NotificationConfigSchema, notificationConfig);
+            if (!validation.success) {
+                throw new Error(`通知配置验证失败: ${(_c = validation.errors) === null || _c === void 0 ? void 0 : _c.join(', ')}`);
+            }
+            this.configs.set(userId, notificationConfig);
+            return notificationConfig;
+        });
+    }
+    // 检查用户是否应该接收特定类型的通知
+    shouldReceiveNotification(userId, type, priority) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Critical级别的通知强制显示
+            if (priority === _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.CRITICAL) {
+                return true;
+            }
+            const config = yield this.getUserConfig(userId);
+            if (!config) {
+                // 如果没有配置，默认接收所有通知
+                return true;
+            }
+            return config.enabledTypes.includes(type) && config.enabledPriorities.includes(priority);
+        });
+    }
+    // =============== 统计和报表 ===============
+    // 获取通知统计
+    getNotificationStats(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const notifications = userId ? yield this.findByUser(userId) : yield this.findAll();
+            const stats = {
+                total: notifications.length,
+                unread: notifications.filter(n => n.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD).length,
+                byType: {
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.INFO]: 0,
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.WARNING]: 0,
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.ERROR]: 0,
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.SUCCESS]: 0
+                },
+                byPriority: {
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.LOW]: 0,
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.MEDIUM]: 0,
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.HIGH]: 0,
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.CRITICAL]: 0
+                }
+            };
+            notifications.forEach(notification => {
+                stats.byType[notification.type]++;
+                stats.byPriority[notification.priority]++;
+            });
+            return stats;
+        });
+    }
+}
+// 创建并导出服务实例
+const notificationService = new NotificationService();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (notificationService);
 
 
 /***/ }),
@@ -61830,12 +63086,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 /* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
 /* harmony import */ var _inventory_inventoryService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../inventory/inventoryService */ "./src/services/inventory/inventoryService.ts");
 /* harmony import */ var _userService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./userService */ "./src/services/business/userService.ts");
-/* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
-/* harmony import */ var _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/concurrency */ "./src/utils/concurrency.ts");
-/* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
+/* harmony import */ var _notificationService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./notificationService */ "./src/services/business/notificationService.ts");
+/* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
+/* harmony import */ var _utils_concurrency__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/concurrency */ "./src/utils/concurrency.ts");
+/* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -61845,6 +63102,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -61909,39 +63167,46 @@ class ProductService {
     create(data, currentUserId) {
         return __awaiter(this, void 0, void 0, function* () {
             // 使用SKU作为并发锁的键，防止重复SKU的并发创建
-            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(`product-create-${data.sku}`, () => __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_6__.ConcurrencyManager.withMutex(`product-create-${data.sku}`, () => __awaiter(this, void 0, void 0, function* () {
                 var _a;
                 // 权限检查
                 if (currentUserId) {
                     const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_3__["default"].hasPermission(currentUserId, 'products.write');
                     if (!hasPermission) {
-                        _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.security('Unauthorized product creation attempt', { userId: currentUserId, sku: data.sku });
-                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('无权限创建产品', { userId: currentUserId, sku: data.sku });
+                        _utils_secureLogger__WEBPACK_IMPORTED_MODULE_5__.logger.security('Unauthorized product creation attempt', { userId: currentUserId, sku: data.sku });
+                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.ValidationError('无权限创建产品', { userId: currentUserId, sku: data.sku });
                     }
                 }
                 // 验证输入数据
-                const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.ProductSchema, Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(), createdAt: new Date(), updatedAt: new Date() }));
+                const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.ProductSchema, Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(), createdAt: new Date(), updatedAt: new Date() }));
                 if (!validation.success) {
-                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError(`产品数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`, {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.ValidationError(`产品数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`, {
                         errors: validation.errors,
                         data: data
                     });
                 }
                 // 二次检查SKU唯一性（在锁内进行，确保原子性）
                 if (this.skuIndex.has(data.sku)) {
-                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError(`SKU "${data.sku}" 已存在`, { sku: data.sku });
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.BusinessError(`SKU "${data.sku}" 已存在`, { sku: data.sku });
                 }
                 // 业务规则验证
                 yield this.validateBusinessRules(data);
-                const product = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(), createdAt: new Date(), updatedAt: new Date() });
+                const product = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(), createdAt: new Date(), updatedAt: new Date() });
                 // 原子性操作：同时更新两个Map
                 this.products.set(product.id, product);
                 this.skuIndex.set(product.sku, product.id);
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.info('Product created successfully', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_5__.logger.info('Product created successfully', {
                     productId: product.id,
                     sku: product.sku,
                     userId: currentUserId
                 });
+                // 触发商品创建成功通知
+                try {
+                    yield _notificationService__WEBPACK_IMPORTED_MODULE_4__["default"].createSystemOperationNotification('商品创建', 'success', `成功创建商品：${product.name} (${product.sku})`, ['all']);
+                }
+                catch (error) {
+                    console.error('创建商品成功通知失败:', error);
+                }
                 return product;
             }));
         });
@@ -61950,31 +63215,31 @@ class ProductService {
         return __awaiter(this, void 0, void 0, function* () {
             // 使用产品ID和新SKU作为并发锁的键，防止重复SKU的并发更新
             const lockKey = data.sku ? `product-update-${id}-${data.sku}` : `product-update-${id}`;
-            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_6__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
                 var _a;
                 // 权限检查
                 if (currentUserId) {
                     const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_3__["default"].hasPermission(currentUserId, 'products.write');
                     if (!hasPermission) {
-                        _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.security('Unauthorized product update attempt', { userId: currentUserId, productId: id });
-                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('无权限修改产品', { userId: currentUserId, productId: id });
+                        _utils_secureLogger__WEBPACK_IMPORTED_MODULE_5__.logger.security('Unauthorized product update attempt', { userId: currentUserId, productId: id });
+                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.ValidationError('无权限修改产品', { userId: currentUserId, productId: id });
                     }
                 }
                 const existingProduct = this.products.get(id);
                 if (!existingProduct) {
-                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError(`产品不存在: ${id}`, { productId: id });
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.BusinessError(`产品不存在: ${id}`, { productId: id });
                 }
                 // 二次检查SKU唯一性（在锁内进行，确保原子性）
                 if (data.sku && data.sku !== existingProduct.sku) {
                     if (this.skuIndex.has(data.sku)) {
-                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError(`SKU "${data.sku}" 已存在`, { sku: data.sku, existingSku: existingProduct.sku });
+                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.BusinessError(`SKU "${data.sku}" 已存在`, { sku: data.sku, existingSku: existingProduct.sku });
                     }
                 }
                 const updatedProduct = Object.assign(Object.assign(Object.assign({}, existingProduct), data), { updatedAt: new Date() });
                 // 验证更新后的数据
                 const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.ProductSchema, updatedProduct);
                 if (!validation.success) {
-                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError(`产品数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`, {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.ValidationError(`产品数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`, {
                         errors: validation.errors,
                         data: data
                     });
@@ -61987,7 +63252,7 @@ class ProductService {
                     this.skuIndex.set(data.sku, id);
                 }
                 this.products.set(id, updatedProduct);
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.info('Product updated successfully', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_5__.logger.info('Product updated successfully', {
                     productId: id,
                     oldSku: existingProduct.sku,
                     newSku: data.sku || existingProduct.sku,
@@ -61999,13 +63264,13 @@ class ProductService {
     }
     delete(id, currentUserId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(`product-delete-${id}`, () => __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_6__.ConcurrencyManager.withMutex(`product-delete-${id}`, () => __awaiter(this, void 0, void 0, function* () {
                 // 权限检查
                 if (currentUserId) {
                     const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_3__["default"].hasPermission(currentUserId, 'products.write');
                     if (!hasPermission) {
-                        _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.security('Unauthorized product deletion attempt', { userId: currentUserId, productId: id });
-                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('无权限删除产品', { userId: currentUserId, productId: id });
+                        _utils_secureLogger__WEBPACK_IMPORTED_MODULE_5__.logger.security('Unauthorized product deletion attempt', { userId: currentUserId, productId: id });
+                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.ValidationError('无权限删除产品', { userId: currentUserId, productId: id });
                     }
                 }
                 const product = this.products.get(id);
@@ -62015,7 +63280,7 @@ class ProductService {
                 // 原子性操作：同时删除产品和SKU索引
                 this.products.delete(id);
                 this.skuIndex.delete(product.sku);
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.info('Product deleted successfully', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_5__.logger.info('Product deleted successfully', {
                     productId: id,
                     sku: product.sku,
                     userId: currentUserId
@@ -62030,7 +63295,7 @@ class ProductService {
             if (currentUserId) {
                 const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_3__["default"].hasPermission(currentUserId, 'products.write');
                 if (!hasPermission) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.security('Unauthorized bulk product creation attempt', { userId: currentUserId });
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_5__.logger.security('Unauthorized bulk product creation attempt', { userId: currentUserId });
                     throw new Error('无权限批量创建产品');
                 }
             }
@@ -62080,7 +63345,7 @@ class ProductService {
                         }
                     }
                 }
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.info('Low stock products retrieved', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_5__.logger.info('Low stock products retrieved', {
                     count: lowStockProducts.length,
                     products: lowStockProducts.map(p => ({ id: p.id, sku: p.sku, name: p.name }))
                 });
@@ -62088,8 +63353,8 @@ class ProductService {
             }
             catch (error) {
                 const errorMsg = error instanceof Error ? error.message : '未知错误';
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.error('Failed to get low stock products', { error: errorMsg });
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError(`获取低库存产品失败: ${errorMsg}`, { originalError: error });
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_5__.logger.error('Failed to get low stock products', { error: errorMsg });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.BusinessError(`获取低库存产品失败: ${errorMsg}`, { originalError: error });
             }
         });
     }
@@ -62114,18 +63379,18 @@ class ProductService {
         return __awaiter(this, void 0, void 0, function* () {
             // SKU格式验证
             if (!/^[A-Z0-9-_]{3,50}$/.test(data.sku)) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('SKU格式不正确，只能包含大写字母、数字、连字符和下划线，长度3-50字符', { sku: data.sku });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.ValidationError('SKU格式不正确，只能包含大写字母、数字、连字符和下划线，长度3-50字符', { sku: data.sku });
             }
             // 价格验证
             if (data.purchasePrice <= 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('采购价格必须大于0', { purchasePrice: data.purchasePrice });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.ValidationError('采购价格必须大于0', { purchasePrice: data.purchasePrice });
             }
             if (data.salePrice <= 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('销售价格必须大于0', { salePrice: data.salePrice });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.ValidationError('销售价格必须大于0', { salePrice: data.salePrice });
             }
             // 销售价不能低于采购价（保证最小利润）
             if (data.salePrice < data.purchasePrice) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('销售价不能低于采购价', {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.BusinessError('销售价不能低于采购价', {
                     salePrice: data.salePrice,
                     purchasePrice: data.purchasePrice
                 });
@@ -62145,20 +63410,20 @@ class ProductService {
             }
             // 库存警戒值验证
             if (data.minStock && data.minStock < 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('最小库存不能为负数', { minStock: data.minStock });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.ValidationError('最小库存不能为负数', { minStock: data.minStock });
             }
             if (data.maxStock && data.maxStock < 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('最大库存不能为负数', { maxStock: data.maxStock });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.ValidationError('最大库存不能为负数', { maxStock: data.maxStock });
             }
             if (data.minStock && data.maxStock && data.minStock >= data.maxStock) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('最小库存必须小于最大库存', {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.BusinessError('最小库存必须小于最大库存', {
                     minStock: data.minStock,
                     maxStock: data.maxStock
                 });
             }
             // 状态验证
             if (data.status && !Object.values(_types_entities__WEBPACK_IMPORTED_MODULE_0__.ProductStatus).includes(data.status)) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('无效的产品状态', { status: data.status });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_7__.ValidationError('无效的产品状态', { status: data.status });
             }
         });
     }
@@ -62193,10 +63458,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 /* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
 /* harmony import */ var _supplierService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./supplierService */ "./src/services/business/supplierService.ts");
 /* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
 /* harmony import */ var _accountsPayableService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./accountsPayableService */ "./src/services/business/accountsPayableService.ts");
+/* harmony import */ var _notificationService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./notificationService */ "./src/services/business/notificationService.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -62206,6 +63472,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -62287,7 +63554,7 @@ class PurchaseOrderService {
             }
             // 生成订单号
             const orderNo = yield this.generateOrderNo();
-            const order = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_5__["default"])(), orderNo, totalAmount: 0, finalAmount: 0, createdAt: new Date(), updatedAt: new Date() });
+            const order = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_6__["default"])(), orderNo, totalAmount: 0, finalAmount: 0, createdAt: new Date(), updatedAt: new Date() });
             // 验证数据
             const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.PurchaseOrderSchema, order);
             if (!validation.success) {
@@ -62346,7 +63613,20 @@ class PurchaseOrderService {
     }
     updateStatus(id, status) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.update(id, { status });
+            const order = this.orders.get(id);
+            if (!order) {
+                throw new Error(`采购订单不存在: ${id}`);
+            }
+            const updatedOrder = yield this.update(id, { status });
+            // 触发采购订单状态变更通知
+            try {
+                yield _notificationService__WEBPACK_IMPORTED_MODULE_5__["default"].createOrderStatusNotification(id, order.orderNo, status, ['all'] // 所有用户都能看到采购订单状态变更
+                );
+            }
+            catch (error) {
+                console.error('创建采购订单状态变更通知失败:', error);
+            }
+            return updatedOrder;
         });
     }
     // =============== 订单项目管理 ===============
@@ -62371,7 +63651,7 @@ class PurchaseOrderService {
                     ? _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.COMPLETED
                     : _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.PARTIAL;
             }
-            const orderItem = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_5__["default"])(), orderId,
+            const orderItem = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_6__["default"])(), orderId,
                 amount,
                 status, createdAt: new Date(), updatedAt: new Date() });
             // 验证数据
@@ -63489,14 +64769,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 /* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
 /* harmony import */ var _customerService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./customerService */ "./src/services/business/customerService.ts");
 /* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
 /* harmony import */ var _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./inventoryStockService */ "./src/services/business/inventoryStockService.ts");
 /* harmony import */ var _accountsReceivableService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./accountsReceivableService */ "./src/services/business/accountsReceivableService.ts");
-/* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
-/* harmony import */ var _userService__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./userService */ "./src/services/business/userService.ts");
-/* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
+/* harmony import */ var _notificationService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./notificationService */ "./src/services/business/notificationService.ts");
+/* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
+/* harmony import */ var _userService__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./userService */ "./src/services/business/userService.ts");
+/* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -63516,6 +64797,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
 class SalesOrderService {
     constructor() {
         this.orders = new Map();
@@ -63525,7 +64807,7 @@ class SalesOrderService {
     }
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
-            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Sales order service initialized');
+            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.info('Sales order service initialized');
             // 系统启动时不创建任何默认销售订单数据
         });
     }
@@ -63586,9 +64868,9 @@ class SalesOrderService {
             var _a;
             // 权限检查
             if (currentUserId) {
-                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_8__["default"].hasPermission(currentUserId, 'sales-orders.write');
                 if (!hasPermission) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized sales order creation attempt', { userId: currentUserId });
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Unauthorized sales order creation attempt', { userId: currentUserId });
                     throw new Error('无权限创建销售订单');
                 }
             }
@@ -63599,7 +64881,7 @@ class SalesOrderService {
             }
             // 生成订单号
             const orderNo = yield this.generateOrderNo();
-            const order = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_9__["default"])(), orderNo, totalAmount: 0, finalAmount: 0, createdAt: new Date(), updatedAt: new Date() });
+            const order = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_10__["default"])(), orderNo, totalAmount: 0, finalAmount: 0, createdAt: new Date(), updatedAt: new Date() });
             // 验证数据
             const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.SalesOrderSchema, order);
             if (!validation.success) {
@@ -63616,9 +64898,9 @@ class SalesOrderService {
             var _a;
             // 权限检查
             if (currentUserId) {
-                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_8__["default"].hasPermission(currentUserId, 'sales-orders.write');
                 if (!hasPermission) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized sales order update attempt', { userId: currentUserId, orderId: id });
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Unauthorized sales order update attempt', { userId: currentUserId, orderId: id });
                     throw new Error('无权限修改销售订单');
                 }
             }
@@ -63628,20 +64910,20 @@ class SalesOrderService {
             }
             // 防御性输入验证，防止负值注入
             if (data.discountAmount !== undefined && data.discountAmount < 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_8__.ValidationError('折扣金额不能为负数', {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_9__.ValidationError('折扣金额不能为负数', {
                     discountAmount: data.discountAmount,
                     orderId: id
                 });
             }
             if (data.taxAmount !== undefined && data.taxAmount < 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_8__.ValidationError('税费金额不能为负数', {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_9__.ValidationError('税费金额不能为负数', {
                     taxAmount: data.taxAmount,
                     orderId: id
                 });
             }
             // 检查金额字段的合理性
             if (data.totalAmount !== undefined && data.totalAmount < 0) {
-                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_8__.ValidationError('订单总金额不能为负数', {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_9__.ValidationError('订单总金额不能为负数', {
                     totalAmount: data.totalAmount,
                     orderId: id
                 });
@@ -63659,7 +64941,7 @@ class SalesOrderService {
                 existingOrder.status !== data.status) {
                 try {
                     yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_5__["default"].createFromSalesOrder(updatedOrder);
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Auto-generated accounts receivable for order', {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.info('Auto-generated accounts receivable for order', {
                         orderId: id,
                         orderNo: updatedOrder.orderNo,
                         status: data.status,
@@ -63667,7 +64949,7 @@ class SalesOrderService {
                     });
                 }
                 catch (error) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.error('Failed to auto-generate accounts receivable', {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.error('Failed to auto-generate accounts receivable', {
                         orderId: id,
                         orderNo: updatedOrder.orderNo,
                         error: error instanceof Error ? error.message : '未知错误'
@@ -63682,15 +64964,15 @@ class SalesOrderService {
         return __awaiter(this, void 0, void 0, function* () {
             // 权限检查
             if (currentUserId) {
-                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_8__["default"].hasPermission(currentUserId, 'sales-orders.write');
                 if (!hasPermission) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized sales order deletion attempt', { userId: currentUserId, orderId: id });
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Unauthorized sales order deletion attempt', { userId: currentUserId, orderId: id });
                     throw new Error('无权限删除销售订单');
                 }
             }
             const order = this.orders.get(id);
             if (!order) {
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.warn('Delete failed: Sales order not found', { orderId: id, userId: currentUserId });
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.warn('Delete failed: Sales order not found', { orderId: id, userId: currentUserId });
                 return false;
             }
             // 业务逻辑验证 - 检查订单是否可以删除
@@ -63703,7 +64985,7 @@ class SalesOrderService {
             this.orders.delete(id);
             this.orderNoIndex.delete(order.orderNo);
             this.orderItemsByOrder.delete(id);
-            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.audit('delete', 'sales_order', {
+            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.audit('delete', 'sales_order', {
                 orderId: id,
                 orderNo: order.orderNo,
                 status: order.status,
@@ -63723,7 +65005,7 @@ class SalesOrderService {
                 _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.COMPLETED
             ];
             if (undeletableStatuses.includes(order.status)) {
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Attempted to delete confirmed/completed order', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Attempted to delete confirmed/completed order', {
                     orderId: order.id,
                     orderNo: order.orderNo,
                     status: order.status,
@@ -63734,7 +65016,7 @@ class SalesOrderService {
             }
             // 检查支付状态 - 已付款的订单不能删除
             if (order.paymentStatus === _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.PAID) {
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Attempted to delete paid order', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Attempted to delete paid order', {
                     orderId: order.id,
                     orderNo: order.orderNo,
                     paymentStatus: order.paymentStatus,
@@ -63744,7 +65026,7 @@ class SalesOrderService {
             }
             // 部分付款的订单需要特殊权限才能删除
             if (order.paymentStatus === _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.PARTIAL) {
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Attempted to delete partially paid order', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Attempted to delete partially paid order', {
                     orderId: order.id,
                     orderNo: order.orderNo,
                     paymentStatus: order.paymentStatus,
@@ -63763,13 +65045,21 @@ class SalesOrderService {
             // 状态机验证 - 检查状态转换是否合法
             yield this.validateStatusTransition(order, status, currentUserId);
             const updatedOrder = yield this.update(id, { status });
-            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.audit('status_change', 'sales_order', {
+            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.audit('status_change', 'sales_order', {
                 orderId: id,
                 orderNo: order.orderNo,
                 fromStatus: order.status,
                 toStatus: status,
                 userId: currentUserId
             });
+            // 触发订单状态变更通知
+            try {
+                yield _notificationService__WEBPACK_IMPORTED_MODULE_6__["default"].createOrderStatusNotification(id, order.orderNo, status, ['all'] // 所有用户都能看到订单状态变更
+                );
+            }
+            catch (error) {
+                console.error('创建订单状态变更通知失败:', error);
+            }
             return updatedOrder;
         });
     }
@@ -63806,7 +65096,7 @@ class SalesOrderService {
             };
             const allowedStatuses = allowedTransitions[currentStatus] || [];
             if (!allowedStatuses.includes(newStatus)) {
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Invalid status transition attempted', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Invalid status transition attempted', {
                     orderId: order.id,
                     orderNo: order.orderNo,
                     fromStatus: currentStatus,
@@ -63850,7 +65140,7 @@ class SalesOrderService {
             const isRestrictedTransition = restrictedTransitions.some(t => t.from === order.status && t.to === newStatus);
             if (isRestrictedTransition) {
                 // 这里应该检查用户权限
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Restricted status transition attempted', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Restricted status transition attempted', {
                     orderId: order.id,
                     fromStatus: order.status,
                     toStatus: newStatus,
@@ -63882,9 +65172,9 @@ class SalesOrderService {
             var _a;
             // 权限检查
             if (currentUserId) {
-                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_8__["default"].hasPermission(currentUserId, 'sales-orders.write');
                 if (!hasPermission) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order item addition attempt', { userId: currentUserId, orderId });
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Unauthorized order item addition attempt', { userId: currentUserId, orderId });
                     throw new Error('无权限添加订单项目');
                 }
             }
@@ -63912,7 +65202,7 @@ class SalesOrderService {
             // 预留库存
             try {
                 yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__["default"].reserveStock(data.productId, warehouseId, data.quantity);
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Stock reserved for order item', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.info('Stock reserved for order item', {
                     productId: data.productId,
                     warehouseId,
                     quantity: data.quantity,
@@ -63921,7 +65211,7 @@ class SalesOrderService {
             }
             catch (error) {
                 const errorMsg = error instanceof Error ? error.message : '未知错误';
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.error('Failed to reserve stock for order item', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.error('Failed to reserve stock for order item', {
                     productId: data.productId,
                     quantity: data.quantity,
                     error: errorMsg
@@ -63937,7 +65227,7 @@ class SalesOrderService {
                     ? _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.COMPLETED
                     : _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.PARTIAL;
             }
-            const orderItem = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_9__["default"])(), orderId,
+            const orderItem = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_10__["default"])(), orderId,
                 amount,
                 status, createdAt: new Date(), updatedAt: new Date() });
             // 验证数据
@@ -63959,9 +65249,9 @@ class SalesOrderService {
             var _a;
             // 权限检查
             if (currentUserId) {
-                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_8__["default"].hasPermission(currentUserId, 'sales-orders.write');
                 if (!hasPermission) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order item update attempt', { userId: currentUserId, itemId });
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Unauthorized order item update attempt', { userId: currentUserId, itemId });
                     throw new Error('无权限修改订单项目');
                 }
             }
@@ -63998,9 +65288,9 @@ class SalesOrderService {
         return __awaiter(this, void 0, void 0, function* () {
             // 权限检查
             if (currentUserId) {
-                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_8__["default"].hasPermission(currentUserId, 'sales-orders.write');
                 if (!hasPermission) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order item removal attempt', { userId: currentUserId, itemId });
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Unauthorized order item removal attempt', { userId: currentUserId, itemId });
                     throw new Error('无权限删除订单项目');
                 }
             }
@@ -64184,9 +65474,9 @@ class SalesOrderService {
         return __awaiter(this, void 0, void 0, function* () {
             // 权限检查
             if (currentUserId) {
-                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_8__["default"].hasPermission(currentUserId, 'sales-orders.write');
                 if (!hasPermission) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order item cancellation attempt', { userId: currentUserId, orderItemId });
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Unauthorized order item cancellation attempt', { userId: currentUserId, orderItemId });
                     throw new Error('无权限取消订单项目');
                 }
             }
@@ -64203,7 +65493,7 @@ class SalesOrderService {
             try {
                 // 释放预留库存
                 yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__["default"].releaseReservedStock(orderItem.productId, warehouseId, orderItem.quantity - orderItem.deliveredQuantity);
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Stock released for cancelled order item', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.info('Stock released for cancelled order item', {
                     orderItemId,
                     productId: orderItem.productId,
                     warehouseId,
@@ -64218,7 +65508,7 @@ class SalesOrderService {
             }
             catch (error) {
                 const errorMsg = error instanceof Error ? error.message : '未知错误';
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.error('Failed to release stock for cancelled order item', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.error('Failed to release stock for cancelled order item', {
                     orderItemId,
                     error: errorMsg
                 });
@@ -64233,9 +65523,9 @@ class SalesOrderService {
         return __awaiter(this, void 0, void 0, function* () {
             // 权限检查
             if (currentUserId) {
-                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_8__["default"].hasPermission(currentUserId, 'sales-orders.write');
                 if (!hasPermission) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order item delivery attempt', { userId: currentUserId, orderItemId });
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Unauthorized order item delivery attempt', { userId: currentUserId, orderItemId });
                     throw new Error('无权限执行发货操作');
                 }
             }
@@ -64270,7 +65560,7 @@ class SalesOrderService {
                 });
                 // 同时释放对应的预留库存
                 yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__["default"].releaseReservedStock(orderItem.productId, warehouseId, deliveredQuantity);
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Stock delivered for order item', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.info('Stock delivered for order item', {
                     orderItemId,
                     productId: orderItem.productId,
                     warehouseId,
@@ -64291,7 +65581,7 @@ class SalesOrderService {
             }
             catch (error) {
                 const errorMsg = error instanceof Error ? error.message : '未知错误';
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.error('Failed to deliver order item', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.error('Failed to deliver order item', {
                     orderItemId,
                     deliveredQuantity,
                     error: errorMsg
@@ -64307,9 +65597,9 @@ class SalesOrderService {
         return __awaiter(this, void 0, void 0, function* () {
             // 权限检查
             if (currentUserId) {
-                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_8__["default"].hasPermission(currentUserId, 'sales-orders.write');
                 if (!hasPermission) {
-                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order cancellation attempt', { userId: currentUserId, orderId });
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.security('Unauthorized order cancellation attempt', { userId: currentUserId, orderId });
                     throw new Error('无权限取消订单');
                 }
             }
@@ -64337,11 +65627,11 @@ class SalesOrderService {
                 order.status = _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CANCELLED;
                 order.updatedAt = new Date();
                 this.orders.set(orderId, order);
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Order cancelled successfully', { orderId, userId: currentUserId });
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.info('Order cancelled successfully', { orderId, userId: currentUserId });
             }
             catch (error) {
                 const errorMsg = error instanceof Error ? error.message : '未知错误';
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.error('Failed to cancel order', {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.error('Failed to cancel order', {
                     orderId,
                     error: errorMsg
                 });
@@ -64369,7 +65659,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 /* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _database_seedData__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../database/seedData */ "./src/database/seedData.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -64382,6 +65673,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
 class SupplierService {
     constructor() {
         this.suppliers = new Map();
@@ -64390,7 +65682,12 @@ class SupplierService {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Supplier service initialized');
-            // 系统启动时不创建任何默认供应商数据
+            // 初始化供应商数据
+            for (const supplier of _database_seedData__WEBPACK_IMPORTED_MODULE_2__.seedSuppliers) {
+                this.suppliers.set(supplier.id, supplier);
+                this.codeIndex.set(supplier.code, supplier.id);
+            }
+            console.log(`Initialized ${_database_seedData__WEBPACK_IMPORTED_MODULE_2__.seedSuppliers.length} suppliers`);
         });
     }
     findAll() {
@@ -64446,7 +65743,7 @@ class SupplierService {
             if (this.codeIndex.has(data.code)) {
                 throw new Error(`供应商编码已存在: ${data.code}`);
             }
-            const supplier = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_2__["default"])(), createdAt: new Date(), updatedAt: new Date() });
+            const supplier = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(), createdAt: new Date(), updatedAt: new Date() });
             // 验证数据
             const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.SupplierSchema, supplier);
             if (!validation.success) {
@@ -66452,6 +67749,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   CustomerStatus: () => (/* binding */ CustomerStatus),
 /* harmony export */   CustomerType: () => (/* binding */ CustomerType),
 /* harmony export */   DeliveryStatus: () => (/* binding */ DeliveryStatus),
+/* harmony export */   NotificationPriority: () => (/* binding */ NotificationPriority),
+/* harmony export */   NotificationStatus: () => (/* binding */ NotificationStatus),
+/* harmony export */   NotificationType: () => (/* binding */ NotificationType),
 /* harmony export */   OrderItemStatus: () => (/* binding */ OrderItemStatus),
 /* harmony export */   PayableStatus: () => (/* binding */ PayableStatus),
 /* harmony export */   PaymentMethod: () => (/* binding */ PaymentMethod),
@@ -66607,6 +67907,30 @@ var PermissionAction;
     PermissionAction["EXPORT"] = "export";
     PermissionAction["IMPORT"] = "import"; // 导入
 })(PermissionAction || (PermissionAction = {}));
+// =============== 通知系统实体 ===============
+// 通知类型枚举
+var NotificationType;
+(function (NotificationType) {
+    NotificationType["INFO"] = "info";
+    NotificationType["WARNING"] = "warning";
+    NotificationType["ERROR"] = "error";
+    NotificationType["SUCCESS"] = "success";
+})(NotificationType || (NotificationType = {}));
+// 通知优先级枚举
+var NotificationPriority;
+(function (NotificationPriority) {
+    NotificationPriority["LOW"] = "low";
+    NotificationPriority["MEDIUM"] = "medium";
+    NotificationPriority["HIGH"] = "high";
+    NotificationPriority["CRITICAL"] = "critical";
+})(NotificationPriority || (NotificationPriority = {}));
+// 通知状态枚举
+var NotificationStatus;
+(function (NotificationStatus) {
+    NotificationStatus["UNREAD"] = "unread";
+    NotificationStatus["READ"] = "read";
+    NotificationStatus["DELETED"] = "deleted";
+})(NotificationStatus || (NotificationStatus = {}));
 
 
 /***/ }),

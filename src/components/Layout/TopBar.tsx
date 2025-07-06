@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 import { InventoryService } from '../../services/inventory/inventoryService';
 import { InventoryItem } from '../../types/inventory';
+import { notificationHelper } from '../../utils/notificationHelper';
+import { SimpleNotification, NotificationType } from '../../types/simpleNotification';
 
 interface TopBarProps {
   currentPage: string;
@@ -63,6 +65,11 @@ export const TopBar: React.FC<TopBarProps> = ({
   const [searchResults, setSearchResults] = useState<InventoryItem[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
+  // 通知相关状态
+  const [notifications, setNotifications] = useState<SimpleNotification[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [isLoadingNotifications, setIsLoadingNotifications] = useState(false);
+
   const notificationRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const searchResultsRef = useRef<HTMLDivElement>(null);
@@ -90,16 +97,57 @@ export const TopBar: React.FC<TopBarProps> = ({
     }
   }, [showNotifications, showUserMenu, showSearchResults]);
 
-  const currentPageInfo = pageTitles[currentPage] || { 
-    title: '未知页面', 
-    breadcrumb: ['未知页面'] 
+  const currentPageInfo = pageTitles[currentPage] || {
+    title: '未知页面',
+    breadcrumb: ['未知页面']
   };
 
-  const notifications = [
-    { id: 1, type: 'warning', message: '有3个商品库存不足', time: '5分钟前' },
-    { id: 2, type: 'info', message: '采购订单PO20240104已确认', time: '10分钟前' },
-    { id: 3, type: 'success', message: '销售订单SO20240104已完成', time: '1小时前' }
-  ];
+  // 加载通知数据
+  const loadNotifications = () => {
+    setIsLoadingNotifications(true);
+    try {
+      const recentNotifications = notificationHelper.getRecentNotifications();
+      const unreadCount = notificationHelper.getUnreadCount();
+
+      setNotifications(recentNotifications);
+      setUnreadCount(unreadCount);
+    } catch (error) {
+      console.error('加载通知失败:', error);
+      setNotifications([]);
+      setUnreadCount(0);
+    } finally {
+      setIsLoadingNotifications(false);
+    }
+  };
+
+  // 组件挂载时加载通知
+  useEffect(() => {
+    loadNotifications();
+  }, []);
+
+
+
+  // 标记通知为已读
+  const handleNotificationClick = (notificationId: string) => {
+    try {
+      notificationHelper.markAsRead(notificationId);
+      // 重新加载通知数据
+      loadNotifications();
+    } catch (error) {
+      console.error('标记通知已读失败:', error);
+    }
+  };
+
+  // 标记所有通知为已读
+  const handleMarkAllAsRead = () => {
+    try {
+      notificationHelper.markAllAsRead();
+      loadNotifications();
+      setShowNotifications(false);
+    } catch (error) {
+      console.error('标记所有通知已读失败:', error);
+    }
+  };
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,11 +202,12 @@ export const TopBar: React.FC<TopBarProps> = ({
     window.dispatchEvent(new HashChangeEvent('hashchange'));
   };
 
-  const getNotificationTypeStyles = (type: string) => {
+  const getNotificationTypeStyles = (type: NotificationType) => {
     switch (type) {
       case 'warning': return 'border-l-4 border-l-yellow-400 bg-yellow-500/10';
       case 'info': return 'border-l-4 border-l-blue-400 bg-blue-500/10';
       case 'success': return 'border-l-4 border-l-green-400 bg-green-500/10';
+      case 'error': return 'border-l-4 border-l-red-400 bg-red-500/10';
       default: return 'border-l-4 border-l-gray-400 bg-gray-500/10';
     }
   };
@@ -174,7 +223,8 @@ export const TopBar: React.FC<TopBarProps> = ({
         {/* 左侧区域 */}
         <div className="flex items-center gap-4">
           {/* 移动端菜单按钮 */}
-          <button 
+          <button
+            type="button"
             className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
             onClick={onToggleSidebar}
           >
@@ -292,19 +342,22 @@ export const TopBar: React.FC<TopBarProps> = ({
         <div className="flex items-center gap-3">
           {/* 快捷操作 */}
           <div className="hidden lg:flex items-center gap-2">
-            <button 
+            <button
+              type="button"
               className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20"
               title="新增商品"
             >
               ➕
             </button>
-            <button 
+            <button
+              type="button"
               className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20"
               title="刷新数据"
             >
               🔄
             </button>
-            <button 
+            <button
+              type="button"
               className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20"
               title="导出数据"
             >
@@ -320,9 +373,11 @@ export const TopBar: React.FC<TopBarProps> = ({
               onClick={() => setShowNotifications(!showNotifications)}
             >
               🔔
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-                3
-              </span>
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </span>
+              )}
             </button>
 
             {showNotifications && (
@@ -339,20 +394,54 @@ export const TopBar: React.FC<TopBarProps> = ({
                     </button>
                   </div>
                   <div className="max-h-80 overflow-y-auto">
-                    {notifications.map(notification => (
-                      <div key={notification.id} className={`p-4 hover:bg-white/5 transition-colors ${getNotificationTypeStyles(notification.type)}`}>
-                        <div>
-                          <p className="text-white text-sm font-medium mb-1">{notification.message}</p>
-                          <span className="text-white/60 text-xs">{notification.time}</span>
-                        </div>
+                    {isLoadingNotifications ? (
+                      <div className="p-4 text-center text-white/60">
+                        <div className="animate-spin w-6 h-6 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2"></div>
+                        加载中...
                       </div>
-                    ))}
+                    ) : notifications.length === 0 ? (
+                      <div className="p-4 text-center text-white/60">
+                        暂无通知消息
+                      </div>
+                    ) : (
+                      notifications.map(notification => (
+                        <div
+                          key={notification.id}
+                          className={`p-4 hover:bg-white/5 transition-colors cursor-pointer ${getNotificationTypeStyles(notification.type)}`}
+                          onClick={() => handleNotificationClick(notification.id)}
+                        >
+                          <div>
+                            <p className="text-white text-sm font-medium mb-1">{notification.title}</p>
+                            <p className="text-white/80 text-xs mb-2">{notification.message}</p>
+                            <div className="flex justify-between items-center">
+                              <span className="text-white/60 text-xs">
+                                {new Date(notification.createdAt).toLocaleString('zh-CN', {
+                                  month: 'numeric',
+                                  day: 'numeric',
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                })}
+                              </span>
+                              {!notification.isRead && (
+                                <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
-                  <div className="p-3 border-t border-white/10">
-                    <button type="button" className="w-full text-center text-white/80 hover:text-white text-sm font-medium py-2 rounded-lg hover:bg-white/10 transition-colors">
-                      查看全部
-                    </button>
-                  </div>
+                  {notifications.length > 0 && (
+                    <div className="p-3 border-t border-white/10">
+                      <button
+                        type="button"
+                        className="w-full text-center text-white/80 hover:text-white text-sm font-medium py-2 rounded-lg hover:bg-white/10 transition-colors"
+                        onClick={handleMarkAllAsRead}
+                      >
+                        标记全部已读
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="popup-overlay" onClick={() => setShowNotifications(false)}></div>
               </>

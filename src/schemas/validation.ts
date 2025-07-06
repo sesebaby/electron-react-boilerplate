@@ -17,7 +17,10 @@ import {
   ReceivableStatus,
   PaymentMethod,
   UserRole,
-  UserStatus
+  UserStatus,
+  NotificationType,
+  NotificationPriority,
+  NotificationStatus
 } from '../types/entities';
 
 // 通用验证规则
@@ -478,10 +481,43 @@ export const validateExcelRow = (data: any): {
 };
 
 // 库存项目验证函数
-export const validateInventoryItem = (data: any): { 
-  success: boolean; 
-  data?: InventoryItemInput; 
-  errors?: string[] 
+export const validateInventoryItem = (data: any): {
+  success: boolean;
+  data?: InventoryItemInput;
+  errors?: string[]
 } => {
   return validateEntity(InventoryItemSchema, data);
 };
+
+// =============== 通知系统验证 ===============
+
+// 通知验证 Schema
+export const NotificationSchema = z.object({
+  id: idSchema.optional(),
+  type: z.nativeEnum(NotificationType, { errorMap: () => ({ message: '请选择有效的通知类型' }) }),
+  title: z.string().min(1, '通知标题不能为空').max(100, '通知标题长度不能超过100字符'),
+  message: z.string().min(1, '通知消息不能为空').max(500, '通知消息长度不能超过500字符'),
+  priority: z.nativeEnum(NotificationPriority, { errorMap: () => ({ message: '请选择有效的优先级' }) }),
+  status: z.nativeEnum(NotificationStatus, { errorMap: () => ({ message: '请选择有效的状态' }) }),
+  targetUsers: z.array(z.string()).min(1, '目标用户不能为空'),
+  relatedEntity: z.object({
+    type: z.string().min(1, '关联实体类型不能为空'),
+    id: z.string().min(1, '关联实体ID不能为空')
+  }).optional(),
+  readAt: dateSchema.optional(),
+  expiresAt: dateSchema.optional(),
+  createdAt: dateSchema.optional(),
+  updatedAt: dateSchema.optional()
+});
+
+// 通知配置验证 Schema
+export const NotificationConfigSchema = z.object({
+  id: idSchema.optional(),
+  userId: idSchema,
+  enabledTypes: z.array(z.nativeEnum(NotificationType)).min(1, '至少需要启用一种通知类型'),
+  enabledPriorities: z.array(z.nativeEnum(NotificationPriority)).min(1, '至少需要启用一种优先级'),
+  enableSound: z.boolean(),
+  enableDesktop: z.boolean(),
+  createdAt: dateSchema.optional(),
+  updatedAt: dateSchema.optional()
+});

@@ -510,3 +510,53 @@ export interface PermissionConfig {
     [key in PermissionModule]?: PermissionAction[];
   };
 }
+
+// =============== 通知系统实体 ===============
+
+// 通知类型枚举
+export enum NotificationType {
+  INFO = 'info',
+  WARNING = 'warning',
+  ERROR = 'error',
+  SUCCESS = 'success'
+}
+
+// 通知优先级枚举
+export enum NotificationPriority {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+  CRITICAL = 'critical'
+}
+
+// 通知状态枚举
+export enum NotificationStatus {
+  UNREAD = 'unread',
+  READ = 'read',
+  DELETED = 'deleted'
+}
+
+// 通知实体
+export interface Notification extends BaseEntity {
+  type: NotificationType;           // 通知类型
+  title: string;                    // 通知标题
+  message: string;                  // 通知消息
+  priority: NotificationPriority;   // 优先级
+  status: NotificationStatus;       // 状态
+  targetUsers: string[];            // 目标用户ID数组
+  relatedEntity?: {                 // 关联实体
+    type: string;                   // 实体类型
+    id: string;                     // 实体ID
+  };
+  readAt?: Date;                    // 已读时间
+  expiresAt?: Date;                 // 过期时间
+}
+
+// 通知配置实体
+export interface NotificationConfig extends BaseEntity {
+  userId: string;                   // 用户ID
+  enabledTypes: NotificationType[]; // 启用的通知类型
+  enabledPriorities: NotificationPriority[]; // 启用的优先级
+  enableSound: boolean;             // 是否启用声音
+  enableDesktop: boolean;           // 是否启用桌面通知
+}

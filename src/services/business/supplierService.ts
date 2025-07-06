@@ -1,6 +1,7 @@
 import { Supplier, SupplierStatus, SupplierRating } from '../../types/entities';
 import { SupplierSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
+import { seedSuppliers } from '../../database/seedData';
 
 export class SupplierService {
   private suppliers: Map<string, Supplier> = new Map();
@@ -8,7 +9,12 @@ export class SupplierService {
 
   async initialize(): Promise<void> {
     console.log('Supplier service initialized');
-    // 系统启动时不创建任何默认供应商数据
+    // 初始化供应商数据
+    for (const supplier of seedSuppliers) {
+      this.suppliers.set(supplier.id, supplier);
+      this.codeIndex.set(supplier.code, supplier.id);
+    }
+    console.log(`Initialized ${seedSuppliers.length} suppliers`);
   }
 
   async findAll(): Promise<Supplier[]> {

@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import supplierService from './supplierService';
 import productService from './productService';
 import accountsPayableService from './accountsPayableService';
+import { notificationHelper } from '../../utils/notificationHelper';
 
 export class PurchaseOrderService {
   private orders: Map<string, PurchaseOrder> = new Map();
@@ -164,7 +165,25 @@ export class PurchaseOrderService {
   }
 
   async updateStatus(id: string, status: PurchaseOrderStatus): Promise<PurchaseOrder> {
-    return this.update(id, { status });
+    const order = this.orders.get(id);
+    if (!order) {
+      throw new Error(`采购订单不存在: ${id}`);
+    }
+
+    const updatedOrder = await this.update(id, { status });
+
+    // 触发采购订单状态变更通知
+    try {
+      notificationHelper.showOrderStatusChange(
+        order.orderNo,
+        status,
+        'purchase'
+      );
+    } catch (error) {
+      console.error('创建采购订单状态变更通知失败:', error);
+    }
+
+    return updatedOrder;
   }
 
   // =============== 订单项目管理 ===============

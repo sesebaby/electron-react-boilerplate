@@ -3,6 +3,7 @@ import { InventoryStockSchema, InventoryTransactionSchema, validateEntity } from
 import { v4 as uuidv4 } from 'uuid';
 import productService from './productService';
 import warehouseService from './warehouseService';
+import { notificationHelper } from '../../utils/notificationHelper';
 import { ConcurrencyManager } from '../../utils/concurrency';
 import { ValidationError, BusinessError } from '../../utils/errors';
 import { logger } from '../../utils/secureLogger';
@@ -52,6 +53,17 @@ export class InventoryStockService {
       const product = await productService.findById(stock.productId);
       if (product && stock.currentStock <= product.minStock) {
         lowStocks.push(stock);
+
+        // 触发库存不足通知
+        try {
+          notificationHelper.showStockWarning(
+            product.name,
+            stock.currentStock,
+            product.minStock
+          );
+        } catch (error) {
+          console.error('创建库存不足通知失败:', error);
+        }
       }
     }
 
@@ -232,8 +244,19 @@ export class InventoryStockService {
           availableStock: currentStock.availableStock,
           operator: params.operator
         });
-        
-        throw new BusinessError('库存不足，无法出库', { 
+
+        // 触发库存不足错误通知
+        try {
+          const product = await productService.findById(params.productId);
+          notificationHelper.showError(
+            '库存出库失败',
+            `库存不足，无法出库：${product?.name || params.productId}，需要${params.quantity}，可用${currentStock.availableStock}`
+          );
+        } catch (notificationError) {
+          console.error('创建库存不足错误通知失败:', notificationError);
+        }
+
+        throw new BusinessError('库存不足，无法出库', {
           requestedQuantity: params.quantity,
           availableStock: currentStock.availableStock,
           productId: params.productId,

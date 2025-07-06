@@ -3,6 +3,7 @@ import { ProductSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
 import { InventoryService } from '../inventory/inventoryService';
 import userService from './userService';
+import { notificationHelper } from '../../utils/notificationHelper';
 import { logger } from '../../utils/secureLogger';
 import { ConcurrencyManager } from '../../utils/concurrency';
 import { ValidationError, BusinessError } from '../../utils/errors';
@@ -105,11 +106,22 @@ export class ProductService {
       this.products.set(product.id, product);
       this.skuIndex.set(product.sku, product.id);
 
-      logger.info('Product created successfully', { 
-        productId: product.id, 
+      logger.info('Product created successfully', {
+        productId: product.id,
         sku: product.sku,
-        userId: currentUserId 
+        userId: currentUserId
       });
+
+      // 触发商品创建成功通知
+      try {
+        notificationHelper.showOperationResult(
+          '商品创建',
+          true,
+          `成功创建商品：${product.name} (${product.sku})`
+        );
+      } catch (error) {
+        console.error('创建商品成功通知失败:', error);
+      }
 
       return product;
     });

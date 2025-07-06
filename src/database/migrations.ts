@@ -641,7 +641,8 @@ export const migrations: Migration[] = [
       DROP TRIGGER IF EXISTS update_sales_orders_timestamp;
       DROP TRIGGER IF EXISTS update_inventory_on_transaction;
     `
-  }
+  },
+
 ];
 
 // 迁移管理类
