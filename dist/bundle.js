@@ -2129,9 +2129,6 @@ video {
 .top-8 {
   top: 2rem;
 }
-.z-10 {
-  z-index: 10;
-}
 .z-30 {
   z-index: 30;
 }
@@ -2217,9 +2214,6 @@ video {
 .mr-2 {
   margin-right: 0.5rem;
 }
-.mr-4 {
-  margin-right: 1rem;
-}
 .mt-1 {
   margin-top: 0.25rem;
 }
@@ -2234,9 +2228,6 @@ video {
 }
 .mt-6 {
   margin-top: 1.5rem;
-}
-.mt-8 {
-  margin-top: 2rem;
 }
 .block {
   display: block;
@@ -2360,12 +2351,6 @@ video {
 }
 .min-h-screen {
   min-height: 100vh;
-}
-.w-1\\/2 {
-  width: 50%;
-}
-.w-1\\/4 {
-  width: 25%;
 }
 .w-10 {
   width: 2.5rem;
@@ -2499,14 +2484,8 @@ video {
 .max-w-6xl {
   max-width: 72rem;
 }
-.max-w-full {
-  max-width: 100%;
-}
 .max-w-md {
   max-width: 28rem;
-}
-.max-w-none {
-  max-width: none;
 }
 .max-w-sm {
   max-width: 24rem;
@@ -2599,12 +2578,6 @@ video {
 .resize-none {
   resize: none;
 }
-.list-inside {
-  list-style-position: inside;
-}
-.list-disc {
-  list-style-type: disc;
-}
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
@@ -2655,9 +2628,6 @@ video {
 }
 .gap-6 {
   gap: 1.5rem;
-}
-.gap-8 {
-  gap: 2rem;
 }
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
@@ -2805,15 +2775,8 @@ video {
 .border-blue-400\\/30 {
   border-color: rgb(96 165 250 / 0.3);
 }
-.border-blue-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(59 130 246 / var(--tw-border-opacity));
-}
 .border-blue-500\\/20 {
   border-color: rgb(59 130 246 / 0.2);
-}
-.border-blue-500\\/30 {
-  border-color: rgb(59 130 246 / 0.3);
 }
 .border-blue-600 {
   --tw-border-opacity: 1;
@@ -2850,9 +2813,6 @@ video {
 }
 .border-green-400\\/30 {
   border-color: rgb(74 222 128 / 0.3);
-}
-.border-green-500\\/30 {
-  border-color: rgb(34 197 94 / 0.3);
 }
 .border-orange-200 {
   --tw-border-opacity: 1;
@@ -3008,10 +2968,6 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
-.bg-gray-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
-}
 .bg-gray-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
@@ -3040,9 +2996,6 @@ video {
 .bg-green-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(240 253 244 / var(--tw-bg-opacity));
-}
-.bg-green-50\\/50 {
-  background-color: rgb(240 253 244 / 0.5);
 }
 .bg-green-500 {
   --tw-bg-opacity: 1;
@@ -3143,9 +3096,6 @@ video {
 .bg-white\\/50 {
   background-color: rgb(255 255 255 / 0.5);
 }
-.bg-white\\/70 {
-  background-color: rgb(255 255 255 / 0.7);
-}
 .bg-white\\/90 {
   background-color: rgb(255 255 255 / 0.9);
 }
@@ -3156,9 +3106,6 @@ video {
 .bg-yellow-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 252 232 / var(--tw-bg-opacity));
-}
-.bg-yellow-50\\/50 {
-  background-color: rgb(254 252 232 / 0.5);
 }
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
@@ -3189,11 +3136,6 @@ video {
 .from-blue-500 {
   --tw-gradient-from: #3b82f6 var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(59 130 246 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-.from-blue-600 {
-  --tw-gradient-from: #2563eb var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(37 99 235 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 .from-cyan-500 {
@@ -3246,11 +3188,6 @@ video {
   --tw-gradient-to: rgb(168 85 247 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
-.from-red-400 {
-  --tw-gradient-from: #f87171 var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(248 113 113 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
 .from-red-500 {
   --tw-gradient-from: #ef4444 var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(239 68 68 / 0) var(--tw-gradient-to-position);
@@ -3270,9 +3207,6 @@ video {
   --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #fff var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
-.to-blue-500 {
-  --tw-gradient-to: #3b82f6 var(--tw-gradient-to-position);
-}
 .to-blue-600 {
   --tw-gradient-to: #2563eb var(--tw-gradient-to-position);
 }
@@ -3281,9 +3215,6 @@ video {
 }
 .to-cyan-600 {
   --tw-gradient-to: #0891b2 var(--tw-gradient-to-position);
-}
-.to-emerald-500 {
-  --tw-gradient-to: #10b981 var(--tw-gradient-to-position);
 }
 .to-emerald-600 {
   --tw-gradient-to: #059669 var(--tw-gradient-to-position);
@@ -3303,9 +3234,6 @@ video {
 .to-orange-600 {
   --tw-gradient-to: #ea580c var(--tw-gradient-to-position);
 }
-.to-pink-500 {
-  --tw-gradient-to: #ec4899 var(--tw-gradient-to-position);
-}
 .to-pink-600 {
   --tw-gradient-to: #db2777 var(--tw-gradient-to-position);
 }
@@ -3323,10 +3251,6 @@ video {
 }
 .to-yellow-600 {
   --tw-gradient-to: #ca8a04 var(--tw-gradient-to-position);
-}
-.bg-clip-text {
-  -webkit-background-clip: text;
-          background-clip: text;
 }
 .p-0 {
   padding: 0px;
@@ -3426,10 +3350,6 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-.py-6 {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
 }
 .py-8 {
   padding-top: 2rem;
@@ -3689,9 +3609,6 @@ video {
   --tw-text-opacity: 1;
   color: rgb(153 27 27 / var(--tw-text-opacity));
 }
-.text-transparent {
-  color: transparent;
-}
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -3915,13 +3832,6 @@ video {
     ring: 2px;
     ring-color: rgba(255, 255, 255, 0.3);
     ring-offset: 2px;
-  }
-.text-gradient {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
   }
 .\\[animation-delay\\:0ms\\] {
   animation-delay: 0ms;
@@ -4313,28 +4223,8 @@ video {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
-.hover\\:from-purple-600:hover {
-  --tw-gradient-from: #9333ea var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(147 51 234 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.hover\\:from-red-600:hover {
-  --tw-gradient-from: #dc2626 var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(220 38 38 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
 .hover\\:to-blue-700:hover {
   --tw-gradient-to: #1d4ed8 var(--tw-gradient-to-position);
-}
-
-.hover\\:to-indigo-700:hover {
-  --tw-gradient-to: #4338ca var(--tw-gradient-to-position);
-}
-
-.hover\\:to-pink-700:hover {
-  --tw-gradient-to: #be185d var(--tw-gradient-to-position);
 }
 
 .hover\\:to-purple-700:hover {
@@ -4349,11 +4239,6 @@ video {
 .hover\\:text-gray-600:hover {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
-}
-
-.hover\\:text-gray-800:hover {
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity));
 }
 
 .hover\\:text-green-800:hover {
@@ -4404,12 +4289,6 @@ video {
 
 .hover\\:opacity-80:hover {
   opacity: 0.8;
-}
-
-.hover\\:shadow-lg:hover {
-  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .focus\\:border-red-400\\/50:focus {
@@ -4671,14 +4550,6 @@ video {
 
 @media (min-width: 1024px) {
 
-  .lg\\:col-span-1 {
-    grid-column: span 1 / span 1;
-  }
-
-  .lg\\:col-span-2 {
-    grid-column: span 2 / span 2;
-  }
-
   .lg\\:flex {
     display: flex;
   }
@@ -4757,7 +4628,7 @@ video {
 
 .\\[\\&_tr\\]\\:border-b tr {
   border-bottom-width: 1px;
-}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"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AAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAn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B;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,+BAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB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AAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAn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","sourcesContent":["@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n/* 导入主题样式 */\n@import './styles/themes.css';\n\n@layer base {\n  :root {\n    --background: 220 20% 14%;\n    --foreground: 220 8% 95%;\n    --card: 220 20% 10%;\n    --card-foreground: 220 8% 95%;\n    --popover: 220 20% 10%;\n    --popover-foreground: 220 8% 95%;\n    --primary: 220 8% 95%;\n    --primary-foreground: 220 20% 14%;\n    --secondary: 220 20% 14%;\n    --secondary-foreground: 220 8% 95%;\n    --muted: 220 20% 14%;\n    --muted-foreground: 220 8% 65%;\n    --accent: 220 20% 14%;\n    --accent-foreground: 220 8% 95%;\n    --destructive: 0 84% 60%;\n    --destructive-foreground: 0 0% 98%;\n    --border: 220 13% 18%;\n    --input: 220 13% 18%;\n    --ring: 220 8% 95%;\n    --radius: 0.5rem;\n    \n    /* Theme System Variables */\n    --spacing-xs: 0.25rem;\n    --spacing-sm: 0.5rem;\n    --spacing-md: 1rem;\n    --spacing-lg: 1.5rem;\n    --spacing-xl: 2rem;\n    \n    --border-radius-sm: 0.375rem;\n    --border-radius-md: 0.5rem;\n    --border-radius-lg: 0.75rem;\n    \n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n    --glass-blur: blur(20px);\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\n  }\n  \n  /* Animation utilities */\n  @keyframes slide-in-right {\n    from {\n      transform: translateX(100%);\n      opacity: 0;\n    }\n    to {\n      transform: translateX(0);\n      opacity: 1;\n    }\n  }\n  \n  @keyframes fade-in {\n    from {\n      opacity: 0;\n    }\n    to {\n      opacity: 1;\n    }\n  }\n  \n  @keyframes bounce-in {\n    0% {\n      transform: scale(0.3);\n      opacity: 0;\n    }\n    50% {\n      transform: scale(1.05);\n    }\n    70% {\n      transform: scale(0.9);\n    }\n    100% {\n      transform: scale(1);\n      opacity: 1;\n    }\n  }\n  \n  .animate-slide-in-right {\n    animation: slide-in-right 0.3s ease-out;\n  }\n  \n  .animate-fade-in {\n    animation: fade-in 0.3s ease-out;\n  }\n  \n  .animate-bounce-in {\n    animation: bounce-in 0.5s ease-out;\n  }\n  \n  /* Glass Future Theme - 基于Indigo色块系列 */\n  [data-theme=\"glass-future\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\n    \n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\n    \n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\n    --text-secondary: oklch(92.369% 0.00263 230.33);\n    --text-accent: oklch(0.968 0.007 247.896);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n  }\n  \n  /* Dark Tech Theme - 基于Slate色块系列 */\n  [data-theme=\"dark-tech\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\n    \n    /* 弹出窗体背景 - Slate深色系列 */\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\n    \n    /* 文字颜色 - Slate浅色系，适合深色背景 */\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\n    --text-primary: oklch(0.968 0.007 247.896);\n    --text-secondary: oklch(0.929 0.013 255.508);\n    --text-accent: oklch(0.869 0.022 252.894);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\n  }\n  \n  /* Warm Business Theme - 基于Amber色块系列 */\n  [data-theme=\"warm-business\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\n    \n    /* 弹出窗体背景 - Amber浅色系列 */\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\n    \n    /* 文字颜色 - Amber深色系，适合浅色背景 */\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\n    --text-primary: oklch(0.414 0.112 45.904);\n    --text-secondary: oklch(0.473 0.137 46.201);\n    --text-accent: oklch(0.555 0.163 48.998);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\n  }\n}\n\n@layer base {\n  * {\n    border-color: hsl(var(--border));\n  }\n  body {\n    background-color: hsl(var(--background));\n    color: hsl(var(--foreground));\n    margin: 0;\n    padding: 0;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\n    min-height: 100vh;\n    overflow-x: hidden;\n  }\n}\n\n/* Custom glassmorphism styles matching current design */\n.app-bg {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  min-height: 100vh;\n  position: relative;\n}\n\n.app-bg::before {\n  content: '';\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: \n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\n  pointer-events: none;\n  z-index: 1;\n}\n\n@layer utilities {\n  .glass-card {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(12px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    border-radius: 16px;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  }\n  \n  /* Popup/Dropdown Styles */\n  .popup-dropdown {\n    position: absolute;\n    z-index: 1000;\n    border-radius: 16px;\n    backdrop-filter: blur(20px);\n    -webkit-backdrop-filter: blur(20px);\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\n    overflow: hidden;\n  }\n  \n  .popup-header {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n  }\n  \n  .popup-content {\n    background: transparent;\n  }\n  \n  .glass-card-hover {\n    transition: all 0.3s ease;\n  }\n  \n  .glass-card-hover:hover {\n    background: rgba(255, 255, 255, 0.15);\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\n    transform: translateY(-2px);\n  }\n  \n  .glass-input {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(8px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: white;\n  }\n  \n  .glass-input::placeholder {\n    color: rgba(255, 255, 255, 0.5);\n  }\n  \n  .glass-input:focus {\n    outline: none;\n    ring: 2px;\n    ring-color: rgba(255, 255, 255, 0.3);\n    ring-offset: 2px;\n  }\n  \n  .text-gradient {\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    background-clip: text;\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\n  }\n  \n  .animate-fade-in-up {\n    animation: fadeInUp 0.6s ease-out;\n  }\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n/* ===== App加载动画样式 ===== */\n.app-loading,\n.app-error {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 9999;\n}\n\n.loading-container,\n.error-container {\n  background: rgba(255, 255, 255, 0.1);\n  backdrop-filter: blur(20px);\n  border-radius: 24px;\n  padding: 48px;\n  text-align: center;\n  max-width: 420px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\n}\n\n/* 加载动画 */\n.loading-animation {\n  position: relative;\n  margin-bottom: 32px;\n}\n\n.loading-spinner {\n  width: 60px;\n  height: 60px;\n  border: 4px solid rgba(255, 255, 255, 0.3);\n  border-top: 4px solid white;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n  margin: 0 auto 20px;\n}\n\n.loading-dots {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n}\n\n.loading-dots span {\n  width: 8px;\n  height: 8px;\n  background: white;\n  border-radius: 50%;\n  animation: bounce 1.4s ease-in-out infinite both;\n}\n\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\n\n.loading-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 8px;\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\n}\n\n.loading-text {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1.1rem;\n  margin-bottom: 24px;\n}\n\n.loading-progress {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n  margin-bottom: 24px;\n}\n\n.progress-bar {\n  height: 100%;\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\n  border-radius: 2px;\n  animation: progress 2s ease-in-out infinite;\n}\n\n.loading-tips {\n  text-align: left;\n  background: rgba(255, 255, 255, 0.1);\n  border-radius: 12px;\n  padding: 16px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.loading-tips p {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 0.9rem;\n  margin-bottom: 6px;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.loading-tips p:last-child {\n  margin-bottom: 0;\n}\n\n/* 错误状态样式 */\n.error-icon {\n  font-size: 4rem;\n  margin-bottom: 20px;\n}\n\n.error-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 12px;\n}\n\n.error-message {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1rem;\n  margin-bottom: 24px;\n  background: rgba(255, 77, 79, 0.2);\n  padding: 12px 16px;\n  border-radius: 8px;\n  border: 1px solid rgba(255, 77, 79, 0.3);\n}\n\n.error-retry {\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\n  color: white;\n  border: none;\n  padding: 12px 24px;\n  border-radius: 8px;\n  font-size: 1rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\n}\n\n.error-retry:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\n}\n\n/* 主App容器 */\n.app {\n  width: 100%;\n  height: 100vh;\n  overflow: hidden;\n}\n\n/* 新增动画定义 */\n@keyframes spin {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes bounce {\n  0%, 80%, 100% {\n    transform: scale(0);\n  }\n  40% {\n    transform: scale(1);\n  }\n}\n\n@keyframes progress {\n  0% {\n    width: 0%;\n    opacity: 1;\n  }\n  50% {\n    width: 70%;\n    opacity: 1;\n  }\n  100% {\n    width: 100%;\n    opacity: 0;\n  }\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"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BAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAn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AA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AA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EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;A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","sourcesContent":["@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n/* 导入主题样式 */\n@import './styles/themes.css';\n\n@layer base {\n  :root {\n    --background: 220 20% 14%;\n    --foreground: 220 8% 95%;\n    --card: 220 20% 10%;\n    --card-foreground: 220 8% 95%;\n    --popover: 220 20% 10%;\n    --popover-foreground: 220 8% 95%;\n    --primary: 220 8% 95%;\n    --primary-foreground: 220 20% 14%;\n    --secondary: 220 20% 14%;\n    --secondary-foreground: 220 8% 95%;\n    --muted: 220 20% 14%;\n    --muted-foreground: 220 8% 65%;\n    --accent: 220 20% 14%;\n    --accent-foreground: 220 8% 95%;\n    --destructive: 0 84% 60%;\n    --destructive-foreground: 0 0% 98%;\n    --border: 220 13% 18%;\n    --input: 220 13% 18%;\n    --ring: 220 8% 95%;\n    --radius: 0.5rem;\n    \n    /* Theme System Variables */\n    --spacing-xs: 0.25rem;\n    --spacing-sm: 0.5rem;\n    --spacing-md: 1rem;\n    --spacing-lg: 1.5rem;\n    --spacing-xl: 2rem;\n    \n    --border-radius-sm: 0.375rem;\n    --border-radius-md: 0.5rem;\n    --border-radius-lg: 0.75rem;\n    \n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n    --glass-blur: blur(20px);\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\n  }\n  \n  /* Animation utilities */\n  @keyframes slide-in-right {\n    from {\n      transform: translateX(100%);\n      opacity: 0;\n    }\n    to {\n      transform: translateX(0);\n      opacity: 1;\n    }\n  }\n  \n  @keyframes fade-in {\n    from {\n      opacity: 0;\n    }\n    to {\n      opacity: 1;\n    }\n  }\n  \n  @keyframes bounce-in {\n    0% {\n      transform: scale(0.3);\n      opacity: 0;\n    }\n    50% {\n      transform: scale(1.05);\n    }\n    70% {\n      transform: scale(0.9);\n    }\n    100% {\n      transform: scale(1);\n      opacity: 1;\n    }\n  }\n  \n  .animate-slide-in-right {\n    animation: slide-in-right 0.3s ease-out;\n  }\n  \n  .animate-fade-in {\n    animation: fade-in 0.3s ease-out;\n  }\n  \n  .animate-bounce-in {\n    animation: bounce-in 0.5s ease-out;\n  }\n  \n  /* Glass Future Theme - 基于Indigo色块系列 */\n  [data-theme=\"glass-future\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\n    \n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\n    \n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\n    --text-secondary: oklch(92.369% 0.00263 230.33);\n    --text-accent: oklch(0.968 0.007 247.896);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n  }\n  \n  /* Dark Tech Theme - 基于Slate色块系列 */\n  [data-theme=\"dark-tech\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\n    \n    /* 弹出窗体背景 - Slate深色系列 */\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\n    \n    /* 文字颜色 - Slate浅色系，适合深色背景 */\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\n    --text-primary: oklch(0.968 0.007 247.896);\n    --text-secondary: oklch(0.929 0.013 255.508);\n    --text-accent: oklch(0.869 0.022 252.894);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\n  }\n  \n  /* Warm Business Theme - 基于Amber色块系列 */\n  [data-theme=\"warm-business\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\n    \n    /* 弹出窗体背景 - Amber浅色系列 */\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\n    \n    /* 文字颜色 - Amber深色系，适合浅色背景 */\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\n    --text-primary: oklch(0.414 0.112 45.904);\n    --text-secondary: oklch(0.473 0.137 46.201);\n    --text-accent: oklch(0.555 0.163 48.998);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\n  }\n}\n\n@layer base {\n  * {\n    border-color: hsl(var(--border));\n  }\n  body {\n    background-color: hsl(var(--background));\n    color: hsl(var(--foreground));\n    margin: 0;\n    padding: 0;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\n    min-height: 100vh;\n    overflow-x: hidden;\n  }\n}\n\n/* Custom glassmorphism styles matching current design */\n.app-bg {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  min-height: 100vh;\n  position: relative;\n}\n\n.app-bg::before {\n  content: '';\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: \n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\n  pointer-events: none;\n  z-index: 1;\n}\n\n@layer utilities {\n  .glass-card {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(12px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    border-radius: 16px;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  }\n  \n  /* Popup/Dropdown Styles */\n  .popup-dropdown {\n    position: absolute;\n    z-index: 1000;\n    border-radius: 16px;\n    backdrop-filter: blur(20px);\n    -webkit-backdrop-filter: blur(20px);\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\n    overflow: hidden;\n  }\n  \n  .popup-header {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n  }\n  \n  .popup-content {\n    background: transparent;\n  }\n  \n  .glass-card-hover {\n    transition: all 0.3s ease;\n  }\n  \n  .glass-card-hover:hover {\n    background: rgba(255, 255, 255, 0.15);\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\n    transform: translateY(-2px);\n  }\n  \n  .glass-input {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(8px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: white;\n  }\n  \n  .glass-input::placeholder {\n    color: rgba(255, 255, 255, 0.5);\n  }\n  \n  .glass-input:focus {\n    outline: none;\n    ring: 2px;\n    ring-color: rgba(255, 255, 255, 0.3);\n    ring-offset: 2px;\n  }\n  \n  .text-gradient {\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    background-clip: text;\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\n  }\n  \n  .animate-fade-in-up {\n    animation: fadeInUp 0.6s ease-out;\n  }\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n/* ===== App加载动画样式 ===== */\n.app-loading,\n.app-error {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 9999;\n}\n\n.loading-container,\n.error-container {\n  background: rgba(255, 255, 255, 0.1);\n  backdrop-filter: blur(20px);\n  border-radius: 24px;\n  padding: 48px;\n  text-align: center;\n  max-width: 420px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\n}\n\n/* 加载动画 */\n.loading-animation {\n  position: relative;\n  margin-bottom: 32px;\n}\n\n.loading-spinner {\n  width: 60px;\n  height: 60px;\n  border: 4px solid rgba(255, 255, 255, 0.3);\n  border-top: 4px solid white;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n  margin: 0 auto 20px;\n}\n\n.loading-dots {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n}\n\n.loading-dots span {\n  width: 8px;\n  height: 8px;\n  background: white;\n  border-radius: 50%;\n  animation: bounce 1.4s ease-in-out infinite both;\n}\n\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\n\n.loading-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 8px;\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\n}\n\n.loading-text {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1.1rem;\n  margin-bottom: 24px;\n}\n\n.loading-progress {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n  margin-bottom: 24px;\n}\n\n.progress-bar {\n  height: 100%;\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\n  border-radius: 2px;\n  animation: progress 2s ease-in-out infinite;\n}\n\n.loading-tips {\n  text-align: left;\n  background: rgba(255, 255, 255, 0.1);\n  border-radius: 12px;\n  padding: 16px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.loading-tips p {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 0.9rem;\n  margin-bottom: 6px;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.loading-tips p:last-child {\n  margin-bottom: 0;\n}\n\n/* 错误状态样式 */\n.error-icon {\n  font-size: 4rem;\n  margin-bottom: 20px;\n}\n\n.error-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 12px;\n}\n\n.error-message {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1rem;\n  margin-bottom: 24px;\n  background: rgba(255, 77, 79, 0.2);\n  padding: 12px 16px;\n  border-radius: 8px;\n  border: 1px solid rgba(255, 77, 79, 0.3);\n}\n\n.error-retry {\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\n  color: white;\n  border: none;\n  padding: 12px 24px;\n  border-radius: 8px;\n  font-size: 1rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\n}\n\n.error-retry:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\n}\n\n/* 主App容器 */\n.app {\n  width: 100%;\n  height: 100vh;\n  overflow: hidden;\n}\n\n/* 新增动画定义 */\n@keyframes spin {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes bounce {\n  0%, 80%, 100% {\n    transform: scale(0);\n  }\n  40% {\n    transform: scale(1);\n  }\n}\n\n@keyframes progress {\n  0% {\n    width: 0%;\n    opacity: 1;\n  }\n  50% {\n    width: 70%;\n    opacity: 1;\n  }\n  100% {\n    width: 100%;\n    opacity: 0;\n  }\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -49909,33 +49780,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 /* harmony import */ var _Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Dashboard/Dashboard */ "./src/components/Dashboard/Dashboard.tsx");
-/* harmony import */ var _debug_MinimalDashboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./debug/MinimalDashboard */ "./src/components/debug/MinimalDashboard.tsx");
-/* harmony import */ var _Inventory_InventoryOverview__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Inventory/InventoryOverview */ "./src/components/Inventory/InventoryOverview.tsx");
-/* harmony import */ var _Inventory_InventoryList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Inventory/InventoryList */ "./src/components/Inventory/InventoryList.tsx");
-/* harmony import */ var _Inventory_ProductManagement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Inventory/ProductManagement */ "./src/components/Inventory/ProductManagement.tsx");
-/* harmony import */ var _Inventory_CategoryManagement__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Inventory/CategoryManagement */ "./src/components/Inventory/CategoryManagement.tsx");
-/* harmony import */ var _Inventory_WarehouseManagement__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Inventory/WarehouseManagement */ "./src/components/Inventory/WarehouseManagement.tsx");
-/* harmony import */ var _Inventory_StockIn__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Inventory/StockIn */ "./src/components/Inventory/StockIn.tsx");
-/* harmony import */ var _Inventory_StockOut__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Inventory/StockOut */ "./src/components/Inventory/StockOut.tsx");
-/* harmony import */ var _Inventory_StockAdjust__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Inventory/StockAdjust */ "./src/components/Inventory/StockAdjust.tsx");
-/* harmony import */ var _Inventory_TransactionRecords__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Inventory/TransactionRecords */ "./src/components/Inventory/TransactionRecords.tsx");
-/* harmony import */ var _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Purchase/SupplierManagement */ "./src/components/Purchase/SupplierManagement.tsx");
-/* harmony import */ var _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Purchase/PurchaseOrderManagement */ "./src/components/Purchase/PurchaseOrderManagement.tsx");
-/* harmony import */ var _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Purchase/PurchaseReceiptManagement */ "./src/components/Purchase/PurchaseReceiptManagement.tsx");
-/* harmony import */ var _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Sales/CustomerManagement */ "./src/components/Sales/CustomerManagement.tsx");
-/* harmony import */ var _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Sales/SalesOrderManagement */ "./src/components/Sales/SalesOrderManagement.tsx");
-/* harmony import */ var _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Sales/SalesDeliveryManagement */ "./src/components/Sales/SalesDeliveryManagement.tsx");
-/* harmony import */ var _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Reports/InventoryReports */ "./src/components/Reports/InventoryReports.tsx");
-/* harmony import */ var _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Reports/SalesReports */ "./src/components/Reports/SalesReports.tsx");
-/* harmony import */ var _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Reports/PurchaseReports */ "./src/components/Reports/PurchaseReports.tsx");
-/* harmony import */ var _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Reports/FinancialReports */ "./src/components/Reports/FinancialReports.tsx");
-/* harmony import */ var _Financial_Financial__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Financial/Financial */ "./src/components/Financial/Financial.tsx");
-/* harmony import */ var _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Financial/AccountsPayableManagement */ "./src/components/Financial/AccountsPayableManagement.tsx");
-/* harmony import */ var _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Financial/AccountsReceivableManagement */ "./src/components/Financial/AccountsReceivableManagement.tsx");
-/* harmony import */ var _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Financial/PaymentRecordsManagement */ "./src/components/Financial/PaymentRecordsManagement.tsx");
-/* harmony import */ var _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./Financial/ReceiptRecordsManagement */ "./src/components/Financial/ReceiptRecordsManagement.tsx");
-/* harmony import */ var _SystemManagement_SystemManagement__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./SystemManagement/SystemManagement */ "./src/components/SystemManagement/SystemManagement.tsx");
-/* harmony import */ var _System_System__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./System/System */ "./src/components/System/System.tsx");
+/* harmony import */ var _Inventory_InventoryOverview__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Inventory/InventoryOverview */ "./src/components/Inventory/InventoryOverview.tsx");
+/* harmony import */ var _Inventory_InventoryList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Inventory/InventoryList */ "./src/components/Inventory/InventoryList.tsx");
+/* harmony import */ var _Inventory_ProductManagement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Inventory/ProductManagement */ "./src/components/Inventory/ProductManagement.tsx");
+/* harmony import */ var _Inventory_CategoryManagement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Inventory/CategoryManagement */ "./src/components/Inventory/CategoryManagement.tsx");
+/* harmony import */ var _Inventory_WarehouseManagement__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Inventory/WarehouseManagement */ "./src/components/Inventory/WarehouseManagement.tsx");
+/* harmony import */ var _Inventory_StockIn__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Inventory/StockIn */ "./src/components/Inventory/StockIn.tsx");
+/* harmony import */ var _Inventory_StockOut__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Inventory/StockOut */ "./src/components/Inventory/StockOut.tsx");
+/* harmony import */ var _Inventory_StockAdjust__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Inventory/StockAdjust */ "./src/components/Inventory/StockAdjust.tsx");
+/* harmony import */ var _Inventory_TransactionRecords__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Inventory/TransactionRecords */ "./src/components/Inventory/TransactionRecords.tsx");
+/* harmony import */ var _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Purchase/SupplierManagement */ "./src/components/Purchase/SupplierManagement.tsx");
+/* harmony import */ var _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Purchase/PurchaseOrderManagement */ "./src/components/Purchase/PurchaseOrderManagement.tsx");
+/* harmony import */ var _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Purchase/PurchaseReceiptManagement */ "./src/components/Purchase/PurchaseReceiptManagement.tsx");
+/* harmony import */ var _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Sales/CustomerManagement */ "./src/components/Sales/CustomerManagement.tsx");
+/* harmony import */ var _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Sales/SalesOrderManagement */ "./src/components/Sales/SalesOrderManagement.tsx");
+/* harmony import */ var _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Sales/SalesDeliveryManagement */ "./src/components/Sales/SalesDeliveryManagement.tsx");
+/* harmony import */ var _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Reports/InventoryReports */ "./src/components/Reports/InventoryReports.tsx");
+/* harmony import */ var _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Reports/SalesReports */ "./src/components/Reports/SalesReports.tsx");
+/* harmony import */ var _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Reports/PurchaseReports */ "./src/components/Reports/PurchaseReports.tsx");
+/* harmony import */ var _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Reports/FinancialReports */ "./src/components/Reports/FinancialReports.tsx");
+/* harmony import */ var _Financial_Financial__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Financial/Financial */ "./src/components/Financial/Financial.tsx");
+/* harmony import */ var _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Financial/AccountsPayableManagement */ "./src/components/Financial/AccountsPayableManagement.tsx");
+/* harmony import */ var _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Financial/AccountsReceivableManagement */ "./src/components/Financial/AccountsReceivableManagement.tsx");
+/* harmony import */ var _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Financial/PaymentRecordsManagement */ "./src/components/Financial/PaymentRecordsManagement.tsx");
+/* harmony import */ var _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Financial/ReceiptRecordsManagement */ "./src/components/Financial/ReceiptRecordsManagement.tsx");
+/* harmony import */ var _System_System__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./System/System */ "./src/components/System/System.tsx");
 
 
 
@@ -49962,34 +49831,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
+// import SystemManagement from './SystemManagement/SystemManagement';
 
 // 页面映射
 const pageComponents = {
     'dashboard': _Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_1__.Dashboard,
-    'dashboard-minimal': _debug_MinimalDashboard__WEBPACK_IMPORTED_MODULE_2__["default"],
-    'inventory-overview': _Inventory_InventoryOverview__WEBPACK_IMPORTED_MODULE_3__.InventoryOverview,
-    'inventory-products': _Inventory_InventoryList__WEBPACK_IMPORTED_MODULE_4__.InventoryList,
-    'products': _Inventory_ProductManagement__WEBPACK_IMPORTED_MODULE_5__.ProductManagement,
-    'categories': _Inventory_CategoryManagement__WEBPACK_IMPORTED_MODULE_6__.CategoryManagement,
-    'warehouses': _Inventory_WarehouseManagement__WEBPACK_IMPORTED_MODULE_7__.WarehouseManagement,
-    'stock-in': _Inventory_StockIn__WEBPACK_IMPORTED_MODULE_8__.StockIn,
-    'stock-out': _Inventory_StockOut__WEBPACK_IMPORTED_MODULE_9__.StockOut,
-    'stock-adjust': _Inventory_StockAdjust__WEBPACK_IMPORTED_MODULE_10__.StockAdjust,
-    'transaction-records': _Inventory_TransactionRecords__WEBPACK_IMPORTED_MODULE_11__.TransactionRecords,
-    'suppliers': _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_12__["default"],
-    'purchase-orders': _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_13__["default"],
-    'purchase-receipts': _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_14__["default"],
-    'customers': _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_15__["default"],
-    'sales-orders': _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_16__["default"],
-    'sales-delivery': _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_17__["default"],
-    'inventory-reports': _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_18__["default"],
-    'sales-reports': _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_19__["default"],
-    'purchase-reports': _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_20__["default"],
-    'financial-reports': _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_21__["default"],
-    'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_22__["default"],
-    'system-management': _SystemManagement_SystemManagement__WEBPACK_IMPORTED_MODULE_27__["default"]
+    'inventory-overview': _Inventory_InventoryOverview__WEBPACK_IMPORTED_MODULE_2__.InventoryOverview,
+    'inventory-products': _Inventory_InventoryList__WEBPACK_IMPORTED_MODULE_3__.InventoryList,
+    'products': _Inventory_ProductManagement__WEBPACK_IMPORTED_MODULE_4__.ProductManagement,
+    'categories': _Inventory_CategoryManagement__WEBPACK_IMPORTED_MODULE_5__.CategoryManagement,
+    'warehouses': _Inventory_WarehouseManagement__WEBPACK_IMPORTED_MODULE_6__.WarehouseManagement,
+    'stock-in': _Inventory_StockIn__WEBPACK_IMPORTED_MODULE_7__.StockIn,
+    'stock-out': _Inventory_StockOut__WEBPACK_IMPORTED_MODULE_8__.StockOut,
+    'stock-adjust': _Inventory_StockAdjust__WEBPACK_IMPORTED_MODULE_9__.StockAdjust,
+    'transaction-records': _Inventory_TransactionRecords__WEBPACK_IMPORTED_MODULE_10__.TransactionRecords,
+    'suppliers': _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_11__["default"],
+    'purchase-orders': _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_12__["default"],
+    'purchase-receipts': _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_13__["default"],
+    'customers': _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_14__["default"],
+    'sales-orders': _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_15__["default"],
+    'sales-delivery': _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_16__["default"],
+    'inventory-reports': _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_17__["default"],
+    'sales-reports': _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_18__["default"],
+    'purchase-reports': _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_19__["default"],
+    'financial-reports': _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_20__["default"],
+    'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_21__["default"],
+    // 'system-management': SystemManagement
 };
 // 开发中的页面组件
 const DevelopmentPage = ({ title, description }) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "development-page", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "development-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "development-icon", children: "\uD83D\uDEA7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "development-title", children: title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "development-description", children: description }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "development-info", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "info-item", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-label", children: "\u5F00\u53D1\u72B6\u6001:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-value", children: "\u89C4\u5212\u4E2D" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "info-item", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-label", children: "\u9884\u8BA1\u5B8C\u6210:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-value", children: "2024\u5E741\u6708" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "back-to-dashboard", onClick: () => window.location.hash = 'dashboard', children: "\u8FD4\u56DE\u4EEA\u8868\u677F" })] }) }));
@@ -50001,10 +49868,10 @@ const allPageComponents = Object.assign(Object.assign({}, pageComponents), {
     // 采购管理模块 - 已完成
     // 销售管理模块 - 已完成
     // 财务管理模块 - 已完成基础功能
-    'accounts-payable': _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_23__["default"], 'accounts-receivable': _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_24__["default"], 'payments': _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_25__["default"], 'receipts': _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_26__["default"], 'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_22__["default"], 
+    'accounts-payable': _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_22__["default"], 'accounts-receivable': _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_23__["default"], 'payments': _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_24__["default"], 'receipts': _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_25__["default"], 'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_21__["default"], 
     // 报表分析模块 - 部分完成
     // 系统管理模块 - 用户管理已完成，其他开发中
-    'users': _System_System__WEBPACK_IMPORTED_MODULE_28__["default"], 'permissions': _System_System__WEBPACK_IMPORTED_MODULE_28__["default"], 'settings': _System_System__WEBPACK_IMPORTED_MODULE_28__["default"], 'logs': _System_System__WEBPACK_IMPORTED_MODULE_28__["default"] });
+    'users': _System_System__WEBPACK_IMPORTED_MODULE_26__["default"], 'permissions': _System_System__WEBPACK_IMPORTED_MODULE_26__["default"], 'settings': _System_System__WEBPACK_IMPORTED_MODULE_26__["default"], 'logs': _System_System__WEBPACK_IMPORTED_MODULE_26__["default"] });
 const PageContainer = ({ currentPage }) => {
     const PageComponent = allPageComponents[currentPage];
     if (!PageComponent) {
@@ -52955,208 +52822,6 @@ const UserManagement = ({ className }) => {
 
 /***/ }),
 
-/***/ "./src/components/SystemManagement/SystemManagement.tsx":
-/*!**************************************************************!*\
-  !*** ./src/components/SystemManagement/SystemManagement.tsx ***!
-  \**************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   SystemManagement: () => (/* binding */ SystemManagement),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _utils_systemTest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/systemTest */ "./src/utils/systemTest.ts");
-/* harmony import */ var _utils_systemOptimization__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/systemOptimization */ "./src/utils/systemOptimization.ts");
-/* harmony import */ var _utils_systemHealth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/systemHealth */ "./src/utils/systemHealth.ts");
-/* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-
-
-
-
-const SystemManagement = ({ className }) => {
-    const [activeTab, setActiveTab] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('overview');
-    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
-    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-    // 报告状态
-    const [testReport, setTestReport] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-    const [optimizationReport, setOptimizationReport] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-    const [healthReport, setHealthReport] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-    // 自动监控状态
-    const [isMonitoring, setIsMonitoring] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
-    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-        // 初始加载概览数据
-        if (activeTab === 'overview') {
-            loadOverviewData();
-        }
-    }, [activeTab]);
-    const loadOverviewData = () => __awaiter(void 0, void 0, void 0, function* () {
-        setLoading(true);
-        setError(null);
-        try {
-            // 快速健康检查
-            const health = yield _utils_systemHealth__WEBPACK_IMPORTED_MODULE_4__.systemHealthMonitor.performHealthCheck();
-            setHealthReport(health);
-        }
-        catch (err) {
-            setError('加载系统概览失败');
-            console.error(err);
-        }
-        finally {
-            setLoading(false);
-        }
-    });
-    const runSystemTests = () => __awaiter(void 0, void 0, void 0, function* () {
-        setLoading(true);
-        setError(null);
-        try {
-            console.log('🚀 开始运行系统集成测试...');
-            const report = yield _utils_systemTest__WEBPACK_IMPORTED_MODULE_2__.systemTester.runAllTests();
-            setTestReport(report);
-        }
-        catch (err) {
-            setError('系统测试失败');
-            console.error(err);
-        }
-        finally {
-            setLoading(false);
-        }
-    });
-    const runOptimization = () => __awaiter(void 0, void 0, void 0, function* () {
-        setLoading(true);
-        setError(null);
-        try {
-            console.log('🔧 开始系统优化分析...');
-            const report = yield _utils_systemOptimization__WEBPACK_IMPORTED_MODULE_3__.systemOptimizer.analyzeAndOptimize();
-            setOptimizationReport(report);
-        }
-        catch (err) {
-            setError('系统优化失败');
-            console.error(err);
-        }
-        finally {
-            setLoading(false);
-        }
-    });
-    const runHealthCheck = () => __awaiter(void 0, void 0, void 0, function* () {
-        setLoading(true);
-        setError(null);
-        try {
-            console.log('🏥 开始系统健康检查...');
-            const report = yield _utils_systemHealth__WEBPACK_IMPORTED_MODULE_4__.systemHealthMonitor.performHealthCheck();
-            setHealthReport(report);
-        }
-        catch (err) {
-            setError('健康检查失败');
-            console.error(err);
-        }
-        finally {
-            setLoading(false);
-        }
-    });
-    const toggleContinuousMonitoring = () => {
-        if (isMonitoring) {
-            setIsMonitoring(false);
-            console.log('🔴 停止持续监控');
-        }
-        else {
-            setIsMonitoring(true);
-            _utils_systemHealth__WEBPACK_IMPORTED_MODULE_4__.systemHealthMonitor.startContinuousMonitoring(5); // 5分钟间隔
-            console.log('🟢 开始持续监控');
-        }
-    };
-    const getOverallSystemStatus = () => {
-        if (!healthReport)
-            return { status: 'unknown', message: '等待检查', color: 'text-gray-600' };
-        const { overallStatus, healthScore } = healthReport;
-        if (overallStatus === 'healthy') {
-            return {
-                status: 'healthy',
-                message: `系统运行良好 (${healthScore}/100)`,
-                color: 'text-green-600'
-            };
-        }
-        else if (overallStatus === 'warning') {
-            return {
-                status: 'warning',
-                message: `系统存在警告 (${healthScore}/100)`,
-                color: 'text-yellow-600'
-            };
-        }
-        else {
-            return {
-                status: 'critical',
-                message: `系统存在严重问题 (${healthScore}/100)`,
-                color: 'text-red-600'
-            };
-        }
-    };
-    const formatDuration = (ms) => {
-        if (ms < 1000)
-            return `${ms}ms`;
-        const seconds = Math.floor(ms / 1000);
-        if (seconds < 60)
-            return `${seconds}s`;
-        const minutes = Math.floor(seconds / 60);
-        return `${minutes}m ${seconds % 60}s`;
-    };
-    const systemStatus = getOverallSystemStatus();
-    const tabs = [
-        { id: 'overview', label: '系统概览', icon: '📊', description: '整体状态概览' },
-        { id: 'testing', label: '集成测试', icon: '🧪', description: '系统功能测试' },
-        { id: 'optimization', label: '系统优化', icon: '🔧', description: '性能优化分析' },
-        { id: 'monitoring', label: '健康监控', icon: '🏥', description: '实时健康监控' }
-    ];
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6 space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent", children: "\u7CFB\u7EDF\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-600 mt-1", children: "\u7CFB\u7EDF\u6D4B\u8BD5\u3001\u4F18\u5316\u5206\u6790\u548C\u5065\u5EB7\u76D1\u63A7" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center space-x-3", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `flex items-center space-x-2 px-3 py-2 bg-white/70 rounded-xl border border-white/20 ${systemStatus.color}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `w-2 h-2 rounded-full ${systemStatus.status === 'healthy' ? 'bg-green-500' :
-                                            systemStatus.status === 'warning' ? 'bg-yellow-500' :
-                                                systemStatus.status === 'critical' ? 'bg-red-500' : 'bg-gray-400'}` }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm font-medium", children: systemStatus.message })] }) })] }), error && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "border-red-200 bg-red-50/50", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center space-x-2 text-red-600", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u274C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: error })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => setError(null), className: "text-red-400 hover:text-red-600 transition-colors", children: "\u2715" })] }) })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "p-2", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex flex-wrap gap-2", children: tabs.map(tab => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { className: `
-                  flex-1 min-w-0 px-4 py-3 rounded-xl transition-all duration-300 flex flex-col items-center text-center
-                  ${activeTab === tab.id
-                                ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-105'
-                                : 'text-gray-600 hover:bg-white/50 hover:text-gray-800'}
-                `, onClick: () => setActiveTab(tab.id), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xl mb-1", children: tab.icon }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium text-sm", children: tab.label }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `text-xs mt-1 ${activeTab === tab.id ? 'text-white/80' : 'text-gray-500'}`, children: tab.description })] }, tab.id))) }) }), loading && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "p-8 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-600", children: "\u6B63\u5728\u6267\u884C\u7CFB\u7EDF\u64CD\u4F5C\uFF0C\u8BF7\u7A0D\u5019..." })] }) })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [activeTab === 'overview' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 lg:grid-cols-3 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h3", { className: "text-lg font-semibold text-gray-800 flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2 text-xl", children: "\uD83E\uDDEA" }), "\u7CFB\u7EDF\u6D4B\u8BD5"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassButton, { onClick: runSystemTests, className: "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700", children: "\u8FD0\u884C\u6D4B\u8BD5" })] }), testReport ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u6D4B\u8BD5\u603B\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold", children: testReport.totalTests })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u901A\u8FC7\u6D4B\u8BD5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold text-green-600", children: testReport.passedTests })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u5931\u8D25\u6D4B\u8BD5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold text-red-600", children: testReport.failedTests })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u8017\u65F6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold", children: formatDuration(testReport.totalDuration) })] })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-500 text-center py-4", children: "\u6682\u65E0\u6D4B\u8BD5\u6570\u636E\uFF0C\u70B9\u51FB\"\u8FD0\u884C\u6D4B\u8BD5\"\u5F00\u59CB" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h3", { className: "text-lg font-semibold text-gray-800 flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2 text-xl", children: "\uD83D\uDD27" }), "\u7CFB\u7EDF\u4F18\u5316"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassButton, { onClick: runOptimization, className: "bg-gradient-to-r from-green-500 to-blue-600 text-white hover:from-green-600 hover:to-blue-700", children: "\u5206\u6790\u4F18\u5316" })] }), optimizationReport ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u6027\u80FD\u5F97\u5206" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: `font-semibold ${optimizationReport.performanceScore >= 80 ? 'text-green-600' : 'text-yellow-600'}`, children: [optimizationReport.performanceScore, "/100"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u4F18\u5316\u9879" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold", children: optimizationReport.totalOptimizations })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u5DF2\u5B9E\u65BD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold text-green-600", children: optimizationReport.implementedOptimizations })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u5F85\u5B9E\u65BD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold", children: optimizationReport.totalOptimizations - optimizationReport.implementedOptimizations })] })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-500 text-center py-4", children: "\u6682\u65E0\u4F18\u5316\u6570\u636E\uFF0C\u70B9\u51FB\"\u5206\u6790\u4F18\u5316\"\u5F00\u59CB" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h3", { className: "text-lg font-semibold text-gray-800 flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2 text-xl", children: "\uD83C\uDFE5" }), "\u5065\u5EB7\u76D1\u63A7"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassButton, { onClick: runHealthCheck, className: "bg-gray-100 text-gray-700 hover:bg-gray-200", children: "\u7ACB\u5373\u68C0\u67E5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassButton, { onClick: toggleContinuousMonitoring, className: `${isMonitoring
-                                                                ? 'bg-gradient-to-r from-red-500 to-pink-600 text-white hover:from-red-600 hover:to-pink-700'
-                                                                : 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700'}`, children: isMonitoring ? '停止监控' : '开始监控' })] })] }), healthReport ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u5065\u5EB7\u5F97\u5206" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: `font-semibold ${healthReport.healthScore >= 80 ? 'text-green-600' :
-                                                                healthReport.healthScore >= 60 ? 'text-yellow-600' : 'text-red-600'}`, children: [healthReport.healthScore, "/100"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u6B63\u5E38\u7EC4\u4EF6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold text-green-600", children: healthReport.summary.healthy })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u8B66\u544A\u7EC4\u4EF6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold text-yellow-600", children: healthReport.summary.warnings })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-gray-600", children: "\u4E25\u91CD\u95EE\u9898" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold text-red-600", children: healthReport.summary.critical })] })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-500 text-center py-4", children: "\u6682\u65E0\u5065\u5EB7\u6570\u636E\uFF0C\u70B9\u51FB\"\u7ACB\u5373\u68C0\u67E5\"\u5F00\u59CB" }))] })] })), activeTab === 'testing' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-gray-800", children: "\u7CFB\u7EDF\u96C6\u6210\u6D4B\u8BD5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassButton, { onClick: runSystemTests, className: "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83E\uDDEA" }), "\u8FD0\u884C\u5B8C\u6574\u6D4B\u8BD5"] })] }), testReport && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "text-center p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-3", children: "\u2705" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-green-600", children: testReport.passedTests }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u901A\u8FC7\u6D4B\u8BD5" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "text-center p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-3", children: "\u274C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-red-600", children: testReport.failedTests }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u5931\u8D25\u6D4B\u8BD5" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "text-center p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-3", children: "\u23F1\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-blue-600", children: formatDuration(testReport.totalDuration) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u603B\u8017\u65F6" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 border-b border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-semibold text-gray-800", children: "\u6D4B\u8BD5\u8BE6\u60C5" }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-6 space-y-4", children: testReport.results.map((result, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `p-4 rounded-xl border ${result.success
-                                                            ? 'bg-green-50/50 border-green-200 text-green-800'
-                                                            : 'bg-red-50/50 border-red-200 text-red-800'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center space-x-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-lg", children: result.success ? '✅' : '❌' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium", children: result.testName })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: formatDuration(result.duration) })] }), result.error && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-sm mt-2 p-3 bg-white/50 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("strong", { children: "\u9519\u8BEF: " }), result.error] })), result.details && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs mt-2 p-3 bg-white/50 rounded-lg font-mono", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("pre", { className: "overflow-x-auto", children: JSON.stringify(result.details, null, 2) }) }))] }, index))) })] })] }))] })), activeTab === 'optimization' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-gray-800", children: "\u7CFB\u7EDF\u4F18\u5316\u5206\u6790" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassButton, { onClick: runOptimization, className: "bg-gradient-to-r from-green-500 to-blue-600 text-white hover:from-green-600 hover:to-blue-700", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD27" }), "\u91CD\u65B0\u5206\u6790"] })] }), optimizationReport && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-4 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "text-center p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-3", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `text-2xl font-bold ${optimizationReport.performanceScore >= 80 ? 'text-green-600' : 'text-yellow-600'}`, children: optimizationReport.performanceScore }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u6027\u80FD\u5F97\u5206" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "text-center p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-3", children: "\uD83D\uDD27" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-blue-600", children: optimizationReport.totalOptimizations }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u603B\u4F18\u5316\u9879" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "text-center p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-3", children: "\u2705" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-green-600", children: optimizationReport.implementedOptimizations }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u5DF2\u5B9E\u65BD" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "text-center p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-3", children: "\uD83D\uDCCB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-orange-600", children: optimizationReport.totalOptimizations - optimizationReport.implementedOptimizations }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u5F85\u5B9E\u65BD" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-6", children: Object.entries(optimizationReport.recommendations.reduce((acc, opt) => {
-                                                if (!acc[opt.category])
-                                                    acc[opt.category] = [];
-                                                acc[opt.category].push(opt);
-                                                return acc;
-                                            }, {})).map(([category, optimizations]) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 border-b border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-semibold text-gray-800", children: category }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-6 space-y-4", children: optimizations.map((opt, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `p-4 rounded-xl border ${opt.implemented
-                                                                ? 'bg-green-50/50 border-green-200'
-                                                                : 'bg-yellow-50/50 border-yellow-200'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center space-x-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-lg", children: opt.implemented ? '✅' : '📋' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium text-gray-900", children: opt.optimization })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: `px-2 py-1 rounded-full text-xs font-medium ${opt.impact === 'high' ? 'bg-red-100 text-red-600' :
-                                                                                opt.impact === 'medium' ? 'bg-yellow-100 text-yellow-600' :
-                                                                                    'bg-green-100 text-green-600'}`, children: [opt.impact === 'high' ? '🔴' : opt.impact === 'medium' ? '🟡' : '🟢', " ", opt.impact] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600 bg-white/50 p-3 rounded-lg", children: opt.details })] }, index))) })] }, category))) })] }))] })), activeTab === 'monitoring' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-gray-800", children: "\u7CFB\u7EDF\u5065\u5EB7\u76D1\u63A7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassButton, { onClick: runHealthCheck, className: "bg-gray-100 text-gray-700 hover:bg-gray-200", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD04" }), "\u7ACB\u5373\u68C0\u67E5"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassButton, { onClick: toggleContinuousMonitoring, className: `${isMonitoring
-                                                        ? 'bg-gradient-to-r from-red-500 to-pink-600 text-white hover:from-red-600 hover:to-pink-700'
-                                                        : 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: isMonitoring ? '⏹️' : '▶️' }), isMonitoring ? '停止监控' : '开始监控'] })] })] }), healthReport && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-4 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "text-center p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-3", children: "\uD83D\uDC9A" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `text-2xl font-bold ${healthReport.healthScore >= 80 ? 'text-green-600' :
-                                                                healthReport.healthScore >= 60 ? 'text-yellow-600' : 'text-red-600'}`, children: healthReport.healthScore }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u5065\u5EB7\u5F97\u5206" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "text-center p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-3", children: "\u2705" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-green-600", children: healthReport.summary.healthy }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u6B63\u5E38\u7EC4\u4EF6" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "text-center p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-3", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-yellow-600", children: healthReport.summary.warnings }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u8B66\u544A\u7EC4\u4EF6" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "text-center p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-3", children: "\u274C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-red-600", children: healthReport.summary.critical }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u4E25\u91CD\u95EE\u9898" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 border-b border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-semibold text-gray-800", children: "\u7EC4\u4EF6\u5065\u5EB7\u72B6\u6001" }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-6 space-y-4", children: healthReport.checks.map((check, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `p-4 rounded-xl border ${check.status === 'healthy' ? 'bg-green-50/50 border-green-200' :
-                                                            check.status === 'warning' ? 'bg-yellow-50/50 border-yellow-200' :
-                                                                'bg-red-50/50 border-red-200'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center space-x-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-lg", children: check.status === 'healthy' ? '✅' : check.status === 'warning' ? '⚠️' : '❌' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium text-gray-900", children: check.component })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `px-2 py-1 rounded-full text-xs font-medium ${check.status === 'healthy' ? 'bg-green-100 text-green-600' :
-                                                                            check.status === 'warning' ? 'bg-yellow-100 text-yellow-600' :
-                                                                                'bg-red-100 text-red-600'}`, children: check.status })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600 mb-3", children: check.message }), check.metrics && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs bg-white/50 p-3 rounded-lg font-mono mb-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("strong", { className: "text-gray-700", children: "\u6307\u6807:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("pre", { className: "mt-1 overflow-x-auto", children: JSON.stringify(check.metrics, null, 2) })] })), check.recommendations && check.recommendations.length > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-sm bg-white/50 p-3 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("strong", { className: "text-gray-700", children: "\u5EFA\u8BAE:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("ul", { className: "mt-1 list-disc list-inside space-y-1", children: check.recommendations.map((rec, i) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { className: "text-gray-600", children: rec }, i))) })] }))] }, index))) })] })] }))] }))] })] }) }));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SystemManagement);
-
-
-/***/ }),
-
 /***/ "./src/components/ThemeSwitcher/ThemeSwitcher.tsx":
 /*!********************************************************!*\
   !*** ./src/components/ThemeSwitcher/ThemeSwitcher.tsx ***!
@@ -53206,66 +52871,6 @@ const ThemeSwitcher = ({ className }) => {
                                 : 'text-white/80 hover:text-white'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-4 h-4 rounded-full border border-white/30", style: { background: theme.preview } }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "flex-1", children: theme.displayName }), currentTheme === theme.name && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs opacity-70", children: "\u2713" }))] }, theme.name))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mt-3 pt-2 border-t border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs text-white/50 px-3 py-1", children: "\u4E3B\u9898\u8BBE\u7F6E\u5DF2\u81EA\u52A8\u4FDD\u5B58" }) })] }))] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ThemeSwitcher);
-
-
-/***/ }),
-
-/***/ "./src/components/debug/MinimalDashboard.tsx":
-/*!***************************************************!*\
-  !*** ./src/components/debug/MinimalDashboard.tsx ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _services_dashboard_minimalDashboardService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/dashboard/minimalDashboardService */ "./src/services/dashboard/minimalDashboardService.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-
-const MinimalDashboard = () => {
-    const [overview, setOverview] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
-    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-        loadData();
-    }, []);
-    const loadData = () => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            setLoading(true);
-            yield _services_dashboard_minimalDashboardService__WEBPACK_IMPORTED_MODULE_2__["default"].initialize();
-            const data = yield _services_dashboard_minimalDashboardService__WEBPACK_IMPORTED_MODULE_2__["default"].getOverview();
-            setOverview(data);
-        }
-        catch (error) {
-            console.error('Failed to load dashboard data:', error);
-        }
-        finally {
-            setLoading(false);
-        }
-    });
-    if (loading) {
-        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "app-bg", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "min-h-screen flex items-center justify-center", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card p-8 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white", children: "\u52A0\u8F7DDashboard\u6570\u636E\u4E2D..." })] }) }) }));
-    }
-    if (!overview) {
-        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "app-bg", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "min-h-screen flex items-center justify-center", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card p-8 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white", children: "\u65E0\u6CD5\u52A0\u8F7DDashboard\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: loadData, className: "mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600", children: "\u91CD\u8BD5" })] }) }) }));
-    }
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "app-bg", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "min-h-screen p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("header", { className: "text-center py-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-4xl font-bold text-gradient mb-2", children: "\uD83D\uDCE6 \u8FDB\u9500\u5B58\u7BA1\u7406\u7CFB\u7EDF" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80", children: "Dashboard - \u6700\u5C0F\u53EF\u5DE5\u4F5C\u7248\u672C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "max-w-6xl mx-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card p-6 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-2", children: "\uD83D\uDCE6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-white font-semibold mb-1", children: "\u5546\u54C1\u603B\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-2xl font-bold text-blue-300", children: overview.totalProducts })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card p-6 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-2", children: "\uD83C\uDFE2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-white font-semibold mb-1", children: "\u4F9B\u5E94\u5546" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-2xl font-bold text-green-300", children: overview.totalSuppliers })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card p-6 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-2", children: "\uD83D\uDC65" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-white font-semibold mb-1", children: "\u5BA2\u6237" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-2xl font-bold text-purple-300", children: overview.totalCustomers })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card p-6 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl mb-2", children: "\uD83C\uDFED" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-white font-semibold mb-1", children: "\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-2xl font-bold text-yellow-300", children: overview.totalWarehouses })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card p-6 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-bold text-white mb-4", children: "\u7CFB\u7EDF\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-center space-x-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-3 h-3 bg-green-400 rounded-full animate-pulse" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-green-300 font-semibold", children: "\u7CFB\u7EDF\u8FD0\u884C\u6B63\u5E38" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "text-white/60 mt-2 text-sm", children: ["\u6700\u540E\u66F4\u65B0: ", new Date().toLocaleString('zh-CN')] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mt-8 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: loadData, className: "px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105 mr-4", children: "\u5237\u65B0\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => console.log('点击了完整版本按钮'), className: "px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105", children: "\u5207\u6362\u5230\u5B8C\u6574\u7248\u672C" })] })] })] }) }));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MinimalDashboard);
 
 
 /***/ }),
@@ -61263,60 +60868,6 @@ class DashboardService {
 
 /***/ }),
 
-/***/ "./src/services/dashboard/minimalDashboardService.ts":
-/*!***********************************************************!*\
-  !*** ./src/services/dashboard/minimalDashboardService.ts ***!
-  \***********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   MinimalDashboardService: () => (/* binding */ MinimalDashboardService),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-// 最小Dashboard服务 - 用于渐进式开发测试
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-class MinimalDashboardService {
-    initialize() {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('Minimal dashboard service initialized');
-        });
-    }
-    getOverview() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // 返回模拟数据
-            return {
-                totalProducts: 150,
-                totalSuppliers: 25,
-                totalCustomers: 80,
-                totalWarehouses: 3,
-                systemStatus: 'healthy'
-            };
-        });
-    }
-    getSystemHealth() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return {
-                status: 'healthy',
-                message: '系统运行正常'
-            };
-        });
-    }
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new MinimalDashboardService());
-
-
-/***/ }),
-
 /***/ "./src/services/database/memoryDatabase.ts":
 /*!*************************************************!*\
   !*** ./src/services/database/memoryDatabase.ts ***!
@@ -63036,1092 +62587,6 @@ const logger = {
     clearAuditTrail: () => secureLogger.clearAuditTrail()
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (secureLogger);
-
-
-/***/ }),
-
-/***/ "./src/utils/systemHealth.ts":
-/*!***********************************!*\
-  !*** ./src/utils/systemHealth.ts ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   SystemHealthMonitor: () => (/* binding */ SystemHealthMonitor),
-/* harmony export */   systemHealthMonitor: () => (/* binding */ systemHealthMonitor)
-/* harmony export */ });
-/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/business */ "./src/services/business/index.ts");
-/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-// 系统健康检查工具
-
-class SystemHealthMonitor {
-    constructor() {
-        this.startTime = Date.now();
-    }
-    performHealthCheck() {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('🏥 开始系统健康检查...');
-            const checks = [];
-            // 执行各项健康检查
-            checks.push(yield this.checkBusinessServices());
-            checks.push(yield this.checkDataIntegrity());
-            checks.push(yield this.checkPerformance());
-            checks.push(yield this.checkMemoryUsage());
-            checks.push(yield this.checkUIResponsiveness());
-            checks.push(yield this.checkErrorHandling());
-            // 计算汇总信息
-            const summary = {
-                healthy: checks.filter(c => c.status === 'healthy').length,
-                warnings: checks.filter(c => c.status === 'warning').length,
-                critical: checks.filter(c => c.status === 'critical').length
-            };
-            // 确定整体状态
-            const overallStatus = summary.critical > 0 ? 'critical' :
-                summary.warnings > 0 ? 'warning' : 'healthy';
-            // 计算健康得分
-            const healthScore = this.calculateHealthScore(checks);
-            const report = {
-                timestamp: new Date(),
-                overallStatus,
-                healthScore,
-                uptime: Date.now() - this.startTime,
-                checks,
-                summary
-            };
-            this.printHealthReport(report);
-            return report;
-        });
-    }
-    checkBusinessServices() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                if (!_services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.isInitialized) {
-                    return {
-                        component: '业务服务',
-                        status: 'critical',
-                        message: '业务服务管理器未初始化',
-                        recommendations: ['重新初始化业务服务', '检查服务依赖']
-                    };
-                }
-                const status = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.getSystemStatus();
-                const errorServices = status.services.filter((s) => s.status === 'error');
-                if (errorServices.length > 0) {
-                    return {
-                        component: '业务服务',
-                        status: 'warning',
-                        message: `${errorServices.length}个服务存在错误`,
-                        metrics: {
-                            totalServices: status.services.length,
-                            activeServices: status.services.filter((s) => s.status === 'active').length,
-                            errorServices: errorServices.length
-                        },
-                        recommendations: ['检查服务错误日志', '重新初始化有问题的服务']
-                    };
-                }
-                return {
-                    component: '业务服务',
-                    status: 'healthy',
-                    message: '所有业务服务运行正常',
-                    metrics: {
-                        totalServices: status.services.length,
-                        activeServices: status.services.filter((s) => s.status === 'active').length
-                    }
-                };
-            }
-            catch (error) {
-                return {
-                    component: '业务服务',
-                    status: 'critical',
-                    message: `业务服务检查失败: ${error instanceof Error ? error.message : '未知错误'}`,
-                    recommendations: ['检查系统日志', '重启系统']
-                };
-            }
-        });
-    }
-    checkDataIntegrity() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const integrity = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.validateSystemIntegrity();
-                if (!integrity.valid) {
-                    return {
-                        component: '数据完整性',
-                        status: 'critical',
-                        message: `数据完整性检查失败: ${integrity.issues.length}个问题`,
-                        metrics: {
-                            issues: integrity.issues,
-                            warnings: integrity.warnings
-                        },
-                        recommendations: ['修复数据完整性问题', '重新同步数据']
-                    };
-                }
-                if (integrity.warnings.length > 0) {
-                    return {
-                        component: '数据完整性',
-                        status: 'warning',
-                        message: `数据完整性良好，但有${integrity.warnings.length}个警告`,
-                        metrics: {
-                            warnings: integrity.warnings
-                        },
-                        recommendations: ['关注数据警告', '定期检查数据一致性']
-                    };
-                }
-                return {
-                    component: '数据完整性',
-                    status: 'healthy',
-                    message: '数据完整性检查通过',
-                    metrics: {
-                        issueCount: 0,
-                        warningCount: integrity.warnings.length
-                    }
-                };
-            }
-            catch (error) {
-                return {
-                    component: '数据完整性',
-                    status: 'critical',
-                    message: `数据完整性检查异常: ${error instanceof Error ? error.message : '未知错误'}`,
-                    recommendations: ['检查数据服务', '重新初始化数据']
-                };
-            }
-        });
-    }
-    checkPerformance() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const startTime = Date.now();
-            try {
-                // 测试数据加载性能
-                yield _services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.getBusinessSummary();
-                const loadTime = Date.now() - startTime;
-                const performanceThresholds = {
-                    excellent: 500,
-                    good: 1000,
-                    acceptable: 2000
-                };
-                if (loadTime > performanceThresholds.acceptable) {
-                    return {
-                        component: '系统性能',
-                        status: 'critical',
-                        message: `系统响应过慢: ${loadTime}ms`,
-                        metrics: { loadTime, threshold: performanceThresholds.acceptable },
-                        recommendations: ['检查系统资源使用', '优化数据查询', '清理缓存']
-                    };
-                }
-                if (loadTime > performanceThresholds.good) {
-                    return {
-                        component: '系统性能',
-                        status: 'warning',
-                        message: `系统响应较慢: ${loadTime}ms`,
-                        metrics: { loadTime, threshold: performanceThresholds.good },
-                        recommendations: ['监控性能趋势', '考虑性能优化']
-                    };
-                }
-                const grade = loadTime <= performanceThresholds.excellent ? 'A' : 'B';
-                return {
-                    component: '系统性能',
-                    status: 'healthy',
-                    message: `系统性能良好: ${loadTime}ms (等级: ${grade})`,
-                    metrics: { loadTime, grade }
-                };
-            }
-            catch (error) {
-                return {
-                    component: '系统性能',
-                    status: 'critical',
-                    message: `性能测试失败: ${error instanceof Error ? error.message : '未知错误'}`,
-                    recommendations: ['检查系统服务', '重启应用']
-                };
-            }
-        });
-    }
-    checkMemoryUsage() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const memoryUsage = process.memoryUsage ? process.memoryUsage() : null;
-                if (!memoryUsage) {
-                    return {
-                        component: '内存使用',
-                        status: 'warning',
-                        message: '无法获取内存使用信息',
-                        recommendations: ['检查运行环境', '确认Node.js环境']
-                    };
-                }
-                const heapUsedMB = memoryUsage.heapUsed / 1024 / 1024;
-                const heapTotalMB = memoryUsage.heapTotal / 1024 / 1024;
-                const usagePercentage = (heapUsedMB / heapTotalMB) * 100;
-                const memoryThresholds = {
-                    critical: 90,
-                    warning: 75,
-                    healthy: 50
-                };
-                if (usagePercentage > memoryThresholds.critical) {
-                    return {
-                        component: '内存使用',
-                        status: 'critical',
-                        message: `内存使用率过高: ${usagePercentage.toFixed(1)}%`,
-                        metrics: {
-                            heapUsed: heapUsedMB.toFixed(1),
-                            heapTotal: heapTotalMB.toFixed(1),
-                            usagePercentage: usagePercentage.toFixed(1)
-                        },
-                        recommendations: ['释放未使用的资源', '重启应用', '检查内存泄漏']
-                    };
-                }
-                if (usagePercentage > memoryThresholds.warning) {
-                    return {
-                        component: '内存使用',
-                        status: 'warning',
-                        message: `内存使用率较高: ${usagePercentage.toFixed(1)}%`,
-                        metrics: {
-                            heapUsed: heapUsedMB.toFixed(1),
-                            heapTotal: heapTotalMB.toFixed(1),
-                            usagePercentage: usagePercentage.toFixed(1)
-                        },
-                        recommendations: ['监控内存使用趋势', '优化数据缓存']
-                    };
-                }
-                return {
-                    component: '内存使用',
-                    status: 'healthy',
-                    message: `内存使用正常: ${usagePercentage.toFixed(1)}%`,
-                    metrics: {
-                        heapUsed: heapUsedMB.toFixed(1),
-                        heapTotal: heapTotalMB.toFixed(1),
-                        usagePercentage: usagePercentage.toFixed(1)
-                    }
-                };
-            }
-            catch (error) {
-                return {
-                    component: '内存使用',
-                    status: 'warning',
-                    message: `内存检查异常: ${error instanceof Error ? error.message : '未知错误'}`,
-                    recommendations: ['检查系统环境']
-                };
-            }
-        });
-    }
-    checkUIResponsiveness() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // 模拟UI响应性检查
-            const uiResponsiveness = Math.random() * 100;
-            if (uiResponsiveness < 60) {
-                return {
-                    component: 'UI响应性',
-                    status: 'warning',
-                    message: '界面响应性需要改善',
-                    metrics: { responsiveness: uiResponsiveness.toFixed(1) },
-                    recommendations: ['优化组件渲染', '减少重复渲染', '使用虚拟滚动']
-                };
-            }
-            return {
-                component: 'UI响应性',
-                status: 'healthy',
-                message: '界面响应良好',
-                metrics: { responsiveness: uiResponsiveness.toFixed(1) }
-            };
-        });
-    }
-    checkErrorHandling() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // 检查错误处理机制
-            try {
-                // 模拟错误处理测试
-                const errorHandlingScore = 85; // 基于之前的测试结果
-                if (errorHandlingScore < 70) {
-                    return {
-                        component: '错误处理',
-                        status: 'warning',
-                        message: '错误处理机制需要改善',
-                        metrics: { score: errorHandlingScore },
-                        recommendations: ['增强错误捕获', '改善用户错误提示', '添加错误恢复机制']
-                    };
-                }
-                return {
-                    component: '错误处理',
-                    status: 'healthy',
-                    message: '错误处理机制运行良好',
-                    metrics: { score: errorHandlingScore }
-                };
-            }
-            catch (error) {
-                return {
-                    component: '错误处理',
-                    status: 'critical',
-                    message: '错误处理检查失败',
-                    recommendations: ['检查错误处理代码', '修复错误处理逻辑']
-                };
-            }
-        });
-    }
-    calculateHealthScore(checks) {
-        const weights = {
-            healthy: 100,
-            warning: 60,
-            critical: 0
-        };
-        const totalScore = checks.reduce((sum, check) => sum + weights[check.status], 0);
-        const maxScore = checks.length * weights.healthy;
-        return Math.round((totalScore / maxScore) * 100);
-    }
-    printHealthReport(report) {
-        console.log('\n🏥 系统健康检查报告');
-        console.log('='.repeat(60));
-        console.log(`检查时间: ${report.timestamp.toLocaleString()}`);
-        console.log(`运行时间: ${Math.floor(report.uptime / 1000)}秒`);
-        console.log(`健康得分: ${report.healthScore}/100`);
-        const statusEmoji = report.overallStatus === 'healthy' ? '💚' :
-            report.overallStatus === 'warning' ? '💛' : '❤️';
-        console.log(`整体状态: ${statusEmoji} ${report.overallStatus.toUpperCase()}`);
-        console.log('\n📊 检查汇总:');
-        console.log(`  • 健康组件: ${report.summary.healthy} ✅`);
-        console.log(`  • 警告组件: ${report.summary.warnings} ⚠️`);
-        console.log(`  • 严重问题: ${report.summary.critical} ❌`);
-        console.log('\n🔍 详细检查结果:');
-        report.checks.forEach(check => {
-            const statusIcon = check.status === 'healthy' ? '✅' :
-                check.status === 'warning' ? '⚠️' : '❌';
-            console.log(`\n${statusIcon} ${check.component}:`);
-            console.log(`   状态: ${check.message}`);
-            if (check.metrics) {
-                console.log(`   指标: ${JSON.stringify(check.metrics, null, 6).replace(/[{}]/g, '').trim()}`);
-            }
-            if (check.recommendations && check.recommendations.length > 0) {
-                console.log(`   建议:`);
-                check.recommendations.forEach(rec => console.log(`     • ${rec}`));
-            }
-        });
-        // 健康等级
-        const healthGrade = report.healthScore >= 95 ? 'A+' :
-            report.healthScore >= 85 ? 'A' :
-                report.healthScore >= 75 ? 'B' :
-                    report.healthScore >= 65 ? 'C' : 'D';
-        console.log(`\n🎯 系统健康等级: ${healthGrade}`);
-        if (report.overallStatus !== 'healthy') {
-            console.log('\n🚨 需要关注的问题:');
-            report.checks
-                .filter(c => c.status !== 'healthy')
-                .forEach(c => {
-                console.log(`  • ${c.component}: ${c.message}`);
-            });
-        }
-        console.log('='.repeat(60));
-    }
-    // 持续监控方法
-    startContinuousMonitoring(intervalMinutes = 5) {
-        console.log(`🔄 开始持续健康监控 (间隔: ${intervalMinutes}分钟)`);
-        setInterval(() => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const report = yield this.performHealthCheck();
-                // 只在状态改变或出现问题时输出
-                if (report.overallStatus !== 'healthy') {
-                    console.log(`⚠️ 检测到系统问题: ${report.overallStatus}`);
-                }
-            }
-            catch (error) {
-                console.error('❌ 健康检查失败:', error);
-            }
-        }), intervalMinutes * 60 * 1000);
-    }
-}
-// 导出健康监控工具
-const systemHealthMonitor = new SystemHealthMonitor();
-
-
-/***/ }),
-
-/***/ "./src/utils/systemOptimization.ts":
-/*!*****************************************!*\
-  !*** ./src/utils/systemOptimization.ts ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   SystemOptimizer: () => (/* binding */ SystemOptimizer),
-/* harmony export */   systemOptimizer: () => (/* binding */ systemOptimizer)
-/* harmony export */ });
-/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/business */ "./src/services/business/index.ts");
-/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-// 系统优化工具
-
-class SystemOptimizer {
-    constructor() {
-        this.optimizations = [];
-    }
-    analyzeAndOptimize() {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('🔧 开始系统优化分析...');
-            // 清空之前的优化记录
-            this.optimizations = [];
-            // 分析各个方面
-            yield this.analyzePerformance();
-            yield this.analyzeUserExperience();
-            yield this.analyzeCodeQuality();
-            yield this.analyzeDataManagement();
-            yield this.analyzeSecurity();
-            // 实施自动化优化
-            yield this.implementAutomaticOptimizations();
-            // 生成系统指标
-            const systemMetrics = yield this.generateSystemMetrics();
-            // 计算性能得分
-            const performanceScore = this.calculatePerformanceScore();
-            const report = {
-                timestamp: new Date(),
-                totalOptimizations: this.optimizations.length,
-                implementedOptimizations: this.optimizations.filter(o => o.implemented).length,
-                performanceScore,
-                recommendations: this.optimizations,
-                systemMetrics
-            };
-            this.printOptimizationReport(report);
-            return report;
-        });
-    }
-    analyzePerformance() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // 数据加载优化
-            this.addOptimization({
-                category: '性能优化',
-                optimization: '数据懒加载实现',
-                impact: 'high',
-                implemented: true,
-                details: '已实现按需加载，减少初始加载时间'
-            });
-            this.addOptimization({
-                category: '性能优化',
-                optimization: '内存中数据缓存',
-                impact: 'medium',
-                implemented: true,
-                details: '使用Map数据结构进行高效缓存'
-            });
-            this.addOptimization({
-                category: '性能优化',
-                optimization: '异步操作优化',
-                impact: 'high',
-                implemented: true,
-                details: '使用Promise.all并行处理数据加载'
-            });
-            this.addOptimization({
-                category: '性能优化',
-                optimization: '组件渲染优化',
-                impact: 'medium',
-                implemented: false,
-                details: '建议: 实现React.memo和useMemo优化重复渲染'
-            });
-        });
-    }
-    analyzeUserExperience() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.addOptimization({
-                category: '用户体验',
-                optimization: '统一UI设计系统',
-                impact: 'high',
-                implemented: true,
-                details: '实现玻璃态设计风格，统一视觉体验'
-            });
-            this.addOptimization({
-                category: '用户体验',
-                optimization: '响应式布局设计',
-                impact: 'high',
-                implemented: true,
-                details: '支持桌面和移动端自适应布局'
-            });
-            this.addOptimization({
-                category: '用户体验',
-                optimization: '加载状态指示',
-                impact: 'medium',
-                implemented: true,
-                details: '所有异步操作都有加载状态反馈'
-            });
-            this.addOptimization({
-                category: '用户体验',
-                optimization: '错误处理机制',
-                impact: 'high',
-                implemented: true,
-                details: '友好的错误提示和恢复机制'
-            });
-            this.addOptimization({
-                category: '用户体验',
-                optimization: '数据筛选和搜索',
-                impact: 'medium',
-                implemented: true,
-                details: '所有列表页面都支持搜索和筛选'
-            });
-            this.addOptimization({
-                category: '用户体验',
-                optimization: '快捷键支持',
-                impact: 'low',
-                implemented: false,
-                details: '建议: 添加常用操作的快捷键支持'
-            });
-        });
-    }
-    analyzeCodeQuality() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.addOptimization({
-                category: '代码质量',
-                optimization: 'TypeScript类型安全',
-                impact: 'high',
-                implemented: true,
-                details: '完整的TypeScript类型定义，零编译错误'
-            });
-            this.addOptimization({
-                category: '代码质量',
-                optimization: '模块化架构设计',
-                impact: 'high',
-                implemented: true,
-                details: '清晰的模块分离和依赖管理'
-            });
-            this.addOptimization({
-                category: '代码质量',
-                optimization: '服务层抽象',
-                impact: 'high',
-                implemented: true,
-                details: '业务逻辑与UI完全分离'
-            });
-            this.addOptimization({
-                category: '代码质量',
-                optimization: '数据验证机制',
-                impact: 'medium',
-                implemented: true,
-                details: '使用Zod进行运行时数据验证'
-            });
-            this.addOptimization({
-                category: '代码质量',
-                optimization: '单元测试覆盖',
-                impact: 'medium',
-                implemented: false,
-                details: '建议: 添加关键业务逻辑的单元测试'
-            });
-        });
-    }
-    analyzeDataManagement() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.addOptimization({
-                category: '数据管理',
-                optimization: '数据完整性检查',
-                impact: 'high',
-                implemented: true,
-                details: '自动检查数据关联完整性'
-            });
-            this.addOptimization({
-                category: '数据管理',
-                optimization: '事务处理机制',
-                impact: 'medium',
-                implemented: true,
-                details: '复合操作的原子性保证'
-            });
-            this.addOptimization({
-                category: '数据管理',
-                optimization: '数据备份恢复',
-                impact: 'medium',
-                implemented: false,
-                details: '建议: 实现数据导出/导入功能'
-            });
-            this.addOptimization({
-                category: '数据管理',
-                optimization: '审计日志记录',
-                impact: 'low',
-                implemented: false,
-                details: '建议: 记录关键操作的审计日志'
-            });
-        });
-    }
-    analyzeSecurity() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.addOptimization({
-                category: '安全性',
-                optimization: '输入数据验证',
-                impact: 'high',
-                implemented: true,
-                details: '所有用户输入都经过验证和清理'
-            });
-            this.addOptimization({
-                category: '安全性',
-                optimization: '错误信息保护',
-                impact: 'medium',
-                implemented: true,
-                details: '不暴露敏感的系统内部信息'
-            });
-            this.addOptimization({
-                category: '安全性',
-                optimization: '权限访问控制',
-                impact: 'medium',
-                implemented: false,
-                details: '建议: 实现基于角色的访问控制'
-            });
-        });
-    }
-    implementAutomaticOptimizations() {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('🤖 实施自动化优化...');
-            // 优化1: 清理未使用的数据缓存
-            this.cleanupUnusedCache();
-            // 优化2: 预加载关键数据
-            yield this.preloadCriticalData();
-            // 优化3: 优化数据查询
-            this.optimizeDataQueries();
-            console.log('✅ 自动化优化完成');
-        });
-    }
-    cleanupUnusedCache() {
-        // 模拟缓存清理
-        console.log('🧹 清理未使用的缓存数据');
-        this.addOptimization({
-            category: '自动优化',
-            optimization: '缓存清理',
-            impact: 'low',
-            implemented: true,
-            details: '清理未使用的内存缓存，释放内存空间'
-        });
-    }
-    preloadCriticalData() {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('🚀 预加载关键数据');
-            try {
-                // 预加载基础数据
-                const summary = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.getBusinessSummary();
-                this.addOptimization({
-                    category: '自动优化',
-                    optimization: '关键数据预加载',
-                    impact: 'medium',
-                    implemented: true,
-                    details: `预加载了${Object.keys(summary).length}类关键业务数据`
-                });
-            }
-            catch (error) {
-                this.addOptimization({
-                    category: '自动优化',
-                    optimization: '关键数据预加载',
-                    impact: 'medium',
-                    implemented: false,
-                    details: '预加载失败，需要检查数据服务'
-                });
-            }
-        });
-    }
-    optimizeDataQueries() {
-        console.log('⚡ 优化数据查询性能');
-        this.addOptimization({
-            category: '自动优化',
-            optimization: '查询性能优化',
-            impact: 'medium',
-            implemented: true,
-            details: '优化了数据查询算法，减少重复计算'
-        });
-    }
-    generateSystemMetrics() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const startTime = Date.now();
-            // 模拟系统指标收集
-            try {
-                const status = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.getSystemStatus();
-                const loadTime = Date.now() - startTime;
-                return {
-                    memoryUsage: process.memoryUsage ? process.memoryUsage().heapUsed / 1024 / 1024 : 0, // MB
-                    loadTime,
-                    renderTime: Math.random() * 100 + 50, // 模拟渲染时间
-                    dataConsistency: status.initialized
-                };
-            }
-            catch (error) {
-                return {
-                    memoryUsage: 0,
-                    loadTime: Date.now() - startTime,
-                    renderTime: 100,
-                    dataConsistency: false
-                };
-            }
-        });
-    }
-    calculatePerformanceScore() {
-        const implementedCount = this.optimizations.filter(o => o.implemented).length;
-        const totalCount = this.optimizations.length;
-        const implementationRate = implementedCount / totalCount;
-        // 加权计算性能得分
-        const highImpactCount = this.optimizations.filter(o => o.impact === 'high' && o.implemented).length;
-        const mediumImpactCount = this.optimizations.filter(o => o.impact === 'medium' && o.implemented).length;
-        const lowImpactCount = this.optimizations.filter(o => o.impact === 'low' && o.implemented).length;
-        const weightedScore = (highImpactCount * 3 + mediumImpactCount * 2 + lowImpactCount * 1) /
-            (this.optimizations.filter(o => o.impact === 'high').length * 3 +
-                this.optimizations.filter(o => o.impact === 'medium').length * 2 +
-                this.optimizations.filter(o => o.impact === 'low').length * 1);
-        return Math.round(weightedScore * 100);
-    }
-    addOptimization(optimization) {
-        this.optimizations.push(optimization);
-    }
-    printOptimizationReport(report) {
-        console.log('\n🔧 系统优化报告');
-        console.log('='.repeat(60));
-        console.log(`优化时间: ${report.timestamp.toLocaleString()}`);
-        console.log(`性能得分: ${report.performanceScore}/100 🎯`);
-        console.log(`总优化项: ${report.totalOptimizations}`);
-        console.log(`已实施项: ${report.implementedOptimizations} ✅`);
-        console.log(`待实施项: ${report.totalOptimizations - report.implementedOptimizations} 📋`);
-        console.log('\n📊 系统指标:');
-        console.log(`  • 内存使用: ${report.systemMetrics.memoryUsage.toFixed(1)} MB`);
-        console.log(`  • 加载时间: ${report.systemMetrics.loadTime} ms`);
-        console.log(`  • 渲染时间: ${report.systemMetrics.renderTime.toFixed(1)} ms`);
-        console.log(`  • 数据一致性: ${report.systemMetrics.dataConsistency ? '良好' : '需要检查'}`);
-        // 按分类展示优化项
-        const categories = [...new Set(report.recommendations.map(r => r.category))];
-        categories.forEach(category => {
-            console.log(`\n📂 ${category}:`);
-            const categoryOptimizations = report.recommendations.filter(r => r.category === category);
-            categoryOptimizations.forEach(opt => {
-                const status = opt.implemented ? '✅' : '📋';
-                const impact = opt.impact === 'high' ? '🔴' : opt.impact === 'medium' ? '🟡' : '🟢';
-                console.log(`  ${status} ${impact} ${opt.optimization}`);
-                console.log(`      ${opt.details}`);
-            });
-        });
-        // 性能等级
-        const grade = report.performanceScore >= 90 ? 'A+' :
-            report.performanceScore >= 80 ? 'A' :
-                report.performanceScore >= 70 ? 'B' :
-                    report.performanceScore >= 60 ? 'C' : 'D';
-        console.log(`\n🏆 系统优化等级: ${grade}`);
-        if (report.performanceScore < 80) {
-            console.log('\n💡 优化建议:');
-            report.recommendations
-                .filter(r => !r.implemented && r.impact === 'high')
-                .forEach(r => console.log(`  • 优先实施: ${r.optimization}`));
-        }
-        console.log('='.repeat(60));
-    }
-}
-// 导出优化工具
-const systemOptimizer = new SystemOptimizer();
-
-
-/***/ }),
-
-/***/ "./src/utils/systemTest.ts":
-/*!*********************************!*\
-  !*** ./src/utils/systemTest.ts ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   SystemIntegrationTester: () => (/* binding */ SystemIntegrationTester),
-/* harmony export */   systemTester: () => (/* binding */ systemTester)
-/* harmony export */ });
-/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/business */ "./src/services/business/index.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-// 系统集成测试工具
-
-class SystemIntegrationTester {
-    constructor() {
-        this.results = [];
-    }
-    runAllTests() {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('🚀 开始系统集成测试...');
-            const startTime = Date.now();
-            // 清空之前的结果
-            this.results = [];
-            // 运行各项测试
-            yield this.testBusinessServiceIntegration();
-            yield this.testDataConsistency();
-            yield this.testCRUDOperations();
-            yield this.testBusinessWorkflows();
-            yield this.testPerformance();
-            yield this.testErrorHandling();
-            const endTime = Date.now();
-            const totalDuration = endTime - startTime;
-            // 获取系统状态
-            const systemStatus = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.getSystemStatus();
-            // 生成报告
-            const report = {
-                timestamp: new Date(),
-                totalTests: this.results.length,
-                passedTests: this.results.filter(r => r.success).length,
-                failedTests: this.results.filter(r => !r.success).length,
-                totalDuration,
-                results: this.results,
-                systemStatus
-            };
-            this.printTestReport(report);
-            return report;
-        });
-    }
-    runTest(testName, testFn) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const startTime = Date.now();
-            try {
-                console.log(`🧪 运行测试: ${testName}`);
-                const details = yield testFn();
-                const duration = Date.now() - startTime;
-                const result = {
-                    testName,
-                    success: true,
-                    duration,
-                    details
-                };
-                this.results.push(result);
-                console.log(`✅ ${testName} - 通过 (${duration}ms)`);
-                return result;
-            }
-            catch (error) {
-                const duration = Date.now() - startTime;
-                const result = {
-                    testName,
-                    success: false,
-                    duration,
-                    error: error instanceof Error ? error.message : String(error)
-                };
-                this.results.push(result);
-                console.log(`❌ ${testName} - 失败 (${duration}ms): ${result.error}`);
-                return result;
-            }
-        });
-    }
-    testBusinessServiceIntegration() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.runTest('业务服务初始化', () => __awaiter(this, void 0, void 0, function* () {
-                if (!_services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.isInitialized) {
-                    yield _services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.initialize();
-                }
-                const status = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.getSystemStatus();
-                if (!status.initialized) {
-                    throw new Error('业务服务管理器未正确初始化');
-                }
-                if (status.services.some(s => s.status === 'error')) {
-                    throw new Error('存在服务初始化错误');
-                }
-                return {
-                    initialized: status.initialized,
-                    serviceCount: status.services.length,
-                    activeServices: status.services.filter(s => s.status === 'active').length
-                };
-            }));
-        });
-    }
-    testDataConsistency() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.runTest('数据一致性检查', () => __awaiter(this, void 0, void 0, function* () {
-                const integrity = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.validateSystemIntegrity();
-                if (!integrity.valid) {
-                    throw new Error(`数据完整性检查失败: ${integrity.issues.join(', ')}`);
-                }
-                return {
-                    valid: integrity.valid,
-                    issueCount: integrity.issues.length,
-                    warningCount: integrity.warnings.length,
-                    warnings: integrity.warnings
-                };
-            }));
-        });
-    }
-    testCRUDOperations() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { categoryService, supplierService, customerService } = yield Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ../services/business */ "./src/services/business/index.ts"));
-            // 暂时注释掉产品服务
-            // const { productService } = await import('../services/business');
-            yield this.runTest('CRUD操作测试', () => __awaiter(this, void 0, void 0, function* () {
-                // 测试分类CRUD
-                const categories = yield categoryService.findAll();
-                const initialCategoryCount = categories.length;
-                const testCategory = yield categoryService.create({
-                    name: '测试分类',
-                    level: 1,
-                    sortOrder: 999,
-                    isActive: true
-                });
-                const retrievedCategory = yield categoryService.findById(testCategory.id);
-                if (!retrievedCategory || retrievedCategory.name !== '测试分类') {
-                    throw new Error('分类创建或检索失败');
-                }
-                yield categoryService.update(testCategory.id, { name: '更新测试分类' });
-                const updatedCategory = yield categoryService.findById(testCategory.id);
-                if (!updatedCategory || updatedCategory.name !== '更新测试分类') {
-                    throw new Error('分类更新失败');
-                }
-                yield categoryService.delete(testCategory.id);
-                const deletedCategory = yield categoryService.findById(testCategory.id);
-                if (deletedCategory) {
-                    throw new Error('分类删除失败');
-                }
-                const finalCategories = yield categoryService.findAll();
-                if (finalCategories.length !== initialCategoryCount) {
-                    throw new Error('CRUD操作后数据不一致');
-                }
-                return {
-                    categoryOperationsSuccess: true,
-                    initialCount: initialCategoryCount,
-                    finalCount: finalCategories.length
-                };
-            }));
-        });
-    }
-    testBusinessWorkflows() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.runTest('业务流程测试', () => __awaiter(this, void 0, void 0, function* () {
-                const summary = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.getBusinessSummary();
-                // 检查各个模块是否有数据
-                const checks = {
-                    hasCategories: summary.categories > 0,
-                    hasUnits: summary.units > 0,
-                    hasWarehouses: summary.warehouses > 0,
-                    hasProducts: summary.products > 0,
-                    hasSuppliers: summary.suppliers > 0,
-                    hasCustomers: summary.customers > 0
-                };
-                const failedChecks = Object.entries(checks)
-                    .filter(([_, passed]) => !passed)
-                    .map(([check, _]) => check);
-                if (failedChecks.length > 0) {
-                    throw new Error(`业务数据缺失: ${failedChecks.join(', ')}`);
-                }
-                return {
-                    businessSummary: summary,
-                    allModulesHaveData: failedChecks.length === 0
-                };
-            }));
-        });
-    }
-    testPerformance() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.runTest('性能测试', () => __awaiter(this, void 0, void 0, function* () {
-                const startTime = Date.now();
-                // 测试数据加载性能
-                const loadPromises = [];
-                const { categoryService, 
-                // productService,  // 暂时注释掉
-                supplierService, customerService, warehouseService
-                // inventoryStockService  // 暂时注释掉
-                 } = yield Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ../services/business */ "./src/services/business/index.ts"));
-                loadPromises.push(categoryService.findAll());
-                // loadPromises.push(productService.findAll());  // 暂时注释掉
-                loadPromises.push(supplierService.findAll());
-                loadPromises.push(customerService.findAll());
-                loadPromises.push(warehouseService.findAll());
-                // loadPromises.push(inventoryStockService.findAllStocks());  // 暂时注释掉
-                const results = yield Promise.all(loadPromises);
-                const loadTime = Date.now() - startTime;
-                // 性能阈值检查
-                const performanceThresholds = {
-                    maxLoadTime: 2000, // 2秒
-                    maxSingleQueryTime: 500 // 500ms
-                };
-                if (loadTime > performanceThresholds.maxLoadTime) {
-                    throw new Error(`数据加载时间过长: ${loadTime}ms > ${performanceThresholds.maxLoadTime}ms`);
-                }
-                return {
-                    totalLoadTime: loadTime,
-                    datasetSizes: results.map(r => r.length),
-                    totalRecords: results.reduce((sum, r) => sum + r.length, 0),
-                    performanceGrade: loadTime < 1000 ? 'A' : loadTime < 2000 ? 'B' : 'C'
-                };
-            }));
-        });
-    }
-    testErrorHandling() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.runTest('错误处理测试', () => __awaiter(this, void 0, void 0, function* () {
-                const { categoryService } = yield Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ../services/business */ "./src/services/business/index.ts"));
-                // 测试无效输入处理
-                try {
-                    yield categoryService.create({
-                        name: '', // 空名称应该失败
-                        level: 1,
-                        sortOrder: 1,
-                        isActive: true
-                    });
-                    throw new Error('应该拒绝空名称的分类');
-                }
-                catch (error) {
-                    // 预期的错误
-                }
-                // 测试不存在ID的处理
-                try {
-                    yield categoryService.findById('non-existent-id');
-                    // 这应该返回null而不是抛出错误
-                }
-                catch (error) {
-                    throw new Error('查找不存在的ID应该返回null而不是抛出错误');
-                }
-                // 测试删除不存在项目的处理
-                try {
-                    yield categoryService.delete('non-existent-id');
-                    // 这应该静默失败或返回false
-                }
-                catch (error) {
-                    throw new Error('删除不存在的项目不应该抛出错误');
-                }
-                return {
-                    errorHandlingWorking: true,
-                    testedScenarios: ['empty-input', 'non-existent-id', 'delete-non-existent']
-                };
-            }));
-        });
-    }
-    printTestReport(report) {
-        console.log('\n📊 系统集成测试报告');
-        console.log('='.repeat(50));
-        console.log(`测试时间: ${report.timestamp.toLocaleString()}`);
-        console.log(`总测试数: ${report.totalTests}`);
-        console.log(`通过测试: ${report.passedTests} ✅`);
-        console.log(`失败测试: ${report.failedTests} ❌`);
-        console.log(`总耗时: ${report.totalDuration}ms`);
-        console.log(`成功率: ${((report.passedTests / report.totalTests) * 100).toFixed(1)}%`);
-        if (report.failedTests > 0) {
-            console.log('\n❌ 失败的测试:');
-            report.results
-                .filter(r => !r.success)
-                .forEach(r => {
-                console.log(`  • ${r.testName}: ${r.error}`);
-            });
-        }
-        console.log('\n✅ 通过的测试:');
-        report.results
-            .filter(r => r.success)
-            .forEach(r => {
-            console.log(`  • ${r.testName} (${r.duration}ms)`);
-        });
-        console.log('\n🏗️ 系统状态:');
-        console.log(`  • 已初始化: ${report.systemStatus.initialized ? '是' : '否'}`);
-        console.log(`  • 活跃服务: ${report.systemStatus.services.filter((s) => s.status === 'active').length}/${report.systemStatus.services.length}`);
-        const grade = report.passedTests === report.totalTests ? 'A' :
-            report.passedTests / report.totalTests >= 0.8 ? 'B' : 'C';
-        console.log(`\n🎯 系统健康度: ${grade}`);
-        console.log('='.repeat(50));
-    }
-}
-// 导出测试工具
-const systemTester = new SystemIntegrationTester();
 
 
 /***/ }),

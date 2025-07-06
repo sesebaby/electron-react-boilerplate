@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dashboard } from './Dashboard/Dashboard';
-import MinimalDashboard from './debug/MinimalDashboard';
 import { InventoryOverview } from './Inventory/InventoryOverview';
 import { InventoryList } from './Inventory/InventoryList';
 import { ProductManagement } from './Inventory/ProductManagement';
@@ -25,7 +24,7 @@ import AccountsPayableManagement from './Financial/AccountsPayableManagement';
 import AccountsReceivableManagement from './Financial/AccountsReceivableManagement';
 import PaymentRecordsManagement from './Financial/PaymentRecordsManagement';
 import ReceiptRecordsManagement from './Financial/ReceiptRecordsManagement';
-import SystemManagement from './SystemManagement/SystemManagement';
+// import SystemManagement from './SystemManagement/SystemManagement';
 import System from './System/System';
 
 interface PageContainerProps {
@@ -35,7 +34,6 @@ interface PageContainerProps {
 // 页面映射
 const pageComponents: Record<string, React.ComponentType> = {
   'dashboard': Dashboard,
-  'dashboard-minimal': MinimalDashboard,
   'inventory-overview': InventoryOverview,
   'inventory-products': InventoryList,
   'products': ProductManagement,
@@ -56,7 +54,7 @@ const pageComponents: Record<string, React.ComponentType> = {
   'purchase-reports': PurchaseReports,
   'financial-reports': FinancialReports,
   'financial': Financial,
-  'system-management': SystemManagement
+  // 'system-management': SystemManagement
 };
 
 // 开发中的页面组件
