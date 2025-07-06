@@ -9,6 +9,7 @@ import { StockIn } from './Inventory/StockIn';
 import { StockOut } from './Inventory/StockOut';
 import { StockAdjust } from './Inventory/StockAdjust';
 import { TransactionRecords } from './Inventory/TransactionRecords';
+import InventoryCardView from '../pages/InventoryCardView';
 import SupplierManagement from './Purchase/SupplierManagement';
 import PurchaseOrderManagement from './Purchase/PurchaseOrderManagement';
 import PurchaseReceiptManagement from './Purchase/PurchaseReceiptManagement';
@@ -41,6 +42,7 @@ const pageComponents: Record<string, React.ComponentType> = {
   'inventory': InventoryOverview,
   'inventory-overview': InventoryOverview,
   'inventory-products': InventoryList,
+  'inventory-card-view': InventoryCardView,
   'products': ProductManagement,
   'categories': CategoryManagement,
   'warehouses': WarehouseManagement,
@@ -79,7 +81,8 @@ const DevelopmentPage: React.FC<{ title: string; description: string }> = ({ tit
           <span className="info-value">2024年1月</span>
         </div>
       </div>
-      <button 
+      <button
+        type="button"
         className="back-to-dashboard"
         onClick={() => window.location.hash = 'dashboard'}
       >
@@ -131,7 +134,8 @@ export const PageContainer: React.FC<PageContainerProps> = ({ currentPage }) => 
           <p className="not-found-description">
             抱歉，找不到页面 "{currentPage}"
           </p>
-          <button 
+          <button
+            type="button"
             className="back-to-dashboard"
             onClick={() => window.location.hash = 'dashboard'}
           >

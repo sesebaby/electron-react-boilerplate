@@ -28,6 +28,7 @@ const menuItems: MenuItem[] = [
     icon: '📦',
     children: [
       { id: 'inventory-overview', label: '库存概览', icon: '📋' },
+      { id: 'inventory-card-view', label: '库存卡片视图', icon: '🗂️' },
       { id: 'products', label: '商品管理', icon: '🏷️' },
       { id: 'categories', label: '分类管理', icon: '📂' },
       { id: 'warehouses', label: '仓库管理', icon: '🏭' },

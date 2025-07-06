@@ -17,6 +17,7 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
 
   // 库存管理
   'inventory-overview': { title: '库存概览', breadcrumb: ['库存管理', '库存概览'] },
+  'inventory-card-view': { title: '库存卡片视图', breadcrumb: ['库存管理', '库存卡片视图'] },
   'products': { title: '商品管理', breadcrumb: ['库存管理', '商品管理'] },
   'categories': { title: '分类管理', breadcrumb: ['库存管理', '分类管理'] },
   'warehouses': { title: '仓库管理', breadcrumb: ['库存管理', '仓库管理'] },
