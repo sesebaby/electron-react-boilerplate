@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppLayout } from './components/Layout/AppLayout';
 import PageContainer from './components/PageContainer';
-import TestDataGenerator from './services/testData';
+import { businessServiceManager } from './services/business';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import './globals.css';
 
@@ -39,10 +39,10 @@ const App: React.FC = () => {
     // 监听哈希变化
     window.addEventListener('hashchange', handleHashChange);
 
-    // 初始化测试数据和系统
+    // 初始化系统（不包含测试数据）
     const initSystem = async () => {
       try {
-        await TestDataGenerator.initializeTestData();
+        await businessServiceManager.initialize();
         setIsLoading(false);
       } catch (error) {
         console.error('系统初始化失败:', error);
@@ -103,7 +103,8 @@ const App: React.FC = () => {
           <div className="bg-red-500/20 border border-red-400/30 rounded-lg p-4 mb-6">
             <p className="text-white/90">{error}</p>
           </div>
-          <button 
+          <button
+            type="button"
             className="glass-button px-6 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-lg font-medium hover:transform hover:-translate-y-0.5 transition-all duration-300"
             onClick={() => window.location.reload()}
           >

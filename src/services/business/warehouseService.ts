@@ -8,40 +8,7 @@ export class WarehouseService {
 
   async initialize(): Promise<void> {
     console.log('Warehouse service initialized');
-    
-    // 创建默认仓库
-    if (this.warehouses.size === 0) {
-      await this.createDefaultWarehouses();
-    }
-  }
-
-  private async createDefaultWarehouses(): Promise<void> {
-    const defaultWarehouses = [
-      {
-        code: 'WH001',
-        name: '主仓库',
-        address: '总部仓储中心',
-        manager: '仓库管理员',
-        phone: '021-12345678',
-        isDefault: true
-      },
-      {
-        code: 'WH002',
-        name: '备用仓库',
-        address: '备用仓储点',
-        manager: '副仓管',
-        phone: '021-87654321',
-        isDefault: false
-      }
-    ];
-
-    for (const warehouseData of defaultWarehouses) {
-      try {
-        await this.create(warehouseData);
-      } catch (error) {
-        console.warn('Failed to create default warehouse:', error);
-      }
-    }
+    // 系统启动时不创建任何默认仓库数据
   }
 
   async findAll(): Promise<Warehouse[]> {
@@ -281,7 +248,7 @@ export class WarehouseService {
     );
   }
 
-  async ensureDefaultWarehouse(): Promise<Warehouse> {
+  async ensureDefaultWarehouse(): Promise<Warehouse | null> {
     const defaultWarehouse = await this.findDefault();
     if (defaultWarehouse) {
       return defaultWarehouse;
@@ -293,12 +260,8 @@ export class WarehouseService {
       return this.setDefault(warehouses[0].id);
     }
 
-    // 如果没有任何仓库，创建一个默认仓库
-    return this.create({
-      code: 'DEFAULT',
-      name: '默认仓库',
-      isDefault: true
-    });
+    // 如果没有任何仓库，返回null而不是自动创建
+    return null;
   }
 }
 

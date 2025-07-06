@@ -34,79 +34,7 @@ export class AccountsReceivableService {
     console.log('AccountsReceivableService initialized successfully');
   }
 
-  private async createSampleData(): Promise<void> {
-    const sampleReceivables = [
-      {
-        billNo: 'AR001',
-        customerId: 'customer-1',
-        orderId: 'sales-order-1',
-        billDate: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000), // 25天前
-        dueDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10天前（已逾期）
-        totalAmount: 89000,
-        receivedAmount: 30000,
-        balanceAmount: 59000,
-        status: ReceivableStatus.PARTIAL
-      },
-      {
-        billNo: 'AR002',
-        customerId: 'customer-2',
-        orderId: 'sales-order-2',
-        billDate: new Date(Date.now() - 18 * 24 * 60 * 60 * 1000), // 18天前
-        dueDate: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000), // 12天后
-        totalAmount: 125000,
-        receivedAmount: 0,
-        balanceAmount: 125000,
-        status: ReceivableStatus.UNPAID
-      },
-      {
-        billNo: 'AR003',
-        customerId: 'customer-1',
-        billDate: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000), // 8天前
-        dueDate: new Date(Date.now() + 22 * 24 * 60 * 60 * 1000), // 22天后
-        totalAmount: 67000,
-        receivedAmount: 67000,
-        balanceAmount: 0,
-        status: ReceivableStatus.PAID
-      }
-    ];
 
-    for (const receivableData of sampleReceivables) {
-      await this.create(receivableData);
-    }
-
-    // 创建示例收款记录
-    const sampleReceipts = [
-      {
-        receiptNo: 'REC001',
-        receivableId: '', // 将在下面设置
-        receiptDate: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000),
-        paymentMethod: PaymentMethod.BANK_TRANSFER,
-        amount: 30000,
-        remark: '首期收款',
-        operator: '销售专员'
-      },
-      {
-        receiptNo: 'REC002',
-        receivableId: '', // 将在下面设置
-        receiptDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-        paymentMethod: PaymentMethod.BANK_TRANSFER,
-        amount: 67000,
-        remark: '全额收款',
-        operator: '销售专员'
-      }
-    ];
-
-    // 为收款记录分配应收账款ID
-    const receivableIds = Array.from(this.receivables.keys());
-    if (receivableIds.length >= 2) {
-      sampleReceipts[0].receivableId = receivableIds[0];
-      sampleReceipts[1].receivableId = receivableIds[2];
-
-      for (const receiptData of sampleReceipts) {
-        await this.addReceipt(receiptData);
-      }
-    }
-  }
 
   // 创建应收账款
   async create(data: Omit<AccountsReceivable, 'id' | 'createdAt' | 'updatedAt'>): Promise<AccountsReceivable> {

@@ -9,39 +9,7 @@ export class UnitService {
 
   async initialize(): Promise<void> {
     console.log('Unit service initialized');
-    
-    // 创建默认计量单位
-    if (this.units.size === 0) {
-      await this.createDefaultUnits();
-    }
-  }
-
-  private async createDefaultUnits(): Promise<void> {
-    const defaultUnits = [
-      { name: '个', symbol: 'pcs', precision: 0 },
-      { name: '千克', symbol: 'kg', precision: 2 },
-      { name: '克', symbol: 'g', precision: 2 },
-      { name: '升', symbol: 'L', precision: 2 },
-      { name: '毫升', symbol: 'ml', precision: 0 },
-      { name: '米', symbol: 'm', precision: 2 },
-      { name: '厘米', symbol: 'cm', precision: 1 },
-      { name: '平方米', symbol: 'm²', precision: 2 },
-      { name: '立方米', symbol: 'm³', precision: 2 },
-      { name: '箱', symbol: 'box', precision: 0 },
-      { name: '包', symbol: 'pack', precision: 0 },
-      { name: '袋', symbol: 'bag', precision: 0 },
-      { name: '瓶', symbol: 'bottle', precision: 0 },
-      { name: '套', symbol: 'set', precision: 0 },
-      { name: '组', symbol: 'group', precision: 0 }
-    ];
-
-    for (const unitData of defaultUnits) {
-      try {
-        await this.create(unitData);
-      } catch (error) {
-        console.warn('Failed to create default unit:', error);
-      }
-    }
+    // 系统启动时不创建任何默认计量单位数据
   }
 
   async findAll(): Promise<Unit[]> {

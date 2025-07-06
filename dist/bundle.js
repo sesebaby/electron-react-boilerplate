@@ -46023,7 +46023,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_Layout_AppLayout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Layout/AppLayout */ "./src/components/Layout/AppLayout.tsx");
 /* harmony import */ var _components_PageContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/PageContainer */ "./src/components/PageContainer.tsx");
-/* harmony import */ var _services_testData__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/testData */ "./src/services/testData.ts");
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/business */ "./src/services/business/index.ts");
 /* harmony import */ var _components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/ErrorBoundary */ "./src/components/ErrorBoundary.tsx");
 /* harmony import */ var _globals_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./globals.css */ "./src/globals.css");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -46070,10 +46070,10 @@ const App = () => {
         handleHashChange();
         // 监听哈希变化
         window.addEventListener('hashchange', handleHashChange);
-        // 初始化测试数据和系统
+        // 初始化系统（不包含测试数据）
         const initSystem = () => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                yield _services_testData__WEBPACK_IMPORTED_MODULE_4__["default"].initializeTestData();
+                yield _services_business__WEBPACK_IMPORTED_MODULE_4__.businessServiceManager.initialize();
                 setIsLoading(false);
             }
             catch (error) {
@@ -46099,7 +46099,7 @@ const App = () => {
     }
     // 错误状态
     if (error) {
-        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 flex items-center justify-center bg-gradient-to-br from-red-500 to-red-600", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card p-12 text-center max-w-md w-full mx-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-6", children: "\u274C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-2xl font-bold text-white mb-4", children: "\u7CFB\u7EDF\u521D\u59CB\u5316\u5931\u8D25" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-red-500/20 border border-red-400/30 rounded-lg p-4 mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/90", children: error }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "glass-button px-6 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-lg font-medium hover:transform hover:-translate-y-0.5 transition-all duration-300", onClick: () => window.location.reload(), children: "\u91CD\u65B0\u52A0\u8F7D" })] }) }));
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 flex items-center justify-center bg-gradient-to-br from-red-500 to-red-600", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card p-12 text-center max-w-md w-full mx-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-6", children: "\u274C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-2xl font-bold text-white mb-4", children: "\u7CFB\u7EDF\u521D\u59CB\u5316\u5931\u8D25" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-red-500/20 border border-red-400/30 rounded-lg p-4 mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/90", children: error }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "glass-button px-6 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-lg font-medium hover:transform hover:-translate-y-0.5 transition-all duration-300", onClick: () => window.location.reload(), children: "\u91CD\u65B0\u52A0\u8F7D" })] }) }));
     }
     // 主应用界面
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_5__.ErrorBoundary, { onError: (error, errorInfo) => {
@@ -53663,77 +53663,6 @@ class AccountsPayableService {
             console.log('AccountsPayableService initialized successfully');
         });
     }
-    createSampleData() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const samplePayables = [
-                {
-                    billNo: 'AP001',
-                    supplierId: 'supplier-1',
-                    orderId: 'purchase-order-1',
-                    billDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30天前
-                    dueDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // 15天前（已逾期）
-                    totalAmount: 150000,
-                    paidAmount: 50000,
-                    balanceAmount: 100000,
-                    status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PayableStatus.PARTIAL
-                },
-                {
-                    billNo: 'AP002',
-                    supplierId: 'supplier-2',
-                    orderId: 'purchase-order-2',
-                    billDate: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000), // 20天前
-                    dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // 10天后
-                    totalAmount: 89000,
-                    paidAmount: 0,
-                    balanceAmount: 89000,
-                    status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PayableStatus.UNPAID
-                },
-                {
-                    billNo: 'AP003',
-                    supplierId: 'supplier-1',
-                    billDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10天前
-                    dueDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000), // 20天后
-                    totalAmount: 45000,
-                    paidAmount: 45000,
-                    balanceAmount: 0,
-                    status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PayableStatus.PAID
-                }
-            ];
-            for (const payableData of samplePayables) {
-                yield this.create(payableData);
-            }
-            // 创建示例付款记录
-            const samplePayments = [
-                {
-                    paymentNo: 'PAY001',
-                    payableId: '', // 将在下面设置
-                    paymentDate: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000),
-                    paymentMethod: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentMethod.BANK_TRANSFER,
-                    amount: 50000,
-                    remark: '首期付款',
-                    operator: '财务专员'
-                },
-                {
-                    paymentNo: 'PAY002',
-                    payableId: '', // 将在下面设置
-                    paymentDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-                    paymentMethod: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentMethod.BANK_TRANSFER,
-                    amount: 45000,
-                    remark: '全额付款',
-                    operator: '财务专员'
-                }
-            ];
-            // 为付款记录分配应付账款ID
-            const payableIds = Array.from(this.payables.keys());
-            if (payableIds.length >= 2) {
-                samplePayments[0].payableId = payableIds[0];
-                samplePayments[1].payableId = payableIds[2];
-                for (const paymentData of samplePayments) {
-                    yield this.addPayment(paymentData);
-                }
-            }
-        });
-    }
     // 创建应付账款
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -54113,77 +54042,6 @@ class AccountsReceivableService {
             // 不再自动创建示例数据，保持空白状态
             this.initialized = true;
             console.log('AccountsReceivableService initialized successfully');
-        });
-    }
-    createSampleData() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const sampleReceivables = [
-                {
-                    billNo: 'AR001',
-                    customerId: 'customer-1',
-                    orderId: 'sales-order-1',
-                    billDate: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000), // 25天前
-                    dueDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10天前（已逾期）
-                    totalAmount: 89000,
-                    receivedAmount: 30000,
-                    balanceAmount: 59000,
-                    status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.ReceivableStatus.PARTIAL
-                },
-                {
-                    billNo: 'AR002',
-                    customerId: 'customer-2',
-                    orderId: 'sales-order-2',
-                    billDate: new Date(Date.now() - 18 * 24 * 60 * 60 * 1000), // 18天前
-                    dueDate: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000), // 12天后
-                    totalAmount: 125000,
-                    receivedAmount: 0,
-                    balanceAmount: 125000,
-                    status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.ReceivableStatus.UNPAID
-                },
-                {
-                    billNo: 'AR003',
-                    customerId: 'customer-1',
-                    billDate: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000), // 8天前
-                    dueDate: new Date(Date.now() + 22 * 24 * 60 * 60 * 1000), // 22天后
-                    totalAmount: 67000,
-                    receivedAmount: 67000,
-                    balanceAmount: 0,
-                    status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.ReceivableStatus.PAID
-                }
-            ];
-            for (const receivableData of sampleReceivables) {
-                yield this.create(receivableData);
-            }
-            // 创建示例收款记录
-            const sampleReceipts = [
-                {
-                    receiptNo: 'REC001',
-                    receivableId: '', // 将在下面设置
-                    receiptDate: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000),
-                    paymentMethod: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentMethod.BANK_TRANSFER,
-                    amount: 30000,
-                    remark: '首期收款',
-                    operator: '销售专员'
-                },
-                {
-                    receiptNo: 'REC002',
-                    receivableId: '', // 将在下面设置
-                    receiptDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-                    paymentMethod: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentMethod.BANK_TRANSFER,
-                    amount: 67000,
-                    remark: '全额收款',
-                    operator: '销售专员'
-                }
-            ];
-            // 为收款记录分配应收账款ID
-            const receivableIds = Array.from(this.receivables.keys());
-            if (receivableIds.length >= 2) {
-                sampleReceipts[0].receivableId = receivableIds[0];
-                sampleReceipts[1].receivableId = receivableIds[2];
-                for (const receiptData of sampleReceipts) {
-                    yield this.addReceipt(receiptData);
-                }
-            }
         });
     }
     // 创建应收账款
@@ -54572,29 +54430,7 @@ class CategoryService {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Category service initialized');
-            // 创建默认分类
-            if (this.categories.size === 0) {
-                yield this.createDefaultCategories();
-            }
-        });
-    }
-    createDefaultCategories() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const defaultCategories = [
-                { name: '电子产品', level: 1, sortOrder: 1 },
-                { name: '办公用品', level: 1, sortOrder: 2 },
-                { name: '食品饮料', level: 1, sortOrder: 3 },
-                { name: '服装纺织', level: 1, sortOrder: 4 },
-                { name: '机械设备', level: 1, sortOrder: 5 }
-            ];
-            for (const categoryData of defaultCategories) {
-                try {
-                    yield this.create(Object.assign(Object.assign({}, categoryData), { isActive: true }));
-                }
-                catch (error) {
-                    console.warn('Failed to create default category:', error);
-                }
-            }
+            // 系统启动时不创建任何默认分类数据
         });
     }
     findAll() {
@@ -54891,51 +54727,7 @@ class CustomerService {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Customer service initialized');
-            // 创建默认客户
-            if (this.customers.size === 0) {
-                yield this.createDefaultCustomers();
-            }
-        });
-    }
-    createDefaultCustomers() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const defaultCustomers = [
-                {
-                    code: 'CUS001',
-                    name: '优质客户A公司',
-                    contactPerson: '王总',
-                    phone: '021-11111111',
-                    email: 'wang@customer-a.com',
-                    address: '上海市黄浦区商业街88号',
-                    customerType: _types_entities__WEBPACK_IMPORTED_MODULE_0__.CustomerType.COMPANY,
-                    creditLimit: 200000,
-                    paymentTerms: '月结30天',
-                    discountRate: 0.05,
-                    level: _types_entities__WEBPACK_IMPORTED_MODULE_0__.CustomerLevel.VIP,
-                    status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.CustomerStatus.ACTIVE
-                },
-                {
-                    code: 'CUS002',
-                    name: '李明',
-                    contactPerson: '李明',
-                    phone: '138-8888-8888',
-                    email: 'liming@email.com',
-                    address: '北京市海淀区中关村大街1号',
-                    customerType: _types_entities__WEBPACK_IMPORTED_MODULE_0__.CustomerType.INDIVIDUAL,
-                    creditLimit: 50000,
-                    discountRate: 0.02,
-                    level: _types_entities__WEBPACK_IMPORTED_MODULE_0__.CustomerLevel.GOLD,
-                    status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.CustomerStatus.ACTIVE
-                }
-            ];
-            for (const customerData of defaultCustomers) {
-                try {
-                    yield this.create(customerData);
-                }
-                catch (error) {
-                    console.warn('Failed to create default customer:', error);
-                }
-            }
+            // 系统启动时不创建任何默认客户数据
         });
     }
     findAll() {
@@ -56697,17 +56489,6 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 
 
 
@@ -56724,88 +56505,7 @@ class PurchaseOrderService {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Purchase order service initialized');
-            // 创建默认采购订单用于演示
-            if (this.orders.size === 0) {
-                yield this.createDefaultOrders();
-            }
-        });
-    }
-    createDefaultOrders() {
-        return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b, _c, _d;
-            try {
-                const suppliers = yield _supplierService__WEBPACK_IMPORTED_MODULE_2__["default"].findAll();
-                const products = yield _productService__WEBPACK_IMPORTED_MODULE_3__["default"].findAll();
-                if (suppliers.length === 0 || products.length === 0) {
-                    console.log('No suppliers or products found, skipping default orders creation');
-                    return;
-                }
-                const defaultOrders = [
-                    {
-                        supplierId: suppliers[0].id,
-                        orderDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7天前
-                        expectedDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3天后
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.CONFIRMED,
-                        discountAmount: 0,
-                        taxAmount: 0,
-                        remark: '示例采购订单A',
-                        creator: '系统管理员',
-                        items: [
-                            {
-                                productId: (_a = products[0]) === null || _a === void 0 ? void 0 : _a.id,
-                                quantity: 100,
-                                unitPrice: 50.00,
-                                discountRate: 0,
-                                receivedQuantity: 60
-                            },
-                            {
-                                productId: (_b = products[1]) === null || _b === void 0 ? void 0 : _b.id,
-                                quantity: 50,
-                                unitPrice: 120.00,
-                                discountRate: 0.05,
-                                receivedQuantity: 0
-                            }
-                        ]
-                    },
-                    {
-                        supplierId: ((_c = suppliers[1]) === null || _c === void 0 ? void 0 : _c.id) || suppliers[0].id,
-                        orderDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3天前
-                        expectedDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7天后
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.DRAFT,
-                        discountAmount: 100,
-                        taxAmount: 0,
-                        remark: '示例采购订单B',
-                        creator: '采购员',
-                        items: [
-                            {
-                                productId: ((_d = products[2]) === null || _d === void 0 ? void 0 : _d.id) || products[0].id,
-                                quantity: 200,
-                                unitPrice: 25.00,
-                                discountRate: 0,
-                                receivedQuantity: 0
-                            }
-                        ]
-                    }
-                ];
-                for (const orderData of defaultOrders) {
-                    try {
-                        const { items } = orderData, orderInfo = __rest(orderData, ["items"]);
-                        const order = yield this.create(orderInfo);
-                        // 添加订单项目
-                        for (const itemData of items) {
-                            if (itemData.productId) {
-                                yield this.addOrderItem(order.id, itemData);
-                            }
-                        }
-                    }
-                    catch (error) {
-                        console.warn('Failed to create default purchase order:', error);
-                    }
-                }
-            }
-            catch (error) {
-                console.warn('Failed to create default purchase orders:', error);
-            }
+            // 系统启动时不创建任何默认采购订单数据
         });
     }
     findAll() {
@@ -57194,17 +56894,6 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 
 
 
@@ -57223,68 +56912,7 @@ class PurchaseReceiptService {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Purchase receipt service initialized');
-            // 创建默认采购收货单用于演示
-            if (this.receipts.size === 0) {
-                yield this.createDefaultReceipts();
-            }
-        });
-    }
-    createDefaultReceipts() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const orders = yield _purchaseOrderService__WEBPACK_IMPORTED_MODULE_2__["default"].findAll();
-                const warehouses = yield _warehouseService__WEBPACK_IMPORTED_MODULE_4__["default"].findAll();
-                if (orders.length === 0 || warehouses.length === 0) {
-                    console.log('No orders or warehouses found, skipping default receipts creation');
-                    return;
-                }
-                // 找到已确认的订单
-                const confirmedOrders = orders.filter(order => order.status === 'confirmed' && order.items && order.items.length > 0);
-                if (confirmedOrders.length === 0) {
-                    console.log('No confirmed orders found, skipping default receipts creation');
-                    return;
-                }
-                const defaultWarehouse = warehouses.find(w => w.isDefault) || warehouses[0];
-                const defaultReceipts = [
-                    {
-                        orderId: confirmedOrders[0].id,
-                        supplierId: confirmedOrders[0].supplierId,
-                        warehouseId: defaultWarehouse.id,
-                        receiptDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2天前
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.ReceiptStatus.CONFIRMED,
-                        receiver: '仓库管理员',
-                        remark: '示例收货单A - 部分收货',
-                        partialReceipt: true
-                    }
-                ];
-                for (const receiptData of defaultReceipts) {
-                    try {
-                        const { partialReceipt } = receiptData, receiptInfo = __rest(receiptData, ["partialReceipt"]);
-                        const receipt = yield this.create(receiptInfo);
-                        // 添加收货项目（部分收货）
-                        const order = yield _purchaseOrderService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(receiptData.orderId);
-                        if (order && order.items) {
-                            for (const orderItem of order.items) {
-                                const receiptQuantity = partialReceipt ? Math.floor(orderItem.quantity * 0.6) : orderItem.quantity;
-                                if (receiptQuantity > 0) {
-                                    yield this.addReceiptItem(receipt.id, {
-                                        productId: orderItem.productId,
-                                        orderItemId: orderItem.id,
-                                        quantity: receiptQuantity,
-                                        unitPrice: orderItem.unitPrice
-                                    });
-                                }
-                            }
-                        }
-                    }
-                    catch (error) {
-                        console.warn('Failed to create default purchase receipt:', error);
-                    }
-                }
-            }
-            catch (error) {
-                console.warn('Failed to create default purchase receipts:', error);
-            }
+            // 系统启动时不创建任何默认采购收货单数据
         });
     }
     findAll() {
@@ -57752,17 +57380,6 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 
 
 
@@ -57780,68 +57397,7 @@ class SalesDeliveryService {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Sales delivery service initialized');
-            // 创建默认销售出库单用于演示
-            if (this.deliveries.size === 0) {
-                yield this.createDefaultDeliveries();
-            }
-        });
-    }
-    createDefaultDeliveries() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const orders = yield _salesOrderService__WEBPACK_IMPORTED_MODULE_1__["default"].findAll();
-                const warehouses = yield _warehouseService__WEBPACK_IMPORTED_MODULE_3__["default"].findAll();
-                if (orders.length === 0 || warehouses.length === 0) {
-                    console.log('No orders or warehouses found, skipping default deliveries creation');
-                    return;
-                }
-                // 找到已确认的订单
-                const confirmedOrders = orders.filter(order => order.status === 'confirmed' && order.items && order.items.length > 0);
-                if (confirmedOrders.length === 0) {
-                    console.log('No confirmed orders found, skipping default deliveries creation');
-                    return;
-                }
-                const defaultWarehouse = warehouses.find(w => w.isDefault) || warehouses[0];
-                const defaultDeliveries = [
-                    {
-                        orderId: confirmedOrders[0].id,
-                        customerId: confirmedOrders[0].customerId,
-                        warehouseId: defaultWarehouse.id,
-                        deliveryDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1天前
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.DeliveryStatus.COMPLETED,
-                        deliveryPerson: '配送员张三',
-                        remark: '示例出库单A - 部分出库',
-                        partialDelivery: true
-                    }
-                ];
-                for (const deliveryData of defaultDeliveries) {
-                    try {
-                        const { partialDelivery } = deliveryData, deliveryInfo = __rest(deliveryData, ["partialDelivery"]);
-                        const delivery = yield this.create(deliveryInfo);
-                        // 添加出库项目（部分出库）
-                        const order = yield _salesOrderService__WEBPACK_IMPORTED_MODULE_1__["default"].findById(deliveryData.orderId);
-                        if (order && order.items) {
-                            for (const orderItem of order.items) {
-                                const deliveryQuantity = partialDelivery ? Math.floor(orderItem.quantity * 0.5) : orderItem.quantity;
-                                if (deliveryQuantity > 0) {
-                                    yield this.addDeliveryItem(delivery.id, {
-                                        productId: orderItem.productId,
-                                        orderItemId: orderItem.id,
-                                        quantity: deliveryQuantity,
-                                        unitPrice: orderItem.unitPrice
-                                    });
-                                }
-                            }
-                        }
-                    }
-                    catch (error) {
-                        console.warn('Failed to create default sales delivery:', error);
-                    }
-                }
-            }
-            catch (error) {
-                console.warn('Failed to create default sales deliveries:', error);
-            }
+            // 系统启动时不创建任何默认销售出库单数据
         });
     }
     findAll() {
@@ -58233,17 +57789,6 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 
 
 
@@ -58264,90 +57809,7 @@ class SalesOrderService {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Sales order service initialized');
-            // 创建默认销售订单用于演示
-            if (this.orders.size === 0) {
-                yield this.createDefaultOrders();
-            }
-        });
-    }
-    createDefaultOrders() {
-        return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b, _c, _d;
-            try {
-                const customers = yield _customerService__WEBPACK_IMPORTED_MODULE_2__["default"].findAll();
-                const products = yield _productService__WEBPACK_IMPORTED_MODULE_3__["default"].findAll();
-                if (customers.length === 0 || products.length === 0) {
-                    console.log('No customers or products found, skipping default sales orders creation');
-                    return;
-                }
-                const defaultOrders = [
-                    {
-                        customerId: customers[0].id,
-                        orderDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5天前
-                        deliveryDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // 2天后
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CONFIRMED,
-                        paymentStatus: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.PARTIAL,
-                        discountAmount: 50,
-                        taxAmount: 0,
-                        remark: '示例销售订单A',
-                        creator: '销售员',
-                        items: [
-                            {
-                                productId: (_a = products[0]) === null || _a === void 0 ? void 0 : _a.id,
-                                quantity: 20,
-                                unitPrice: 55.00,
-                                discountRate: 0,
-                                deliveredQuantity: 10
-                            },
-                            {
-                                productId: (_b = products[1]) === null || _b === void 0 ? void 0 : _b.id,
-                                quantity: 15,
-                                unitPrice: 125.00,
-                                discountRate: 0.03,
-                                deliveredQuantity: 0
-                            }
-                        ]
-                    },
-                    {
-                        customerId: ((_c = customers[1]) === null || _c === void 0 ? void 0 : _c.id) || customers[0].id,
-                        orderDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2天前
-                        deliveryDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5天后
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.DRAFT,
-                        paymentStatus: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.UNPAID,
-                        discountAmount: 0,
-                        taxAmount: 80,
-                        remark: '示例销售订单B',
-                        creator: '销售主管',
-                        items: [
-                            {
-                                productId: ((_d = products[2]) === null || _d === void 0 ? void 0 : _d.id) || products[0].id,
-                                quantity: 50,
-                                unitPrice: 28.00,
-                                discountRate: 0,
-                                deliveredQuantity: 0
-                            }
-                        ]
-                    }
-                ];
-                for (const orderData of defaultOrders) {
-                    try {
-                        const { items } = orderData, orderInfo = __rest(orderData, ["items"]);
-                        const order = yield this.create(orderInfo);
-                        // 添加订单项目
-                        for (const itemData of items) {
-                            if (itemData.productId) {
-                                yield this.addOrderItem(order.id, itemData);
-                            }
-                        }
-                    }
-                    catch (error) {
-                        console.warn('Failed to create default sales order:', error);
-                    }
-                }
-            }
-            catch (error) {
-                console.warn('Failed to create default sales orders:', error);
-            }
+            // 系统启动时不创建任何默认销售订单数据
         });
     }
     findAll() {
@@ -59211,48 +58673,7 @@ class SupplierService {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Supplier service initialized');
-            // 创建默认供应商
-            if (this.suppliers.size === 0) {
-                yield this.createDefaultSuppliers();
-            }
-        });
-    }
-    createDefaultSuppliers() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const defaultSuppliers = [
-                {
-                    code: 'SUP001',
-                    name: '示例供应商A',
-                    contactPerson: '张经理',
-                    phone: '021-12345678',
-                    email: 'zhang@supplier-a.com',
-                    address: '上海市浦东新区示例路123号',
-                    paymentTerms: '30天付款',
-                    creditLimit: 100000,
-                    rating: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierRating.A,
-                    status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierStatus.ACTIVE
-                },
-                {
-                    code: 'SUP002',
-                    name: '示例供应商B',
-                    contactPerson: '李总',
-                    phone: '010-87654321',
-                    email: 'li@supplier-b.com',
-                    address: '北京市朝阳区示例大街456号',
-                    paymentTerms: '60天付款',
-                    creditLimit: 50000,
-                    rating: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierRating.B,
-                    status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SupplierStatus.ACTIVE
-                }
-            ];
-            for (const supplierData of defaultSuppliers) {
-                try {
-                    yield this.create(supplierData);
-                }
-                catch (error) {
-                    console.warn('Failed to create default supplier:', error);
-                }
-            }
+            // 系统启动时不创建任何默认供应商数据
         });
     }
     findAll() {
@@ -59532,39 +58953,7 @@ class UnitService {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Unit service initialized');
-            // 创建默认计量单位
-            if (this.units.size === 0) {
-                yield this.createDefaultUnits();
-            }
-        });
-    }
-    createDefaultUnits() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const defaultUnits = [
-                { name: '个', symbol: 'pcs', precision: 0 },
-                { name: '千克', symbol: 'kg', precision: 2 },
-                { name: '克', symbol: 'g', precision: 2 },
-                { name: '升', symbol: 'L', precision: 2 },
-                { name: '毫升', symbol: 'ml', precision: 0 },
-                { name: '米', symbol: 'm', precision: 2 },
-                { name: '厘米', symbol: 'cm', precision: 1 },
-                { name: '平方米', symbol: 'm²', precision: 2 },
-                { name: '立方米', symbol: 'm³', precision: 2 },
-                { name: '箱', symbol: 'box', precision: 0 },
-                { name: '包', symbol: 'pack', precision: 0 },
-                { name: '袋', symbol: 'bag', precision: 0 },
-                { name: '瓶', symbol: 'bottle', precision: 0 },
-                { name: '套', symbol: 'set', precision: 0 },
-                { name: '组', symbol: 'group', precision: 0 }
-            ];
-            for (const unitData of defaultUnits) {
-                try {
-                    yield this.create(unitData);
-                }
-                catch (error) {
-                    console.warn('Failed to create default unit:', error);
-                }
-            }
+            // 系统启动时不创建任何默认计量单位数据
         });
     }
     findAll() {
@@ -59829,34 +59218,8 @@ class UserService {
     }
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
-            // Create default admin user if no users exist
-            if (this.users.size === 0) {
-                yield this.createDefaultAdmin();
-            }
+            // 系统启动时不创建任何默认用户
             _utils_secureLogger__WEBPACK_IMPORTED_MODULE_3__.logger.info('User service initialized');
-        });
-    }
-    createDefaultAdmin() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const temporaryPassword = this.generateSecurePassword();
-            const adminUser = {
-                username: 'admin',
-                password: temporaryPassword,
-                nickname: '系统管理员',
-                email: 'admin@system.com',
-                phone: '13800138000',
-                avatar: undefined,
-                role: _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.ADMIN,
-                status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserStatus.ACTIVE,
-                lastLoginAt: new Date()
-            };
-            yield this.create(adminUser);
-            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_3__.logger.info('Default admin user created. Please change the password on first login.');
-            // Store temporary password securely (in production, this should be displayed once and not logged)
-            if (true) {
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_3__.logger.security('Temporary admin password generated', { adminId: 'admin' });
-                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_3__.logger.warn('Default admin password should be changed immediately');
-            }
         });
     }
     findAll() {
@@ -60219,40 +59582,7 @@ class WarehouseService {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Warehouse service initialized');
-            // 创建默认仓库
-            if (this.warehouses.size === 0) {
-                yield this.createDefaultWarehouses();
-            }
-        });
-    }
-    createDefaultWarehouses() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const defaultWarehouses = [
-                {
-                    code: 'WH001',
-                    name: '主仓库',
-                    address: '总部仓储中心',
-                    manager: '仓库管理员',
-                    phone: '021-12345678',
-                    isDefault: true
-                },
-                {
-                    code: 'WH002',
-                    name: '备用仓库',
-                    address: '备用仓储点',
-                    manager: '副仓管',
-                    phone: '021-87654321',
-                    isDefault: false
-                }
-            ];
-            for (const warehouseData of defaultWarehouses) {
-                try {
-                    yield this.create(warehouseData);
-                }
-                catch (error) {
-                    console.warn('Failed to create default warehouse:', error);
-                }
-            }
+            // 系统启动时不创建任何默认仓库数据
         });
     }
     findAll() {
@@ -60473,12 +59803,8 @@ class WarehouseService {
             if (warehouses.length > 0) {
                 return this.setDefault(warehouses[0].id);
             }
-            // 如果没有任何仓库，创建一个默认仓库
-            return this.create({
-                code: 'DEFAULT',
-                name: '默认仓库',
-                isDefault: true
-            });
+            // 如果没有任何仓库，返回null而不是自动创建
+            return null;
         });
     }
 }
@@ -60899,45 +60225,7 @@ class MemoryDatabase {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Memory database initialized');
-            // Add some sample data for testing
-            if (this.items.length === 0) {
-                this.items = [
-                    {
-                        id: (0,uuid__WEBPACK_IMPORTED_MODULE_0__["default"])(),
-                        name: '示例商品1',
-                        description: '这是一个示例商品',
-                        sku: 'DEMO001',
-                        category: '电子产品',
-                        supplier: '示例供应商',
-                        stockQuantity: 100,
-                        reservedQuantity: 0,
-                        unitPrice: 50.0,
-                        totalValue: 5000.0,
-                        lastUpdated: new Date(),
-                        status: 'in-stock',
-                        location: 'A1货架',
-                        reorderLevel: 10,
-                        maxStock: 500
-                    },
-                    {
-                        id: (0,uuid__WEBPACK_IMPORTED_MODULE_0__["default"])(),
-                        name: '示例商品2',
-                        description: '另一个示例商品',
-                        sku: 'DEMO002',
-                        category: '办公用品',
-                        supplier: '另一个供应商',
-                        stockQuantity: 5,
-                        reservedQuantity: 2,
-                        unitPrice: 25.0,
-                        totalValue: 125.0,
-                        lastUpdated: new Date(),
-                        status: 'low-stock',
-                        location: 'B2货架',
-                        reorderLevel: 10,
-                        maxStock: 200
-                    }
-                ];
-            }
+            // 数据库启动时保持空状态，不添加任何示例数据
         });
     }
     getAllItems() {
@@ -61281,334 +60569,6 @@ class InventoryService {
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new InventoryService());
-
-
-/***/ }),
-
-/***/ "./src/services/testData.ts":
-/*!**********************************!*\
-  !*** ./src/services/testData.ts ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   TestDataGenerator: () => (/* binding */ TestDataGenerator),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _business__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./business */ "./src/services/business/index.ts");
-/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../types/entities */ "./src/types/entities.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-// 测试数据生成器
-
-
-class TestDataGenerator {
-    static initializeTestData() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                console.log('开始初始化测试数据...');
-                // 初始化业务服务
-                yield _business__WEBPACK_IMPORTED_MODULE_0__.businessServiceManager.initialize();
-                // 创建测试分类（检查是否已存在）
-                const categories = [
-                    { name: '电子产品', description: '电子设备和配件', code: 'ELEC', level: 1, sortOrder: 1, isActive: true },
-                    { name: '办公用品', description: '办公室用品和设备', code: 'OFFICE', level: 1, sortOrder: 2, isActive: true },
-                    { name: '日用品', description: '日常生活用品', code: 'DAILY', level: 1, sortOrder: 3, isActive: true },
-                    { name: '图书', description: '各类书籍和资料', code: 'BOOK', level: 1, sortOrder: 4, isActive: true }
-                ];
-                for (const cat of categories) {
-                    try {
-                        // 检查分类是否已存在
-                        const existingCategories = yield _business__WEBPACK_IMPORTED_MODULE_0__.categoryService.findByParentId(undefined);
-                        const exists = existingCategories.some(existing => existing.name === cat.name);
-                        if (!exists) {
-                            yield _business__WEBPACK_IMPORTED_MODULE_0__.categoryService.create(cat);
-                            console.log(`创建分类: ${cat.name}`);
-                        }
-                        else {
-                            console.log(`分类已存在，跳过: ${cat.name}`);
-                        }
-                    }
-                    catch (error) {
-                        console.warn(`创建分类失败: ${cat.name}`, error);
-                    }
-                }
-                // 创建测试单位（检查是否已存在）
-                const units = [
-                    { name: '件', symbol: 'pcs', description: '计件单位', precision: 0 },
-                    { name: '台', symbol: 'set', description: '设备单位', precision: 0 },
-                    { name: '盒', symbol: 'box', description: '盒装单位', precision: 0 },
-                    { name: '本', symbol: 'book', description: '图书单位', precision: 0 }
-                ];
-                for (const unit of units) {
-                    try {
-                        // 检查单位是否已存在
-                        const existingUnits = yield _business__WEBPACK_IMPORTED_MODULE_0__.unitService.findAll();
-                        const exists = existingUnits.some(existing => existing.name === unit.name || existing.symbol === unit.symbol);
-                        if (!exists) {
-                            yield _business__WEBPACK_IMPORTED_MODULE_0__.unitService.create(unit);
-                            console.log(`创建单位: ${unit.name}`);
-                        }
-                        else {
-                            console.log(`单位已存在，跳过: ${unit.name}`);
-                        }
-                    }
-                    catch (error) {
-                        console.warn(`创建单位失败: ${unit.name}`, error);
-                    }
-                }
-                // 创建测试仓库（检查是否已存在）
-                const warehouses = [
-                    {
-                        name: '总仓库',
-                        code: 'WH001',
-                        address: '北京市朝阳区XX路XX号',
-                        manager: '张三',
-                        phone: '13800138001', // 使用有效的手机号码格式
-                        isDefault: true
-                    },
-                    {
-                        name: '分仓库A',
-                        code: 'WH002',
-                        address: '上海市浦东新区XX路XX号',
-                        manager: '李四',
-                        phone: '13800138002', // 使用有效的手机号码格式
-                        isDefault: false
-                    }
-                ];
-                for (const wh of warehouses) {
-                    try {
-                        // 检查仓库是否已存在
-                        const existingWarehouses = yield _business__WEBPACK_IMPORTED_MODULE_0__.warehouseService.findAll();
-                        const exists = existingWarehouses.some(existing => existing.code === wh.code || existing.name === wh.name);
-                        if (!exists) {
-                            yield _business__WEBPACK_IMPORTED_MODULE_0__.warehouseService.create(wh);
-                            console.log(`创建仓库: ${wh.name}`);
-                        }
-                        else {
-                            console.log(`仓库已存在，跳过: ${wh.name}`);
-                        }
-                    }
-                    catch (error) {
-                        console.warn(`创建仓库失败: ${wh.name}`, error);
-                    }
-                }
-                // 获取创建的数据ID
-                const allCategories = yield _business__WEBPACK_IMPORTED_MODULE_0__.categoryService.findAll();
-                const allUnits = yield _business__WEBPACK_IMPORTED_MODULE_0__.unitService.findAll();
-                const allWarehouses = yield _business__WEBPACK_IMPORTED_MODULE_0__.warehouseService.findAll();
-                // 创建测试商品
-                const products = [
-                    {
-                        name: 'iPhone 15 Pro',
-                        code: 'IP15PRO',
-                        sku: 'IP15PRO-256-BLK',
-                        categoryId: allCategories[0].id,
-                        unitId: allUnits[1].id,
-                        description: '苹果最新旗舰手机',
-                        specification: '256GB 深空黑色',
-                        purchasePrice: 8000,
-                        salePrice: 9999,
-                        minStock: 5,
-                        maxStock: 50,
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_1__.ProductStatus.ACTIVE
-                    },
-                    {
-                        name: 'MacBook Air M2',
-                        code: 'MBA2023',
-                        sku: 'MBA2023-512-SLV',
-                        categoryId: allCategories[0].id,
-                        unitId: allUnits[1].id,
-                        description: '苹果笔记本电脑',
-                        specification: '13寸 512GB SSD',
-                        purchasePrice: 9000,
-                        salePrice: 11999,
-                        minStock: 3,
-                        maxStock: 20,
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_1__.ProductStatus.ACTIVE
-                    },
-                    {
-                        name: '办公椅',
-                        code: 'CHAIR001',
-                        sku: 'CHAIR001-BLK-L',
-                        categoryId: allCategories[1].id,
-                        unitId: allUnits[0].id,
-                        description: '人体工学办公椅',
-                        specification: '黑色真皮',
-                        purchasePrice: 800,
-                        salePrice: 1200,
-                        minStock: 10,
-                        maxStock: 100,
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_1__.ProductStatus.ACTIVE
-                    },
-                    {
-                        name: 'A4复印纸',
-                        code: 'PAPER001',
-                        sku: 'PAPER001-A4-500',
-                        categoryId: allCategories[1].id,
-                        unitId: allUnits[2].id,
-                        description: '高品质复印纸',
-                        specification: '500张/包',
-                        purchasePrice: 25,
-                        salePrice: 35,
-                        minStock: 50,
-                        maxStock: 500,
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_1__.ProductStatus.ACTIVE
-                    },
-                    {
-                        name: '无线鼠标',
-                        code: 'MOUSE001',
-                        sku: 'MOUSE001-24G-BLK', // 修复SKU格式，移除点号
-                        categoryId: allCategories[0].id,
-                        unitId: allUnits[0].id,
-                        description: '无线蓝牙鼠标',
-                        specification: '2.4G无线',
-                        purchasePrice: 50,
-                        salePrice: 89,
-                        minStock: 20,
-                        maxStock: 200,
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_1__.ProductStatus.ACTIVE
-                    }
-                ];
-                // 暂时注释掉产品创建，因为 productService 还未完全实现
-                // for (const product of products) {
-                //   await productService.create(product);
-                // }
-                // // 获取创建的商品
-                // const allProducts = await productService.findAll();
-                // const mainWarehouse = allWarehouses.find((w: any) => w.isDefault);
-                // if (mainWarehouse) {
-                //   // 创建库存数据
-                //   for (const product of allProducts) {
-                //     const stockData = {
-                //       productId: product.id,
-                //       warehouseId: mainWarehouse.id,
-                //       currentStock: Math.floor(Math.random() * 100) + 10, // 10-110之间随机库存
-                //       availableStock: 0, // 将在服务中计算
-                //       reservedStock: Math.floor(Math.random() * 5), // 0-5之间随机预留
-                //       minStock: 10,
-                //       maxStock: 200,
-                //       avgCost: product.purchasePrice,
-                //       unitPrice: product.salePrice,
-                //       lastMovementDate: new Date()
-                //     };
-                //     stockData.availableStock = stockData.currentStock - stockData.reservedStock;
-                //
-                //     await inventoryStockService.createOrUpdateStock(stockData);
-                //   }
-                // }
-                // 创建测试供应商（检查是否已存在）
-                const suppliers = [
-                    {
-                        name: '苹果授权经销商',
-                        code: 'SUP001',
-                        contactPerson: '王经理',
-                        phone: '13800138003', // 使用有效的手机号码格式
-                        email: 'wang@apple-dealer.com',
-                        address: '北京市海淀区中关村大街XX号',
-                        rating: _types_entities__WEBPACK_IMPORTED_MODULE_1__.SupplierRating.A,
-                        creditLimit: 1000000,
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_1__.SupplierStatus.ACTIVE
-                    },
-                    {
-                        name: '办公用品批发商',
-                        code: 'SUP002',
-                        contactPerson: '刘总',
-                        phone: '13800138004', // 使用有效的手机号码格式
-                        email: 'liu@office-supply.com',
-                        address: '上海市静安区南京西路XX号',
-                        rating: _types_entities__WEBPACK_IMPORTED_MODULE_1__.SupplierRating.B,
-                        creditLimit: 500000,
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_1__.SupplierStatus.ACTIVE
-                    }
-                ];
-                for (const supplier of suppliers) {
-                    try {
-                        // 检查供应商是否已存在
-                        const existingSuppliers = yield _business__WEBPACK_IMPORTED_MODULE_0__.supplierService.findAll();
-                        const exists = existingSuppliers.some(existing => existing.code === supplier.code || existing.name === supplier.name);
-                        if (!exists) {
-                            yield _business__WEBPACK_IMPORTED_MODULE_0__.supplierService.create(supplier);
-                            console.log(`创建供应商: ${supplier.name}`);
-                        }
-                        else {
-                            console.log(`供应商已存在，跳过: ${supplier.name}`);
-                        }
-                    }
-                    catch (error) {
-                        console.warn(`创建供应商失败: ${supplier.name}`, error);
-                    }
-                }
-                // 创建测试客户（检查是否已存在）
-                const customers = [
-                    {
-                        name: 'ABC科技有限公司',
-                        code: 'CUS001',
-                        contactPerson: '陈总',
-                        phone: '13800138005', // 使用有效的手机号码格式
-                        email: 'chen@abc-tech.com',
-                        address: '深圳市南山区科技园XX号',
-                        level: _types_entities__WEBPACK_IMPORTED_MODULE_1__.CustomerLevel.VIP,
-                        customerType: _types_entities__WEBPACK_IMPORTED_MODULE_1__.CustomerType.COMPANY,
-                        creditLimit: 100000,
-                        discountRate: 0.1,
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_1__.CustomerStatus.ACTIVE
-                    },
-                    {
-                        name: 'XYZ贸易公司',
-                        code: 'CUS002',
-                        contactPerson: '赵经理',
-                        phone: '13800138006', // 使用有效的手机号码格式
-                        email: 'zhao@xyz-trade.com',
-                        address: '广州市天河区珠江新城XX号',
-                        level: _types_entities__WEBPACK_IMPORTED_MODULE_1__.CustomerLevel.BRONZE,
-                        customerType: _types_entities__WEBPACK_IMPORTED_MODULE_1__.CustomerType.COMPANY,
-                        creditLimit: 50000,
-                        discountRate: 0.05,
-                        status: _types_entities__WEBPACK_IMPORTED_MODULE_1__.CustomerStatus.ACTIVE
-                    }
-                ];
-                for (const customer of customers) {
-                    try {
-                        // 检查客户是否已存在
-                        const existingCustomers = yield _business__WEBPACK_IMPORTED_MODULE_0__.customerService.findAll();
-                        const exists = existingCustomers.some(existing => existing.code === customer.code || existing.name === customer.name);
-                        if (!exists) {
-                            yield _business__WEBPACK_IMPORTED_MODULE_0__.customerService.create(customer);
-                            console.log(`创建客户: ${customer.name}`);
-                        }
-                        else {
-                            console.log(`客户已存在，跳过: ${customer.name}`);
-                        }
-                    }
-                    catch (error) {
-                        console.warn(`创建客户失败: ${customer.name}`, error);
-                    }
-                }
-                console.log('测试数据初始化完成！');
-                console.log(`创建了 ${allCategories.length} 个分类`);
-                console.log(`创建了 ${allUnits.length} 个单位`);
-                console.log(`创建了 ${allWarehouses.length} 个仓库`);
-                // console.log(`创建了 ${allProducts.length} 个商品`);  // 暂时注释掉
-                console.log(`创建了 ${suppliers.length} 个供应商`);
-                console.log(`创建了 ${customers.length} 个客户`);
-            }
-            catch (error) {
-                console.error('初始化测试数据失败:', error);
-            }
-        });
-    }
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TestDataGenerator);
 
 
 /***/ }),

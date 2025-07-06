@@ -7,46 +7,7 @@ export class MemoryDatabase {
 
   async initialize(): Promise<void> {
     console.log('Memory database initialized');
-    
-    // Add some sample data for testing
-    if (this.items.length === 0) {
-      this.items = [
-        {
-          id: uuidv4(),
-          name: '示例商品1',
-          description: '这是一个示例商品',
-          sku: 'DEMO001',
-          category: '电子产品',
-          supplier: '示例供应商',
-          stockQuantity: 100,
-          reservedQuantity: 0,
-          unitPrice: 50.0,
-          totalValue: 5000.0,
-          lastUpdated: new Date(),
-          status: 'in-stock',
-          location: 'A1货架',
-          reorderLevel: 10,
-          maxStock: 500
-        },
-        {
-          id: uuidv4(),
-          name: '示例商品2',
-          description: '另一个示例商品',
-          sku: 'DEMO002',
-          category: '办公用品',
-          supplier: '另一个供应商',
-          stockQuantity: 5,
-          reservedQuantity: 2,
-          unitPrice: 25.0,
-          totalValue: 125.0,
-          lastUpdated: new Date(),
-          status: 'low-stock',
-          location: 'B2货架',
-          reorderLevel: 10,
-          maxStock: 200
-        }
-      ];
-    }
+    // 数据库启动时保持空状态，不添加任何示例数据
   }
 
   async getAllItems(): Promise<InventoryItem[]> {

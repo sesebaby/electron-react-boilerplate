@@ -11,51 +11,7 @@ export class CustomerService {
 
   async initialize(): Promise<void> {
     console.log('Customer service initialized');
-    
-    // 创建默认客户
-    if (this.customers.size === 0) {
-      await this.createDefaultCustomers();
-    }
-  }
-
-  private async createDefaultCustomers(): Promise<void> {
-    const defaultCustomers = [
-      {
-        code: 'CUS001',
-        name: '优质客户A公司',
-        contactPerson: '王总',
-        phone: '021-11111111',
-        email: 'wang@customer-a.com',
-        address: '上海市黄浦区商业街88号',
-        customerType: CustomerType.COMPANY,
-        creditLimit: 200000,
-        paymentTerms: '月结30天',
-        discountRate: 0.05,
-        level: CustomerLevel.VIP,
-        status: CustomerStatus.ACTIVE
-      },
-      {
-        code: 'CUS002',
-        name: '李明',
-        contactPerson: '李明',
-        phone: '138-8888-8888',
-        email: 'liming@email.com',
-        address: '北京市海淀区中关村大街1号',
-        customerType: CustomerType.INDIVIDUAL,
-        creditLimit: 50000,
-        discountRate: 0.02,
-        level: CustomerLevel.GOLD,
-        status: CustomerStatus.ACTIVE
-      }
-    ];
-
-    for (const customerData of defaultCustomers) {
-      try {
-        await this.create(customerData);
-      } catch (error) {
-        console.warn('Failed to create default customer:', error);
-      }
-    }
+    // 系统启动时不创建任何默认客户数据
   }
 
   async findAll(): Promise<Customer[]> {

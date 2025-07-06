@@ -8,48 +8,7 @@ export class SupplierService {
 
   async initialize(): Promise<void> {
     console.log('Supplier service initialized');
-    
-    // 创建默认供应商
-    if (this.suppliers.size === 0) {
-      await this.createDefaultSuppliers();
-    }
-  }
-
-  private async createDefaultSuppliers(): Promise<void> {
-    const defaultSuppliers = [
-      {
-        code: 'SUP001',
-        name: '示例供应商A',
-        contactPerson: '张经理',
-        phone: '021-12345678',
-        email: 'zhang@supplier-a.com',
-        address: '上海市浦东新区示例路123号',
-        paymentTerms: '30天付款',
-        creditLimit: 100000,
-        rating: SupplierRating.A,
-        status: SupplierStatus.ACTIVE
-      },
-      {
-        code: 'SUP002',
-        name: '示例供应商B',
-        contactPerson: '李总',
-        phone: '010-87654321',
-        email: 'li@supplier-b.com',
-        address: '北京市朝阳区示例大街456号',
-        paymentTerms: '60天付款',
-        creditLimit: 50000,
-        rating: SupplierRating.B,
-        status: SupplierStatus.ACTIVE
-      }
-    ];
-
-    for (const supplierData of defaultSuppliers) {
-      try {
-        await this.create(supplierData);
-      } catch (error) {
-        console.warn('Failed to create default supplier:', error);
-      }
-    }
+    // 系统启动时不创建任何默认供应商数据
   }
 
   async findAll(): Promise<Supplier[]> {

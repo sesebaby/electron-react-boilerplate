@@ -12,36 +12,8 @@ export class UserService {
   private currentUser: User | null = null;
 
   async initialize(): Promise<void> {
-    // Create default admin user if no users exist
-    if (this.users.size === 0) {
-      await this.createDefaultAdmin();
-    }
+    // 系统启动时不创建任何默认用户
     logger.info('User service initialized');
-  }
-
-  private async createDefaultAdmin(): Promise<void> {
-    const temporaryPassword = this.generateSecurePassword();
-    
-    const adminUser: Omit<User, 'id' | 'createdAt' | 'updatedAt'> = {
-      username: 'admin',
-      password: temporaryPassword,
-      nickname: '系统管理员',
-      email: 'admin@system.com',
-      phone: '13800138000',
-      avatar: undefined,
-      role: UserRole.ADMIN,
-      status: UserStatus.ACTIVE,
-      lastLoginAt: new Date()
-    };
-
-    await this.create(adminUser);
-    logger.info('Default admin user created. Please change the password on first login.');
-    
-    // Store temporary password securely (in production, this should be displayed once and not logged)
-    if (process.env.NODE_ENV === 'development') {
-      logger.security('Temporary admin password generated', { adminId: 'admin' });
-      logger.warn('Default admin password should be changed immediately');
-    }
   }
 
   async findAll(): Promise<User[]> {

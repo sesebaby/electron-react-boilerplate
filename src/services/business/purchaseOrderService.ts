@@ -13,90 +13,10 @@ export class PurchaseOrderService {
 
   async initialize(): Promise<void> {
     console.log('Purchase order service initialized');
-    
-    // 创建默认采购订单用于演示
-    if (this.orders.size === 0) {
-      await this.createDefaultOrders();
-    }
+    // 系统启动时不创建任何默认采购订单数据
   }
 
-  private async createDefaultOrders(): Promise<void> {
-    try {
-      const suppliers = await supplierService.findAll();
-      const products = await productService.findAll();
-      
-      if (suppliers.length === 0 || products.length === 0) {
-        console.log('No suppliers or products found, skipping default orders creation');
-        return;
-      }
 
-      const defaultOrders = [
-        {
-          supplierId: suppliers[0].id,
-          orderDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7天前
-          expectedDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3天后
-          status: PurchaseOrderStatus.CONFIRMED,
-          discountAmount: 0,
-          taxAmount: 0,
-          remark: '示例采购订单A',
-          creator: '系统管理员',
-          items: [
-            {
-              productId: products[0]?.id,
-              quantity: 100,
-              unitPrice: 50.00,
-              discountRate: 0,
-              receivedQuantity: 60
-            },
-            {
-              productId: products[1]?.id,
-              quantity: 50,
-              unitPrice: 120.00,
-              discountRate: 0.05,
-              receivedQuantity: 0
-            }
-          ]
-        },
-        {
-          supplierId: suppliers[1]?.id || suppliers[0].id,
-          orderDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3天前
-          expectedDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7天后
-          status: PurchaseOrderStatus.DRAFT,
-          discountAmount: 100,
-          taxAmount: 0,
-          remark: '示例采购订单B',
-          creator: '采购员',
-          items: [
-            {
-              productId: products[2]?.id || products[0].id,
-              quantity: 200,
-              unitPrice: 25.00,
-              discountRate: 0,
-              receivedQuantity: 0
-            }
-          ]
-        }
-      ];
-
-      for (const orderData of defaultOrders) {
-        try {
-          const { items, ...orderInfo } = orderData;
-          const order = await this.create(orderInfo);
-          
-          // 添加订单项目
-          for (const itemData of items) {
-            if (itemData.productId) {
-              await this.addOrderItem(order.id, itemData);
-            }
-          }
-        } catch (error) {
-          console.warn('Failed to create default purchase order:', error);
-        }
-      }
-    } catch (error) {
-      console.warn('Failed to create default purchase orders:', error);
-    }
-  }
 
   async findAll(): Promise<PurchaseOrder[]> {
     const orders = Array.from(this.orders.values());

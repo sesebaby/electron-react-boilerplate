@@ -14,76 +14,10 @@ export class SalesDeliveryService {
 
   async initialize(): Promise<void> {
     console.log('Sales delivery service initialized');
-    
-    // 创建默认销售出库单用于演示
-    if (this.deliveries.size === 0) {
-      await this.createDefaultDeliveries();
-    }
+    // 系统启动时不创建任何默认销售出库单数据
   }
 
-  private async createDefaultDeliveries(): Promise<void> {
-    try {
-      const orders = await salesOrderService.findAll();
-      const warehouses = await warehouseService.findAll();
-      
-      if (orders.length === 0 || warehouses.length === 0) {
-        console.log('No orders or warehouses found, skipping default deliveries creation');
-        return;
-      }
 
-      // 找到已确认的订单
-      const confirmedOrders = orders.filter(order => 
-        order.status === 'confirmed' && order.items && order.items.length > 0
-      );
-
-      if (confirmedOrders.length === 0) {
-        console.log('No confirmed orders found, skipping default deliveries creation');
-        return;
-      }
-
-      const defaultWarehouse = warehouses.find(w => w.isDefault) || warehouses[0];
-      
-      const defaultDeliveries = [
-        {
-          orderId: confirmedOrders[0].id,
-          customerId: confirmedOrders[0].customerId,
-          warehouseId: defaultWarehouse.id,
-          deliveryDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1天前
-          status: DeliveryStatus.COMPLETED,
-          deliveryPerson: '配送员张三',
-          remark: '示例出库单A - 部分出库',
-          partialDelivery: true
-        }
-      ];
-
-      for (const deliveryData of defaultDeliveries) {
-        try {
-          const { partialDelivery, ...deliveryInfo } = deliveryData;
-          const delivery = await this.create(deliveryInfo);
-          
-          // 添加出库项目（部分出库）
-          const order = await salesOrderService.findById(deliveryData.orderId);
-          if (order && order.items) {
-            for (const orderItem of order.items) {
-              const deliveryQuantity = partialDelivery ? Math.floor(orderItem.quantity * 0.5) : orderItem.quantity;
-              if (deliveryQuantity > 0) {
-                await this.addDeliveryItem(delivery.id, {
-                  productId: orderItem.productId,
-                  orderItemId: orderItem.id,
-                  quantity: deliveryQuantity,
-                  unitPrice: orderItem.unitPrice
-                });
-              }
-            }
-          }
-        } catch (error) {
-          console.warn('Failed to create default sales delivery:', error);
-        }
-      }
-    } catch (error) {
-      console.warn('Failed to create default sales deliveries:', error);
-    }
-  }
 
   async findAll(): Promise<SalesDelivery[]> {
     const deliveries = Array.from(this.deliveries.values());

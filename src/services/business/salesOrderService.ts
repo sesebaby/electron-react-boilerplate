@@ -17,92 +17,10 @@ export class SalesOrderService {
 
   async initialize(): Promise<void> {
     logger.info('Sales order service initialized');
-    
-    // 创建默认销售订单用于演示
-    if (this.orders.size === 0) {
-      await this.createDefaultOrders();
-    }
+    // 系统启动时不创建任何默认销售订单数据
   }
 
-  private async createDefaultOrders(): Promise<void> {
-    try {
-      const customers = await customerService.findAll();
-      const products = await productService.findAll();
-      
-      if (customers.length === 0 || products.length === 0) {
-        console.log('No customers or products found, skipping default sales orders creation');
-        return;
-      }
 
-      const defaultOrders = [
-        {
-          customerId: customers[0].id,
-          orderDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5天前
-          deliveryDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // 2天后
-          status: SalesOrderStatus.CONFIRMED,
-          paymentStatus: PaymentStatus.PARTIAL,
-          discountAmount: 50,
-          taxAmount: 0,
-          remark: '示例销售订单A',
-          creator: '销售员',
-          items: [
-            {
-              productId: products[0]?.id,
-              quantity: 20,
-              unitPrice: 55.00,
-              discountRate: 0,
-              deliveredQuantity: 10
-            },
-            {
-              productId: products[1]?.id,
-              quantity: 15,
-              unitPrice: 125.00,
-              discountRate: 0.03,
-              deliveredQuantity: 0
-            }
-          ]
-        },
-        {
-          customerId: customers[1]?.id || customers[0].id,
-          orderDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2天前
-          deliveryDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5天后
-          status: SalesOrderStatus.DRAFT,
-          paymentStatus: PaymentStatus.UNPAID,
-          discountAmount: 0,
-          taxAmount: 80,
-          remark: '示例销售订单B',
-          creator: '销售主管',
-          items: [
-            {
-              productId: products[2]?.id || products[0].id,
-              quantity: 50,
-              unitPrice: 28.00,
-              discountRate: 0,
-              deliveredQuantity: 0
-            }
-          ]
-        }
-      ];
-
-      for (const orderData of defaultOrders) {
-        try {
-          const { items, ...orderInfo } = orderData;
-          const order = await this.create(orderInfo);
-          
-          // 添加订单项目
-          for (const itemData of items) {
-            if (itemData.productId) {
-              await this.addOrderItem(order.id, itemData);
-            }
-          }
-        } catch (error) {
-          console.warn('Failed to create default sales order:', error);
-        }
-      }
-    } catch (error) {
-      console.warn('Failed to create default sales orders:', error);
-    }
-  }
 
   async findAll(): Promise<SalesOrder[]> {
     const orders = Array.from(this.orders.values());

@@ -15,76 +15,10 @@ export class PurchaseReceiptService {
 
   async initialize(): Promise<void> {
     console.log('Purchase receipt service initialized');
-    
-    // 创建默认采购收货单用于演示
-    if (this.receipts.size === 0) {
-      await this.createDefaultReceipts();
-    }
+    // 系统启动时不创建任何默认采购收货单数据
   }
 
-  private async createDefaultReceipts(): Promise<void> {
-    try {
-      const orders = await purchaseOrderService.findAll();
-      const warehouses = await warehouseService.findAll();
-      
-      if (orders.length === 0 || warehouses.length === 0) {
-        console.log('No orders or warehouses found, skipping default receipts creation');
-        return;
-      }
 
-      // 找到已确认的订单
-      const confirmedOrders = orders.filter(order => 
-        order.status === 'confirmed' && order.items && order.items.length > 0
-      );
-
-      if (confirmedOrders.length === 0) {
-        console.log('No confirmed orders found, skipping default receipts creation');
-        return;
-      }
-
-      const defaultWarehouse = warehouses.find(w => w.isDefault) || warehouses[0];
-      
-      const defaultReceipts = [
-        {
-          orderId: confirmedOrders[0].id,
-          supplierId: confirmedOrders[0].supplierId,
-          warehouseId: defaultWarehouse.id,
-          receiptDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2天前
-          status: ReceiptStatus.CONFIRMED,
-          receiver: '仓库管理员',
-          remark: '示例收货单A - 部分收货',
-          partialReceipt: true
-        }
-      ];
-
-      for (const receiptData of defaultReceipts) {
-        try {
-          const { partialReceipt, ...receiptInfo } = receiptData;
-          const receipt = await this.create(receiptInfo);
-          
-          // 添加收货项目（部分收货）
-          const order = await purchaseOrderService.findById(receiptData.orderId);
-          if (order && order.items) {
-            for (const orderItem of order.items) {
-              const receiptQuantity = partialReceipt ? Math.floor(orderItem.quantity * 0.6) : orderItem.quantity;
-              if (receiptQuantity > 0) {
-                await this.addReceiptItem(receipt.id, {
-                  productId: orderItem.productId,
-                  orderItemId: orderItem.id,
-                  quantity: receiptQuantity,
-                  unitPrice: orderItem.unitPrice
-                });
-              }
-            }
-          }
-        } catch (error) {
-          console.warn('Failed to create default purchase receipt:', error);
-        }
-      }
-    } catch (error) {
-      console.warn('Failed to create default purchase receipts:', error);
-    }
-  }
 
   async findAll(): Promise<PurchaseReceipt[]> {
     const receipts = Array.from(this.receipts.values());

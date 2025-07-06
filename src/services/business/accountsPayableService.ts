@@ -34,79 +34,7 @@ export class AccountsPayableService {
     console.log('AccountsPayableService initialized successfully');
   }
 
-  private async createSampleData(): Promise<void> {
-    const samplePayables = [
-      {
-        billNo: 'AP001',
-        supplierId: 'supplier-1',
-        orderId: 'purchase-order-1',
-        billDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30天前
-        dueDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // 15天前（已逾期）
-        totalAmount: 150000,
-        paidAmount: 50000,
-        balanceAmount: 100000,
-        status: PayableStatus.PARTIAL
-      },
-      {
-        billNo: 'AP002',
-        supplierId: 'supplier-2',
-        orderId: 'purchase-order-2',
-        billDate: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000), // 20天前
-        dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // 10天后
-        totalAmount: 89000,
-        paidAmount: 0,
-        balanceAmount: 89000,
-        status: PayableStatus.UNPAID
-      },
-      {
-        billNo: 'AP003',
-        supplierId: 'supplier-1',
-        billDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10天前
-        dueDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000), // 20天后
-        totalAmount: 45000,
-        paidAmount: 45000,
-        balanceAmount: 0,
-        status: PayableStatus.PAID
-      }
-    ];
 
-    for (const payableData of samplePayables) {
-      await this.create(payableData);
-    }
-
-    // 创建示例付款记录
-    const samplePayments = [
-      {
-        paymentNo: 'PAY001',
-        payableId: '', // 将在下面设置
-        paymentDate: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000),
-        paymentMethod: PaymentMethod.BANK_TRANSFER,
-        amount: 50000,
-        remark: '首期付款',
-        operator: '财务专员'
-      },
-      {
-        paymentNo: 'PAY002',
-        payableId: '', // 将在下面设置
-        paymentDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-        paymentMethod: PaymentMethod.BANK_TRANSFER,
-        amount: 45000,
-        remark: '全额付款',
-        operator: '财务专员'
-      }
-    ];
-
-    // 为付款记录分配应付账款ID
-    const payableIds = Array.from(this.payables.keys());
-    if (payableIds.length >= 2) {
-      samplePayments[0].payableId = payableIds[0];
-      samplePayments[1].payableId = payableIds[2];
-
-      for (const paymentData of samplePayments) {
-        await this.addPayment(paymentData);
-      }
-    }
-  }
 
   // 创建应付账款
   async create(data: Omit<AccountsPayable, 'id' | 'createdAt' | 'updatedAt'>): Promise<AccountsPayable> {

@@ -7,32 +7,7 @@ export class CategoryService {
 
   async initialize(): Promise<void> {
     console.log('Category service initialized');
-    
-    // 创建默认分类
-    if (this.categories.size === 0) {
-      await this.createDefaultCategories();
-    }
-  }
-
-  private async createDefaultCategories(): Promise<void> {
-    const defaultCategories = [
-      { name: '电子产品', level: 1, sortOrder: 1 },
-      { name: '办公用品', level: 1, sortOrder: 2 },
-      { name: '食品饮料', level: 1, sortOrder: 3 },
-      { name: '服装纺织', level: 1, sortOrder: 4 },
-      { name: '机械设备', level: 1, sortOrder: 5 }
-    ];
-
-    for (const categoryData of defaultCategories) {
-      try {
-        await this.create({
-          ...categoryData,
-          isActive: true
-        });
-      } catch (error) {
-        console.warn('Failed to create default category:', error);
-      }
-    }
+    // 系统启动时不创建任何默认分类数据
   }
 
   async findAll(): Promise<Category[]> {
