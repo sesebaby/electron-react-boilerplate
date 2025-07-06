@@ -32,17 +32,17 @@ const statusLabels: Record<UserStatus, string> = {
 };
 
 const roleColors: Record<UserRole, string> = {
-  [UserRole.ADMIN]: 'bg-red-100 text-red-800 border-red-200',
-  [UserRole.PURCHASER]: 'bg-blue-100 text-blue-800 border-blue-200',
-  [UserRole.SALESPERSON]: 'bg-green-100 text-green-800 border-green-200',
-  [UserRole.WAREHOUSE]: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  [UserRole.FINANCE]: 'bg-purple-100 text-purple-800 border-purple-200'
+  [UserRole.ADMIN]: 'bg-red-500/20 text-red-100 border-red-400/30',
+  [UserRole.PURCHASER]: 'bg-blue-500/20 text-blue-100 border-blue-400/30',
+  [UserRole.SALESPERSON]: 'bg-green-500/20 text-green-100 border-green-400/30',
+  [UserRole.WAREHOUSE]: 'bg-yellow-500/20 text-yellow-100 border-yellow-400/30',
+  [UserRole.FINANCE]: 'bg-purple-500/20 text-purple-100 border-purple-400/30'
 };
 
 const statusColors: Record<UserStatus, string> = {
-  [UserStatus.ACTIVE]: 'bg-green-100 text-green-800 border-green-200',
-  [UserStatus.INACTIVE]: 'bg-gray-100 text-gray-800 border-gray-200',
-  [UserStatus.LOCKED]: 'bg-red-100 text-red-800 border-red-200'
+  [UserStatus.ACTIVE]: 'bg-green-500/20 text-green-100 border-green-400/30',
+  [UserStatus.INACTIVE]: 'bg-gray-500/20 text-gray-100 border-gray-400/30',
+  [UserStatus.LOCKED]: 'bg-red-500/20 text-red-100 border-red-400/30'
 };
 
 export const UserManagement: React.FC<UserManagementProps> = ({ className }) => {
@@ -310,15 +310,16 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
 
       {/* 错误消息 */}
       {error && (
-        <GlassCard className="border-red-200 bg-red-50/50">
+        <GlassCard className="border-red-400/30 bg-red-500/20">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 text-red-600">
+            <div className="flex items-center space-x-2 text-red-100">
               <span>❌</span>
               <span>{error}</span>
             </div>
-            <button 
+            <button
+              type="button"
               onClick={() => setError(null)}
-              className="text-red-400 hover:text-red-600 transition-colors"
+              className="text-red-200 hover:text-red-100 transition-colors"
             >
               ✕
             </button>
@@ -337,13 +338,13 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
             />
-            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">🔍</span>
+            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60">🔍</span>
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">状态筛选</label>
-            <GlassSelect 
-              value={statusFilter} 
+            <label className="block text-sm font-medium text-white/80 mb-2">状态筛选</label>
+            <GlassSelect
+              value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as UserStatus | 'all')}
             >
               <option value="all">全部状态</option>
@@ -352,9 +353,9 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
               ))}
             </GlassSelect>
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">角色筛选</label>
+            <label className="block text-sm font-medium text-white/80 mb-2">角色筛选</label>
             <GlassSelect 
               value={roleFilter} 
               onChange={(e) => setRoleFilter(e.target.value as UserRole | 'all')}
@@ -372,26 +373,26 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
       <GlassCard>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50/50">
+            <thead className="bg-white/10">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">用户信息</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">角色</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">状态</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">最后登录</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">注册时间</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">用户信息</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">角色</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">状态</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">最后登录</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">注册时间</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">操作</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200/50">
+            <tbody className="divide-y divide-white/20">
               {filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-white/50 transition-colors">
+                <tr key={user.id} className="hover:bg-white/10 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="font-medium text-gray-900">{user.nickname}</span>
-                        <span className="text-sm text-gray-500">@{user.username}</span>
+                        <span className="font-medium text-white">{user.nickname}</span>
+                        <span className="text-sm text-white/70">@{user.username}</span>
                       </div>
-                      <div className="text-sm text-gray-500 space-x-2">
+                      <div className="text-sm text-white/60 space-x-2">
                         {user.email && <span>{user.email}</span>}
                         {user.phone && <span>{user.phone}</span>}
                       </div>
@@ -407,16 +408,17 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                       {statusLabels[user.status]}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-white/70">
                     {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleString('zh-CN') : '从未登录'}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-white/70">
                     {new Date(user.createdAt).toLocaleDateString('zh-CN')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center space-x-2">
                       <button
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        type="button"
+                        className="p-2 text-blue-200 hover:bg-blue-500/20 rounded-lg transition-colors"
                         onClick={() => handleView(user)}
                         title="查看详情"
                       >
@@ -425,14 +427,16 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                       {currentUser?.role === UserRole.ADMIN && (
                         <>
                           <button
-                            className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                            type="button"
+                            className="p-2 text-green-200 hover:bg-green-500/20 rounded-lg transition-colors"
                             onClick={() => handleEdit(user)}
                             title="编辑用户"
                           >
                             ✏️
                           </button>
                           <button
-                            className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+                            type="button"
+                            className="p-2 text-purple-200 hover:bg-purple-500/20 rounded-lg transition-colors"
                             onClick={() => handleChangePassword(user)}
                             title="修改密码"
                           >
@@ -440,7 +444,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                           </button>
                           {user.status === UserStatus.ACTIVE ? (
                             <button
-                              className="p-2 text-yellow-600 hover:bg-yellow-50 rounded-lg transition-colors"
+                              type="button"
+                              className="p-2 text-yellow-200 hover:bg-yellow-500/20 rounded-lg transition-colors"
                               onClick={() => handleStatusChange(user, UserStatus.INACTIVE)}
                               title="停用用户"
                             >
@@ -448,7 +453,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                             </button>
                           ) : (
                             <button
-                              className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                              type="button"
+                              className="p-2 text-green-200 hover:bg-green-500/20 rounded-lg transition-colors"
                               onClick={() => handleStatusChange(user, UserStatus.ACTIVE)}
                               title="启用用户"
                             >
@@ -456,7 +462,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                             </button>
                           )}
                           <button
-                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            type="button"
+                            className="p-2 text-red-200 hover:bg-red-500/20 rounded-lg transition-colors"
                             onClick={() => handleDelete(user)}
                             title="删除用户"
                           >
@@ -474,8 +481,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
           {filteredUsers.length === 0 && (
             <div className="text-center py-12">
               <div className="text-4xl mb-4">👥</div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">暂无用户数据</h3>
-              <p className="text-gray-500">请调整筛选条件或添加新用户</p>
+              <h3 className="text-lg font-medium text-white mb-2">暂无用户数据</h3>
+              <p className="text-white/70">请调整筛选条件或添加新用户</p>
             </div>
           )}
         </div>
@@ -485,31 +492,31 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">👥</div>
-          <div className="text-2xl font-bold text-blue-600">{users.length}</div>
-          <div className="text-sm text-gray-600">总用户数</div>
+          <div className="text-2xl font-bold text-blue-200">{users.length}</div>
+          <div className="text-sm text-white/70">总用户数</div>
         </GlassCard>
-        
+
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">✅</div>
-          <div className="text-2xl font-bold text-green-600">{users.filter(u => u.status === UserStatus.ACTIVE).length}</div>
-          <div className="text-sm text-gray-600">正常用户</div>
+          <div className="text-2xl font-bold text-green-200">{users.filter(u => u.status === UserStatus.ACTIVE).length}</div>
+          <div className="text-sm text-white/70">正常用户</div>
         </GlassCard>
-        
+
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">👑</div>
-          <div className="text-2xl font-bold text-red-600">{users.filter(u => u.role === UserRole.ADMIN).length}</div>
-          <div className="text-sm text-gray-600">管理员</div>
+          <div className="text-2xl font-bold text-red-200">{users.filter(u => u.role === UserRole.ADMIN).length}</div>
+          <div className="text-sm text-white/70">管理员</div>
         </GlassCard>
-        
+
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">📊</div>
-          <div className="text-2xl font-bold text-purple-600">
-            {users.filter(u => 
-              u.lastLoginAt && 
+          <div className="text-2xl font-bold text-purple-200">
+            {users.filter(u =>
+              u.lastLoginAt &&
               new Date().getTime() - new Date(u.lastLoginAt).getTime() < 7 * 24 * 60 * 60 * 1000
             ).length}
           </div>
-          <div className="text-sm text-gray-600">本周活跃</div>
+          <div className="text-sm text-white/70">本周活跃</div>
         </GlassCard>
       </div>
 
