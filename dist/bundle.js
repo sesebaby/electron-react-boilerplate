@@ -50835,23 +50835,22 @@ const FinancialReports = ({ className }) => {
         try {
             setLoading(true);
             setError(null);
-            const [
-            // payablesData,
+            const [payablesData, 
             // receivablesData,
-            // paymentsData,
+            paymentsData, 
             // receiptsData,
             salesData, purchaseData] = yield Promise.all([
-                // accountsPayableService.findAll(),
+                _services_business__WEBPACK_IMPORTED_MODULE_2__.accountsPayableService.findAll(),
                 // accountsReceivableService.findAll(),
-                // accountsPayableService.findAllPayments(),
+                _services_business__WEBPACK_IMPORTED_MODULE_2__.accountsPayableService.findAllPayments(),
                 // accountsReceivableService.findAllReceipts(),
                 _services_business__WEBPACK_IMPORTED_MODULE_2__.salesOrderService.findAll(),
                 _services_business__WEBPACK_IMPORTED_MODULE_2__.purchaseOrderService.findAll()
             ]);
-            // 暂时注释掉财务数据设置
-            // setPayables(payablesData);
+            // 设置财务数据（部分启用）
+            setPayables(payablesData);
             // setReceivables(receivablesData);
-            // setPayments(paymentsData);
+            setPayments(paymentsData);
             // setReceipts(receiptsData);
             setSalesOrders(salesData);
             setPurchaseOrders(purchaseData);

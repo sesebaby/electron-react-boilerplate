@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  // accountsPayableService,
+  accountsPayableService,
   // accountsReceivableService,
   salesOrderService,
   purchaseOrderService,
@@ -49,25 +49,25 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
       setError(null);
       
       const [
-        // payablesData,
+        payablesData,
         // receivablesData,
-        // paymentsData,
+        paymentsData,
         // receiptsData,
         salesData,
         purchaseData
       ] = await Promise.all([
-        // accountsPayableService.findAll(),
+        accountsPayableService.findAll(),
         // accountsReceivableService.findAll(),
-        // accountsPayableService.findAllPayments(),
+        accountsPayableService.findAllPayments(),
         // accountsReceivableService.findAllReceipts(),
         salesOrderService.findAll(),
         purchaseOrderService.findAll()
       ]);
       
-      // 暂时注释掉财务数据设置
-      // setPayables(payablesData);
+      // 设置财务数据（部分启用）
+      setPayables(payablesData);
       // setReceivables(receivablesData);
-      // setPayments(paymentsData);
+      setPayments(paymentsData);
       // setReceipts(receiptsData);
       setSalesOrders(salesData);
       setPurchaseOrders(purchaseData);
