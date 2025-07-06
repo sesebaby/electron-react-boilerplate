@@ -2575,6 +2575,79 @@ function decodeBase64(string, length) {
 
 /***/ }),
 
+/***/ "./node_modules/class-variance-authority/dist/index.mjs":
+/*!**************************************************************!*\
+  !*** ./node_modules/class-variance-authority/dist/index.mjs ***!
+  \**************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   cva: () => (/* binding */ cva),
+/* harmony export */   cx: () => (/* binding */ cx)
+/* harmony export */ });
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.mjs");
+/**
+ * Copyright 2022 Joe Bell. All rights reserved.
+ *
+ * This file is licensed to you under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR REPRESENTATIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */ 
+const falsyToString = (value)=>typeof value === "boolean" ? `${value}` : value === 0 ? "0" : value;
+const cx = clsx__WEBPACK_IMPORTED_MODULE_0__.clsx;
+const cva = (base, config)=>(props)=>{
+        var _config_compoundVariants;
+        if ((config === null || config === void 0 ? void 0 : config.variants) == null) return cx(base, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
+        const { variants, defaultVariants } = config;
+        const getVariantClassNames = Object.keys(variants).map((variant)=>{
+            const variantProp = props === null || props === void 0 ? void 0 : props[variant];
+            const defaultVariantProp = defaultVariants === null || defaultVariants === void 0 ? void 0 : defaultVariants[variant];
+            if (variantProp === null) return null;
+            const variantKey = falsyToString(variantProp) || falsyToString(defaultVariantProp);
+            return variants[variant][variantKey];
+        });
+        const propsWithoutUndefined = props && Object.entries(props).reduce((acc, param)=>{
+            let [key, value] = param;
+            if (value === undefined) {
+                return acc;
+            }
+            acc[key] = value;
+            return acc;
+        }, {});
+        const getCompoundVariantClassNames = config === null || config === void 0 ? void 0 : (_config_compoundVariants = config.compoundVariants) === null || _config_compoundVariants === void 0 ? void 0 : _config_compoundVariants.reduce((acc, param)=>{
+            let { class: cvClass, className: cvClassName, ...compoundVariantOptions } = param;
+            return Object.entries(compoundVariantOptions).every((param)=>{
+                let [key, value] = param;
+                return Array.isArray(value) ? value.includes({
+                    ...defaultVariants,
+                    ...propsWithoutUndefined
+                }[key]) : ({
+                    ...defaultVariants,
+                    ...propsWithoutUndefined
+                })[key] === value;
+            }) ? [
+                ...acc,
+                cvClass,
+                cvClassName
+            ] : acc;
+        }, []);
+        return cx(base, getVariantClassNames, getCompoundVariantClassNames, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
+    };
+
+
+
+/***/ }),
+
 /***/ "./node_modules/clsx/dist/clsx.mjs":
 /*!*****************************************!*\
   !*** ./node_modules/clsx/dist/clsx.mjs ***!
@@ -4500,6 +4573,10 @@ video {
 .bg-yellow-500\\/20 {
   background-color: rgb(234 179 8 / 0.2);
 }
+.bg-blue-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+}
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
@@ -5585,6 +5662,11 @@ video {
   background-color: rgb(234 179 8 / 0.3);
 }
 
+.hover\\:bg-blue-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+}
+
 .hover\\:from-blue-600:hover {
   --tw-gradient-from: #2563eb var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(37 99 235 / 0) var(--tw-gradient-to-position);
@@ -5966,6 +6048,14 @@ video {
 
 @media (min-width: 1024px) {
 
+  .lg\\:col-span-1 {
+    grid-column: span 1 / span 1;
+  }
+
+  .lg\\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+
   .lg\\:flex {
     display: flex;
   }
@@ -6044,7 +6134,7 @@ video {
 
 .\\[\\&_tr\\]\\:border-b tr {
   border-bottom-width: 1px;
-}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"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BAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAn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AA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAn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AAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB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","sourcesContent":["@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n/* 导入主题样式 */\n@import './styles/themes.css';\n\n@layer base {\n  :root {\n    --background: 220 20% 14%;\n    --foreground: 220 8% 95%;\n    --card: 220 20% 10%;\n    --card-foreground: 220 8% 95%;\n    --popover: 220 20% 10%;\n    --popover-foreground: 220 8% 95%;\n    --primary: 220 8% 95%;\n    --primary-foreground: 220 20% 14%;\n    --secondary: 220 20% 14%;\n    --secondary-foreground: 220 8% 95%;\n    --muted: 220 20% 14%;\n    --muted-foreground: 220 8% 65%;\n    --accent: 220 20% 14%;\n    --accent-foreground: 220 8% 95%;\n    --destructive: 0 84% 60%;\n    --destructive-foreground: 0 0% 98%;\n    --border: 220 13% 18%;\n    --input: 220 13% 18%;\n    --ring: 220 8% 95%;\n    --radius: 0.5rem;\n    \n    /* Theme System Variables */\n    --spacing-xs: 0.25rem;\n    --spacing-sm: 0.5rem;\n    --spacing-md: 1rem;\n    --spacing-lg: 1.5rem;\n    --spacing-xl: 2rem;\n    \n    --border-radius-sm: 0.375rem;\n    --border-radius-md: 0.5rem;\n    --border-radius-lg: 0.75rem;\n    \n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n    --glass-blur: blur(20px);\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\n  }\n  \n  /* Animation utilities */\n  @keyframes slide-in-right {\n    from {\n      transform: translateX(100%);\n      opacity: 0;\n    }\n    to {\n      transform: translateX(0);\n      opacity: 1;\n    }\n  }\n  \n  @keyframes fade-in {\n    from {\n      opacity: 0;\n    }\n    to {\n      opacity: 1;\n    }\n  }\n  \n  @keyframes bounce-in {\n    0% {\n      transform: scale(0.3);\n      opacity: 0;\n    }\n    50% {\n      transform: scale(1.05);\n    }\n    70% {\n      transform: scale(0.9);\n    }\n    100% {\n      transform: scale(1);\n      opacity: 1;\n    }\n  }\n  \n  .animate-slide-in-right {\n    animation: slide-in-right 0.3s ease-out;\n  }\n  \n  .animate-fade-in {\n    animation: fade-in 0.3s ease-out;\n  }\n  \n  .animate-bounce-in {\n    animation: bounce-in 0.5s ease-out;\n  }\n  \n  /* Glass Future Theme - 基于Indigo色块系列 */\n  [data-theme=\"glass-future\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\n    \n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\n    \n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\n    --text-secondary: oklch(92.369% 0.00263 230.33);\n    --text-accent: oklch(0.968 0.007 247.896);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n  }\n  \n  /* Dark Tech Theme - 基于Slate色块系列 */\n  [data-theme=\"dark-tech\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\n    \n    /* 弹出窗体背景 - Slate深色系列 */\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\n    \n    /* 文字颜色 - Slate浅色系，适合深色背景 */\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\n    --text-primary: oklch(0.968 0.007 247.896);\n    --text-secondary: oklch(0.929 0.013 255.508);\n    --text-accent: oklch(0.869 0.022 252.894);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\n  }\n  \n  /* Warm Business Theme - 基于Amber色块系列 */\n  [data-theme=\"warm-business\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\n    \n    /* 弹出窗体背景 - Amber浅色系列 */\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\n    \n    /* 文字颜色 - Amber深色系，适合浅色背景 */\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\n    --text-primary: oklch(0.414 0.112 45.904);\n    --text-secondary: oklch(0.473 0.137 46.201);\n    --text-accent: oklch(0.555 0.163 48.998);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\n  }\n}\n\n@layer base {\n  * {\n    border-color: hsl(var(--border));\n  }\n  body {\n    background-color: hsl(var(--background));\n    color: hsl(var(--foreground));\n    margin: 0;\n    padding: 0;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\n    min-height: 100vh;\n    overflow-x: hidden;\n  }\n}\n\n/* Custom glassmorphism styles matching current design */\n.app-bg {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  min-height: 100vh;\n  position: relative;\n}\n\n.app-bg::before {\n  content: '';\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: \n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\n  pointer-events: none;\n  z-index: 1;\n}\n\n@layer utilities {\n  .glass-card {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(12px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    border-radius: 16px;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  }\n  \n  /* Popup/Dropdown Styles */\n  .popup-dropdown {\n    position: absolute;\n    z-index: 1000;\n    border-radius: 16px;\n    backdrop-filter: blur(20px);\n    -webkit-backdrop-filter: blur(20px);\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\n    overflow: hidden;\n  }\n  \n  .popup-header {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n  }\n  \n  .popup-content {\n    background: transparent;\n  }\n  \n  .glass-card-hover {\n    transition: all 0.3s ease;\n  }\n  \n  .glass-card-hover:hover {\n    background: rgba(255, 255, 255, 0.15);\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\n    transform: translateY(-2px);\n  }\n  \n  .glass-input {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(8px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: white;\n  }\n  \n  .glass-input::placeholder {\n    color: rgba(255, 255, 255, 0.5);\n  }\n  \n  .glass-input:focus {\n    outline: none;\n    ring: 2px;\n    ring-color: rgba(255, 255, 255, 0.3);\n    ring-offset: 2px;\n  }\n  \n  .text-gradient {\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    background-clip: text;\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\n  }\n  \n  .animate-fade-in-up {\n    animation: fadeInUp 0.6s ease-out;\n  }\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n/* ===== App加载动画样式 ===== */\n.app-loading,\n.app-error {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 9999;\n}\n\n.loading-container,\n.error-container {\n  background: rgba(255, 255, 255, 0.1);\n  backdrop-filter: blur(20px);\n  border-radius: 24px;\n  padding: 48px;\n  text-align: center;\n  max-width: 420px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\n}\n\n/* 加载动画 */\n.loading-animation {\n  position: relative;\n  margin-bottom: 32px;\n}\n\n.loading-spinner {\n  width: 60px;\n  height: 60px;\n  border: 4px solid rgba(255, 255, 255, 0.3);\n  border-top: 4px solid white;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n  margin: 0 auto 20px;\n}\n\n.loading-dots {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n}\n\n.loading-dots span {\n  width: 8px;\n  height: 8px;\n  background: white;\n  border-radius: 50%;\n  animation: bounce 1.4s ease-in-out infinite both;\n}\n\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\n\n.loading-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 8px;\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\n}\n\n.loading-text {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1.1rem;\n  margin-bottom: 24px;\n}\n\n.loading-progress {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n  margin-bottom: 24px;\n}\n\n.progress-bar {\n  height: 100%;\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\n  border-radius: 2px;\n  animation: progress 2s ease-in-out infinite;\n}\n\n.loading-tips {\n  text-align: left;\n  background: rgba(255, 255, 255, 0.1);\n  border-radius: 12px;\n  padding: 16px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.loading-tips p {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 0.9rem;\n  margin-bottom: 6px;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.loading-tips p:last-child {\n  margin-bottom: 0;\n}\n\n/* 错误状态样式 */\n.error-icon {\n  font-size: 4rem;\n  margin-bottom: 20px;\n}\n\n.error-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 12px;\n}\n\n.error-message {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1rem;\n  margin-bottom: 24px;\n  background: rgba(255, 77, 79, 0.2);\n  padding: 12px 16px;\n  border-radius: 8px;\n  border: 1px solid rgba(255, 77, 79, 0.3);\n}\n\n.error-retry {\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\n  color: white;\n  border: none;\n  padding: 12px 24px;\n  border-radius: 8px;\n  font-size: 1rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\n}\n\n.error-retry:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\n}\n\n/* 主App容器 */\n.app {\n  width: 100%;\n  height: 100vh;\n  overflow: hidden;\n}\n\n/* 新增动画定义 */\n@keyframes spin {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes bounce {\n  0%, 80%, 100% {\n    transform: scale(0);\n  }\n  40% {\n    transform: scale(1);\n  }\n}\n\n@keyframes progress {\n  0% {\n    width: 0%;\n    opacity: 1;\n  }\n  50% {\n    width: 70%;\n    opacity: 1;\n  }\n  100% {\n    width: 100%;\n    opacity: 0;\n  }\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"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BAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAn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AA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,sEAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,gBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB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","sourcesContent":["@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n/* 导入主题样式 */\n@import './styles/themes.css';\n\n@layer base {\n  :root {\n    --background: 220 20% 14%;\n    --foreground: 220 8% 95%;\n    --card: 220 20% 10%;\n    --card-foreground: 220 8% 95%;\n    --popover: 220 20% 10%;\n    --popover-foreground: 220 8% 95%;\n    --primary: 220 8% 95%;\n    --primary-foreground: 220 20% 14%;\n    --secondary: 220 20% 14%;\n    --secondary-foreground: 220 8% 95%;\n    --muted: 220 20% 14%;\n    --muted-foreground: 220 8% 65%;\n    --accent: 220 20% 14%;\n    --accent-foreground: 220 8% 95%;\n    --destructive: 0 84% 60%;\n    --destructive-foreground: 0 0% 98%;\n    --border: 220 13% 18%;\n    --input: 220 13% 18%;\n    --ring: 220 8% 95%;\n    --radius: 0.5rem;\n    \n    /* Theme System Variables */\n    --spacing-xs: 0.25rem;\n    --spacing-sm: 0.5rem;\n    --spacing-md: 1rem;\n    --spacing-lg: 1.5rem;\n    --spacing-xl: 2rem;\n    \n    --border-radius-sm: 0.375rem;\n    --border-radius-md: 0.5rem;\n    --border-radius-lg: 0.75rem;\n    \n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n    --glass-blur: blur(20px);\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\n  }\n  \n  /* Animation utilities */\n  @keyframes slide-in-right {\n    from {\n      transform: translateX(100%);\n      opacity: 0;\n    }\n    to {\n      transform: translateX(0);\n      opacity: 1;\n    }\n  }\n  \n  @keyframes fade-in {\n    from {\n      opacity: 0;\n    }\n    to {\n      opacity: 1;\n    }\n  }\n  \n  @keyframes bounce-in {\n    0% {\n      transform: scale(0.3);\n      opacity: 0;\n    }\n    50% {\n      transform: scale(1.05);\n    }\n    70% {\n      transform: scale(0.9);\n    }\n    100% {\n      transform: scale(1);\n      opacity: 1;\n    }\n  }\n  \n  .animate-slide-in-right {\n    animation: slide-in-right 0.3s ease-out;\n  }\n  \n  .animate-fade-in {\n    animation: fade-in 0.3s ease-out;\n  }\n  \n  .animate-bounce-in {\n    animation: bounce-in 0.5s ease-out;\n  }\n  \n  /* Glass Future Theme - 基于Indigo色块系列 */\n  [data-theme=\"glass-future\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\n    \n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\n    \n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\n    --text-secondary: oklch(92.369% 0.00263 230.33);\n    --text-accent: oklch(0.968 0.007 247.896);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n  }\n  \n  /* Dark Tech Theme - 基于Slate色块系列 */\n  [data-theme=\"dark-tech\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\n    \n    /* 弹出窗体背景 - Slate深色系列 */\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\n    \n    /* 文字颜色 - Slate浅色系，适合深色背景 */\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\n    --text-primary: oklch(0.968 0.007 247.896);\n    --text-secondary: oklch(0.929 0.013 255.508);\n    --text-accent: oklch(0.869 0.022 252.894);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\n  }\n  \n  /* Warm Business Theme - 基于Amber色块系列 */\n  [data-theme=\"warm-business\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\n    \n    /* 弹出窗体背景 - Amber浅色系列 */\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\n    \n    /* 文字颜色 - Amber深色系，适合浅色背景 */\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\n    --text-primary: oklch(0.414 0.112 45.904);\n    --text-secondary: oklch(0.473 0.137 46.201);\n    --text-accent: oklch(0.555 0.163 48.998);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\n  }\n}\n\n@layer base {\n  * {\n    border-color: hsl(var(--border));\n  }\n  body {\n    background-color: hsl(var(--background));\n    color: hsl(var(--foreground));\n    margin: 0;\n    padding: 0;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\n    min-height: 100vh;\n    overflow-x: hidden;\n  }\n}\n\n/* Custom glassmorphism styles matching current design */\n.app-bg {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  min-height: 100vh;\n  position: relative;\n}\n\n.app-bg::before {\n  content: '';\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: \n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\n  pointer-events: none;\n  z-index: 1;\n}\n\n@layer utilities {\n  .glass-card {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(12px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    border-radius: 16px;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  }\n  \n  /* Popup/Dropdown Styles */\n  .popup-dropdown {\n    position: absolute;\n    z-index: 1000;\n    border-radius: 16px;\n    backdrop-filter: blur(20px);\n    -webkit-backdrop-filter: blur(20px);\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\n    overflow: hidden;\n  }\n  \n  .popup-header {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n  }\n  \n  .popup-content {\n    background: transparent;\n  }\n  \n  .glass-card-hover {\n    transition: all 0.3s ease;\n  }\n  \n  .glass-card-hover:hover {\n    background: rgba(255, 255, 255, 0.15);\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\n    transform: translateY(-2px);\n  }\n  \n  .glass-input {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(8px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: white;\n  }\n  \n  .glass-input::placeholder {\n    color: rgba(255, 255, 255, 0.5);\n  }\n  \n  .glass-input:focus {\n    outline: none;\n    ring: 2px;\n    ring-color: rgba(255, 255, 255, 0.3);\n    ring-offset: 2px;\n  }\n  \n  .text-gradient {\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    background-clip: text;\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\n  }\n  \n  .animate-fade-in-up {\n    animation: fadeInUp 0.6s ease-out;\n  }\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n/* ===== App加载动画样式 ===== */\n.app-loading,\n.app-error {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 9999;\n}\n\n.loading-container,\n.error-container {\n  background: rgba(255, 255, 255, 0.1);\n  backdrop-filter: blur(20px);\n  border-radius: 24px;\n  padding: 48px;\n  text-align: center;\n  max-width: 420px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\n}\n\n/* 加载动画 */\n.loading-animation {\n  position: relative;\n  margin-bottom: 32px;\n}\n\n.loading-spinner {\n  width: 60px;\n  height: 60px;\n  border: 4px solid rgba(255, 255, 255, 0.3);\n  border-top: 4px solid white;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n  margin: 0 auto 20px;\n}\n\n.loading-dots {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n}\n\n.loading-dots span {\n  width: 8px;\n  height: 8px;\n  background: white;\n  border-radius: 50%;\n  animation: bounce 1.4s ease-in-out infinite both;\n}\n\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\n\n.loading-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 8px;\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\n}\n\n.loading-text {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1.1rem;\n  margin-bottom: 24px;\n}\n\n.loading-progress {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n  margin-bottom: 24px;\n}\n\n.progress-bar {\n  height: 100%;\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\n  border-radius: 2px;\n  animation: progress 2s ease-in-out infinite;\n}\n\n.loading-tips {\n  text-align: left;\n  background: rgba(255, 255, 255, 0.1);\n  border-radius: 12px;\n  padding: 16px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.loading-tips p {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 0.9rem;\n  margin-bottom: 6px;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.loading-tips p:last-child {\n  margin-bottom: 0;\n}\n\n/* 错误状态样式 */\n.error-icon {\n  font-size: 4rem;\n  margin-bottom: 20px;\n}\n\n.error-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 12px;\n}\n\n.error-message {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1rem;\n  margin-bottom: 24px;\n  background: rgba(255, 77, 79, 0.2);\n  padding: 12px 16px;\n  border-radius: 8px;\n  border: 1px solid rgba(255, 77, 79, 0.3);\n}\n\n.error-retry {\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\n  color: white;\n  border: none;\n  padding: 12px 24px;\n  border-radius: 8px;\n  font-size: 1rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\n}\n\n.error-retry:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\n}\n\n/* 主App容器 */\n.app {\n  width: 100%;\n  height: 100vh;\n  overflow: hidden;\n}\n\n/* 新增动画定义 */\n@keyframes spin {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes bounce {\n  0%, 80%, 100% {\n    transform: scale(0);\n  }\n  40% {\n    transform: scale(1);\n  }\n}\n\n@keyframes progress {\n  0% {\n    width: 0%;\n    opacity: 1;\n  }\n  50% {\n    width: 70%;\n    opacity: 1;\n  }\n  100% {\n    width: 100%;\n    opacity: 0;\n  }\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -57184,11 +57274,134 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-/* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
+/* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+/* harmony import */ var _ui_button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ui/button */ "./src/components/ui/button.tsx");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
 
 
 const PermissionManagement = ({ className }) => {
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white", children: "\u6743\u9650\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "mt-1 text-white/80", children: "\u7BA1\u7406\u7CFB\u7EDF\u89D2\u8272\u548C\u6743\u9650\u8BBE\u7F6E" })] }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassCard, { className: "text-center p-12", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-6", children: "\uD83D\uDD10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-2xl font-bold text-white mb-4", children: "\u6743\u9650\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 mb-6", children: "\u7BA1\u7406\u7CFB\u7EDF\u89D2\u8272\u548C\u6743\u9650\u8BBE\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "inline-flex items-center px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white/90 backdrop-blur-sm", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\u23F3" }), "\u529F\u80FD\u6B63\u5728\u5F00\u53D1\u4E2D\uFF0C\u656C\u8BF7\u671F\u5F85..."] })] })] }));
+    const [roles, setRoles] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [modules, setModules] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [actions, setActions] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [selectedRole, setSelectedRole] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [rolePermissions, setRolePermissions] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+    const [saving, setSaving] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    // 角色名称映射
+    const roleNames = {
+        [_types_entities__WEBPACK_IMPORTED_MODULE_2__.UserRole.ADMIN]: '管理员',
+        [_types_entities__WEBPACK_IMPORTED_MODULE_2__.UserRole.OPERATOR]: '操作员'
+    };
+    // 角色描述映射
+    const roleDescriptions = {
+        [_types_entities__WEBPACK_IMPORTED_MODULE_2__.UserRole.ADMIN]: '拥有系统所有权限，可以管理用户、权限、系统设置等',
+        [_types_entities__WEBPACK_IMPORTED_MODULE_2__.UserRole.OPERATOR]: '拥有业务操作权限，可以进行库存、采购、销售等日常业务操作'
+    };
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        loadData();
+    }, []);
+    const loadData = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            setLoading(true);
+            const [rolesData, modulesData, actionsData] = yield Promise.all([
+                _services_business__WEBPACK_IMPORTED_MODULE_3__.permissionService.getAllRoles(),
+                _services_business__WEBPACK_IMPORTED_MODULE_3__.permissionService.getAllModules(),
+                _services_business__WEBPACK_IMPORTED_MODULE_3__.permissionService.getAllActions()
+            ]);
+            setRoles(rolesData);
+            setModules(modulesData);
+            setActions(actionsData);
+            // 默认选择第一个角色
+            if (rolesData.length > 0) {
+                setSelectedRole(rolesData[0]);
+                const permissions = yield _services_business__WEBPACK_IMPORTED_MODULE_3__.permissionService.getRolePermissions(rolesData[0]);
+                setRolePermissions(permissions);
+            }
+        }
+        catch (error) {
+            console.error('Failed to load permission data:', error);
+            setMessage({ type: 'error', text: '加载权限数据失败' });
+        }
+        finally {
+            setLoading(false);
+        }
+    });
+    const handleRoleSelect = (role) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            setSelectedRole(role);
+            const permissions = yield _services_business__WEBPACK_IMPORTED_MODULE_3__.permissionService.getRolePermissions(role);
+            setRolePermissions(permissions);
+        }
+        catch (error) {
+            console.error('Failed to load role permissions:', error);
+            setMessage({ type: 'error', text: '加载角色权限失败' });
+        }
+    });
+    const handlePermissionChange = (module, action, checked) => {
+        if (!rolePermissions)
+            return;
+        const updatedPermissions = Object.assign({}, rolePermissions);
+        if (!updatedPermissions.permissions[module]) {
+            updatedPermissions.permissions[module] = [];
+        }
+        const moduleActions = updatedPermissions.permissions[module] || [];
+        if (checked) {
+            if (!moduleActions.includes(action)) {
+                updatedPermissions.permissions[module] = [...moduleActions, action];
+            }
+        }
+        else {
+            updatedPermissions.permissions[module] = moduleActions.filter(a => a !== action);
+        }
+        setRolePermissions(updatedPermissions);
+    };
+    const handleSavePermissions = () => __awaiter(void 0, void 0, void 0, function* () {
+        if (!selectedRole || !rolePermissions)
+            return;
+        try {
+            setSaving(true);
+            yield _services_business__WEBPACK_IMPORTED_MODULE_3__.permissionService.updateRolePermissions(selectedRole, rolePermissions.permissions);
+            setMessage({ type: 'success', text: '权限保存成功' });
+        }
+        catch (error) {
+            console.error('Failed to save permissions:', error);
+            setMessage({ type: 'error', text: '权限保存失败' });
+        }
+        finally {
+            setSaving(false);
+        }
+    });
+    const isActionAllowed = (module, action) => {
+        if (!rolePermissions)
+            return false;
+        const moduleActions = rolePermissions.permissions[module] || [];
+        return moduleActions.includes(action);
+    };
+    if (loading) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `space-y-6 ${className || ''}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center h-64", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/80", children: "\u52A0\u8F7D\u4E2D..." }) }) }) }));
+    }
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-between", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white", children: "\u6743\u9650\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 mt-1", children: "\u7BA1\u7406\u7CFB\u7EDF\u89D2\u8272\u6743\u9650\uFF0C\u652F\u6301\u7BA1\u7406\u5458\u548C\u64CD\u4F5C\u5458\u4E24\u79CD\u89D2\u8272" })] }) }) }), message && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassCard, { className: `p-4 ${message.type === 'success'
+                    ? 'bg-green-500/20 border-green-400/30'
+                    : 'bg-red-500/20 border-red-400/30'}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white", children: message.text }) })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 lg:grid-cols-3 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "lg:col-span-1", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-lg font-semibold text-white mb-4", children: "\u7CFB\u7EDF\u89D2\u8272" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-3", children: roles.map(role => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `p-4 rounded-lg border-2 cursor-pointer transition-all ${selectedRole === role
+                                            ? 'border-blue-400 bg-blue-500/20'
+                                            : 'border-white/20 hover:border-white/30'}`, onClick: () => handleRoleSelect(role), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-white", children: roleNames[role] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/70 mt-1", children: roleDescriptions[role] })] }, role))) })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "lg:col-span-2", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h2", { className: "text-lg font-semibold text-white", children: ["\u6743\u9650\u914D\u7F6E ", selectedRole && `- ${roleNames[selectedRole]}`] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_button__WEBPACK_IMPORTED_MODULE_5__.Button, { onClick: handleSavePermissions, disabled: saving || !selectedRole, className: "bg-blue-600 hover:bg-blue-700 text-white", children: saving ? '保存中...' : '保存权限' })] }), selectedRole && rolePermissions && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-6", children: modules.map(moduleInfo => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "border border-white/20 rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "font-medium text-white", children: moduleInfo.name }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-sm text-white/70 mt-1", children: moduleInfo.description })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-2 md:grid-cols-3 gap-3", children: actions.map(actionInfo => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-2 cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: isActionAllowed(moduleInfo.module, actionInfo.action), onChange: (e) => handlePermissionChange(moduleInfo.module, actionInfo.action, e.target.checked), className: "rounded border-white/30 text-blue-600 focus:ring-blue-500 bg-white/10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/90", children: actionInfo.name })] }, actionInfo.action))) })] }, moduleInfo.module))) }))] }) })] })] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PermissionManagement);
 
@@ -57343,11 +57556,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 const roleLabels = {
-    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.ADMIN]: '系统管理员',
-    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.PURCHASER]: '采购人员',
-    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.SALESPERSON]: '销售人员',
-    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.WAREHOUSE]: '仓库管理员',
-    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.FINANCE]: '财务人员'
+    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.ADMIN]: '管理员',
+    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.OPERATOR]: '操作员'
 };
 const statusLabels = {
     [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserStatus.ACTIVE]: '正常',
@@ -57356,10 +57566,7 @@ const statusLabels = {
 };
 const roleColors = {
     [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.ADMIN]: 'bg-red-500/20 text-red-100 border-red-400/30',
-    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.PURCHASER]: 'bg-blue-500/20 text-blue-100 border-blue-400/30',
-    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.SALESPERSON]: 'bg-green-500/20 text-green-100 border-green-400/30',
-    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.WAREHOUSE]: 'bg-yellow-500/20 text-yellow-100 border-yellow-400/30',
-    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.FINANCE]: 'bg-purple-500/20 text-purple-100 border-purple-400/30'
+    [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.OPERATOR]: 'bg-blue-500/20 text-blue-100 border-blue-400/30'
 };
 const statusColors = {
     [_types_entities__WEBPACK_IMPORTED_MODULE_3__.UserStatus.ACTIVE]: 'bg-green-500/20 text-green-100 border-green-400/30',
@@ -57383,7 +57590,7 @@ const UserManagement = ({ className }) => {
         nickname: '',
         email: '',
         phone: '',
-        role: _types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.WAREHOUSE,
+        role: _types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.OPERATOR,
         status: _types_entities__WEBPACK_IMPORTED_MODULE_3__.UserStatus.ACTIVE
     });
     // Password change state
@@ -57423,7 +57630,7 @@ const UserManagement = ({ className }) => {
             nickname: '',
             email: '',
             phone: '',
-            role: _types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.WAREHOUSE,
+            role: _types_entities__WEBPACK_IMPORTED_MODULE_3__.UserRole.OPERATOR,
             status: _types_entities__WEBPACK_IMPORTED_MODULE_3__.UserStatus.ACTIVE,
             password: ''
         });
@@ -57753,6 +57960,73 @@ const LoadingProgress = ({ progress, message = '加载中...' }) => ((0,react_js
                     } }), progress !== undefined && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute inset-0 flex items-center justify-center", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-xs font-medium text-white", children: [Math.round(progress), "%"] }) }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 font-medium", children: message }), progress !== undefined && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mt-2 w-48 h-2 bg-white/20 rounded-full overflow-hidden", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300 ease-out", style: { width: `${progress}%` } }) }))] })] }));
 // 错误状态组件
 const ErrorState = ({ title = '加载失败', message = '数据加载过程中发生错误，请重试', onRetry, retryLabel = '重新加载' }) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center py-12 px-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-4", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-2", children: title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70 mb-6 max-w-md mx-auto", children: message }), onRetry && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: onRetry, className: "px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg border border-white/20 transition-all duration-200 backdrop-blur-sm", children: retryLabel }))] }));
+
+
+/***/ }),
+
+/***/ "./src/components/ui/button.tsx":
+/*!**************************************!*\
+  !*** ./src/components/ui/button.tsx ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Button: () => (/* binding */ Button),
+/* harmony export */   buttonVariants: () => (/* binding */ buttonVariants)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _radix_ui_react_slot__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @radix-ui/react-slot */ "./node_modules/@radix-ui/react-slot/dist/index.mjs");
+/* harmony import */ var class_variance_authority__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! class-variance-authority */ "./node_modules/class-variance-authority/dist/index.mjs");
+/* harmony import */ var _lib_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../lib/utils */ "./src/lib/utils.ts");
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+
+
+
+
+
+const buttonVariants = (0,class_variance_authority__WEBPACK_IMPORTED_MODULE_2__.cva)("inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50", {
+    variants: {
+        variant: {
+            default: "bg-white/20 text-white backdrop-blur-sm hover:bg-white/30 border border-white/30",
+            destructive: "bg-red-500/20 text-red-100 backdrop-blur-sm hover:bg-red-500/30 border border-red-500/30",
+            outline: "border border-white/30 bg-transparent backdrop-blur-sm hover:bg-white/10 text-white",
+            secondary: "bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 border border-white/20",
+            ghost: "hover:bg-white/10 text-white backdrop-blur-sm",
+            link: "text-white underline-offset-4 hover:underline",
+        },
+        size: {
+            default: "h-10 px-4 py-2",
+            sm: "h-9 rounded-md px-3",
+            lg: "h-11 rounded-md px-8",
+            icon: "h-10 w-10",
+        },
+    },
+    defaultVariants: {
+        variant: "default",
+        size: "default",
+    },
+});
+const Button = react__WEBPACK_IMPORTED_MODULE_1__.forwardRef((_a, ref) => {
+    var { className, variant, size, asChild = false } = _a, props = __rest(_a, ["className", "variant", "size", "asChild"]);
+    const Comp = asChild ? _radix_ui_react_slot__WEBPACK_IMPORTED_MODULE_4__.Slot : "button";
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(Comp, Object.assign({ className: (0,_lib_utils__WEBPACK_IMPORTED_MODULE_3__.cn)(buttonVariants({ variant, size, className })), ref: ref }, props)));
+});
+Button.displayName = "Button";
+
 
 
 /***/ }),
@@ -60373,6 +60647,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   customerService: () => (/* reexport safe */ _customerService__WEBPACK_IMPORTED_MODULE_4__["default"]),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   inventoryStockService: () => (/* reexport safe */ _inventoryStockService__WEBPACK_IMPORTED_MODULE_6__["default"]),
+/* harmony export */   permissionService: () => (/* reexport safe */ _permissionService__WEBPACK_IMPORTED_MODULE_14__["default"]),
 /* harmony export */   productService: () => (/* reexport safe */ _productService__WEBPACK_IMPORTED_MODULE_7__["default"]),
 /* harmony export */   purchaseOrderService: () => (/* reexport safe */ _purchaseOrderService__WEBPACK_IMPORTED_MODULE_8__["default"]),
 /* harmony export */   purchaseReceiptService: () => (/* reexport safe */ _purchaseReceiptService__WEBPACK_IMPORTED_MODULE_9__["default"]),
@@ -60397,6 +60672,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./salesDeliveryService */ "./src/services/business/salesDeliveryService.ts");
 /* harmony import */ var _accountsPayableService__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./accountsPayableService */ "./src/services/business/accountsPayableService.ts");
 /* harmony import */ var _accountsReceivableService__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./accountsReceivableService */ "./src/services/business/accountsReceivableService.ts");
+/* harmony import */ var _permissionService__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./permissionService */ "./src/services/business/permissionService.ts");
 // 核心业务服务层 - 统一入口和服务管理
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -60422,6 +60698,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 // 导入完整的财务服务
 
+
+// 导入权限服务
 
 // 导出所有服务实例（包括完整的财务服务）
 
@@ -60458,6 +60736,8 @@ class BusinessServiceManager {
                 // 财务服务（完整版）
                 yield _accountsPayableService__WEBPACK_IMPORTED_MODULE_12__["default"].initialize();
                 yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_13__["default"].initialize();
+                // 权限服务
+                yield _permissionService__WEBPACK_IMPORTED_MODULE_14__["default"].initialize();
                 console.log('所有业务服务初始化完成');
                 // 暂时注释掉其他服务的初始化
                 // // 2. 产品服务（依赖分类和单位）
@@ -61236,6 +61516,302 @@ class InventoryStockService {
 // 创建并导出服务实例
 const inventoryStockService = new InventoryStockService();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (inventoryStockService);
+
+
+/***/ }),
+
+/***/ "./src/services/business/permissionService.ts":
+/*!****************************************************!*\
+  !*** ./src/services/business/permissionService.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   PermissionService: () => (/* binding */ PermissionService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+class PermissionService {
+    constructor() {
+        this.rolePermissions = new Map();
+        // 默认权限配置
+        this.defaultPermissions = [
+            {
+                role: _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.ADMIN,
+                permissions: {
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.SYSTEM]: [
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.CREATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.UPDATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.DELETE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.IMPORT
+                    ],
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.INVENTORY]: [
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.CREATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.UPDATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.DELETE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.IMPORT
+                    ],
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.PURCHASE]: [
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.CREATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.UPDATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.DELETE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.IMPORT
+                    ],
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.SALES]: [
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.CREATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.UPDATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.DELETE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.IMPORT
+                    ],
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.FINANCE]: [
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.CREATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.UPDATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.DELETE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.IMPORT
+                    ],
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.REPORTS]: [
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT
+                    ]
+                }
+            },
+            {
+                role: _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.OPERATOR,
+                permissions: {
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.INVENTORY]: [
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.CREATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.UPDATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT
+                    ],
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.PURCHASE]: [
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.CREATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.UPDATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT
+                    ],
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.SALES]: [
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.CREATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.UPDATE,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT
+                    ],
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.FINANCE]: [
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT
+                    ],
+                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.REPORTS]: [
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                        _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT
+                    ]
+                }
+            }
+        ];
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('Permission service initialized');
+            // 初始化默认权限配置
+            this.loadDefaultPermissions();
+        });
+    }
+    loadDefaultPermissions() {
+        this.defaultPermissions.forEach(config => {
+            Object.entries(config.permissions).forEach(([module, actions]) => {
+                const permission = {
+                    id: (0,uuid__WEBPACK_IMPORTED_MODULE_1__["default"])(),
+                    role: config.role,
+                    module: module,
+                    actions: actions || [],
+                    description: this.getPermissionDescription(config.role, module),
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                };
+                this.rolePermissions.set(`${config.role}-${module}`, permission);
+            });
+        });
+    }
+    getPermissionDescription(role, module) {
+        const roleNames = {
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.ADMIN]: '管理员',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.OPERATOR]: '操作员'
+        };
+        const moduleNames = {
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.SYSTEM]: '系统管理',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.INVENTORY]: '库存管理',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.PURCHASE]: '采购管理',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.SALES]: '销售管理',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.FINANCE]: '财务管理',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.REPORTS]: '报表分析'
+        };
+        return `${roleNames[role]}对${moduleNames[module]}模块的权限`;
+    }
+    // 获取所有角色
+    getAllRoles() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.ADMIN, _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.OPERATOR];
+        });
+    }
+    // 获取角色的权限配置
+    getRolePermissions(role) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const permissions = {};
+            Object.values(_types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule).forEach(module => {
+                const key = `${role}-${module}`;
+                const permission = this.rolePermissions.get(key);
+                if (permission) {
+                    permissions[module] = permission.actions;
+                }
+            });
+            return { role, permissions };
+        });
+    }
+    // 更新角色权限
+    updateRolePermissions(role, permissions) {
+        return __awaiter(this, void 0, void 0, function* () {
+            Object.entries(permissions).forEach(([module, actions]) => {
+                const key = `${role}-${module}`;
+                const existing = this.rolePermissions.get(key);
+                if (existing) {
+                    existing.actions = actions || [];
+                    existing.updatedAt = new Date();
+                }
+                else {
+                    const permission = {
+                        id: (0,uuid__WEBPACK_IMPORTED_MODULE_1__["default"])(),
+                        role,
+                        module: module,
+                        actions: actions || [],
+                        description: this.getPermissionDescription(role, module),
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    };
+                    this.rolePermissions.set(key, permission);
+                }
+            });
+        });
+    }
+    // 检查用户是否有特定权限
+    hasPermission(userRole, module, action) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const key = `${userRole}-${module}`;
+            const permission = this.rolePermissions.get(key);
+            return permission ? permission.actions.includes(action) : false;
+        });
+    }
+    // 获取所有权限模块
+    getAllModules() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return [
+                {
+                    module: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.SYSTEM,
+                    name: '系统管理',
+                    description: '用户管理、权限管理、系统设置、操作日志'
+                },
+                {
+                    module: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.INVENTORY,
+                    name: '库存管理',
+                    description: '库存概览、商品管理、分类管理、仓库管理、入库出库'
+                },
+                {
+                    module: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.PURCHASE,
+                    name: '采购管理',
+                    description: '供应商管理、采购订单、采购收货'
+                },
+                {
+                    module: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.SALES,
+                    name: '销售管理',
+                    description: '客户管理、销售订单、销售出库'
+                },
+                {
+                    module: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.FINANCE,
+                    name: '财务管理',
+                    description: '应付账款、应收账款、付款记录、收款记录'
+                },
+                {
+                    module: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionModule.REPORTS,
+                    name: '报表分析',
+                    description: '库存报表、销售报表、采购报表、财务报表'
+                }
+            ];
+        });
+    }
+    // 获取所有权限操作
+    getAllActions() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return [
+                {
+                    action: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.VIEW,
+                    name: '查看',
+                    description: '查看数据和信息'
+                },
+                {
+                    action: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.CREATE,
+                    name: '创建',
+                    description: '创建新的数据记录'
+                },
+                {
+                    action: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.UPDATE,
+                    name: '更新',
+                    description: '修改现有数据记录'
+                },
+                {
+                    action: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.DELETE,
+                    name: '删除',
+                    description: '删除数据记录'
+                },
+                {
+                    action: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.EXPORT,
+                    name: '导出',
+                    description: '导出数据到文件'
+                },
+                {
+                    action: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PermissionAction.IMPORT,
+                    name: '导入',
+                    description: '从文件导入数据'
+                }
+            ];
+        });
+    }
+    // 获取权限统计
+    getPermissionStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const roles = yield this.getAllRoles();
+            const modules = yield this.getAllModules();
+            const actions = yield this.getAllActions();
+            return {
+                totalRoles: roles.length,
+                totalModules: modules.length,
+                totalActions: actions.length
+            };
+        });
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new PermissionService());
 
 
 /***/ }),
@@ -64576,29 +65152,19 @@ class UserService {
     getRolePermissions(role) {
         const permissions = {
             [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.ADMIN]: ['*'], // All permissions
-            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.PURCHASER]: [
-                'products.read', 'suppliers.read', 'suppliers.write',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.OPERATOR]: [
+                'products.read', 'products.write',
+                'suppliers.read', 'suppliers.write',
+                'customers.read', 'customers.write',
+                'warehouses.read', 'inventory.read', 'inventory.write',
                 'purchase-orders.read', 'purchase-orders.write',
                 'purchase-receipts.read', 'purchase-receipts.write',
-                'accounts-payable.read', 'payments.read', 'payments.write'
-            ],
-            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.SALESPERSON]: [
-                'products.read', 'customers.read', 'customers.write',
                 'sales-orders.read', 'sales-orders.write',
                 'sales-deliveries.read', 'sales-deliveries.write',
-                'accounts-receivable.read', 'receipts.read', 'receipts.write'
-            ],
-            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.WAREHOUSE]: [
-                'products.read', 'warehouses.read', 'inventory.read', 'inventory.write',
-                'purchase-receipts.read', 'purchase-receipts.write',
-                'sales-deliveries.read', 'sales-deliveries.write',
-                'inventory-transactions.read', 'inventory-transactions.write'
-            ],
-            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.FINANCE]: [
-                'accounts-payable.read', 'accounts-payable.write',
-                'accounts-receivable.read', 'accounts-receivable.write',
-                'payments.read', 'payments.write', 'receipts.read', 'receipts.write',
-                'financial-reports.read'
+                'accounts-payable.read', 'accounts-receivable.read',
+                'payments.read', 'receipts.read',
+                'inventory-transactions.read', 'inventory-transactions.write',
+                'reports.read'
             ]
         };
         return permissions[role] || [];
@@ -64613,10 +65179,7 @@ class UserService {
             const locked = users.filter(u => u.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserStatus.LOCKED).length;
             const byRole = {
                 [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.ADMIN]: users.filter(u => u.role === _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.ADMIN).length,
-                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.PURCHASER]: users.filter(u => u.role === _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.PURCHASER).length,
-                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.SALESPERSON]: users.filter(u => u.role === _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.SALESPERSON).length,
-                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.WAREHOUSE]: users.filter(u => u.role === _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.WAREHOUSE).length,
-                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.FINANCE]: users.filter(u => u.role === _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.FINANCE).length
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.OPERATOR]: users.filter(u => u.role === _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.OPERATOR).length
             };
             const recentLogins = users.filter(u => u.lastLoginAt &&
                 new Date().getTime() - u.lastLoginAt.getTime() < 7 * 24 * 60 * 60 * 1000).length;
@@ -65893,6 +66456,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   PayableStatus: () => (/* binding */ PayableStatus),
 /* harmony export */   PaymentMethod: () => (/* binding */ PaymentMethod),
 /* harmony export */   PaymentStatus: () => (/* binding */ PaymentStatus),
+/* harmony export */   PermissionAction: () => (/* binding */ PermissionAction),
+/* harmony export */   PermissionModule: () => (/* binding */ PermissionModule),
 /* harmony export */   ProductStatus: () => (/* binding */ ProductStatus),
 /* harmony export */   PurchaseOrderStatus: () => (/* binding */ PurchaseOrderStatus),
 /* harmony export */   ReceiptStatus: () => (/* binding */ ReceiptStatus),
@@ -66014,10 +66579,7 @@ var PaymentMethod;
 var UserRole;
 (function (UserRole) {
     UserRole["ADMIN"] = "admin";
-    UserRole["PURCHASER"] = "purchaser";
-    UserRole["SALESPERSON"] = "salesperson";
-    UserRole["WAREHOUSE"] = "warehouse";
-    UserRole["FINANCE"] = "finance";
+    UserRole["OPERATOR"] = "operator"; // 操作员：拥有业务操作权限
 })(UserRole || (UserRole = {}));
 var UserStatus;
 (function (UserStatus) {
@@ -66025,6 +66587,26 @@ var UserStatus;
     UserStatus["INACTIVE"] = "inactive";
     UserStatus["LOCKED"] = "locked";
 })(UserStatus || (UserStatus = {}));
+// 权限模块枚举
+var PermissionModule;
+(function (PermissionModule) {
+    PermissionModule["SYSTEM"] = "system";
+    PermissionModule["INVENTORY"] = "inventory";
+    PermissionModule["PURCHASE"] = "purchase";
+    PermissionModule["SALES"] = "sales";
+    PermissionModule["FINANCE"] = "finance";
+    PermissionModule["REPORTS"] = "reports"; // 报表分析
+})(PermissionModule || (PermissionModule = {}));
+// 权限操作枚举
+var PermissionAction;
+(function (PermissionAction) {
+    PermissionAction["VIEW"] = "view";
+    PermissionAction["CREATE"] = "create";
+    PermissionAction["UPDATE"] = "update";
+    PermissionAction["DELETE"] = "delete";
+    PermissionAction["EXPORT"] = "export";
+    PermissionAction["IMPORT"] = "import"; // 导入
+})(PermissionAction || (PermissionAction = {}));
 
 
 /***/ }),

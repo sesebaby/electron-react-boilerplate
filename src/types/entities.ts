@@ -465,15 +465,48 @@ export interface User extends BaseEntity {
 }
 
 export enum UserRole {
-  ADMIN = 'admin',
-  PURCHASER = 'purchaser',
-  SALESPERSON = 'salesperson',
-  WAREHOUSE = 'warehouse',
-  FINANCE = 'finance'
+  ADMIN = 'admin',        // 管理员：拥有所有权限
+  OPERATOR = 'operator'   // 操作员：拥有业务操作权限
 }
 
 export enum UserStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
   LOCKED = 'locked'
+}
+
+// 权限模块枚举
+export enum PermissionModule {
+  SYSTEM = 'system',           // 系统管理
+  INVENTORY = 'inventory',     // 库存管理
+  PURCHASE = 'purchase',       // 采购管理
+  SALES = 'sales',            // 销售管理
+  FINANCE = 'finance',        // 财务管理
+  REPORTS = 'reports'         // 报表分析
+}
+
+// 权限操作枚举
+export enum PermissionAction {
+  VIEW = 'view',              // 查看
+  CREATE = 'create',          // 创建
+  UPDATE = 'update',          // 更新
+  DELETE = 'delete',          // 删除
+  EXPORT = 'export',          // 导出
+  IMPORT = 'import'           // 导入
+}
+
+// 角色权限实体
+export interface RolePermission extends BaseEntity {
+  role: UserRole;                    // 角色
+  module: PermissionModule;          // 权限模块
+  actions: PermissionAction[];       // 允许的操作
+  description?: string;              // 权限描述
+}
+
+// 权限配置实体
+export interface PermissionConfig {
+  role: UserRole;
+  permissions: {
+    [key in PermissionModule]?: PermissionAction[];
+  };
 }

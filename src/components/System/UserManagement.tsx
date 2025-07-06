@@ -18,11 +18,8 @@ interface UserForm {
 }
 
 const roleLabels: Record<UserRole, string> = {
-  [UserRole.ADMIN]: '系统管理员',
-  [UserRole.PURCHASER]: '采购人员',
-  [UserRole.SALESPERSON]: '销售人员',
-  [UserRole.WAREHOUSE]: '仓库管理员',
-  [UserRole.FINANCE]: '财务人员'
+  [UserRole.ADMIN]: '管理员',
+  [UserRole.OPERATOR]: '操作员'
 };
 
 const statusLabels: Record<UserStatus, string> = {
@@ -33,10 +30,7 @@ const statusLabels: Record<UserStatus, string> = {
 
 const roleColors: Record<UserRole, string> = {
   [UserRole.ADMIN]: 'bg-red-500/20 text-red-100 border-red-400/30',
-  [UserRole.PURCHASER]: 'bg-blue-500/20 text-blue-100 border-blue-400/30',
-  [UserRole.SALESPERSON]: 'bg-green-500/20 text-green-100 border-green-400/30',
-  [UserRole.WAREHOUSE]: 'bg-yellow-500/20 text-yellow-100 border-yellow-400/30',
-  [UserRole.FINANCE]: 'bg-purple-500/20 text-purple-100 border-purple-400/30'
+  [UserRole.OPERATOR]: 'bg-blue-500/20 text-blue-100 border-blue-400/30'
 };
 
 const statusColors: Record<UserStatus, string> = {
@@ -64,7 +58,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     nickname: '',
     email: '',
     phone: '',
-    role: UserRole.WAREHOUSE,
+    role: UserRole.OPERATOR,
     status: UserStatus.ACTIVE
   });
   
@@ -109,7 +103,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
       nickname: '',
       email: '',
       phone: '',
-      role: UserRole.WAREHOUSE,
+      role: UserRole.OPERATOR,
       status: UserStatus.ACTIVE,
       password: ''
     });

@@ -52,21 +52,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Permission checking based on role
   const rolePermissions: Record<UserRole, string[]> = {
     [UserRole.ADMIN]: ['*'], // Admin has all permissions
-    [UserRole.FINANCE]: [
-      'financial:read', 'financial:write', 'financial:delete',
-      'accounts:read', 'accounts:write', 'payments:read', 'payments:write'
-    ],
-    [UserRole.PURCHASER]: [
-      'purchase:read', 'purchase:write', 'purchase:delete',
-      'suppliers:read', 'suppliers:write', 'inventory:read'
-    ],
-    [UserRole.SALESPERSON]: [
-      'sales:read', 'sales:write', 'sales:delete',
-      'customers:read', 'customers:write', 'inventory:read'
-    ],
-    [UserRole.WAREHOUSE]: [
+    [UserRole.OPERATOR]: [
       'inventory:read', 'inventory:write', 'inventory:adjust',
-      'warehouse:read', 'warehouse:write', 'stock:read', 'stock:write'
+      'warehouse:read', 'warehouse:write', 'stock:read', 'stock:write',
+      'purchase:read', 'purchase:write', 'suppliers:read', 'suppliers:write',
+      'sales:read', 'sales:write', 'customers:read', 'customers:write',
+      'financial:read', 'accounts:read', 'payments:read', 'reports:read'
     ]
   };
 

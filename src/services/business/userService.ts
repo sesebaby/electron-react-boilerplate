@@ -278,29 +278,19 @@ export class UserService {
   private getRolePermissions(role: UserRole): string[] {
     const permissions: Record<UserRole, string[]> = {
       [UserRole.ADMIN]: ['*'], // All permissions
-      [UserRole.PURCHASER]: [
-        'products.read', 'suppliers.read', 'suppliers.write',
+      [UserRole.OPERATOR]: [
+        'products.read', 'products.write',
+        'suppliers.read', 'suppliers.write',
+        'customers.read', 'customers.write',
+        'warehouses.read', 'inventory.read', 'inventory.write',
         'purchase-orders.read', 'purchase-orders.write',
         'purchase-receipts.read', 'purchase-receipts.write',
-        'accounts-payable.read', 'payments.read', 'payments.write'
-      ],
-      [UserRole.SALESPERSON]: [
-        'products.read', 'customers.read', 'customers.write',
         'sales-orders.read', 'sales-orders.write',
         'sales-deliveries.read', 'sales-deliveries.write',
-        'accounts-receivable.read', 'receipts.read', 'receipts.write'
-      ],
-      [UserRole.WAREHOUSE]: [
-        'products.read', 'warehouses.read', 'inventory.read', 'inventory.write',
-        'purchase-receipts.read', 'purchase-receipts.write',
-        'sales-deliveries.read', 'sales-deliveries.write',
-        'inventory-transactions.read', 'inventory-transactions.write'
-      ],
-      [UserRole.FINANCE]: [
-        'accounts-payable.read', 'accounts-payable.write',
-        'accounts-receivable.read', 'accounts-receivable.write',
-        'payments.read', 'payments.write', 'receipts.read', 'receipts.write',
-        'financial-reports.read'
+        'accounts-payable.read', 'accounts-receivable.read',
+        'payments.read', 'receipts.read',
+        'inventory-transactions.read', 'inventory-transactions.write',
+        'reports.read'
       ]
     };
 
@@ -324,10 +314,7 @@ export class UserService {
 
     const byRole: Record<UserRole, number> = {
       [UserRole.ADMIN]: users.filter(u => u.role === UserRole.ADMIN).length,
-      [UserRole.PURCHASER]: users.filter(u => u.role === UserRole.PURCHASER).length,
-      [UserRole.SALESPERSON]: users.filter(u => u.role === UserRole.SALESPERSON).length,
-      [UserRole.WAREHOUSE]: users.filter(u => u.role === UserRole.WAREHOUSE).length,
-      [UserRole.FINANCE]: users.filter(u => u.role === UserRole.FINANCE).length
+      [UserRole.OPERATOR]: users.filter(u => u.role === UserRole.OPERATOR).length
     };
 
     const recentLogins = users.filter(u => 

@@ -10,7 +10,8 @@ import {
   categoryService,
   warehouseService,
   productService,
-  inventoryStockService
+  inventoryStockService,
+  permissionService
 } from './business';
 
 export class DataInitializer {

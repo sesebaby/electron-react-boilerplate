@@ -16,6 +16,8 @@ import salesDeliveryService from './salesDeliveryService';
 // 导入完整的财务服务
 import accountsPayableService from './accountsPayableService';
 import accountsReceivableService from './accountsReceivableService';
+// 导入权限服务
+import permissionService from './permissionService';
 
 // 导出所有服务实例（包括完整的财务服务）
 export {
@@ -32,7 +34,8 @@ export {
   salesOrderService,
   salesDeliveryService,
   accountsPayableService,
-  accountsReceivableService
+  accountsReceivableService,
+  permissionService
 };
 
 
@@ -74,6 +77,9 @@ export class BusinessServiceManager {
       // 财务服务（完整版）
       await accountsPayableService.initialize();
       await accountsReceivableService.initialize();
+
+      // 权限服务
+      await permissionService.initialize();
 
       console.log('所有业务服务初始化完成');
 
