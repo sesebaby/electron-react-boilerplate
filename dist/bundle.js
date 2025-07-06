@@ -48377,7 +48377,7 @@ const ProductManagement = ({ className }) => {
         if (!confirm('确定要删除这个商品吗？'))
             return;
         try {
-            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.productService["delete"](id);
+            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.productService.delete(id);
             yield loadData();
         }
         catch (err) {
@@ -50190,7 +50190,7 @@ const PurchaseOrderManagement = ({ className }) => {
         if (!confirm('确定要删除这个采购订单吗？删除后无法恢复！'))
             return;
         try {
-            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.purchaseOrderService["delete"](orderId);
+            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.purchaseOrderService.delete(orderId);
             yield loadData();
         }
         catch (err) {
@@ -50495,7 +50495,7 @@ const PurchaseReceiptManagement = ({ className }) => {
         if (!confirm('确定要删除这个采购收货单吗？删除后无法恢复！'))
             return;
         try {
-            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.purchaseReceiptService["delete"](receiptId);
+            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.purchaseReceiptService.delete(receiptId);
             yield loadData();
         }
         catch (err) {
@@ -52211,7 +52211,7 @@ const SalesDeliveryManagement = ({ className }) => {
         if (!confirm('确定要删除这个销售出库单吗？删除后无法恢复！'))
             return;
         try {
-            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.salesDeliveryService["delete"](deliveryId);
+            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.salesDeliveryService.delete(deliveryId);
             yield loadData();
         }
         catch (err) {
@@ -52490,7 +52490,7 @@ const SalesOrderManagement = ({ className }) => {
         if (!confirm('确定要删除这个销售订单吗？删除后无法恢复！'))
             return;
         try {
-            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.salesOrderService["delete"](orderId);
+            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.salesOrderService.delete(orderId);
             yield loadData();
         }
         catch (err) {
@@ -55530,7 +55530,7 @@ class CustomerService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 // 动态导入避免循环依赖
-                const { default: salesOrderService } = yield __webpack_require__.e(/*! import() */ "src_services_business_salesOrderService_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./salesOrderService */ "./src/services/business/salesOrderService.ts"));
+                const { default: salesOrderService } = yield Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./salesOrderService */ "./src/services/business/salesOrderService.ts"));
                 const orders = yield salesOrderService.findByCustomer(customerId);
                 return orders.length > 0;
             }
@@ -55827,6 +55827,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   categoryService: () => (/* reexport safe */ _categoryService__WEBPACK_IMPORTED_MODULE_0__["default"]),
 /* harmony export */   customerService: () => (/* reexport safe */ _customerService__WEBPACK_IMPORTED_MODULE_4__["default"]),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   inventoryStockService: () => (/* reexport safe */ _inventoryStockService__WEBPACK_IMPORTED_MODULE_6__["default"]),
+/* harmony export */   productService: () => (/* reexport safe */ _productService__WEBPACK_IMPORTED_MODULE_7__["default"]),
+/* harmony export */   purchaseOrderService: () => (/* reexport safe */ _purchaseOrderService__WEBPACK_IMPORTED_MODULE_8__["default"]),
+/* harmony export */   purchaseReceiptService: () => (/* reexport safe */ _purchaseReceiptService__WEBPACK_IMPORTED_MODULE_9__["default"]),
+/* harmony export */   salesDeliveryService: () => (/* reexport safe */ _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__["default"]),
+/* harmony export */   salesOrderService: () => (/* reexport safe */ _salesOrderService__WEBPACK_IMPORTED_MODULE_10__["default"]),
 /* harmony export */   supplierService: () => (/* reexport safe */ _supplierService__WEBPACK_IMPORTED_MODULE_3__["default"]),
 /* harmony export */   unitService: () => (/* reexport safe */ _unitService__WEBPACK_IMPORTED_MODULE_1__["default"]),
 /* harmony export */   userService: () => (/* reexport safe */ _userService__WEBPACK_IMPORTED_MODULE_5__["default"]),
@@ -55838,6 +55844,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _supplierService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./supplierService */ "./src/services/business/supplierService.ts");
 /* harmony import */ var _customerService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./customerService */ "./src/services/business/customerService.ts");
 /* harmony import */ var _userService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./userService */ "./src/services/business/userService.ts");
+/* harmony import */ var _inventoryStockService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./inventoryStockService */ "./src/services/business/inventoryStockService.ts");
+/* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
+/* harmony import */ var _purchaseOrderService__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./purchaseOrderService */ "./src/services/business/purchaseOrderService.ts");
+/* harmony import */ var _purchaseReceiptService__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./purchaseReceiptService */ "./src/services/business/purchaseReceiptService.ts");
+/* harmony import */ var _salesOrderService__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./salesOrderService */ "./src/services/business/salesOrderService.ts");
+/* harmony import */ var _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./salesDeliveryService */ "./src/services/business/salesDeliveryService.ts");
 // 核心业务服务层 - 统一入口和服务管理
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -55855,28 +55867,17 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-// 暂时注释掉这些服务以避免循环依赖
-// import productService from './productService';
-// import inventoryStockService from './inventoryStockService';
-// import purchaseOrderService from './purchaseOrderService';
-// import purchaseReceiptService from './purchaseReceiptService';
-// import salesOrderService from './salesOrderService';
-// import salesDeliveryService from './salesDeliveryService';
+
+
+
+
+
+
+// 暂时注释掉财务服务以测试其他服务
 // import accountsPayableService from './accountsPayableService';
 // import accountsReceivableService from './accountsReceivableService';
-// 导出所有服务实例（临时只导出基础服务）
+// 导出所有服务实例（暂时不包括财务服务）
 
-// 暂时注释掉这些服务的导出
-// export {
-//   productService,
-//   inventoryStockService,
-//   purchaseOrderService,
-//   purchaseReceiptService,
-//   salesOrderService,
-//   salesDeliveryService,
-//   accountsPayableService,
-//   accountsReceivableService,
-// };
 // 服务管理器
 class BusinessServiceManager {
     constructor() {
@@ -55890,16 +55891,27 @@ class BusinessServiceManager {
             }
             console.log('Initializing business services...');
             try {
-                // 临时只初始化基础服务，避免循环依赖
-                yield Promise.all([
-                    _categoryService__WEBPACK_IMPORTED_MODULE_0__["default"].initialize(),
-                    _unitService__WEBPACK_IMPORTED_MODULE_1__["default"].initialize(),
-                    _warehouseService__WEBPACK_IMPORTED_MODULE_2__["default"].initialize(),
-                    _supplierService__WEBPACK_IMPORTED_MODULE_3__["default"].initialize(),
-                    _customerService__WEBPACK_IMPORTED_MODULE_4__["default"].initialize(),
-                    _userService__WEBPACK_IMPORTED_MODULE_5__["default"].initialize()
-                ]);
-                console.log('基础业务服务初始化完成');
+                // 初始化所有业务服务
+                console.log('开始初始化业务服务...');
+                // 基础服务先初始化
+                yield _categoryService__WEBPACK_IMPORTED_MODULE_0__["default"].initialize();
+                yield _unitService__WEBPACK_IMPORTED_MODULE_1__["default"].initialize();
+                yield _warehouseService__WEBPACK_IMPORTED_MODULE_2__["default"].initialize();
+                yield _supplierService__WEBPACK_IMPORTED_MODULE_3__["default"].initialize();
+                yield _customerService__WEBPACK_IMPORTED_MODULE_4__["default"].initialize();
+                yield _userService__WEBPACK_IMPORTED_MODULE_5__["default"].initialize();
+                // 库存和产品服务
+                yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_6__["default"].initialize();
+                yield _productService__WEBPACK_IMPORTED_MODULE_7__["default"].initialize();
+                // 业务流程服务
+                yield _purchaseOrderService__WEBPACK_IMPORTED_MODULE_8__["default"].initialize();
+                yield _purchaseReceiptService__WEBPACK_IMPORTED_MODULE_9__["default"].initialize();
+                yield _salesOrderService__WEBPACK_IMPORTED_MODULE_10__["default"].initialize();
+                yield _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__["default"].initialize();
+                // 财务服务（暂时注释掉）
+                // await accountsPayableService.initialize();
+                // await accountsReceivableService.initialize();
+                console.log('所有业务服务初始化完成');
                 // 暂时注释掉其他服务的初始化
                 // // 2. 产品服务（依赖分类和单位）
                 // await productService.initialize();
@@ -56054,13 +56066,16 @@ class BusinessServiceManager {
                 _supplierService__WEBPACK_IMPORTED_MODULE_3__["default"].getSupplierStats(),
                 _customerService__WEBPACK_IMPORTED_MODULE_4__["default"].getCustomerStats()
             ]);
-            // 暂时设置默认值，避免引用未导入的服务
-            const productStats = { total: 0 };
-            const inventoryStats = { total: 0 };
-            const purchaseOrderStats = { total: 0 };
-            const purchaseReceiptStats = { total: 0 };
-            const salesOrderStats = { total: 0 };
-            const salesDeliveryStats = { total: 0 };
+            // 获取所有服务的统计数据
+            const productStats = yield _productService__WEBPACK_IMPORTED_MODULE_7__["default"].getProductStats();
+            const inventoryStats = yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_6__["default"].getInventoryStats();
+            const purchaseOrderStats = yield _purchaseOrderService__WEBPACK_IMPORTED_MODULE_8__["default"].getOrderStats();
+            const purchaseReceiptStats = yield _purchaseReceiptService__WEBPACK_IMPORTED_MODULE_9__["default"].getReceiptStats();
+            const salesOrderStats = yield _salesOrderService__WEBPACK_IMPORTED_MODULE_10__["default"].getOrderStats();
+            const salesDeliveryStats = yield _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__["default"].getDeliveryStats();
+            // 暂时注释掉财务服务统计
+            // const accountsPayableStats = await accountsPayableService.getPayableStats();
+            // const accountsReceivableStats = await accountsReceivableService.getReceivableStats();
             return {
                 categories: categoryStats.total,
                 units: unitStats.total,
@@ -56068,7 +56083,7 @@ class BusinessServiceManager {
                 products: productStats.total,
                 suppliers: supplierStats.total,
                 customers: customerStats.total,
-                stockItems: inventoryStats.totalProducts,
+                stockItems: inventoryStats.totalStocks,
                 transactions: inventoryStats.totalTransactions,
                 lowStockItems: inventoryStats.lowStockCount,
                 totalInventoryValue: inventoryStats.totalValue,
@@ -56166,6 +56181,3383 @@ class BusinessServiceManager {
 const businessServiceManager = new BusinessServiceManager();
 // 默认导出管理器，方便使用
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (businessServiceManager);
+
+
+/***/ }),
+
+/***/ "./src/services/business/inventoryStockService.ts":
+/*!********************************************************!*\
+  !*** ./src/services/business/inventoryStockService.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   InventoryStockService: () => (/* binding */ InventoryStockService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
+/* harmony import */ var _warehouseService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./warehouseService */ "./src/services/business/warehouseService.ts");
+/* harmony import */ var _utils_concurrency__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/concurrency */ "./src/utils/concurrency.ts");
+/* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
+/* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+
+
+class InventoryStockService {
+    constructor() {
+        this.stocks = new Map();
+        this.transactions = new Map();
+        this.stockIndex = new Map(); // "productId:warehouseId" -> stockId
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('Inventory stock service initialized');
+        });
+    }
+    // =============== 库存管理 ===============
+    findAllStocks() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.stocks.values());
+        });
+    }
+    findStockById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.stocks.get(id) || null;
+        });
+    }
+    findStockByProductAndWarehouse(productId, warehouseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const key = `${productId}:${warehouseId}`;
+            const stockId = this.stockIndex.get(key);
+            return stockId ? this.stocks.get(stockId) || null : null;
+        });
+    }
+    findStocksByProduct(productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.stocks.values()).filter(stock => stock.productId === productId);
+        });
+    }
+    findStocksByWarehouse(warehouseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.stocks.values()).filter(stock => stock.warehouseId === warehouseId);
+        });
+    }
+    findLowStockItems() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const stocks = yield this.findAllStocks();
+            const lowStocks = [];
+            for (const stock of stocks) {
+                const product = yield _productService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(stock.productId);
+                if (product && stock.currentStock <= product.minStock) {
+                    lowStocks.push(stock);
+                }
+            }
+            return lowStocks;
+        });
+    }
+    findOutOfStockItems() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.stocks.values()).filter(stock => stock.currentStock <= 0);
+        });
+    }
+    createOrUpdateStock(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            // 验证产品和仓库存在
+            const product = yield _productService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(data.productId);
+            if (!product) {
+                throw new Error(`产品不存在: ${data.productId}`);
+            }
+            const warehouse = yield _warehouseService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(data.warehouseId);
+            if (!warehouse) {
+                throw new Error(`仓库不存在: ${data.warehouseId}`);
+            }
+            // 检查是否已存在库存记录
+            const existingStock = yield this.findStockByProductAndWarehouse(data.productId, data.warehouseId);
+            if (existingStock) {
+                return this.updateStock(existingStock.id, data);
+            }
+            // 创建新库存记录
+            const stock = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(), createdAt: new Date(), updatedAt: new Date() });
+            // 验证数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.InventoryStockSchema, stock);
+            if (!validation.success) {
+                throw new Error(`库存数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            const key = `${stock.productId}:${stock.warehouseId}`;
+            this.stocks.set(stock.id, stock);
+            this.stockIndex.set(key, stock.id);
+            return stock;
+        });
+    }
+    updateStock(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const existingStock = this.stocks.get(id);
+            if (!existingStock) {
+                throw new Error(`库存记录不存在: ${id}`);
+            }
+            const updatedStock = Object.assign(Object.assign(Object.assign({}, existingStock), data), { updatedAt: new Date() });
+            // 验证更新后的数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.InventoryStockSchema, updatedStock);
+            if (!validation.success) {
+                throw new Error(`库存数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            this.stocks.set(id, updatedStock);
+            return updatedStock;
+        });
+    }
+    // =============== 库存流水管理 ===============
+    findAllTransactions() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.transactions.values());
+        });
+    }
+    findTransactionById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.transactions.get(id) || null;
+        });
+    }
+    findTransactionsByProduct(productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.transactions.values()).filter(transaction => transaction.productId === productId);
+        });
+    }
+    findTransactionsByWarehouse(warehouseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.transactions.values()).filter(transaction => transaction.warehouseId === warehouseId);
+        });
+    }
+    findTransactionsByType(type) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.transactions.values()).filter(transaction => transaction.transactionType === type);
+        });
+    }
+    findTransactionsByDateRange(startDate, endDate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.transactions.values()).filter(transaction => transaction.createdAt >= startDate && transaction.createdAt <= endDate);
+        });
+    }
+    // =============== 库存操作 ===============
+    stockIn(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 输入验证
+            if (params.quantity <= 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('入库数量必须大于0', { quantity: params.quantity });
+            }
+            if (params.unitPrice < 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('单价不能为负数', { unitPrice: params.unitPrice });
+            }
+            // 使用库存锁，确保并发安全
+            const lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_4__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+                return this.processStockTransaction(Object.assign(Object.assign({}, params), { transactionType: _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.IN }));
+            }));
+        });
+    }
+    stockOut(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 输入验证
+            if (params.quantity <= 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('出库数量必须大于0', { quantity: params.quantity });
+            }
+            if (params.unitPrice < 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('单价不能为负数', { unitPrice: params.unitPrice });
+            }
+            // 使用库存锁，确保原子性操作，防止并发竞态条件
+            const lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_4__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+                // 在锁内重新检查库存（防止检查后其他事务修改库存）
+                const currentStock = yield this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
+                if (!currentStock) {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('商品在该仓库中无库存记录', {
+                        productId: params.productId,
+                        warehouseId: params.warehouseId
+                    });
+                }
+                if (currentStock.availableStock < params.quantity) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.warn('Stock out attempt failed - insufficient stock', {
+                        productId: params.productId,
+                        warehouseId: params.warehouseId,
+                        requestedQuantity: params.quantity,
+                        availableStock: currentStock.availableStock,
+                        operator: params.operator
+                    });
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('库存不足，无法出库', {
+                        requestedQuantity: params.quantity,
+                        availableStock: currentStock.availableStock,
+                        productId: params.productId,
+                        warehouseId: params.warehouseId
+                    });
+                }
+                // 原子性库存事务处理
+                return this.processStockTransaction(Object.assign(Object.assign({}, params), { transactionType: _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.OUT, quantity: -params.quantity // 出库为负数
+                 }));
+            }));
+        });
+    }
+    stockAdjust(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 增强输入验证
+            if (!params.productId || !params.warehouseId || !params.operator) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('产品ID、仓库ID和操作人不能为空', params);
+            }
+            if (typeof params.newQuantity !== 'number' || isNaN(params.newQuantity)) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('调整数量必须是有效数字', { newQuantity: params.newQuantity });
+            }
+            if (params.newQuantity < 0) {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.warn('Attempted negative stock adjustment', {
+                    productId: params.productId,
+                    warehouseId: params.warehouseId,
+                    newQuantity: params.newQuantity,
+                    operator: params.operator
+                });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('调整后的库存数量不能为负数', { newQuantity: params.newQuantity });
+            }
+            if (typeof params.unitPrice !== 'number' || isNaN(params.unitPrice) || params.unitPrice < 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('单价必须是非负数字', { unitPrice: params.unitPrice });
+            }
+            // 获取当前库存
+            const currentStock = yield this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
+            const currentQuantity = currentStock ? currentStock.currentStock : 0;
+            const adjustQuantity = params.newQuantity - currentQuantity;
+            if (adjustQuantity === 0) {
+                throw new Error('调整数量为0，无需调整');
+            }
+            return this.processStockTransaction({
+                productId: params.productId,
+                warehouseId: params.warehouseId,
+                quantity: adjustQuantity,
+                unitPrice: params.unitPrice,
+                remark: params.remark,
+                operator: params.operator,
+                transactionType: _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.ADJUST
+            });
+        });
+    }
+    processStockTransaction(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            // 生成流水单号
+            const transactionNo = yield this.generateTransactionNo(params.transactionType);
+            // 创建库存流水记录
+            const transaction = {
+                id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
+                transactionNo,
+                productId: params.productId,
+                warehouseId: params.warehouseId,
+                transactionType: params.transactionType,
+                quantity: params.quantity,
+                unitPrice: params.unitPrice,
+                totalAmount: params.quantity * params.unitPrice,
+                referenceType: params.referenceType,
+                referenceId: params.referenceId,
+                remark: params.remark,
+                operator: params.operator,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            };
+            // 验证流水数据
+            const transactionValidation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.InventoryTransactionSchema, transaction);
+            if (!transactionValidation.success) {
+                throw new Error(`库存流水数据验证失败: ${(_a = transactionValidation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            // 获取或创建库存记录
+            let stock = yield this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
+            if (!stock) {
+                stock = yield this.createOrUpdateStock({
+                    productId: params.productId,
+                    warehouseId: params.warehouseId,
+                    currentStock: 0,
+                    availableStock: 0,
+                    reservedStock: 0,
+                    minStock: 10, // 默认最小库存
+                    maxStock: 1000, // 默认最大库存
+                    avgCost: params.unitPrice,
+                    unitPrice: params.unitPrice
+                });
+            }
+            // 更新库存数量
+            const newCurrentStock = stock.currentStock + params.quantity;
+            const newAvailableStock = stock.availableStock + params.quantity;
+            // 计算新的平均成本（仅对入库操作）
+            let newAvgCost = stock.avgCost;
+            if (params.transactionType === _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.IN && params.quantity > 0) {
+                const totalCost = (stock.currentStock * stock.avgCost) + (params.quantity * params.unitPrice);
+                const totalQuantity = stock.currentStock + params.quantity;
+                newAvgCost = totalQuantity > 0 ? totalCost / totalQuantity : params.unitPrice;
+            }
+            // 更新库存记录
+            const updatedStock = yield this.updateStock(stock.id, {
+                currentStock: newCurrentStock,
+                availableStock: newAvailableStock,
+                avgCost: newAvgCost,
+                lastInDate: params.transactionType === _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.IN ? new Date() : stock.lastInDate,
+                lastOutDate: params.transactionType === _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.OUT ? new Date() : stock.lastOutDate
+            });
+            // 保存流水记录
+            this.transactions.set(transaction.id, transaction);
+            return { stock: updatedStock, transaction };
+        });
+    }
+    generateTransactionNo(type) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const now = new Date();
+            const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+            const typePrefix = {
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.IN]: 'IN',
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.OUT]: 'OUT',
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.ADJUST]: 'ADJ'
+            }[type];
+            // 简单的序号生成（实际应用中可能需要更复杂的逻辑）
+            const sequence = String(this.transactions.size + 1).padStart(4, '0');
+            return `${typePrefix}${dateStr}${sequence}`;
+        });
+    }
+    // =============== 库存预留 ===============
+    reserveStock(productId, warehouseId, quantity) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 输入验证
+            if (quantity <= 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('预留数量必须大于0', { quantity });
+            }
+            if (!productId || !warehouseId) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('产品ID和仓库ID不能为空', { productId, warehouseId });
+            }
+            // 使用库存锁，确保原子性操作
+            const lockKey = `stock-reserve-${productId}-${warehouseId}`;
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_4__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+                const stock = yield this.findStockByProductAndWarehouse(productId, warehouseId);
+                if (!stock) {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('库存记录不存在', { productId, warehouseId });
+                }
+                if (stock.availableStock < quantity) {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('可用库存不足，无法预留', {
+                        availableStock: stock.availableStock,
+                        requestedQuantity: quantity,
+                        productId,
+                        warehouseId
+                    });
+                }
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Stock reserved', {
+                    productId,
+                    warehouseId,
+                    quantity,
+                    availableStockBefore: stock.availableStock,
+                    reservedStockBefore: stock.reservedStock
+                });
+                return this.updateStock(stock.id, {
+                    availableStock: stock.availableStock - quantity,
+                    reservedStock: stock.reservedStock + quantity
+                });
+            }));
+        });
+    }
+    releaseReservedStock(productId, warehouseId, quantity) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 输入验证
+            if (quantity <= 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('释放数量必须大于0', { quantity });
+            }
+            if (!productId || !warehouseId) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.ValidationError('产品ID和仓库ID不能为空', { productId, warehouseId });
+            }
+            // 使用库存锁，确保原子性操作
+            const lockKey = `stock-reserve-${productId}-${warehouseId}`;
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_4__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+                const stock = yield this.findStockByProductAndWarehouse(productId, warehouseId);
+                if (!stock) {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('库存记录不存在', { productId, warehouseId });
+                }
+                if (stock.reservedStock < quantity) {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_5__.BusinessError('预留库存不足，无法释放', {
+                        reservedStock: stock.reservedStock,
+                        requestedQuantity: quantity,
+                        productId,
+                        warehouseId
+                    });
+                }
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Reserved stock released', {
+                    productId,
+                    warehouseId,
+                    quantity,
+                    availableStockBefore: stock.availableStock,
+                    reservedStockBefore: stock.reservedStock
+                });
+                return this.updateStock(stock.id, {
+                    availableStock: stock.availableStock + quantity,
+                    reservedStock: stock.reservedStock - quantity
+                });
+            }));
+        });
+    }
+    // =============== 统计和报表 ===============
+    getInventorySummary() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const stocks = yield this.findAllStocks();
+            const lowStocks = yield this.findLowStockItems();
+            const outOfStocks = yield this.findOutOfStockItems();
+            const totalValue = stocks.reduce((sum, stock) => sum + (stock.currentStock * stock.avgCost), 0);
+            return {
+                totalProducts: stocks.length,
+                totalValue,
+                lowStockCount: lowStocks.length,
+                outOfStockCount: outOfStocks.length,
+                totalTransactions: this.transactions.size
+            };
+        });
+    }
+    getStockMovementReport(startDate, endDate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const transactions = yield this.findTransactionsByDateRange(startDate, endDate);
+            const summary = transactions.reduce((acc, transaction) => {
+                switch (transaction.transactionType) {
+                    case _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.IN:
+                        acc.totalIn += transaction.quantity;
+                        acc.valueIn += transaction.totalAmount;
+                        break;
+                    case _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.OUT:
+                        acc.totalOut += Math.abs(transaction.quantity);
+                        acc.valueOut += Math.abs(transaction.totalAmount);
+                        break;
+                    case _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.ADJUST:
+                        acc.totalAdjust += Math.abs(transaction.quantity);
+                        break;
+                }
+                return acc;
+            }, {
+                totalIn: 0,
+                totalOut: 0,
+                totalAdjust: 0,
+                valueIn: 0,
+                valueOut: 0
+            });
+            return { transactions, summary };
+        });
+    }
+    getTopProductsByValue() {
+        return __awaiter(this, arguments, void 0, function* (limit = 10) {
+            const stocks = yield this.findAllStocks();
+            const stocksWithValue = yield Promise.all(stocks.map((stock) => __awaiter(this, void 0, void 0, function* () {
+                const product = yield _productService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(stock.productId);
+                return {
+                    stock,
+                    product,
+                    totalValue: stock.currentStock * stock.avgCost
+                };
+            })));
+            return stocksWithValue
+                .sort((a, b) => b.totalValue - a.totalValue)
+                .slice(0, limit);
+        });
+    }
+    // 获取库存统计数据
+    getInventoryStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const stocks = yield this.findAllStocks();
+            const transactions = yield this.findAllTransactions();
+            const lowStockItems = yield this.findLowStockItems();
+            const totalValue = stocks.reduce((sum, stock) => sum + (stock.currentStock * stock.avgCost), 0);
+            return {
+                totalStocks: stocks.length,
+                totalTransactions: transactions.length,
+                lowStockCount: lowStockItems.length,
+                totalValue: totalValue
+            };
+        });
+    }
+}
+// 创建并导出服务实例
+const inventoryStockService = new InventoryStockService();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (inventoryStockService);
+
+
+/***/ }),
+
+/***/ "./src/services/business/productService.ts":
+/*!*************************************************!*\
+  !*** ./src/services/business/productService.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ProductService: () => (/* binding */ ProductService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _inventory_inventoryService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../inventory/inventoryService */ "./src/services/inventory/inventoryService.ts");
+/* harmony import */ var _userService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./userService */ "./src/services/business/userService.ts");
+/* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
+/* harmony import */ var _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/concurrency */ "./src/utils/concurrency.ts");
+/* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+
+
+class ProductService {
+    constructor() {
+        this.products = new Map();
+        this.skuIndex = new Map(); // SKU -> ID mapping
+        this.inventoryService = new _inventory_inventoryService__WEBPACK_IMPORTED_MODULE_2__.InventoryService();
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.inventoryService.initialize();
+            console.log('Product service initialized');
+        });
+    }
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.products.values());
+        });
+    }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.products.get(id) || null;
+        });
+    }
+    findBySku(sku) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = this.skuIndex.get(sku);
+            return id ? this.products.get(id) || null : null;
+        });
+    }
+    findByCategory(categoryId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.products.values()).filter(product => product.categoryId === categoryId);
+        });
+    }
+    findByStatus(status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.products.values()).filter(product => product.status === status);
+        });
+    }
+    search(searchTerm) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const term = searchTerm.toLowerCase().trim();
+            if (!term)
+                return this.findAll();
+            return Array.from(this.products.values()).filter(product => {
+                var _a, _b, _c;
+                return product.name.toLowerCase().includes(term) ||
+                    product.sku.toLowerCase().includes(term) ||
+                    ((_a = product.description) === null || _a === void 0 ? void 0 : _a.toLowerCase().includes(term)) ||
+                    ((_b = product.brand) === null || _b === void 0 ? void 0 : _b.toLowerCase().includes(term)) ||
+                    ((_c = product.model) === null || _c === void 0 ? void 0 : _c.toLowerCase().includes(term));
+            });
+        });
+    }
+    create(data, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 使用SKU作为并发锁的键，防止重复SKU的并发创建
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(`product-create-${data.sku}`, () => __awaiter(this, void 0, void 0, function* () {
+                var _a;
+                // 权限检查
+                if (currentUserId) {
+                    const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_3__["default"].hasPermission(currentUserId, 'products.write');
+                    if (!hasPermission) {
+                        _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.security('Unauthorized product creation attempt', { userId: currentUserId, sku: data.sku });
+                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('无权限创建产品', { userId: currentUserId, sku: data.sku });
+                    }
+                }
+                // 验证输入数据
+                const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.ProductSchema, Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(), createdAt: new Date(), updatedAt: new Date() }));
+                if (!validation.success) {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError(`产品数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`, {
+                        errors: validation.errors,
+                        data: data
+                    });
+                }
+                // 二次检查SKU唯一性（在锁内进行，确保原子性）
+                if (this.skuIndex.has(data.sku)) {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError(`SKU "${data.sku}" 已存在`, { sku: data.sku });
+                }
+                // 业务规则验证
+                yield this.validateBusinessRules(data);
+                const product = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(), createdAt: new Date(), updatedAt: new Date() });
+                // 原子性操作：同时更新两个Map
+                this.products.set(product.id, product);
+                this.skuIndex.set(product.sku, product.id);
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.info('Product created successfully', {
+                    productId: product.id,
+                    sku: product.sku,
+                    userId: currentUserId
+                });
+                return product;
+            }));
+        });
+    }
+    update(id, data, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 使用产品ID和新SKU作为并发锁的键，防止重复SKU的并发更新
+            const lockKey = data.sku ? `product-update-${id}-${data.sku}` : `product-update-${id}`;
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+                var _a;
+                // 权限检查
+                if (currentUserId) {
+                    const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_3__["default"].hasPermission(currentUserId, 'products.write');
+                    if (!hasPermission) {
+                        _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.security('Unauthorized product update attempt', { userId: currentUserId, productId: id });
+                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('无权限修改产品', { userId: currentUserId, productId: id });
+                    }
+                }
+                const existingProduct = this.products.get(id);
+                if (!existingProduct) {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError(`产品不存在: ${id}`, { productId: id });
+                }
+                // 二次检查SKU唯一性（在锁内进行，确保原子性）
+                if (data.sku && data.sku !== existingProduct.sku) {
+                    if (this.skuIndex.has(data.sku)) {
+                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError(`SKU "${data.sku}" 已存在`, { sku: data.sku, existingSku: existingProduct.sku });
+                    }
+                }
+                const updatedProduct = Object.assign(Object.assign(Object.assign({}, existingProduct), data), { updatedAt: new Date() });
+                // 验证更新后的数据
+                const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.ProductSchema, updatedProduct);
+                if (!validation.success) {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError(`产品数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`, {
+                        errors: validation.errors,
+                        data: data
+                    });
+                }
+                // 业务规则验证
+                yield this.validateBusinessRules(updatedProduct);
+                // 原子性操作：更新SKU索引和产品数据
+                if (data.sku && data.sku !== existingProduct.sku) {
+                    this.skuIndex.delete(existingProduct.sku);
+                    this.skuIndex.set(data.sku, id);
+                }
+                this.products.set(id, updatedProduct);
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.info('Product updated successfully', {
+                    productId: id,
+                    oldSku: existingProduct.sku,
+                    newSku: data.sku || existingProduct.sku,
+                    userId: currentUserId
+                });
+                return updatedProduct;
+            }));
+        });
+    }
+    delete(id, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(`product-delete-${id}`, () => __awaiter(this, void 0, void 0, function* () {
+                // 权限检查
+                if (currentUserId) {
+                    const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_3__["default"].hasPermission(currentUserId, 'products.write');
+                    if (!hasPermission) {
+                        _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.security('Unauthorized product deletion attempt', { userId: currentUserId, productId: id });
+                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('无权限删除产品', { userId: currentUserId, productId: id });
+                    }
+                }
+                const product = this.products.get(id);
+                if (!product) {
+                    return false;
+                }
+                // 原子性操作：同时删除产品和SKU索引
+                this.products.delete(id);
+                this.skuIndex.delete(product.sku);
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.info('Product deleted successfully', {
+                    productId: id,
+                    sku: product.sku,
+                    userId: currentUserId
+                });
+                return true;
+            }));
+        });
+    }
+    bulkCreate(products, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 权限检查
+            if (currentUserId) {
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_3__["default"].hasPermission(currentUserId, 'products.write');
+                if (!hasPermission) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.security('Unauthorized bulk product creation attempt', { userId: currentUserId });
+                    throw new Error('无权限批量创建产品');
+                }
+            }
+            const created = [];
+            const errors = [];
+            for (let i = 0; i < products.length; i++) {
+                try {
+                    const product = yield this.create(products[i], currentUserId);
+                    created.push(product);
+                }
+                catch (error) {
+                    errors.push({
+                        index: i,
+                        error: error instanceof Error ? error.message : '未知错误'
+                    });
+                }
+            }
+            return { created, errors };
+        });
+    }
+    getLowStockProducts() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 获取库存不足的商品
+                const lowStockItems = yield this.inventoryService.getLowStockItems();
+                // 根据SKU匹配产品信息
+                const lowStockProducts = [];
+                for (const item of lowStockItems) {
+                    const productId = this.skuIndex.get(item.sku);
+                    if (productId) {
+                        const product = this.products.get(productId);
+                        if (product && product.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.ProductStatus.ACTIVE) {
+                            lowStockProducts.push(product);
+                        }
+                    }
+                }
+                // 如果没有找到SKU匹配的产品，检查是否有产品的minStock设置需要预警
+                if (lowStockProducts.length === 0) {
+                    const allProducts = Array.from(this.products.values());
+                    for (const product of allProducts) {
+                        if (product.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.ProductStatus.ACTIVE && product.minStock && product.minStock > 0) {
+                            // 通过SKU查询对应的库存信息
+                            const stockItem = lowStockItems.find(item => item.sku === product.sku);
+                            if (stockItem && stockItem.stockQuantity <= product.minStock) {
+                                lowStockProducts.push(product);
+                            }
+                        }
+                    }
+                }
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.info('Low stock products retrieved', {
+                    count: lowStockProducts.length,
+                    products: lowStockProducts.map(p => ({ id: p.id, sku: p.sku, name: p.name }))
+                });
+                return lowStockProducts;
+            }
+            catch (error) {
+                const errorMsg = error instanceof Error ? error.message : '未知错误';
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_4__.logger.error('Failed to get low stock products', { error: errorMsg });
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError(`获取低库存产品失败: ${errorMsg}`, { originalError: error });
+            }
+        });
+    }
+    getActiveProducts() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.findByStatus(_types_entities__WEBPACK_IMPORTED_MODULE_0__.ProductStatus.ACTIVE);
+        });
+    }
+    updateStatus(id, status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.update(id, { status });
+        });
+    }
+    validateSku(sku, excludeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const existingId = this.skuIndex.get(sku);
+            return !existingId || existingId === excludeId;
+        });
+    }
+    // 业务规则验证
+    validateBusinessRules(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // SKU格式验证
+            if (!/^[A-Z0-9-_]{3,50}$/.test(data.sku)) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('SKU格式不正确，只能包含大写字母、数字、连字符和下划线，长度3-50字符', { sku: data.sku });
+            }
+            // 价格验证
+            if (data.purchasePrice <= 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('采购价格必须大于0', { purchasePrice: data.purchasePrice });
+            }
+            if (data.salePrice <= 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('销售价格必须大于0', { salePrice: data.salePrice });
+            }
+            // 销售价不能低于采购价（保证最小利润）
+            if (data.salePrice < data.purchasePrice) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('销售价不能低于采购价', {
+                    salePrice: data.salePrice,
+                    purchasePrice: data.purchasePrice
+                });
+            }
+            // 验证分类是否存在（如果提供了分类ID）
+            if (data.categoryId) {
+                try {
+                    // TODO: 当分类服务可用时启用此验证
+                    // const category = await categoryService.findById(data.categoryId);
+                    // if (!category) {
+                    //   throw new ValidationError('指定的产品分类不存在', { categoryId: data.categoryId });
+                    // }
+                }
+                catch (error) {
+                    // 暂时跳过分类验证
+                }
+            }
+            // 库存警戒值验证
+            if (data.minStock && data.minStock < 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('最小库存不能为负数', { minStock: data.minStock });
+            }
+            if (data.maxStock && data.maxStock < 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('最大库存不能为负数', { maxStock: data.maxStock });
+            }
+            if (data.minStock && data.maxStock && data.minStock >= data.maxStock) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('最小库存必须小于最大库存', {
+                    minStock: data.minStock,
+                    maxStock: data.maxStock
+                });
+            }
+            // 状态验证
+            if (data.status && !Object.values(_types_entities__WEBPACK_IMPORTED_MODULE_0__.ProductStatus).includes(data.status)) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.ValidationError('无效的产品状态', { status: data.status });
+            }
+        });
+    }
+    getProductStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const products = yield this.findAll();
+            return {
+                total: products.length,
+                active: products.filter(p => p.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.ProductStatus.ACTIVE).length,
+                inactive: products.filter(p => p.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.ProductStatus.INACTIVE).length,
+                discontinued: products.filter(p => p.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.ProductStatus.DISCONTINUED).length
+            };
+        });
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new ProductService());
+
+
+/***/ }),
+
+/***/ "./src/services/business/purchaseOrderService.ts":
+/*!*******************************************************!*\
+  !*** ./src/services/business/purchaseOrderService.ts ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   PurchaseOrderService: () => (/* binding */ PurchaseOrderService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _supplierService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./supplierService */ "./src/services/business/supplierService.ts");
+/* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
+/* harmony import */ var _accountsPayableService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./accountsPayableService */ "./src/services/business/accountsPayableService.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+
+
+
+
+
+
+class PurchaseOrderService {
+    constructor() {
+        this.orders = new Map();
+        this.orderItems = new Map();
+        this.orderNoIndex = new Map(); // OrderNo -> ID mapping
+        this.orderItemsByOrder = new Map(); // OrderID -> ItemIDs
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('Purchase order service initialized');
+            // 创建默认采购订单用于演示
+            if (this.orders.size === 0) {
+                yield this.createDefaultOrders();
+            }
+        });
+    }
+    createDefaultOrders() {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b, _c, _d;
+            try {
+                const suppliers = yield _supplierService__WEBPACK_IMPORTED_MODULE_2__["default"].findAll();
+                const products = yield _productService__WEBPACK_IMPORTED_MODULE_3__["default"].findAll();
+                if (suppliers.length === 0 || products.length === 0) {
+                    console.log('No suppliers or products found, skipping default orders creation');
+                    return;
+                }
+                const defaultOrders = [
+                    {
+                        supplierId: suppliers[0].id,
+                        orderDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7天前
+                        expectedDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3天后
+                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.CONFIRMED,
+                        discountAmount: 0,
+                        taxAmount: 0,
+                        remark: '示例采购订单A',
+                        creator: '系统管理员',
+                        items: [
+                            {
+                                productId: (_a = products[0]) === null || _a === void 0 ? void 0 : _a.id,
+                                quantity: 100,
+                                unitPrice: 50.00,
+                                discountRate: 0,
+                                receivedQuantity: 60
+                            },
+                            {
+                                productId: (_b = products[1]) === null || _b === void 0 ? void 0 : _b.id,
+                                quantity: 50,
+                                unitPrice: 120.00,
+                                discountRate: 0.05,
+                                receivedQuantity: 0
+                            }
+                        ]
+                    },
+                    {
+                        supplierId: ((_c = suppliers[1]) === null || _c === void 0 ? void 0 : _c.id) || suppliers[0].id,
+                        orderDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3天前
+                        expectedDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7天后
+                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.DRAFT,
+                        discountAmount: 100,
+                        taxAmount: 0,
+                        remark: '示例采购订单B',
+                        creator: '采购员',
+                        items: [
+                            {
+                                productId: ((_d = products[2]) === null || _d === void 0 ? void 0 : _d.id) || products[0].id,
+                                quantity: 200,
+                                unitPrice: 25.00,
+                                discountRate: 0,
+                                receivedQuantity: 0
+                            }
+                        ]
+                    }
+                ];
+                for (const orderData of defaultOrders) {
+                    try {
+                        const { items } = orderData, orderInfo = __rest(orderData, ["items"]);
+                        const order = yield this.create(orderInfo);
+                        // 添加订单项目
+                        for (const itemData of items) {
+                            if (itemData.productId) {
+                                yield this.addOrderItem(order.id, itemData);
+                            }
+                        }
+                    }
+                    catch (error) {
+                        console.warn('Failed to create default purchase order:', error);
+                    }
+                }
+            }
+            catch (error) {
+                console.warn('Failed to create default purchase orders:', error);
+            }
+        });
+    }
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = Array.from(this.orders.values());
+            // 加载关联数据
+            for (const order of orders) {
+                yield this.loadOrderRelations(order);
+            }
+            return orders;
+        });
+    }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const order = this.orders.get(id);
+            if (!order)
+                return null;
+            yield this.loadOrderRelations(order);
+            return order;
+        });
+    }
+    findByOrderNo(orderNo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = this.orderNoIndex.get(orderNo);
+            return id ? this.findById(id) : null;
+        });
+    }
+    findBySupplier(supplierId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = Array.from(this.orders.values()).filter(order => order.supplierId === supplierId);
+            for (const order of orders) {
+                yield this.loadOrderRelations(order);
+            }
+            return orders;
+        });
+    }
+    findByStatus(status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = Array.from(this.orders.values()).filter(order => order.status === status);
+            for (const order of orders) {
+                yield this.loadOrderRelations(order);
+            }
+            return orders;
+        });
+    }
+    findByDateRange(startDate, endDate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = Array.from(this.orders.values()).filter(order => order.orderDate >= startDate && order.orderDate <= endDate);
+            for (const order of orders) {
+                yield this.loadOrderRelations(order);
+            }
+            return orders;
+        });
+    }
+    create(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            // 验证供应商是否存在
+            const supplier = yield _supplierService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(data.supplierId);
+            if (!supplier) {
+                throw new Error(`供应商不存在: ${data.supplierId}`);
+            }
+            // 生成订单号
+            const orderNo = yield this.generateOrderNo();
+            const order = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_5__["default"])(), orderNo, totalAmount: 0, finalAmount: 0, createdAt: new Date(), updatedAt: new Date() });
+            // 验证数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.PurchaseOrderSchema, order);
+            if (!validation.success) {
+                throw new Error(`采购订单数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            this.orders.set(order.id, order);
+            this.orderNoIndex.set(order.orderNo, order.id);
+            this.orderItemsByOrder.set(order.id, []);
+            return order;
+        });
+    }
+    update(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const existingOrder = this.orders.get(id);
+            if (!existingOrder) {
+                throw new Error(`采购订单不存在: ${id}`);
+            }
+            const updatedOrder = Object.assign(Object.assign(Object.assign({}, existingOrder), data), { updatedAt: new Date() });
+            // 验证更新后的数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.PurchaseOrderSchema, updatedOrder);
+            if (!validation.success) {
+                throw new Error(`采购订单数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            this.orders.set(id, updatedOrder);
+            // 财务集成：自动生成应付账款
+            if (data.status &&
+                (data.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.CONFIRMED || data.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.COMPLETED) &&
+                existingOrder.status !== data.status) {
+                try {
+                    yield _accountsPayableService__WEBPACK_IMPORTED_MODULE_4__["default"].createFromPurchaseOrder(updatedOrder);
+                }
+                catch (error) {
+                    console.warn(`自动生成应付账款失败: ${error instanceof Error ? error.message : '未知错误'}`);
+                }
+            }
+            return updatedOrder;
+        });
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const order = this.orders.get(id);
+            if (!order) {
+                return false;
+            }
+            // 删除订单项目
+            const itemIds = this.orderItemsByOrder.get(id) || [];
+            for (const itemId of itemIds) {
+                this.orderItems.delete(itemId);
+            }
+            this.orders.delete(id);
+            this.orderNoIndex.delete(order.orderNo);
+            this.orderItemsByOrder.delete(id);
+            return true;
+        });
+    }
+    updateStatus(id, status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.update(id, { status });
+        });
+    }
+    // =============== 订单项目管理 ===============
+    addOrderItem(orderId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const order = this.orders.get(orderId);
+            if (!order) {
+                throw new Error(`采购订单不存在: ${orderId}`);
+            }
+            // 验证产品是否存在
+            const product = yield _productService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(data.productId);
+            if (!product) {
+                throw new Error(`产品不存在: ${data.productId}`);
+            }
+            // 计算金额
+            const amount = data.quantity * data.unitPrice * (1 - data.discountRate);
+            // 确定项目状态
+            let status = _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.PENDING;
+            if (data.receivedQuantity > 0) {
+                status = data.receivedQuantity >= data.quantity
+                    ? _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.COMPLETED
+                    : _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.PARTIAL;
+            }
+            const orderItem = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_5__["default"])(), orderId,
+                amount,
+                status, createdAt: new Date(), updatedAt: new Date() });
+            // 验证数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.PurchaseOrderItemSchema, orderItem);
+            if (!validation.success) {
+                throw new Error(`订单项目数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            this.orderItems.set(orderItem.id, orderItem);
+            const orderItemIds = this.orderItemsByOrder.get(orderId) || [];
+            orderItemIds.push(orderItem.id);
+            this.orderItemsByOrder.set(orderId, orderItemIds);
+            // 重新计算订单总额
+            yield this.recalculateOrderTotals(orderId);
+            return orderItem;
+        });
+    }
+    updateOrderItem(itemId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const existingItem = this.orderItems.get(itemId);
+            if (!existingItem) {
+                throw new Error(`订单项目不存在: ${itemId}`);
+            }
+            // 重新计算金额和状态
+            const quantity = data.quantity !== undefined ? data.quantity : existingItem.quantity;
+            const unitPrice = data.unitPrice !== undefined ? data.unitPrice : existingItem.unitPrice;
+            const discountRate = data.discountRate !== undefined ? data.discountRate : existingItem.discountRate;
+            const receivedQuantity = data.receivedQuantity !== undefined ? data.receivedQuantity : existingItem.receivedQuantity;
+            const amount = quantity * unitPrice * (1 - discountRate);
+            let status = _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.PENDING;
+            if (receivedQuantity > 0) {
+                status = receivedQuantity >= quantity
+                    ? _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.COMPLETED
+                    : _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.PARTIAL;
+            }
+            const updatedItem = Object.assign(Object.assign(Object.assign({}, existingItem), data), { amount,
+                status, updatedAt: new Date() });
+            // 验证更新后的数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.PurchaseOrderItemSchema, updatedItem);
+            if (!validation.success) {
+                throw new Error(`订单项目数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            this.orderItems.set(itemId, updatedItem);
+            // 重新计算订单总额
+            yield this.recalculateOrderTotals(existingItem.orderId);
+            return updatedItem;
+        });
+    }
+    removeOrderItem(itemId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const item = this.orderItems.get(itemId);
+            if (!item) {
+                return false;
+            }
+            const orderId = item.orderId;
+            this.orderItems.delete(itemId);
+            const orderItemIds = this.orderItemsByOrder.get(orderId) || [];
+            const updatedItemIds = orderItemIds.filter(id => id !== itemId);
+            this.orderItemsByOrder.set(orderId, updatedItemIds);
+            // 重新计算订单总额
+            yield this.recalculateOrderTotals(orderId);
+            return true;
+        });
+    }
+    getOrderItems(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const itemIds = this.orderItemsByOrder.get(orderId) || [];
+            const items = itemIds.map(id => this.orderItems.get(id)).filter(Boolean);
+            // 加载关联数据
+            for (const item of items) {
+                yield this.loadOrderItemRelations(item);
+            }
+            return items;
+        });
+    }
+    // =============== 私有方法 ===============
+    loadOrderRelations(order) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 加载供应商信息
+            order.supplier = (yield _supplierService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(order.supplierId)) || undefined;
+            // 加载订单项目
+            order.items = yield this.getOrderItems(order.id);
+        });
+    }
+    loadOrderItemRelations(item) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 加载产品信息
+            item.product = (yield _productService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(item.productId)) || undefined;
+        });
+    }
+    recalculateOrderTotals(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const order = this.orders.get(orderId);
+            if (!order)
+                return;
+            const items = yield this.getOrderItems(orderId);
+            const totalAmount = items.reduce((sum, item) => sum + item.amount, 0);
+            const finalAmount = totalAmount - order.discountAmount + order.taxAmount;
+            yield this.update(orderId, {
+                totalAmount,
+                finalAmount
+            });
+        });
+    }
+    generateOrderNo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const now = new Date();
+            const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+            const sequence = String(this.orders.size + 1).padStart(4, '0');
+            return `PO${dateStr}${sequence}`;
+        });
+    }
+    // =============== 统计和报表方法 ===============
+    getOrderStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = yield this.findAll();
+            const byStatus = {
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.DRAFT]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.CONFIRMED]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.PARTIAL]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.COMPLETED]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.CANCELLED]: 0
+            };
+            let totalValue = 0;
+            let pendingOrders = 0;
+            let overdueOrders = 0;
+            const now = new Date();
+            orders.forEach(order => {
+                byStatus[order.status]++;
+                totalValue += order.finalAmount;
+                if (order.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.CONFIRMED || order.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.PurchaseOrderStatus.PARTIAL) {
+                    pendingOrders++;
+                    if (order.expectedDate && order.expectedDate < now) {
+                        overdueOrders++;
+                    }
+                }
+            });
+            return {
+                total: orders.length,
+                byStatus,
+                totalValue,
+                averageOrderValue: orders.length > 0 ? totalValue / orders.length : 0,
+                pendingOrders,
+                overdueOrders
+            };
+        });
+    }
+    getTopSuppliersByOrderValue() {
+        return __awaiter(this, arguments, void 0, function* (limit = 10) {
+            const orders = yield this.findAll();
+            const supplierStats = new Map();
+            orders.forEach(order => {
+                if (order.supplier) {
+                    const existing = supplierStats.get(order.supplierId) || {
+                        supplier: order.supplier,
+                        orderCount: 0,
+                        totalValue: 0
+                    };
+                    existing.orderCount++;
+                    existing.totalValue += order.finalAmount;
+                    supplierStats.set(order.supplierId, existing);
+                }
+            });
+            return Array.from(supplierStats.values())
+                .map(stat => (Object.assign(Object.assign({}, stat), { averageOrderValue: stat.orderCount > 0 ? stat.totalValue / stat.orderCount : 0 })))
+                .sort((a, b) => b.totalValue - a.totalValue)
+                .slice(0, limit);
+        });
+    }
+    getOrdersByMonth(year) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = yield this.findAll();
+            const monthlyStats = new Array(12).fill(null).map((_, index) => ({
+                month: index + 1,
+                orderCount: 0,
+                totalValue: 0
+            }));
+            orders.forEach(order => {
+                const orderYear = order.orderDate.getFullYear();
+                if (orderYear === year) {
+                    const month = order.orderDate.getMonth();
+                    monthlyStats[month].orderCount++;
+                    monthlyStats[month].totalValue += order.finalAmount;
+                }
+            });
+            return monthlyStats;
+        });
+    }
+    search(searchTerm) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const term = searchTerm.toLowerCase().trim();
+            if (!term)
+                return this.findAll();
+            const orders = yield this.findAll();
+            return orders.filter(order => {
+                var _a, _b;
+                return order.orderNo.toLowerCase().includes(term) ||
+                    ((_a = order.supplier) === null || _a === void 0 ? void 0 : _a.name.toLowerCase().includes(term)) ||
+                    ((_b = order.supplier) === null || _b === void 0 ? void 0 : _b.code.toLowerCase().includes(term)) ||
+                    order.creator.toLowerCase().includes(term) ||
+                    (order.remark && order.remark.toLowerCase().includes(term));
+            });
+        });
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new PurchaseOrderService());
+
+
+/***/ }),
+
+/***/ "./src/services/business/purchaseReceiptService.ts":
+/*!*********************************************************!*\
+  !*** ./src/services/business/purchaseReceiptService.ts ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   PurchaseReceiptService: () => (/* binding */ PurchaseReceiptService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
+/* harmony import */ var _purchaseOrderService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./purchaseOrderService */ "./src/services/business/purchaseOrderService.ts");
+/* harmony import */ var _supplierService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./supplierService */ "./src/services/business/supplierService.ts");
+/* harmony import */ var _warehouseService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./warehouseService */ "./src/services/business/warehouseService.ts");
+/* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
+/* harmony import */ var _inventoryStockService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./inventoryStockService */ "./src/services/business/inventoryStockService.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+
+
+
+
+
+
+
+
+class PurchaseReceiptService {
+    constructor() {
+        this.receipts = new Map();
+        this.receiptItems = new Map();
+        this.receiptNoIndex = new Map(); // ReceiptNo -> ID mapping
+        this.receiptItemsByReceipt = new Map(); // ReceiptID -> ItemIDs
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('Purchase receipt service initialized');
+            // 创建默认采购收货单用于演示
+            if (this.receipts.size === 0) {
+                yield this.createDefaultReceipts();
+            }
+        });
+    }
+    createDefaultReceipts() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const orders = yield _purchaseOrderService__WEBPACK_IMPORTED_MODULE_2__["default"].findAll();
+                const warehouses = yield _warehouseService__WEBPACK_IMPORTED_MODULE_4__["default"].findAll();
+                if (orders.length === 0 || warehouses.length === 0) {
+                    console.log('No orders or warehouses found, skipping default receipts creation');
+                    return;
+                }
+                // 找到已确认的订单
+                const confirmedOrders = orders.filter(order => order.status === 'confirmed' && order.items && order.items.length > 0);
+                if (confirmedOrders.length === 0) {
+                    console.log('No confirmed orders found, skipping default receipts creation');
+                    return;
+                }
+                const defaultWarehouse = warehouses.find(w => w.isDefault) || warehouses[0];
+                const defaultReceipts = [
+                    {
+                        orderId: confirmedOrders[0].id,
+                        supplierId: confirmedOrders[0].supplierId,
+                        warehouseId: defaultWarehouse.id,
+                        receiptDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2天前
+                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.ReceiptStatus.CONFIRMED,
+                        receiver: '仓库管理员',
+                        remark: '示例收货单A - 部分收货',
+                        partialReceipt: true
+                    }
+                ];
+                for (const receiptData of defaultReceipts) {
+                    try {
+                        const { partialReceipt } = receiptData, receiptInfo = __rest(receiptData, ["partialReceipt"]);
+                        const receipt = yield this.create(receiptInfo);
+                        // 添加收货项目（部分收货）
+                        const order = yield _purchaseOrderService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(receiptData.orderId);
+                        if (order && order.items) {
+                            for (const orderItem of order.items) {
+                                const receiptQuantity = partialReceipt ? Math.floor(orderItem.quantity * 0.6) : orderItem.quantity;
+                                if (receiptQuantity > 0) {
+                                    yield this.addReceiptItem(receipt.id, {
+                                        productId: orderItem.productId,
+                                        orderItemId: orderItem.id,
+                                        quantity: receiptQuantity,
+                                        unitPrice: orderItem.unitPrice
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    catch (error) {
+                        console.warn('Failed to create default purchase receipt:', error);
+                    }
+                }
+            }
+            catch (error) {
+                console.warn('Failed to create default purchase receipts:', error);
+            }
+        });
+    }
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipts = Array.from(this.receipts.values());
+            // 加载关联数据
+            for (const receipt of receipts) {
+                yield this.loadReceiptRelations(receipt);
+            }
+            return receipts;
+        });
+    }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipt = this.receipts.get(id);
+            if (!receipt)
+                return null;
+            yield this.loadReceiptRelations(receipt);
+            return receipt;
+        });
+    }
+    findByReceiptNo(receiptNo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = this.receiptNoIndex.get(receiptNo);
+            return id ? this.findById(id) : null;
+        });
+    }
+    findByOrder(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipts = Array.from(this.receipts.values()).filter(receipt => receipt.orderId === orderId);
+            for (const receipt of receipts) {
+                yield this.loadReceiptRelations(receipt);
+            }
+            return receipts;
+        });
+    }
+    findBySupplier(supplierId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipts = Array.from(this.receipts.values()).filter(receipt => receipt.supplierId === supplierId);
+            for (const receipt of receipts) {
+                yield this.loadReceiptRelations(receipt);
+            }
+            return receipts;
+        });
+    }
+    findByWarehouse(warehouseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipts = Array.from(this.receipts.values()).filter(receipt => receipt.warehouseId === warehouseId);
+            for (const receipt of receipts) {
+                yield this.loadReceiptRelations(receipt);
+            }
+            return receipts;
+        });
+    }
+    findByDateRange(startDate, endDate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipts = Array.from(this.receipts.values()).filter(receipt => receipt.receiptDate >= startDate && receipt.receiptDate <= endDate);
+            for (const receipt of receipts) {
+                yield this.loadReceiptRelations(receipt);
+            }
+            return receipts;
+        });
+    }
+    create(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 验证采购订单是否存在
+            const order = yield _purchaseOrderService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(data.orderId);
+            if (!order) {
+                throw new Error(`采购订单不存在: ${data.orderId}`);
+            }
+            // 验证供应商是否存在
+            const supplier = yield _supplierService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(data.supplierId);
+            if (!supplier) {
+                throw new Error(`供应商不存在: ${data.supplierId}`);
+            }
+            // 验证仓库是否存在
+            const warehouse = yield _warehouseService__WEBPACK_IMPORTED_MODULE_4__["default"].findById(data.warehouseId);
+            if (!warehouse) {
+                throw new Error(`仓库不存在: ${data.warehouseId}`);
+            }
+            // 生成收货单号
+            const receiptNo = yield this.generateReceiptNo();
+            const receipt = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(), receiptNo, totalQuantity: 0, totalAmount: 0, createdAt: new Date(), updatedAt: new Date() });
+            this.receipts.set(receipt.id, receipt);
+            this.receiptNoIndex.set(receipt.receiptNo, receipt.id);
+            this.receiptItemsByReceipt.set(receipt.id, []);
+            return receipt;
+        });
+    }
+    update(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const existingReceipt = this.receipts.get(id);
+            if (!existingReceipt) {
+                throw new Error(`采购收货单不存在: ${id}`);
+            }
+            const updatedReceipt = Object.assign(Object.assign(Object.assign({}, existingReceipt), data), { updatedAt: new Date() });
+            this.receipts.set(id, updatedReceipt);
+            return updatedReceipt;
+        });
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipt = this.receipts.get(id);
+            if (!receipt) {
+                return false;
+            }
+            // 删除收货项目
+            const itemIds = this.receiptItemsByReceipt.get(id) || [];
+            for (const itemId of itemIds) {
+                this.receiptItems.delete(itemId);
+            }
+            this.receipts.delete(id);
+            this.receiptNoIndex.delete(receipt.receiptNo);
+            this.receiptItemsByReceipt.delete(id);
+            return true;
+        });
+    }
+    updateStatus(id, status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipt = yield this.update(id, { status });
+            // 如果状态变更为已确认，更新库存
+            if (status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.ReceiptStatus.CONFIRMED) {
+                yield this.updateInventoryOnConfirm(id);
+            }
+            return receipt;
+        });
+    }
+    // =============== 收货项目管理 ===============
+    addReceiptItem(receiptId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 增强输入验证
+            if (!receiptId || typeof receiptId !== 'string') {
+                throw new Error('无效的收货单ID');
+            }
+            if (!data || !data.productId || !data.quantity || !data.unitPrice) {
+                throw new Error('收货项目数据不完整');
+            }
+            if (typeof data.quantity !== 'number' || isNaN(data.quantity) || data.quantity <= 0) {
+                throw new Error('收货数量必须是大于0的数字');
+            }
+            if (typeof data.unitPrice !== 'number' || isNaN(data.unitPrice) || data.unitPrice < 0) {
+                throw new Error('单价必须是非负数字');
+            }
+            const receipt = this.receipts.get(receiptId);
+            if (!receipt) {
+                throw new Error(`采购收货单不存在: ${receiptId}`);
+            }
+            // 验证产品是否存在
+            const product = yield _productService__WEBPACK_IMPORTED_MODULE_5__["default"].findById(data.productId);
+            if (!product) {
+                throw new Error(`产品不存在: ${data.productId}`);
+            }
+            // 计算金额
+            const amount = data.quantity * data.unitPrice;
+            const receiptItem = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(), receiptId,
+                amount, createdAt: new Date(), updatedAt: new Date() });
+            this.receiptItems.set(receiptItem.id, receiptItem);
+            const receiptItemIds = this.receiptItemsByReceipt.get(receiptId) || [];
+            receiptItemIds.push(receiptItem.id);
+            this.receiptItemsByReceipt.set(receiptId, receiptItemIds);
+            // 重新计算收货单总额
+            yield this.recalculateReceiptTotals(receiptId);
+            return receiptItem;
+        });
+    }
+    updateReceiptItem(itemId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const existingItem = this.receiptItems.get(itemId);
+            if (!existingItem) {
+                throw new Error(`收货项目不存在: ${itemId}`);
+            }
+            // 重新计算金额
+            const quantity = data.quantity !== undefined ? data.quantity : existingItem.quantity;
+            const unitPrice = data.unitPrice !== undefined ? data.unitPrice : existingItem.unitPrice;
+            const amount = quantity * unitPrice;
+            const updatedItem = Object.assign(Object.assign(Object.assign({}, existingItem), data), { amount, updatedAt: new Date() });
+            this.receiptItems.set(itemId, updatedItem);
+            // 重新计算收货单总额
+            yield this.recalculateReceiptTotals(existingItem.receiptId);
+            return updatedItem;
+        });
+    }
+    removeReceiptItem(itemId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const item = this.receiptItems.get(itemId);
+            if (!item) {
+                return false;
+            }
+            const receiptId = item.receiptId;
+            this.receiptItems.delete(itemId);
+            const receiptItemIds = this.receiptItemsByReceipt.get(receiptId) || [];
+            const updatedItemIds = receiptItemIds.filter(id => id !== itemId);
+            this.receiptItemsByReceipt.set(receiptId, updatedItemIds);
+            // 重新计算收货单总额
+            yield this.recalculateReceiptTotals(receiptId);
+            return true;
+        });
+    }
+    getReceiptItems(receiptId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const itemIds = this.receiptItemsByReceipt.get(receiptId) || [];
+            const items = itemIds.map(id => this.receiptItems.get(id)).filter(Boolean);
+            // 加载关联数据
+            for (const item of items) {
+                yield this.loadReceiptItemRelations(item);
+            }
+            return items;
+        });
+    }
+    // =============== 库存更新 ===============
+    updateInventoryOnConfirm(receiptId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipt = yield this.findById(receiptId);
+            if (!receipt || !receipt.items)
+                return;
+            const successfulTransactions = [];
+            try {
+                // 尝试处理所有项目的库存入库
+                for (const item of receipt.items) {
+                    yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_6__["default"].stockIn({
+                        productId: item.productId,
+                        warehouseId: receipt.warehouseId,
+                        quantity: item.quantity,
+                        unitPrice: item.unitPrice,
+                        referenceType: 'purchase_receipt',
+                        referenceId: receiptId,
+                        remark: `采购收货 - ${receipt.receiptNo}`,
+                        operator: receipt.receiver
+                    });
+                    // 记录成功的入库操作，以备回滚
+                    successfulTransactions.push({
+                        itemId: item.id,
+                        productId: item.productId,
+                        warehouseId: receipt.warehouseId,
+                        quantity: item.quantity,
+                        unitPrice: item.unitPrice
+                    });
+                    console.log(`Successfully updated inventory for item ${item.id}, product ${item.productId}, quantity ${item.quantity}`);
+                }
+            }
+            catch (error) {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_1__.logger.error('Failed to update inventory during receipt confirmation', {
+                    receiptId,
+                    receiptNo: receipt.receiptNo,
+                    error: error instanceof Error ? error.message : '未知错误',
+                    successfulTransactionsCount: successfulTransactions.length
+                });
+                // 增强的原子性回滚机制
+                if (successfulTransactions.length > 0) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_1__.logger.warn(`Rolling back ${successfulTransactions.length} successful inventory transactions for receipt ${receipt.receiptNo}`);
+                    const rollbackFailures = [];
+                    // 逐个回滚，记录失败
+                    for (const transaction of successfulTransactions) {
+                        try {
+                            yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_6__["default"].stockOut({
+                                productId: transaction.productId,
+                                warehouseId: transaction.warehouseId,
+                                quantity: transaction.quantity,
+                                unitPrice: transaction.unitPrice,
+                                referenceType: 'purchase_receipt_rollback',
+                                referenceId: receiptId,
+                                remark: `采购收货回滚 - ${receipt.receiptNo}`,
+                                operator: 'system'
+                            });
+                            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_1__.logger.info(`Successfully rolled back inventory for item ${transaction.itemId}`);
+                        }
+                        catch (rollbackError) {
+                            const errorMsg = rollbackError instanceof Error ? rollbackError.message : '未知错误';
+                            rollbackFailures.push({
+                                itemId: transaction.itemId,
+                                error: errorMsg
+                            });
+                            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_1__.logger.error(`CRITICAL: Failed to rollback inventory for item ${transaction.itemId}`, {
+                                itemId: transaction.itemId,
+                                productId: transaction.productId,
+                                warehouseId: transaction.warehouseId,
+                                quantity: transaction.quantity,
+                                error: errorMsg
+                            });
+                        }
+                    }
+                    // 如果有回滚失败，记录关键信息供人工干预
+                    if (rollbackFailures.length > 0) {
+                        _utils_secureLogger__WEBPACK_IMPORTED_MODULE_1__.logger.error('CRITICAL: Partial rollback failure detected - manual intervention required', {
+                            receiptId,
+                            receiptNo: receipt.receiptNo,
+                            rollbackFailures,
+                            successfulRollbacks: successfulTransactions.length - rollbackFailures.length,
+                            severity: 'CRITICAL'
+                        });
+                    }
+                }
+                // 抛出原始错误，阻止收货单状态变更
+                throw new Error(`库存更新失败，收货单确认中止: ${error instanceof Error ? error.message : '未知错误'}`);
+            }
+            // 更新采购订单项目的已收货数量
+            for (const item of receipt.items) {
+                if (item.orderItemId) {
+                    try {
+                        // 从订单中获取订单项目信息
+                        const order = yield _purchaseOrderService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(receipt.orderId);
+                        if (order && order.items) {
+                            const orderItem = order.items.find(oi => oi.id === item.orderItemId);
+                            if (orderItem) {
+                                const newReceivedQuantity = orderItem.receivedQuantity + item.quantity;
+                                yield _purchaseOrderService__WEBPACK_IMPORTED_MODULE_2__["default"].updateOrderItem(item.orderItemId, {
+                                    receivedQuantity: newReceivedQuantity
+                                });
+                            }
+                        }
+                    }
+                    catch (error) {
+                        console.error(`Failed to update order item ${item.orderItemId}:`, error);
+                    }
+                }
+            }
+        });
+    }
+    // =============== 私有方法 ===============
+    loadReceiptRelations(receipt) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 加载关联数据
+            receipt.order = (yield _purchaseOrderService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(receipt.orderId)) || undefined;
+            receipt.supplier = (yield _supplierService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(receipt.supplierId)) || undefined;
+            receipt.warehouse = (yield _warehouseService__WEBPACK_IMPORTED_MODULE_4__["default"].findById(receipt.warehouseId)) || undefined;
+            receipt.items = yield this.getReceiptItems(receipt.id);
+        });
+    }
+    loadReceiptItemRelations(item) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 加载产品信息
+            item.product = (yield _productService__WEBPACK_IMPORTED_MODULE_5__["default"].findById(item.productId)) || undefined;
+            // 加载订单项目信息
+            if (item.orderItemId) {
+                // 这里需要从订单服务获取订单项目信息
+                // 暂时简化处理
+            }
+        });
+    }
+    recalculateReceiptTotals(receiptId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipt = this.receipts.get(receiptId);
+            if (!receipt)
+                return;
+            const items = yield this.getReceiptItems(receiptId);
+            const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+            const totalAmount = items.reduce((sum, item) => sum + item.amount, 0);
+            yield this.update(receiptId, {
+                totalQuantity,
+                totalAmount
+            });
+        });
+    }
+    generateReceiptNo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const now = new Date();
+            const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+            const sequence = String(this.receipts.size + 1).padStart(4, '0');
+            return `PR${dateStr}${sequence}`;
+        });
+    }
+    // =============== 统计和报表方法 ===============
+    getReceiptStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipts = yield this.findAll();
+            const byStatus = {
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.ReceiptStatus.DRAFT]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.ReceiptStatus.CONFIRMED]: 0
+            };
+            let totalQuantity = 0;
+            let totalValue = 0;
+            receipts.forEach(receipt => {
+                byStatus[receipt.status]++;
+                totalQuantity += receipt.totalQuantity;
+                totalValue += receipt.totalAmount;
+            });
+            return {
+                total: receipts.length,
+                byStatus,
+                totalQuantity,
+                totalValue,
+                averageReceiptValue: receipts.length > 0 ? totalValue / receipts.length : 0
+            };
+        });
+    }
+    getReceiptsByMonth(year) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const receipts = yield this.findAll();
+            const monthlyStats = new Array(12).fill(null).map((_, index) => ({
+                month: index + 1,
+                receiptCount: 0,
+                totalQuantity: 0,
+                totalValue: 0
+            }));
+            receipts.forEach(receipt => {
+                const receiptYear = receipt.receiptDate.getFullYear();
+                if (receiptYear === year) {
+                    const month = receipt.receiptDate.getMonth();
+                    monthlyStats[month].receiptCount++;
+                    monthlyStats[month].totalQuantity += receipt.totalQuantity;
+                    monthlyStats[month].totalValue += receipt.totalAmount;
+                }
+            });
+            return monthlyStats;
+        });
+    }
+    search(searchTerm) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const term = searchTerm.toLowerCase().trim();
+            if (!term)
+                return this.findAll();
+            const receipts = yield this.findAll();
+            return receipts.filter(receipt => {
+                var _a, _b;
+                return receipt.receiptNo.toLowerCase().includes(term) ||
+                    ((_a = receipt.supplier) === null || _a === void 0 ? void 0 : _a.name.toLowerCase().includes(term)) ||
+                    ((_b = receipt.warehouse) === null || _b === void 0 ? void 0 : _b.name.toLowerCase().includes(term)) ||
+                    receipt.receiver.toLowerCase().includes(term) ||
+                    (receipt.remark && receipt.remark.toLowerCase().includes(term));
+            });
+        });
+    }
+    getPendingReceiptsForOrder(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const order = yield _purchaseOrderService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(orderId);
+            if (!order || !order.items) {
+                return { orderItems: [], canReceive: false };
+            }
+            const orderItems = order.items.map(item => (Object.assign(Object.assign({}, item), { pendingQuantity: item.quantity - item.receivedQuantity, canReceive: item.quantity > item.receivedQuantity })));
+            const canReceive = orderItems.some(item => item.canReceive);
+            return { orderItems, canReceive };
+        });
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new PurchaseReceiptService());
+
+
+/***/ }),
+
+/***/ "./src/services/business/salesDeliveryService.ts":
+/*!*******************************************************!*\
+  !*** ./src/services/business/salesDeliveryService.ts ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SalesDeliveryService: () => (/* binding */ SalesDeliveryService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _salesOrderService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./salesOrderService */ "./src/services/business/salesOrderService.ts");
+/* harmony import */ var _customerService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./customerService */ "./src/services/business/customerService.ts");
+/* harmony import */ var _warehouseService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./warehouseService */ "./src/services/business/warehouseService.ts");
+/* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
+/* harmony import */ var _inventoryStockService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./inventoryStockService */ "./src/services/business/inventoryStockService.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+
+
+
+
+
+
+
+class SalesDeliveryService {
+    constructor() {
+        this.deliveries = new Map();
+        this.deliveryItems = new Map();
+        this.deliveryNoIndex = new Map(); // DeliveryNo -> ID mapping
+        this.deliveryItemsByDelivery = new Map(); // DeliveryID -> ItemIDs
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('Sales delivery service initialized');
+            // 创建默认销售出库单用于演示
+            if (this.deliveries.size === 0) {
+                yield this.createDefaultDeliveries();
+            }
+        });
+    }
+    createDefaultDeliveries() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const orders = yield _salesOrderService__WEBPACK_IMPORTED_MODULE_1__["default"].findAll();
+                const warehouses = yield _warehouseService__WEBPACK_IMPORTED_MODULE_3__["default"].findAll();
+                if (orders.length === 0 || warehouses.length === 0) {
+                    console.log('No orders or warehouses found, skipping default deliveries creation');
+                    return;
+                }
+                // 找到已确认的订单
+                const confirmedOrders = orders.filter(order => order.status === 'confirmed' && order.items && order.items.length > 0);
+                if (confirmedOrders.length === 0) {
+                    console.log('No confirmed orders found, skipping default deliveries creation');
+                    return;
+                }
+                const defaultWarehouse = warehouses.find(w => w.isDefault) || warehouses[0];
+                const defaultDeliveries = [
+                    {
+                        orderId: confirmedOrders[0].id,
+                        customerId: confirmedOrders[0].customerId,
+                        warehouseId: defaultWarehouse.id,
+                        deliveryDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1天前
+                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.DeliveryStatus.COMPLETED,
+                        deliveryPerson: '配送员张三',
+                        remark: '示例出库单A - 部分出库',
+                        partialDelivery: true
+                    }
+                ];
+                for (const deliveryData of defaultDeliveries) {
+                    try {
+                        const { partialDelivery } = deliveryData, deliveryInfo = __rest(deliveryData, ["partialDelivery"]);
+                        const delivery = yield this.create(deliveryInfo);
+                        // 添加出库项目（部分出库）
+                        const order = yield _salesOrderService__WEBPACK_IMPORTED_MODULE_1__["default"].findById(deliveryData.orderId);
+                        if (order && order.items) {
+                            for (const orderItem of order.items) {
+                                const deliveryQuantity = partialDelivery ? Math.floor(orderItem.quantity * 0.5) : orderItem.quantity;
+                                if (deliveryQuantity > 0) {
+                                    yield this.addDeliveryItem(delivery.id, {
+                                        productId: orderItem.productId,
+                                        orderItemId: orderItem.id,
+                                        quantity: deliveryQuantity,
+                                        unitPrice: orderItem.unitPrice
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    catch (error) {
+                        console.warn('Failed to create default sales delivery:', error);
+                    }
+                }
+            }
+            catch (error) {
+                console.warn('Failed to create default sales deliveries:', error);
+            }
+        });
+    }
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deliveries = Array.from(this.deliveries.values());
+            // 加载关联数据
+            for (const delivery of deliveries) {
+                yield this.loadDeliveryRelations(delivery);
+            }
+            return deliveries;
+        });
+    }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const delivery = this.deliveries.get(id);
+            if (!delivery)
+                return null;
+            yield this.loadDeliveryRelations(delivery);
+            return delivery;
+        });
+    }
+    findByDeliveryNo(deliveryNo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = this.deliveryNoIndex.get(deliveryNo);
+            return id ? this.findById(id) : null;
+        });
+    }
+    findByOrder(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deliveries = Array.from(this.deliveries.values()).filter(delivery => delivery.orderId === orderId);
+            for (const delivery of deliveries) {
+                yield this.loadDeliveryRelations(delivery);
+            }
+            return deliveries;
+        });
+    }
+    findByCustomer(customerId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deliveries = Array.from(this.deliveries.values()).filter(delivery => delivery.customerId === customerId);
+            for (const delivery of deliveries) {
+                yield this.loadDeliveryRelations(delivery);
+            }
+            return deliveries;
+        });
+    }
+    findByWarehouse(warehouseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deliveries = Array.from(this.deliveries.values()).filter(delivery => delivery.warehouseId === warehouseId);
+            for (const delivery of deliveries) {
+                yield this.loadDeliveryRelations(delivery);
+            }
+            return deliveries;
+        });
+    }
+    findByDateRange(startDate, endDate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deliveries = Array.from(this.deliveries.values()).filter(delivery => delivery.deliveryDate >= startDate && delivery.deliveryDate <= endDate);
+            for (const delivery of deliveries) {
+                yield this.loadDeliveryRelations(delivery);
+            }
+            return deliveries;
+        });
+    }
+    create(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 验证销售订单是否存在
+            const order = yield _salesOrderService__WEBPACK_IMPORTED_MODULE_1__["default"].findById(data.orderId);
+            if (!order) {
+                throw new Error(`销售订单不存在: ${data.orderId}`);
+            }
+            // 验证客户是否存在
+            const customer = yield _customerService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(data.customerId);
+            if (!customer) {
+                throw new Error(`客户不存在: ${data.customerId}`);
+            }
+            // 验证仓库是否存在
+            const warehouse = yield _warehouseService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(data.warehouseId);
+            if (!warehouse) {
+                throw new Error(`仓库不存在: ${data.warehouseId}`);
+            }
+            // 生成出库单号
+            const deliveryNo = yield this.generateDeliveryNo();
+            const delivery = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_6__["default"])(), deliveryNo, totalQuantity: 0, totalAmount: 0, createdAt: new Date(), updatedAt: new Date() });
+            this.deliveries.set(delivery.id, delivery);
+            this.deliveryNoIndex.set(delivery.deliveryNo, delivery.id);
+            this.deliveryItemsByDelivery.set(delivery.id, []);
+            return delivery;
+        });
+    }
+    update(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const existingDelivery = this.deliveries.get(id);
+            if (!existingDelivery) {
+                throw new Error(`销售出库单不存在: ${id}`);
+            }
+            const updatedDelivery = Object.assign(Object.assign(Object.assign({}, existingDelivery), data), { updatedAt: new Date() });
+            this.deliveries.set(id, updatedDelivery);
+            return updatedDelivery;
+        });
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const delivery = this.deliveries.get(id);
+            if (!delivery) {
+                return false;
+            }
+            // 删除出库项目
+            const itemIds = this.deliveryItemsByDelivery.get(id) || [];
+            for (const itemId of itemIds) {
+                this.deliveryItems.delete(itemId);
+            }
+            this.deliveries.delete(id);
+            this.deliveryNoIndex.delete(delivery.deliveryNo);
+            this.deliveryItemsByDelivery.delete(id);
+            return true;
+        });
+    }
+    updateStatus(id, status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const delivery = yield this.update(id, { status });
+            // 如果状态变更为已完成，更新库存和订单状态
+            if (status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.DeliveryStatus.COMPLETED) {
+                yield this.updateInventoryOnComplete(id);
+            }
+            return delivery;
+        });
+    }
+    // =============== 出库项目管理 ===============
+    addDeliveryItem(deliveryId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const delivery = this.deliveries.get(deliveryId);
+            if (!delivery) {
+                throw new Error(`销售出库单不存在: ${deliveryId}`);
+            }
+            // 验证产品是否存在
+            const product = yield _productService__WEBPACK_IMPORTED_MODULE_4__["default"].findById(data.productId);
+            if (!product) {
+                throw new Error(`产品不存在: ${data.productId}`);
+            }
+            // 计算金额
+            const amount = data.quantity * data.unitPrice;
+            const deliveryItem = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_6__["default"])(), deliveryId,
+                amount, createdAt: new Date(), updatedAt: new Date() });
+            this.deliveryItems.set(deliveryItem.id, deliveryItem);
+            const deliveryItemIds = this.deliveryItemsByDelivery.get(deliveryId) || [];
+            deliveryItemIds.push(deliveryItem.id);
+            this.deliveryItemsByDelivery.set(deliveryId, deliveryItemIds);
+            // 重新计算出库单总额
+            yield this.recalculateDeliveryTotals(deliveryId);
+            return deliveryItem;
+        });
+    }
+    updateDeliveryItem(itemId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const existingItem = this.deliveryItems.get(itemId);
+            if (!existingItem) {
+                throw new Error(`出库项目不存在: ${itemId}`);
+            }
+            // 重新计算金额
+            const quantity = data.quantity !== undefined ? data.quantity : existingItem.quantity;
+            const unitPrice = data.unitPrice !== undefined ? data.unitPrice : existingItem.unitPrice;
+            const amount = quantity * unitPrice;
+            const updatedItem = Object.assign(Object.assign(Object.assign({}, existingItem), data), { amount, updatedAt: new Date() });
+            this.deliveryItems.set(itemId, updatedItem);
+            // 重新计算出库单总额
+            yield this.recalculateDeliveryTotals(existingItem.deliveryId);
+            return updatedItem;
+        });
+    }
+    removeDeliveryItem(itemId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const item = this.deliveryItems.get(itemId);
+            if (!item) {
+                return false;
+            }
+            const deliveryId = item.deliveryId;
+            this.deliveryItems.delete(itemId);
+            const deliveryItemIds = this.deliveryItemsByDelivery.get(deliveryId) || [];
+            const updatedItemIds = deliveryItemIds.filter(id => id !== itemId);
+            this.deliveryItemsByDelivery.set(deliveryId, updatedItemIds);
+            // 重新计算出库单总额
+            yield this.recalculateDeliveryTotals(deliveryId);
+            return true;
+        });
+    }
+    getDeliveryItems(deliveryId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const itemIds = this.deliveryItemsByDelivery.get(deliveryId) || [];
+            const items = itemIds.map(id => this.deliveryItems.get(id)).filter(Boolean);
+            // 加载关联数据
+            for (const item of items) {
+                yield this.loadDeliveryItemRelations(item);
+            }
+            return items;
+        });
+    }
+    // =============== 库存更新 ===============
+    updateInventoryOnComplete(deliveryId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const delivery = yield this.findById(deliveryId);
+            if (!delivery || !delivery.items)
+                return;
+            for (const item of delivery.items) {
+                try {
+                    yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_5__["default"].stockOut({
+                        productId: item.productId,
+                        warehouseId: delivery.warehouseId,
+                        quantity: item.quantity,
+                        unitPrice: item.unitPrice,
+                        referenceId: deliveryId,
+                        remark: `销售出库 - ${delivery.deliveryNo}`,
+                        operator: delivery.deliveryPerson
+                    });
+                }
+                catch (error) {
+                    console.error(`Failed to update inventory for item ${item.id}:`, error);
+                }
+            }
+            // 更新销售订单项目的已配送数量
+            for (const item of delivery.items) {
+                if (item.orderItemId) {
+                    try {
+                        // 从订单中获取订单项目信息
+                        const order = yield _salesOrderService__WEBPACK_IMPORTED_MODULE_1__["default"].findById(delivery.orderId);
+                        if (order && order.items) {
+                            const orderItem = order.items.find(oi => oi.id === item.orderItemId);
+                            if (orderItem) {
+                                const newDeliveredQuantity = orderItem.deliveredQuantity + item.quantity;
+                                yield _salesOrderService__WEBPACK_IMPORTED_MODULE_1__["default"].updateOrderItem(item.orderItemId, {
+                                    deliveredQuantity: newDeliveredQuantity
+                                });
+                            }
+                        }
+                    }
+                    catch (error) {
+                        console.error(`Failed to update order item ${item.orderItemId}:`, error);
+                    }
+                }
+            }
+        });
+    }
+    // =============== 私有方法 ===============
+    loadDeliveryRelations(delivery) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 加载关联数据
+            delivery.order = (yield _salesOrderService__WEBPACK_IMPORTED_MODULE_1__["default"].findById(delivery.orderId)) || undefined;
+            delivery.customer = (yield _customerService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(delivery.customerId)) || undefined;
+            delivery.warehouse = (yield _warehouseService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(delivery.warehouseId)) || undefined;
+            delivery.items = yield this.getDeliveryItems(delivery.id);
+        });
+    }
+    loadDeliveryItemRelations(item) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 加载产品信息
+            item.product = (yield _productService__WEBPACK_IMPORTED_MODULE_4__["default"].findById(item.productId)) || undefined;
+        });
+    }
+    recalculateDeliveryTotals(deliveryId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const delivery = this.deliveries.get(deliveryId);
+            if (!delivery)
+                return;
+            const items = yield this.getDeliveryItems(deliveryId);
+            const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+            const totalAmount = items.reduce((sum, item) => sum + item.amount, 0);
+            yield this.update(deliveryId, {
+                totalQuantity,
+                totalAmount
+            });
+        });
+    }
+    generateDeliveryNo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const now = new Date();
+            const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+            const sequence = String(this.deliveries.size + 1).padStart(4, '0');
+            return `SD${dateStr}${sequence}`;
+        });
+    }
+    // =============== 统计和报表方法 ===============
+    getDeliveryStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deliveries = yield this.findAll();
+            const byStatus = {
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.DeliveryStatus.DRAFT]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.DeliveryStatus.CONFIRMED]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.DeliveryStatus.SHIPPED]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.DeliveryStatus.COMPLETED]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.DeliveryStatus.CANCELLED]: 0
+            };
+            let totalQuantity = 0;
+            let totalValue = 0;
+            deliveries.forEach(delivery => {
+                byStatus[delivery.status]++;
+                totalQuantity += delivery.totalQuantity;
+                totalValue += delivery.totalAmount;
+            });
+            return {
+                total: deliveries.length,
+                byStatus,
+                totalQuantity,
+                totalValue,
+                averageDeliveryValue: deliveries.length > 0 ? totalValue / deliveries.length : 0
+            };
+        });
+    }
+    getDeliveriesByMonth(year) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deliveries = yield this.findAll();
+            const monthlyStats = new Array(12).fill(null).map((_, index) => ({
+                month: index + 1,
+                deliveryCount: 0,
+                totalQuantity: 0,
+                totalValue: 0
+            }));
+            deliveries.forEach(delivery => {
+                const deliveryYear = delivery.deliveryDate.getFullYear();
+                if (deliveryYear === year) {
+                    const month = delivery.deliveryDate.getMonth();
+                    monthlyStats[month].deliveryCount++;
+                    monthlyStats[month].totalQuantity += delivery.totalQuantity;
+                    monthlyStats[month].totalValue += delivery.totalAmount;
+                }
+            });
+            return monthlyStats;
+        });
+    }
+    search(searchTerm) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const term = searchTerm.toLowerCase().trim();
+            if (!term)
+                return this.findAll();
+            const deliveries = yield this.findAll();
+            return deliveries.filter(delivery => {
+                var _a, _b;
+                return delivery.deliveryNo.toLowerCase().includes(term) ||
+                    ((_a = delivery.customer) === null || _a === void 0 ? void 0 : _a.name.toLowerCase().includes(term)) ||
+                    ((_b = delivery.warehouse) === null || _b === void 0 ? void 0 : _b.name.toLowerCase().includes(term)) ||
+                    delivery.deliveryPerson.toLowerCase().includes(term) ||
+                    (delivery.remark && delivery.remark.toLowerCase().includes(term));
+            });
+        });
+    }
+    getPendingDeliveriesForOrder(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const order = yield _salesOrderService__WEBPACK_IMPORTED_MODULE_1__["default"].findById(orderId);
+            if (!order || !order.items) {
+                return { orderItems: [], canDeliver: false };
+            }
+            const orderItems = order.items.map(item => (Object.assign(Object.assign({}, item), { pendingQuantity: item.quantity - item.deliveredQuantity, canDeliver: item.quantity > item.deliveredQuantity })));
+            const canDeliver = orderItems.some(item => item.canDeliver);
+            return { orderItems, canDeliver };
+        });
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new SalesDeliveryService());
+
+
+/***/ }),
+
+/***/ "./src/services/business/salesOrderService.ts":
+/*!****************************************************!*\
+  !*** ./src/services/business/salesOrderService.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SalesOrderService: () => (/* binding */ SalesOrderService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _customerService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./customerService */ "./src/services/business/customerService.ts");
+/* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
+/* harmony import */ var _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./inventoryStockService */ "./src/services/business/inventoryStockService.ts");
+/* harmony import */ var _accountsReceivableService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./accountsReceivableService */ "./src/services/business/accountsReceivableService.ts");
+/* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
+/* harmony import */ var _userService__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./userService */ "./src/services/business/userService.ts");
+/* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+
+
+
+
+
+
+
+
+
+
+class SalesOrderService {
+    constructor() {
+        this.orders = new Map();
+        this.orderItems = new Map();
+        this.orderNoIndex = new Map(); // OrderNo -> ID mapping
+        this.orderItemsByOrder = new Map(); // OrderID -> ItemIDs
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Sales order service initialized');
+            // 创建默认销售订单用于演示
+            if (this.orders.size === 0) {
+                yield this.createDefaultOrders();
+            }
+        });
+    }
+    createDefaultOrders() {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b, _c, _d;
+            try {
+                const customers = yield _customerService__WEBPACK_IMPORTED_MODULE_2__["default"].findAll();
+                const products = yield _productService__WEBPACK_IMPORTED_MODULE_3__["default"].findAll();
+                if (customers.length === 0 || products.length === 0) {
+                    console.log('No customers or products found, skipping default sales orders creation');
+                    return;
+                }
+                const defaultOrders = [
+                    {
+                        customerId: customers[0].id,
+                        orderDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5天前
+                        deliveryDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // 2天后
+                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CONFIRMED,
+                        paymentStatus: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.PARTIAL,
+                        discountAmount: 50,
+                        taxAmount: 0,
+                        remark: '示例销售订单A',
+                        creator: '销售员',
+                        items: [
+                            {
+                                productId: (_a = products[0]) === null || _a === void 0 ? void 0 : _a.id,
+                                quantity: 20,
+                                unitPrice: 55.00,
+                                discountRate: 0,
+                                deliveredQuantity: 10
+                            },
+                            {
+                                productId: (_b = products[1]) === null || _b === void 0 ? void 0 : _b.id,
+                                quantity: 15,
+                                unitPrice: 125.00,
+                                discountRate: 0.03,
+                                deliveredQuantity: 0
+                            }
+                        ]
+                    },
+                    {
+                        customerId: ((_c = customers[1]) === null || _c === void 0 ? void 0 : _c.id) || customers[0].id,
+                        orderDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2天前
+                        deliveryDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5天后
+                        status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.DRAFT,
+                        paymentStatus: _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.UNPAID,
+                        discountAmount: 0,
+                        taxAmount: 80,
+                        remark: '示例销售订单B',
+                        creator: '销售主管',
+                        items: [
+                            {
+                                productId: ((_d = products[2]) === null || _d === void 0 ? void 0 : _d.id) || products[0].id,
+                                quantity: 50,
+                                unitPrice: 28.00,
+                                discountRate: 0,
+                                deliveredQuantity: 0
+                            }
+                        ]
+                    }
+                ];
+                for (const orderData of defaultOrders) {
+                    try {
+                        const { items } = orderData, orderInfo = __rest(orderData, ["items"]);
+                        const order = yield this.create(orderInfo);
+                        // 添加订单项目
+                        for (const itemData of items) {
+                            if (itemData.productId) {
+                                yield this.addOrderItem(order.id, itemData);
+                            }
+                        }
+                    }
+                    catch (error) {
+                        console.warn('Failed to create default sales order:', error);
+                    }
+                }
+            }
+            catch (error) {
+                console.warn('Failed to create default sales orders:', error);
+            }
+        });
+    }
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = Array.from(this.orders.values());
+            // 加载关联数据
+            for (const order of orders) {
+                yield this.loadOrderRelations(order);
+            }
+            return orders;
+        });
+    }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const order = this.orders.get(id);
+            if (!order)
+                return null;
+            yield this.loadOrderRelations(order);
+            return order;
+        });
+    }
+    findByOrderNo(orderNo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = this.orderNoIndex.get(orderNo);
+            return id ? this.findById(id) : null;
+        });
+    }
+    findByCustomer(customerId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = Array.from(this.orders.values()).filter(order => order.customerId === customerId);
+            for (const order of orders) {
+                yield this.loadOrderRelations(order);
+            }
+            return orders;
+        });
+    }
+    findByStatus(status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = Array.from(this.orders.values()).filter(order => order.status === status);
+            for (const order of orders) {
+                yield this.loadOrderRelations(order);
+            }
+            return orders;
+        });
+    }
+    findByDateRange(startDate, endDate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = Array.from(this.orders.values()).filter(order => order.orderDate >= startDate && order.orderDate <= endDate);
+            for (const order of orders) {
+                yield this.loadOrderRelations(order);
+            }
+            return orders;
+        });
+    }
+    create(data, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            // 权限检查
+            if (currentUserId) {
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                if (!hasPermission) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized sales order creation attempt', { userId: currentUserId });
+                    throw new Error('无权限创建销售订单');
+                }
+            }
+            // 验证客户是否存在
+            const customer = yield _customerService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(data.customerId);
+            if (!customer) {
+                throw new Error(`客户不存在: ${data.customerId}`);
+            }
+            // 生成订单号
+            const orderNo = yield this.generateOrderNo();
+            const order = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_9__["default"])(), orderNo, totalAmount: 0, finalAmount: 0, createdAt: new Date(), updatedAt: new Date() });
+            // 验证数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.SalesOrderSchema, order);
+            if (!validation.success) {
+                throw new Error(`销售订单数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            this.orders.set(order.id, order);
+            this.orderNoIndex.set(order.orderNo, order.id);
+            this.orderItemsByOrder.set(order.id, []);
+            return order;
+        });
+    }
+    update(id, data, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            // 权限检查
+            if (currentUserId) {
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                if (!hasPermission) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized sales order update attempt', { userId: currentUserId, orderId: id });
+                    throw new Error('无权限修改销售订单');
+                }
+            }
+            const existingOrder = this.orders.get(id);
+            if (!existingOrder) {
+                throw new Error(`销售订单不存在: ${id}`);
+            }
+            // 防御性输入验证，防止负值注入
+            if (data.discountAmount !== undefined && data.discountAmount < 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_8__.ValidationError('折扣金额不能为负数', {
+                    discountAmount: data.discountAmount,
+                    orderId: id
+                });
+            }
+            if (data.taxAmount !== undefined && data.taxAmount < 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_8__.ValidationError('税费金额不能为负数', {
+                    taxAmount: data.taxAmount,
+                    orderId: id
+                });
+            }
+            // 检查金额字段的合理性
+            if (data.totalAmount !== undefined && data.totalAmount < 0) {
+                throw new _utils_errors__WEBPACK_IMPORTED_MODULE_8__.ValidationError('订单总金额不能为负数', {
+                    totalAmount: data.totalAmount,
+                    orderId: id
+                });
+            }
+            const updatedOrder = Object.assign(Object.assign(Object.assign({}, existingOrder), data), { updatedAt: new Date() });
+            // 验证更新后的数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.SalesOrderSchema, updatedOrder);
+            if (!validation.success) {
+                throw new Error(`销售订单数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            this.orders.set(id, updatedOrder);
+            // 财务集成：当订单状态变为已发货或已完成时，自动生成应收账款
+            if (data.status &&
+                (data.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.SHIPPED || data.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.COMPLETED) &&
+                existingOrder.status !== data.status) {
+                try {
+                    yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_5__["default"].createFromSalesOrder(updatedOrder);
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Auto-generated accounts receivable for order', {
+                        orderId: id,
+                        orderNo: updatedOrder.orderNo,
+                        status: data.status,
+                        amount: updatedOrder.finalAmount
+                    });
+                }
+                catch (error) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.error('Failed to auto-generate accounts receivable', {
+                        orderId: id,
+                        orderNo: updatedOrder.orderNo,
+                        error: error instanceof Error ? error.message : '未知错误'
+                    });
+                    // 不阻止订单状态更新，但记录错误
+                }
+            }
+            return updatedOrder;
+        });
+    }
+    delete(id, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 权限检查
+            if (currentUserId) {
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                if (!hasPermission) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized sales order deletion attempt', { userId: currentUserId, orderId: id });
+                    throw new Error('无权限删除销售订单');
+                }
+            }
+            const order = this.orders.get(id);
+            if (!order) {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.warn('Delete failed: Sales order not found', { orderId: id, userId: currentUserId });
+                return false;
+            }
+            // 业务逻辑验证 - 检查订单是否可以删除
+            yield this.validateOrderDeletion(order, currentUserId);
+            // 删除订单项目
+            const itemIds = this.orderItemsByOrder.get(id) || [];
+            for (const itemId of itemIds) {
+                this.orderItems.delete(itemId);
+            }
+            this.orders.delete(id);
+            this.orderNoIndex.delete(order.orderNo);
+            this.orderItemsByOrder.delete(id);
+            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.audit('delete', 'sales_order', {
+                orderId: id,
+                orderNo: order.orderNo,
+                status: order.status,
+                totalAmount: order.finalAmount,
+                userId: currentUserId
+            });
+            return true;
+        });
+    }
+    // 验证订单是否可以删除
+    validateOrderDeletion(order, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 不能删除已确认及以后状态的订单
+            const undeletableStatuses = [
+                _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CONFIRMED,
+                _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.SHIPPED,
+                _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.COMPLETED
+            ];
+            if (undeletableStatuses.includes(order.status)) {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Attempted to delete confirmed/completed order', {
+                    orderId: order.id,
+                    orderNo: order.orderNo,
+                    status: order.status,
+                    userId: currentUserId
+                });
+                throw new Error(`无法删除${this.getStatusDisplayName(order.status)}状态的订单。` +
+                    `只有草稿状态的订单才能被删除。`);
+            }
+            // 检查支付状态 - 已付款的订单不能删除
+            if (order.paymentStatus === _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.PAID) {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Attempted to delete paid order', {
+                    orderId: order.id,
+                    orderNo: order.orderNo,
+                    paymentStatus: order.paymentStatus,
+                    userId: currentUserId
+                });
+                throw new Error('无法删除已付款的订单。请先处理退款或联系财务部门。');
+            }
+            // 部分付款的订单需要特殊权限才能删除
+            if (order.paymentStatus === _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.PARTIAL) {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Attempted to delete partially paid order', {
+                    orderId: order.id,
+                    orderNo: order.orderNo,
+                    paymentStatus: order.paymentStatus,
+                    userId: currentUserId
+                });
+                throw new Error('无法删除部分付款的订单。请先处理退款或联系管理员。');
+            }
+        });
+    }
+    updateStatus(id, status, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const order = this.orders.get(id);
+            if (!order) {
+                throw new Error(`销售订单不存在: ${id}`);
+            }
+            // 状态机验证 - 检查状态转换是否合法
+            yield this.validateStatusTransition(order, status, currentUserId);
+            const updatedOrder = yield this.update(id, { status });
+            _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.audit('status_change', 'sales_order', {
+                orderId: id,
+                orderNo: order.orderNo,
+                fromStatus: order.status,
+                toStatus: status,
+                userId: currentUserId
+            });
+            return updatedOrder;
+        });
+    }
+    // 状态机验证 - 定义允许的状态转换
+    validateStatusTransition(order, newStatus, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const currentStatus = order.status;
+            // 如果状态没有变化，直接返回
+            if (currentStatus === newStatus) {
+                return;
+            }
+            // 定义状态转换规则
+            const allowedTransitions = {
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.DRAFT]: [
+                    _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CONFIRMED,
+                    _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CANCELLED
+                ],
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CONFIRMED]: [
+                    _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.SHIPPED,
+                    _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CANCELLED,
+                    _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.DRAFT // 允许回退到草稿（管理员权限）
+                ],
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.SHIPPED]: [
+                    _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.COMPLETED,
+                    _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CANCELLED // 特殊情况下可以取消
+                ],
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.COMPLETED]: [
+                // 已完成的订单一般不允许状态变更
+                // 除非有特殊的管理员权限
+                ],
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CANCELLED]: [
+                    _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.DRAFT // 取消的订单可以重新激活为草稿
+                ]
+            };
+            const allowedStatuses = allowedTransitions[currentStatus] || [];
+            if (!allowedStatuses.includes(newStatus)) {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Invalid status transition attempted', {
+                    orderId: order.id,
+                    orderNo: order.orderNo,
+                    fromStatus: currentStatus,
+                    toStatus: newStatus,
+                    userId: currentUserId
+                });
+                throw new Error(`不允许的状态转换：无法将订单从"${this.getStatusDisplayName(currentStatus)}"` +
+                    `变更为"${this.getStatusDisplayName(newStatus)}"。` +
+                    `请按照正确的业务流程进行操作。`);
+            }
+            // 额外的业务规则验证
+            yield this.validateBusinessRules(order, newStatus, currentUserId);
+        });
+    }
+    // 业务规则验证
+    validateBusinessRules(order, newStatus, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 规则1: 确认订单时必须有订单项目
+            if (newStatus === _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CONFIRMED) {
+                const orderItems = this.orderItemsByOrder.get(order.id) || [];
+                if (orderItems.length === 0) {
+                    throw new Error('无法确认订单：订单必须包含至少一个商品。');
+                }
+            }
+            // 规则2: 发货时检查库存
+            if (newStatus === _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.SHIPPED) {
+                // 这里应该检查库存是否足够
+                // 目前作为占位符
+            }
+            // 规则3: 完成订单时检查支付状态
+            if (newStatus === _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.COMPLETED) {
+                if (order.paymentStatus !== _types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.PAID) {
+                    throw new Error('无法完成订单：订单必须已完成付款。');
+                }
+            }
+            // 规则4: 某些状态变更需要特殊权限
+            const restrictedTransitions = [
+                { from: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.COMPLETED, to: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.DRAFT },
+                { from: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CONFIRMED, to: _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.DRAFT }
+            ];
+            const isRestrictedTransition = restrictedTransitions.some(t => t.from === order.status && t.to === newStatus);
+            if (isRestrictedTransition) {
+                // 这里应该检查用户权限
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Restricted status transition attempted', {
+                    orderId: order.id,
+                    fromStatus: order.status,
+                    toStatus: newStatus,
+                    userId: currentUserId
+                });
+                throw new Error('此状态变更需要管理员权限。请联系系统管理员。');
+            }
+        });
+    }
+    // 获取状态显示名称
+    getStatusDisplayName(status) {
+        const statusNames = {
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.DRAFT]: '草稿',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CONFIRMED]: '已确认',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.SHIPPED]: '已发货',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.COMPLETED]: '已完成',
+            [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CANCELLED]: '已取消'
+        };
+        return statusNames[status] || status;
+    }
+    updatePaymentStatus(id, paymentStatus) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.update(id, { paymentStatus });
+        });
+    }
+    // =============== 订单项目管理 ===============
+    addOrderItem(orderId, data, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            // 权限检查
+            if (currentUserId) {
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                if (!hasPermission) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order item addition attempt', { userId: currentUserId, orderId });
+                    throw new Error('无权限添加订单项目');
+                }
+            }
+            const order = this.orders.get(orderId);
+            if (!order) {
+                throw new Error(`销售订单不存在: ${orderId}`);
+            }
+            // 验证产品是否存在
+            const product = yield _productService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(data.productId);
+            if (!product) {
+                throw new Error(`产品不存在: ${data.productId}`);
+            }
+            // 检查库存是否足够（使用默认仓库，实际应从产品或订单配置中获取）
+            // 使用延迟导入避免循环依赖
+            const { default: warehouseService } = yield Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./warehouseService */ "./src/services/business/warehouseService.ts"));
+            const defaultWarehouse = yield warehouseService.findDefault();
+            if (!defaultWarehouse) {
+                throw new Error('系统未配置默认仓库，无法检查库存');
+            }
+            const warehouseId = defaultWarehouse.id;
+            const stock = yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__["default"].findStockByProductAndWarehouse(data.productId, warehouseId);
+            if (!stock || stock.availableStock < data.quantity) {
+                throw new Error(`库存不足：产品 ${product.name} 可用库存 ${(stock === null || stock === void 0 ? void 0 : stock.availableStock) || 0}，订单需求 ${data.quantity}`);
+            }
+            // 预留库存
+            try {
+                yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__["default"].reserveStock(data.productId, warehouseId, data.quantity);
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Stock reserved for order item', {
+                    productId: data.productId,
+                    warehouseId,
+                    quantity: data.quantity,
+                    orderId
+                });
+            }
+            catch (error) {
+                const errorMsg = error instanceof Error ? error.message : '未知错误';
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.error('Failed to reserve stock for order item', {
+                    productId: data.productId,
+                    quantity: data.quantity,
+                    error: errorMsg
+                });
+                throw new Error(`库存预留失败: ${errorMsg}`);
+            }
+            // 计算金额
+            const amount = data.quantity * data.unitPrice * (1 - data.discountRate);
+            // 确定项目状态
+            let status = _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.PENDING;
+            if (data.deliveredQuantity > 0) {
+                status = data.deliveredQuantity >= data.quantity
+                    ? _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.COMPLETED
+                    : _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.PARTIAL;
+            }
+            const orderItem = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_9__["default"])(), orderId,
+                amount,
+                status, createdAt: new Date(), updatedAt: new Date() });
+            // 验证数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.SalesOrderItemSchema, orderItem);
+            if (!validation.success) {
+                throw new Error(`订单项目数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            this.orderItems.set(orderItem.id, orderItem);
+            const orderItemIds = this.orderItemsByOrder.get(orderId) || [];
+            orderItemIds.push(orderItem.id);
+            this.orderItemsByOrder.set(orderId, orderItemIds);
+            // 重新计算订单总额
+            yield this.recalculateOrderTotals(orderId);
+            return orderItem;
+        });
+    }
+    updateOrderItem(itemId, data, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            // 权限检查
+            if (currentUserId) {
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                if (!hasPermission) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order item update attempt', { userId: currentUserId, itemId });
+                    throw new Error('无权限修改订单项目');
+                }
+            }
+            const existingItem = this.orderItems.get(itemId);
+            if (!existingItem) {
+                throw new Error(`订单项目不存在: ${itemId}`);
+            }
+            // 重新计算金额和状态
+            const quantity = data.quantity !== undefined ? data.quantity : existingItem.quantity;
+            const unitPrice = data.unitPrice !== undefined ? data.unitPrice : existingItem.unitPrice;
+            const discountRate = data.discountRate !== undefined ? data.discountRate : existingItem.discountRate;
+            const deliveredQuantity = data.deliveredQuantity !== undefined ? data.deliveredQuantity : existingItem.deliveredQuantity;
+            const amount = quantity * unitPrice * (1 - discountRate);
+            let status = _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.PENDING;
+            if (deliveredQuantity > 0) {
+                status = deliveredQuantity >= quantity
+                    ? _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.COMPLETED
+                    : _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.PARTIAL;
+            }
+            const updatedItem = Object.assign(Object.assign(Object.assign({}, existingItem), data), { amount,
+                status, updatedAt: new Date() });
+            // 验证更新后的数据
+            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.SalesOrderItemSchema, updatedItem);
+            if (!validation.success) {
+                throw new Error(`订单项目数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            this.orderItems.set(itemId, updatedItem);
+            // 重新计算订单总额
+            yield this.recalculateOrderTotals(existingItem.orderId);
+            return updatedItem;
+        });
+    }
+    removeOrderItem(itemId, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 权限检查
+            if (currentUserId) {
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                if (!hasPermission) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order item removal attempt', { userId: currentUserId, itemId });
+                    throw new Error('无权限删除订单项目');
+                }
+            }
+            const item = this.orderItems.get(itemId);
+            if (!item) {
+                return false;
+            }
+            const orderId = item.orderId;
+            this.orderItems.delete(itemId);
+            const orderItemIds = this.orderItemsByOrder.get(orderId) || [];
+            const updatedItemIds = orderItemIds.filter(id => id !== itemId);
+            this.orderItemsByOrder.set(orderId, updatedItemIds);
+            // 重新计算订单总额
+            yield this.recalculateOrderTotals(orderId);
+            return true;
+        });
+    }
+    getOrderItems(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const itemIds = this.orderItemsByOrder.get(orderId) || [];
+            const items = itemIds.map(id => this.orderItems.get(id)).filter(Boolean);
+            // 加载关联数据
+            for (const item of items) {
+                yield this.loadOrderItemRelations(item);
+            }
+            return items;
+        });
+    }
+    // =============== 私有方法 ===============
+    loadOrderRelations(order) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 加载客户信息
+            order.customer = (yield _customerService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(order.customerId)) || undefined;
+            // 加载订单项目
+            order.items = yield this.getOrderItems(order.id);
+        });
+    }
+    loadOrderItemRelations(item) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 加载产品信息
+            item.product = (yield _productService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(item.productId)) || undefined;
+        });
+    }
+    recalculateOrderTotals(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const order = this.orders.get(orderId);
+            if (!order)
+                return;
+            const items = yield this.getOrderItems(orderId);
+            const totalAmount = items.reduce((sum, item) => sum + item.amount, 0);
+            const finalAmount = totalAmount - order.discountAmount + order.taxAmount;
+            yield this.update(orderId, {
+                totalAmount,
+                finalAmount
+            });
+        });
+    }
+    generateOrderNo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const now = new Date();
+            const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+            const sequence = String(this.orders.size + 1).padStart(4, '0');
+            return `SO${dateStr}${sequence}`;
+        });
+    }
+    // =============== 统计和报表方法 ===============
+    getOrderStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = yield this.findAll();
+            const byStatus = {
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.DRAFT]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CONFIRMED]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.SHIPPED]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.COMPLETED]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CANCELLED]: 0
+            };
+            const byPaymentStatus = {
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.UNPAID]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.PARTIAL]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.PaymentStatus.PAID]: 0
+            };
+            let totalValue = 0;
+            let pendingOrders = 0;
+            let overdueOrders = 0;
+            const now = new Date();
+            orders.forEach(order => {
+                byStatus[order.status]++;
+                byPaymentStatus[order.paymentStatus]++;
+                totalValue += order.finalAmount;
+                if (order.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CONFIRMED || order.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.SHIPPED) {
+                    pendingOrders++;
+                    if (order.deliveryDate && order.deliveryDate < now) {
+                        overdueOrders++;
+                    }
+                }
+            });
+            return {
+                total: orders.length,
+                byStatus,
+                byPaymentStatus,
+                totalValue,
+                averageOrderValue: orders.length > 0 ? totalValue / orders.length : 0,
+                pendingOrders,
+                overdueOrders
+            };
+        });
+    }
+    getTopCustomersByOrderValue() {
+        return __awaiter(this, arguments, void 0, function* (limit = 10) {
+            const orders = yield this.findAll();
+            const customerStats = new Map();
+            orders.forEach(order => {
+                if (order.customer) {
+                    const existing = customerStats.get(order.customerId) || {
+                        customer: order.customer,
+                        orderCount: 0,
+                        totalValue: 0
+                    };
+                    existing.orderCount++;
+                    existing.totalValue += order.finalAmount;
+                    customerStats.set(order.customerId, existing);
+                }
+            });
+            return Array.from(customerStats.values())
+                .map(stat => (Object.assign(Object.assign({}, stat), { averageOrderValue: stat.orderCount > 0 ? stat.totalValue / stat.orderCount : 0 })))
+                .sort((a, b) => b.totalValue - a.totalValue)
+                .slice(0, limit);
+        });
+    }
+    getOrdersByMonth(year) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const orders = yield this.findAll();
+            const monthlyStats = new Array(12).fill(null).map((_, index) => ({
+                month: index + 1,
+                orderCount: 0,
+                totalValue: 0
+            }));
+            orders.forEach(order => {
+                const orderYear = order.orderDate.getFullYear();
+                if (orderYear === year) {
+                    const month = order.orderDate.getMonth();
+                    monthlyStats[month].orderCount++;
+                    monthlyStats[month].totalValue += order.finalAmount;
+                }
+            });
+            return monthlyStats;
+        });
+    }
+    search(searchTerm) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const term = searchTerm.toLowerCase().trim();
+            if (!term)
+                return this.findAll();
+            const orders = yield this.findAll();
+            return orders.filter(order => {
+                var _a, _b;
+                return order.orderNo.toLowerCase().includes(term) ||
+                    ((_a = order.customer) === null || _a === void 0 ? void 0 : _a.name.toLowerCase().includes(term)) ||
+                    ((_b = order.customer) === null || _b === void 0 ? void 0 : _b.code.toLowerCase().includes(term)) ||
+                    order.creator.toLowerCase().includes(term) ||
+                    (order.remark && order.remark.toLowerCase().includes(term));
+            });
+        });
+    }
+    getPendingDeliveriesForOrder(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const order = yield this.findById(orderId);
+            if (!order || !order.items) {
+                return { orderItems: [], canDeliver: false };
+            }
+            const orderItems = order.items.map(item => (Object.assign(Object.assign({}, item), { pendingQuantity: item.quantity - item.deliveredQuantity, canDeliver: item.quantity > item.deliveredQuantity })));
+            const canDeliver = orderItems.some(item => item.canDeliver);
+            return { orderItems, canDeliver };
+        });
+    }
+    // =============== 库存管理相关方法 ===============
+    /**
+     * 取消订单项目并释放预留库存
+     */
+    cancelOrderItem(orderItemId, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 权限检查
+            if (currentUserId) {
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                if (!hasPermission) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order item cancellation attempt', { userId: currentUserId, orderItemId });
+                    throw new Error('无权限取消订单项目');
+                }
+            }
+            const orderItem = this.orderItems.get(orderItemId);
+            if (!orderItem) {
+                throw new Error(`订单项目不存在: ${orderItemId}`);
+            }
+            // 获取产品信息以确定仓库
+            const product = yield _productService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(orderItem.productId);
+            if (!product) {
+                throw new Error(`产品不存在: ${orderItem.productId}`);
+            }
+            const warehouseId = 'default-warehouse'; // TODO: 从产品或订单配置中获取仓库ID
+            try {
+                // 释放预留库存
+                yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__["default"].releaseReservedStock(orderItem.productId, warehouseId, orderItem.quantity - orderItem.deliveredQuantity);
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Stock released for cancelled order item', {
+                    orderItemId,
+                    productId: orderItem.productId,
+                    warehouseId,
+                    releasedQuantity: orderItem.quantity - orderItem.deliveredQuantity
+                });
+                // 更新订单项目状态
+                orderItem.status = _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.CANCELLED;
+                orderItem.updatedAt = new Date();
+                this.orderItems.set(orderItemId, orderItem);
+                // 重新计算订单总额
+                yield this.recalculateOrderTotals(orderItem.orderId);
+            }
+            catch (error) {
+                const errorMsg = error instanceof Error ? error.message : '未知错误';
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.error('Failed to release stock for cancelled order item', {
+                    orderItemId,
+                    error: errorMsg
+                });
+                throw new Error(`释放库存失败: ${errorMsg}`);
+            }
+        });
+    }
+    /**
+     * 发货时扣减库存
+     */
+    deliverOrderItem(orderItemId, deliveredQuantity, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 权限检查
+            if (currentUserId) {
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                if (!hasPermission) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order item delivery attempt', { userId: currentUserId, orderItemId });
+                    throw new Error('无权限执行发货操作');
+                }
+            }
+            const orderItem = this.orderItems.get(orderItemId);
+            if (!orderItem) {
+                throw new Error(`订单项目不存在: ${orderItemId}`);
+            }
+            if (deliveredQuantity <= 0) {
+                throw new Error('发货数量必须大于0');
+            }
+            const remainingQuantity = orderItem.quantity - orderItem.deliveredQuantity;
+            if (deliveredQuantity > remainingQuantity) {
+                throw new Error(`发货数量不能超过剩余数量: ${remainingQuantity}`);
+            }
+            // 获取产品信息以确定仓库
+            const product = yield _productService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(orderItem.productId);
+            if (!product) {
+                throw new Error(`产品不存在: ${orderItem.productId}`);
+            }
+            const warehouseId = 'default-warehouse'; // TODO: 从产品或订单配置中获取仓库ID
+            try {
+                // 从预留库存中扣减（这会自动释放预留并扣减实际库存）
+                yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__["default"].stockOut({
+                    productId: orderItem.productId,
+                    warehouseId,
+                    quantity: deliveredQuantity,
+                    unitPrice: orderItem.unitPrice,
+                    referenceType: 'sales_order_delivery',
+                    referenceId: orderItem.orderId,
+                    remark: `销售订单发货: ${orderItem.orderId}`,
+                    operator: currentUserId || 'system'
+                });
+                // 同时释放对应的预留库存
+                yield _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__["default"].releaseReservedStock(orderItem.productId, warehouseId, deliveredQuantity);
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Stock delivered for order item', {
+                    orderItemId,
+                    productId: orderItem.productId,
+                    warehouseId,
+                    deliveredQuantity
+                });
+                // 更新订单项目
+                orderItem.deliveredQuantity += deliveredQuantity;
+                if (orderItem.deliveredQuantity >= orderItem.quantity) {
+                    orderItem.status = _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.COMPLETED;
+                }
+                else {
+                    orderItem.status = _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.PARTIAL;
+                }
+                orderItem.updatedAt = new Date();
+                this.orderItems.set(orderItemId, orderItem);
+                // 重新计算订单总额
+                yield this.recalculateOrderTotals(orderItem.orderId);
+            }
+            catch (error) {
+                const errorMsg = error instanceof Error ? error.message : '未知错误';
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.error('Failed to deliver order item', {
+                    orderItemId,
+                    deliveredQuantity,
+                    error: errorMsg
+                });
+                throw new Error(`发货失败: ${errorMsg}`);
+            }
+        });
+    }
+    /**
+     * 取消整个订单并释放所有预留库存
+     */
+    cancelOrder(orderId, currentUserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 权限检查
+            if (currentUserId) {
+                const hasPermission = yield _userService__WEBPACK_IMPORTED_MODULE_7__["default"].hasPermission(currentUserId, 'sales-orders.write');
+                if (!hasPermission) {
+                    _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.security('Unauthorized order cancellation attempt', { userId: currentUserId, orderId });
+                    throw new Error('无权限取消订单');
+                }
+            }
+            const order = this.orders.get(orderId);
+            if (!order) {
+                throw new Error(`订单不存在: ${orderId}`);
+            }
+            if (order.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CANCELLED) {
+                throw new Error('订单已经被取消');
+            }
+            if (order.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.COMPLETED) {
+                throw new Error('已完成的订单不能取消');
+            }
+            // 获取订单的所有项目
+            const orderItemIds = this.orderItemsByOrder.get(orderId) || [];
+            try {
+                // 取消所有未发货的订单项目
+                for (const itemId of orderItemIds) {
+                    const orderItem = this.orderItems.get(itemId);
+                    if (orderItem && orderItem.status !== _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.COMPLETED && orderItem.status !== _types_entities__WEBPACK_IMPORTED_MODULE_0__.OrderItemStatus.CANCELLED) {
+                        yield this.cancelOrderItem(itemId, currentUserId);
+                    }
+                }
+                // 更新订单状态
+                order.status = _types_entities__WEBPACK_IMPORTED_MODULE_0__.SalesOrderStatus.CANCELLED;
+                order.updatedAt = new Date();
+                this.orders.set(orderId, order);
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.info('Order cancelled successfully', { orderId, userId: currentUserId });
+            }
+            catch (error) {
+                const errorMsg = error instanceof Error ? error.message : '未知错误';
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_6__.logger.error('Failed to cancel order', {
+                    orderId,
+                    error: errorMsg
+                });
+                throw new Error(`取消订单失败: ${errorMsg}`);
+            }
+        });
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new SalesOrderService());
 
 
 /***/ }),
@@ -58527,31 +61919,33 @@ class TestDataGenerator {
                         status: _types_entities__WEBPACK_IMPORTED_MODULE_1__.ProductStatus.ACTIVE
                     }
                 ];
-                for (const product of products) {
-                    yield productService.create(product);
-                }
-                // 获取创建的商品
-                const allProducts = yield productService.findAll();
-                const mainWarehouse = allWarehouses.find((w) => w.isDefault);
-                if (mainWarehouse) {
-                    // 创建库存数据
-                    for (const product of allProducts) {
-                        const stockData = {
-                            productId: product.id,
-                            warehouseId: mainWarehouse.id,
-                            currentStock: Math.floor(Math.random() * 100) + 10, // 10-110之间随机库存
-                            availableStock: 0, // 将在服务中计算
-                            reservedStock: Math.floor(Math.random() * 5), // 0-5之间随机预留
-                            minStock: 10,
-                            maxStock: 200,
-                            avgCost: product.purchasePrice,
-                            unitPrice: product.salePrice,
-                            lastMovementDate: new Date()
-                        };
-                        stockData.availableStock = stockData.currentStock - stockData.reservedStock;
-                        yield inventoryStockService.createOrUpdateStock(stockData);
-                    }
-                }
+                // 暂时注释掉产品创建，因为 productService 还未完全实现
+                // for (const product of products) {
+                //   await productService.create(product);
+                // }
+                // // 获取创建的商品
+                // const allProducts = await productService.findAll();
+                // const mainWarehouse = allWarehouses.find((w: any) => w.isDefault);
+                // if (mainWarehouse) {
+                //   // 创建库存数据
+                //   for (const product of allProducts) {
+                //     const stockData = {
+                //       productId: product.id,
+                //       warehouseId: mainWarehouse.id,
+                //       currentStock: Math.floor(Math.random() * 100) + 10, // 10-110之间随机库存
+                //       availableStock: 0, // 将在服务中计算
+                //       reservedStock: Math.floor(Math.random() * 5), // 0-5之间随机预留
+                //       minStock: 10,
+                //       maxStock: 200,
+                //       avgCost: product.purchasePrice,
+                //       unitPrice: product.salePrice,
+                //       lastMovementDate: new Date()
+                //     };
+                //     stockData.availableStock = stockData.currentStock - stockData.reservedStock;
+                //
+                //     await inventoryStockService.createOrUpdateStock(stockData);
+                //   }
+                // }
                 // 创建测试供应商（检查是否已存在）
                 const suppliers = [
                     {
@@ -58644,7 +62038,7 @@ class TestDataGenerator {
                 console.log(`创建了 ${allCategories.length} 个分类`);
                 console.log(`创建了 ${allUnits.length} 个单位`);
                 console.log(`创建了 ${allWarehouses.length} 个仓库`);
-                console.log(`创建了 ${allProducts.length} 个商品`);
+                // console.log(`创建了 ${allProducts.length} 个商品`);  // 暂时注释掉
                 console.log(`创建了 ${suppliers.length} 个供应商`);
                 console.log(`创建了 ${customers.length} 个客户`);
             }
@@ -58808,6 +62202,280 @@ var UserStatus;
     UserStatus["INACTIVE"] = "inactive";
     UserStatus["LOCKED"] = "locked";
 })(UserStatus || (UserStatus = {}));
+
+
+/***/ }),
+
+/***/ "./src/utils/concurrency.ts":
+/*!**********************************!*\
+  !*** ./src/utils/concurrency.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ConcurrencyManager: () => (/* binding */ ConcurrencyManager),
+/* harmony export */   DistributedLock: () => (/* binding */ DistributedLock),
+/* harmony export */   Mutex: () => (/* binding */ Mutex),
+/* harmony export */   OperationDebouncer: () => (/* binding */ OperationDebouncer),
+/* harmony export */   OperationLockManager: () => (/* binding */ OperationLockManager),
+/* harmony export */   RetryOperation: () => (/* binding */ RetryOperation),
+/* harmony export */   Semaphore: () => (/* binding */ Semaphore)
+/* harmony export */ });
+// 并发控制工具
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+// 互斥锁实现
+class Mutex {
+    constructor() {
+        this._queue = [];
+        this._locked = false;
+    }
+    acquire() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                this._queue.push(resolve);
+                this._dispatch();
+            });
+        });
+    }
+    _dispatch() {
+        if (this._locked || this._queue.length === 0) {
+            return;
+        }
+        this._locked = true;
+        const nextCallback = this._queue.shift();
+        const release = () => {
+            this._locked = false;
+            this._dispatch();
+        };
+        nextCallback(release);
+    }
+    withLock(operation) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const release = yield this.acquire();
+            try {
+                return yield operation();
+            }
+            finally {
+                release();
+            }
+        });
+    }
+}
+// 信号量实现
+class Semaphore {
+    constructor(permits) {
+        this._queue = [];
+        this._permits = permits;
+    }
+    acquire() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                this._queue.push(resolve);
+                this._dispatch();
+            });
+        });
+    }
+    _dispatch() {
+        if (this._permits <= 0 || this._queue.length === 0) {
+            return;
+        }
+        this._permits--;
+        const nextCallback = this._queue.shift();
+        const release = () => {
+            this._permits++;
+            this._dispatch();
+        };
+        nextCallback(release);
+    }
+    withPermit(operation) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const release = yield this.acquire();
+            try {
+                return yield operation();
+            }
+            finally {
+                release();
+            }
+        });
+    }
+}
+// 操作防抖
+class OperationDebouncer {
+    constructor() {
+        this._timeouts = new Map();
+    }
+    debounce(key, operation, delay) {
+        return (...args) => {
+            const existingTimeout = this._timeouts.get(key);
+            if (existingTimeout) {
+                clearTimeout(existingTimeout);
+            }
+            const timeout = setTimeout(() => {
+                operation(...args);
+                this._timeouts.delete(key);
+            }, delay);
+            this._timeouts.set(key, timeout);
+        };
+    }
+    cancel(key) {
+        const timeout = this._timeouts.get(key);
+        if (timeout) {
+            clearTimeout(timeout);
+            this._timeouts.delete(key);
+        }
+    }
+    cancelAll() {
+        this._timeouts.forEach((timeout) => clearTimeout(timeout));
+        this._timeouts.clear();
+    }
+}
+// 重试操作
+class RetryOperation {
+    static withRetry(operation_1) {
+        return __awaiter(this, arguments, void 0, function* (operation, maxRetries = 3, delayMs = 1000, backoffMultiplier = 2) {
+            let lastError;
+            let delay = delayMs;
+            for (let attempt = 1; attempt <= maxRetries; attempt++) {
+                try {
+                    return yield operation();
+                }
+                catch (error) {
+                    lastError = error instanceof Error ? error : new Error(String(error));
+                    if (attempt === maxRetries) {
+                        throw lastError;
+                    }
+                    // 等待重试
+                    yield new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= backoffMultiplier;
+                }
+            }
+            throw lastError;
+        });
+    }
+}
+// 并发控制管理器
+class ConcurrencyManager {
+    static getMutex(key) {
+        if (!this._mutexes.has(key)) {
+            this._mutexes.set(key, new Mutex());
+        }
+        return this._mutexes.get(key);
+    }
+    static getSemaphore(key, permits) {
+        if (!this._semaphores.has(key)) {
+            this._semaphores.set(key, new Semaphore(permits));
+        }
+        return this._semaphores.get(key);
+    }
+    static withMutex(key, operation) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const mutex = this.getMutex(key);
+            return mutex.withLock(operation);
+        });
+    }
+    static withSemaphore(key, permits, operation) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const semaphore = this.getSemaphore(key, permits);
+            return semaphore.withPermit(operation);
+        });
+    }
+}
+ConcurrencyManager._mutexes = new Map();
+ConcurrencyManager._semaphores = new Map();
+// 操作锁管理器
+class OperationLockManager {
+    static withOperationLock(key, operation) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 如果已经有相同的操作在进行，等待它完成
+            const existingOperation = this._locks.get(key);
+            if (existingOperation) {
+                yield existingOperation;
+            }
+            // 执行新操作
+            const promise = operation();
+            this._locks.set(key, promise);
+            try {
+                const result = yield promise;
+                return result;
+            }
+            finally {
+                // 操作完成后移除锁
+                this._locks.delete(key);
+            }
+        });
+    }
+    static isOperationInProgress(key) {
+        return this._locks.has(key);
+    }
+    static waitForOperation(key) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const operation = this._locks.get(key);
+            if (operation) {
+                yield operation;
+            }
+        });
+    }
+}
+OperationLockManager._locks = new Map();
+// 分布式锁（模拟）
+class DistributedLock {
+    constructor(instanceId) {
+        this._instanceId = instanceId || `instance-${Date.now()}-${Math.random()}`;
+    }
+    acquire(key_1) {
+        return __awaiter(this, arguments, void 0, function* (key, ttlMs = 30000) {
+            const now = Date.now();
+            const existingLock = DistributedLock._locks.get(key);
+            // 检查锁是否过期
+            if (existingLock && existingLock.expiry > now) {
+                return false; // 锁被其他实例持有
+            }
+            // 获取锁
+            DistributedLock._locks.set(key, {
+                owner: this._instanceId,
+                expiry: now + ttlMs
+            });
+            return true;
+        });
+    }
+    release(key) {
+        const lock = DistributedLock._locks.get(key);
+        if (!lock || lock.owner !== this._instanceId) {
+            return false; // 只有锁的所有者才能释放
+        }
+        DistributedLock._locks.delete(key);
+        return true;
+    }
+    withLock(key_1, operation_1) {
+        return __awaiter(this, arguments, void 0, function* (key, operation, ttlMs = 30000, maxWaitMs = 10000) {
+            const startTime = Date.now();
+            while (Date.now() - startTime < maxWaitMs) {
+                if (yield this.acquire(key, ttlMs)) {
+                    try {
+                        return yield operation();
+                    }
+                    finally {
+                        this.release(key);
+                    }
+                }
+                // 等待一段时间后重试
+                yield new Promise(resolve => setTimeout(resolve, 100));
+            }
+            throw new Error(`Failed to acquire lock for key: ${key}`);
+        });
+    }
+}
+DistributedLock._locks = new Map();
 
 
 /***/ }),
@@ -60560,89 +64228,9 @@ module.exports = "data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/ensure chunk */
-/******/ 	(() => {
-/******/ 		__webpack_require__.f = {};
-/******/ 		// This file contains only the entry chunk.
-/******/ 		// The chunk loading function for additional chunks
-/******/ 		__webpack_require__.e = (chunkId) => {
-/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
-/******/ 				__webpack_require__.f[key](chunkId, promises);
-/******/ 				return promises;
-/******/ 			}, []));
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/get javascript chunk filename */
-/******/ 	(() => {
-/******/ 		// This function allow to reference async chunks
-/******/ 		__webpack_require__.u = (chunkId) => {
-/******/ 			// return url for filenames based on template
-/******/ 			return "" + chunkId + ".bundle.js";
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/global */
-/******/ 	(() => {
-/******/ 		__webpack_require__.g = (function() {
-/******/ 			if (typeof globalThis === 'object') return globalThis;
-/******/ 			try {
-/******/ 				return this || new Function('return this')();
-/******/ 			} catch (e) {
-/******/ 				if (typeof window === 'object') return window;
-/******/ 			}
-/******/ 		})();
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/load script */
-/******/ 	(() => {
-/******/ 		var inProgress = {};
-/******/ 		var dataWebpackPrefix = "inventory-management:";
-/******/ 		// loadScript function to load a script via script tag
-/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
-/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
-/******/ 			var script, needAttach;
-/******/ 			if(key !== undefined) {
-/******/ 				var scripts = document.getElementsByTagName("script");
-/******/ 				for(var i = 0; i < scripts.length; i++) {
-/******/ 					var s = scripts[i];
-/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
-/******/ 				}
-/******/ 			}
-/******/ 			if(!script) {
-/******/ 				needAttach = true;
-/******/ 				script = document.createElement('script');
-/******/ 		
-/******/ 				script.charset = 'utf-8';
-/******/ 				script.timeout = 120;
-/******/ 				if (__webpack_require__.nc) {
-/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
-/******/ 				}
-/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
-/******/ 		
-/******/ 				script.src = url;
-/******/ 			}
-/******/ 			inProgress[url] = [done];
-/******/ 			var onScriptComplete = (prev, event) => {
-/******/ 				// avoid mem leaks in IE.
-/******/ 				script.onerror = script.onload = null;
-/******/ 				clearTimeout(timeout);
-/******/ 				var doneFns = inProgress[url];
-/******/ 				delete inProgress[url];
-/******/ 				script.parentNode && script.parentNode.removeChild(script);
-/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
-/******/ 				if(prev) return prev(event);
-/******/ 			}
-/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
-/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
-/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
-/******/ 			needAttach && document.head.appendChild(script);
-/******/ 		};
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
@@ -60665,29 +64253,6 @@ module.exports = "data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/publicPath */
-/******/ 	(() => {
-/******/ 		var scriptUrl;
-/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
-/******/ 		var document = __webpack_require__.g.document;
-/******/ 		if (!scriptUrl && document) {
-/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
-/******/ 				scriptUrl = document.currentScript.src;
-/******/ 			if (!scriptUrl) {
-/******/ 				var scripts = document.getElementsByTagName("script");
-/******/ 				if(scripts.length) {
-/******/ 					var i = scripts.length - 1;
-/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
-/******/ 				}
-/******/ 			}
-/******/ 		}
-/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
-/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
-/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
-/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
-/******/ 		__webpack_require__.p = scriptUrl;
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/jsonp chunk loading */
 /******/ 	(() => {
 /******/ 		__webpack_require__.b = document.baseURI || self.location.href;
@@ -60699,44 +64264,7 @@ module.exports = "data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3
 /******/ 			"main": 0
 /******/ 		};
 /******/ 		
-/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
-/******/ 				// JSONP chunk loading for javascript
-/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
-/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
-/******/ 		
-/******/ 					// a Promise means "currently loading".
-/******/ 					if(installedChunkData) {
-/******/ 						promises.push(installedChunkData[2]);
-/******/ 					} else {
-/******/ 						if(true) { // all chunks have JS
-/******/ 							// setup Promise in chunk cache
-/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
-/******/ 							promises.push(installedChunkData[2] = promise);
-/******/ 		
-/******/ 							// start chunk loading
-/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
-/******/ 							// create error before stack unwound to get useful stacktrace later
-/******/ 							var error = new Error();
-/******/ 							var loadingEnded = (event) => {
-/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
-/******/ 									installedChunkData = installedChunks[chunkId];
-/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
-/******/ 									if(installedChunkData) {
-/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
-/******/ 										var realSrc = event && event.target && event.target.src;
-/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
-/******/ 										error.name = 'ChunkLoadError';
-/******/ 										error.type = errorType;
-/******/ 										error.request = realSrc;
-/******/ 										installedChunkData[1](error);
-/******/ 									}
-/******/ 								}
-/******/ 							};
-/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
-/******/ 						}
-/******/ 					}
-/******/ 				}
-/******/ 		};
+/******/ 		// no chunk on demand loading
 /******/ 		
 /******/ 		// no prefetching
 /******/ 		
@@ -60748,34 +64276,7 @@ module.exports = "data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3
 /******/ 		
 /******/ 		// no on chunks loaded
 /******/ 		
-/******/ 		// install a JSONP callback for chunk loading
-/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
-/******/ 			var [chunkIds, moreModules, runtime] = data;
-/******/ 			// add "moreModules" to the modules object,
-/******/ 			// then flag all "chunkIds" as loaded and fire callback
-/******/ 			var moduleId, chunkId, i = 0;
-/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
-/******/ 				for(moduleId in moreModules) {
-/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
-/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
-/******/ 					}
-/******/ 				}
-/******/ 				if(runtime) var result = runtime(__webpack_require__);
-/******/ 			}
-/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-/******/ 			for(;i < chunkIds.length; i++) {
-/******/ 				chunkId = chunkIds[i];
-/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-/******/ 					installedChunks[chunkId][0]();
-/******/ 				}
-/******/ 				installedChunks[chunkId] = 0;
-/******/ 			}
-/******/ 		
-/******/ 		}
-/******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunkinventory_management"] = self["webpackChunkinventory_management"] || [];
-/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 		// no jsonp function
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/nonce */

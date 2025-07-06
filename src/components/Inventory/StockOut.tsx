@@ -68,7 +68,7 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
         warehouseService.findAll(),
         inventoryStockService.findAllStocks()
       ]);
-      
+
       setProducts(productsData);
       setWarehouses(warehousesData);
       

@@ -62,7 +62,7 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
         productService.findAll(),
         warehouseService.findAll()
       ]);
-      
+
       setProducts(productsData);
       setWarehouses(warehousesData);
     } catch (err) {

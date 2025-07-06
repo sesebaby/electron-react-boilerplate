@@ -568,6 +568,24 @@ export class InventoryStockService {
       .sort((a, b) => b.totalValue - a.totalValue)
       .slice(0, limit);
   }
+
+  // 获取库存统计数据
+  async getInventoryStats() {
+    const stocks = await this.findAllStocks();
+    const transactions = await this.findAllTransactions();
+    const lowStockItems = await this.findLowStockItems();
+
+    const totalValue = stocks.reduce((sum, stock) => sum + (stock.currentStock * stock.avgCost), 0);
+
+    return {
+      totalStocks: stocks.length,
+      totalTransactions: transactions.length,
+      lowStockCount: lowStockItems.length,
+      totalValue: totalValue
+    };
+  }
 }
 
-export default new InventoryStockService();
+// 创建并导出服务实例
+const inventoryStockService = new InventoryStockService();
+export default inventoryStockService;

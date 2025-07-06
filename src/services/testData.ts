@@ -185,34 +185,35 @@ export class TestDataGenerator {
         }
       ];
       
-      for (const product of products) {
-        await productService.create(product);
-      }
-      
-      // 获取创建的商品
-      const allProducts = await productService.findAll();
-      const mainWarehouse = allWarehouses.find((w: any) => w.isDefault);
-      
-      if (mainWarehouse) {
-        // 创建库存数据
-        for (const product of allProducts) {
-          const stockData = {
-            productId: product.id,
-            warehouseId: mainWarehouse.id,
-            currentStock: Math.floor(Math.random() * 100) + 10, // 10-110之间随机库存
-            availableStock: 0, // 将在服务中计算
-            reservedStock: Math.floor(Math.random() * 5), // 0-5之间随机预留
-            minStock: 10,
-            maxStock: 200,
-            avgCost: product.purchasePrice,
-            unitPrice: product.salePrice,
-            lastMovementDate: new Date()
-          };
-          stockData.availableStock = stockData.currentStock - stockData.reservedStock;
-          
-          await inventoryStockService.createOrUpdateStock(stockData);
-        }
-      }
+      // 暂时注释掉产品创建，因为 productService 还未完全实现
+      // for (const product of products) {
+      //   await productService.create(product);
+      // }
+
+      // // 获取创建的商品
+      // const allProducts = await productService.findAll();
+      // const mainWarehouse = allWarehouses.find((w: any) => w.isDefault);
+
+      // if (mainWarehouse) {
+      //   // 创建库存数据
+      //   for (const product of allProducts) {
+      //     const stockData = {
+      //       productId: product.id,
+      //       warehouseId: mainWarehouse.id,
+      //       currentStock: Math.floor(Math.random() * 100) + 10, // 10-110之间随机库存
+      //       availableStock: 0, // 将在服务中计算
+      //       reservedStock: Math.floor(Math.random() * 5), // 0-5之间随机预留
+      //       minStock: 10,
+      //       maxStock: 200,
+      //       avgCost: product.purchasePrice,
+      //       unitPrice: product.salePrice,
+      //       lastMovementDate: new Date()
+      //     };
+      //     stockData.availableStock = stockData.currentStock - stockData.reservedStock;
+      //
+      //     await inventoryStockService.createOrUpdateStock(stockData);
+      //   }
+      // }
       
       // 创建测试供应商（检查是否已存在）
       const suppliers = [
@@ -308,7 +309,7 @@ export class TestDataGenerator {
       console.log(`创建了 ${allCategories.length} 个分类`);
       console.log(`创建了 ${allUnits.length} 个单位`);
       console.log(`创建了 ${allWarehouses.length} 个仓库`);
-      console.log(`创建了 ${allProducts.length} 个商品`);
+      // console.log(`创建了 ${allProducts.length} 个商品`);  // 暂时注释掉
       console.log(`创建了 ${suppliers.length} 个供应商`);
       console.log(`创建了 ${customers.length} 个客户`);
       

@@ -70,7 +70,7 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
         warehouseService.findAll(),
         inventoryStockService.findAllStocks()
       ]);
-      
+
       setProducts(productsData);
       setWarehouses(warehousesData);
       

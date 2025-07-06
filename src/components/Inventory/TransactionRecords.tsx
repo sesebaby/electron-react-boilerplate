@@ -56,12 +56,12 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
         productService.findAll(),
         warehouseService.findAll()
       ]);
-      
+
       // 按创建时间降序排序
-      const sortedTransactions = transactionsData.sort((a, b) => 
+      const sortedTransactions = transactionsData.sort((a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
-      
+
       setTransactions(sortedTransactions);
       setProducts(productsData);
       setWarehouses(warehousesData);

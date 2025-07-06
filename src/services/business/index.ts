@@ -7,38 +7,35 @@ import warehouseService from './warehouseService';
 import supplierService from './supplierService';
 import customerService from './customerService';
 import userService from './userService';
-
-// 暂时注释掉这些服务以避免循环依赖
-// import productService from './productService';
-// import inventoryStockService from './inventoryStockService';
-// import purchaseOrderService from './purchaseOrderService';
-// import purchaseReceiptService from './purchaseReceiptService';
-// import salesOrderService from './salesOrderService';
-// import salesDeliveryService from './salesDeliveryService';
+import inventoryStockService from './inventoryStockService';
+import productService from './productService';
+import purchaseOrderService from './purchaseOrderService';
+import purchaseReceiptService from './purchaseReceiptService';
+import salesOrderService from './salesOrderService';
+import salesDeliveryService from './salesDeliveryService';
+// 暂时注释掉财务服务以测试其他服务
 // import accountsPayableService from './accountsPayableService';
 // import accountsReceivableService from './accountsReceivableService';
 
-// 导出所有服务实例（临时只导出基础服务）
+// 导出所有服务实例（暂时不包括财务服务）
 export {
   categoryService,
   unitService,
   warehouseService,
   supplierService,
   customerService,
-  userService
+  userService,
+  inventoryStockService,
+  productService,
+  purchaseOrderService,
+  purchaseReceiptService,
+  salesOrderService,
+  salesDeliveryService
+  // accountsPayableService,
+  // accountsReceivableService
 };
 
-// 暂时注释掉这些服务的导出
-// export {
-//   productService,
-//   inventoryStockService,
-//   purchaseOrderService,
-//   purchaseReceiptService,
-//   salesOrderService,
-//   salesDeliveryService,
-//   accountsPayableService,
-//   accountsReceivableService,
-// };
+
 
 // 服务管理器
 export class BusinessServiceManager {
@@ -53,17 +50,32 @@ export class BusinessServiceManager {
     console.log('Initializing business services...');
 
     try {
-      // 临时只初始化基础服务，避免循环依赖
-      await Promise.all([
-        categoryService.initialize(),
-        unitService.initialize(),
-        warehouseService.initialize(),
-        supplierService.initialize(),
-        customerService.initialize(),
-        userService.initialize()
-      ]);
+      // 初始化所有业务服务
+      console.log('开始初始化业务服务...');
 
-      console.log('基础业务服务初始化完成');
+      // 基础服务先初始化
+      await categoryService.initialize();
+      await unitService.initialize();
+      await warehouseService.initialize();
+      await supplierService.initialize();
+      await customerService.initialize();
+      await userService.initialize();
+
+      // 库存和产品服务
+      await inventoryStockService.initialize();
+      await productService.initialize();
+
+      // 业务流程服务
+      await purchaseOrderService.initialize();
+      await purchaseReceiptService.initialize();
+      await salesOrderService.initialize();
+      await salesDeliveryService.initialize();
+
+      // 财务服务（暂时注释掉）
+      // await accountsPayableService.initialize();
+      // await accountsReceivableService.initialize();
+
+      console.log('所有业务服务初始化完成');
 
       // 暂时注释掉其他服务的初始化
       // // 2. 产品服务（依赖分类和单位）
@@ -260,13 +272,16 @@ export class BusinessServiceManager {
       customerService.getCustomerStats()
     ]);
 
-    // 暂时设置默认值，避免引用未导入的服务
-    const productStats = { total: 0 };
-    const inventoryStats = { total: 0 };
-    const purchaseOrderStats = { total: 0 };
-    const purchaseReceiptStats = { total: 0 };
-    const salesOrderStats = { total: 0 };
-    const salesDeliveryStats = { total: 0 };
+    // 获取所有服务的统计数据
+    const productStats = await productService.getProductStats();
+    const inventoryStats = await inventoryStockService.getInventoryStats();
+    const purchaseOrderStats = await purchaseOrderService.getOrderStats();
+    const purchaseReceiptStats = await purchaseReceiptService.getReceiptStats();
+    const salesOrderStats = await salesOrderService.getOrderStats();
+    const salesDeliveryStats = await salesDeliveryService.getDeliveryStats();
+    // 暂时注释掉财务服务统计
+    // const accountsPayableStats = await accountsPayableService.getPayableStats();
+    // const accountsReceivableStats = await accountsReceivableService.getReceivableStats();
 
     return {
       categories: categoryStats.total,
@@ -275,7 +290,7 @@ export class BusinessServiceManager {
       products: productStats.total,
       suppliers: supplierStats.total,
       customers: customerStats.total,
-      stockItems: inventoryStats.totalProducts,
+      stockItems: inventoryStats.totalStocks,
       transactions: inventoryStats.totalTransactions,
       lowStockItems: inventoryStats.lowStockCount,
       totalInventoryValue: inventoryStats.totalValue,
