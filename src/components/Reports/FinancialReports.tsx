@@ -210,59 +210,59 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
 
   const renderOverview = () => {
     const overview = calculateFinancialOverview();
-    
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">💰</div>
-          <div className="text-2xl font-bold text-green-600">¥{(overview.totalSales / 10000).toFixed(1)}万</div>
-          <div className="text-sm text-gray-600">销售收入</div>
+          <div className="text-2xl font-bold financial-value-positive">¥{(overview.totalSales / 10000).toFixed(1)}万</div>
+          <div className="text-sm financial-description">销售收入</div>
         </GlassCard>
-        
+
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">🛒</div>
-          <div className="text-2xl font-bold text-red-600">¥{(overview.totalPurchases / 10000).toFixed(1)}万</div>
-          <div className="text-sm text-gray-600">采购支出</div>
+          <div className="text-2xl font-bold financial-value-negative">¥{(overview.totalPurchases / 10000).toFixed(1)}万</div>
+          <div className="text-sm financial-description">采购支出</div>
         </GlassCard>
-        
+
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">📈</div>
-          <div className={`text-2xl font-bold ${overview.grossProfit >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
+          <div className={`text-2xl font-bold ${overview.grossProfit >= 0 ? 'financial-value-neutral' : 'financial-value-negative'}`}>
             ¥{(overview.grossProfit / 10000).toFixed(1)}万
           </div>
-          <div className="text-sm text-gray-600">毛利润</div>
+          <div className="text-sm financial-description">毛利润</div>
         </GlassCard>
-        
+
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">🏦</div>
-          <div className={`text-2xl font-bold ${overview.netCashFlow >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+          <div className={`text-2xl font-bold ${overview.netCashFlow >= 0 ? 'financial-value-positive' : 'financial-value-negative'}`}>
             ¥{(overview.netCashFlow / 10000).toFixed(1)}万
           </div>
-          <div className="text-sm text-gray-600">净现金流</div>
+          <div className="text-sm financial-description">净现金流</div>
         </GlassCard>
 
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">💵</div>
-          <div className="text-2xl font-bold text-purple-600">¥{(overview.totalReceipts / 10000).toFixed(1)}万</div>
-          <div className="text-sm text-gray-600">现金收入</div>
+          <div className="text-2xl font-bold financial-value-purple">¥{(overview.totalReceipts / 10000).toFixed(1)}万</div>
+          <div className="text-sm financial-description">现金收入</div>
         </GlassCard>
-        
+
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">💸</div>
-          <div className="text-2xl font-bold text-orange-600">¥{(overview.totalPayments / 10000).toFixed(1)}万</div>
-          <div className="text-sm text-gray-600">现金支出</div>
+          <div className="text-2xl font-bold financial-value-accent">¥{(overview.totalPayments / 10000).toFixed(1)}万</div>
+          <div className="text-sm financial-description">现金支出</div>
         </GlassCard>
-        
+
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">📊</div>
-          <div className="text-2xl font-bold text-indigo-600">¥{(overview.totalReceivables / 10000).toFixed(1)}万</div>
-          <div className="text-sm text-gray-600">应收账款</div>
+          <div className="text-2xl font-bold financial-value-indigo">¥{(overview.totalReceivables / 10000).toFixed(1)}万</div>
+          <div className="text-sm financial-description">应收账款</div>
         </GlassCard>
-        
+
         <GlassCard className="text-center p-6">
           <div className="text-3xl mb-3">📋</div>
-          <div className="text-2xl font-bold text-teal-600">¥{(overview.totalPayables / 10000).toFixed(1)}万</div>
-          <div className="text-sm text-gray-600">应付账款</div>
+          <div className="text-2xl font-bold financial-value-teal">¥{(overview.totalPayables / 10000).toFixed(1)}万</div>
+          <div className="text-sm financial-description">应付账款</div>
         </GlassCard>
       </div>
     );
@@ -270,20 +270,20 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
 
   const renderCashFlow = () => {
     const cashFlowData = getCashFlowAnalysis();
-    
+
     return (
       <GlassCard>
         <div className="p-4 border-b border-white/20">
-          <h3 className="text-lg font-semibold text-gray-800">现金流量分析</h3>
+          <h3 className="text-lg font-semibold financial-title">现金流量分析</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50/50">
+            <thead className="financial-table-header">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">月份</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">现金流入</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">现金流出</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">净现金流</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">月份</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">现金流入</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">现金流出</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">净现金流</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200/50">
@@ -292,18 +292,18 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
                   year: 'numeric',
                   month: 'long'
                 });
-                
+
                 return (
                   <tr key={data.month} className="hover:bg-white/50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{monthName}</td>
+                    <td className="px-6 py-4 whitespace-nowrap font-medium financial-table-cell">{monthName}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-green-600 font-semibold">¥{data.inflow.toLocaleString()}</span>
+                      <span className="financial-value-positive font-semibold">¥{data.inflow.toLocaleString()}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-red-600 font-semibold">¥{data.outflow.toLocaleString()}</span>
+                      <span className="financial-value-negative font-semibold">¥{data.outflow.toLocaleString()}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`font-semibold ${data.net >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      <span className={`font-semibold ${data.net >= 0 ? 'financial-value-positive' : 'financial-value-negative'}`}>
                         ¥{data.net.toLocaleString()}
                       </span>
                     </td>
@@ -325,29 +325,29 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
         {/* 应收账款账龄分析 */}
         <GlassCard>
           <div className="p-4 border-b border-white/20">
-            <h3 className="text-lg font-semibold text-gray-800">应收账款账龄分析</h3>
+            <h3 className="text-lg font-semibold financial-title">应收账款账龄分析</h3>
           </div>
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-              <div className="text-center p-4 bg-green-50 rounded-xl border border-green-200">
-                <div className="text-sm text-gray-600 mb-1">未到期</div>
-                <div className="text-xl font-bold text-green-600">¥{receivableAging.current.toLocaleString()}</div>
+              <div className="text-center p-4 aging-card-normal rounded-xl">
+                <div className="text-sm financial-description mb-1">未到期</div>
+                <div className="text-xl font-bold">¥{receivableAging.current.toLocaleString()}</div>
               </div>
-              <div className="text-center p-4 bg-yellow-50 rounded-xl border border-yellow-200">
-                <div className="text-sm text-gray-600 mb-1">1-30天</div>
-                <div className="text-xl font-bold text-yellow-600">¥{receivableAging.days30.toLocaleString()}</div>
+              <div className="text-center p-4 aging-card-warning rounded-xl">
+                <div className="text-sm financial-description mb-1">1-30天</div>
+                <div className="text-xl font-bold">¥{receivableAging.days30.toLocaleString()}</div>
               </div>
-              <div className="text-center p-4 bg-orange-50 rounded-xl border border-orange-200">
-                <div className="text-sm text-gray-600 mb-1">31-60天</div>
-                <div className="text-xl font-bold text-orange-600">¥{receivableAging.days60.toLocaleString()}</div>
+              <div className="text-center p-4 aging-card-accent rounded-xl">
+                <div className="text-sm financial-description mb-1">31-60天</div>
+                <div className="text-xl font-bold">¥{receivableAging.days60.toLocaleString()}</div>
               </div>
-              <div className="text-center p-4 bg-red-50 rounded-xl border border-red-200">
-                <div className="text-sm text-gray-600 mb-1">61-90天</div>
-                <div className="text-xl font-bold text-red-600">¥{receivableAging.days90.toLocaleString()}</div>
+              <div className="text-center p-4 aging-card-danger rounded-xl">
+                <div className="text-sm financial-description mb-1">61-90天</div>
+                <div className="text-xl font-bold">¥{receivableAging.days90.toLocaleString()}</div>
               </div>
-              <div className="text-center p-4 bg-purple-50 rounded-xl border border-purple-200">
-                <div className="text-sm text-gray-600 mb-1">90天以上</div>
-                <div className="text-xl font-bold text-purple-600">¥{receivableAging.over90.toLocaleString()}</div>
+              <div className="text-center p-4 aging-card-purple rounded-xl">
+                <div className="text-sm financial-description mb-1">90天以上</div>
+                <div className="text-xl font-bold">¥{receivableAging.over90.toLocaleString()}</div>
               </div>
             </div>
           </div>
@@ -356,29 +356,29 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
         {/* 应付账款账龄分析 */}
         <GlassCard>
           <div className="p-4 border-b border-white/20">
-            <h3 className="text-lg font-semibold text-gray-800">应付账款账龄分析</h3>
+            <h3 className="text-lg font-semibold financial-title">应付账款账龄分析</h3>
           </div>
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-              <div className="text-center p-4 bg-green-50 rounded-xl border border-green-200">
-                <div className="text-sm text-gray-600 mb-1">未到期</div>
-                <div className="text-xl font-bold text-green-600">¥{payableAging.current.toLocaleString()}</div>
+              <div className="text-center p-4 aging-card-normal rounded-xl">
+                <div className="text-sm financial-description mb-1">未到期</div>
+                <div className="text-xl font-bold">¥{payableAging.current.toLocaleString()}</div>
               </div>
-              <div className="text-center p-4 bg-yellow-50 rounded-xl border border-yellow-200">
-                <div className="text-sm text-gray-600 mb-1">1-30天</div>
-                <div className="text-xl font-bold text-yellow-600">¥{payableAging.days30.toLocaleString()}</div>
+              <div className="text-center p-4 aging-card-warning rounded-xl">
+                <div className="text-sm financial-description mb-1">1-30天</div>
+                <div className="text-xl font-bold">¥{payableAging.days30.toLocaleString()}</div>
               </div>
-              <div className="text-center p-4 bg-orange-50 rounded-xl border border-orange-200">
-                <div className="text-sm text-gray-600 mb-1">31-60天</div>
-                <div className="text-xl font-bold text-orange-600">¥{payableAging.days60.toLocaleString()}</div>
+              <div className="text-center p-4 aging-card-accent rounded-xl">
+                <div className="text-sm financial-description mb-1">31-60天</div>
+                <div className="text-xl font-bold">¥{payableAging.days60.toLocaleString()}</div>
               </div>
-              <div className="text-center p-4 bg-red-50 rounded-xl border border-red-200">
-                <div className="text-sm text-gray-600 mb-1">61-90天</div>
-                <div className="text-xl font-bold text-red-600">¥{payableAging.days90.toLocaleString()}</div>
+              <div className="text-center p-4 aging-card-danger rounded-xl">
+                <div className="text-sm financial-description mb-1">61-90天</div>
+                <div className="text-xl font-bold">¥{payableAging.days90.toLocaleString()}</div>
               </div>
-              <div className="text-center p-4 bg-purple-50 rounded-xl border border-purple-200">
-                <div className="text-sm text-gray-600 mb-1">90天以上</div>
-                <div className="text-xl font-bold text-purple-600">¥{payableAging.over90.toLocaleString()}</div>
+              <div className="text-center p-4 aging-card-purple rounded-xl">
+                <div className="text-sm financial-description mb-1">90天以上</div>
+                <div className="text-xl font-bold">¥{payableAging.over90.toLocaleString()}</div>
               </div>
             </div>
           </div>
@@ -390,41 +390,41 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
   const renderProfitLoss = () => {
     const overview = calculateFinancialOverview();
     const grossMargin = overview.totalSales > 0 ? (overview.grossProfit / overview.totalSales * 100).toFixed(1) : '0.0';
-    
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <GlassCard className="p-6">
-          <h4 className="text-lg font-semibold text-gray-800 mb-4">收入</h4>
+          <h4 className="text-lg font-semibold financial-title mb-4">收入</h4>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">销售收入</span>
-              <span className="font-semibold text-green-600">¥{overview.totalSales.toLocaleString()}</span>
+              <span className="financial-subtitle">销售收入</span>
+              <span className="font-semibold financial-value-positive">¥{overview.totalSales.toLocaleString()}</span>
             </div>
           </div>
         </GlassCard>
-        
+
         <GlassCard className="p-6">
-          <h4 className="text-lg font-semibold text-gray-800 mb-4">成本</h4>
+          <h4 className="text-lg font-semibold financial-title mb-4">成本</h4>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">采购成本</span>
-              <span className="font-semibold text-red-600">¥{overview.totalPurchases.toLocaleString()}</span>
+              <span className="financial-subtitle">采购成本</span>
+              <span className="font-semibold financial-value-negative">¥{overview.totalPurchases.toLocaleString()}</span>
             </div>
           </div>
         </GlassCard>
-        
+
         <GlassCard className="p-6">
-          <h4 className="text-lg font-semibold text-gray-800 mb-4">利润</h4>
+          <h4 className="text-lg font-semibold financial-title mb-4">利润</h4>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">毛利润</span>
-              <span className={`font-semibold ${overview.grossProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              <span className="financial-subtitle">毛利润</span>
+              <span className={`font-semibold ${overview.grossProfit >= 0 ? 'financial-value-positive' : 'financial-value-negative'}`}>
                 ¥{overview.grossProfit.toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">毛利率</span>
-              <span className="font-semibold text-blue-600">{grossMargin}%</span>
+              <span className="financial-subtitle">毛利率</span>
+              <span className="font-semibold financial-value-neutral">{grossMargin}%</span>
             </div>
           </div>
         </GlassCard>
@@ -434,35 +434,35 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
 
   const renderBalance = () => {
     const overview = calculateFinancialOverview();
-    
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <GlassCard className="p-6">
-          <h4 className="text-lg font-semibold text-gray-800 mb-4">资产</h4>
+          <h4 className="text-lg font-semibold financial-title mb-4">资产</h4>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">应收账款</span>
-              <span className="font-semibold text-blue-600">¥{overview.totalReceivables.toLocaleString()}</span>
+              <span className="financial-subtitle">应收账款</span>
+              <span className="font-semibold financial-value-neutral">¥{overview.totalReceivables.toLocaleString()}</span>
             </div>
           </div>
         </GlassCard>
-        
+
         <GlassCard className="p-6">
-          <h4 className="text-lg font-semibold text-gray-800 mb-4">负债</h4>
+          <h4 className="text-lg font-semibold financial-title mb-4">负债</h4>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">应付账款</span>
-              <span className="font-semibold text-orange-600">¥{overview.totalPayables.toLocaleString()}</span>
+              <span className="financial-subtitle">应付账款</span>
+              <span className="font-semibold financial-value-accent">¥{overview.totalPayables.toLocaleString()}</span>
             </div>
           </div>
         </GlassCard>
-        
+
         <GlassCard className="p-6">
-          <h4 className="text-lg font-semibold text-gray-800 mb-4">净资产</h4>
+          <h4 className="text-lg font-semibold financial-title mb-4">净资产</h4>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">净值</span>
-              <span className={`font-semibold ${overview.netWorth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              <span className="financial-subtitle">净值</span>
+              <span className={`font-semibold ${overview.netWorth >= 0 ? 'financial-value-positive' : 'financial-value-negative'}`}>
                 ¥{overview.netWorth.toLocaleString()}
               </span>
             </div>
@@ -482,11 +482,11 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
 
   if (loading) {
     return (
-      <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`}>
+      <div className={`min-h-screen ${className || ''}`}>
         <div className="flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">加载财务报表数据中...</p>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-current financial-value-neutral mx-auto mb-4"></div>
+            <p className="financial-subtitle">加载财务报表数据中...</p>
           </div>
         </div>
       </div>
@@ -494,19 +494,19 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`}>
+    <div className={`min-h-screen ${className || ''}`}>
       <div className="p-6 space-y-6">
         {/* 页面头部 */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold financial-title">
               财务报表
             </h1>
-            <p className="text-gray-600 mt-1">财务状况、现金流和盈利分析报表</p>
+            <p className="financial-subtitle mt-1">财务状况、现金流和盈利分析报表</p>
           </div>
-          <GlassButton 
+          <GlassButton
             onClick={loadData}
-            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700"
+            className="financial-value-neutral"
           >
             <span className="mr-2">🔄</span>
             刷新数据
@@ -515,15 +515,16 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
 
         {/* 错误消息 */}
         {error && (
-          <GlassCard className="border-red-200 bg-red-50/50">
+          <GlassCard className="aging-card-danger">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 text-red-600">
+              <div className="flex items-center space-x-2">
                 <span>❌</span>
                 <span>{error}</span>
               </div>
-              <button 
+              <button
+                type="button"
                 onClick={() => setError(null)}
-                className="text-red-400 hover:text-red-600 transition-colors"
+                className="financial-value-negative hover:opacity-80 transition-opacity"
               >
                 ✕
               </button>
@@ -535,16 +536,16 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
         <GlassCard>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">开始日期</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">开始日期</label>
               <GlassInput
                 type="date"
                 value={dateRange.startDate}
                 onChange={(e) => setDateRange(prev => ({ ...prev, startDate: e.target.value }))}
               />
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">结束日期</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">结束日期</label>
               <GlassInput
                 type="date"
                 value={dateRange.endDate}
@@ -560,18 +561,19 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
             {tabs.map(tab => (
               <button
                 key={tab.id}
+                type="button"
                 className={`
                   flex-1 min-w-0 px-4 py-3 rounded-xl transition-all duration-300 flex flex-col items-center text-center
-                  ${activeTab === tab.id 
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-105' 
-                    : 'text-gray-600 hover:bg-white/50 hover:text-gray-800'
+                  ${activeTab === tab.id
+                    ? 'financial-value-neutral shadow-lg transform scale-105'
+                    : 'financial-subtitle hover:bg-white/50'
                   }
                 `}
                 onClick={() => setActiveTab(tab.id)}
               >
                 <span className="text-xl mb-1">{tab.icon}</span>
                 <span className="font-medium text-sm">{tab.label}</span>
-                <span className={`text-xs mt-1 ${activeTab === tab.id ? 'text-white/80' : 'text-gray-500'}`}>
+                <span className={`text-xs mt-1 ${activeTab === tab.id ? 'financial-description' : 'financial-description'}`}>
                   {tab.description}
                 </span>
               </button>

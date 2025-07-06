@@ -155,15 +155,15 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`}>
+    <div className={`min-h-screen ${className || ''}`} style={{ background: 'var(--app-background)' }}>
       <div className="p-6 space-y-6">
         {/* 页面头部 */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold financial-title">
               付款记录管理
             </h1>
-            <p className="text-gray-600 mt-1">查看和分析所有付款交易记录</p>
+            <p className="mt-1 financial-subtitle">查看和分析所有付款交易记录</p>
           </div>
         </div>
 
@@ -189,26 +189,26 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">📊</div>
-            <div className="text-2xl font-bold text-blue-600">{summary.totalCount}</div>
-            <div className="text-sm text-gray-600">总付款笔数</div>
+            <div className="text-2xl font-bold financial-value-total">{summary.totalCount}</div>
+            <div className="text-sm financial-description">总付款笔数</div>
           </GlassCard>
-          
+
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">💰</div>
-            <div className="text-2xl font-bold text-purple-600">¥{(summary.totalAmount / 10000).toFixed(1)}万</div>
-            <div className="text-sm text-gray-600">总付款金额</div>
+            <div className="text-2xl font-bold financial-value-expense">¥{(summary.totalAmount / 10000).toFixed(1)}万</div>
+            <div className="text-sm financial-description">总付款金额</div>
           </GlassCard>
           
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">📅</div>
-            <div className="text-2xl font-bold text-green-600">{summary.todayCount}</div>
-            <div className="text-sm text-gray-600">今日付款笔数</div>
+            <div className="text-2xl font-bold financial-value-today">{summary.todayCount}</div>
+            <div className="text-sm financial-description">今日付款笔数</div>
           </GlassCard>
-          
+
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">💵</div>
-            <div className="text-2xl font-bold text-orange-600">¥{summary.todayAmount.toLocaleString()}</div>
-            <div className="text-sm text-gray-600">今日付款金额</div>
+            <div className="text-2xl font-bold financial-value-today">¥{summary.todayAmount.toLocaleString()}</div>
+            <div className="text-sm financial-description">今日付款金额</div>
           </GlassCard>
         </div>
 
@@ -216,16 +216,16 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
         {stats && (
           <GlassCard>
             <div className="p-4 border-b border-white/20">
-              <h3 className="text-lg font-semibold text-gray-800">付款方式统计</h3>
+              <h3 className="text-lg font-semibold financial-title">付款方式统计</h3>
             </div>
             <div className="p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {Object.entries(stats).map(([method, data]) => (
                   <div key={method} className="text-center p-4 bg-white/30 rounded-xl border border-white/20">
                     <div className="text-2xl mb-2">{getPaymentMethodIcon(method as PaymentMethod)}</div>
-                    <div className="font-medium text-gray-800 mb-1">{getPaymentMethodText(method as PaymentMethod)}</div>
-                    <div className="text-sm text-gray-600">{(data as any).count} 笔</div>
-                    <div className="text-sm font-medium text-gray-800">¥{(data as any).amount.toLocaleString()}</div>
+                    <div className="font-medium financial-text mb-1">{getPaymentMethodText(method as PaymentMethod)}</div>
+                    <div className="text-sm financial-subtitle">{(data as any).count} 笔</div>
+                    <div className="text-sm font-medium financial-value-expense">¥{(data as any).amount.toLocaleString()}</div>
                   </div>
                 ))}
               </div>
@@ -237,9 +237,9 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
         <GlassCard>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 p-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">搜索付款</label>
+              <label className="block text-sm font-medium financial-label mb-2">搜索付款</label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">🔍</span>
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 financial-icon">🔍</span>
                 <GlassInput
                   type="text"
                   placeholder="搜索付款单号、经办人、备注..."
@@ -249,9 +249,9 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
                 />
               </div>
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">付款方式</label>
+              <label className="block text-sm font-medium financial-label mb-2">付款方式</label>
               <GlassSelect
                 value={selectedMethod}
                 onChange={(e) => setSelectedMethod(e.target.value as PaymentMethod)}
@@ -266,7 +266,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">经办人</label>
+              <label className="block text-sm font-medium financial-label mb-2">经办人</label>
               <GlassSelect
                 value={selectedOperator}
                 onChange={(e) => setSelectedOperator(e.target.value)}
@@ -304,8 +304,8 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
         <GlassCard>
           <div className="p-4 border-b border-white/20">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-800">付款记录列表</h3>
-              <span className="text-sm text-gray-600">共 {filteredPayments.length} 条记录</span>
+              <h3 className="text-lg font-semibold financial-title">付款记录列表</h3>
+              <span className="text-sm financial-subtitle">共 {filteredPayments.length} 条记录</span>
             </div>
           </div>
 
@@ -313,37 +313,37 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
             <table className="w-full">
               <thead className="bg-gray-50/50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">付款单号</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">付款日期</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">付款方式</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">付款金额</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">经办人</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">备注</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">创建时间</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium financial-table-header uppercase tracking-wider">付款单号</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium financial-table-header uppercase tracking-wider">付款日期</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium financial-table-header uppercase tracking-wider">付款方式</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium financial-table-header uppercase tracking-wider">付款金额</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium financial-table-header uppercase tracking-wider">经办人</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium financial-table-header uppercase tracking-wider">备注</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium financial-table-header uppercase tracking-wider">创建时间</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200/50">
                 {filteredPayments.map(payment => (
                   <tr key={payment.id} className="hover:bg-white/50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">{payment.paymentNo}</div>
+                      <div className="font-medium financial-text">{payment.paymentNo}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap financial-text">
                       {formatDate(payment.paymentDate)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${getPaymentMethodClass(payment.paymentMethod)}`}>
+                      <span className="financial-status-processing">
                         <span className="mr-1">{getPaymentMethodIcon(payment.paymentMethod)}</span>
                         {getPaymentMethodText(payment.paymentMethod)}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-lg font-semibold text-gray-900">¥{payment.amount.toLocaleString()}</div>
+                      <div className="text-lg font-semibold financial-value-expense">¥{payment.amount.toLocaleString()}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap financial-text">
                       {payment.operator}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap financial-subtitle">
                       {payment.remark || '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -357,8 +357,8 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
             {filteredPayments.length === 0 && (
               <div className="text-center py-12">
                 <div className="text-4xl mb-4">📤</div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">没有找到付款记录</h3>
-                <p className="text-gray-500">请调整筛选条件或检查数据范围</p>
+                <h3 className="text-lg font-medium financial-title mb-2">没有找到付款记录</h3>
+                <p className="financial-subtitle">请调整筛选条件或检查数据范围</p>
               </div>
             )}
           </div>

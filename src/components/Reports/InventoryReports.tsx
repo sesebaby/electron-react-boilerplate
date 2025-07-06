@@ -198,11 +198,11 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
 
   const getStatusClass = (status: string): string => {
     switch (status) {
-      case 'normal': return 'text-green-600 bg-green-50 border-green-200';
-      case 'low': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'out': return 'text-red-600 bg-red-50 border-red-200';
-      case 'excess': return 'text-blue-600 bg-blue-50 border-blue-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'normal': return 'inventory-status-normal';
+      case 'low': return 'inventory-status-low';
+      case 'out': return 'inventory-status-out';
+      case 'excess': return 'inventory-status-excess';
+      default: return 'inventory-status-default';
     }
   };
 
@@ -263,11 +263,11 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
 
   if (loading) {
     return (
-      <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`}>
+      <div className={`min-h-screen ${className || ''}`}>
         <div className="flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">加载库存报表数据中...</p>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-current financial-value-neutral mx-auto mb-4"></div>
+            <p className="financial-subtitle">加载库存报表数据中...</p>
           </div>
         </div>
       </div>
@@ -275,27 +275,27 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`}>
+    <div className={`min-h-screen ${className || ''}`}>
       <div className="p-6 space-y-6">
         {/* 页面头部 */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold financial-title">
               库存报表
             </h1>
-            <p className="text-gray-600 mt-1">库存分析、周转率和库存预警报表</p>
+            <p className="financial-subtitle mt-1">库存分析、周转率和库存预警报表</p>
           </div>
           <div className="flex gap-3">
-            <GlassButton 
+            <GlassButton
               onClick={() => setShowExportOptions(!showExportOptions)}
-              className="bg-gray-100 text-gray-700 hover:bg-gray-200"
+              className="financial-subtitle"
             >
               <span className="mr-2">📊</span>
               导出报表
             </GlassButton>
-            <GlassButton 
+            <GlassButton
               onClick={generateReport}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700"
+              className="financial-value-neutral"
             >
               <span className="mr-2">🔄</span>
               刷新数据
@@ -306,18 +306,18 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
         {/* 导出选项 */}
         {showExportOptions && (
           <GlassCard className="p-6">
-            <h4 className="text-lg font-semibold text-gray-800 mb-4">导出选项</h4>
+            <h4 className="text-lg font-semibold financial-title mb-4">导出选项</h4>
             <div className="flex gap-3">
-              <GlassButton 
+              <GlassButton
                 onClick={exportToCSV}
-                className="bg-gradient-to-r from-green-500 to-blue-600 text-white hover:from-green-600 hover:to-blue-700"
+                className="financial-value-positive"
               >
                 <span className="mr-2">📄</span>
                 导出CSV
               </GlassButton>
-              <GlassButton 
+              <GlassButton
                 onClick={() => setShowExportOptions(false)}
-                className="bg-gray-100 text-gray-700 hover:bg-gray-200"
+                className="financial-subtitle"
               >
                 取消
               </GlassButton>
@@ -327,15 +327,16 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
 
         {/* 错误消息 */}
         {error && (
-          <GlassCard className="border-red-200 bg-red-50/50">
+          <GlassCard className="aging-card-danger">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 text-red-600">
+              <div className="flex items-center space-x-2">
                 <span>❌</span>
                 <span>{error}</span>
               </div>
-              <button 
+              <button
+                type="button"
                 onClick={() => setError(null)}
-                className="text-red-400 hover:text-red-600 transition-colors"
+                className="financial-value-negative hover:opacity-80 transition-opacity"
               >
                 ✕
               </button>
@@ -347,32 +348,32 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">📦</div>
-            <div className="text-2xl font-bold text-blue-600">{stats.totalItems}</div>
-            <div className="text-sm text-gray-600">库存品种</div>
+            <div className="text-2xl font-bold inventory-value-items">{stats.totalItems}</div>
+            <div className="text-sm financial-description">库存品种</div>
           </GlassCard>
-          
+
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">💰</div>
-            <div className="text-2xl font-bold text-purple-600">¥{(stats.totalValue / 10000).toFixed(1)}万</div>
-            <div className="text-sm text-gray-600">库存总值</div>
+            <div className="text-2xl font-bold inventory-value-total">¥{(stats.totalValue / 10000).toFixed(1)}万</div>
+            <div className="text-sm financial-description">库存总值</div>
           </GlassCard>
-          
+
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">⚠️</div>
-            <div className="text-2xl font-bold text-yellow-600">{stats.lowStockItems}</div>
-            <div className="text-sm text-gray-600">库存不足</div>
+            <div className="text-2xl font-bold inventory-value-low">{stats.lowStockItems}</div>
+            <div className="text-sm financial-description">库存不足</div>
           </GlassCard>
-          
+
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">❌</div>
-            <div className="text-2xl font-bold text-red-600">{stats.outOfStockItems}</div>
-            <div className="text-sm text-gray-600">缺货商品</div>
+            <div className="text-2xl font-bold inventory-value-out">{stats.outOfStockItems}</div>
+            <div className="text-sm financial-description">缺货商品</div>
           </GlassCard>
 
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">🔄</div>
-            <div className="text-2xl font-bold text-green-600">{stats.avgTurnover.toFixed(1)}</div>
-            <div className="text-sm text-gray-600">平均周转率</div>
+            <div className="text-2xl font-bold inventory-value-turnover">{stats.avgTurnover.toFixed(1)}</div>
+            <div className="text-sm financial-description">平均周转率</div>
           </GlassCard>
         </div>
 
@@ -380,7 +381,7 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
         <GlassCard>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">商品分类</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">商品分类</label>
               <GlassSelect
                 value={filters.categoryId}
                 onChange={(e) => handleFilterChange('categoryId', e.target.value)}
@@ -395,7 +396,7 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">仓库</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">仓库</label>
               <GlassSelect
                 value={filters.warehouseId}
                 onChange={(e) => handleFilterChange('warehouseId', e.target.value)}
@@ -410,7 +411,7 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">库存状态</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">库存状态</label>
               <GlassSelect
                 value={filters.stockStatus}
                 onChange={(e) => handleFilterChange('stockStatus', e.target.value)}
@@ -424,7 +425,7 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">时间范围</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">时间范围</label>
               <GlassSelect
                 value={filters.dateRange}
                 onChange={(e) => handleFilterChange('dateRange', e.target.value)}
@@ -442,66 +443,66 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
         <GlassCard>
           <div className="p-4 border-b border-white/20">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-800">库存明细报表</h3>
-              <span className="text-sm text-gray-600">共 {sortedData.length} 个库存记录</span>
+              <h3 className="text-lg font-semibold financial-title">库存明细报表</h3>
+              <span className="text-sm financial-subtitle">共 {sortedData.length} 个库存记录</span>
             </div>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50/50">
+              <thead className="financial-table-header">
                 <tr>
-                  <th 
-                    onClick={() => handleSort('productSku')} 
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100/50"
+                  <th
+                    onClick={() => handleSort('productSku')}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
                   >
                     商品编码 {sortField === 'productSku' && (sortDirection === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th 
-                    onClick={() => handleSort('productName')} 
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100/50"
+                  <th
+                    onClick={() => handleSort('productName')}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
                   >
                     商品名称 {sortField === 'productName' && (sortDirection === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th 
-                    onClick={() => handleSort('categoryName')} 
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100/50"
+                  <th
+                    onClick={() => handleSort('categoryName')}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
                   >
                     分类 {sortField === 'categoryName' && (sortDirection === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th 
-                    onClick={() => handleSort('warehouseName')} 
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100/50"
+                  <th
+                    onClick={() => handleSort('warehouseName')}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
                   >
                     仓库 {sortField === 'warehouseName' && (sortDirection === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th 
-                    onClick={() => handleSort('currentStock')} 
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100/50"
+                  <th
+                    onClick={() => handleSort('currentStock')}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
                   >
                     当前库存 {sortField === 'currentStock' && (sortDirection === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th 
-                    onClick={() => handleSort('avgCost')} 
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100/50"
+                  <th
+                    onClick={() => handleSort('avgCost')}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
                   >
                     平均成本 {sortField === 'avgCost' && (sortDirection === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th 
-                    onClick={() => handleSort('totalValue')} 
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100/50"
+                  <th
+                    onClick={() => handleSort('totalValue')}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
                   >
                     库存价值 {sortField === 'totalValue' && (sortDirection === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th 
-                    onClick={() => handleSort('turnoverRate')} 
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100/50"
+                  <th
+                    onClick={() => handleSort('turnoverRate')}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
                   >
                     周转率 {sortField === 'turnoverRate' && (sortDirection === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th 
-                    onClick={() => handleSort('stockStatus')} 
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100/50"
+                  <th
+                    onClick={() => handleSort('stockStatus')}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
                   >
                     状态 {sortField === 'stockStatus' && (sortDirection === 'asc' ? '↑' : '↓')}
                   </th>
@@ -511,38 +512,38 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
                 {sortedData.map((item, index) => (
                   <tr key={`${item.productId}-${item.warehouseName}`} className="hover:bg-white/50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="font-mono text-sm text-gray-900">{item.productSku}</span>
+                      <span className="font-mono text-sm financial-table-cell">{item.productSku}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">{item.productName}</div>
+                      <div className="font-medium financial-table-cell">{item.productName}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                    <td className="px-6 py-4 whitespace-nowrap financial-subtitle">
                       {item.categoryName}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                    <td className="px-6 py-4 whitespace-nowrap financial-subtitle">
                       {item.warehouseName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-gray-900">
+                      <div className="financial-table-cell">
                         <div className="font-semibold">{item.currentStock}</div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs financial-description">
                           可用: {item.availableStock} | 预留: {item.reservedStock}
                         </div>
-                        <div className="text-xs text-gray-400">
+                        <div className="text-xs financial-description">
                           范围: {item.minStock} - {item.maxStock}
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
                       ¥{item.avgCost.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-semibold text-gray-900">¥{item.totalValue.toLocaleString()}</div>
+                      <div className="font-semibold financial-table-cell">¥{item.totalValue.toLocaleString()}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-gray-900">
+                      <div className="financial-table-cell">
                         <div className="font-medium">{item.turnoverRate?.toFixed(1)}次/年</div>
-                        <div className="text-xs text-gray-500">{item.daysInStock}天</div>
+                        <div className="text-xs financial-description">{item.daysInStock}天</div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -558,8 +559,8 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
             {sortedData.length === 0 && (
               <div className="text-center py-12">
                 <div className="text-4xl mb-4">📊</div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">没有找到库存数据</h3>
-                <p className="text-gray-500">请调整筛选条件或检查库存数据</p>
+                <h3 className="text-lg font-medium financial-title mb-2">没有找到库存数据</h3>
+                <p className="financial-subtitle">请调整筛选条件或检查库存数据</p>
               </div>
             )}
           </div>

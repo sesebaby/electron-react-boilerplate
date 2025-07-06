@@ -172,7 +172,7 @@ export class TestDataGenerator {
         {
           name: '无线鼠标',
           code: 'MOUSE001',
-          sku: 'MOUSE001-2.4G-BLK',
+          sku: 'MOUSE001-24G-BLK',  // 修复SKU格式，移除点号
           categoryId: allCategories[0].id,
           unitId: allUnits[0].id,
           description: '无线蓝牙鼠标',

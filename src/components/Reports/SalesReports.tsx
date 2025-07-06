@@ -360,11 +360,11 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
 
   if (loading) {
     return (
-      <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`}>
+      <div className={`min-h-screen ${className || ''}`}>
         <div className="flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">加载销售报表数据中...</p>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-current financial-value-neutral mx-auto mb-4"></div>
+            <p className="financial-subtitle">加载销售报表数据中...</p>
           </div>
         </div>
       </div>
@@ -372,27 +372,27 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`}>
+    <div className={`min-h-screen ${className || ''}`}>
       <div className="p-6 space-y-6">
         {/* 页面头部 */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold financial-title">
               销售报表
             </h1>
-            <p className="text-gray-600 mt-1">销售业绩、趋势分析和客户分析报表</p>
+            <p className="financial-subtitle mt-1">销售业绩、趋势分析和客户分析报表</p>
           </div>
           <div className="flex gap-3">
-            <GlassButton 
+            <GlassButton
               onClick={() => setShowExportOptions(!showExportOptions)}
-              className="bg-gray-100 text-gray-700 hover:bg-gray-200"
+              className="financial-subtitle"
             >
               <span className="mr-2">📊</span>
               导出报表
             </GlassButton>
-            <GlassButton 
+            <GlassButton
               onClick={generateReport}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700"
+              className="financial-value-neutral"
             >
               <span className="mr-2">🔄</span>
               刷新数据
@@ -403,18 +403,18 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
         {/* 导出选项 */}
         {showExportOptions && (
           <GlassCard className="p-6">
-            <h4 className="text-lg font-semibold text-gray-800 mb-4">导出选项</h4>
+            <h4 className="text-lg font-semibold financial-title mb-4">导出选项</h4>
             <div className="flex gap-3">
-              <GlassButton 
+              <GlassButton
                 onClick={exportToCSV}
-                className="bg-gradient-to-r from-green-500 to-blue-600 text-white hover:from-green-600 hover:to-blue-700"
+                className="financial-value-positive"
               >
                 <span className="mr-2">📄</span>
                 导出CSV
               </GlassButton>
-              <GlassButton 
+              <GlassButton
                 onClick={() => setShowExportOptions(false)}
-                className="bg-gray-100 text-gray-700 hover:bg-gray-200"
+                className="financial-subtitle"
               >
                 取消
               </GlassButton>
@@ -424,15 +424,16 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
 
         {/* 错误消息 */}
         {error && (
-          <GlassCard className="border-red-200 bg-red-50/50">
+          <GlassCard className="aging-card-danger">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 text-red-600">
+              <div className="flex items-center space-x-2">
                 <span>❌</span>
                 <span>{error}</span>
               </div>
-              <button 
+              <button
+                type="button"
                 onClick={() => setError(null)}
-                className="text-red-400 hover:text-red-600 transition-colors"
+                className="financial-value-negative hover:opacity-80 transition-opacity"
               >
                 ✕
               </button>
@@ -445,34 +446,34 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
             <GlassCard className="text-center p-6">
               <div className="text-3xl mb-3">💰</div>
-              <div className="text-2xl font-bold text-green-600">¥{(stats.totalSales / 10000).toFixed(1)}万</div>
-              <div className="text-sm text-gray-600">销售总额</div>
+              <div className="text-2xl font-bold sales-value-revenue">¥{(stats.totalSales / 10000).toFixed(1)}万</div>
+              <div className="text-sm financial-description">销售总额</div>
             </GlassCard>
-            
+
             <GlassCard className="text-center p-6">
               <div className="text-3xl mb-3">📋</div>
-              <div className="text-2xl font-bold text-blue-600">{stats.totalOrders}</div>
-              <div className="text-sm text-gray-600">订单总数</div>
+              <div className="text-2xl font-bold sales-value-orders">{stats.totalOrders}</div>
+              <div className="text-sm financial-description">订单总数</div>
             </GlassCard>
-            
+
             <GlassCard className="text-center p-6">
               <div className="text-3xl mb-3">📦</div>
-              <div className="text-2xl font-bold text-purple-600">{stats.totalDeliveries}</div>
-              <div className="text-sm text-gray-600">发货总数</div>
+              <div className="text-2xl font-bold sales-value-customers">{stats.totalDeliveries}</div>
+              <div className="text-sm financial-description">发货总数</div>
             </GlassCard>
-            
+
             <GlassCard className="text-center p-6">
               <div className="text-3xl mb-3">💵</div>
-              <div className="text-2xl font-bold text-orange-600">¥{(stats.avgOrderValue / 1000).toFixed(1)}K</div>
-              <div className="text-sm text-gray-600">平均订单值</div>
+              <div className="text-2xl font-bold sales-value-growth">¥{(stats.avgOrderValue / 1000).toFixed(1)}K</div>
+              <div className="text-sm financial-description">平均订单值</div>
             </GlassCard>
 
             <GlassCard className="text-center p-6">
               <div className="text-3xl mb-3">📈</div>
-              <div className={`text-2xl font-bold ${stats.growthRate >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              <div className={`text-2xl font-bold ${stats.growthRate >= 0 ? 'sales-value-revenue' : 'financial-value-negative'}`}>
                 {stats.growthRate.toFixed(1)}%
               </div>
-              <div className="text-sm text-gray-600">增长率</div>
+              <div className="text-sm financial-description">增长率</div>
             </GlassCard>
           </div>
         )}
@@ -482,40 +483,40 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <GlassCard className="p-6">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center text-white text-xl">
+                <div className="w-12 h-12 sales-value-revenue rounded-xl flex items-center justify-center text-xl">
                   👑
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-semibold text-gray-800">最佳客户</h4>
-                  <p className="text-lg font-medium text-gray-900">{stats.topCustomer}</p>
-                  <p className="text-sm text-green-600">↗ 本期表现优异</p>
+                  <h4 className="font-semibold financial-title">最佳客户</h4>
+                  <p className="text-lg font-medium financial-table-cell">{stats.topCustomer}</p>
+                  <p className="text-sm sales-value-revenue">↗ 本期表现优异</p>
                 </div>
               </div>
             </GlassCard>
 
             <GlassCard className="p-6">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl flex items-center justify-center text-white text-xl">
+                <div className="w-12 h-12 sales-value-customers rounded-xl flex items-center justify-center text-xl">
                   🏆
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-semibold text-gray-800">热销产品</h4>
-                  <p className="text-lg font-medium text-gray-900">{stats.topProduct}</p>
-                  <p className="text-sm text-purple-600">↗ 销量领先</p>
+                  <h4 className="font-semibold financial-title">热销产品</h4>
+                  <p className="text-lg font-medium financial-table-cell">{stats.topProduct}</p>
+                  <p className="text-sm sales-value-customers">↗ 销量领先</p>
                 </div>
               </div>
             </GlassCard>
 
             <GlassCard className="p-6">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl flex items-center justify-center text-white text-xl">
+                <div className="w-12 h-12 sales-value-growth rounded-xl flex items-center justify-center text-xl">
                   🔄
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-semibold text-gray-800">转化率</h4>
-                  <p className="text-lg font-medium text-gray-900">{stats.conversionRate.toFixed(1)}%</p>
-                  <p className={`text-sm ${stats.conversionRate >= 80 ? 'text-green-600' : stats.conversionRate >= 60 ? 'text-yellow-600' : 'text-red-600'}`}>
-                    {stats.conversionRate >= 80 ? '↗' : stats.conversionRate >= 60 ? '→' : '↘'} 
+                  <h4 className="font-semibold financial-title">转化率</h4>
+                  <p className="text-lg font-medium financial-table-cell">{stats.conversionRate.toFixed(1)}%</p>
+                  <p className={`text-sm ${stats.conversionRate >= 80 ? 'sales-value-revenue' : stats.conversionRate >= 60 ? 'sales-value-growth' : 'financial-value-negative'}`}>
+                    {stats.conversionRate >= 80 ? '↗' : stats.conversionRate >= 60 ? '→' : '↘'}
                     {stats.conversionRate >= 80 ? '表现良好' : stats.conversionRate >= 60 ? '表现一般' : '需要改进'}
                   </p>
                 </div>
@@ -528,7 +529,7 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
         <GlassCard>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">报表类型</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">报表类型</label>
               <GlassSelect
                 value={filters.reportType}
                 onChange={(e) => handleFilterChange('reportType', e.target.value)}
@@ -541,7 +542,7 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">客户</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">客户</label>
               <GlassSelect
                 value={filters.customerId}
                 onChange={(e) => handleFilterChange('customerId', e.target.value)}
@@ -556,7 +557,7 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">产品</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">产品</label>
               <GlassSelect
                 value={filters.productId}
                 onChange={(e) => handleFilterChange('productId', e.target.value)}
@@ -571,7 +572,7 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">时间范围</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">时间范围</label>
               <GlassSelect
                 value={filters.dateRange}
                 onChange={(e) => handleFilterChange('dateRange', e.target.value)}
@@ -589,39 +590,39 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
         <GlassCard>
           <div className="p-4 border-b border-white/20">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h3 className="text-lg font-semibold financial-title">
                 {filters.reportType === 'customer' && '客户销售分析'}
                 {filters.reportType === 'product' && '产品销售分析'}
                 {filters.reportType === 'trend' && '销售趋势分析'}
                 {filters.reportType === 'summary' && '销售汇总报表'}
               </h3>
-              <span className="text-sm text-gray-600">共 {reportData.length} 条记录</span>
+              <span className="text-sm financial-subtitle">共 {reportData.length} 条记录</span>
             </div>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50/50">
+              <thead className="financial-table-header">
                 <tr>
                   {filters.reportType === 'trend' && (
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">时期</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">时期</th>
                   )}
                   {filters.reportType !== 'product' && (
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">客户</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">客户</th>
                   )}
                   {filters.reportType !== 'customer' && (
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">产品</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">产品</th>
                   )}
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">订单数</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">总金额</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">平均订单值</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">发货数</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">发货金额</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">订单数</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">总金额</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">平均订单值</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">发货数</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">发货金额</th>
                   {filters.reportType === 'customer' && (
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">客户类型</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">客户类型</th>
                   )}
                   {filters.reportType === 'customer' && (
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">地区</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">地区</th>
                   )}
                 </tr>
               </thead>
@@ -630,41 +631,41 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
                   <tr key={index} className="hover:bg-white/50 transition-colors">
                     {filters.reportType === 'trend' && (
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="font-semibold text-gray-900">{item.period}</span>
+                        <span className="font-semibold financial-table-cell">{item.period}</span>
                       </td>
                     )}
                     {filters.reportType !== 'product' && (
-                      <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
                         {item.customerName}
                       </td>
                     )}
                     {filters.reportType !== 'customer' && (
-                      <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
                         {item.productName}
                       </td>
                     )}
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
                       {item.orderCount}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-semibold text-gray-900">¥{item.totalAmount.toLocaleString()}</div>
+                      <div className="font-semibold financial-table-cell">¥{item.totalAmount.toLocaleString()}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
                       ¥{item.avgOrderValue.toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
                       {item.deliveryCount}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-semibold text-gray-900">¥{item.deliveredAmount.toLocaleString()}</div>
+                      <div className="font-semibold financial-table-cell">¥{item.deliveredAmount.toLocaleString()}</div>
                     </td>
                     {filters.reportType === 'customer' && (
-                      <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                      <td className="px-6 py-4 whitespace-nowrap financial-subtitle">
                         {item.customerType}
                       </td>
                     )}
                     {filters.reportType === 'customer' && (
-                      <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                      <td className="px-6 py-4 whitespace-nowrap financial-subtitle">
                         {item.region}
                       </td>
                     )}
@@ -676,8 +677,8 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
             {reportData.length === 0 && (
               <div className="text-center py-12">
                 <div className="text-4xl mb-4">📊</div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">没有找到销售数据</h3>
-                <p className="text-gray-500">请调整筛选条件或检查销售数据</p>
+                <h3 className="text-lg font-medium financial-title mb-2">没有找到销售数据</h3>
+                <p className="financial-subtitle">请调整筛选条件或检查销售数据</p>
               </div>
             )}
           </div>

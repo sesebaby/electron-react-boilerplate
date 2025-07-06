@@ -176,38 +176,38 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">📋</div>
-            <div className="text-2xl font-bold text-blue-600">{stats.totalOrders}</div>
-            <div className="text-sm text-gray-600">采购订单数</div>
+            <div className="text-2xl font-bold purchase-value-orders">{stats.totalOrders}</div>
+            <div className="text-sm financial-description">采购订单数</div>
           </GlassCard>
-          
+
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">💰</div>
-            <div className="text-2xl font-bold text-green-600">¥{(stats.totalOrderValue / 10000).toFixed(1)}万</div>
-            <div className="text-sm text-gray-600">采购总金额</div>
+            <div className="text-2xl font-bold purchase-value-cost">¥{(stats.totalOrderValue / 10000).toFixed(1)}万</div>
+            <div className="text-sm financial-description">采购总金额</div>
           </GlassCard>
-          
+
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">📦</div>
-            <div className="text-2xl font-bold text-purple-600">{stats.totalReceipts}</div>
-            <div className="text-sm text-gray-600">收货单数</div>
+            <div className="text-2xl font-bold purchase-value-delivery">{stats.totalReceipts}</div>
+            <div className="text-sm financial-description">收货单数</div>
           </GlassCard>
-          
+
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">💵</div>
-            <div className="text-2xl font-bold text-orange-600">¥{(stats.totalReceiptValue / 10000).toFixed(1)}万</div>
-            <div className="text-sm text-gray-600">收货总金额</div>
+            <div className="text-2xl font-bold purchase-value-savings">¥{(stats.totalReceiptValue / 10000).toFixed(1)}万</div>
+            <div className="text-sm financial-description">收货总金额</div>
           </GlassCard>
-          
+
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">🏢</div>
-            <div className="text-2xl font-bold text-indigo-600">{stats.activeSuppliers}</div>
-            <div className="text-sm text-gray-600">活跃供应商</div>
+            <div className="text-2xl font-bold purchase-value-suppliers">{stats.activeSuppliers}</div>
+            <div className="text-sm financial-description">活跃供应商</div>
           </GlassCard>
-          
+
           <GlassCard className="text-center p-6">
             <div className="text-3xl mb-3">📊</div>
-            <div className="text-2xl font-bold text-teal-600">¥{stats.avgOrderValue.toLocaleString()}</div>
-            <div className="text-sm text-gray-600">平均订单金额</div>
+            <div className="text-2xl font-bold purchase-value-quality">¥{stats.avgOrderValue.toLocaleString()}</div>
+            <div className="text-sm financial-description">平均订单金额</div>
           </GlassCard>
         </div>
       </div>
@@ -253,7 +253,7 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-900">¥{avgOrder.toLocaleString()}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-50 text-blue-600">
+                      <span className="px-2 py-1 text-xs font-medium rounded-full purchase-status-processing">
                         {percentage}%
                       </span>
                     </td>
@@ -379,39 +379,39 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
                 ⏰
               </div>
               <div className="flex-1">
-                <h4 className="font-semibold text-gray-800">准时交货率</h4>
-                <p className="text-2xl font-bold text-green-600">{onTimeRate}%</p>
-                <p className="text-sm text-gray-500">
+                <h4 className="font-semibold financial-title">准时交货率</h4>
+                <p className="text-2xl font-bold purchase-value-savings">{onTimeRate}%</p>
+                <p className="text-sm financial-subtitle">
                   准时交货: {onTimeDeliveries} / 总收货: {filteredReceipts.length}
                 </p>
               </div>
             </div>
           </GlassCard>
-          
+
           <GlassCard className="p-6">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center text-white text-xl">
+              <div className="w-12 h-12 purchase-value-delivery rounded-xl flex items-center justify-center text-xl">
                 📅
               </div>
               <div className="flex-1">
-                <h4 className="font-semibold text-gray-800">平均交货周期</h4>
-                <p className="text-2xl font-bold text-blue-600">5.2天</p>
-                <p className="text-sm text-gray-500">
+                <h4 className="font-semibold financial-title">平均交货周期</h4>
+                <p className="text-2xl font-bold purchase-value-delivery">5.2天</p>
+                <p className="text-sm financial-subtitle">
                   从下单到收货的平均时间
                 </p>
               </div>
             </div>
           </GlassCard>
-          
+
           <GlassCard className="p-6">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl flex items-center justify-center text-white text-xl">
+              <div className="w-12 h-12 purchase-value-quality rounded-xl flex items-center justify-center text-xl">
                 ✅
               </div>
               <div className="flex-1">
-                <h4 className="font-semibold text-gray-800">质量合格率</h4>
-                <p className="text-2xl font-bold text-purple-600">98.5%</p>
-                <p className="text-sm text-gray-500">
+                <h4 className="font-semibold financial-title">质量合格率</h4>
+                <p className="text-2xl font-bold purchase-value-quality">98.5%</p>
+                <p className="text-sm financial-subtitle">
                   收货检验合格的比例
                 </p>
               </div>
@@ -432,11 +432,11 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
 
   if (loading) {
     return (
-      <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`}>
+      <div className={`min-h-screen ${className || ''}`}>
         <div className="flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">加载采购报表数据中...</p>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-current financial-value-neutral mx-auto mb-4"></div>
+            <p className="financial-subtitle">加载采购报表数据中...</p>
           </div>
         </div>
       </div>
@@ -444,19 +444,19 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ${className || ''}`}>
+    <div className={`min-h-screen ${className || ''}`}>
       <div className="p-6 space-y-6">
         {/* 页面头部 */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold financial-title">
               采购报表
             </h1>
-            <p className="text-gray-600 mt-1">采购分析、供应商评估和成本分析报表</p>
+            <p className="financial-subtitle mt-1">采购分析、供应商评估和成本分析报表</p>
           </div>
-          <GlassButton 
+          <GlassButton
             onClick={loadData}
-            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700"
+            className="financial-value-neutral"
           >
             <span className="mr-2">🔄</span>
             刷新数据
@@ -465,15 +465,16 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
 
         {/* 错误消息 */}
         {error && (
-          <GlassCard className="border-red-200 bg-red-50/50">
+          <GlassCard className="aging-card-danger">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 text-red-600">
+              <div className="flex items-center space-x-2">
                 <span>❌</span>
                 <span>{error}</span>
               </div>
-              <button 
+              <button
+                type="button"
                 onClick={() => setError(null)}
-                className="text-red-400 hover:text-red-600 transition-colors"
+                className="financial-value-negative hover:opacity-80 transition-opacity"
               >
                 ✕
               </button>
@@ -485,16 +486,16 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
         <GlassCard>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">开始日期</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">开始日期</label>
               <GlassInput
                 type="date"
                 value={dateRange.startDate}
                 onChange={(e) => setDateRange(prev => ({ ...prev, startDate: e.target.value }))}
               />
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">结束日期</label>
+              <label className="block text-sm font-medium financial-subtitle mb-2">结束日期</label>
               <GlassInput
                 type="date"
                 value={dateRange.endDate}
@@ -510,18 +511,19 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
             {tabs.map(tab => (
               <button
                 key={tab.id}
+                type="button"
                 className={`
                   flex-1 min-w-0 px-4 py-3 rounded-xl transition-all duration-300 flex flex-col items-center text-center
-                  ${activeTab === tab.id 
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-105' 
-                    : 'text-gray-600 hover:bg-white/50 hover:text-gray-800'
+                  ${activeTab === tab.id
+                    ? 'financial-value-neutral shadow-lg transform scale-105'
+                    : 'financial-subtitle hover:bg-white/50'
                   }
                 `}
                 onClick={() => setActiveTab(tab.id)}
               >
                 <span className="text-xl mb-1">{tab.icon}</span>
                 <span className="font-medium text-sm">{tab.label}</span>
-                <span className={`text-xs mt-1 ${activeTab === tab.id ? 'text-white/80' : 'text-gray-500'}`}>
+                <span className={`text-xs mt-1 ${activeTab === tab.id ? 'financial-description' : 'financial-description'}`}>
                   {tab.description}
                 </span>
               </button>

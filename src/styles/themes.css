@@ -60,6 +60,20 @@
   --spacing-lg: 24px;
   --spacing-xl: 32px;
   --spacing-2xl: 48px;
+
+  /* 状态颜色系统 - 基于语义化设计 */
+  --success-color: oklch(0.64 0.15 145);      /* 成功/正常 - 绿色 */
+  --warning-color: oklch(0.8 0.15 85);        /* 警告/注意 - 黄色 */
+  --error-color: oklch(0.63 0.24 25);         /* 错误/危险 - 红色 */
+  --info-color: oklch(0.7 0.15 230);          /* 信息/中性 - 蓝色 */
+  --disabled-color: oklch(0.6 0.02 260);      /* 禁用/停用 - 灰色 */
+
+  /* 财务状态颜色 */
+  --financial-positive: oklch(0.64 0.15 145);  /* 正值/收入 - 绿色 */
+  --financial-negative: oklch(0.63 0.24 25);   /* 负值/支出 - 红色 */
+  --financial-neutral: oklch(0.7 0.15 230);    /* 中性/信息 - 蓝色 */
+  --financial-warning: oklch(0.8 0.15 85);     /* 警告/注意 - 黄色 */
+  --financial-accent: oklch(0.75 0.2 45);      /* 强调/橙色 */
 }
 
 /* ===== 玻璃未来风主题 - 基于 Indigo 色块系列重构 ===== */
@@ -117,6 +131,16 @@
   /* 动态光效 */
   --glass-glow: 0 0 20px rgba(255, 255, 255, 0.1);
   --glass-glow-hover: 0 0 30px rgba(255, 255, 255, 0.15);
+
+  /* 财务状态颜色 - 玻璃未来风主题 */
+  --financial-positive: oklch(0.64 0.15 145);  /* 正值/收入 - 绿色 */
+  --financial-negative: oklch(0.63 0.24 25);   /* 负值/支出 - 红色 */
+  --financial-neutral: oklch(0.7 0.15 230);    /* 中性/信息 - 蓝色 */
+  --financial-warning: oklch(0.8 0.15 85);     /* 警告/注意 - 黄色 */
+  --financial-accent: oklch(0.75 0.2 45);      /* 强调/橙色 */
+  --financial-purple: oklch(0.65 0.2 300);     /* 紫色 */
+  --financial-teal: oklch(0.65 0.15 180);      /* 青色 */
+  --financial-indigo: oklch(0.6 0.2 270);      /* 靛蓝色 */
 }
 
 /* 玻璃未来风主题专用控件样式 */
@@ -210,6 +234,16 @@
   /* 玻璃感效果调整 */
   --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);
   --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.3);
+
+  /* 财务状态颜色 - 深色科技风主题 */
+  --financial-positive: oklch(0.7 0.15 145);   /* 正值/收入 - 绿色 */
+  --financial-negative: oklch(0.7 0.24 25);    /* 负值/支出 - 红色 */
+  --financial-neutral: oklch(0.75 0.15 230);   /* 中性/信息 - 蓝色 */
+  --financial-warning: oklch(0.85 0.15 85);    /* 警告/注意 - 黄色 */
+  --financial-accent: oklch(0.8 0.2 45);       /* 强调/橙色 */
+  --financial-purple: oklch(0.75 0.2 300);     /* 紫色 */
+  --financial-teal: oklch(0.75 0.15 180);      /* 青色 */
+  --financial-indigo: oklch(0.7 0.2 270);      /* 靛蓝色 */
 }
 
 /* 深色科技风主题专用控件样式 */
@@ -294,6 +328,16 @@
   /* 玻璃感效果调整 */
   --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
   --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);
+
+  /* 财务状态颜色 - 温暖商务风主题 */
+  --financial-positive: oklch(0.5 0.15 145);   /* 正值/收入 - 深绿色 */
+  --financial-negative: oklch(0.5 0.24 25);    /* 负值/支出 - 深红色 */
+  --financial-neutral: oklch(0.45 0.15 230);   /* 中性/信息 - 深蓝色 */
+  --financial-warning: oklch(0.6 0.15 85);     /* 警告/注意 - 深黄色 */
+  --financial-accent: oklch(0.55 0.2 45);      /* 强调/深橙色 */
+  --financial-purple: oklch(0.5 0.2 300);      /* 深紫色 */
+  --financial-teal: oklch(0.5 0.15 180);       /* 深青色 */
+  --financial-indigo: oklch(0.45 0.2 270);     /* 深靛蓝色 */
 }
 
 /* 温暖商务风主题专用控件样式 */
@@ -871,4 +915,420 @@
 .clear-button:hover {
   background: var(--hover-background);
   color: var(--popup-text-primary);
+}
+
+/* ===== 财务报表专用样式 ===== */
+
+/* 财务数值显示样式 */
+.financial-value-positive {
+  color: var(--financial-positive) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-negative {
+  color: var(--financial-negative) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-neutral {
+  color: var(--financial-neutral) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-warning {
+  color: var(--financial-warning) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-accent {
+  color: var(--financial-accent) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-purple {
+  color: var(--financial-purple) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-teal {
+  color: var(--financial-teal) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-indigo {
+  color: var(--financial-indigo) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+/* 财务页面专用数值样式 */
+.financial-value-income {
+  color: var(--financial-positive) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-expense {
+  color: var(--financial-negative) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-total {
+  color: var(--financial-purple) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-today {
+  color: var(--financial-neutral) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-unpaid {
+  color: var(--financial-negative) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-partial {
+  color: var(--financial-warning) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-paid {
+  color: var(--financial-positive) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-overdue {
+  color: var(--financial-negative) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.financial-value-balance {
+  color: var(--financial-accent) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+/* 财务页面文字样式 */
+.financial-text {
+  color: var(--popup-text-primary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.financial-label {
+  color: var(--popup-text-secondary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.financial-icon {
+  color: var(--popup-text-tertiary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+/* 财务报表标题样式 */
+.financial-title {
+  color: var(--popup-text-primary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.financial-subtitle {
+  color: var(--popup-text-secondary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.financial-description {
+  color: var(--popup-text-tertiary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+/* 财务表格样式 */
+.financial-table-header {
+  background: var(--surface-background) !important;
+  color: var(--popup-text-secondary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.financial-table-cell {
+  color: var(--popup-text-primary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+/* 财务状态样式 */
+.financial-status-unpaid {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-negative) !important;
+  color: var(--financial-negative) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.financial-status-partial {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-warning) !important;
+  color: var(--financial-warning) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.financial-status-paid {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-positive) !important;
+  color: var(--financial-positive) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.financial-status-processing {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-neutral) !important;
+  color: var(--financial-neutral) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.financial-status-default {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--popup-text-tertiary) !important;
+  color: var(--popup-text-tertiary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+/* 账龄分析卡片样式 */
+.aging-card-normal {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-positive) !important;
+  color: var(--financial-positive) !important;
+}
+
+.aging-card-warning {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-warning) !important;
+  color: var(--financial-warning) !important;
+}
+
+.aging-card-danger {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-negative) !important;
+  color: var(--financial-negative) !important;
+}
+
+.aging-card-accent {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-accent) !important;
+  color: var(--financial-accent) !important;
+}
+
+.aging-card-purple {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-purple) !important;
+  color: var(--financial-purple) !important;
+}
+
+/* ===== 库存报表专用样式 ===== */
+
+/* 库存状态样式 */
+.inventory-status-normal {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-positive) !important;
+  color: var(--financial-positive) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.inventory-status-low {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-warning) !important;
+  color: var(--financial-warning) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.inventory-status-out {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-negative) !important;
+  color: var(--financial-negative) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.inventory-status-excess {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-neutral) !important;
+  color: var(--financial-neutral) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.inventory-status-default {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--popup-text-tertiary) !important;
+  color: var(--popup-text-tertiary) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+/* 库存数值显示样式 */
+.inventory-value-items {
+  color: var(--financial-neutral) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.inventory-value-total {
+  color: var(--financial-purple) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.inventory-value-low {
+  color: var(--financial-warning) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.inventory-value-out {
+  color: var(--financial-negative) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.inventory-value-turnover {
+  color: var(--financial-positive) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+/* ===== 销售报表专用样式 ===== */
+
+/* 销售数值显示样式 */
+.sales-value-revenue {
+  color: var(--financial-positive) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.sales-value-orders {
+  color: var(--financial-neutral) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.sales-value-customers {
+  color: var(--financial-purple) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.sales-value-growth {
+  color: var(--financial-accent) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.sales-value-profit {
+  color: var(--financial-teal) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+/* 销售状态样式 */
+.sales-status-completed {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-positive) !important;
+  color: var(--financial-positive) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.sales-status-pending {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-warning) !important;
+  color: var(--financial-warning) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.sales-status-cancelled {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-negative) !important;
+  color: var(--financial-negative) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.sales-status-processing {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-neutral) !important;
+  color: var(--financial-neutral) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+/* ===== 采购报表专用样式 ===== */
+
+/* 采购数值显示样式 */
+.purchase-value-cost {
+  color: var(--financial-negative) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.purchase-value-orders {
+  color: var(--financial-neutral) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.purchase-value-suppliers {
+  color: var(--financial-indigo) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.purchase-value-savings {
+  color: var(--financial-positive) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.purchase-value-quality {
+  color: var(--financial-teal) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+.purchase-value-delivery {
+  color: var(--financial-accent) !important;
+  text-shadow: var(--popup-text-shadow);
+  font-weight: 600;
+}
+
+/* 采购状态样式 */
+.purchase-status-received {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-positive) !important;
+  color: var(--financial-positive) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.purchase-status-pending {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-warning) !important;
+  color: var(--financial-warning) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.purchase-status-cancelled {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-negative) !important;
+  color: var(--financial-negative) !important;
+  text-shadow: var(--popup-text-shadow);
+}
+
+.purchase-status-processing {
+  background: var(--surface-background) !important;
+  border: 1px solid var(--financial-neutral) !important;
+  color: var(--financial-neutral) !important;
+  text-shadow: var(--popup-text-shadow);
 }
