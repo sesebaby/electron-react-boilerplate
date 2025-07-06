@@ -45,6 +45,19 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
     { key: 'actions', label: '⚡ 操作', icon: '⚡' }
   ], []);
 
+  const renderContent = useMemo(() => {
+    switch (activeTab) {
+      case 'overview':
+        return <DashboardOverview />;
+      case 'charts':
+        return <DashboardCharts />;
+      case 'actions':
+        return <DashboardQuickActions />;
+      default:
+        return <DashboardOverview />;
+    }
+  }, [activeTab]);
+
   if (loading) {
     return (
       <div className={`${className || ''}`}>
@@ -91,19 +104,6 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
       </div>
     );
   }
-
-  const renderContent = useMemo(() => {
-    switch (activeTab) {
-      case 'overview':
-        return <DashboardOverview />;
-      case 'charts':
-        return <DashboardCharts />;
-      case 'actions':
-        return <DashboardQuickActions />;
-      default:
-        return <DashboardOverview />;
-    }
-  }, [activeTab]);
 
   return (
     <div className={`space-y-6 ${className || ''}`}>

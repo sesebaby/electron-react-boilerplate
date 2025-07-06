@@ -19,52 +19,91 @@ export class TestDataGenerator {
       // 初始化业务服务
       await businessServiceManager.initialize();
       
-      // 创建测试分类
+      // 创建测试分类（检查是否已存在）
       const categories = [
         { name: '电子产品', description: '电子设备和配件', code: 'ELEC', level: 1, sortOrder: 1, isActive: true },
         { name: '办公用品', description: '办公室用品和设备', code: 'OFFICE', level: 1, sortOrder: 2, isActive: true },
         { name: '日用品', description: '日常生活用品', code: 'DAILY', level: 1, sortOrder: 3, isActive: true },
         { name: '图书', description: '各类书籍和资料', code: 'BOOK', level: 1, sortOrder: 4, isActive: true }
       ];
-      
+
       for (const cat of categories) {
-        await categoryService.create(cat);
+        try {
+          // 检查分类是否已存在
+          const existingCategories = await categoryService.findByParentId(undefined);
+          const exists = existingCategories.some(existing => existing.name === cat.name);
+
+          if (!exists) {
+            await categoryService.create(cat);
+            console.log(`创建分类: ${cat.name}`);
+          } else {
+            console.log(`分类已存在，跳过: ${cat.name}`);
+          }
+        } catch (error) {
+          console.warn(`创建分类失败: ${cat.name}`, error);
+        }
       }
       
-      // 创建测试单位
+      // 创建测试单位（检查是否已存在）
       const units = [
         { name: '件', symbol: 'pcs', description: '计件单位', precision: 0 },
         { name: '台', symbol: 'set', description: '设备单位', precision: 0 },
         { name: '盒', symbol: 'box', description: '盒装单位', precision: 0 },
         { name: '本', symbol: 'book', description: '图书单位', precision: 0 }
       ];
-      
+
       for (const unit of units) {
-        await unitService.create(unit);
+        try {
+          // 检查单位是否已存在
+          const existingUnits = await unitService.findAll();
+          const exists = existingUnits.some(existing => existing.name === unit.name || existing.symbol === unit.symbol);
+
+          if (!exists) {
+            await unitService.create(unit);
+            console.log(`创建单位: ${unit.name}`);
+          } else {
+            console.log(`单位已存在，跳过: ${unit.name}`);
+          }
+        } catch (error) {
+          console.warn(`创建单位失败: ${unit.name}`, error);
+        }
       }
       
-      // 创建测试仓库
+      // 创建测试仓库（检查是否已存在）
       const warehouses = [
         {
           name: '总仓库',
           code: 'WH001',
           address: '北京市朝阳区XX路XX号',
           manager: '张三',
-          phone: '010-12345678',
+          phone: '13800138001',  // 使用有效的手机号码格式
           isDefault: true
         },
         {
           name: '分仓库A',
-          code: 'WH002', 
+          code: 'WH002',
           address: '上海市浦东新区XX路XX号',
           manager: '李四',
-          phone: '021-87654321',
+          phone: '13800138002',  // 使用有效的手机号码格式
           isDefault: false
         }
       ];
-      
+
       for (const wh of warehouses) {
-        await warehouseService.create(wh);
+        try {
+          // 检查仓库是否已存在
+          const existingWarehouses = await warehouseService.findAll();
+          const exists = existingWarehouses.some(existing => existing.code === wh.code || existing.name === wh.name);
+
+          if (!exists) {
+            await warehouseService.create(wh);
+            console.log(`创建仓库: ${wh.name}`);
+          } else {
+            console.log(`仓库已存在，跳过: ${wh.name}`);
+          }
+        } catch (error) {
+          console.warn(`创建仓库失败: ${wh.name}`, error);
+        }
       }
       
       // 获取创建的数据ID
@@ -175,13 +214,13 @@ export class TestDataGenerator {
         }
       }
       
-      // 创建测试供应商
+      // 创建测试供应商（检查是否已存在）
       const suppliers = [
         {
           name: '苹果授权经销商',
           code: 'SUP001',
           contactPerson: '王经理',
-          phone: '400-666-8888',
+          phone: '13800138003',  // 使用有效的手机号码格式
           email: 'wang@apple-dealer.com',
           address: '北京市海淀区中关村大街XX号',
           rating: SupplierRating.A,
@@ -192,7 +231,7 @@ export class TestDataGenerator {
           name: '办公用品批发商',
           code: 'SUP002',
           contactPerson: '刘总',
-          phone: '010-88888888',
+          phone: '13800138004',  // 使用有效的手机号码格式
           email: 'liu@office-supply.com',
           address: '上海市静安区南京西路XX号',
           rating: SupplierRating.B,
@@ -200,18 +239,31 @@ export class TestDataGenerator {
           status: SupplierStatus.ACTIVE
         }
       ];
-      
+
       for (const supplier of suppliers) {
-        await supplierService.create(supplier);
+        try {
+          // 检查供应商是否已存在
+          const existingSuppliers = await supplierService.findAll();
+          const exists = existingSuppliers.some(existing => existing.code === supplier.code || existing.name === supplier.name);
+
+          if (!exists) {
+            await supplierService.create(supplier);
+            console.log(`创建供应商: ${supplier.name}`);
+          } else {
+            console.log(`供应商已存在，跳过: ${supplier.name}`);
+          }
+        } catch (error) {
+          console.warn(`创建供应商失败: ${supplier.name}`, error);
+        }
       }
       
-      // 创建测试客户
+      // 创建测试客户（检查是否已存在）
       const customers = [
         {
           name: 'ABC科技有限公司',
           code: 'CUS001',
           contactPerson: '陈总',
-          phone: '021-99999999',
+          phone: '13800138005',  // 使用有效的手机号码格式
           email: 'chen@abc-tech.com',
           address: '深圳市南山区科技园XX号',
           level: CustomerLevel.VIP,
@@ -224,7 +276,7 @@ export class TestDataGenerator {
           name: 'XYZ贸易公司',
           code: 'CUS002',
           contactPerson: '赵经理',
-          phone: '0755-77777777',
+          phone: '13800138006',  // 使用有效的手机号码格式
           email: 'zhao@xyz-trade.com',
           address: '广州市天河区珠江新城XX号',
           level: CustomerLevel.BRONZE,
@@ -234,9 +286,22 @@ export class TestDataGenerator {
           status: CustomerStatus.ACTIVE
         }
       ];
-      
+
       for (const customer of customers) {
-        await customerService.create(customer);
+        try {
+          // 检查客户是否已存在
+          const existingCustomers = await customerService.findAll();
+          const exists = existingCustomers.some(existing => existing.code === customer.code || existing.name === customer.name);
+
+          if (!exists) {
+            await customerService.create(customer);
+            console.log(`创建客户: ${customer.name}`);
+          } else {
+            console.log(`客户已存在，跳过: ${customer.name}`);
+          }
+        } catch (error) {
+          console.warn(`创建客户失败: ${customer.name}`, error);
+        }
       }
       
       console.log('测试数据初始化完成！');

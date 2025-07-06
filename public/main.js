@@ -11,12 +11,12 @@ function createWindow() {
     width: 1400,
     height: 900,
     webPreferences: {
-      nodeIntegration: false,        // Security: Disable node integration in renderer
-      contextIsolation: true,        // Security: Enable context isolation
-      enableRemoteModule: false,     // Security: Disable deprecated remote module
+      nodeIntegration: true,         // Enable node integration for require() to work
+      contextIsolation: false,       // Disable context isolation to allow require() in renderer
+      enableRemoteModule: true,      // Enable remote module for additional functionality
       preload: path.join(__dirname, 'preload.js'),
       sandbox: false,                // Keep false for IPC communication
-      webSecurity: true              // Security: Enable web security
+      webSecurity: true              // Keep web security enabled
     },
     titleBarStyle: 'hiddenInset',
     show: false
@@ -33,10 +33,32 @@ function createWindow() {
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
     console.log('Window shown successfully');
+
+    // 在开发环境中自动打开开发者工具
+    if (process.env.NODE_ENV === 'development' || !app.isPackaged) {
+      mainWindow.webContents.openDevTools({
+        mode: 'bottom'
+      });
+    }
   });
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
     console.error('Failed to load:', errorCode, errorDescription);
+  });
+
+  // 捕获渲染进程中的错误
+  mainWindow.webContents.on('console-message', (event, level, message, line, sourceId) => {
+    console.log(`Console [${level}]: ${message} (${sourceId}:${line})`);
+  });
+
+  // 捕获未处理的异常
+  mainWindow.webContents.on('crashed', (event, killed) => {
+    console.error('Renderer process crashed:', { killed });
+  });
+
+  // 捕获渲染进程错误
+  mainWindow.webContents.on('render-process-gone', (event, details) => {
+    console.error('Render process gone:', details);
   });
 }
 

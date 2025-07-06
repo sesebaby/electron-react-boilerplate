@@ -3,8 +3,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
+  mode: 'development', // 设置为开发模式以获取详细错误信息
   entry: './src/index.tsx',
   target: 'electron-renderer',
+  devtool: 'source-map', // 启用source map以便调试
   node: {
     __dirname: false,
     __filename: false,

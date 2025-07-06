@@ -5,27 +5,35 @@ import { EXCEL_HEADERS } from '../../constants';
 
 export class ExcelExporter {
   async exportToFile(
-    data: InventoryItem[], 
-    filePath: string, 
+    data: InventoryItem[],
+    filePath: string,
     options: ExcelExportOptions = {}
   ): Promise<{ success: boolean; message: string }> {
     try {
       const buffer = await this.exportToBuffer(data, options);
-      const fs = require('fs');
-      
-      // 确保目录存在
-      const path = require('path');
-      const dir = path.dirname(filePath);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
+
+      // 使用Electron API进行文件操作
+      if (window.electronAPI?.writeFile) {
+        const result = await window.electronAPI.writeFile(filePath, buffer);
+        if (result.success) {
+          return {
+            success: true,
+            message: `成功导出 ${data.length} 条记录到 ${filePath}`
+          };
+        } else {
+          return {
+            success: false,
+            message: `导出失败: ${result.error || '文件写入失败'}`
+          };
+        }
+      } else {
+        // 如果在浏览器环境中，提供下载功能
+        this.downloadBuffer(buffer, filePath);
+        return {
+          success: true,
+          message: `成功导出 ${data.length} 条记录`
+        };
       }
-      
-      fs.writeFileSync(filePath, buffer);
-      
-      return {
-        success: true,
-        message: `成功导出 ${data.length} 条记录到 ${filePath}`
-      };
     } catch (error) {
       return {
         success: false,
@@ -180,6 +188,21 @@ export class ExcelExporter {
       minute: '2-digit',
       second: '2-digit'
     });
+  }
+
+  private downloadBuffer(buffer: Buffer, fileName: string): void {
+    // 在浏览器环境中提供下载功能
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName.split('/').pop() || 'export.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
   async exportTemplate(filePath: string): Promise<{ success: boolean; message: string }> {
