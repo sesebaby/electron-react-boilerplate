@@ -143,9 +143,14 @@ export const useInventory = () => {
         setSummary(newSummary);
       } catch (err) {
         console.error('Failed to calculate summary:', err);
+        // 设置用户友好的错误信息
+        dispatch({
+          type: 'SET_ERROR',
+          payload: '汇总数据计算失败，请刷新页面重试'
+        });
       }
     };
-    
+
     if (!state.loading) {
       updateSummary();
     }

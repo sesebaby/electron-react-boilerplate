@@ -63,25 +63,33 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const loadData = async (retryCount = 0) => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const [ordersData, suppliersData, productsData, statsData] = await Promise.all([
         purchaseOrderService.findAll(),
         supplierService.findAll(),
         productService.findAll(),
         purchaseOrderService.getOrderStats()
       ]);
-      
+
       setOrders(ordersData);
       setSuppliers(suppliersData);
       setProducts(productsData);
       setStats(statsData);
     } catch (err) {
-      setError('加载采购订单数据失败');
       console.error('Failed to load purchase order data:', err);
+
+      // 提供更友好的错误信息和重试机制
+      if (retryCount < 2) {
+        // 自动重试最多2次
+        setTimeout(() => loadData(retryCount + 1), 1000 * (retryCount + 1));
+        setError(`数据加载失败，正在重试... (${retryCount + 1}/2)`);
+      } else {
+        setError('数据加载失败，请检查网络连接后点击重试按钮');
+      }
     } finally {
       setLoading(false);
     }
@@ -329,12 +337,22 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
         <div className="p-4 bg-red-500/20 border border-red-400/30 rounded-lg flex items-center gap-3">
           <span className="text-red-400 text-xl">❌</span>
           <span className="text-red-300 flex-1">{error}</span>
-          <button 
-            onClick={() => setError(null)} 
-            className="text-red-300 hover:text-red-200 w-6 h-6 flex items-center justify-center"
-          >
-            ✕
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => loadData()}
+              className="px-3 py-1 text-xs bg-red-500/30 text-red-200 border border-red-400/50 rounded hover:bg-red-500/40 transition-colors"
+            >
+              重试
+            </button>
+            <button
+              type="button"
+              onClick={() => setError(null)}
+              className="text-red-300 hover:text-red-200 w-6 h-6 flex items-center justify-center"
+            >
+              ✕
+            </button>
+          </div>
         </div>
       )}
 

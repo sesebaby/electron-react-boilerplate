@@ -49,11 +49,19 @@ export const SecurityMonitor: React.FC<SecurityMonitorProps> = ({ className }) =
   // Auto-refresh logs
   useEffect(() => {
     loadLogs();
-    
+
+    let interval: NodeJS.Timeout | null = null;
+
     if (autoRefresh) {
-      const interval = setInterval(loadLogs, 30000); // Refresh every 30 seconds
-      return () => clearInterval(interval);
+      interval = setInterval(loadLogs, 30000); // Refresh every 30 seconds
     }
+
+    // 清理函数确保在所有情况下都清理定时器
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, [selectedTimeRange, autoRefresh]);
 
   const handleClearLogs = () => {
