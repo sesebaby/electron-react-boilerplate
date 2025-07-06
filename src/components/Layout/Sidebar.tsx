@@ -1,4 +1,5 @@
 import React from 'react';
+import { ScrollArea } from '../ui/scroll-area';
 
 interface MenuItem {
   id: string;
@@ -130,12 +131,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div className={`
-      fixed left-0 top-0 h-full z-40 transition-all duration-300 
-      ${collapsed ? 'w-16' : 'w-64'} 
+      fixed left-0 top-0 h-full z-40 transition-all duration-300 flex flex-col
+      ${collapsed ? 'w-16' : 'w-64'}
       glass-surface border-r border-white/10
     `}>
       {/* Logo和标题区域 */}
-      <div className="h-16 flex items-center justify-center px-4 border-b border-white/10">
+      <div className="h-16 flex-shrink-0 flex items-center justify-center px-4 border-b border-white/10">
         <div className="flex items-center gap-3">
           <div className="text-2xl">📦</div>
           {!collapsed && (
@@ -148,7 +149,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* 导航菜单 */}
-      <nav className="flex-1 overflow-y-auto py-4 px-2 sidebar-scrollbar">
+      <ScrollArea className="flex-1 py-4 px-2">
         <ul className="space-y-1">
           {menuItems.map(item => (
             <li key={item.id}>
@@ -223,10 +224,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </li>
           ))}
         </ul>
-      </nav>
+      </ScrollArea>
 
       {/* 底部区域 */}
-      <div className="border-t border-white/10 p-4">
+      <div className="flex-shrink-0 border-t border-white/10 p-4">
         {!collapsed ? (
           // 展开状态的用户信息
           <div className="space-y-3">
