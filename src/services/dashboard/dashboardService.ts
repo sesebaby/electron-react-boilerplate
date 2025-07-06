@@ -430,12 +430,12 @@ export class DashboardService {
     }
 
     const shortcuts = [
-      { name: '添加商品', description: '快速添加新商品', icon: 'plus', route: '/products/add' },
-      { name: '库存入库', description: '商品入库操作', icon: 'import', route: '/inventory/in' },
-      { name: '库存出库', description: '商品出库操作', icon: 'export', route: '/inventory/out' },
-      { name: '创建采购单', description: '新建采购订单', icon: 'shopping-cart', route: '/purchase/orders/add' },
-      { name: '创建销售单', description: '新建销售订单', icon: 'dollar-sign', route: '/sales/orders/add' },
-      { name: '查看报表', description: '查看统计报表', icon: 'bar-chart', route: '/reports' }
+      { name: '添加商品', description: '快速添加新商品', icon: 'plus', route: 'products' },
+      { name: '库存入库', description: '商品入库操作', icon: 'import', route: 'stock-in' },
+      { name: '库存出库', description: '商品出库操作', icon: 'export', route: 'stock-out' },
+      { name: '创建采购单', description: '新建采购订单', icon: 'shopping-cart', route: 'purchase-orders' },
+      { name: '创建销售单', description: '新建销售订单', icon: 'dollar-sign', route: 'sales-orders' },
+      { name: '查看报表', description: '查看统计报表', icon: 'bar-chart', route: 'inventory-reports' }
     ];
 
     return {

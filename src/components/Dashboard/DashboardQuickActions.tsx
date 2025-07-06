@@ -200,21 +200,30 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
               <button
                 key={index}
                 type="button"
-                className="p-4 bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 hover:border-white/20 transition-all group"
+                className="p-4 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-lg border border-white/10 hover:border-white/30 transition-all duration-200 group cursor-pointer transform hover:scale-105 hover:shadow-lg"
                 onClick={() => {
                   // 导航到指定路由
                   if (shortcut.route) {
                     window.location.hash = shortcut.route;
+                    // 触发浏览器的hashchange事件以确保页面更新
+                    window.dispatchEvent(new HashChangeEvent('hashchange'));
                   }
                 }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="text-2xl group-hover:scale-110 transition-transform">
+                  <div className="text-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-200">
                     {getShortcutIcon(shortcut.icon)}
                   </div>
-                  <div className="text-left">
-                    <div className="text-white font-semibold">{shortcut.name}</div>
-                    <div className="text-white/70 text-sm">{shortcut.description}</div>
+                  <div className="text-left flex-1">
+                    <div className="text-white font-semibold group-hover:text-white transition-colors">
+                      {shortcut.name}
+                    </div>
+                    <div className="text-white/70 text-sm group-hover:text-white/90 transition-colors">
+                      {shortcut.description}
+                    </div>
+                  </div>
+                  <div className="text-white/40 group-hover:text-white/60 transition-colors">
+                    →
                   </div>
                 </div>
               </button>
@@ -267,19 +276,21 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
-              className="p-3 bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 hover:border-white/20 transition-all group"
+              className="p-3 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-lg border border-white/10 hover:border-white/30 transition-all duration-200 group cursor-pointer transform hover:scale-105"
               onClick={() => {
                 // 跳转到系统设置页面
-                window.location.hash = 'system';
+                window.location.hash = 'users';
+                // 触发浏览器的hashchange事件以确保页面更新
+                window.dispatchEvent(new HashChangeEvent('hashchange'));
               }}
             >
-              <div className="text-2xl mb-2 group-hover:scale-110 transition-transform">🏥</div>
-              <div className="text-white font-medium text-sm">健康检查</div>
+              <div className="text-2xl mb-2 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200">🏥</div>
+              <div className="text-white font-medium text-sm group-hover:text-white transition-colors">健康检查</div>
             </button>
 
             <button
               type="button"
-              className="p-3 bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 hover:border-white/20 transition-all group"
+              className="p-3 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-lg border border-white/10 hover:border-white/30 transition-all duration-200 group cursor-pointer transform hover:scale-105"
               onClick={() => {
                 // 显示确认对话框并提供用户反馈
                 if (confirm('确定要执行数据备份吗？这可能需要几分钟时间。')) {
@@ -288,29 +299,31 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
                 }
               }}
             >
-              <div className="text-2xl mb-2 group-hover:scale-110 transition-transform">💾</div>
-              <div className="text-white font-medium text-sm">数据备份</div>
-            </button>
-            
-            <button
-              type="button"
-              className="p-3 bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 hover:border-white/20 transition-all group"
-              onClick={loadQuickActionsData}
-            >
-              <div className="text-2xl mb-2 group-hover:scale-110 transition-transform">🔄</div>
-              <div className="text-white font-medium text-sm">刷新数据</div>
+              <div className="text-2xl mb-2 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200">💾</div>
+              <div className="text-white font-medium text-sm group-hover:text-white transition-colors">数据备份</div>
             </button>
 
             <button
               type="button"
-              className="p-3 bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 hover:border-white/20 transition-all group"
+              className="p-3 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-lg border border-white/10 hover:border-white/30 transition-all duration-200 group cursor-pointer transform hover:scale-105"
+              onClick={loadQuickActionsData}
+            >
+              <div className="text-2xl mb-2 group-hover:scale-110 group-hover:rotate-12 transition-all duration-200">🔄</div>
+              <div className="text-white font-medium text-sm group-hover:text-white transition-colors">刷新数据</div>
+            </button>
+
+            <button
+              type="button"
+              className="p-3 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-lg border border-white/10 hover:border-white/30 transition-all duration-200 group cursor-pointer transform hover:scale-105"
               onClick={() => {
                 // 跳转到库存报表页面
                 window.location.hash = 'inventory-reports';
+                // 触发浏览器的hashchange事件以确保页面更新
+                window.dispatchEvent(new HashChangeEvent('hashchange'));
               }}
             >
-              <div className="text-2xl mb-2 group-hover:scale-110 transition-transform">📋</div>
-              <div className="text-white font-medium text-sm">导出报表</div>
+              <div className="text-2xl mb-2 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200">📋</div>
+              <div className="text-white font-medium text-sm group-hover:text-white transition-colors">导出报表</div>
             </button>
           </div>
         </GlassCard>
