@@ -38,6 +38,7 @@ interface PageContainerProps {
 // 页面映射
 const pageComponents: Record<string, React.ComponentType> = {
   'dashboard': Dashboard,
+  'inventory': InventoryOverview,
   'inventory-overview': InventoryOverview,
   'inventory-products': InventoryList,
   'products': ProductManagement,

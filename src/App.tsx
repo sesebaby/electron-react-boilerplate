@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppLayout } from './components/Layout/AppLayout';
 import PageContainer from './components/PageContainer';
 import { businessServiceManager } from './services/business';
+import { dataInitializer } from './services/dataInitializer';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import './globals.css';
 
@@ -39,10 +40,15 @@ const App: React.FC = () => {
     // 监听哈希变化
     window.addEventListener('hashchange', handleHashChange);
 
-    // 初始化系统（不包含测试数据）
+    // 初始化系统和数据
     const initSystem = async () => {
       try {
+        // 初始化业务服务
         await businessServiceManager.initialize();
+
+        // 初始化种子数据
+        await dataInitializer.initializeData();
+
         setIsLoading(false);
       } catch (error) {
         console.error('系统初始化失败:', error);
