@@ -15,6 +15,10 @@
   --hover-background: oklch(0.87 0.065 274.039 / 0.3);
   --active-background: oklch(0.785 0.115 274.713 / 0.35);
 
+  /* TopBar专用背景 - 更高不透明度确保可见性 */
+  --topbar-background: rgba(0, 0, 0, 0.6);
+  --topbar-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
   /* 弹出窗体背景系统 - indigo-50 系列 */
   --popup-background: oklch(0.962 0.018 272.314 / 0.85);
   --popup-header-background: oklch(0.962 0.018 272.314 / 0.95);
@@ -88,6 +92,10 @@
   --card-background: oklch(0.93 0.034 272.788 / 0.12);
   --hover-background: oklch(0.87 0.065 274.039 / 0.28);
   --active-background: oklch(0.785 0.115 274.713 / 0.32);
+
+  /* TopBar专用背景 - 深色半透明确保可见性 */
+  --topbar-background: rgba(0, 0, 0, 0.6);
+  --topbar-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 
   /* 弹出窗体背景系统 - 调整为更深的indigo色调，确保白色文字可读性 */
   --popup-background: oklch(0.511 0.262 276.966 / 0.9);
@@ -209,6 +217,10 @@
   --hover-background: oklch(0.372 0.044 257.287 / 0.18);
   --active-background: oklch(0.446 0.043 257.281 / 0.22);
 
+  /* TopBar专用背景 - 深色主题使用更深的背景 */
+  --topbar-background: rgba(0, 0, 0, 0.7);
+  --topbar-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+
   /* 主题文字颜色 - slate-100/200 浅色文字，适合深色背景 */
   --text-primary: oklch(0.968 0.007 247.896);
   --text-secondary: oklch(0.929 0.013 255.508);
@@ -306,6 +318,10 @@
   --card-background: oklch(0.987 0.022 95.277 / 0.5);
   --hover-background: oklch(0.962 0.059 95.617 / 0.6);
   --active-background: oklch(0.924 0.12 95.746 / 0.7);
+
+  /* TopBar专用背景 - 温暖主题使用半透明浅色背景 */
+  --topbar-background: rgba(255, 255, 255, 0.8);
+  --topbar-shadow: 0 4px 16px rgba(146, 64, 14, 0.2);
 
   /* 主题文字颜色 - amber-900/800 深色文字，适合浅色背景 */
   --text-primary: oklch(0.414 0.112 45.904);
@@ -615,6 +631,16 @@
 
 .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-thumb-hover-color);
+}
+
+/* ===== TopBar专用样式 ===== */
+.topbar-surface {
+  background: var(--topbar-background);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--topbar-shadow);
+  transition: var(--transition-base);
 }
 
 /* ===== 基础玻璃感组件类 ===== */

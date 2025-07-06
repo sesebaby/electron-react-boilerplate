@@ -217,7 +217,7 @@ export const TopBar: React.FC<TopBarProps> = ({
     <header className={`
       fixed top-0 right-0 z-50 h-20 transition-all duration-300
       ${sidebarCollapsed ? 'left-16' : 'left-64'}
-      glass-surface border-b border-white/10
+      topbar-surface border-b border-white/20
     `}>
       <div className="h-full px-4 flex items-center justify-between">
         
@@ -226,7 +226,8 @@ export const TopBar: React.FC<TopBarProps> = ({
           {/* 移动端菜单按钮 */}
           <button
             type="button"
-            className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
+            className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
+            style={{ color: 'var(--text-secondary)' }}
             onClick={onToggleSidebar}
           >
             ☰
@@ -234,21 +235,26 @@ export const TopBar: React.FC<TopBarProps> = ({
 
           {/* 面包屑导航和标题 */}
           <div className="flex flex-col justify-center min-h-0">
-            <nav className="flex items-center text-sm text-white/60 mb-1">
+            <nav className="flex items-center text-sm mb-1" style={{ color: 'var(--text-tertiary)' }}>
               {currentPageInfo.breadcrumb.map((crumb, index) => (
                 <span key={index} className="flex items-center">
-                  {index > 0 && <span className="mx-2 text-white/40">/</span>}
+                  {index > 0 && <span className="mx-2" style={{ color: 'var(--text-accent)' }}>/</span>}
                   <span className={`transition-colors ${
                     index === currentPageInfo.breadcrumb.length - 1
-                      ? 'text-white/90 font-medium'
-                      : 'hover:text-white/80'
-                  }`}>
+                      ? 'font-medium'
+                      : ''
+                  }`}
+                    style={{ 
+                      color: index === currentPageInfo.breadcrumb.length - 1 
+                        ? 'var(--text-primary)' 
+                        : 'var(--text-secondary)' 
+                    }}>
                     {crumb}
                   </span>
                 </span>
               ))}
             </nav>
-            <h1 className="text-xl font-bold text-white leading-tight">{currentPageInfo.title}</h1>
+            <h1 className="text-xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>{currentPageInfo.title}</h1>
           </div>
         </div>
 
@@ -257,12 +263,12 @@ export const TopBar: React.FC<TopBarProps> = ({
           <div className="relative" ref={searchResultsRef}>
             <form onSubmit={handleSearch}>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2" style={{ color: 'var(--text-tertiary)' }}>
                   {isSearching ? '⏳' : '🔍'}
                 </span>
                 <input
                   type="text"
-                  className="w-full h-10 pl-10 pr-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
+                  className="glass-input w-full h-10 pl-10 pr-10 rounded-lg focus:outline-none transition-all"
                   placeholder="搜索商品、订单、客户..."
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
@@ -270,7 +276,8 @@ export const TopBar: React.FC<TopBarProps> = ({
                 {searchValue && (
                   <button 
                     type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white/80 transition-colors"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors"
+                    style={{ color: 'var(--text-tertiary)' }}
                     onClick={() => {
                       setSearchValue('');
                       setShowSearchResults(false);
@@ -345,21 +352,21 @@ export const TopBar: React.FC<TopBarProps> = ({
           <div className="hidden lg:flex items-center gap-2">
             <button
               type="button"
-              className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20"
+              className="glass-button w-9 h-9 flex items-center justify-center rounded-lg transition-all"
               title="新增商品"
             >
               ➕
             </button>
             <button
               type="button"
-              className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20"
+              className="glass-button w-9 h-9 flex items-center justify-center rounded-lg transition-all"
               title="刷新数据"
             >
               🔄
             </button>
             <button
               type="button"
-              className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20"
+              className="glass-button w-9 h-9 flex items-center justify-center rounded-lg transition-all"
               title="导出数据"
             >
               📊
@@ -370,7 +377,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           <div className="relative" ref={notificationRef}>
             <button
               type="button"
-              className="relative w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20"
+              className="glass-button relative w-9 h-9 flex items-center justify-center rounded-lg transition-all"
               onClick={() => setShowNotifications(!showNotifications)}
             >
               🔔
@@ -385,10 +392,11 @@ export const TopBar: React.FC<TopBarProps> = ({
               <>
                 <div className="absolute top-12 right-0 w-80 popup-dropdown z-50">
                   <div className="flex items-center justify-between p-4 border-b border-white/10">
-                    <h3 className="text-lg font-semibold text-white">通知消息</h3>
+                    <h3 className="text-lg font-semibold" style={{ color: 'var(--popup-text-primary)' }}>通知消息</h3>
                     <button
                       type="button"
-                      className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+                      className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 transition-colors"
+                      style={{ color: 'var(--popup-text-secondary)' }}
                       onClick={() => setShowNotifications(false)}
                     >
                       ✕
@@ -396,12 +404,12 @@ export const TopBar: React.FC<TopBarProps> = ({
                   </div>
                   <div className="max-h-80 overflow-y-auto">
                     {isLoadingNotifications ? (
-                      <div className="p-4 text-center text-white/60">
-                        <div className="animate-spin w-6 h-6 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2"></div>
+                      <div className="p-4 text-center" style={{ color: 'var(--popup-text-tertiary)' }}>
+                        <div className="animate-spin w-6 h-6 border-2 rounded-full mx-auto mb-2" style={{ borderColor: 'var(--popup-text-tertiary)', borderTopColor: 'var(--popup-text-secondary)' }}></div>
                         加载中...
                       </div>
                     ) : notifications.length === 0 ? (
-                      <div className="p-4 text-center text-white/60">
+                      <div className="p-4 text-center" style={{ color: 'var(--popup-text-tertiary)' }}>
                         暂无通知消息
                       </div>
                     ) : (
@@ -412,10 +420,10 @@ export const TopBar: React.FC<TopBarProps> = ({
                           onClick={() => handleNotificationClick(notification.id)}
                         >
                           <div>
-                            <p className="text-white text-sm font-medium mb-1">{notification.title}</p>
-                            <p className="text-white/80 text-xs mb-2">{notification.message}</p>
+                            <p className="text-sm font-medium mb-1" style={{ color: 'var(--popup-text-primary)' }}>{notification.title}</p>
+                            <p className="text-xs mb-2" style={{ color: 'var(--popup-text-secondary)' }}>{notification.message}</p>
                             <div className="flex justify-between items-center">
-                              <span className="text-white/60 text-xs">
+                              <span className="text-xs" style={{ color: 'var(--popup-text-tertiary)' }}>
                                 {new Date(notification.createdAt).toLocaleString('zh-CN', {
                                   month: 'numeric',
                                   day: 'numeric',
@@ -436,7 +444,8 @@ export const TopBar: React.FC<TopBarProps> = ({
                     <div className="p-3 border-t border-white/10">
                       <button
                         type="button"
-                        className="w-full text-center text-white/80 hover:text-white text-sm font-medium py-2 rounded-lg hover:bg-white/10 transition-colors"
+                        className="w-full text-center text-sm font-medium py-2 rounded-lg hover:bg-white/10 transition-colors"
+                        style={{ color: 'var(--popup-text-secondary)' }}
                         onClick={handleMarkAllAsRead}
                       >
                         标记全部已读
@@ -453,14 +462,14 @@ export const TopBar: React.FC<TopBarProps> = ({
           <div className="relative" ref={userMenuRef}>
             <button
               type="button"
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all border border-white/10 hover:border-white/20"
+              className="glass-button flex items-center gap-2 px-3 py-2 rounded-lg transition-all"
               onClick={() => setShowUserMenu(!showUserMenu)}
             >
               <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                 👤
               </div>
-              <span className="text-white text-sm font-medium hidden sm:block">管理员</span>
-              <span className="text-white/60 text-xs hidden sm:block">⏷</span>
+              <span className="text-sm font-medium hidden sm:block" style={{ color: 'var(--text-primary)' }}>管理员</span>
+              <span className="text-xs hidden sm:block" style={{ color: 'var(--text-tertiary)' }}>⏷</span>
             </button>
 
             {showUserMenu && (
@@ -472,32 +481,32 @@ export const TopBar: React.FC<TopBarProps> = ({
                         👤
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="text-white font-semibold truncate">系统管理员</div>
-                        <div className="text-white/70 text-sm truncate">Administrator</div>
-                        <div className="text-white/50 text-xs truncate">admin@system.com</div>
+                        <div className="font-semibold truncate" style={{ color: 'var(--popup-text-primary)' }}>系统管理员</div>
+                        <div className="text-sm truncate" style={{ color: 'var(--popup-text-secondary)' }}>Administrator</div>
+                        <div className="text-xs truncate" style={{ color: 'var(--popup-text-tertiary)' }}>admin@system.com</div>
                       </div>
                     </div>
                   </div>
                   <div className="py-2">
-                    <button type="button" className="w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left">
-                      <span className="text-base">👤</span>
+                    <button type="button" className="user-menu-item">
+                      <span className="menu-icon">👤</span>
                       <span className="text-sm">个人资料</span>
                     </button>
-                    <button type="button" className="w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left">
-                      <span className="text-base">⚙️</span>
+                    <button type="button" className="user-menu-item">
+                      <span className="menu-icon">⚙️</span>
                       <span className="text-sm">系统设置</span>
                     </button>
-                    <button type="button" className="w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left">
-                      <span className="text-base">🔐</span>
+                    <button type="button" className="user-menu-item">
+                      <span className="menu-icon">🔐</span>
                       <span className="text-sm">修改密码</span>
                     </button>
-                    <button type="button" className="w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left">
-                      <span className="text-base">📋</span>
+                    <button type="button" className="user-menu-item">
+                      <span className="menu-icon">📋</span>
                       <span className="text-sm">操作日志</span>
                     </button>
-                    <div className="my-2 border-t border-white/10"></div>
-                    <button type="button" className="w-full flex items-center gap-3 px-4 py-2 text-red-300 hover:text-red-200 hover:bg-red-500/10 transition-colors text-left">
-                      <span className="text-base">🚪</span>
+                    <div className="user-menu-divider"></div>
+                    <button type="button" className="user-menu-item logout">
+                      <span className="menu-icon">🚪</span>
                       <span className="text-sm">退出登录</span>
                     </button>
                   </div>
@@ -511,9 +520,9 @@ export const TopBar: React.FC<TopBarProps> = ({
           <ThemeSwitcher />
 
           {/* 系统状态 */}
-          <div className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+          <div className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg glass-surface">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-            <span className="text-white/70 text-sm">在线</span>
+            <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>在线</span>
           </div>
         </div>
       </div>
