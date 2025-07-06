@@ -141,7 +141,18 @@ export const TopBar: React.FC<TopBarProps> = ({
     console.log('选择商品:', item);
     setShowSearchResults(false);
     setSearchValue('');
-    // TODO: 导航到商品详情页或相关页面
+    
+    // 导航到商品管理页面，并通过URL参数传递选中的商品SKU
+    const targetPage = 'products';
+    const searchParams = new URLSearchParams();
+    searchParams.set('search', item.sku);
+    searchParams.set('highlight', item.id);
+    
+    // 更新URL hash进行导航
+    window.location.hash = `${targetPage}?${searchParams.toString()}`;
+    
+    // 触发浏览器的hashchange事件以确保页面更新
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
   };
 
   const getNotificationTypeStyles = (type: string) => {

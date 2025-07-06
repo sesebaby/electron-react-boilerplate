@@ -3,6 +3,9 @@ import { InventoryStockSchema, InventoryTransactionSchema, validateEntity } from
 import { v4 as uuidv4 } from 'uuid';
 import productService from './productService';
 import warehouseService from './warehouseService';
+import { ConcurrencyManager } from '../../utils/concurrency';
+import { ValidationError, BusinessError } from '../../utils/errors';
+import { logger } from '../../utils/secureLogger';
 
 export class InventoryStockService {
   private stocks: Map<string, InventoryStock> = new Map();
@@ -168,13 +171,23 @@ export class InventoryStockService {
     remark?: string;
     operator: string;
   }): Promise<{ stock: InventoryStock; transaction: InventoryTransaction }> {
+    // 输入验证
     if (params.quantity <= 0) {
-      throw new Error('入库数量必须大于0');
+      throw new ValidationError('入库数量必须大于0', { quantity: params.quantity });
     }
 
-    return this.processStockTransaction({
-      ...params,
-      transactionType: TransactionType.IN
+    if (params.unitPrice < 0) {
+      throw new ValidationError('单价不能为负数', { unitPrice: params.unitPrice });
+    }
+
+    // 使用库存锁，确保并发安全
+    const lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
+    
+    return ConcurrencyManager.withMutex(lockKey, async () => {
+      return this.processStockTransaction({
+        ...params,
+        transactionType: TransactionType.IN
+      });
     });
   }
 
@@ -188,20 +201,52 @@ export class InventoryStockService {
     remark?: string;
     operator: string;
   }): Promise<{ stock: InventoryStock; transaction: InventoryTransaction }> {
+    // 输入验证
     if (params.quantity <= 0) {
-      throw new Error('出库数量必须大于0');
+      throw new ValidationError('出库数量必须大于0', { quantity: params.quantity });
     }
 
-    // 检查库存是否足够
-    const currentStock = await this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
-    if (!currentStock || currentStock.availableStock < params.quantity) {
-      throw new Error('库存不足，无法出库');
+    if (params.unitPrice < 0) {
+      throw new ValidationError('单价不能为负数', { unitPrice: params.unitPrice });
     }
 
-    return this.processStockTransaction({
-      ...params,
-      transactionType: TransactionType.OUT,
-      quantity: -params.quantity // 出库为负数
+    // 使用库存锁，确保原子性操作，防止并发竞态条件
+    const lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
+    
+    return ConcurrencyManager.withMutex(lockKey, async () => {
+      // 在锁内重新检查库存（防止检查后其他事务修改库存）
+      const currentStock = await this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
+      
+      if (!currentStock) {
+        throw new BusinessError('商品在该仓库中无库存记录', { 
+          productId: params.productId, 
+          warehouseId: params.warehouseId 
+        });
+      }
+
+      if (currentStock.availableStock < params.quantity) {
+        logger.warn('Stock out attempt failed - insufficient stock', {
+          productId: params.productId,
+          warehouseId: params.warehouseId,
+          requestedQuantity: params.quantity,
+          availableStock: currentStock.availableStock,
+          operator: params.operator
+        });
+        
+        throw new BusinessError('库存不足，无法出库', { 
+          requestedQuantity: params.quantity,
+          availableStock: currentStock.availableStock,
+          productId: params.productId,
+          warehouseId: params.warehouseId
+        });
+      }
+
+      // 原子性库存事务处理
+      return this.processStockTransaction({
+        ...params,
+        transactionType: TransactionType.OUT,
+        quantity: -params.quantity // 出库为负数
+      });
     });
   }
 
@@ -213,8 +258,27 @@ export class InventoryStockService {
     remark?: string;
     operator: string;
   }): Promise<{ stock: InventoryStock; transaction: InventoryTransaction }> {
+    // 增强输入验证
+    if (!params.productId || !params.warehouseId || !params.operator) {
+      throw new ValidationError('产品ID、仓库ID和操作人不能为空', params);
+    }
+    
+    if (typeof params.newQuantity !== 'number' || isNaN(params.newQuantity)) {
+      throw new ValidationError('调整数量必须是有效数字', { newQuantity: params.newQuantity });
+    }
+    
     if (params.newQuantity < 0) {
-      throw new Error('调整后的库存数量不能为负数');
+      logger.warn('Attempted negative stock adjustment', {
+        productId: params.productId,
+        warehouseId: params.warehouseId,
+        newQuantity: params.newQuantity,
+        operator: params.operator
+      });
+      throw new ValidationError('调整后的库存数量不能为负数', { newQuantity: params.newQuantity });
+    }
+    
+    if (typeof params.unitPrice !== 'number' || isNaN(params.unitPrice) || params.unitPrice < 0) {
+      throw new ValidationError('单价必须是非负数字', { unitPrice: params.unitPrice });
     }
 
     // 获取当前库存
@@ -335,42 +399,88 @@ export class InventoryStockService {
   // =============== 库存预留 ===============
 
   async reserveStock(productId: string, warehouseId: string, quantity: number): Promise<InventoryStock> {
+    // 输入验证
     if (quantity <= 0) {
-      throw new Error('预留数量必须大于0');
+      throw new ValidationError('预留数量必须大于0', { quantity });
     }
 
-    const stock = await this.findStockByProductAndWarehouse(productId, warehouseId);
-    if (!stock) {
-      throw new Error('库存记录不存在');
+    if (!productId || !warehouseId) {
+      throw new ValidationError('产品ID和仓库ID不能为空', { productId, warehouseId });
     }
 
-    if (stock.availableStock < quantity) {
-      throw new Error('可用库存不足，无法预留');
-    }
+    // 使用库存锁，确保原子性操作
+    const lockKey = `stock-reserve-${productId}-${warehouseId}`;
+    
+    return ConcurrencyManager.withMutex(lockKey, async () => {
+      const stock = await this.findStockByProductAndWarehouse(productId, warehouseId);
+      if (!stock) {
+        throw new BusinessError('库存记录不存在', { productId, warehouseId });
+      }
 
-    return this.updateStock(stock.id, {
-      availableStock: stock.availableStock - quantity,
-      reservedStock: stock.reservedStock + quantity
+      if (stock.availableStock < quantity) {
+        throw new BusinessError('可用库存不足，无法预留', { 
+          availableStock: stock.availableStock,
+          requestedQuantity: quantity,
+          productId,
+          warehouseId
+        });
+      }
+
+      logger.info('Stock reserved', {
+        productId,
+        warehouseId,
+        quantity,
+        availableStockBefore: stock.availableStock,
+        reservedStockBefore: stock.reservedStock
+      });
+
+      return this.updateStock(stock.id, {
+        availableStock: stock.availableStock - quantity,
+        reservedStock: stock.reservedStock + quantity
+      });
     });
   }
 
   async releaseReservedStock(productId: string, warehouseId: string, quantity: number): Promise<InventoryStock> {
+    // 输入验证
     if (quantity <= 0) {
-      throw new Error('释放数量必须大于0');
+      throw new ValidationError('释放数量必须大于0', { quantity });
     }
 
-    const stock = await this.findStockByProductAndWarehouse(productId, warehouseId);
-    if (!stock) {
-      throw new Error('库存记录不存在');
+    if (!productId || !warehouseId) {
+      throw new ValidationError('产品ID和仓库ID不能为空', { productId, warehouseId });
     }
 
-    if (stock.reservedStock < quantity) {
-      throw new Error('预留库存不足，无法释放');
-    }
+    // 使用库存锁，确保原子性操作
+    const lockKey = `stock-reserve-${productId}-${warehouseId}`;
+    
+    return ConcurrencyManager.withMutex(lockKey, async () => {
+      const stock = await this.findStockByProductAndWarehouse(productId, warehouseId);
+      if (!stock) {
+        throw new BusinessError('库存记录不存在', { productId, warehouseId });
+      }
 
-    return this.updateStock(stock.id, {
-      availableStock: stock.availableStock + quantity,
-      reservedStock: stock.reservedStock - quantity
+      if (stock.reservedStock < quantity) {
+        throw new BusinessError('预留库存不足，无法释放', { 
+          reservedStock: stock.reservedStock,
+          requestedQuantity: quantity,
+          productId,
+          warehouseId
+        });
+      }
+
+      logger.info('Reserved stock released', {
+        productId,
+        warehouseId,
+        quantity,
+        availableStockBefore: stock.availableStock,
+        reservedStockBefore: stock.reservedStock
+      });
+
+      return this.updateStock(stock.id, {
+        availableStock: stock.availableStock + quantity,
+        reservedStock: stock.reservedStock - quantity
+      });
     });
   }
 

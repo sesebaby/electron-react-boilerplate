@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dashboard } from './Dashboard/Dashboard';
-import MinimalDashboard from './MinimalDashboard';
+import MinimalDashboard from './debug/MinimalDashboard';
 import { InventoryOverview } from './Inventory/InventoryOverview';
 import { InventoryList } from './Inventory/InventoryList';
 import { ProductManagement } from './Inventory/ProductManagement';

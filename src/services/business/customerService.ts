@@ -2,6 +2,7 @@ import { Customer, CustomerStatus, CustomerType, CustomerLevel } from '../../typ
 import { CustomerSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
 import { logger } from '../../utils/secureLogger';
+import { ValidationError, BusinessError } from '../../utils/errors';
 import userService from './userService';
 
 export class CustomerService {
@@ -97,16 +98,26 @@ export class CustomerService {
   }
 
   async search(searchTerm: string): Promise<Customer[]> {
+    // 防御性空值检查
+    if (!searchTerm || typeof searchTerm !== 'string') {
+      return this.findAll();
+    }
+    
     const term = searchTerm.toLowerCase().trim();
     if (!term) return this.findAll();
 
-    return Array.from(this.customers.values()).filter(customer =>
-      customer.name.toLowerCase().includes(term) ||
-      customer.code.toLowerCase().includes(term) ||
-      customer.contactPerson?.toLowerCase().includes(term) ||
-      customer.email?.toLowerCase().includes(term) ||
-      customer.phone?.toLowerCase().includes(term)
-    );
+    return Array.from(this.customers.values()).filter(customer => {
+      // 空值安全的字符串比较
+      const safeStringIncludes = (str: string | undefined | null, searchTerm: string): boolean => {
+        return str ? str.toLowerCase().includes(searchTerm) : false;
+      };
+      
+      return safeStringIncludes(customer.name, term) ||
+             safeStringIncludes(customer.code, term) ||
+             safeStringIncludes(customer.contactPerson, term) ||
+             safeStringIncludes(customer.email, term) ||
+             safeStringIncludes(customer.phone, term);
+    });
   }
 
   async create(data: Omit<Customer, 'id' | 'createdAt' | 'updatedAt'>, currentUserId?: string): Promise<Customer> {
@@ -188,6 +199,11 @@ export class CustomerService {
   }
 
   async delete(id: string, currentUserId?: string): Promise<boolean> {
+    // 输入验证 - 防止空值或无效ID
+    if (!id || typeof id !== 'string' || id.trim() === '') {
+      throw new ValidationError('无效的客户ID', { customerId: id });
+    }
+    
     // 权限检查
     if (currentUserId) {
       const hasPermission = await userService.hasPermission(currentUserId, 'customers.write');
@@ -201,6 +217,12 @@ export class CustomerService {
     if (!customer) {
       logger.warn(`Delete failed: Customer not found`, { customerId: id, userId: currentUserId });
       return false;
+    }
+    
+    // 防御性检查 - 确保客户对象完整
+    if (!customer.name || !customer.code) {
+      logger.error('Customer data integrity issue', { customerId: id, customerData: customer });
+      throw new Error('客户数据不完整，无法删除');
     }
 
     // 检查数据完整性 - 是否有关联的销售订单
@@ -300,16 +322,41 @@ export class CustomerService {
   }
 
   async updateCreditLimit(id: string, creditLimit: number): Promise<Customer> {
-    if (creditLimit < 0) {
-      throw new Error('信用额度不能为负数');
+    // 增强输入验证
+    if (typeof creditLimit !== 'number' || isNaN(creditLimit)) {
+      throw new ValidationError('信用额度必须是有效数字', { creditLimit });
     }
+    
+    if (creditLimit < 0) {
+      logger.warn('Attempted to set negative credit limit', {
+        customerId: id,
+        creditLimit
+      });
+      throw new ValidationError('信用额度不能为负数', { creditLimit });
+    }
+    
+    // 设置合理的上限防止数据异常
+    if (creditLimit > 10000000) {
+      throw new ValidationError('信用额度超出合理范围', { creditLimit, maxLimit: 10000000 });
+    }
+    
     return this.update(id, { creditLimit });
   }
 
   async updateDiscountRate(id: string, discountRate: number): Promise<Customer> {
-    if (discountRate < 0 || discountRate > 1) {
-      throw new Error('折扣率必须在0-1之间');
+    // 增强输入验证
+    if (typeof discountRate !== 'number' || isNaN(discountRate)) {
+      throw new ValidationError('折扣率必须是有效数字', { discountRate });
     }
+    
+    if (discountRate < 0 || discountRate > 1) {
+      logger.warn('Attempted to set invalid discount rate', {
+        customerId: id,
+        discountRate
+      });
+      throw new ValidationError('折扣率必须在0-1之间', { discountRate, validRange: '0-1' });
+    }
+    
     return this.update(id, { discountRate });
   }
 

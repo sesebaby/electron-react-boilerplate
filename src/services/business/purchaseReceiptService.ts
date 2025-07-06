@@ -1,5 +1,6 @@
 import { PurchaseReceipt, PurchaseReceiptItem, ReceiptStatus } from '../../types/entities';
 import { v4 as uuidv4 } from 'uuid';
+import { logger } from '../../utils/secureLogger';
 import purchaseOrderService from './purchaseOrderService';
 import supplierService from './supplierService';
 import warehouseService from './warehouseService';
@@ -244,6 +245,23 @@ export class PurchaseReceiptService {
   // =============== 收货项目管理 ===============
 
   async addReceiptItem(receiptId: string, data: Omit<PurchaseReceiptItem, 'id' | 'receiptId' | 'amount' | 'createdAt' | 'updatedAt'>): Promise<PurchaseReceiptItem> {
+    // 增强输入验证
+    if (!receiptId || typeof receiptId !== 'string') {
+      throw new Error('无效的收货单ID');
+    }
+    
+    if (!data || !data.productId || !data.quantity || !data.unitPrice) {
+      throw new Error('收货项目数据不完整');
+    }
+    
+    if (typeof data.quantity !== 'number' || isNaN(data.quantity) || data.quantity <= 0) {
+      throw new Error('收货数量必须是大于0的数字');
+    }
+    
+    if (typeof data.unitPrice !== 'number' || isNaN(data.unitPrice) || data.unitPrice < 0) {
+      throw new Error('单价必须是非负数字');
+    }
+    
     const receipt = this.receipts.get(receiptId);
     if (!receipt) {
       throw new Error(`采购收货单不存在: ${receiptId}`);
@@ -376,12 +394,23 @@ export class PurchaseReceiptService {
         console.log(`Successfully updated inventory for item ${item.id}, product ${item.productId}, quantity ${item.quantity}`);
       }
     } catch (error) {
-      console.error(`Failed to update inventory during receipt confirmation:`, error);
+      logger.error('Failed to update inventory during receipt confirmation', {
+        receiptId,
+        receiptNo: receipt.receiptNo,
+        error: error instanceof Error ? error.message : '未知错误',
+        successfulTransactionsCount: successfulTransactions.length
+      });
       
-      // 回滚已经成功的库存操作
+      // 增强的原子性回滚机制
       if (successfulTransactions.length > 0) {
-        console.log(`Rolling back ${successfulTransactions.length} successful inventory transactions...`);
+        logger.warn(`Rolling back ${successfulTransactions.length} successful inventory transactions for receipt ${receipt.receiptNo}`);
         
+        const rollbackFailures: Array<{
+          itemId: string;
+          error: string;
+        }> = [];
+        
+        // 逐个回滚，记录失败
         for (const transaction of successfulTransactions) {
           try {
             await inventoryStockService.stockOut({
@@ -394,11 +423,32 @@ export class PurchaseReceiptService {
               remark: `采购收货回滚 - ${receipt.receiptNo}`,
               operator: 'system'
             });
-            console.log(`Rolled back inventory for item ${transaction.itemId}`);
+            logger.info(`Successfully rolled back inventory for item ${transaction.itemId}`);
           } catch (rollbackError) {
-            console.error(`CRITICAL: Failed to rollback inventory for item ${transaction.itemId}:`, rollbackError);
-            // 这种情况需要人工干预
+            const errorMsg = rollbackError instanceof Error ? rollbackError.message : '未知错误';
+            rollbackFailures.push({
+              itemId: transaction.itemId,
+              error: errorMsg
+            });
+            logger.error(`CRITICAL: Failed to rollback inventory for item ${transaction.itemId}`, {
+              itemId: transaction.itemId,
+              productId: transaction.productId,
+              warehouseId: transaction.warehouseId,
+              quantity: transaction.quantity,
+              error: errorMsg
+            });
           }
+        }
+        
+        // 如果有回滚失败，记录关键信息供人工干预
+        if (rollbackFailures.length > 0) {
+          logger.error('CRITICAL: Partial rollback failure detected - manual intervention required', {
+            receiptId,
+            receiptNo: receipt.receiptNo,
+            rollbackFailures,
+            successfulRollbacks: successfulTransactions.length - rollbackFailures.length,
+            severity: 'CRITICAL'
+          });
         }
       }
       

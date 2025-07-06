@@ -1,7 +1,7 @@
 import * as XLSX from 'xlsx';
 import { InventoryItem } from '../../types/inventory';
 import { ExcelExportOptions } from '../../types/excel';
-import { EXCEL_HEADERS } from '../../utils/constants';
+import { EXCEL_HEADERS } from '../../constants';
 
 export class ExcelExporter {
   async exportToFile(

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { GlassInput, GlassSelect, GlassButton, GlassCard } from './ui/FormControls';
-import { ThemeSelector } from './ui/ThemeSelector';
+import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { ThemeSelector } from '../ui/ThemeSelector';
 
 export const TestPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -56,14 +56,14 @@ export const TestPage: React.FC = () => {
                     type="text"
                     placeholder="请输入商品名称..."
                     value={formData.name}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('name', e.target.value)}
                     required
                   />
 
                   <GlassSelect
                     label="商品分类"
                     value={formData.category}
-                    onChange={(e) => handleInputChange('category', e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleInputChange('category', e.target.value)}
                     required
                   >
                     <option value="">请选择分类</option>
@@ -80,7 +80,7 @@ export const TestPage: React.FC = () => {
                     type="number"
                     placeholder="0.00"
                     value={formData.price}
-                    onChange={(e) => handleInputChange('price', e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('price', e.target.value)}
                     min="0"
                     step="0.01"
                     required
@@ -89,7 +89,7 @@ export const TestPage: React.FC = () => {
                   <GlassSelect
                     label="商品状态"
                     value={formData.status}
-                    onChange={(e) => handleInputChange('status', e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleInputChange('status', e.target.value)}
                   >
                     <option value="active">正常</option>
                     <option value="inactive">停用</option>
@@ -101,7 +101,7 @@ export const TestPage: React.FC = () => {
                   label="商品描述"
                   placeholder="请输入商品描述..."
                   value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('description', e.target.value)}
                 />
 
                 <div className="flex gap-4 pt-4">

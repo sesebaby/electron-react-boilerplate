@@ -7,6 +7,7 @@ import inventoryStockService from './inventoryStockService';
 import accountsReceivableService from './accountsReceivableService';
 import { logger } from '../../utils/secureLogger';
 import userService from './userService';
+import { ValidationError, BusinessError } from '../../utils/errors';
 
 export class SalesOrderService {
   private orders: Map<string, SalesOrder> = new Map();
@@ -218,6 +219,30 @@ export class SalesOrderService {
     const existingOrder = this.orders.get(id);
     if (!existingOrder) {
       throw new Error(`销售订单不存在: ${id}`);
+    }
+
+    // 防御性输入验证，防止负值注入
+    if (data.discountAmount !== undefined && data.discountAmount < 0) {
+      throw new ValidationError('折扣金额不能为负数', { 
+        discountAmount: data.discountAmount,
+        orderId: id 
+      });
+    }
+    
+    if (data.taxAmount !== undefined && data.taxAmount < 0) {
+      throw new ValidationError('税费金额不能为负数', { 
+        taxAmount: data.taxAmount,
+        orderId: id 
+      });
+    }
+    
+    
+    // 检查金额字段的合理性
+    if (data.totalAmount !== undefined && data.totalAmount < 0) {
+      throw new ValidationError('订单总金额不能为负数', { 
+        totalAmount: data.totalAmount,
+        orderId: id 
+      });
     }
 
     const updatedOrder: SalesOrder = {

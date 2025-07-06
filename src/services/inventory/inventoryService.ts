@@ -1,5 +1,7 @@
 import { InventoryItem, InventorySummary } from '../../types/inventory';
 import MemoryDatabase from '../database/memoryDatabase';
+import { validateInventoryItem, InventoryItemInput } from '../../schemas/validation';
+import { ValidationError } from '../../utils/errors';
 
 export class InventoryService {
   private db = MemoryDatabase;
@@ -27,10 +29,23 @@ export class InventoryService {
   }
 
   async createItem(item: Omit<InventoryItem, 'id' | 'lastUpdated'>): Promise<InventoryItem> {
+    // 数据验证
+    const validation = validateInventoryItem({
+      ...item,
+      totalValue: item.stockQuantity * item.unitPrice
+    });
+
+    if (!validation.success) {
+      throw new ValidationError(`库存项目数据验证失败: ${validation.errors?.join(', ')}`, {
+        errors: validation.errors,
+        data: item
+      });
+    }
+
     // 检查SKU是否已存在
     const existingItem = await this.db.getItemBySku(item.sku);
     if (existingItem) {
-      throw new Error(`SKU "${item.sku}" 已存在`);
+      throw new ValidationError(`SKU "${item.sku}" 已存在`, { sku: item.sku });
     }
 
     // 计算总价值
@@ -43,21 +58,39 @@ export class InventoryService {
   }
 
   async updateItem(id: string, updates: Partial<InventoryItem>): Promise<InventoryItem> {
+    const currentItem = await this.db.getItemById(id);
+    if (!currentItem) {
+      throw new ValidationError(`库存项目不存在: ${id}`, { id });
+    }
+
     // 如果更新了库存数量或单价，重新计算总价值
     if (updates.stockQuantity !== undefined || updates.unitPrice !== undefined) {
-      const currentItem = await this.db.getItemById(id);
-      if (currentItem) {
-        const stockQuantity = updates.stockQuantity ?? currentItem.stockQuantity;
-        const unitPrice = updates.unitPrice ?? currentItem.unitPrice;
-        updates.totalValue = stockQuantity * unitPrice;
-      }
+      const stockQuantity = updates.stockQuantity ?? currentItem.stockQuantity;
+      const unitPrice = updates.unitPrice ?? currentItem.unitPrice;
+      updates.totalValue = stockQuantity * unitPrice;
+    }
+
+    // 合并更新数据
+    const updatedItem = {
+      ...currentItem,
+      ...updates,
+      lastUpdated: new Date()
+    };
+
+    // 验证更新后的完整数据
+    const validation = validateInventoryItem(updatedItem);
+    if (!validation.success) {
+      throw new ValidationError(`库存项目数据验证失败: ${validation.errors?.join(', ')}`, {
+        errors: validation.errors,
+        data: updates
+      });
     }
 
     // 如果更新了SKU，检查是否已存在
-    if (updates.sku) {
+    if (updates.sku && updates.sku !== currentItem.sku) {
       const existingItem = await this.db.getItemBySku(updates.sku);
       if (existingItem && existingItem.id !== id) {
-        throw new Error(`SKU "${updates.sku}" 已存在`);
+        throw new ValidationError(`SKU "${updates.sku}" 已存在`, { sku: updates.sku });
       }
     }
 

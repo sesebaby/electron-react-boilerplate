@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import minimalDashboardService, { MinimalDashboardOverview } from '../services/dashboard/minimalDashboardService';
+import minimalDashboardService, { MinimalDashboardOverview } from '../../services/dashboard/minimalDashboardService';
 
 const MinimalDashboard: React.FC = () => {
   const [overview, setOverview] = useState<MinimalDashboardOverview | null>(null);
