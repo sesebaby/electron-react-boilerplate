@@ -138,7 +138,6 @@ export const TopBar: React.FC<TopBarProps> = ({
   }, [searchValue]);
 
   const handleSearchResultClick = (item: InventoryItem) => {
-    console.log('选择商品:', item);
     setShowSearchResults(false);
     setSearchValue('');
     

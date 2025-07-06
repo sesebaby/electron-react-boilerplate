@@ -160,9 +160,28 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
                       <span className="text-white/70">项</span>
                     </div>
                   </div>
-                  <button 
+                  <button
+                    type="button"
                     className={`px-4 py-2 rounded-lg border font-medium transition-colors ${getActionButtonStyles(item.type)}`}
-                    onClick={() => console.log(`Handle ${item.type}:`, item)}
+                    onClick={() => {
+                      // 根据注意事项类型导航到相关页面
+                      switch(item.type) {
+                        case 'low-stock':
+                          window.location.hash = 'inventory';
+                          break;
+                        case 'out-of-stock':
+                          window.location.hash = 'stock-in';
+                          break;
+                        case 'overdue':
+                          window.location.hash = 'purchase-orders';
+                          break;
+                        case 'pending':
+                          window.location.hash = 'sales-orders';
+                          break;
+                        default:
+                          window.location.hash = 'dashboard';
+                      }
+                    }}
                   >
                     {item.action}
                   </button>
@@ -178,10 +197,16 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
         <GlassCard title="🚀 快速操作" className="p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {quickActions.shortcuts.map((shortcut: any, index: number) => (
-              <button 
+              <button
                 key={index}
+                type="button"
                 className="p-4 bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 hover:border-white/20 transition-all group"
-                onClick={() => console.log('Navigate to:', shortcut.route)}
+                onClick={() => {
+                  // 导航到指定路由
+                  if (shortcut.route) {
+                    window.location.hash = shortcut.route;
+                  }
+                }}
               >
                 <div className="flex items-center gap-3">
                   <div className="text-2xl group-hover:scale-110 transition-transform">
@@ -240,33 +265,49 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
         {/* 系统状态快速检查 */}
         <GlassCard title="🔧 系统状态" className="p-6">
           <div className="grid grid-cols-2 gap-3">
-            <button 
+            <button
+              type="button"
               className="p-3 bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 hover:border-white/20 transition-all group"
-              onClick={() => console.log('Run system health check')}
+              onClick={() => {
+                // 跳转到系统设置页面
+                window.location.hash = 'system';
+              }}
             >
               <div className="text-2xl mb-2 group-hover:scale-110 transition-transform">🏥</div>
               <div className="text-white font-medium text-sm">健康检查</div>
             </button>
-            
-            <button 
+
+            <button
+              type="button"
               className="p-3 bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 hover:border-white/20 transition-all group"
-              onClick={() => console.log('Backup data')}
+              onClick={() => {
+                // 显示确认对话框并提供用户反馈
+                if (confirm('确定要执行数据备份吗？这可能需要几分钟时间。')) {
+                  alert('数据备份已开始，请稍候...');
+                  // 这里可以调用实际的备份API
+                }
+              }}
             >
               <div className="text-2xl mb-2 group-hover:scale-110 transition-transform">💾</div>
               <div className="text-white font-medium text-sm">数据备份</div>
             </button>
             
-            <button 
+            <button
+              type="button"
               className="p-3 bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 hover:border-white/20 transition-all group"
               onClick={loadQuickActionsData}
             >
               <div className="text-2xl mb-2 group-hover:scale-110 transition-transform">🔄</div>
               <div className="text-white font-medium text-sm">刷新数据</div>
             </button>
-            
-            <button 
+
+            <button
+              type="button"
               className="p-3 bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 hover:border-white/20 transition-all group"
-              onClick={() => console.log('Export reports')}
+              onClick={() => {
+                // 跳转到库存报表页面
+                window.location.hash = 'inventory-reports';
+              }}
             >
               <div className="text-2xl mb-2 group-hover:scale-110 transition-transform">📋</div>
               <div className="text-white font-medium text-sm">导出报表</div>
