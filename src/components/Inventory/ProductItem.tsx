@@ -89,24 +89,24 @@ const ProductItem: React.FC<ProductItemProps> = ({
     if (product.isOutOfStock) {
       return {
         status: 'out',
-        color: 'text-red-600',
-        bgColor: 'bg-red-100',
+        color: 'text-red-300',
+        bgColor: 'bg-red-500/20',
         icon: '❌',
         label: '缺货'
       };
     } else if (product.isLowStock) {
       return {
         status: 'low',
-        color: 'text-yellow-600',
-        bgColor: 'bg-yellow-100',
+        color: 'text-yellow-300',
+        bgColor: 'bg-yellow-500/20',
         icon: '⚠️',
         label: '预警'
       };
     } else {
       return {
         status: 'normal',
-        color: 'text-green-600',
-        bgColor: 'bg-green-100',
+        color: 'text-green-300',
+        bgColor: 'bg-green-500/20',
         icon: '✅',
         label: '正常'
       };
@@ -140,39 +140,39 @@ const ProductItem: React.FC<ProductItemProps> = ({
     return (
       <div
         className={`
-          flex items-center justify-between p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors
+          flex items-center justify-between p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors backdrop-blur-sm border border-white/10
           ${onClick ? 'cursor-pointer' : ''}
         `}
         onClick={onClick}
       >
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-xs">{stockStatus.icon}</span>
-            <span className="font-medium text-sm text-gray-900 truncate">
+            <span className="text-xs drop-shadow-md">{stockStatus.icon}</span>
+            <span className="font-medium text-sm text-white truncate drop-shadow-lg">
               {product.productName}
             </span>
           </div>
-          <div className="text-xs text-gray-600 truncate">
+          <div className="text-xs text-white/80 truncate drop-shadow-md">
             SKU: {product.sku}
           </div>
         </div>
         <div className="text-right flex-shrink-0 ml-2">
           <div className="flex items-center gap-1">
-            <div className={`text-sm font-medium ${stockStatus.color}`}>
+            <div className={`text-sm font-medium ${stockStatus.color} drop-shadow-lg`}>
               {quantityDisplay.current}
             </div>
             {hasConversion && (
               <button
                 type="button"
                 onClick={toggleDisplayMode}
-                className="text-xs text-blue-500 hover:text-blue-700 transition-colors"
+                className="text-xs text-blue-300 hover:text-blue-200 transition-colors drop-shadow-md"
                 title={displayMode === 'base' ? '切换到包装单位' : '切换到基础单位'}
               >
                 📦
               </button>
             )}
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-white/70 drop-shadow-md">
             最低: {quantityDisplay.min}
           </div>
         </div>

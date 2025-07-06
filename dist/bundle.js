@@ -3563,8 +3563,17 @@ video {
 .-top-1 {
   top: -0.25rem;
 }
+.bottom-0 {
+  bottom: 0px;
+}
 .left-0 {
   left: 0px;
+}
+.left-1 {
+  left: 0.25rem;
+}
+.left-1\\/2 {
+  left: 50%;
 }
 .left-16 {
   left: 4rem;
@@ -3581,6 +3590,9 @@ video {
 .right-0 {
   right: 0px;
 }
+.right-1 {
+  right: 0.25rem;
+}
 .right-3 {
   right: 0.75rem;
 }
@@ -3590,11 +3602,17 @@ video {
 .top-0 {
   top: 0px;
 }
+.top-1 {
+  top: 0.25rem;
+}
 .top-1\\/2 {
   top: 50%;
 }
 .top-12 {
   top: 3rem;
+}
+.top-20 {
+  top: 5rem;
 }
 .top-4 {
   top: 1rem;
@@ -3602,8 +3620,11 @@ video {
 .top-8 {
   top: 2rem;
 }
-.z-30 {
-  z-index: 30;
+.top-full {
+  top: 100%;
+}
+.z-10 {
+  z-index: 10;
 }
 .z-40 {
   z-index: 40;
@@ -3663,23 +3684,14 @@ video {
 .ml-1 {
   margin-left: 0.25rem;
 }
-.ml-16 {
-  margin-left: 4rem;
-}
 .ml-2 {
   margin-left: 0.5rem;
-}
-.ml-3 {
-  margin-left: 0.75rem;
 }
 .ml-4 {
   margin-left: 1rem;
 }
 .ml-6 {
   margin-left: 1.5rem;
-}
-.ml-64 {
-  margin-left: 16rem;
 }
 .ml-auto {
   margin-left: auto;
@@ -3689,9 +3701,6 @@ video {
 }
 .mr-2 {
   margin-right: 0.5rem;
-}
-.mr-3 {
-  margin-right: 0.75rem;
 }
 .mt-1 {
   margin-top: 0.25rem;
@@ -3707,6 +3716,12 @@ video {
 }
 .mt-6 {
   margin-top: 1.5rem;
+}
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 .block {
   display: block;
@@ -3804,6 +3819,9 @@ video {
 .max-h-0 {
   max-height: 0px;
 }
+.max-h-24 {
+  max-height: 6rem;
+}
 .max-h-32 {
   max-height: 8rem;
 }
@@ -3819,17 +3837,29 @@ video {
 .max-h-\\[90vh\\] {
   max-height: 90vh;
 }
+.max-h-\\[calc\\(90vh-120px\\)\\] {
+  max-height: calc(90vh - 120px);
+}
 .max-h-full {
   max-height: 100%;
 }
 .min-h-0 {
   min-height: 0px;
 }
+.min-h-\\[280px\\] {
+  min-height: 280px;
+}
 .min-h-\\[50vh\\] {
   min-height: 50vh;
 }
+.min-h-full {
+  min-height: 100%;
+}
 .min-h-screen {
   min-height: 100vh;
+}
+.w-1\\/2 {
+  width: 50%;
 }
 .w-10 {
   width: 2.5rem;
@@ -3963,9 +3993,6 @@ video {
 .max-w-6xl {
   max-width: 72rem;
 }
-.max-w-7xl {
-  max-width: 80rem;
-}
 .max-w-md {
   max-width: 28rem;
 }
@@ -3987,6 +4014,10 @@ video {
 .caption-bottom {
   caption-side: bottom;
 }
+.-translate-x-1\\/2 {
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
 .-translate-y-1\\/2 {
   --tw-translate-y: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -4002,6 +4033,11 @@ video {
 .scale-105 {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.scale-\\[1\\.02\\] {
+  --tw-scale-x: 1.02;
+  --tw-scale-y: 1.02;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .transform {
@@ -4069,6 +4105,12 @@ video {
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.grid-cols-7 {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
 .flex-row {
   flex-direction: row;
 }
@@ -4095,6 +4137,9 @@ video {
 }
 .justify-between {
   justify-content: space-between;
+}
+.gap-0 {
+  gap: 0px;
 }
 .gap-1 {
   gap: 0.25rem;
@@ -4166,10 +4211,6 @@ video {
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
 }
-.divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-opacity: 1;
-  border-color: rgb(229 231 235 / var(--tw-divide-opacity));
-}
 .divide-gray-200\\/50 > :not([hidden]) ~ :not([hidden]) {
   border-color: rgb(229 231 235 / 0.5);
 }
@@ -4198,9 +4239,6 @@ video {
 }
 .whitespace-nowrap {
   white-space: nowrap;
-}
-.whitespace-pre-wrap {
-  white-space: pre-wrap;
 }
 .rounded {
   border-radius: 0.25rem;
@@ -4271,9 +4309,8 @@ video {
 .border-blue-400\\/30 {
   border-color: rgb(96 165 250 / 0.3);
 }
-.border-blue-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(59 130 246 / var(--tw-border-opacity));
+.border-blue-400\\/50 {
+  border-color: rgb(96 165 250 / 0.5);
 }
 .border-blue-500\\/20 {
   border-color: rgb(59 130 246 / 0.2);
@@ -4303,6 +4340,9 @@ video {
 .border-green-200 {
   --tw-border-opacity: 1;
   border-color: rgb(187 247 208 / var(--tw-border-opacity));
+}
+.border-green-300\\/50 {
+  border-color: rgb(134 239 172 / 0.5);
 }
 .border-green-400 {
   --tw-border-opacity: 1;
@@ -4334,6 +4374,9 @@ video {
 .border-red-200 {
   --tw-border-opacity: 1;
   border-color: rgb(254 202 202 / var(--tw-border-opacity));
+}
+.border-red-300\\/50 {
+  border-color: rgb(252 165 165 / 0.5);
 }
 .border-red-400 {
   --tw-border-opacity: 1;
@@ -4378,6 +4421,16 @@ video {
 }
 .border-white\\/50 {
   border-color: rgb(255 255 255 / 0.5);
+}
+.border-white\\/60 {
+  border-color: rgb(255 255 255 / 0.6);
+}
+.border-yellow-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(254 240 138 / var(--tw-border-opacity));
+}
+.border-yellow-300\\/50 {
+  border-color: rgb(253 224 71 / 0.5);
 }
 .border-yellow-400 {
   --tw-border-opacity: 1;
@@ -4455,9 +4508,6 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(239 246 255 / var(--tw-bg-opacity));
 }
-.bg-blue-50\\/50 {
-  background-color: rgb(239 246 255 / 0.5);
-}
 .bg-blue-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
@@ -4489,6 +4539,10 @@ video {
 .bg-gray-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+}
+.bg-gray-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
 }
 .bg-gray-50 {
   --tw-bg-opacity: 1;
@@ -4535,10 +4589,6 @@ video {
 .bg-muted\\/50 {
   background-color: hsl(var(--muted) / 0.5);
 }
-.bg-orange-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 237 213 / var(--tw-bg-opacity));
-}
 .bg-orange-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(255 247 237 / var(--tw-bg-opacity));
@@ -4571,6 +4621,14 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(254 226 226 / var(--tw-bg-opacity));
 }
+.bg-red-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
+}
+.bg-red-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 242 242 / var(--tw-bg-opacity));
+}
 .bg-red-50\\/30 {
   background-color: rgb(254 242 242 / 0.3);
 }
@@ -4589,10 +4647,6 @@ video {
 }
 .bg-red-500\\/30 {
   background-color: rgb(239 68 68 / 0.3);
-}
-.bg-red-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 .bg-transparent {
   background-color: transparent;
@@ -4628,6 +4682,14 @@ video {
 .bg-yellow-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 249 195 / var(--tw-bg-opacity));
+}
+.bg-yellow-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(250 204 21 / var(--tw-bg-opacity));
+}
+.bg-yellow-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 252 232 / var(--tw-bg-opacity));
 }
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
@@ -4876,10 +4938,6 @@ video {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
-.py-6 {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -4908,11 +4966,11 @@ video {
 .pr-2 {
   padding-right: 0.5rem;
 }
+.pr-3 {
+  padding-right: 0.75rem;
+}
 .pt-0 {
   padding-top: 0px;
-}
-.pt-16 {
-  padding-top: 4rem;
 }
 .pt-2 {
   padding-top: 0.5rem;
@@ -5016,6 +5074,10 @@ video {
   --tw-text-opacity: 1;
   color: rgb(147 197 253 / var(--tw-text-opacity));
 }
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
+}
 .text-blue-600 {
   --tw-text-opacity: 1;
   color: rgb(37 99 235 / var(--tw-text-opacity));
@@ -5084,6 +5146,10 @@ video {
   --tw-text-opacity: 1;
   color: rgb(22 163 74 / var(--tw-text-opacity));
 }
+.text-green-700 {
+  --tw-text-opacity: 1;
+  color: rgb(21 128 61 / var(--tw-text-opacity));
+}
 .text-green-800 {
   --tw-text-opacity: 1;
   color: rgb(22 101 52 / var(--tw-text-opacity));
@@ -5095,6 +5161,10 @@ video {
 .text-muted-foreground {
   color: hsl(var(--muted-foreground));
 }
+.text-orange-200 {
+  --tw-text-opacity: 1;
+  color: rgb(254 215 170 / var(--tw-text-opacity));
+}
 .text-orange-300 {
   --tw-text-opacity: 1;
   color: rgb(253 186 116 / var(--tw-text-opacity));
@@ -5103,9 +5173,9 @@ video {
   --tw-text-opacity: 1;
   color: rgb(234 88 12 / var(--tw-text-opacity));
 }
-.text-orange-800 {
+.text-orange-700 {
   --tw-text-opacity: 1;
-  color: rgb(154 52 18 / var(--tw-text-opacity));
+  color: rgb(194 65 12 / var(--tw-text-opacity));
 }
 .text-purple-200 {
   --tw-text-opacity: 1;
@@ -5118,6 +5188,10 @@ video {
 .text-purple-600 {
   --tw-text-opacity: 1;
   color: rgb(147 51 234 / var(--tw-text-opacity));
+}
+.text-purple-700 {
+  --tw-text-opacity: 1;
+  color: rgb(126 34 206 / var(--tw-text-opacity));
 }
 .text-red-100 {
   --tw-text-opacity: 1;
@@ -5141,6 +5215,10 @@ video {
 .text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity));
+}
+.text-red-700 {
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity));
 }
 .text-red-800 {
   --tw-text-opacity: 1;
@@ -5200,6 +5278,14 @@ video {
 }
 .underline-offset-4 {
   text-underline-offset: 4px;
+}
+.placeholder-gray-500::-moz-placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-placeholder-opacity));
+}
+.placeholder-gray-500::placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-placeholder-opacity));
 }
 .placeholder-white\\/50::-moz-placeholder {
   color: rgb(255 255 255 / 0.5);
@@ -5264,6 +5350,25 @@ video {
 .outline {
   outline-style: solid;
 }
+.ring-2 {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+.ring-blue-400\\/50 {
+  --tw-ring-color: rgb(96 165 250 / 0.5);
+}
+.ring-opacity-50 {
+  --tw-ring-opacity: 0.5;
+}
+.drop-shadow-lg {
+  --tw-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+.drop-shadow-md {
+  --tw-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
@@ -5279,6 +5384,11 @@ video {
 }
 .backdrop-blur-sm {
   --tw-backdrop-blur: blur(4px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+          backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+.backdrop-blur-xl {
+  --tw-backdrop-blur: blur(24px);
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
           backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
@@ -5633,6 +5743,10 @@ video {
   border-bottom-width: 0px;
 }
 
+.last\\:border-r-0:last-child {
+  border-right-width: 0px;
+}
+
 .hover\\:-translate-y-0:hover {
   --tw-translate-y: -0px;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -5649,8 +5763,18 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.hover\\:scale-\\[1\\.02\\]:hover {
+  --tw-scale-x: 1.02;
+  --tw-scale-y: 1.02;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .hover\\:transform:hover {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.hover\\:border-blue-300\\/50:hover {
+  border-color: rgb(147 197 253 / 0.5);
 }
 
 .hover\\:border-white\\/20:hover {
@@ -5693,14 +5817,14 @@ video {
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
-.hover\\:bg-gray-400:hover {
+.hover\\:bg-gray-300:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
 }
 
-.hover\\:bg-gray-50:hover {
+.hover\\:bg-gray-600:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
 }
 
 .hover\\:bg-green-500\\/20:hover {
@@ -5739,11 +5863,6 @@ video {
   background-color: rgb(239 68 68 / 0.4);
 }
 
-.hover\\:bg-red-700:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(185 28 28 / var(--tw-bg-opacity));
-}
-
 .hover\\:bg-white\\/10:hover {
   background-color: rgb(255 255 255 / 0.1);
 }
@@ -5766,6 +5885,10 @@ video {
 
 .hover\\:bg-white\\/60:hover {
   background-color: rgb(255 255 255 / 0.6);
+}
+
+.hover\\:bg-white\\/70:hover {
+  background-color: rgb(255 255 255 / 0.7);
 }
 
 .hover\\:bg-yellow-500\\/20:hover {
@@ -5796,6 +5919,16 @@ video {
   --tw-gradient-to: #7e22ce var(--tw-gradient-to-position);
 }
 
+.hover\\:text-blue-200:hover {
+  --tw-text-opacity: 1;
+  color: rgb(191 219 254 / var(--tw-text-opacity));
+}
+
+.hover\\:text-blue-700:hover {
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
+}
+
 .hover\\:text-blue-800:hover {
   --tw-text-opacity: 1;
   color: rgb(30 64 175 / var(--tw-text-opacity));
@@ -5804,11 +5937,6 @@ video {
 .hover\\:text-gray-600:hover {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
-}
-
-.hover\\:text-gray-800:hover {
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity));
 }
 
 .hover\\:text-green-800:hover {
@@ -5854,6 +5982,11 @@ video {
   color: rgb(255 255 255 / 0.9);
 }
 
+.hover\\:text-yellow-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(133 77 14 / var(--tw-text-opacity));
+}
+
 .hover\\:underline:hover {
   text-decoration-line: underline;
 }
@@ -5873,6 +6006,18 @@ video {
 .hover\\:shadow-lg:hover {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.hover\\:shadow-md:hover {
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.hover\\:shadow-xl:hover {
+  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
@@ -6030,197 +6175,34 @@ video {
   opacity: 0.5;
 }
 
-:is(.dark .dark\\:divide-gray-700) > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-opacity: 1;
-  border-color: rgb(55 65 81 / var(--tw-divide-opacity));
-}
-
-:is(.dark .dark\\:border-blue-800) {
-  --tw-border-opacity: 1;
-  border-color: rgb(30 64 175 / var(--tw-border-opacity));
-}
-
-:is(.dark .dark\\:border-gray-600) {
-  --tw-border-opacity: 1;
-  border-color: rgb(75 85 99 / var(--tw-border-opacity));
-}
-
-:is(.dark .dark\\:border-gray-700) {
-  --tw-border-opacity: 1;
-  border-color: rgb(55 65 81 / var(--tw-border-opacity));
-}
-
-:is(.dark .dark\\:bg-blue-800) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(30 64 175 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:bg-blue-900) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(30 58 138 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:bg-blue-900\\/10) {
-  background-color: rgb(30 58 138 / 0.1);
-}
-
-:is(.dark .dark\\:bg-blue-900\\/20) {
-  background-color: rgb(30 58 138 / 0.2);
-}
-
-:is(.dark .dark\\:bg-gray-600) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:bg-gray-700) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:bg-gray-800) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:bg-gray-900) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(17 24 39 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:bg-green-900) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(20 83 45 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:bg-orange-800) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(154 52 18 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:bg-orange-900) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(124 45 18 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:bg-orange-900\\/20) {
-  background-color: rgb(124 45 18 / 0.2);
-}
-
-:is(.dark .dark\\:bg-red-900) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(127 29 29 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:bg-yellow-900) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(113 63 18 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:text-blue-200) {
-  --tw-text-opacity: 1;
-  color: rgb(191 219 254 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-blue-300) {
-  --tw-text-opacity: 1;
-  color: rgb(147 197 253 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-blue-400) {
-  --tw-text-opacity: 1;
-  color: rgb(96 165 250 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-gray-200) {
-  --tw-text-opacity: 1;
-  color: rgb(229 231 235 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-gray-300) {
-  --tw-text-opacity: 1;
-  color: rgb(209 213 219 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-gray-400) {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-green-200) {
-  --tw-text-opacity: 1;
-  color: rgb(187 247 208 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-orange-200) {
-  --tw-text-opacity: 1;
-  color: rgb(254 215 170 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-orange-400) {
-  --tw-text-opacity: 1;
-  color: rgb(251 146 60 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-red-200) {
-  --tw-text-opacity: 1;
-  color: rgb(254 202 202 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-red-400) {
-  --tw-text-opacity: 1;
-  color: rgb(248 113 113 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-white) {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:text-yellow-200) {
-  --tw-text-opacity: 1;
-  color: rgb(254 240 138 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:hover\\:bg-gray-500:hover) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:hover\\:bg-gray-600:hover) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:hover\\:bg-gray-700:hover) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
-}
-
-:is(.dark .dark\\:hover\\:text-blue-300:hover) {
-  --tw-text-opacity: 1;
-  color: rgb(147 197 253 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:hover\\:text-gray-200:hover) {
-  --tw-text-opacity: 1;
-  color: rgb(229 231 235 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:hover\\:text-gray-300:hover) {
-  --tw-text-opacity: 1;
-  color: rgb(209 213 219 / var(--tw-text-opacity));
-}
-
-:is(.dark .dark\\:hover\\:text-red-300:hover) {
-  --tw-text-opacity: 1;
-  color: rgb(252 165 165 / var(--tw-text-opacity));
-}
-
 @media (min-width: 640px) {
+
+  .sm\\:mb-4 {
+    margin-bottom: 1rem;
+  }
 
   .sm\\:block {
     display: block;
+  }
+
+  .sm\\:h-4 {
+    height: 1rem;
+  }
+
+  .sm\\:h-5 {
+    height: 1.25rem;
+  }
+
+  .sm\\:h-6 {
+    height: 1.5rem;
+  }
+
+  .sm\\:max-h-32 {
+    max-height: 8rem;
+  }
+
+  .sm\\:min-h-\\[320px\\] {
+    min-height: 320px;
   }
 
   .sm\\:grid-cols-2 {
@@ -6243,18 +6225,40 @@ video {
     justify-content: space-between;
   }
 
+  .sm\\:gap-3 {
+    gap: 0.75rem;
+  }
+
   .sm\\:self-auto {
     align-self: auto;
   }
 
-  .sm\\:px-6 {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+  .sm\\:p-3 {
+    padding: 0.75rem;
+  }
+
+  .sm\\:p-4 {
+    padding: 1rem;
+  }
+
+  .sm\\:py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 
   .sm\\:text-base {
     font-size: 1rem;
     line-height: 1.5rem;
+  }
+
+  .sm\\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .sm\\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 }
 
@@ -6411,17 +6415,40 @@ video {
     justify-content: space-between;
   }
 
+  .lg\\:gap-4 {
+    gap: 1rem;
+  }
+
+  .lg\\:gap-6 {
+    gap: 1.5rem;
+  }
+
+  .lg\\:space-y-6 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+  }
+
   .lg\\:self-auto {
     align-self: auto;
+  }
+
+  .lg\\:p-4 {
+    padding: 1rem;
   }
 
   .lg\\:p-6 {
     padding: 1.5rem;
   }
 
-  .lg\\:px-8 {
-    padding-left: 2rem;
-    padding-right: 2rem;
+  .lg\\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .lg\\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 }
 
@@ -6433,6 +6460,13 @@ video {
 
   .xl\\:grid-cols-6 {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1536px) {
+
+  .\\32xl\\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 
@@ -6450,7 +6484,304 @@ video {
 
 .\\[\\&_tr\\]\\:border-b tr {
   border-bottom-width: 1px;
-}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"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BAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAn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AA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,+BAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EA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AAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAA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","sourcesContent":["@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n/* 导入主题样式 */\n@import './styles/themes.css';\n\n@layer base {\n  :root {\n    --background: 220 20% 14%;\n    --foreground: 220 8% 95%;\n    --card: 220 20% 10%;\n    --card-foreground: 220 8% 95%;\n    --popover: 220 20% 10%;\n    --popover-foreground: 220 8% 95%;\n    --primary: 220 8% 95%;\n    --primary-foreground: 220 20% 14%;\n    --secondary: 220 20% 14%;\n    --secondary-foreground: 220 8% 95%;\n    --muted: 220 20% 14%;\n    --muted-foreground: 220 8% 65%;\n    --accent: 220 20% 14%;\n    --accent-foreground: 220 8% 95%;\n    --destructive: 0 84% 60%;\n    --destructive-foreground: 0 0% 98%;\n    --border: 220 13% 18%;\n    --input: 220 13% 18%;\n    --ring: 220 8% 95%;\n    --radius: 0.5rem;\n    \n    /* Theme System Variables */\n    --spacing-xs: 0.25rem;\n    --spacing-sm: 0.5rem;\n    --spacing-md: 1rem;\n    --spacing-lg: 1.5rem;\n    --spacing-xl: 2rem;\n    \n    --border-radius-sm: 0.375rem;\n    --border-radius-md: 0.5rem;\n    --border-radius-lg: 0.75rem;\n    \n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n    --glass-blur: blur(20px);\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\n  }\n  \n  /* Animation utilities */\n  @keyframes slide-in-right {\n    from {\n      transform: translateX(100%);\n      opacity: 0;\n    }\n    to {\n      transform: translateX(0);\n      opacity: 1;\n    }\n  }\n  \n  @keyframes fade-in {\n    from {\n      opacity: 0;\n    }\n    to {\n      opacity: 1;\n    }\n  }\n  \n  @keyframes bounce-in {\n    0% {\n      transform: scale(0.3);\n      opacity: 0;\n    }\n    50% {\n      transform: scale(1.05);\n    }\n    70% {\n      transform: scale(0.9);\n    }\n    100% {\n      transform: scale(1);\n      opacity: 1;\n    }\n  }\n  \n  .animate-slide-in-right {\n    animation: slide-in-right 0.3s ease-out;\n  }\n  \n  .animate-fade-in {\n    animation: fade-in 0.3s ease-out;\n  }\n  \n  .animate-bounce-in {\n    animation: bounce-in 0.5s ease-out;\n  }\n  \n  /* Glass Future Theme - 基于Indigo色块系列 */\n  [data-theme=\"glass-future\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\n    \n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\n    \n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\n    --text-secondary: oklch(92.369% 0.00263 230.33);\n    --text-accent: oklch(0.968 0.007 247.896);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n  }\n  \n  /* Dark Tech Theme - 基于Slate色块系列 */\n  [data-theme=\"dark-tech\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\n    \n    /* 弹出窗体背景 - Slate深色系列 */\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\n    \n    /* 文字颜色 - Slate浅色系，适合深色背景 */\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\n    --text-primary: oklch(0.968 0.007 247.896);\n    --text-secondary: oklch(0.929 0.013 255.508);\n    --text-accent: oklch(0.869 0.022 252.894);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\n  }\n  \n  /* Warm Business Theme - 基于Amber色块系列 */\n  [data-theme=\"warm-business\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\n    \n    /* 弹出窗体背景 - Amber浅色系列 */\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\n    \n    /* 文字颜色 - Amber深色系，适合浅色背景 */\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\n    --text-primary: oklch(0.414 0.112 45.904);\n    --text-secondary: oklch(0.473 0.137 46.201);\n    --text-accent: oklch(0.555 0.163 48.998);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\n  }\n}\n\n@layer base {\n  * {\n    border-color: hsl(var(--border));\n  }\n  body {\n    background-color: hsl(var(--background));\n    color: hsl(var(--foreground));\n    margin: 0;\n    padding: 0;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\n    min-height: 100vh;\n    overflow-x: hidden;\n  }\n}\n\n/* Custom glassmorphism styles matching current design */\n.app-bg {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  min-height: 100vh;\n  position: relative;\n}\n\n.app-bg::before {\n  content: '';\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: \n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\n  pointer-events: none;\n  z-index: 1;\n}\n\n@layer utilities {\n  .glass-card {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(12px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    border-radius: 16px;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  }\n  \n  /* Popup/Dropdown Styles */\n  .popup-dropdown {\n    position: absolute;\n    z-index: 1000;\n    border-radius: 16px;\n    backdrop-filter: blur(20px);\n    -webkit-backdrop-filter: blur(20px);\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\n    overflow: hidden;\n  }\n  \n  .popup-header {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n  }\n  \n  .popup-content {\n    background: transparent;\n  }\n  \n  .glass-card-hover {\n    transition: all 0.3s ease;\n  }\n  \n  .glass-card-hover:hover {\n    background: rgba(255, 255, 255, 0.15);\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\n    transform: translateY(-2px);\n  }\n  \n  .glass-input {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(8px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: white;\n  }\n  \n  .glass-input::placeholder {\n    color: rgba(255, 255, 255, 0.5);\n  }\n  \n  .glass-input:focus {\n    outline: none;\n    ring: 2px;\n    ring-color: rgba(255, 255, 255, 0.3);\n    ring-offset: 2px;\n  }\n  \n  .text-gradient {\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    background-clip: text;\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\n  }\n  \n  .animate-fade-in-up {\n    animation: fadeInUp 0.6s ease-out;\n  }\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n/* ===== App加载动画样式 ===== */\n.app-loading,\n.app-error {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 9999;\n}\n\n.loading-container,\n.error-container {\n  background: rgba(255, 255, 255, 0.1);\n  backdrop-filter: blur(20px);\n  border-radius: 24px;\n  padding: 48px;\n  text-align: center;\n  max-width: 420px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\n}\n\n/* 加载动画 */\n.loading-animation {\n  position: relative;\n  margin-bottom: 32px;\n}\n\n.loading-spinner {\n  width: 60px;\n  height: 60px;\n  border: 4px solid rgba(255, 255, 255, 0.3);\n  border-top: 4px solid white;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n  margin: 0 auto 20px;\n}\n\n.loading-dots {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n}\n\n.loading-dots span {\n  width: 8px;\n  height: 8px;\n  background: white;\n  border-radius: 50%;\n  animation: bounce 1.4s ease-in-out infinite both;\n}\n\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\n\n.loading-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 8px;\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\n}\n\n.loading-text {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1.1rem;\n  margin-bottom: 24px;\n}\n\n.loading-progress {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n  margin-bottom: 24px;\n}\n\n.progress-bar {\n  height: 100%;\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\n  border-radius: 2px;\n  animation: progress 2s ease-in-out infinite;\n}\n\n.loading-tips {\n  text-align: left;\n  background: rgba(255, 255, 255, 0.1);\n  border-radius: 12px;\n  padding: 16px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.loading-tips p {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 0.9rem;\n  margin-bottom: 6px;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.loading-tips p:last-child {\n  margin-bottom: 0;\n}\n\n/* 错误状态样式 */\n.error-icon {\n  font-size: 4rem;\n  margin-bottom: 20px;\n}\n\n.error-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 12px;\n}\n\n.error-message {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1rem;\n  margin-bottom: 24px;\n  background: rgba(255, 77, 79, 0.2);\n  padding: 12px 16px;\n  border-radius: 8px;\n  border: 1px solid rgba(255, 77, 79, 0.3);\n}\n\n.error-retry {\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\n  color: white;\n  border: none;\n  padding: 12px 24px;\n  border-radius: 8px;\n  font-size: 1rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\n}\n\n.error-retry:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\n}\n\n/* 主App容器 */\n.app {\n  width: 100%;\n  height: 100vh;\n  overflow: hidden;\n}\n\n/* 新增动画定义 */\n@keyframes spin {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes bounce {\n  0%, 80%, 100% {\n    transform: scale(0);\n  }\n  40% {\n    transform: scale(1);\n  }\n}\n\n@keyframes progress {\n  0% {\n    width: 0%;\n    opacity: 1;\n  }\n  50% {\n    width: 70%;\n    opacity: 1;\n  }\n  100% {\n    width: 100%;\n    opacity: 0;\n  }\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"AAAA;;CAAc,CAAd;;;CAAc;;AAAd;;;EAAA,sBAAc,EAAd,MAAc;EAAd,eAAc,EAAd,MAAc;EAAd,mBAAc,EAAd,MAAc;EAAd,qBAAc,EAAd,MAAc;AAAA;;AAAd;;EAAA,gBAAc;AAAA;;AAAd;;;;;;;CAAc;;AAAd;EAAA,gBAAc,EAAd,MAAc;EAAd,8BAAc,EAAd,MAAc;EAAd,gBAAc,EAAd,MAAc;EAAd,cAAc;KAAd,WAAc,EAAd,MAAc;EAAd,4NAAc,EAAd,MAAc;EAAd,6BAAc,EAAd,MAAc;EAAd,+BAAc,EAAd,MAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,SAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;AAAA;;AAAd;;;;CAAc;;AAAd;EAAA,SAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;EAAd,qBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,yCAAc;UAAd,iCAAc;AAAA;;AAAd;;CAAc;;AAAd;;;;;;EAAA,kBAAc;EAAd,oBAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,cAAc;EAAd,wBAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,mBAAc;AAAA;;AAAd;;;;;CAAc;;AAAd;;;;EAAA,+GAAc,EAAd,MAAc;EAAd,6BAAc,EAAd,MAAc;EAAd,+BAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,cAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,cAAc;EAAd,cAAc;EAAd,kBAAc;EAAd,wBAAc;AAAA;;AAAd;EAAA,eAAc;AAAA;;AAAd;EAAA,WAAc;AAAA;;AAAd;;;;CAAc;;AAAd;EAAA,cAAc,EAAd,MAAc;EAAd,qBAAc,EAAd,MAAc;EAAd,yBAAc,EAAd,MAAc;AAAA;;AAAd;;;;CAAc;;AAAd;;;;;EAAA,oBAAc,EAAd,MAAc;EAAd,8BAAc,EAAd,MAAc;EAAd,gCAAc,EAAd,MAAc;EAAd,eAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;EAAd,SAAc,EAAd,MAAc;EAAd,UAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,oBAAc;AAAA;;AAAd;;;CAAc;;AAAd;;;;EAAA,0BAAc,EAAd,MAAc;EAAd,6BAAc,EAAd,MAAc;EAAd,sBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,aAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,gBAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,wBAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,YAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,6BAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,wBAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,0BAAc,EAAd,MAAc;EAAd,aAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,kBAAc;AAAA;;AAAd;;CAAc;;AAAd;;;;;;;;;;;;;EAAA,SAAc;AAAA;;AAAd;EAAA,SAAc;EAAd,UAAc;AAAA;;AAAd;EAAA,UAAc;AAAA;;AAAd;;;EAAA,gBAAc;EAAd,SAAc;EAAd,UAAc;AAAA;;AAAd;;CAAc;AAAd;EAAA,UAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,gBAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,UAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;AAAA;;AAAd;;EAAA,UAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,eAAc;AAAA;;AAAd;;CAAc;AAAd;EAAA,eAAc;AAAA;;AAAd;;;;CAAc;;AAAd;;;;;;;;EAAA,cAAc,EAAd,MAAc;EAAd,sBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,eAAc;EAAd,YAAc;AAAA;;AAAd,wEAAc;AAAd;EAAA,aAAc;AAAA;EAAd;IAAA,yBAAc;IAAd,wBAAc;IAAd,mBAAc;IAAd,6BAAc;IAAd,sBAAc;IAAd,gCAAc;IAAd,qBAAc;IAAd,iCAAc;IAAd,wBAAc;IAAd,kCAAc;IAAd,oBAAc;IAAd,8BAAc;IAAd,qBAAc;IAAd,+BAAc;IAAd,wBAAc;IAAd,kCAAc;IAAd,qBAAc;IAAd,oBAAc;IAAd,kBAAc;IAAd,gBAAc;;IAAd,2BAAc;IAAd,qBAAc;IAAd,oBAAc;IAAd,kBAAc;IAAd,oBAAc;IAAd,kBAAc;;IAAd,4BAAc;IAAd,0BAAc;IAAd,2BAAc;;IAAd,wDAAc;IAAd,wBAAc;IAAd,kDAAc;EAAA;;EAAd,wBAAc;EAAd;IAAA;MAAA,2BAAc;MAAd,UAAc;IAAA;IAAd;MAAA,wBAAc;MAAd,UAAc;IAAA;EAAA;;EAAd;IAAA;MAAA,UAAc;IAAA;IAAd;MAAA,UAAc;IAAA;EAAA;;EAAd;IAAA;MAAA,qBAAc;MAAd,UAAc;IAAA;IAAd;MAAA,sBAAc;IAAA;IAAd;MAAA,qBAAc;IAAA;IAAd;MAAA,mBAAc;MAAd,UAAc;IAAA;EAAA;;EAAd;IAAA,uCAAc;EAAA;;EAAd,sCAAc;EAAd;IAAA,SAAc;IAAd,yGAAc;;IAAd,SAAc;IAAd,sDAAc,GAAd,mBAAc;IAAd,mDAAc,MAAd,kBAAc;IAAd,oDAAc,KAAd,mBAAc;IAAd,sDAAc,GAAd,mBAAc;;IAAd,yBAAc;IAAd,oDAAc,YAAd,mBAAc;IAAd,2DAAc,KAAd,mBAAc;IAAd,6DAAc,GAAd,mBAAc;;IAAd,yBAAc;IAAd,yDAAc,OAAd,SAAc;IAAd,qDAAc,WAAd,SAAc;IAAd,iDAAc,eAAd,aAAc;IAAd,mDAAc;IAAd,+CAAc;IAAd,yCAAc;;IAAd,SAAc;IAAd,8DAAc,EAAd,SAAc;IAAd,wBAAc;IAAd,yDAAc,QAAd,iBAAc;IAAd,2DAAc,MAAd,SAAc;IAAd,yDAAc;IAAd,2DAAc;EAAA;;EAAd,kCAAc;EAAd;IAAA,SAAc;IAAd,yGAAc;;IAAd,SAAc;IAAd,uDAAc,SAAd,iBAAc;IAAd,oDAAc,YAAd,iBAAc;IAAd,qDAAc,WAAd,iBAAc;IAAd,sDAAc,UAAd,kBAAc;;IAAd,uBAAc;IAAd,qDAAc,WAAd,kBAAc;IAAd,2DAAc,KAAd,kBAAc;IAAd,4DAAc,IAAd,kBAAc;;IAAd,2BAAc;IAAd,gDAAc,gBAAd,cAAc;IAAd,kDAAc,cAAd,cAAc;IAAd,iDAAc,eAAd,cAAc;IAAd,0CAAc;IAAd,4CAAc;IAAd,yCAAc;;IAAd,SAAc;IAAd,+DAAc,EAAd,SAAc;IAAd,wBAAc;IAAd,0DAAc;IAAd,4DAAc;IAAd,0DAAc;IAAd,4DAAc;EAAA;;EAAd,sCAAc;EAAd;IAAA,SAAc;IAAd,sGAAc;;IAAd,SAAc;IAAd,qDAAc,WAAd,iBAAc;IAAd,kDAAc,cAAd,iBAAc;IAAd,mDAAc,aAAd,kBAAc;IAAd,mDAAc,aAAd,kBAAc;;IAAd,uBAAc;IAAd,oDAAc,YAAd,iBAAc;IAAd,2DAAc,KAAd,iBAAc;IAAd,2DAAc,KAAd,iBAAc;;IAAd,2BAAc;IAAd,+CAAc,iBAAd,cAAc;IAAd,iDAAc,eAAd,cAAc;IAAd,gDAAc,gBAAd,cAAc;IAAd,yCAAc;IAAd,2CAAc;IAAd,wCAAc;;IAAd,SAAc;IAAd,8DAAc,EAAd,SAAc;IAAd,wBAAc;IAAd,wDAAc;IAAd,2DAAc;IAAd,wDAAc;IAAd,2DAAc;EAAA;EAAd;IAAA,gCAAc;EAAA;EAAd;IAAA,wCAAc;IAAd,6BAAc;IAAd,SAAc;IAAd,UAAc;IAAd,iHAAc;IAAd,iBAAc;IAAd,kBAAc;EAAA;;AAAd;EAAA,wBAAc;EAAd,wBAAc;EAAd,mBAAc;EAAd,mBAAc;EAAd,cAAc;EAAd,cAAc;EAAd,cAAc;EAAd,eAAc;EAAd,eAAc;EAAd,aAAc;EAAd,aAAc;EAAd,kBAAc;EAAd,sCAAc;EAAd,8BAAc;EAAd,6BAAc;EAAd,4BAAc;EAAd,eAAc;EAAd,oBAAc;EAAd,sBAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,kBAAc;EAAd,2BAAc;EAAd,4BAAc;EAAd,sCAAc;EAAd,kCAAc;EAAd,2BAAc;EAAd,sBAAc;EAAd,8BAAc;EAAd,YAAc;EAAd,kBAAc;EAAd,gBAAc;EAAd,iBAAc;EAAd,kBAAc;EAAd,cAAc;EAAd,gBAAc;EAAd,aAAc;EAAd,mBAAc;EAAd,qBAAc;EAAd,2BAAc;EAAd,yBAAc;EAAd,0BAAc;EAAd,2BAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,yBAAc;EAAd;AAAc;;AAAd;EAAA,wBAAc;EAAd,wBAAc;EAAd,mBAAc;EAAd,mBAAc;EAAd,cAAc;EAAd,cAAc;EAAd,cAAc;EAAd,eAAc;EAAd,eAAc;EAAd,aAAc;EAAd,aAAc;EAAd,kBAAc;EAAd,sCAAc;EAAd,8BAAc;EAAd,6BAAc;EAAd,4BAAc;EAAd,eAAc;EAAd,oBAAc;EAAd,sBAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,kBAAc;EAAd,2BAAc;EAAd,4BAAc;EAAd,sCAAc;EAAd,kCAAc;EAAd,2BAAc;EAAd,sBAAc;EAAd,8BAAc;EAAd,YAAc;EAAd,kBAAc;EAAd,gBAAc;EAAd,iBAAc;EAAd,kBAAc;EAAd,cAAc;EAAd,gBAAc;EAAd,aAAc;EAAd,mBAAc;EAAd,qBAAc;EAAd,2BAAc;EAAd,yBAAc;EAAd,0BAAc;EAAd,2BAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,yBAAc;EAAd;AAAc;AACd;EAAA,4CAAoB;EAApB,iDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,iDAAoB;EAApB;AAAoB;AAApB;EAAA,aAAoB;EAApB,4CAAoB;EAApB,wCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,iDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,2CAAoB;EAApB;AAAoB;AAApB;EAAA,wBAAoB;KAApB,qBAAoB;UAApB,gBAAoB;EAApB,qBAAoB;EAApB,yDAAoB;EAApB,wCAAoB;EAApB,4BAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,kDAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,kDAAoB;EAApB;AAAoB;AAApB;EAAA,aAAoB;EAApB,4CAAoB;EAApB,wCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,kDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,wCAAoB;EAApB;AAAoB;AAApB;EAAA,wBAAoB;KAApB,qBAAoB;UAApB,gBAAoB;EAApB,qBAAoB;EAApB,yDAAoB;EAApB,wCAAoB;EAApB,4BAAoB;EAApB;AAAoB;AAApB;EAAA,2CAAoB;EAApB,gDAAoB;EAApB;AAAoB;AAApB;EAAA,2CAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,gDAAoB;EAApB;AAAoB;AAApB;EAAA,aAAoB;EAApB,4CAAoB;EAApB,uCAAoB;EAApB;AAAoB;AAApB;EAAA,gCAAoB;EAApB;AAAoB;AAApB;EAAA,gCAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,gDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,uCAAoB;EAApB;AAAoB;AAApB;EAAA,wBAAoB;KAApB,qBAAoB;UAApB,gBAAoB;EAApB,qBAAoB;EAApB,yDAAoB;EAApB,wCAAoB;EAApB,4BAAoB;EAApB;AAAoB;AACpB;EAAA,kBAAmB;EAAnB,UAAmB;EAAnB,WAAmB;EAAnB,UAAmB;EAAnB,YAAmB;EAAnB,gBAAmB;EAAnB,sBAAmB;EAAnB,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,QAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,gBAAmB;EAAnB,oBAAmB;EAAnB,4BAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;;EAAA;IAAA,2BAAmB;IAAnB;EAAmB;;EAAnB;IAAA,eAAmB;IAAnB;EAAmB;AAAA;AAAnB;EAAA;AAAmB;AAAnB;;EAAA;IAAA;EAAmB;AAAA;AAAnB;EAAA;AAAmB;AAAnB;;EAAA;IAAA;EAAmB;AAAA;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,yBAAmB;KAAnB,sBAAmB;UAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,uBAAmB;EAAnB,sDAAmB;EAAnB;AAAmB;AAAnB;EAAA,uBAAmB;EAAnB,uDAAmB;EAAnB;AAAmB;AAAnB;EAAA,uBAAmB;EAAnB,oDAAmB;EAAnB;AAAmB;AAAnB;EAAA,uBAAmB;EAAnB,+DAAmB;EAAnB;AAAmB;AAAnB;EAAA,uBAAmB;EAAnB,gEAAmB;EAAnB;AAAmB;AAAnB;EAAA,uBAAmB;EAAnB,8DAAmB;EAAnB;AAAmB;AAAnB;EAAA,uBAAmB;EAAnB,+DAAmB;EAAnB;AAAmB;AAAnB;EAAA,uBAAmB;EAAnB,4DAAmB;EAAnB;AAAmB;AAAnB;EAAA,uBAAmB;EAAnB,8DAAmB;EAAnB;AAAmB;AAAnB;EAAA,uBAAmB;EAAnB,4DAAmB;EAAnB;AAAmB;AAAnB;EAAA,wBAAmB;EAAnB,kEAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,gBAAmB;EAAnB,uBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,+BAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,sEAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,gBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAm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","sourcesContent":["@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n/* 导入主题样式 */\n@import './styles/themes.css';\n\n@layer base {\n  :root {\n    --background: 220 20% 14%;\n    --foreground: 220 8% 95%;\n    --card: 220 20% 10%;\n    --card-foreground: 220 8% 95%;\n    --popover: 220 20% 10%;\n    --popover-foreground: 220 8% 95%;\n    --primary: 220 8% 95%;\n    --primary-foreground: 220 20% 14%;\n    --secondary: 220 20% 14%;\n    --secondary-foreground: 220 8% 95%;\n    --muted: 220 20% 14%;\n    --muted-foreground: 220 8% 65%;\n    --accent: 220 20% 14%;\n    --accent-foreground: 220 8% 95%;\n    --destructive: 0 84% 60%;\n    --destructive-foreground: 0 0% 98%;\n    --border: 220 13% 18%;\n    --input: 220 13% 18%;\n    --ring: 220 8% 95%;\n    --radius: 0.5rem;\n    \n    /* Theme System Variables */\n    --spacing-xs: 0.25rem;\n    --spacing-sm: 0.5rem;\n    --spacing-md: 1rem;\n    --spacing-lg: 1.5rem;\n    --spacing-xl: 2rem;\n    \n    --border-radius-sm: 0.375rem;\n    --border-radius-md: 0.5rem;\n    --border-radius-lg: 0.75rem;\n    \n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n    --glass-blur: blur(20px);\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\n  }\n  \n  /* Animation utilities */\n  @keyframes slide-in-right {\n    from {\n      transform: translateX(100%);\n      opacity: 0;\n    }\n    to {\n      transform: translateX(0);\n      opacity: 1;\n    }\n  }\n  \n  @keyframes fade-in {\n    from {\n      opacity: 0;\n    }\n    to {\n      opacity: 1;\n    }\n  }\n  \n  @keyframes bounce-in {\n    0% {\n      transform: scale(0.3);\n      opacity: 0;\n    }\n    50% {\n      transform: scale(1.05);\n    }\n    70% {\n      transform: scale(0.9);\n    }\n    100% {\n      transform: scale(1);\n      opacity: 1;\n    }\n  }\n  \n  .animate-slide-in-right {\n    animation: slide-in-right 0.3s ease-out;\n  }\n  \n  .animate-fade-in {\n    animation: fade-in 0.3s ease-out;\n  }\n  \n  .animate-bounce-in {\n    animation: bounce-in 0.5s ease-out;\n  }\n  \n  /* Glass Future Theme - 基于Indigo色块系列 */\n  [data-theme=\"glass-future\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\n    \n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\n    \n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\n    --text-secondary: oklch(92.369% 0.00263 230.33);\n    --text-accent: oklch(0.968 0.007 247.896);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n  }\n  \n  /* Dark Tech Theme - 基于Slate色块系列 */\n  [data-theme=\"dark-tech\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\n    \n    /* 弹出窗体背景 - Slate深色系列 */\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\n    \n    /* 文字颜色 - Slate浅色系，适合深色背景 */\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\n    --text-primary: oklch(0.968 0.007 247.896);\n    --text-secondary: oklch(0.929 0.013 255.508);\n    --text-accent: oklch(0.869 0.022 252.894);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\n  }\n  \n  /* Warm Business Theme - 基于Amber色块系列 */\n  [data-theme=\"warm-business\"] {\n    /* 应用背景 */\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\n    \n    /* 表面背景 */\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\n    \n    /* 弹出窗体背景 - Amber浅色系列 */\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\n    \n    /* 文字颜色 - Amber深色系，适合浅色背景 */\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\n    --text-primary: oklch(0.414 0.112 45.904);\n    --text-secondary: oklch(0.473 0.137 46.201);\n    --text-accent: oklch(0.555 0.163 48.998);\n    \n    /* 效果增强 */\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\n    --popup-blur: blur(35px);\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\n  }\n}\n\n@layer base {\n  * {\n    border-color: hsl(var(--border));\n  }\n  body {\n    background-color: hsl(var(--background));\n    color: hsl(var(--foreground));\n    margin: 0;\n    padding: 0;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\n    min-height: 100vh;\n    overflow-x: hidden;\n  }\n}\n\n/* Custom glassmorphism styles matching current design */\n.app-bg {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  min-height: 100vh;\n  position: relative;\n}\n\n.app-bg::before {\n  content: '';\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: \n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\n  pointer-events: none;\n  z-index: 1;\n}\n\n@layer utilities {\n  .glass-card {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(12px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    border-radius: 16px;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  }\n  \n  /* Popup/Dropdown Styles */\n  .popup-dropdown {\n    position: absolute;\n    z-index: 1000;\n    border-radius: 16px;\n    backdrop-filter: blur(20px);\n    -webkit-backdrop-filter: blur(20px);\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\n    overflow: hidden;\n  }\n  \n  .popup-header {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n  }\n  \n  .popup-content {\n    background: transparent;\n  }\n  \n  .glass-card-hover {\n    transition: all 0.3s ease;\n  }\n  \n  .glass-card-hover:hover {\n    background: rgba(255, 255, 255, 0.15);\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\n    transform: translateY(-2px);\n  }\n  \n  .glass-input {\n    background: rgba(255, 255, 255, 0.1);\n    backdrop-filter: blur(8px);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: white;\n  }\n  \n  .glass-input::placeholder {\n    color: rgba(255, 255, 255, 0.5);\n  }\n  \n  .glass-input:focus {\n    outline: none;\n    ring: 2px;\n    ring-color: rgba(255, 255, 255, 0.3);\n    ring-offset: 2px;\n  }\n  \n  .text-gradient {\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    background-clip: text;\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\n  }\n  \n  .animate-fade-in-up {\n    animation: fadeInUp 0.6s ease-out;\n  }\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n/* ===== App加载动画样式 ===== */\n.app-loading,\n.app-error {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 9999;\n}\n\n.loading-container,\n.error-container {\n  background: rgba(255, 255, 255, 0.1);\n  backdrop-filter: blur(20px);\n  border-radius: 24px;\n  padding: 48px;\n  text-align: center;\n  max-width: 420px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\n}\n\n/* 加载动画 */\n.loading-animation {\n  position: relative;\n  margin-bottom: 32px;\n}\n\n.loading-spinner {\n  width: 60px;\n  height: 60px;\n  border: 4px solid rgba(255, 255, 255, 0.3);\n  border-top: 4px solid white;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n  margin: 0 auto 20px;\n}\n\n.loading-dots {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n}\n\n.loading-dots span {\n  width: 8px;\n  height: 8px;\n  background: white;\n  border-radius: 50%;\n  animation: bounce 1.4s ease-in-out infinite both;\n}\n\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\n\n.loading-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 8px;\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\n}\n\n.loading-text {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1.1rem;\n  margin-bottom: 24px;\n}\n\n.loading-progress {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n  margin-bottom: 24px;\n}\n\n.progress-bar {\n  height: 100%;\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\n  border-radius: 2px;\n  animation: progress 2s ease-in-out infinite;\n}\n\n.loading-tips {\n  text-align: left;\n  background: rgba(255, 255, 255, 0.1);\n  border-radius: 12px;\n  padding: 16px;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.loading-tips p {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 0.9rem;\n  margin-bottom: 6px;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.loading-tips p:last-child {\n  margin-bottom: 0;\n}\n\n/* 错误状态样式 */\n.error-icon {\n  font-size: 4rem;\n  margin-bottom: 20px;\n}\n\n.error-title {\n  color: white;\n  font-size: 2rem;\n  font-weight: 700;\n  margin-bottom: 12px;\n}\n\n.error-message {\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 1rem;\n  margin-bottom: 24px;\n  background: rgba(255, 77, 79, 0.2);\n  padding: 12px 16px;\n  border-radius: 8px;\n  border: 1px solid rgba(255, 77, 79, 0.3);\n}\n\n.error-retry {\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\n  color: white;\n  border: none;\n  padding: 12px 24px;\n  border-radius: 8px;\n  font-size: 1rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\n}\n\n.error-retry:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\n}\n\n/* 主App容器 */\n.app {\n  width: 100%;\n  height: 100vh;\n  overflow: hidden;\n}\n\n/* 新增动画定义 */\n@keyframes spin {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n@keyframes bounce {\n  0%, 80%, 100% {\n    transform: scale(0);\n  }\n  40% {\n    transform: scale(1);\n  }\n}\n\n@keyframes progress {\n  0% {\n    width: 0%;\n    opacity: 1;\n  }\n  50% {\n    width: 70%;\n    opacity: 1;\n  }\n  100% {\n    width: 100%;\n    opacity: 0;\n  }\n}"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/styles/theme-adaptations.css":
+/*!**************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/styles/theme-adaptations.css ***!
+  \**************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `/* 新功能组件主题适配样式 */
+
+/* =============== 玻璃未来风主题 (Glass Future) =============== */
+[data-theme="glass-future"] .glass-surface {
+  background: rgba(99, 102, 241, 0.1) !important; /* indigo-500/10% */
+  -webkit-backdrop-filter: blur(35px) !important;
+          backdrop-filter: blur(35px) !important;
+  border: 1px solid rgba(165, 180, 252, 0.3) !important; /* indigo-300/30% */
+  box-shadow: 0 25px 80px rgba(55, 48, 163, 0.15) !important; /* indigo-800/15% */
+}
+
+[data-theme="glass-future"] .glass-surface:hover {
+  background: rgba(99, 102, 241, 0.15) !important; /* indigo-500/15% */
+  border-color: rgba(165, 180, 252, 0.4) !important; /* indigo-300/40% */
+}
+
+/* 文字颜色适配 */
+[data-theme="glass-future"] .text-white {
+  color: rgb(248, 250, 252) !important; /* slate-50 */
+  text-shadow: 0 2px 8px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-white\\/80 {
+  color: rgba(248, 250, 252, 0.8) !important; /* slate-50/80% */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.6) !important;
+}
+
+[data-theme="glass-future"] .text-white\\/70 {
+  color: rgba(248, 250, 252, 0.7) !important; /* slate-50/70% */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.6) !important;
+}
+
+[data-theme="glass-future"] .text-white\\/60 {
+  color: rgba(248, 250, 252, 0.6) !important; /* slate-50/60% */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.6) !important;
+}
+
+/* 彩色文字适配 */
+[data-theme="glass-future"] .text-blue-300,
+[data-theme="glass-future"] .text-blue-200 {
+  color: rgb(147, 197, 253) !important; /* blue-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-green-300,
+[data-theme="glass-future"] .text-green-200 {
+  color: rgb(134, 239, 172) !important; /* green-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-yellow-300 {
+  color: rgb(253, 224, 71) !important; /* yellow-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-red-300,
+[data-theme="glass-future"] .text-red-200 {
+  color: rgb(252, 165, 165) !important; /* red-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-orange-300,
+[data-theme="glass-future"] .text-orange-200 {
+  color: rgb(253, 186, 116) !important; /* orange-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-purple-300,
+[data-theme="glass-future"] .text-purple-200 {
+  color: rgb(196, 181, 253) !important; /* purple-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+/* =============== 深色科技风主题 (Dark Tech) =============== */
+[data-theme="dark-tech"] .glass-surface {
+  background: rgba(71, 85, 105, 0.1) !important; /* slate-600/10% */
+  -webkit-backdrop-filter: blur(35px) !important;
+          backdrop-filter: blur(35px) !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important; /* slate-400/20% */
+  box-shadow: 0 25px 80px rgba(15, 23, 42, 0.3) !important; /* slate-900/30% */
+}
+
+[data-theme="dark-tech"] .glass-surface:hover {
+  background: rgba(71, 85, 105, 0.15) !important; /* slate-600/15% */
+  border-color: rgba(148, 163, 184, 0.3) !important; /* slate-400/30% */
+}
+
+/* 文字颜色适配 */
+[data-theme="dark-tech"] .text-white {
+  color: rgb(248, 250, 252) !important; /* slate-50 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-white\\/80 {
+  color: rgba(248, 250, 252, 0.8) !important; /* slate-50/80% */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.6) !important;
+}
+
+[data-theme="dark-tech"] .text-white\\/70 {
+  color: rgba(248, 250, 252, 0.7) !important; /* slate-50/70% */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.6) !important;
+}
+
+[data-theme="dark-tech"] .text-white\\/60 {
+  color: rgba(248, 250, 252, 0.6) !important; /* slate-50/60% */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.6) !important;
+}
+
+/* 彩色文字适配 */
+[data-theme="dark-tech"] .text-blue-300,
+[data-theme="dark-tech"] .text-blue-200 {
+  color: rgb(147, 197, 253) !important; /* blue-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-green-300,
+[data-theme="dark-tech"] .text-green-200 {
+  color: rgb(134, 239, 172) !important; /* green-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-yellow-300 {
+  color: rgb(253, 224, 71) !important; /* yellow-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-red-300,
+[data-theme="dark-tech"] .text-red-200 {
+  color: rgb(252, 165, 165) !important; /* red-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-orange-300,
+[data-theme="dark-tech"] .text-orange-200 {
+  color: rgb(253, 186, 116) !important; /* orange-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-purple-300,
+[data-theme="dark-tech"] .text-purple-200 {
+  color: rgb(196, 181, 253) !important; /* purple-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+/* =============== 温暖商务风主题 (Warm Business) =============== */
+[data-theme="warm-business"] .glass-surface {
+  background: rgba(251, 191, 36, 0.1) !important; /* amber-400/10% */
+  -webkit-backdrop-filter: blur(35px) !important;
+          backdrop-filter: blur(35px) !important;
+  border: 1px solid rgba(252, 211, 77, 0.3) !important; /* amber-300/30% */
+  box-shadow: 0 25px 80px rgba(146, 64, 14, 0.2) !important; /* amber-900/20% */
+}
+
+[data-theme="warm-business"] .glass-surface:hover {
+  background: rgba(251, 191, 36, 0.15) !important; /* amber-400/15% */
+  border-color: rgba(252, 211, 77, 0.4) !important; /* amber-300/40% */
+}
+
+/* 文字颜色适配 */
+[data-theme="warm-business"] .text-white {
+  color: rgb(146, 64, 14) !important; /* amber-900 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.9) !important;
+}
+
+[data-theme="warm-business"] .text-white\\/80 {
+  color: rgba(146, 64, 14, 0.9) !important; /* amber-900/90% */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.7) !important;
+}
+
+[data-theme="warm-business"] .text-white\\/70 {
+  color: rgba(146, 64, 14, 0.8) !important; /* amber-900/80% */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.7) !important;
+}
+
+[data-theme="warm-business"] .text-white\\/60 {
+  color: rgba(146, 64, 14, 0.7) !important; /* amber-900/70% */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.7) !important;
+}
+
+/* 彩色文字适配 */
+[data-theme="warm-business"] .text-blue-300,
+[data-theme="warm-business"] .text-blue-200 {
+  color: rgb(59, 130, 246) !important; /* blue-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+[data-theme="warm-business"] .text-green-300,
+[data-theme="warm-business"] .text-green-200 {
+  color: rgb(34, 197, 94) !important; /* green-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+[data-theme="warm-business"] .text-yellow-300 {
+  color: rgb(234, 179, 8) !important; /* yellow-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+[data-theme="warm-business"] .text-red-300,
+[data-theme="warm-business"] .text-red-200 {
+  color: rgb(239, 68, 68) !important; /* red-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+[data-theme="warm-business"] .text-orange-300,
+[data-theme="warm-business"] .text-orange-200 {
+  color: rgb(249, 115, 22) !important; /* orange-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+[data-theme="warm-business"] .text-purple-300,
+[data-theme="warm-business"] .text-purple-200 {
+  color: rgb(168, 85, 247) !important; /* purple-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+/* =============== 通用样式增强 =============== */
+
+/* 玻璃效果增强 */
+.glass-surface {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-surface::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 阴影效果增强 */
+.drop-shadow-lg {
+  filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04)) drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1));
+}
+
+.drop-shadow-md {
+  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+  .glass-surface {
+    -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(20px) !important;
+  }
+  
+  .drop-shadow-lg,
+  .drop-shadow-md {
+    filter: none;
+  }
+}
+
+/* 动画优化 */
+.glass-surface {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-surface:hover {
+  transform: translateY(-1px);
+}
+
+/* 边框渐变效果 */
+.glass-surface {
+  background-clip: padding-box;
+}
+`, "",{"version":3,"sources":["webpack://./src/styles/theme-adaptations.css"],"names":[],"mappings":"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","sourcesContent":["/* 新功能组件主题适配样式 */\n\n/* =============== 玻璃未来风主题 (Glass Future) =============== */\n[data-theme=\"glass-future\"] .glass-surface {\n  background: rgba(99, 102, 241, 0.1) !important; /* indigo-500/10% */\n  backdrop-filter: blur(35px) !important;\n  border: 1px solid rgba(165, 180, 252, 0.3) !important; /* indigo-300/30% */\n  box-shadow: 0 25px 80px rgba(55, 48, 163, 0.15) !important; /* indigo-800/15% */\n}\n\n[data-theme=\"glass-future\"] .glass-surface:hover {\n  background: rgba(99, 102, 241, 0.15) !important; /* indigo-500/15% */\n  border-color: rgba(165, 180, 252, 0.4) !important; /* indigo-300/40% */\n}\n\n/* 文字颜色适配 */\n[data-theme=\"glass-future\"] .text-white {\n  color: rgb(248, 250, 252) !important; /* slate-50 */\n  text-shadow: 0 2px 8px rgba(55, 48, 163, 0.8) !important;\n}\n\n[data-theme=\"glass-future\"] .text-white\\/80 {\n  color: rgba(248, 250, 252, 0.8) !important; /* slate-50/80% */\n  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.6) !important;\n}\n\n[data-theme=\"glass-future\"] .text-white\\/70 {\n  color: rgba(248, 250, 252, 0.7) !important; /* slate-50/70% */\n  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.6) !important;\n}\n\n[data-theme=\"glass-future\"] .text-white\\/60 {\n  color: rgba(248, 250, 252, 0.6) !important; /* slate-50/60% */\n  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.6) !important;\n}\n\n/* 彩色文字适配 */\n[data-theme=\"glass-future\"] .text-blue-300,\n[data-theme=\"glass-future\"] .text-blue-200 {\n  color: rgb(147, 197, 253) !important; /* blue-300 */\n  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;\n}\n\n[data-theme=\"glass-future\"] .text-green-300,\n[data-theme=\"glass-future\"] .text-green-200 {\n  color: rgb(134, 239, 172) !important; /* green-300 */\n  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;\n}\n\n[data-theme=\"glass-future\"] .text-yellow-300 {\n  color: rgb(253, 224, 71) !important; /* yellow-300 */\n  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;\n}\n\n[data-theme=\"glass-future\"] .text-red-300,\n[data-theme=\"glass-future\"] .text-red-200 {\n  color: rgb(252, 165, 165) !important; /* red-300 */\n  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;\n}\n\n[data-theme=\"glass-future\"] .text-orange-300,\n[data-theme=\"glass-future\"] .text-orange-200 {\n  color: rgb(253, 186, 116) !important; /* orange-300 */\n  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;\n}\n\n[data-theme=\"glass-future\"] .text-purple-300,\n[data-theme=\"glass-future\"] .text-purple-200 {\n  color: rgb(196, 181, 253) !important; /* purple-300 */\n  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;\n}\n\n/* =============== 深色科技风主题 (Dark Tech) =============== */\n[data-theme=\"dark-tech\"] .glass-surface {\n  background: rgba(71, 85, 105, 0.1) !important; /* slate-600/10% */\n  backdrop-filter: blur(35px) !important;\n  border: 1px solid rgba(148, 163, 184, 0.2) !important; /* slate-400/20% */\n  box-shadow: 0 25px 80px rgba(15, 23, 42, 0.3) !important; /* slate-900/30% */\n}\n\n[data-theme=\"dark-tech\"] .glass-surface:hover {\n  background: rgba(71, 85, 105, 0.15) !important; /* slate-600/15% */\n  border-color: rgba(148, 163, 184, 0.3) !important; /* slate-400/30% */\n}\n\n/* 文字颜色适配 */\n[data-theme=\"dark-tech\"] .text-white {\n  color: rgb(248, 250, 252) !important; /* slate-50 */\n  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;\n}\n\n[data-theme=\"dark-tech\"] .text-white\\/80 {\n  color: rgba(248, 250, 252, 0.8) !important; /* slate-50/80% */\n  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.6) !important;\n}\n\n[data-theme=\"dark-tech\"] .text-white\\/70 {\n  color: rgba(248, 250, 252, 0.7) !important; /* slate-50/70% */\n  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.6) !important;\n}\n\n[data-theme=\"dark-tech\"] .text-white\\/60 {\n  color: rgba(248, 250, 252, 0.6) !important; /* slate-50/60% */\n  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.6) !important;\n}\n\n/* 彩色文字适配 */\n[data-theme=\"dark-tech\"] .text-blue-300,\n[data-theme=\"dark-tech\"] .text-blue-200 {\n  color: rgb(147, 197, 253) !important; /* blue-300 */\n  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;\n}\n\n[data-theme=\"dark-tech\"] .text-green-300,\n[data-theme=\"dark-tech\"] .text-green-200 {\n  color: rgb(134, 239, 172) !important; /* green-300 */\n  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;\n}\n\n[data-theme=\"dark-tech\"] .text-yellow-300 {\n  color: rgb(253, 224, 71) !important; /* yellow-300 */\n  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;\n}\n\n[data-theme=\"dark-tech\"] .text-red-300,\n[data-theme=\"dark-tech\"] .text-red-200 {\n  color: rgb(252, 165, 165) !important; /* red-300 */\n  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;\n}\n\n[data-theme=\"dark-tech\"] .text-orange-300,\n[data-theme=\"dark-tech\"] .text-orange-200 {\n  color: rgb(253, 186, 116) !important; /* orange-300 */\n  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;\n}\n\n[data-theme=\"dark-tech\"] .text-purple-300,\n[data-theme=\"dark-tech\"] .text-purple-200 {\n  color: rgb(196, 181, 253) !important; /* purple-300 */\n  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;\n}\n\n/* =============== 温暖商务风主题 (Warm Business) =============== */\n[data-theme=\"warm-business\"] .glass-surface {\n  background: rgba(251, 191, 36, 0.1) !important; /* amber-400/10% */\n  backdrop-filter: blur(35px) !important;\n  border: 1px solid rgba(252, 211, 77, 0.3) !important; /* amber-300/30% */\n  box-shadow: 0 25px 80px rgba(146, 64, 14, 0.2) !important; /* amber-900/20% */\n}\n\n[data-theme=\"warm-business\"] .glass-surface:hover {\n  background: rgba(251, 191, 36, 0.15) !important; /* amber-400/15% */\n  border-color: rgba(252, 211, 77, 0.4) !important; /* amber-300/40% */\n}\n\n/* 文字颜色适配 */\n[data-theme=\"warm-business\"] .text-white {\n  color: rgb(146, 64, 14) !important; /* amber-900 */\n  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.9) !important;\n}\n\n[data-theme=\"warm-business\"] .text-white\\/80 {\n  color: rgba(146, 64, 14, 0.9) !important; /* amber-900/90% */\n  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.7) !important;\n}\n\n[data-theme=\"warm-business\"] .text-white\\/70 {\n  color: rgba(146, 64, 14, 0.8) !important; /* amber-900/80% */\n  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.7) !important;\n}\n\n[data-theme=\"warm-business\"] .text-white\\/60 {\n  color: rgba(146, 64, 14, 0.7) !important; /* amber-900/70% */\n  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.7) !important;\n}\n\n/* 彩色文字适配 */\n[data-theme=\"warm-business\"] .text-blue-300,\n[data-theme=\"warm-business\"] .text-blue-200 {\n  color: rgb(59, 130, 246) !important; /* blue-500 */\n  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;\n}\n\n[data-theme=\"warm-business\"] .text-green-300,\n[data-theme=\"warm-business\"] .text-green-200 {\n  color: rgb(34, 197, 94) !important; /* green-500 */\n  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;\n}\n\n[data-theme=\"warm-business\"] .text-yellow-300 {\n  color: rgb(234, 179, 8) !important; /* yellow-500 */\n  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;\n}\n\n[data-theme=\"warm-business\"] .text-red-300,\n[data-theme=\"warm-business\"] .text-red-200 {\n  color: rgb(239, 68, 68) !important; /* red-500 */\n  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;\n}\n\n[data-theme=\"warm-business\"] .text-orange-300,\n[data-theme=\"warm-business\"] .text-orange-200 {\n  color: rgb(249, 115, 22) !important; /* orange-500 */\n  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;\n}\n\n[data-theme=\"warm-business\"] .text-purple-300,\n[data-theme=\"warm-business\"] .text-purple-200 {\n  color: rgb(168, 85, 247) !important; /* purple-500 */\n  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;\n}\n\n/* =============== 通用样式增强 =============== */\n\n/* 玻璃效果增强 */\n.glass-surface {\n  position: relative;\n  overflow: hidden;\n}\n\n.glass-surface::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);\n  pointer-events: none;\n  z-index: -1;\n}\n\n/* 阴影效果增强 */\n.drop-shadow-lg {\n  filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04)) drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1));\n}\n\n.drop-shadow-md {\n  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));\n}\n\n/* 响应式适配 */\n@media (max-width: 768px) {\n  .glass-surface {\n    backdrop-filter: blur(20px) !important;\n  }\n  \n  .drop-shadow-lg,\n  .drop-shadow-md {\n    filter: none;\n  }\n}\n\n/* 动画优化 */\n.glass-surface {\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n}\n\n.glass-surface:hover {\n  transform: translateY(-1px);\n}\n\n/* 边框渐变效果 */\n.glass-surface {\n  background-clip: padding-box;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6493,11 +6824,11 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* ===== 主题系统架构 ===== */
   /* 应用背景 - indigo-500 到 indigo-600 渐变 */
   --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);
 
-  /* 表面和卡片背景 - indigo-100 系列，半透明 */
-  --surface-background: oklch(0.93 0.034 272.788 / 0.15);
-  --card-background: oklch(0.93 0.034 272.788 / 0.1);
-  --hover-background: oklch(0.87 0.065 274.039 / 0.2);
-  --active-background: oklch(0.785 0.115 274.713 / 0.25);
+  /* 表面和卡片背景 - indigo-100 系列，增强可见性 */
+  --surface-background: oklch(0.93 0.034 272.788 / 0.25);
+  --card-background: oklch(0.93 0.034 272.788 / 0.15);
+  --hover-background: oklch(0.87 0.065 274.039 / 0.3);
+  --active-background: oklch(0.785 0.115 274.713 / 0.35);
 
   /* 弹出窗体背景系统 - indigo-50 系列 */
   --popup-background: oklch(0.962 0.018 272.314 / 0.85);
@@ -6567,11 +6898,11 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* ===== 主题系统架构 ===== */
   /* 应用背景 - indigo-500 到 indigo-600 渐变 */
   --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);
 
-  /* 表面和卡片背景 - indigo-100 系列，增强透明度 */
-  --surface-background: oklch(0.93 0.034 272.788 / 0.12);
-  --card-background: oklch(0.93 0.034 272.788 / 0.08);
-  --hover-background: oklch(0.87 0.065 274.039 / 0.18);
-  --active-background: oklch(0.785 0.115 274.713 / 0.22);
+  /* 表面和卡片背景 - indigo-100 系列，增强可见性 */
+  --surface-background: oklch(0.93 0.034 272.788 / 0.22);
+  --card-background: oklch(0.93 0.034 272.788 / 0.12);
+  --hover-background: oklch(0.87 0.065 274.039 / 0.28);
+  --active-background: oklch(0.785 0.115 274.713 / 0.32);
 
   /* 弹出窗体背景系统 - 调整为更深的indigo色调，确保白色文字可读性 */
   --popup-background: oklch(0.511 0.262 276.966 / 0.9);
@@ -6687,11 +7018,11 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* ===== 主题系统架构 ===== */
   /* 应用背景 - slate-900 到 slate-800 渐变 */
   --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);
 
-  /* 表面和卡片背景 - slate-800/700 系列，深色透明 */
-  --surface-background: oklch(0.279 0.041 260.031 / 0.05);
-  --card-background: oklch(0.279 0.041 260.031 / 0.03);
-  --hover-background: oklch(0.372 0.044 257.287 / 0.08);
-  --active-background: oklch(0.446 0.043 257.281 / 0.12);
+  /* 表面和卡片背景 - slate-800/700 系列，增强可见性 */
+  --surface-background: oklch(0.279 0.041 260.031 / 0.15);
+  --card-background: oklch(0.279 0.041 260.031 / 0.08);
+  --hover-background: oklch(0.372 0.044 257.287 / 0.18);
+  --active-background: oklch(0.446 0.043 257.281 / 0.22);
 
   /* 主题文字颜色 - slate-100/200 浅色文字，适合深色背景 */
   --text-primary: oklch(0.968 0.007 247.896);
@@ -6785,11 +7116,11 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* ===== 主题系统架构 ===== */
   /* 应用背景 - amber-400 到 amber-500 渐变 */
   --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);
 
-  /* 表面和卡片背景 - amber-50 系列，温暖透明 */
-  --surface-background: oklch(0.987 0.022 95.277 / 0.6);
-  --card-background: oklch(0.987 0.022 95.277 / 0.4);
-  --hover-background: oklch(0.962 0.059 95.617 / 0.5);
-  --active-background: oklch(0.924 0.12 95.746 / 0.6);
+  /* 表面和卡片背景 - amber-50 系列，保持温暖可见性 */
+  --surface-background: oklch(0.987 0.022 95.277 / 0.7);
+  --card-background: oklch(0.987 0.022 95.277 / 0.5);
+  --hover-background: oklch(0.962 0.059 95.617 / 0.6);
+  --active-background: oklch(0.924 0.12 95.746 / 0.7);
 
   /* 主题文字颜色 - amber-900/800 深色文字，适合浅色背景 */
   --text-primary: oklch(0.414 0.112 45.904);
@@ -7854,7 +8185,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* ===== 主题系统架构 ===== */
   border: 1px solid var(--financial-neutral) !important;
   color: var(--financial-neutral) !important;
   text-shadow: var(--popup-text-shadow);
-}`, "",{"version":3,"sources":["webpack://./src/styles/themes.css"],"names":[],"mappings":"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","sourcesContent":["/* ===== 主题系统架构 ===== */\n\n/* CSS 变量定义 - 基于Tailwind CSS颜色系统重构 */\n:root {\n  /* 主题切换变量 */\n  --theme-name: 'glass-future';\n\n  /* ===== 玻璃未来风主题 - 基于 Indigo 色块系列 ===== */\n  /* 应用背景 - indigo-500 到 indigo-600 渐变 */\n  --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n\n  /* 表面和卡片背景 - indigo-100 系列，半透明 */\n  --surface-background: oklch(0.93 0.034 272.788 / 0.15);\n  --card-background: oklch(0.93 0.034 272.788 / 0.1);\n  --hover-background: oklch(0.87 0.065 274.039 / 0.2);\n  --active-background: oklch(0.785 0.115 274.713 / 0.25);\n\n  /* 弹出窗体背景系统 - indigo-50 系列 */\n  --popup-background: oklch(0.962 0.018 272.314 / 0.85);\n  --popup-header-background: oklch(0.962 0.018 272.314 / 0.95);\n  --popup-content-background: oklch(0.962 0.018 272.314 / 0.8);\n\n  /* 玻璃感效果 */\n  --glass-blur: blur(20px);\n  --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.4);\n  --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n  --glass-shadow-hover: 0 12px 40px oklch(0.257 0.09 281.288 / 0.2);\n  --glass-shadow-active: 0 16px 48px oklch(0.257 0.09 281.288 / 0.25);\n\n  /* 文字颜色系统 - indigo-900/800 深色文字，适合浅色背景 */\n  --text-primary: oklch(84.45% 0.0111 286.039);\n  --text-secondary: oklch(73.282% 0.00578 286.049);\n  --text-tertiary: oklch(49.841% 0.00643 297.377);\n  --text-accent: oklch(37.566% 0.00172 285.952);\n\n  /* 弹出窗体文字颜色 - 深色文字确保可读性 */\n  --popup-text-primary: oklch(0.359 0.144 278.697);\n  --popup-text-secondary: oklch(0.398 0.195 277.366);\n  --popup-text-tertiary: oklch(0.457 0.24 277.023);\n  --popup-text-shadow: 0 1px 3px oklch(0.962 0.018 272.314 / 0.8);\n  \n  /* 交互状态 */\n  --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  \n  /* 主要渐变色 */\n  --primary-gradient: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n  \n  /* 尺寸系统 */\n  --border-radius-sm: 8px;\n  --border-radius-md: 12px;\n  --border-radius-lg: 16px;\n  --border-radius-xl: 20px;\n  \n  /* 间距系统 */\n  --spacing-xs: 4px;\n  --spacing-sm: 8px;\n  --spacing-md: 16px;\n  --spacing-lg: 24px;\n  --spacing-xl: 32px;\n  --spacing-2xl: 48px;\n\n  /* 状态颜色系统 - 基于语义化设计 */\n  --success-color: oklch(0.64 0.15 145);      /* 成功/正常 - 绿色 */\n  --warning-color: oklch(0.8 0.15 85);        /* 警告/注意 - 黄色 */\n  --error-color: oklch(0.63 0.24 25);         /* 错误/危险 - 红色 */\n  --info-color: oklch(0.7 0.15 230);          /* 信息/中性 - 蓝色 */\n  --disabled-color: oklch(0.6 0.02 260);      /* 禁用/停用 - 灰色 */\n\n  /* 财务状态颜色 */\n  --financial-positive: oklch(0.64 0.15 145);  /* 正值/收入 - 绿色 */\n  --financial-negative: oklch(0.63 0.24 25);   /* 负值/支出 - 红色 */\n  --financial-neutral: oklch(0.7 0.15 230);    /* 中性/信息 - 蓝色 */\n  --financial-warning: oklch(0.8 0.15 85);     /* 警告/注意 - 黄色 */\n  --financial-accent: oklch(0.75 0.2 45);      /* 强调/橙色 */\n}\n\n/* ===== 玻璃未来风主题 - 基于 Indigo 色块系列重构 ===== */\n[data-theme=\"glass-future\"] {\n  --theme-name: 'glass-future';\n\n  /* 应用背景 - indigo-500 到 indigo-600 渐变 */\n  --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n\n  /* 表面和卡片背景 - indigo-100 系列，增强透明度 */\n  --surface-background: oklch(0.93 0.034 272.788 / 0.12);\n  --card-background: oklch(0.93 0.034 272.788 / 0.08);\n  --hover-background: oklch(0.87 0.065 274.039 / 0.18);\n  --active-background: oklch(0.785 0.115 274.713 / 0.22);\n\n  /* 弹出窗体背景系统 - 调整为更深的indigo色调，确保白色文字可读性 */\n  --popup-background: oklch(0.511 0.262 276.966 / 0.9);\n  --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);\n  --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);\n  --popup-blur: blur(35px);\n  --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);\n  --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);\n  --popup-shadow-hover: 0 30px 100px oklch(0.257 0.09 281.288 / 0.45);\n\n  /* 弹出窗体文字颜色 - 改用白色系，增强文字阴影确保可读性 */\n  --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);\n  --popup-text-secondary: oklch(92.369% 0.00263 230.33);\n  --popup-text-tertiary: oklch(0.968 0.007 247.896);\n  --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8);\n\n  /* 滚动条颜色 - indigo系列，半透明 */\n  --scrollbar-thumb-color: oklch(0.87 0.065 274.039 / 0.4);\n  --scrollbar-thumb-hover-color: oklch(0.87 0.065 274.039 / 0.6);\n\n  /* 主题文字颜色 - 基于白色系，增强视觉效果 */\n  --text-primary: oklch(1 0 0);\n  --text-secondary: oklch(0.984 0.003 247.858);\n  --text-tertiary: oklch(0.968 0.007 247.896);\n  --text-accent: oklch(0.929 0.013 255.508);\n\n  /* 玻璃感效果增强 */\n  --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\n  --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n\n  /* 弹出窗体交互状态颜色 */\n  --popup-divider-color: rgba(0, 0, 0, 0.1);\n  --popup-item-hover-bg: rgba(74, 144, 226, 0.1);\n  --popup-item-active-bg: rgba(74, 144, 226, 0.15);\n  --popup-item-active-hover-bg: rgba(74, 144, 226, 0.2);\n  --popup-item-danger-hover-bg: rgba(239, 68, 68, 0.1);\n  --accent-color: #4a90e2;\n  --danger-color: #ef4444;\n\n  /* 更强烈的模糊效果 */\n  --glass-blur: blur(25px);\n  --glass-border: 1px solid rgba(255, 255, 255, 0.25);\n  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);\n  \n  /* 动态光效 */\n  --glass-glow: 0 0 20px rgba(255, 255, 255, 0.1);\n  --glass-glow-hover: 0 0 30px rgba(255, 255, 255, 0.15);\n\n  /* 财务状态颜色 - 玻璃未来风主题 */\n  --financial-positive: oklch(0.64 0.15 145);  /* 正值/收入 - 绿色 */\n  --financial-negative: oklch(0.63 0.24 25);   /* 负值/支出 - 红色 */\n  --financial-neutral: oklch(0.7 0.15 230);    /* 中性/信息 - 蓝色 */\n  --financial-warning: oklch(0.8 0.15 85);     /* 警告/注意 - 黄色 */\n  --financial-accent: oklch(0.75 0.2 45);      /* 强调/橙色 */\n  --financial-purple: oklch(0.65 0.2 300);     /* 紫色 */\n  --financial-teal: oklch(0.65 0.15 180);      /* 青色 */\n  --financial-indigo: oklch(0.6 0.2 270);      /* 靛蓝色 */\n}\n\n/* 玻璃未来风主题专用控件样式 */\n[data-theme=\"glass-future\"] .glass-select {\n  background: var(--popup-background);\n  backdrop-filter: var(--popup-blur);\n  border: var(--popup-border);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n  box-shadow: var(--popup-shadow);\n}\n\n[data-theme=\"glass-future\"] .glass-select:focus,\n[data-theme=\"glass-future\"] .glass-select:hover {\n  background: oklch(0.457 0.24 277.023 / 0.95);\n  border-color: oklch(0.785 0.115 274.713 / 0.7);\n  box-shadow: var(--popup-shadow-hover);\n}\n\n[data-theme=\"glass-future\"] .glass-textarea {\n  background: var(--popup-background);\n  backdrop-filter: var(--popup-blur);\n  border: var(--popup-border);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n  box-shadow: var(--popup-shadow);\n}\n\n[data-theme=\"glass-future\"] .glass-textarea:focus,\n[data-theme=\"glass-future\"] .glass-textarea:hover {\n  background: oklch(0.457 0.24 277.023 / 0.95);\n  border-color: oklch(0.785 0.115 274.713 / 0.7);\n  box-shadow: var(--popup-shadow-hover);\n}\n\n[data-theme=\"glass-future\"] .glass-input {\n  background: var(--popup-background);\n  backdrop-filter: var(--popup-blur);\n  border: var(--popup-border);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n  box-shadow: var(--popup-shadow);\n}\n\n[data-theme=\"glass-future\"] .glass-input:focus,\n[data-theme=\"glass-future\"] .glass-input:hover {\n  background: oklch(0.457 0.24 277.023 / 0.95);\n  border-color: oklch(0.785 0.115 274.713 / 0.7);\n  box-shadow: var(--popup-shadow-hover);\n}\n\n/* ===== 深色科技风主题 - 基于 Slate 色块系列重构 ===== */\n[data-theme=\"dark-tech\"] {\n  --theme-name: 'dark-tech';\n\n  /* 应用背景 - slate-900 到 slate-800 渐变 */\n  --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\n\n  /* 表面和卡片背景 - slate-800/700 系列，深色透明 */\n  --surface-background: oklch(0.279 0.041 260.031 / 0.05);\n  --card-background: oklch(0.279 0.041 260.031 / 0.03);\n  --hover-background: oklch(0.372 0.044 257.287 / 0.08);\n  --active-background: oklch(0.446 0.043 257.281 / 0.12);\n\n  /* 主题文字颜色 - slate-100/200 浅色文字，适合深色背景 */\n  --text-primary: oklch(0.968 0.007 247.896);\n  --text-secondary: oklch(0.929 0.013 255.508);\n  --text-tertiary: oklch(0.869 0.022 252.894);\n  --text-accent: oklch(0.984 0.003 247.858);\n\n  /* 弹出窗体背景系统 - slate-700/800 深色系列 */\n  --popup-background: oklch(0.279 0.041 260.031 / 0.85);\n  --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);\n  --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);\n\n  /* 弹出窗体文字颜色 - slate-100/200 浅色文字，确保对比度 */\n  --popup-text-primary: oklch(0.968 0.007 247.896);\n  --popup-text-secondary: oklch(0.929 0.013 255.508);\n  --popup-text-tertiary: oklch(0.869 0.022 252.894);\n  --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8);\n\n  /* 滚动条颜色 - slate系列，半透明 */\n  --scrollbar-thumb-color: oklch(0.446 0.043 257.281 / 0.5);\n  --scrollbar-thumb-hover-color: oklch(0.446 0.043 257.281 / 0.7);\n\n  /* 深色主题交互状态颜色 - slate系列 */\n  --popup-divider-color: oklch(0.446 0.043 257.281 / 0.15);\n  --popup-item-hover-bg: oklch(0.446 0.043 257.281 / 0.2);\n  --popup-item-active-bg: oklch(0.554 0.046 257.417 / 0.3);\n  --popup-item-active-hover-bg: oklch(0.554 0.046 257.417 / 0.4);\n  --popup-item-danger-hover-bg: oklch(0.637 0.237 25.331 / 0.2);\n  --accent-color: oklch(0.704 0.04 256.788);\n  --danger-color: oklch(0.637 0.237 25.331);\n\n  /* 玻璃感效果调整 */\n  --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n  --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.3);\n\n  /* 财务状态颜色 - 深色科技风主题 */\n  --financial-positive: oklch(0.7 0.15 145);   /* 正值/收入 - 绿色 */\n  --financial-negative: oklch(0.7 0.24 25);    /* 负值/支出 - 红色 */\n  --financial-neutral: oklch(0.75 0.15 230);   /* 中性/信息 - 蓝色 */\n  --financial-warning: oklch(0.85 0.15 85);    /* 警告/注意 - 黄色 */\n  --financial-accent: oklch(0.8 0.2 45);       /* 强调/橙色 */\n  --financial-purple: oklch(0.75 0.2 300);     /* 紫色 */\n  --financial-teal: oklch(0.75 0.15 180);      /* 青色 */\n  --financial-indigo: oklch(0.7 0.2 270);      /* 靛蓝色 */\n}\n\n/* 深色科技风主题专用控件样式 */\n[data-theme=\"dark-tech\"] .glass-select {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"dark-tech\"] .glass-select:focus,\n[data-theme=\"dark-tech\"] .glass-select:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.554 0.046 257.417 / 0.5);\n}\n\n[data-theme=\"dark-tech\"] .glass-textarea {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"dark-tech\"] .glass-textarea:focus,\n[data-theme=\"dark-tech\"] .glass-textarea:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.554 0.046 257.417 / 0.5);\n}\n\n[data-theme=\"dark-tech\"] .glass-input {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"dark-tech\"] .glass-input:focus,\n[data-theme=\"dark-tech\"] .glass-input:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.554 0.046 257.417 / 0.5);\n}\n\n/* ===== 温暖商务风主题 - 基于 Amber 色块系列重构 ===== */\n[data-theme=\"warm-business\"] {\n  --theme-name: 'warm-business';\n\n  /* 应用背景 - amber-400 到 amber-500 渐变 */\n  --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\n\n  /* 表面和卡片背景 - amber-50 系列，温暖透明 */\n  --surface-background: oklch(0.987 0.022 95.277 / 0.6);\n  --card-background: oklch(0.987 0.022 95.277 / 0.4);\n  --hover-background: oklch(0.962 0.059 95.617 / 0.5);\n  --active-background: oklch(0.924 0.12 95.746 / 0.6);\n\n  /* 主题文字颜色 - amber-900/800 深色文字，适合浅色背景 */\n  --text-primary: oklch(0.414 0.112 45.904);\n  --text-secondary: oklch(0.473 0.137 46.201);\n  --text-tertiary: oklch(0.555 0.163 48.998);\n  --text-accent: oklch(0.279 0.077 45.635);\n\n  /* 弹出窗体背景系统 - amber-50 系列，高可读性 */\n  --popup-background: oklch(0.987 0.022 95.277 / 0.85);\n  --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);\n  --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);\n\n  /* 弹出窗体文字颜色 - amber-900/800 深色文字，确保对比度 */\n  --popup-text-primary: oklch(0.414 0.112 45.904);\n  --popup-text-secondary: oklch(0.473 0.137 46.201);\n  --popup-text-tertiary: oklch(0.555 0.163 48.998);\n  --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9);\n\n  /* 滚动条颜色 - amber系列，半透明 */\n  --scrollbar-thumb-color: oklch(0.879 0.169 91.605 / 0.4);\n  --scrollbar-thumb-hover-color: oklch(0.879 0.169 91.605 / 0.6);\n\n  /* 温暖主题交互状态颜色 - amber系列 */\n  --popup-divider-color: oklch(0.414 0.112 45.904 / 0.1);\n  --popup-item-hover-bg: oklch(0.924 0.12 95.746 / 0.3);\n  --popup-item-active-bg: oklch(0.879 0.169 91.605 / 0.4);\n  --popup-item-active-hover-bg: oklch(0.828 0.189 84.429 / 0.5);\n  --popup-item-danger-hover-bg: oklch(0.637 0.237 25.331 / 0.15);\n  --accent-color: oklch(0.769 0.188 70.08);\n  --danger-color: oklch(0.637 0.237 25.331);\n\n  /* 玻璃感效果调整 */\n  --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n  --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\n\n  /* 财务状态颜色 - 温暖商务风主题 */\n  --financial-positive: oklch(0.5 0.15 145);   /* 正值/收入 - 深绿色 */\n  --financial-negative: oklch(0.5 0.24 25);    /* 负值/支出 - 深红色 */\n  --financial-neutral: oklch(0.45 0.15 230);   /* 中性/信息 - 深蓝色 */\n  --financial-warning: oklch(0.6 0.15 85);     /* 警告/注意 - 深黄色 */\n  --financial-accent: oklch(0.55 0.2 45);      /* 强调/深橙色 */\n  --financial-purple: oklch(0.5 0.2 300);      /* 深紫色 */\n  --financial-teal: oklch(0.5 0.15 180);       /* 深青色 */\n  --financial-indigo: oklch(0.45 0.2 270);     /* 深靛蓝色 */\n}\n\n/* 温暖商务风主题专用控件样式 */\n[data-theme=\"warm-business\"] .glass-select {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"warm-business\"] .glass-select:focus,\n[data-theme=\"warm-business\"] .glass-select:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.879 0.169 91.605 / 0.6);\n}\n\n[data-theme=\"warm-business\"] .glass-textarea {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"warm-business\"] .glass-textarea:focus,\n[data-theme=\"warm-business\"] .glass-textarea:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.879 0.169 91.605 / 0.6);\n}\n\n[data-theme=\"warm-business\"] .glass-input {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"warm-business\"] .glass-input:focus,\n[data-theme=\"warm-business\"] .glass-input:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.879 0.169 91.605 / 0.6);\n}\n\n/* ===== 弹出窗体专用样式类 ===== */\n.popup-dropdown {\n  background: var(--popup-background);\n  -webkit-backdrop-filter: var(--popup-blur);\n  backdrop-filter: var(--popup-blur);\n  border: var(--popup-border);\n  border-radius: var(--border-radius-lg);\n  box-shadow: var(--popup-shadow);\n  transition: var(--transition-base);\n  position: absolute;\n  z-index: var(--z-dropdown);\n  overflow: hidden;\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n.popup-dropdown:hover {\n  box-shadow: var(--popup-shadow-hover);\n}\n\n.popup-header {\n  background: var(--popup-header-background);\n  border-bottom: 1px solid rgba(255, 255, 255, 0.4);\n  padding: var(--spacing-md);\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.popup-header h3 {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 700;\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n.popup-content {\n  background: var(--popup-content-background);\n  padding: var(--spacing-md);\n  max-height: 400px;\n  overflow-y: auto;\n}\n\n/* 弹出窗体内文字样式增强 */\n.popup-dropdown p,\n.popup-dropdown span,\n.popup-dropdown div,\n.popup-dropdown li {\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 500;\n}\n\n.popup-dropdown .secondary-text {\n  color: var(--popup-text-secondary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.popup-dropdown .tertiary-text {\n  color: var(--popup-text-tertiary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 弹出窗体按钮样式增强 */\n.popup-dropdown button {\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.popup-dropdown .close-button {\n  background: rgba(255, 255, 255, 0.3);\n  border: 1px solid rgba(255, 255, 255, 0.4);\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* ===== 弹出窗体选项列表优化 ===== */\n\n/* 通知列表项样式 */\n.notification-item {\n  padding: var(--spacing-md);\n  border-bottom: 1px solid var(--popup-divider-color);\n  transition: var(--transition-base);\n  cursor: pointer;\n  position: relative;\n}\n\n.notification-item:last-child {\n  border-bottom: none;\n}\n\n.notification-item:hover {\n  background: var(--popup-item-hover-bg);\n  transform: translateX(2px);\n}\n\n.notification-item.unread {\n  background: var(--popup-item-active-bg);\n  border-left: 3px solid var(--accent-color);\n}\n\n/* 用户菜单项样式 */\n.user-menu-item {\n  width: 100%;\n  padding: var(--spacing-sm) var(--spacing-md);\n  border: none;\n  background: transparent;\n  text-align: left;\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-sm);\n  transition: var(--transition-base);\n  cursor: pointer;\n  border-bottom: 1px solid var(--popup-divider-color);\n}\n\n.user-menu-item:last-child {\n  border-bottom: none;\n}\n\n.user-menu-item:hover {\n  background: var(--popup-item-hover-bg);\n  transform: translateX(2px);\n}\n\n.user-menu-item.logout:hover {\n  background: var(--popup-item-danger-hover-bg);\n  color: var(--danger-color) !important;\n}\n\n.user-menu-item .menu-icon {\n  font-size: 16px;\n  width: 20px;\n  text-align: center;\n}\n\n/* 主题选择器选项样式 */\n.theme-option {\n  padding: var(--spacing-md);\n  border-bottom: 1px solid var(--popup-divider-color);\n  transition: var(--transition-base);\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-md);\n  position: relative;\n}\n\n.theme-option:last-child {\n  border-bottom: none;\n}\n\n.theme-option:hover {\n  background: var(--popup-item-hover-bg);\n  transform: translateX(2px);\n}\n\n.theme-option.active {\n  background: var(--popup-item-active-bg);\n  border-left: 3px solid var(--accent-color);\n}\n\n.theme-option.active:hover {\n  background: var(--popup-item-active-hover-bg);\n}\n\n/* 菜单分隔线样式 */\n.menu-divider {\n  height: 1px;\n  background: var(--popup-divider-color);\n  margin: var(--spacing-xs) 0;\n  border: none;\n}\n\n.user-menu-divider {\n  height: 1px;\n  background: var(--popup-divider-color);\n  margin: var(--spacing-sm) 0;\n}\n\n.popup-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.3);\n  -webkit-backdrop-filter: blur(8px);\n  backdrop-filter: blur(8px);\n  z-index: calc(var(--z-dropdown) - 1);\n  animation: overlayFadeIn 0.3s ease;\n}\n\n@keyframes overlayFadeIn {\n  from { opacity: 0; }\n  to { opacity: 1; }\n}\n\n/* ===== 侧边栏滚动条样式 ===== */\n.sidebar-scrollbar {\n  scrollbar-width: thin;\n  scrollbar-color: var(--scrollbar-thumb-color) transparent;\n}\n\n.sidebar-scrollbar::-webkit-scrollbar {\n  width: 6px;\n}\n\n.sidebar-scrollbar::-webkit-scrollbar-track {\n  background: transparent;\n  border-radius: 3px;\n}\n\n.sidebar-scrollbar::-webkit-scrollbar-thumb {\n  background: var(--scrollbar-thumb-color);\n  border-radius: 3px;\n  transition: var(--transition-base);\n}\n\n.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {\n  background: var(--scrollbar-thumb-hover-color);\n}\n\n/* ===== 基础玻璃感组件类 ===== */\n.glass-surface {\n  background: var(--surface-background);\n  -webkit-backdrop-filter: var(--glass-blur);\n  backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-lg);\n  box-shadow: var(--glass-shadow);\n  transition: var(--transition-base);\n}\n\n.glass-card {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-md);\n  box-shadow: var(--glass-shadow);\n  transition: var(--transition-base);\n  position: relative;\n  overflow: hidden;\n}\n\n.glass-card::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);\n  opacity: 0;\n  transition: var(--transition-base);\n}\n\n.glass-card:hover {\n  background: var(--hover-background);\n  box-shadow: var(--glass-shadow-hover);\n  transform: translateY(-2px);\n}\n\n.glass-card:hover::before {\n  opacity: 1;\n}\n\n.glass-card:active {\n  background: var(--active-background);\n  transform: translateY(0);\n}\n\n/* 强化玻璃感卡片 */\n.glass-card-enhanced {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-lg);\n  box-shadow: var(--glass-shadow), var(--glass-glow);\n  transition: var(--transition-base);\n  position: relative;\n  overflow: hidden;\n}\n\n.glass-card-enhanced::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);\n  opacity: 0;\n  transition: var(--transition-base);\n  pointer-events: none;\n}\n\n.glass-card-enhanced:hover {\n  background: var(--hover-background);\n  box-shadow: var(--glass-shadow-hover), var(--glass-glow-hover);\n  transform: translateY(-4px);\n}\n\n.glass-card-enhanced:hover::before {\n  opacity: 1;\n}\n\n/* 玻璃感按钮 */\n.glass-button {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-sm);\n  color: var(--text-primary);\n  padding: var(--spacing-sm) var(--spacing-md);\n  transition: var(--transition-base);\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n}\n\n.glass-button:hover {\n  background: var(--hover-background);\n  transform: translateY(-1px);\n  box-shadow: var(--glass-shadow);\n}\n\n/* 玻璃感输入框 */\n.glass-input {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-sm);\n  color: var(--text-primary);\n  padding: var(--spacing-sm) var(--spacing-md);\n  transition: var(--transition-base);\n}\n\n.glass-input:focus {\n  background: var(--hover-background);\n  border-color: rgba(255, 255, 255, 0.5);\n  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);\n  outline: none;\n}\n\n.glass-input::placeholder {\n  color: var(--text-tertiary);\n}\n\n/* 玻璃感下拉框 */\n.glass-select {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-sm);\n  color: var(--text-primary);\n  padding: var(--spacing-sm) var(--spacing-md);\n  transition: var(--transition-base);\n  cursor: pointer;\n  appearance: none;\n  background-image: url(\"data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e\");\n  background-repeat: no-repeat;\n  background-position: right var(--spacing-sm) center;\n  background-size: 16px;\n  padding-right: calc(var(--spacing-md) + 24px);\n}\n\n.glass-select:focus {\n  background: var(--hover-background);\n  border-color: rgba(255, 255, 255, 0.5);\n  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);\n  outline: none;\n}\n\n.glass-select:hover {\n  background: var(--hover-background);\n}\n\n/* 玻璃感文本域 */\n.glass-textarea {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-sm);\n  color: var(--text-primary);\n  padding: var(--spacing-sm) var(--spacing-md);\n  transition: var(--transition-base);\n  resize: vertical;\n  min-height: 80px;\n  font-family: inherit;\n}\n\n.glass-textarea:focus {\n  background: var(--hover-background);\n  border-color: rgba(255, 255, 255, 0.5);\n  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);\n  outline: none;\n}\n\n.glass-textarea::placeholder {\n  color: var(--text-tertiary);\n}\n\n/* 响应式适配 */\n@media (max-width: 768px) {\n  :root {\n    --glass-blur: blur(15px);\n    --border-radius-lg: 12px;\n    --border-radius-md: 10px;\n  }\n}\n\n/* 动画效果 */\n@keyframes glass-shimmer {\n  0% { transform: translateX(-100%); }\n  100% { transform: translateX(100%); }\n}\n\n.glass-loading {\n  position: relative;\n  overflow: hidden;\n}\n\n.glass-loading::after {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);\n  animation: glass-shimmer 1.5s infinite;\n}\n\n/* 下拉框option样式 */\n.glass-select option {\n  background: var(--popup-background);\n  color: var(--popup-text-primary);\n  padding: var(--spacing-sm);\n  border: none;\n  font-weight: 500;\n}\n\n/* 控件禁用状态 */\n.glass-input:disabled,\n.glass-select:disabled,\n.glass-textarea:disabled,\n.glass-button:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n  pointer-events: none;\n  background: var(--surface-background);\n}\n\n/* 控件错误状态 */\n.glass-input.error,\n.glass-select.error,\n.glass-textarea.error {\n  border-color: var(--danger-color);\n  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);\n}\n\n/* 控件成功状态 */\n.glass-input.success,\n.glass-select.success,\n.glass-textarea.success {\n  border-color: #10b981;\n  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);\n}\n\n/* 表单组样式 */\n.form-group {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-xs);\n  margin-bottom: var(--spacing-md);\n}\n\n.form-group label {\n  color: var(--popup-text-secondary);\n  font-size: 0.85rem;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  margin-bottom: var(--spacing-xs);\n}\n\n/* 必填字段标记 */\n.form-group label.required::after {\n  content: ' *';\n  color: var(--danger-color);\n  font-weight: bold;\n}\n\n/* 字段帮助文本 */\n.field-help {\n  font-size: 0.75rem;\n  color: var(--popup-text-tertiary);\n  margin-top: var(--spacing-xs);\n  font-style: italic;\n}\n\n/* 字段错误消息 */\n.field-error {\n  font-size: 0.75rem;\n  color: var(--danger-color);\n  margin-top: var(--spacing-xs);\n  font-weight: 500;\n}\n\n/* 字段成功消息 */\n.field-success {\n  font-size: 0.75rem;\n  color: #10b981;\n  margin-top: var(--spacing-xs);\n  font-weight: 500;\n}\n\n/* 搜索输入框特殊样式 */\n.search-input-wrapper {\n  position: relative;\n  display: flex;\n  align-items: center;\n}\n\n.search-input-wrapper .search-icon {\n  position: absolute;\n  left: var(--spacing-md);\n  color: var(--popup-text-tertiary);\n  pointer-events: none;\n  z-index: 1;\n}\n\n.search-input-wrapper .glass-input {\n  padding-left: calc(var(--spacing-md) + 24px);\n}\n\n/* 清除按钮样式 */\n.clear-button {\n  position: absolute;\n  right: var(--spacing-sm);\n  background: none;\n  border: none;\n  color: var(--popup-text-tertiary);\n  cursor: pointer;\n  padding: var(--spacing-xs);\n  border-radius: var(--border-radius-sm);\n  transition: var(--transition-base);\n  z-index: 1;\n}\n\n.clear-button:hover {\n  background: var(--hover-background);\n  color: var(--popup-text-primary);\n}\n\n/* ===== 财务报表专用样式 ===== */\n\n/* 财务数值显示样式 */\n.financial-value-positive {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-negative {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-neutral {\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-warning {\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-accent {\n  color: var(--financial-accent) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-purple {\n  color: var(--financial-purple) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-teal {\n  color: var(--financial-teal) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-indigo {\n  color: var(--financial-indigo) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n/* 财务页面专用数值样式 */\n.financial-value-income {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-expense {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-total {\n  color: var(--financial-purple) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-today {\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-unpaid {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-partial {\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-paid {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-overdue {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-balance {\n  color: var(--financial-accent) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n/* 财务页面文字样式 */\n.financial-text {\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-label {\n  color: var(--popup-text-secondary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-icon {\n  color: var(--popup-text-tertiary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 财务报表标题样式 */\n.financial-title {\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-subtitle {\n  color: var(--popup-text-secondary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-description {\n  color: var(--popup-text-tertiary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 财务表格样式 */\n.financial-table-header {\n  background: var(--surface-background) !important;\n  color: var(--popup-text-secondary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-table-cell {\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 财务状态样式 */\n.financial-status-unpaid {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-negative) !important;\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-status-partial {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-warning) !important;\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-status-paid {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-positive) !important;\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-status-processing {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-neutral) !important;\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-status-default {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--popup-text-tertiary) !important;\n  color: var(--popup-text-tertiary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 账龄分析卡片样式 */\n.aging-card-normal {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-positive) !important;\n  color: var(--financial-positive) !important;\n}\n\n.aging-card-warning {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-warning) !important;\n  color: var(--financial-warning) !important;\n}\n\n.aging-card-danger {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-negative) !important;\n  color: var(--financial-negative) !important;\n}\n\n.aging-card-accent {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-accent) !important;\n  color: var(--financial-accent) !important;\n}\n\n.aging-card-purple {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-purple) !important;\n  color: var(--financial-purple) !important;\n}\n\n/* ===== 库存报表专用样式 ===== */\n\n/* 库存状态样式 */\n.inventory-status-normal {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-positive) !important;\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.inventory-status-low {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-warning) !important;\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.inventory-status-out {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-negative) !important;\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.inventory-status-excess {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-neutral) !important;\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.inventory-status-default {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--popup-text-tertiary) !important;\n  color: var(--popup-text-tertiary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 库存数值显示样式 */\n.inventory-value-items {\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.inventory-value-total {\n  color: var(--financial-purple) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.inventory-value-low {\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.inventory-value-out {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.inventory-value-turnover {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n/* ===== 销售报表专用样式 ===== */\n\n/* 销售数值显示样式 */\n.sales-value-revenue {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.sales-value-orders {\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.sales-value-customers {\n  color: var(--financial-purple) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.sales-value-growth {\n  color: var(--financial-accent) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.sales-value-profit {\n  color: var(--financial-teal) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n/* 销售状态样式 */\n.sales-status-completed {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-positive) !important;\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.sales-status-pending {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-warning) !important;\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.sales-status-cancelled {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-negative) !important;\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.sales-status-processing {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-neutral) !important;\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* ===== 采购报表专用样式 ===== */\n\n/* 采购数值显示样式 */\n.purchase-value-cost {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.purchase-value-orders {\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.purchase-value-suppliers {\n  color: var(--financial-indigo) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.purchase-value-savings {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.purchase-value-quality {\n  color: var(--financial-teal) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.purchase-value-delivery {\n  color: var(--financial-accent) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n/* 采购状态样式 */\n.purchase-status-received {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-positive) !important;\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.purchase-status-pending {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-warning) !important;\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.purchase-status-cancelled {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-negative) !important;\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.purchase-status-processing {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-neutral) !important;\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/styles/themes.css"],"names":[],"mappings":"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","sourcesContent":["/* ===== 主题系统架构 ===== */\n\n/* CSS 变量定义 - 基于Tailwind CSS颜色系统重构 */\n:root {\n  /* 主题切换变量 */\n  --theme-name: 'glass-future';\n\n  /* ===== 玻璃未来风主题 - 基于 Indigo 色块系列 ===== */\n  /* 应用背景 - indigo-500 到 indigo-600 渐变 */\n  --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n\n  /* 表面和卡片背景 - indigo-100 系列，增强可见性 */\n  --surface-background: oklch(0.93 0.034 272.788 / 0.25);\n  --card-background: oklch(0.93 0.034 272.788 / 0.15);\n  --hover-background: oklch(0.87 0.065 274.039 / 0.3);\n  --active-background: oklch(0.785 0.115 274.713 / 0.35);\n\n  /* 弹出窗体背景系统 - indigo-50 系列 */\n  --popup-background: oklch(0.962 0.018 272.314 / 0.85);\n  --popup-header-background: oklch(0.962 0.018 272.314 / 0.95);\n  --popup-content-background: oklch(0.962 0.018 272.314 / 0.8);\n\n  /* 玻璃感效果 */\n  --glass-blur: blur(20px);\n  --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.4);\n  --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n  --glass-shadow-hover: 0 12px 40px oklch(0.257 0.09 281.288 / 0.2);\n  --glass-shadow-active: 0 16px 48px oklch(0.257 0.09 281.288 / 0.25);\n\n  /* 文字颜色系统 - indigo-900/800 深色文字，适合浅色背景 */\n  --text-primary: oklch(84.45% 0.0111 286.039);\n  --text-secondary: oklch(73.282% 0.00578 286.049);\n  --text-tertiary: oklch(49.841% 0.00643 297.377);\n  --text-accent: oklch(37.566% 0.00172 285.952);\n\n  /* 弹出窗体文字颜色 - 深色文字确保可读性 */\n  --popup-text-primary: oklch(0.359 0.144 278.697);\n  --popup-text-secondary: oklch(0.398 0.195 277.366);\n  --popup-text-tertiary: oklch(0.457 0.24 277.023);\n  --popup-text-shadow: 0 1px 3px oklch(0.962 0.018 272.314 / 0.8);\n  \n  /* 交互状态 */\n  --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  \n  /* 主要渐变色 */\n  --primary-gradient: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n  \n  /* 尺寸系统 */\n  --border-radius-sm: 8px;\n  --border-radius-md: 12px;\n  --border-radius-lg: 16px;\n  --border-radius-xl: 20px;\n  \n  /* 间距系统 */\n  --spacing-xs: 4px;\n  --spacing-sm: 8px;\n  --spacing-md: 16px;\n  --spacing-lg: 24px;\n  --spacing-xl: 32px;\n  --spacing-2xl: 48px;\n\n  /* 状态颜色系统 - 基于语义化设计 */\n  --success-color: oklch(0.64 0.15 145);      /* 成功/正常 - 绿色 */\n  --warning-color: oklch(0.8 0.15 85);        /* 警告/注意 - 黄色 */\n  --error-color: oklch(0.63 0.24 25);         /* 错误/危险 - 红色 */\n  --info-color: oklch(0.7 0.15 230);          /* 信息/中性 - 蓝色 */\n  --disabled-color: oklch(0.6 0.02 260);      /* 禁用/停用 - 灰色 */\n\n  /* 财务状态颜色 */\n  --financial-positive: oklch(0.64 0.15 145);  /* 正值/收入 - 绿色 */\n  --financial-negative: oklch(0.63 0.24 25);   /* 负值/支出 - 红色 */\n  --financial-neutral: oklch(0.7 0.15 230);    /* 中性/信息 - 蓝色 */\n  --financial-warning: oklch(0.8 0.15 85);     /* 警告/注意 - 黄色 */\n  --financial-accent: oklch(0.75 0.2 45);      /* 强调/橙色 */\n}\n\n/* ===== 玻璃未来风主题 - 基于 Indigo 色块系列重构 ===== */\n[data-theme=\"glass-future\"] {\n  --theme-name: 'glass-future';\n\n  /* 应用背景 - indigo-500 到 indigo-600 渐变 */\n  --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\n\n  /* 表面和卡片背景 - indigo-100 系列，增强可见性 */\n  --surface-background: oklch(0.93 0.034 272.788 / 0.22);\n  --card-background: oklch(0.93 0.034 272.788 / 0.12);\n  --hover-background: oklch(0.87 0.065 274.039 / 0.28);\n  --active-background: oklch(0.785 0.115 274.713 / 0.32);\n\n  /* 弹出窗体背景系统 - 调整为更深的indigo色调，确保白色文字可读性 */\n  --popup-background: oklch(0.511 0.262 276.966 / 0.9);\n  --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);\n  --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);\n  --popup-blur: blur(35px);\n  --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);\n  --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);\n  --popup-shadow-hover: 0 30px 100px oklch(0.257 0.09 281.288 / 0.45);\n\n  /* 弹出窗体文字颜色 - 改用白色系，增强文字阴影确保可读性 */\n  --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);\n  --popup-text-secondary: oklch(92.369% 0.00263 230.33);\n  --popup-text-tertiary: oklch(0.968 0.007 247.896);\n  --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8);\n\n  /* 滚动条颜色 - indigo系列，半透明 */\n  --scrollbar-thumb-color: oklch(0.87 0.065 274.039 / 0.4);\n  --scrollbar-thumb-hover-color: oklch(0.87 0.065 274.039 / 0.6);\n\n  /* 主题文字颜色 - 基于白色系，增强视觉效果 */\n  --text-primary: oklch(1 0 0);\n  --text-secondary: oklch(0.984 0.003 247.858);\n  --text-tertiary: oklch(0.968 0.007 247.896);\n  --text-accent: oklch(0.929 0.013 255.508);\n\n  /* 玻璃感效果增强 */\n  --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\n  --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\n\n  /* 弹出窗体交互状态颜色 */\n  --popup-divider-color: rgba(0, 0, 0, 0.1);\n  --popup-item-hover-bg: rgba(74, 144, 226, 0.1);\n  --popup-item-active-bg: rgba(74, 144, 226, 0.15);\n  --popup-item-active-hover-bg: rgba(74, 144, 226, 0.2);\n  --popup-item-danger-hover-bg: rgba(239, 68, 68, 0.1);\n  --accent-color: #4a90e2;\n  --danger-color: #ef4444;\n\n  /* 更强烈的模糊效果 */\n  --glass-blur: blur(25px);\n  --glass-border: 1px solid rgba(255, 255, 255, 0.25);\n  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);\n  \n  /* 动态光效 */\n  --glass-glow: 0 0 20px rgba(255, 255, 255, 0.1);\n  --glass-glow-hover: 0 0 30px rgba(255, 255, 255, 0.15);\n\n  /* 财务状态颜色 - 玻璃未来风主题 */\n  --financial-positive: oklch(0.64 0.15 145);  /* 正值/收入 - 绿色 */\n  --financial-negative: oklch(0.63 0.24 25);   /* 负值/支出 - 红色 */\n  --financial-neutral: oklch(0.7 0.15 230);    /* 中性/信息 - 蓝色 */\n  --financial-warning: oklch(0.8 0.15 85);     /* 警告/注意 - 黄色 */\n  --financial-accent: oklch(0.75 0.2 45);      /* 强调/橙色 */\n  --financial-purple: oklch(0.65 0.2 300);     /* 紫色 */\n  --financial-teal: oklch(0.65 0.15 180);      /* 青色 */\n  --financial-indigo: oklch(0.6 0.2 270);      /* 靛蓝色 */\n}\n\n/* 玻璃未来风主题专用控件样式 */\n[data-theme=\"glass-future\"] .glass-select {\n  background: var(--popup-background);\n  backdrop-filter: var(--popup-blur);\n  border: var(--popup-border);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n  box-shadow: var(--popup-shadow);\n}\n\n[data-theme=\"glass-future\"] .glass-select:focus,\n[data-theme=\"glass-future\"] .glass-select:hover {\n  background: oklch(0.457 0.24 277.023 / 0.95);\n  border-color: oklch(0.785 0.115 274.713 / 0.7);\n  box-shadow: var(--popup-shadow-hover);\n}\n\n[data-theme=\"glass-future\"] .glass-textarea {\n  background: var(--popup-background);\n  backdrop-filter: var(--popup-blur);\n  border: var(--popup-border);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n  box-shadow: var(--popup-shadow);\n}\n\n[data-theme=\"glass-future\"] .glass-textarea:focus,\n[data-theme=\"glass-future\"] .glass-textarea:hover {\n  background: oklch(0.457 0.24 277.023 / 0.95);\n  border-color: oklch(0.785 0.115 274.713 / 0.7);\n  box-shadow: var(--popup-shadow-hover);\n}\n\n[data-theme=\"glass-future\"] .glass-input {\n  background: var(--popup-background);\n  backdrop-filter: var(--popup-blur);\n  border: var(--popup-border);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n  box-shadow: var(--popup-shadow);\n}\n\n[data-theme=\"glass-future\"] .glass-input:focus,\n[data-theme=\"glass-future\"] .glass-input:hover {\n  background: oklch(0.457 0.24 277.023 / 0.95);\n  border-color: oklch(0.785 0.115 274.713 / 0.7);\n  box-shadow: var(--popup-shadow-hover);\n}\n\n/* ===== 深色科技风主题 - 基于 Slate 色块系列重构 ===== */\n[data-theme=\"dark-tech\"] {\n  --theme-name: 'dark-tech';\n\n  /* 应用背景 - slate-900 到 slate-800 渐变 */\n  --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\n\n  /* 表面和卡片背景 - slate-800/700 系列，增强可见性 */\n  --surface-background: oklch(0.279 0.041 260.031 / 0.15);\n  --card-background: oklch(0.279 0.041 260.031 / 0.08);\n  --hover-background: oklch(0.372 0.044 257.287 / 0.18);\n  --active-background: oklch(0.446 0.043 257.281 / 0.22);\n\n  /* 主题文字颜色 - slate-100/200 浅色文字，适合深色背景 */\n  --text-primary: oklch(0.968 0.007 247.896);\n  --text-secondary: oklch(0.929 0.013 255.508);\n  --text-tertiary: oklch(0.869 0.022 252.894);\n  --text-accent: oklch(0.984 0.003 247.858);\n\n  /* 弹出窗体背景系统 - slate-700/800 深色系列 */\n  --popup-background: oklch(0.279 0.041 260.031 / 0.85);\n  --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);\n  --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);\n\n  /* 弹出窗体文字颜色 - slate-100/200 浅色文字，确保对比度 */\n  --popup-text-primary: oklch(0.968 0.007 247.896);\n  --popup-text-secondary: oklch(0.929 0.013 255.508);\n  --popup-text-tertiary: oklch(0.869 0.022 252.894);\n  --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8);\n\n  /* 滚动条颜色 - slate系列，半透明 */\n  --scrollbar-thumb-color: oklch(0.446 0.043 257.281 / 0.5);\n  --scrollbar-thumb-hover-color: oklch(0.446 0.043 257.281 / 0.7);\n\n  /* 深色主题交互状态颜色 - slate系列 */\n  --popup-divider-color: oklch(0.446 0.043 257.281 / 0.15);\n  --popup-item-hover-bg: oklch(0.446 0.043 257.281 / 0.2);\n  --popup-item-active-bg: oklch(0.554 0.046 257.417 / 0.3);\n  --popup-item-active-hover-bg: oklch(0.554 0.046 257.417 / 0.4);\n  --popup-item-danger-hover-bg: oklch(0.637 0.237 25.331 / 0.2);\n  --accent-color: oklch(0.704 0.04 256.788);\n  --danger-color: oklch(0.637 0.237 25.331);\n\n  /* 玻璃感效果调整 */\n  --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n  --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.3);\n\n  /* 财务状态颜色 - 深色科技风主题 */\n  --financial-positive: oklch(0.7 0.15 145);   /* 正值/收入 - 绿色 */\n  --financial-negative: oklch(0.7 0.24 25);    /* 负值/支出 - 红色 */\n  --financial-neutral: oklch(0.75 0.15 230);   /* 中性/信息 - 蓝色 */\n  --financial-warning: oklch(0.85 0.15 85);    /* 警告/注意 - 黄色 */\n  --financial-accent: oklch(0.8 0.2 45);       /* 强调/橙色 */\n  --financial-purple: oklch(0.75 0.2 300);     /* 紫色 */\n  --financial-teal: oklch(0.75 0.15 180);      /* 青色 */\n  --financial-indigo: oklch(0.7 0.2 270);      /* 靛蓝色 */\n}\n\n/* 深色科技风主题专用控件样式 */\n[data-theme=\"dark-tech\"] .glass-select {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"dark-tech\"] .glass-select:focus,\n[data-theme=\"dark-tech\"] .glass-select:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.554 0.046 257.417 / 0.5);\n}\n\n[data-theme=\"dark-tech\"] .glass-textarea {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"dark-tech\"] .glass-textarea:focus,\n[data-theme=\"dark-tech\"] .glass-textarea:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.554 0.046 257.417 / 0.5);\n}\n\n[data-theme=\"dark-tech\"] .glass-input {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"dark-tech\"] .glass-input:focus,\n[data-theme=\"dark-tech\"] .glass-input:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.554 0.046 257.417 / 0.5);\n}\n\n/* ===== 温暖商务风主题 - 基于 Amber 色块系列重构 ===== */\n[data-theme=\"warm-business\"] {\n  --theme-name: 'warm-business';\n\n  /* 应用背景 - amber-400 到 amber-500 渐变 */\n  --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\n\n  /* 表面和卡片背景 - amber-50 系列，保持温暖可见性 */\n  --surface-background: oklch(0.987 0.022 95.277 / 0.7);\n  --card-background: oklch(0.987 0.022 95.277 / 0.5);\n  --hover-background: oklch(0.962 0.059 95.617 / 0.6);\n  --active-background: oklch(0.924 0.12 95.746 / 0.7);\n\n  /* 主题文字颜色 - amber-900/800 深色文字，适合浅色背景 */\n  --text-primary: oklch(0.414 0.112 45.904);\n  --text-secondary: oklch(0.473 0.137 46.201);\n  --text-tertiary: oklch(0.555 0.163 48.998);\n  --text-accent: oklch(0.279 0.077 45.635);\n\n  /* 弹出窗体背景系统 - amber-50 系列，高可读性 */\n  --popup-background: oklch(0.987 0.022 95.277 / 0.85);\n  --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);\n  --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);\n\n  /* 弹出窗体文字颜色 - amber-900/800 深色文字，确保对比度 */\n  --popup-text-primary: oklch(0.414 0.112 45.904);\n  --popup-text-secondary: oklch(0.473 0.137 46.201);\n  --popup-text-tertiary: oklch(0.555 0.163 48.998);\n  --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9);\n\n  /* 滚动条颜色 - amber系列，半透明 */\n  --scrollbar-thumb-color: oklch(0.879 0.169 91.605 / 0.4);\n  --scrollbar-thumb-hover-color: oklch(0.879 0.169 91.605 / 0.6);\n\n  /* 温暖主题交互状态颜色 - amber系列 */\n  --popup-divider-color: oklch(0.414 0.112 45.904 / 0.1);\n  --popup-item-hover-bg: oklch(0.924 0.12 95.746 / 0.3);\n  --popup-item-active-bg: oklch(0.879 0.169 91.605 / 0.4);\n  --popup-item-active-hover-bg: oklch(0.828 0.189 84.429 / 0.5);\n  --popup-item-danger-hover-bg: oklch(0.637 0.237 25.331 / 0.15);\n  --accent-color: oklch(0.769 0.188 70.08);\n  --danger-color: oklch(0.637 0.237 25.331);\n\n  /* 玻璃感效果调整 */\n  --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n  --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\n\n  /* 财务状态颜色 - 温暖商务风主题 */\n  --financial-positive: oklch(0.5 0.15 145);   /* 正值/收入 - 深绿色 */\n  --financial-negative: oklch(0.5 0.24 25);    /* 负值/支出 - 深红色 */\n  --financial-neutral: oklch(0.45 0.15 230);   /* 中性/信息 - 深蓝色 */\n  --financial-warning: oklch(0.6 0.15 85);     /* 警告/注意 - 深黄色 */\n  --financial-accent: oklch(0.55 0.2 45);      /* 强调/深橙色 */\n  --financial-purple: oklch(0.5 0.2 300);      /* 深紫色 */\n  --financial-teal: oklch(0.5 0.15 180);       /* 深青色 */\n  --financial-indigo: oklch(0.45 0.2 270);     /* 深靛蓝色 */\n}\n\n/* 温暖商务风主题专用控件样式 */\n[data-theme=\"warm-business\"] .glass-select {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"warm-business\"] .glass-select:focus,\n[data-theme=\"warm-business\"] .glass-select:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.879 0.169 91.605 / 0.6);\n}\n\n[data-theme=\"warm-business\"] .glass-textarea {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"warm-business\"] .glass-textarea:focus,\n[data-theme=\"warm-business\"] .glass-textarea:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.879 0.169 91.605 / 0.6);\n}\n\n[data-theme=\"warm-business\"] .glass-input {\n  background: var(--popup-background);\n  border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n[data-theme=\"warm-business\"] .glass-input:focus,\n[data-theme=\"warm-business\"] .glass-input:hover {\n  background: var(--popup-item-hover-bg);\n  border-color: oklch(0.879 0.169 91.605 / 0.6);\n}\n\n/* ===== 弹出窗体专用样式类 ===== */\n.popup-dropdown {\n  background: var(--popup-background);\n  -webkit-backdrop-filter: var(--popup-blur);\n  backdrop-filter: var(--popup-blur);\n  border: var(--popup-border);\n  border-radius: var(--border-radius-lg);\n  box-shadow: var(--popup-shadow);\n  transition: var(--transition-base);\n  position: absolute;\n  z-index: var(--z-dropdown);\n  overflow: hidden;\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n.popup-dropdown:hover {\n  box-shadow: var(--popup-shadow-hover);\n}\n\n.popup-header {\n  background: var(--popup-header-background);\n  border-bottom: 1px solid rgba(255, 255, 255, 0.4);\n  padding: var(--spacing-md);\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.popup-header h3 {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 700;\n  color: var(--popup-text-primary);\n  text-shadow: var(--popup-text-shadow);\n}\n\n.popup-content {\n  background: var(--popup-content-background);\n  padding: var(--spacing-md);\n  max-height: 400px;\n  overflow-y: auto;\n}\n\n/* 弹出窗体内文字样式增强 */\n.popup-dropdown p,\n.popup-dropdown span,\n.popup-dropdown div,\n.popup-dropdown li {\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 500;\n}\n\n.popup-dropdown .secondary-text {\n  color: var(--popup-text-secondary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.popup-dropdown .tertiary-text {\n  color: var(--popup-text-tertiary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 弹出窗体按钮样式增强 */\n.popup-dropdown button {\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.popup-dropdown .close-button {\n  background: rgba(255, 255, 255, 0.3);\n  border: 1px solid rgba(255, 255, 255, 0.4);\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* ===== 弹出窗体选项列表优化 ===== */\n\n/* 通知列表项样式 */\n.notification-item {\n  padding: var(--spacing-md);\n  border-bottom: 1px solid var(--popup-divider-color);\n  transition: var(--transition-base);\n  cursor: pointer;\n  position: relative;\n}\n\n.notification-item:last-child {\n  border-bottom: none;\n}\n\n.notification-item:hover {\n  background: var(--popup-item-hover-bg);\n  transform: translateX(2px);\n}\n\n.notification-item.unread {\n  background: var(--popup-item-active-bg);\n  border-left: 3px solid var(--accent-color);\n}\n\n/* 用户菜单项样式 */\n.user-menu-item {\n  width: 100%;\n  padding: var(--spacing-sm) var(--spacing-md);\n  border: none;\n  background: transparent;\n  text-align: left;\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-sm);\n  transition: var(--transition-base);\n  cursor: pointer;\n  border-bottom: 1px solid var(--popup-divider-color);\n}\n\n.user-menu-item:last-child {\n  border-bottom: none;\n}\n\n.user-menu-item:hover {\n  background: var(--popup-item-hover-bg);\n  transform: translateX(2px);\n}\n\n.user-menu-item.logout:hover {\n  background: var(--popup-item-danger-hover-bg);\n  color: var(--danger-color) !important;\n}\n\n.user-menu-item .menu-icon {\n  font-size: 16px;\n  width: 20px;\n  text-align: center;\n}\n\n/* 主题选择器选项样式 */\n.theme-option {\n  padding: var(--spacing-md);\n  border-bottom: 1px solid var(--popup-divider-color);\n  transition: var(--transition-base);\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-md);\n  position: relative;\n}\n\n.theme-option:last-child {\n  border-bottom: none;\n}\n\n.theme-option:hover {\n  background: var(--popup-item-hover-bg);\n  transform: translateX(2px);\n}\n\n.theme-option.active {\n  background: var(--popup-item-active-bg);\n  border-left: 3px solid var(--accent-color);\n}\n\n.theme-option.active:hover {\n  background: var(--popup-item-active-hover-bg);\n}\n\n/* 菜单分隔线样式 */\n.menu-divider {\n  height: 1px;\n  background: var(--popup-divider-color);\n  margin: var(--spacing-xs) 0;\n  border: none;\n}\n\n.user-menu-divider {\n  height: 1px;\n  background: var(--popup-divider-color);\n  margin: var(--spacing-sm) 0;\n}\n\n.popup-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.3);\n  -webkit-backdrop-filter: blur(8px);\n  backdrop-filter: blur(8px);\n  z-index: calc(var(--z-dropdown) - 1);\n  animation: overlayFadeIn 0.3s ease;\n}\n\n@keyframes overlayFadeIn {\n  from { opacity: 0; }\n  to { opacity: 1; }\n}\n\n/* ===== 侧边栏滚动条样式 ===== */\n.sidebar-scrollbar {\n  scrollbar-width: thin;\n  scrollbar-color: var(--scrollbar-thumb-color) transparent;\n}\n\n.sidebar-scrollbar::-webkit-scrollbar {\n  width: 6px;\n}\n\n.sidebar-scrollbar::-webkit-scrollbar-track {\n  background: transparent;\n  border-radius: 3px;\n}\n\n.sidebar-scrollbar::-webkit-scrollbar-thumb {\n  background: var(--scrollbar-thumb-color);\n  border-radius: 3px;\n  transition: var(--transition-base);\n}\n\n.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {\n  background: var(--scrollbar-thumb-hover-color);\n}\n\n/* ===== 基础玻璃感组件类 ===== */\n.glass-surface {\n  background: var(--surface-background);\n  -webkit-backdrop-filter: var(--glass-blur);\n  backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-lg);\n  box-shadow: var(--glass-shadow);\n  transition: var(--transition-base);\n}\n\n.glass-card {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-md);\n  box-shadow: var(--glass-shadow);\n  transition: var(--transition-base);\n  position: relative;\n  overflow: hidden;\n}\n\n.glass-card::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);\n  opacity: 0;\n  transition: var(--transition-base);\n}\n\n.glass-card:hover {\n  background: var(--hover-background);\n  box-shadow: var(--glass-shadow-hover);\n  transform: translateY(-2px);\n}\n\n.glass-card:hover::before {\n  opacity: 1;\n}\n\n.glass-card:active {\n  background: var(--active-background);\n  transform: translateY(0);\n}\n\n/* 强化玻璃感卡片 */\n.glass-card-enhanced {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-lg);\n  box-shadow: var(--glass-shadow), var(--glass-glow);\n  transition: var(--transition-base);\n  position: relative;\n  overflow: hidden;\n}\n\n.glass-card-enhanced::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);\n  opacity: 0;\n  transition: var(--transition-base);\n  pointer-events: none;\n}\n\n.glass-card-enhanced:hover {\n  background: var(--hover-background);\n  box-shadow: var(--glass-shadow-hover), var(--glass-glow-hover);\n  transform: translateY(-4px);\n}\n\n.glass-card-enhanced:hover::before {\n  opacity: 1;\n}\n\n/* 玻璃感按钮 */\n.glass-button {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-sm);\n  color: var(--text-primary);\n  padding: var(--spacing-sm) var(--spacing-md);\n  transition: var(--transition-base);\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n}\n\n.glass-button:hover {\n  background: var(--hover-background);\n  transform: translateY(-1px);\n  box-shadow: var(--glass-shadow);\n}\n\n/* 玻璃感输入框 */\n.glass-input {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-sm);\n  color: var(--text-primary);\n  padding: var(--spacing-sm) var(--spacing-md);\n  transition: var(--transition-base);\n}\n\n.glass-input:focus {\n  background: var(--hover-background);\n  border-color: rgba(255, 255, 255, 0.5);\n  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);\n  outline: none;\n}\n\n.glass-input::placeholder {\n  color: var(--text-tertiary);\n}\n\n/* 玻璃感下拉框 */\n.glass-select {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-sm);\n  color: var(--text-primary);\n  padding: var(--spacing-sm) var(--spacing-md);\n  transition: var(--transition-base);\n  cursor: pointer;\n  appearance: none;\n  background-image: url(\"data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e\");\n  background-repeat: no-repeat;\n  background-position: right var(--spacing-sm) center;\n  background-size: 16px;\n  padding-right: calc(var(--spacing-md) + 24px);\n}\n\n.glass-select:focus {\n  background: var(--hover-background);\n  border-color: rgba(255, 255, 255, 0.5);\n  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);\n  outline: none;\n}\n\n.glass-select:hover {\n  background: var(--hover-background);\n}\n\n/* 玻璃感文本域 */\n.glass-textarea {\n  background: var(--card-background);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n  border: var(--glass-border);\n  border-radius: var(--border-radius-sm);\n  color: var(--text-primary);\n  padding: var(--spacing-sm) var(--spacing-md);\n  transition: var(--transition-base);\n  resize: vertical;\n  min-height: 80px;\n  font-family: inherit;\n}\n\n.glass-textarea:focus {\n  background: var(--hover-background);\n  border-color: rgba(255, 255, 255, 0.5);\n  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);\n  outline: none;\n}\n\n.glass-textarea::placeholder {\n  color: var(--text-tertiary);\n}\n\n/* 响应式适配 */\n@media (max-width: 768px) {\n  :root {\n    --glass-blur: blur(15px);\n    --border-radius-lg: 12px;\n    --border-radius-md: 10px;\n  }\n}\n\n/* 动画效果 */\n@keyframes glass-shimmer {\n  0% { transform: translateX(-100%); }\n  100% { transform: translateX(100%); }\n}\n\n.glass-loading {\n  position: relative;\n  overflow: hidden;\n}\n\n.glass-loading::after {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);\n  animation: glass-shimmer 1.5s infinite;\n}\n\n/* 下拉框option样式 */\n.glass-select option {\n  background: var(--popup-background);\n  color: var(--popup-text-primary);\n  padding: var(--spacing-sm);\n  border: none;\n  font-weight: 500;\n}\n\n/* 控件禁用状态 */\n.glass-input:disabled,\n.glass-select:disabled,\n.glass-textarea:disabled,\n.glass-button:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n  pointer-events: none;\n  background: var(--surface-background);\n}\n\n/* 控件错误状态 */\n.glass-input.error,\n.glass-select.error,\n.glass-textarea.error {\n  border-color: var(--danger-color);\n  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);\n}\n\n/* 控件成功状态 */\n.glass-input.success,\n.glass-select.success,\n.glass-textarea.success {\n  border-color: #10b981;\n  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);\n}\n\n/* 表单组样式 */\n.form-group {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-xs);\n  margin-bottom: var(--spacing-md);\n}\n\n.form-group label {\n  color: var(--popup-text-secondary);\n  font-size: 0.85rem;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  margin-bottom: var(--spacing-xs);\n}\n\n/* 必填字段标记 */\n.form-group label.required::after {\n  content: ' *';\n  color: var(--danger-color);\n  font-weight: bold;\n}\n\n/* 字段帮助文本 */\n.field-help {\n  font-size: 0.75rem;\n  color: var(--popup-text-tertiary);\n  margin-top: var(--spacing-xs);\n  font-style: italic;\n}\n\n/* 字段错误消息 */\n.field-error {\n  font-size: 0.75rem;\n  color: var(--danger-color);\n  margin-top: var(--spacing-xs);\n  font-weight: 500;\n}\n\n/* 字段成功消息 */\n.field-success {\n  font-size: 0.75rem;\n  color: #10b981;\n  margin-top: var(--spacing-xs);\n  font-weight: 500;\n}\n\n/* 搜索输入框特殊样式 */\n.search-input-wrapper {\n  position: relative;\n  display: flex;\n  align-items: center;\n}\n\n.search-input-wrapper .search-icon {\n  position: absolute;\n  left: var(--spacing-md);\n  color: var(--popup-text-tertiary);\n  pointer-events: none;\n  z-index: 1;\n}\n\n.search-input-wrapper .glass-input {\n  padding-left: calc(var(--spacing-md) + 24px);\n}\n\n/* 清除按钮样式 */\n.clear-button {\n  position: absolute;\n  right: var(--spacing-sm);\n  background: none;\n  border: none;\n  color: var(--popup-text-tertiary);\n  cursor: pointer;\n  padding: var(--spacing-xs);\n  border-radius: var(--border-radius-sm);\n  transition: var(--transition-base);\n  z-index: 1;\n}\n\n.clear-button:hover {\n  background: var(--hover-background);\n  color: var(--popup-text-primary);\n}\n\n/* ===== 财务报表专用样式 ===== */\n\n/* 财务数值显示样式 */\n.financial-value-positive {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-negative {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-neutral {\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-warning {\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-accent {\n  color: var(--financial-accent) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-purple {\n  color: var(--financial-purple) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-teal {\n  color: var(--financial-teal) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-indigo {\n  color: var(--financial-indigo) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n/* 财务页面专用数值样式 */\n.financial-value-income {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-expense {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-total {\n  color: var(--financial-purple) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-today {\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-unpaid {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-partial {\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-paid {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-overdue {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.financial-value-balance {\n  color: var(--financial-accent) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n/* 财务页面文字样式 */\n.financial-text {\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-label {\n  color: var(--popup-text-secondary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-icon {\n  color: var(--popup-text-tertiary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 财务报表标题样式 */\n.financial-title {\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-subtitle {\n  color: var(--popup-text-secondary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-description {\n  color: var(--popup-text-tertiary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 财务表格样式 */\n.financial-table-header {\n  background: var(--surface-background) !important;\n  color: var(--popup-text-secondary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-table-cell {\n  color: var(--popup-text-primary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 财务状态样式 */\n.financial-status-unpaid {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-negative) !important;\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-status-partial {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-warning) !important;\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-status-paid {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-positive) !important;\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-status-processing {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-neutral) !important;\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.financial-status-default {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--popup-text-tertiary) !important;\n  color: var(--popup-text-tertiary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 账龄分析卡片样式 */\n.aging-card-normal {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-positive) !important;\n  color: var(--financial-positive) !important;\n}\n\n.aging-card-warning {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-warning) !important;\n  color: var(--financial-warning) !important;\n}\n\n.aging-card-danger {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-negative) !important;\n  color: var(--financial-negative) !important;\n}\n\n.aging-card-accent {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-accent) !important;\n  color: var(--financial-accent) !important;\n}\n\n.aging-card-purple {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-purple) !important;\n  color: var(--financial-purple) !important;\n}\n\n/* ===== 库存报表专用样式 ===== */\n\n/* 库存状态样式 */\n.inventory-status-normal {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-positive) !important;\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.inventory-status-low {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-warning) !important;\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.inventory-status-out {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-negative) !important;\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.inventory-status-excess {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-neutral) !important;\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.inventory-status-default {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--popup-text-tertiary) !important;\n  color: var(--popup-text-tertiary) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* 库存数值显示样式 */\n.inventory-value-items {\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.inventory-value-total {\n  color: var(--financial-purple) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.inventory-value-low {\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.inventory-value-out {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.inventory-value-turnover {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n/* ===== 销售报表专用样式 ===== */\n\n/* 销售数值显示样式 */\n.sales-value-revenue {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.sales-value-orders {\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.sales-value-customers {\n  color: var(--financial-purple) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.sales-value-growth {\n  color: var(--financial-accent) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.sales-value-profit {\n  color: var(--financial-teal) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n/* 销售状态样式 */\n.sales-status-completed {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-positive) !important;\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.sales-status-pending {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-warning) !important;\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.sales-status-cancelled {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-negative) !important;\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.sales-status-processing {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-neutral) !important;\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n/* ===== 采购报表专用样式 ===== */\n\n/* 采购数值显示样式 */\n.purchase-value-cost {\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.purchase-value-orders {\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.purchase-value-suppliers {\n  color: var(--financial-indigo) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.purchase-value-savings {\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.purchase-value-quality {\n  color: var(--financial-teal) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n.purchase-value-delivery {\n  color: var(--financial-accent) !important;\n  text-shadow: var(--popup-text-shadow);\n  font-weight: 600;\n}\n\n/* 采购状态样式 */\n.purchase-status-received {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-positive) !important;\n  color: var(--financial-positive) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.purchase-status-pending {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-warning) !important;\n  color: var(--financial-warning) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.purchase-status-cancelled {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-negative) !important;\n  color: var(--financial-negative) !important;\n  text-shadow: var(--popup-text-shadow);\n}\n\n.purchase-status-processing {\n  background: var(--surface-background) !important;\n  border: 1px solid var(--financial-neutral) !important;\n  color: var(--financial-neutral) !important;\n  text-shadow: var(--popup-text-shadow);\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50945,6 +51276,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_dataInitializer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/dataInitializer */ "./src/services/dataInitializer.ts");
 /* harmony import */ var _components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/ErrorBoundary */ "./src/components/ErrorBoundary.tsx");
 /* harmony import */ var _globals_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./globals.css */ "./src/globals.css");
+/* harmony import */ var _styles_theme_adaptations_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./styles/theme-adaptations.css */ "./src/styles/theme-adaptations.css");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -50954,6 +51286,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -50997,6 +51330,8 @@ const App = () => {
                 yield _services_business__WEBPACK_IMPORTED_MODULE_4__.businessServiceManager.initialize();
                 // 初始化种子数据
                 yield _services_dataInitializer__WEBPACK_IMPORTED_MODULE_5__.dataInitializer.initializeData();
+                // TODO: 初始化库存卡片视图测试数据（暂时禁用）
+                // await testDataInitializer.initializeInventoryCardTestData();
                 setIsLoading(false);
             }
             catch (error) {
@@ -51031,6 +51366,280 @@ const App = () => {
         }, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "min-h-screen", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Layout_AppLayout__WEBPACK_IMPORTED_MODULE_2__.AppLayout, { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_PageContainer__WEBPACK_IMPORTED_MODULE_3__["default"], { currentPage: currentPage }) }) }) }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
+
+
+/***/ }),
+
+/***/ "./src/components/Calendar/CalendarOverviewPage.tsx":
+/*!**********************************************************!*\
+  !*** ./src/components/Calendar/CalendarOverviewPage.tsx ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
+/* harmony import */ var _WeeklyCalendarView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./WeeklyCalendarView */ "./src/components/Calendar/WeeklyCalendarView.tsx");
+/* harmony import */ var _DayDetailModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./DayDetailModal */ "./src/components/Calendar/DayDetailModal.tsx");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+const CalendarOverviewPage = () => {
+    const [currentWeekStart, setCurrentWeekStart] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(() => {
+        return _services_business__WEBPACK_IMPORTED_MODULE_2__.CalendarDataService.getWeekStart(new Date());
+    });
+    const [weekData, setWeekData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [selectedDay, setSelectedDay] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [isDetailModalOpen, setIsDetailModalOpen] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    // 加载周数据
+    const loadWeekData = (weekStart) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            setLoading(true);
+            setError(null);
+            const data = yield _services_business__WEBPACK_IMPORTED_MODULE_2__.calendarDataService.getWeeklyData(weekStart);
+            setWeekData(data);
+        }
+        catch (err) {
+            setError('加载日历数据失败');
+            console.error('加载日历数据失败:', err);
+        }
+        finally {
+            setLoading(false);
+        }
+    });
+    // 初始加载
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        loadWeekData(currentWeekStart);
+    }, [currentWeekStart]);
+    // 导航到上一周
+    const goToPreviousWeek = () => {
+        const prevWeek = new Date(currentWeekStart);
+        prevWeek.setDate(prevWeek.getDate() - 7);
+        setCurrentWeekStart(prevWeek);
+    };
+    // 导航到下一周
+    const goToNextWeek = () => {
+        const nextWeek = new Date(currentWeekStart);
+        nextWeek.setDate(nextWeek.getDate() + 7);
+        setCurrentWeekStart(nextWeek);
+    };
+    // 导航到当前周
+    const goToCurrentWeek = () => {
+        const currentWeek = _services_business__WEBPACK_IMPORTED_MODULE_2__.CalendarDataService.getWeekStart(new Date());
+        setCurrentWeekStart(currentWeek);
+    };
+    // 处理日期点击
+    const handleDayClick = (dayData) => {
+        setSelectedDay(dayData);
+        setIsDetailModalOpen(true);
+    };
+    // 关闭详情模态框
+    const closeDetailModal = () => {
+        setIsDetailModalOpen(false);
+        setSelectedDay(null);
+    };
+    // 格式化周范围显示
+    const formatWeekRange = (start, end) => {
+        const startStr = start.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
+        const endStr = end.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
+        return `${startStr} - ${endStr}`;
+    };
+    // 检查是否是当前周
+    const isCurrentWeek = () => {
+        const currentWeek = _services_business__WEBPACK_IMPORTED_MODULE_2__.CalendarDataService.getWeekStart(new Date());
+        return currentWeekStart.getTime() === currentWeek.getTime();
+    };
+    if (loading) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center h-64", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center glass-surface backdrop-blur-lg rounded-xl p-8 border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin rounded-full h-12 w-12 border-b-2 border-white/60 mx-auto mb-4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white drop-shadow-lg", children: "\u52A0\u8F7D\u65E5\u5386\u6570\u636E\u4E2D..." })] }) }));
+    }
+    if (error) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center h-64", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center glass-surface backdrop-blur-lg rounded-xl p-8 border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-red-300 mb-4 drop-shadow-lg", children: ["\u274C ", error] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => loadWeekData(currentWeekStart), className: "px-4 py-2 glass-surface backdrop-blur-md text-white rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 drop-shadow-md", children: "\u91CD\u65B0\u52A0\u8F7D" })] }) }));
+    }
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-2xl font-bold text-white drop-shadow-lg", children: "\u65E5\u5386\u5F0F\u6574\u4F53\u89C6\u56FE" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 mt-1 drop-shadow-md", children: "\u67E5\u770B\u6BCF\u65E5\u91C7\u8D2D\u3001\u9500\u552E\u548C\u5E93\u5B58\u53D8\u5316\u8D8B\u52BF" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: goToPreviousWeek, className: "p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200 glass-surface backdrop-blur-md border border-white/30", title: "\u4E0A\u4E00\u5468", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M15 19l-7-7 7-7" }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "px-4 py-2 glass-surface backdrop-blur-lg rounded-lg text-sm font-medium text-white min-w-[200px] text-center border border-white/30 drop-shadow-md", children: weekData && formatWeekRange(weekData.weekStart, weekData.weekEnd) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: goToNextWeek, className: "p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200 glass-surface backdrop-blur-md border border-white/30", title: "\u4E0B\u4E00\u5468", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M9 5l7 7-7 7" }) }) }), !isCurrentWeek() && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: goToCurrentWeek, className: "ml-2 px-3 py-2 glass-surface backdrop-blur-md text-white text-sm rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 drop-shadow-md", children: "\u56DE\u5230\u672C\u5468" }))] })] }), weekData && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-blue-300 text-sm font-medium drop-shadow-md", children: "\u672C\u5468\u91C7\u8D2D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-2xl font-bold text-blue-200 drop-shadow-lg", children: ["\u00A5", weekData.weeklyTotals.purchases.toLocaleString()] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-blue-300 text-3xl drop-shadow-lg", children: "\uD83D\uDCE6" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-green-300 text-sm font-medium drop-shadow-md", children: "\u672C\u5468\u9500\u552E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-2xl font-bold text-green-200 drop-shadow-lg", children: ["\u00A5", weekData.weeklyTotals.sales.toLocaleString()] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-green-300 text-3xl drop-shadow-lg", children: "\uD83D\uDCB0" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `text-sm font-medium drop-shadow-md ${weekData.weeklyTotals.netChange > 0
+                                                ? 'text-green-300'
+                                                : weekData.weeklyTotals.netChange < 0
+                                                    ? 'text-red-300'
+                                                    : 'text-white/80'}`, children: "\u672C\u5468\u51C0\u53D8\u5316" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `text-2xl font-bold drop-shadow-lg ${weekData.weeklyTotals.netChange > 0
+                                                ? 'text-green-200'
+                                                : weekData.weeklyTotals.netChange < 0
+                                                    ? 'text-red-200'
+                                                    : 'text-white/80'}`, children: [weekData.weeklyTotals.netChange > 0 ? '+' : '', weekData.weeklyTotals.netChange] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `text-3xl drop-shadow-lg ${weekData.weeklyTotals.netChange > 0
+                                        ? 'text-green-300'
+                                        : weekData.weeklyTotals.netChange < 0
+                                            ? 'text-red-300'
+                                            : 'text-white/60'}`, children: weekData.weeklyTotals.netChange > 0 ? '📈' : weekData.weeklyTotals.netChange < 0 ? '📉' : '📊' })] }) })] })), weekData && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_WeeklyCalendarView__WEBPACK_IMPORTED_MODULE_3__["default"], { weekData: weekData, selectedDate: selectedDay === null || selectedDay === void 0 ? void 0 : selectedDay.date, onDayClick: handleDayClick })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_DayDetailModal__WEBPACK_IMPORTED_MODULE_4__["default"], { isOpen: isDetailModalOpen, onClose: closeDetailModal, data: selectedDay }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface backdrop-blur-lg border border-white/20 rounded-xl p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-blue-300 font-medium mb-2 drop-shadow-lg", children: "\uD83D\uDCA1 \u4F7F\u7528\u8BF4\u660E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", { className: "text-white/80 text-sm space-y-1 drop-shadow-md", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u70B9\u51FB\u4EFB\u610F\u65E5\u671F\u67E5\u770B\u5F53\u65E5\u8BE6\u7EC6\u4E1A\u52A1\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u53F3\u4E0A\u89D2\u7684\u5F69\u8272\u5706\u70B9\u8868\u793A\u5F53\u65E5\u6D3B\u52A8\u5F3A\u5EA6\uFF08\u7EFF\u8272=\u9AD8\uFF0C\u9EC4\u8272=\u4E2D\uFF0C\u7070\u8272=\u4F4E\uFF09" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u4F7F\u7528\u5DE6\u53F3\u7BAD\u5934\u5BFC\u822A\u4E0D\u540C\u5468\u4EFD\uFF0C\u70B9\u51FB\"\u56DE\u5230\u672C\u5468\"\u5FEB\u901F\u8FD4\u56DE\u5F53\u524D\u5468" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u5468\u6C47\u603B\u663E\u793A\u672C\u5468\u7684\u91C7\u8D2D\u3001\u9500\u552E\u603B\u989D\u548C\u5E93\u5B58\u51C0\u53D8\u5316" })] })] })] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CalendarOverviewPage);
+
+
+/***/ }),
+
+/***/ "./src/components/Calendar/DayCell.tsx":
+/*!*********************************************!*\
+  !*** ./src/components/Calendar/DayCell.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+const DayCell = ({ data, isToday = false, isSelected = false, onClick }) => {
+    const date = new Date(data.date);
+    const dayNumber = date.getDate();
+    const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+    // 计算活动强度（用于颜色编码）
+    const totalActivity = data.purchases.totalValue + data.sales.totalValue;
+    const activityLevel = totalActivity > 20000 ? 'high' : totalActivity > 10000 ? 'medium' : 'low';
+    // 计算净变化
+    const netChange = data.movements.inbound - data.movements.outbound;
+    const isPositive = netChange > 0;
+    const isNegative = netChange < 0;
+    // 样式类
+    const cellClasses = [
+        'relative p-3 border border-white/20 rounded-lg cursor-pointer transition-all duration-200 glass-surface backdrop-blur-md',
+        'hover:shadow-lg hover:border-blue-300/50 hover:bg-white/10',
+        isToday && 'ring-2 ring-blue-400/50 ring-opacity-50',
+        isSelected && 'bg-blue-500/20 border-blue-400/50',
+        isWeekend && 'bg-white/5',
+        !isWeekend && 'bg-white/10'
+    ].filter(Boolean).join(' ');
+    const activityIndicatorClasses = [
+        'absolute top-1 right-1 w-2 h-2 rounded-full shadow-sm',
+        activityLevel === 'high' && 'bg-green-400',
+        activityLevel === 'medium' && 'bg-yellow-400',
+        activityLevel === 'low' && 'bg-gray-400'
+    ].filter(Boolean).join(' ');
+    const formatCurrency = (amount) => {
+        if (amount >= 10000) {
+            return `${(amount / 10000).toFixed(1)}万`;
+        }
+        return `${amount.toLocaleString()}`;
+    };
+    const formatQuantity = (quantity) => {
+        if (quantity >= 1000) {
+            return `${(quantity / 1000).toFixed(1)}k`;
+        }
+        return quantity.toString();
+    };
+    const handleClick = () => {
+        if (onClick) {
+            onClick(data);
+        }
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: cellClasses, onClick: handleClick, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: activityIndicatorClasses }), isToday && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute top-1 left-1 text-xs text-blue-300 font-bold drop-shadow-lg", children: "\u4ECA\u65E5" })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-start mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `text-lg font-bold drop-shadow-lg ${isToday ? 'text-blue-300' : 'text-white'}`, children: dayNumber }), netChange !== 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: `text-xs px-1 py-0.5 rounded backdrop-blur-sm border border-white/20 drop-shadow-md ${isPositive ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'}`, children: [isPositive ? '+' : '', formatQuantity(netChange)] }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-1 text-xs", children: [data.purchases.totalValue > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-blue-300 flex items-center drop-shadow-md", children: "\uD83D\uDCE6 \u91C7\u8D2D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium text-blue-200 drop-shadow-lg", children: formatCurrency(data.purchases.totalValue) })] })), data.sales.totalValue > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-green-300 flex items-center drop-shadow-md", children: "\uD83D\uDCB0 \u9500\u552E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium text-green-200 drop-shadow-lg", children: formatCurrency(data.sales.totalValue) })] })), (data.inventory.lowStockCount > 0 || data.inventory.outOfStockCount > 0) && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-orange-300 flex items-center drop-shadow-md", children: "\u26A0\uFE0F \u5E93\u5B58" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium text-orange-200 drop-shadow-lg", children: data.inventory.lowStockCount + data.inventory.outOfStockCount })] })), data.inventory.newProductCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-purple-300 flex items-center drop-shadow-md", children: "\u2728 \u65B0\u54C1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium text-purple-200 drop-shadow-lg", children: data.inventory.newProductCount })] }))] }), (data.purchases.orderCount > 0 || data.sales.orderCount > 0) && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mt-2 pt-2 border-t border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between text-xs text-white/70 drop-shadow-md", children: [data.purchases.orderCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { children: [data.purchases.orderCount, "\u4E2A\u91C7\u8D2D\u5355"] })), data.sales.orderCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { children: [data.sales.orderCount, "\u4E2A\u9500\u552E\u5355"] }))] }) })), totalActivity === 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center h-16 text-white/60 text-xs drop-shadow-md", children: "\u65E0\u6D3B\u52A8" }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DayCell);
+
+
+/***/ }),
+
+/***/ "./src/components/Calendar/DayDetailModal.tsx":
+/*!****************************************************!*\
+  !*** ./src/components/Calendar/DayDetailModal.tsx ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+const DayDetailModal = ({ isOpen, onClose, data }) => {
+    if (!isOpen || !data)
+        return null;
+    const formatCurrency = (amount) => {
+        return `¥${amount.toLocaleString()}`;
+    };
+    const formatDate = (date) => {
+        return new Date(date).toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'long'
+        });
+    };
+    const netChange = data.movements.inbound - data.movements.outbound;
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface backdrop-blur-xl rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto border border-white/30", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center p-6 border-b border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h2", { className: "text-xl font-bold text-white drop-shadow-lg", children: [formatDate(data.date), " \u4E1A\u52A1\u8BE6\u60C5"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: onClose, className: "text-white/80 hover:text-white transition-colors glass-surface backdrop-blur-md p-2 rounded-lg border border-white/30", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-6 h-6", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-4 mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-blue-50 p-4 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-blue-600 text-sm font-medium", children: "\u91C7\u8D2D\u603B\u989D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-blue-700", children: formatCurrency(data.purchases.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-blue-600 mt-1", children: [data.purchases.orderCount, " \u4E2A\u8BA2\u5355"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-green-50 p-4 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-green-600 text-sm font-medium", children: "\u9500\u552E\u603B\u989D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-green-700", children: formatCurrency(data.sales.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-green-600 mt-1", children: [data.sales.orderCount, " \u4E2A\u8BA2\u5355"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-gray-50 p-4 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-gray-600 text-sm font-medium", children: "\u5E93\u5B58\u4EF7\u503C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-gray-700", children: formatCurrency(data.inventory.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs text-gray-600 mt-1", children: "\u603B\u5E93\u5B58\u4EF7\u503C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `p-4 rounded-lg ${netChange > 0 ? 'bg-green-50' : netChange < 0 ? 'bg-red-50' : 'bg-gray-50'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `text-sm font-medium ${netChange > 0 ? 'text-green-600' : netChange < 0 ? 'text-red-600' : 'text-gray-600'}`, children: "\u51C0\u53D8\u5316" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `text-2xl font-bold ${netChange > 0 ? 'text-green-700' : netChange < 0 ? 'text-red-700' : 'text-gray-700'}`, children: [netChange > 0 ? '+' : '', netChange] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `text-xs mt-1 ${netChange > 0 ? 'text-green-600' : netChange < 0 ? 'text-red-600' : 'text-gray-600'}`, children: "\u5165\u5E93 - \u51FA\u5E93" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 lg:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-white border border-gray-200 rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-gray-900 mb-4 flex items-center", children: "\uD83D\uDCE6 \u91C7\u8D2D\u8BE6\u60C5" }), data.purchases.topProducts.length > 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-3", children: [data.purchases.topProducts.map((product, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center p-3 bg-blue-50 rounded", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-gray-900", children: product.productName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-sm text-gray-600", children: ["\u6570\u91CF: ", product.quantity] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-right", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-bold text-blue-700", children: formatCurrency(product.value) }) })] }, index))), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "pt-3 border-t border-blue-200", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between text-sm", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u603B\u6570\u91CF:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium", children: data.purchases.totalAmount })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between text-sm", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u8BA2\u5355\u6570:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium", children: data.purchases.orderCount })] })] })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-center text-gray-500 py-8", children: "\u4ECA\u65E5\u65E0\u91C7\u8D2D\u6D3B\u52A8" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-white border border-gray-200 rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-gray-900 mb-4 flex items-center", children: "\uD83D\uDCB0 \u9500\u552E\u8BE6\u60C5" }), data.sales.topProducts.length > 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-3", children: [data.sales.topProducts.map((product, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center p-3 bg-green-50 rounded", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-gray-900", children: product.productName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-sm text-gray-600", children: ["\u6570\u91CF: ", product.quantity] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-right", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-bold text-green-700", children: formatCurrency(product.value) }) })] }, index))), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "pt-3 border-t border-green-200", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between text-sm", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u603B\u6570\u91CF:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium", children: data.sales.totalAmount })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between text-sm", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u8BA2\u5355\u6570:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium", children: data.sales.orderCount })] })] })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-center text-gray-500 py-8", children: "\u4ECA\u65E5\u65E0\u9500\u552E\u6D3B\u52A8" }))] })] }), (data.inventory.lowStockCount > 0 || data.inventory.outOfStockCount > 0 || data.inventory.newProductCount > 0) && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mt-6 bg-white border border-gray-200 rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-gray-900 mb-4 flex items-center", children: "\uD83D\uDCCA \u5E93\u5B58\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-4", children: [data.inventory.lowStockCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-orange-50 p-3 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-orange-600 font-medium", children: "\u4F4E\u5E93\u5B58\u5546\u54C1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-orange-700", children: data.inventory.lowStockCount })] })), data.inventory.outOfStockCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-red-50 p-3 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-red-600 font-medium", children: "\u7F3A\u8D27\u5546\u54C1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-red-700", children: data.inventory.outOfStockCount })] })), data.inventory.newProductCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-purple-50 p-3 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-purple-600 font-medium", children: "\u65B0\u589E\u5546\u54C1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-purple-700", children: data.inventory.newProductCount })] }))] })] })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mt-6 bg-white border border-gray-200 rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-gray-900 mb-4 flex items-center", children: "\uD83D\uDD04 \u5E93\u5B58\u53D8\u52A8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-blue-50 p-3 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-blue-600 font-medium", children: "\u5165\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-2xl font-bold text-blue-700", children: ["+", data.movements.inbound] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-red-50 p-3 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-red-600 font-medium", children: "\u51FA\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-2xl font-bold text-red-700", children: ["-", data.movements.outbound] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-gray-50 p-3 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-gray-600 font-medium", children: "\u8C03\u6574" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `text-2xl font-bold ${data.movements.adjustments > 0 ? 'text-green-700' :
+                                                        data.movements.adjustments < 0 ? 'text-red-700' : 'text-gray-700'}`, children: [data.movements.adjustments > 0 ? '+' : '', data.movements.adjustments] })] })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex justify-end p-6 border-t border-gray-200", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: onClose, className: "px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors", children: "\u5173\u95ED" }) })] }) }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DayDetailModal);
+
+
+/***/ }),
+
+/***/ "./src/components/Calendar/WeeklyCalendarView.tsx":
+/*!********************************************************!*\
+  !*** ./src/components/Calendar/WeeklyCalendarView.tsx ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _DayCell__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DayCell */ "./src/components/Calendar/DayCell.tsx");
+
+
+const WeeklyCalendarView = ({ weekData, selectedDate, onDayClick }) => {
+    const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const formatCurrency = (amount) => {
+        if (amount >= 10000) {
+            return `${(amount / 10000).toFixed(1)}万`;
+        }
+        return `${amount.toLocaleString()}`;
+    };
+    const formatDateRange = (start, end) => {
+        const startStr = start.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' });
+        const endStr = end.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' });
+        return `${startStr} - ${endStr}`;
+    };
+    const isToday = (date) => {
+        const checkDate = new Date(date);
+        checkDate.setHours(0, 0, 0, 0);
+        return checkDate.getTime() === today.getTime();
+    };
+    const isSelected = (date) => {
+        if (!selectedDate)
+            return false;
+        const checkDate = new Date(date);
+        const selected = new Date(selectedDate);
+        checkDate.setHours(0, 0, 0, 0);
+        selected.setHours(0, 0, 0, 0);
+        return checkDate.getTime() === selected.getTime();
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface backdrop-blur-lg rounded-xl border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 border-b border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center mb-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white drop-shadow-lg", children: formatDateRange(weekData.weekStart, weekData.weekEnd) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-sm text-white/70 drop-shadow-md", children: [weekData.weekStart.getFullYear(), "\u5E74 \u7B2C", Math.ceil((weekData.weekStart.getTime() - new Date(weekData.weekStart.getFullYear(), 0, 1).getTime()) / (7 * 24 * 60 * 60 * 1000)), "\u5468"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-3 gap-4 text-sm", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-blue-300 font-medium drop-shadow-md", children: "\u91C7\u8D2D\u603B\u989D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-bold text-blue-200 drop-shadow-lg", children: formatCurrency(weekData.weeklyTotals.purchases) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-green-300 font-medium drop-shadow-md", children: "\u9500\u552E\u603B\u989D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-bold text-green-200 drop-shadow-lg", children: formatCurrency(weekData.weeklyTotals.sales) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/80 font-medium drop-shadow-md", children: "\u51C0\u53D8\u5316" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `text-lg font-bold drop-shadow-lg ${weekData.weeklyTotals.netChange > 0 ? 'text-green-200' :
+                                            weekData.weeklyTotals.netChange < 0 ? 'text-red-200' : 'text-white/80'}`, children: [weekData.weeklyTotals.netChange > 0 ? '+' : '', weekData.weeklyTotals.netChange] })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-7 border-b border-white/20", children: weekDays.map((day, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `p-3 text-center text-sm font-medium drop-shadow-md ${index >= 5 ? 'text-white/60 bg-white/5' : 'text-white/80'}`, children: day }, day))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-7 gap-0", children: weekData.days.map((dayData, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "border-r border-white/20 last:border-r-0", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_DayCell__WEBPACK_IMPORTED_MODULE_1__["default"], { data: dayData, isToday: isToday(dayData.date), isSelected: isSelected(dayData.date), onClick: onDayClick }) }, index))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 border-t border-white/20 bg-white/5 backdrop-blur-sm", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-wrap gap-4 text-xs text-white/80 drop-shadow-md", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-2 h-2 bg-green-400 rounded-full shadow-sm" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u9AD8\u6D3B\u8DC3\u5EA6" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-2 h-2 bg-yellow-400 rounded-full shadow-sm" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u4E2D\u6D3B\u8DC3\u5EA6" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-2 h-2 bg-gray-400 rounded-full shadow-sm" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u4F4E\u6D3B\u8DC3\u5EA6" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\uD83D\uDCE6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u91C7\u8D2D" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\uD83D\uDCB0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u9500\u552E" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u5E93\u5B58\u8B66\u544A" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u2728" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u65B0\u5546\u54C1" })] })] }) })] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WeeklyCalendarView);
 
 
 /***/ }),
@@ -52760,6 +53369,77 @@ const CategoryManagement = ({ className }) => {
 
 /***/ }),
 
+/***/ "./src/components/Inventory/InventoryFilter.tsx":
+/*!******************************************************!*\
+  !*** ./src/components/Inventory/InventoryFilter.tsx ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+const InventoryFilter = ({ filters, warehouses, onChange }) => {
+    var _a;
+    // 库存状态选项
+    const stockStatusOptions = [
+        { value: 'all', label: '全部状态', icon: '📦' },
+        { value: 'normal', label: '库存正常', icon: '✅' },
+        { value: 'low', label: '库存预警', icon: '⚠️' },
+        { value: 'out', label: '库存缺货', icon: '❌' }
+    ];
+    // 排序选项
+    const sortOptions = [
+        { value: 'name', label: '仓库名称' },
+        { value: 'stock', label: '商品数量' },
+        { value: 'value', label: '库存价值' }
+    ];
+    // 获取所有分类
+    const getCategories = () => {
+        const categories = new Set();
+        warehouses.forEach(warehouse => {
+            warehouse.products.forEach(product => {
+                if (product.category) {
+                    categories.add(product.category);
+                }
+            });
+        });
+        return Array.from(categories).sort();
+    };
+    // 重置筛选条件
+    const handleReset = () => {
+        onChange({
+            warehouseIds: [],
+            searchKeyword: '',
+            stockStatus: 'all',
+            category: '',
+            sortBy: 'name',
+            sortOrder: 'asc'
+        });
+    };
+    // 检查是否有活动筛选条件
+    const hasActiveFilters = () => {
+        return (filters.warehouseIds.length > 0 ||
+            filters.stockStatus !== 'all' ||
+            filters.category !== '' ||
+            filters.sortBy !== 'name' ||
+            filters.sortOrder !== 'asc');
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-sm font-medium text-gray-700", children: "\u7B5B\u9009\u6761\u4EF6" }), hasActiveFilters() && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleReset, className: "text-sm text-blue-600 hover:text-blue-800 transition-colors", children: "\u91CD\u7F6E\u7B5B\u9009" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-xs font-medium text-gray-700 mb-2", children: "\u9009\u62E9\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", { multiple: true, value: filters.warehouseIds, onChange: (e) => {
+                                    const selectedIds = Array.from(e.target.selectedOptions, option => option.value);
+                                    onChange({ warehouseIds: selectedIds });
+                                }, className: "\n              block w-full px-3 py-2 border border-gray-300 rounded-lg\n              bg-white/50 backdrop-blur-sm text-sm\n              focus:ring-2 focus:ring-blue-500 focus:border-blue-500\n              transition-all duration-200\n            ", size: Math.min(4, warehouses.length), children: warehouses.map(warehouse => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: warehouse.warehouseId, children: [warehouse.warehouseName, " (", warehouse.warehouseCode, ")"] }, warehouse.warehouseId))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-gray-500 mt-1", children: "\u6309\u4F4F Ctrl/Cmd \u591A\u9009" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-xs font-medium text-gray-700 mb-2", children: "\u5E93\u5B58\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", { value: filters.stockStatus, onChange: (e) => onChange({ stockStatus: e.target.value }), className: "\n              block w-full px-3 py-2 border border-gray-300 rounded-lg\n              bg-white/50 backdrop-blur-sm text-sm\n              focus:ring-2 focus:ring-blue-500 focus:border-blue-500\n              transition-all duration-200\n            ", children: stockStatusOptions.map(option => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: option.value, children: [option.icon, " ", option.label] }, option.value))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-xs font-medium text-gray-700 mb-2", children: "\u5546\u54C1\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", { value: filters.category, onChange: (e) => onChange({ category: e.target.value }), className: "\n              block w-full px-3 py-2 border border-gray-300 rounded-lg\n              bg-white/50 backdrop-blur-sm text-sm\n              focus:ring-2 focus:ring-blue-500 focus:border-blue-500\n              transition-all duration-200\n            ", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u5168\u90E8\u5206\u7C7B" }), getCategories().map(category => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: category, children: category }, category)))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-xs font-medium text-gray-700 mb-2", children: "\u6392\u5E8F\u65B9\u5F0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", { value: filters.sortBy, onChange: (e) => onChange({ sortBy: e.target.value }), className: "\n                flex-1 px-3 py-2 border border-gray-300 rounded-lg\n                bg-white/50 backdrop-blur-sm text-sm\n                focus:ring-2 focus:ring-blue-500 focus:border-blue-500\n                transition-all duration-200\n              ", children: sortOptions.map(option => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: option.value, children: option.label }, option.value))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => onChange({
+                                            sortOrder: filters.sortOrder === 'asc' ? 'desc' : 'asc'
+                                        }), className: "\n                px-3 py-2 border border-gray-300 rounded-lg\n                bg-white/50 backdrop-blur-sm text-sm\n                hover:bg-white/70 focus:ring-2 focus:ring-blue-500\n                transition-all duration-200\n              ", title: filters.sortOrder === 'asc' ? '升序' : '降序', children: filters.sortOrder === 'asc' ? '↑' : '↓' })] })] })] }), hasActiveFilters() && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-wrap gap-2 pt-2 border-t border-gray-200", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-gray-500", children: "\u6D3B\u52A8\u7B5B\u9009:" }), filters.warehouseIds.length > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800", children: ["\u4ED3\u5E93: ", filters.warehouseIds.length, " \u4E2A", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => onChange({ warehouseIds: [] }), className: "ml-1 text-blue-600 hover:text-blue-800", children: "\u00D7" })] })), filters.stockStatus !== 'all' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800", children: ["\u72B6\u6001: ", (_a = stockStatusOptions.find(opt => opt.value === filters.stockStatus)) === null || _a === void 0 ? void 0 : _a.label, (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => onChange({ stockStatus: 'all' }), className: "ml-1 text-yellow-600 hover:text-yellow-800", children: "\u00D7" })] })), filters.category && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800", children: ["\u5206\u7C7B: ", filters.category, (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => onChange({ category: '' }), className: "ml-1 text-green-600 hover:text-green-800", children: "\u00D7" })] }))] }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InventoryFilter);
+
+
+/***/ }),
+
 /***/ "./src/components/Inventory/InventoryList.tsx":
 /*!****************************************************!*\
   !*** ./src/components/Inventory/InventoryList.tsx ***!
@@ -53048,6 +53728,211 @@ const InventoryOverview = ({ className }) => {
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white mb-2", children: "\u5E93\u5B58\u6982\u89C8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u67E5\u770B\u5E93\u5B58\u7EDF\u8BA1\u548C\u6700\u65B0\u52A8\u6001" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "primary", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCE6" }), "\u5E93\u5B58\u5165\u5E93"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "secondary", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCE4" }), "\u5E93\u5B58\u51FA\u5E93"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "secondary", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD04" }), "\u5E93\u5B58\u8C03\u6574"] })] })] }), stats && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: formatNumber(stats.totalItems) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u5546\u54C1\u603B\u6570" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83D\uDCB0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: formatCurrency(stats.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u5E93\u5B58\u603B\u503C" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: formatNumber(stats.lowStockCount) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u4F4E\u5E93\u5B58" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83D\uDEA8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: formatNumber(stats.outOfStockCount) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u7F3A\u8D27" })] })] }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\u5206\u7C7B\u7EDF\u8BA1", children: stats.categories.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center py-12", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-4", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-2", children: "\u6682\u65E0\u5206\u7C7B\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u8FD8\u6CA1\u6709\u5E93\u5B58\u6570\u636E\u53EF\u4EE5\u5206\u7C7B\u663E\u793A" })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4", children: stats.categories.map((category, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white font-medium", children: category.name }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-white/70 text-sm", children: [category.count, "\u79CD"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatCurrency(category.value) })] }, index))) })) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\u6700\u8FD1\u5E93\u5B58\u53D8\u52A8", children: stats.recentMovements.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center py-12", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-4", children: "\uD83D\uDCC8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-2", children: "\u6682\u65E0\u53D8\u52A8\u8BB0\u5F55" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u8FD8\u6CA1\u6709\u5E93\u5B58\u53D8\u52A8\u8BB0\u5F55" })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-4", children: stats.recentMovements.map((movement) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4 p-4 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center text-lg", children: getMovementIcon(movement.type) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-white", children: movement.productName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white/70 text-sm", children: ["\u6570\u91CF: ", formatNumber(movement.quantity), " | \u65F6\u95F4: ", movement.timestamp.toLocaleString('zh-CN')] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `px-3 py-1 rounded-full text-xs font-medium border ${getMovementTypeStyles(movement.type)}`, children: getMovementTypeText(movement.type) })] }, movement.id))) })) })] }))] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InventoryOverview);
+
+
+/***/ }),
+
+/***/ "./src/components/Inventory/InventorySearch.tsx":
+/*!******************************************************!*\
+  !*** ./src/components/Inventory/InventorySearch.tsx ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const InventorySearch = ({ value, onChange, placeholder = '搜索仓库、商品名称或SKU...', debounceMs = 300 }) => {
+    const [localValue, setLocalValue] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(value);
+    // 防抖处理
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        const timer = setTimeout(() => {
+            if (localValue !== value) {
+                onChange(localValue);
+            }
+        }, debounceMs);
+        return () => clearTimeout(timer);
+    }, [localValue, onChange, debounceMs, value]);
+    // 同步外部值变化
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        if (value !== localValue) {
+            setLocalValue(value);
+        }
+    }, [value]);
+    // 清空搜索
+    const handleClear = () => {
+        setLocalValue('');
+        onChange('');
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "h-5 w-5 text-gray-400", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "text", value: localValue, onChange: (e) => setLocalValue(e.target.value), placeholder: placeholder, className: "\n            block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg\n            bg-white/50 backdrop-blur-sm\n            focus:ring-2 focus:ring-blue-500 focus:border-blue-500\n            placeholder-gray-500 text-gray-900\n            transition-all duration-200\n          " }), localValue && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute inset-y-0 right-0 pr-3 flex items-center", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: handleClear, className: "\n                h-5 w-5 text-gray-400 hover:text-gray-600\n                transition-colors duration-200\n                focus:outline-none focus:ring-2 focus:ring-blue-500 rounded\n              ", title: "\u6E05\u7A7A\u641C\u7D22", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) }) }) }))] }), localValue && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute top-full left-0 right-0 mt-1 z-10" }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InventorySearch);
+
+
+/***/ }),
+
+/***/ "./src/components/Inventory/ProductItem.tsx":
+/*!**************************************************!*\
+  !*** ./src/components/Inventory/ProductItem.tsx ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils_unitConversionHelper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/unitConversionHelper */ "./src/utils/unitConversionHelper.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+const ProductItem = ({ product, compact = false, onClick }) => {
+    const [displayMode, setDisplayMode] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('base');
+    const [hasConversion, setHasConversion] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [quantityDisplay, setQuantityDisplay] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+        current: `${product.currentStock} ${product.unit}`,
+        min: `${product.minStock} ${product.unit}`,
+        max: product.maxStock ? `${product.maxStock} ${product.unit}` : null
+    });
+    // 检查并设置单位转换
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        const checkConversion = () => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                const hasRule = yield _utils_unitConversionHelper__WEBPACK_IMPORTED_MODULE_2__.unitConversionHelper.hasConversionRule(product.productId);
+                setHasConversion(hasRule);
+                if (hasRule) {
+                    yield updateQuantityDisplay('base');
+                }
+            }
+            catch (error) {
+                console.error('检查单位转换失败:', error);
+            }
+        });
+        checkConversion();
+    }, [product.productId]);
+    // 更新数量显示
+    const updateQuantityDisplay = (mode) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            if (mode === 'base') {
+                setQuantityDisplay({
+                    current: `${product.currentStock} ${product.unit}`,
+                    min: `${product.minStock} ${product.unit}`,
+                    max: product.maxStock ? `${product.maxStock} ${product.unit}` : null
+                });
+            }
+            else {
+                const currentDisplay = yield _utils_unitConversionHelper__WEBPACK_IMPORTED_MODULE_2__.unitConversionHelper.getSmartQuantityDisplay(product.productId, product.currentStock, true);
+                const minDisplay = yield _utils_unitConversionHelper__WEBPACK_IMPORTED_MODULE_2__.unitConversionHelper.getSmartQuantityDisplay(product.productId, product.minStock, true);
+                const maxDisplay = product.maxStock
+                    ? yield _utils_unitConversionHelper__WEBPACK_IMPORTED_MODULE_2__.unitConversionHelper.getSmartQuantityDisplay(product.productId, product.maxStock, true)
+                    : null;
+                setQuantityDisplay({
+                    current: currentDisplay,
+                    min: minDisplay,
+                    max: maxDisplay
+                });
+            }
+        }
+        catch (error) {
+            console.error('更新数量显示失败:', error);
+        }
+    });
+    // 切换显示单位
+    const toggleDisplayMode = (e) => __awaiter(void 0, void 0, void 0, function* () {
+        e.stopPropagation(); // 防止触发父组件的点击事件
+        if (!hasConversion)
+            return;
+        const newMode = displayMode === 'base' ? 'package' : 'base';
+        setDisplayMode(newMode);
+        yield updateQuantityDisplay(newMode);
+    });
+    // 获取库存状态
+    const getStockStatus = () => {
+        if (product.isOutOfStock) {
+            return {
+                status: 'out',
+                color: 'text-red-300',
+                bgColor: 'bg-red-500/20',
+                icon: '❌',
+                label: '缺货'
+            };
+        }
+        else if (product.isLowStock) {
+            return {
+                status: 'low',
+                color: 'text-yellow-300',
+                bgColor: 'bg-yellow-500/20',
+                icon: '⚠️',
+                label: '预警'
+            };
+        }
+        else {
+            return {
+                status: 'normal',
+                color: 'text-green-300',
+                bgColor: 'bg-green-500/20',
+                icon: '✅',
+                label: '正常'
+            };
+        }
+    };
+    // 格式化金额
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('zh-CN', {
+            style: 'currency',
+            currency: 'CNY',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(amount);
+    };
+    // 格式化日期
+    const formatDate = (date) => {
+        return new Intl.DateTimeFormat('zh-CN', {
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }).format(date);
+    };
+    const stockStatus = getStockStatus();
+    if (compact) {
+        // 紧凑模式 - 用于卡片内的产品列表
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `
+          flex items-center justify-between p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors backdrop-blur-sm border border-white/10
+          ${onClick ? 'cursor-pointer' : ''}
+        `, onClick: onClick, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs drop-shadow-md", children: stockStatus.icon }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium text-sm text-white truncate drop-shadow-lg", children: product.productName })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-white/80 truncate drop-shadow-md", children: ["SKU: ", product.sku] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-right flex-shrink-0 ml-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `text-sm font-medium ${stockStatus.color} drop-shadow-lg`, children: quantityDisplay.current }), hasConversion && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: toggleDisplayMode, className: "text-xs text-blue-300 hover:text-blue-200 transition-colors drop-shadow-md", title: displayMode === 'base' ? '切换到包装单位' : '切换到基础单位', children: "\uD83D\uDCE6" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-white/70 drop-shadow-md", children: ["\u6700\u4F4E: ", quantityDisplay.min] })] })] }));
+    }
+    // 完整模式 - 用于详细列表
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `
+        glass-surface rounded-lg p-4 transition-all duration-200 hover:shadow-md
+        ${onClick ? 'cursor-pointer hover:scale-[1.02]' : ''}
+      `, onClick: onClick, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-start justify-between mb-3", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2 mb-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "font-semibold text-gray-900 truncate", children: product.productName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `px-2 py-1 rounded-full text-xs font-medium ${stockStatus.bgColor} ${stockStatus.color}`, children: stockStatus.label })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "text-sm text-gray-600", children: ["SKU: ", product.sku] }), product.category && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "text-xs text-gray-500 mt-1", children: ["\u5206\u7C7B: ", product.category] }))] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 gap-4 mb-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs text-gray-500", children: "\u5F53\u524D\u5E93\u5B58" }), hasConversion && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: toggleDisplayMode, className: "text-xs text-blue-500 hover:text-blue-700 transition-colors px-1 py-0.5 rounded", title: displayMode === 'base' ? '切换到包装单位' : '切换到基础单位', children: "\uD83D\uDCE6" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `text-lg font-bold ${stockStatus.color}`, children: quantityDisplay.current })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs text-gray-500 mb-1", children: "\u5E93\u5B58\u4EF7\u503C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-bold text-green-600", children: formatCurrency(product.totalValue) })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center mb-3 text-sm", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-gray-600", children: ["\u6700\u4F4E: ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium", children: quantityDisplay.min })] }), quantityDisplay.max && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-gray-600", children: ["\u6700\u9AD8: ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium", children: quantityDisplay.max })] }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-gray-600", children: ["\u5355\u4EF7: ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium", children: formatCurrency(product.unitPrice) })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center mb-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-gray-500", children: "\u5E93\u5B58\u6C34\u5E73" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-xs text-gray-500", children: [Math.round((product.currentStock / (product.maxStock || product.minStock * 2)) * 100), "%"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-full bg-gray-200 rounded-full h-2", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `h-2 rounded-full transition-all duration-300 ${product.isOutOfStock
+                                ? 'bg-red-500'
+                                : product.isLowStock
+                                    ? 'bg-yellow-500'
+                                    : 'bg-green-500'}`, style: {
+                                width: `${Math.min(100, Math.max(0, (product.currentStock / (product.maxStock || product.minStock * 2)) * 100))}%`
+                            } }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center text-xs text-gray-500", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { children: ["\u6700\u540E\u66F4\u65B0: ", formatDate(product.lastUpdated)] }), onClick && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u70B9\u51FB\u67E5\u770B\u8BE6\u60C5 \u2192" })] })] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductItem);
 
 
 /***/ }),
@@ -54134,6 +55019,152 @@ const TransactionRecords = ({ className }) => {
 
 /***/ }),
 
+/***/ "./src/components/Inventory/WarehouseCard.tsx":
+/*!****************************************************!*\
+  !*** ./src/components/Inventory/WarehouseCard.tsx ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _ProductItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductItem */ "./src/components/Inventory/ProductItem.tsx");
+
+
+const WarehouseCard = ({ warehouse, onClick, isSelected = false }) => {
+    // 获取库存状态样式
+    const getStockStatusStyle = () => {
+        if (warehouse.outOfStockCount > 0) {
+            return 'border-red-300/50 bg-red-500/10';
+        }
+        else if (warehouse.lowStockCount > 0) {
+            return 'border-yellow-300/50 bg-yellow-500/10';
+        }
+        else {
+            return 'border-green-300/50 bg-green-500/10';
+        }
+    };
+    // 获取状态指示器
+    const getStatusIndicator = () => {
+        if (warehouse.outOfStockCount > 0) {
+            return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1 text-red-300 text-xs drop-shadow-md", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-red-400 rounded-full shadow-sm" }), "\u7F3A\u8D27"] }));
+        }
+        else if (warehouse.lowStockCount > 0) {
+            return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1 text-yellow-300 text-xs drop-shadow-md", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-yellow-400 rounded-full shadow-sm" }), "\u9884\u8B66"] }));
+        }
+        else {
+            return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1 text-green-300 text-xs drop-shadow-md", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-green-400 rounded-full shadow-sm" }), "\u6B63\u5E38"] }));
+        }
+    };
+    // 格式化金额
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('zh-CN', {
+            style: 'currency',
+            currency: 'CNY',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(amount);
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `
+        glass-surface backdrop-blur-lg rounded-xl p-3 sm:p-4 cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-[1.02] border border-white/20
+        ${isSelected ? 'ring-2 ring-blue-400/50 ring-opacity-50 scale-[1.02] shadow-lg' : ''}
+        ${getStockStatusStyle()}
+        min-h-[280px] sm:min-h-[320px] flex flex-col
+      `, onClick: onClick, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-start justify-between mb-3 sm:mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "font-semibold text-white truncate text-sm sm:text-base drop-shadow-lg", children: warehouse.warehouseName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs sm:text-sm text-white/80 truncate drop-shadow-md", children: warehouse.warehouseCode }), warehouse.description && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-white/70 mt-1 line-clamp-2 hidden sm:block drop-shadow-md", children: warehouse.description }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "ml-2 flex-shrink-0", children: getStatusIndicator() })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 gap-2 sm:gap-3 mb-3 sm:mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center p-2 sm:p-3 bg-white/20 backdrop-blur-sm rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-base sm:text-lg font-bold text-blue-300 drop-shadow-lg", children: warehouse.totalProducts }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs text-white/80 drop-shadow-md", children: "\u5546\u54C1\u79CD\u7C7B" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center p-2 sm:p-3 bg-white/20 backdrop-blur-sm rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-base sm:text-lg font-bold text-green-300 drop-shadow-lg", children: formatCurrency(warehouse.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs text-white/80 drop-shadow-md", children: "\u603B\u4EF7\u503C" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center mb-4 text-xs", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-green-400 rounded-full shadow-sm" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-white/80 drop-shadow-md", children: ["\u6B63\u5E38: ", warehouse.totalProducts - warehouse.lowStockCount - warehouse.outOfStockCount] })] }), warehouse.lowStockCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-yellow-400 rounded-full shadow-sm" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-white/80 drop-shadow-md", children: ["\u9884\u8B66: ", warehouse.lowStockCount] })] })), warehouse.outOfStockCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-red-400 rounded-full shadow-sm" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-white/80 drop-shadow-md", children: ["\u7F3A\u8D27: ", warehouse.outOfStockCount] })] }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-xs sm:text-sm font-medium text-white drop-shadow-lg", children: "\u5546\u54C1\u5217\u8868" }), warehouse.products.length > 3 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-xs text-white/70 drop-shadow-md", children: ["\u663E\u793A 3/", warehouse.products.length, " \u9879"] }))] }), warehouse.products.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-center py-3 sm:py-4 text-white/70 text-xs sm:text-sm drop-shadow-md", children: "\u6682\u65E0\u5546\u54C1\u6570\u636E" })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "max-h-24 sm:max-h-32 overflow-y-auto space-y-1", children: warehouse.products.slice(0, 3).map(product => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ProductItem__WEBPACK_IMPORTED_MODULE_1__["default"], { product: product, compact: true }, product.productId))) }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mt-4 pt-3 border-t border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between text-xs text-white/70 drop-shadow-md", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u70B9\u51FB\u67E5\u770B\u8BE6\u60C5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u2192" })] }) })] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WarehouseCard);
+
+
+/***/ }),
+
+/***/ "./src/components/Inventory/WarehouseCardSkeleton.tsx":
+/*!************************************************************!*\
+  !*** ./src/components/Inventory/WarehouseCardSkeleton.tsx ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+const WarehouseCardSkeleton = ({ count = 4 }) => {
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: Array.from({ length: count }).map((_, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-3 sm:p-4 min-h-[280px] sm:min-h-[320px] flex flex-col animate-pulse", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-start justify-between mb-3 sm:mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-4 sm:h-5 bg-gray-300 rounded w-3/4 mb-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 sm:h-4 bg-gray-200 rounded w-1/2 mb-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 bg-gray-200 rounded w-full hidden sm:block" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "ml-2 flex-shrink-0", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-5 w-12 bg-gray-300 rounded-full" }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 gap-2 sm:gap-3 mb-3 sm:mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center p-2 sm:p-3 bg-white/30 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-5 sm:h-6 bg-gray-300 rounded w-8 mx-auto mb-1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 bg-gray-200 rounded w-12 mx-auto" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center p-2 sm:p-3 bg-white/30 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-5 sm:h-6 bg-gray-300 rounded w-12 mx-auto mb-1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 bg-gray-200 rounded w-8 mx-auto" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center mb-3 sm:mb-4 text-xs", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-2 h-2 bg-gray-300 rounded-full" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 bg-gray-200 rounded w-12" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-2 h-2 bg-gray-300 rounded-full" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 bg-gray-200 rounded w-10" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 sm:h-4 bg-gray-300 rounded w-16" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 bg-gray-200 rounded w-12" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-1", children: Array.from({ length: 2 }).map((_, productIndex) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-2 rounded-lg bg-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2 mb-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-3 h-3 bg-gray-300 rounded" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 bg-gray-300 rounded w-20" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-2 bg-gray-200 rounded w-16" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-right flex-shrink-0 ml-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 bg-gray-300 rounded w-12 mb-1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-2 bg-gray-200 rounded w-8" })] })] }, productIndex))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mt-4 pt-3 border-t border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 bg-gray-200 rounded w-16" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-3 bg-gray-200 rounded w-4" })] }) })] }, index))) }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WarehouseCardSkeleton);
+
+
+/***/ }),
+
+/***/ "./src/components/Inventory/WarehouseDetailModal.tsx":
+/*!***********************************************************!*\
+  !*** ./src/components/Inventory/WarehouseDetailModal.tsx ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _ProductItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductItem */ "./src/components/Inventory/ProductItem.tsx");
+
+
+const WarehouseDetailModal = ({ warehouse, isOpen, onClose }) => {
+    if (!isOpen || !warehouse)
+        return null;
+    // 格式化金额
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('zh-CN', {
+            style: 'currency',
+            currency: 'CNY',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(amount);
+    };
+    // 获取库存状态样式
+    const getStockStatusStyle = () => {
+        if (warehouse.outOfStockCount > 0) {
+            return 'text-red-600 bg-red-100';
+        }
+        else if (warehouse.lowStockCount > 0) {
+            return 'text-yellow-600 bg-yellow-100';
+        }
+        else {
+            return 'text-green-600 bg-green-100';
+        }
+    };
+    // 获取状态文本
+    const getStatusText = () => {
+        if (warehouse.outOfStockCount > 0) {
+            return '有缺货商品';
+        }
+        else if (warehouse.lowStockCount > 0) {
+            return '有预警商品';
+        }
+        else {
+            return '库存正常';
+        }
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "fixed inset-0 z-50 overflow-y-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black bg-opacity-50 transition-opacity", onClick: onClose }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex min-h-full items-center justify-center p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-6 border-b border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-2xl font-bold text-gray-900", children: warehouse.warehouseName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-600", children: warehouse.warehouseCode })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `px-3 py-1 rounded-full text-sm font-medium ${getStockStatusStyle()}`, children: getStatusText() })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: onClose, className: "text-gray-400 hover:text-gray-600 transition-colors", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-6 h-6", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6 overflow-y-auto max-h-[calc(90vh-120px)]", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-gray-900 mb-3", children: "\u4ED3\u5E93\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600 mb-1", children: "\u4ED3\u5E93\u540D\u79F0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-gray-900", children: warehouse.warehouseName })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600 mb-1", children: "\u4ED3\u5E93\u7F16\u7801" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-gray-900", children: warehouse.warehouseCode })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600 mb-1", children: "\u63CF\u8FF0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-gray-900", children: warehouse.description || '暂无描述' })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-gray-900 mb-3", children: "\u5E93\u5B58\u7EDF\u8BA1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-blue-600 mb-1", children: warehouse.totalProducts }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u5546\u54C1\u79CD\u7C7B" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-green-600 mb-1", children: formatCurrency(warehouse.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u603B\u4EF7\u503C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-yellow-600 mb-1", children: warehouse.lowStockCount }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u9884\u8B66\u5546\u54C1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-red-600 mb-1", children: warehouse.outOfStockCount }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u7F3A\u8D27\u5546\u54C1" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-gray-900", children: "\u5546\u54C1\u5217\u8868" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-sm text-gray-600", children: ["\u5171 ", warehouse.products.length, " \u4E2A\u5546\u54C1"] })] }), warehouse.products.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-8 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-gray-400 text-4xl mb-4", children: "\uD83D\uDCE6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-gray-900 mb-2", children: "\u6682\u65E0\u5546\u54C1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-600", children: "\u8BE5\u4ED3\u5E93\u6682\u672A\u5B58\u653E\u4EFB\u4F55\u5546\u54C1" })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-1 lg:grid-cols-2 gap-4", children: warehouse.products.map(product => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ProductItem__WEBPACK_IMPORTED_MODULE_1__["default"], { product: product, compact: false, onClick: () => {
+                                                    // TODO: 可以添加商品详情查看逻辑
+                                                    console.log('查看商品详情:', product.productName);
+                                                } }, product.productId))) }))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-end gap-3 p-6 border-t border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: onClose, className: "px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors", children: "\u5173\u95ED" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors", onClick: () => {
+                                        // TODO: 可以添加编辑仓库信息的逻辑
+                                        console.log('编辑仓库:', warehouse.warehouseName);
+                                    }, children: "\u7F16\u8F91\u4ED3\u5E93" })] })] }) })] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WarehouseDetailModal);
+
+
+/***/ }),
+
 /***/ "./src/components/Inventory/WarehouseManagement.tsx":
 /*!**********************************************************!*\
   !*** ./src/components/Inventory/WarehouseManagement.tsx ***!
@@ -54352,8 +55383,8 @@ const AppLayout = ({ children }) => {
         window.location.hash = page;
     };
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "h-screen overflow-hidden", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], { collapsed: sidebarCollapsed, onToggle: toggleSidebar, currentPage: currentPage, onPageChange: handlePageChange }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_TopBar__WEBPACK_IMPORTED_MODULE_3__["default"], { currentPage: currentPage, onToggleSidebar: toggleSidebar, sidebarCollapsed: sidebarCollapsed }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("main", { className: `
-        pt-16 overflow-auto transition-all duration-300 h-screen
-        ${sidebarCollapsed ? 'ml-16' : 'ml-64'}
+        fixed top-20 bottom-0 right-0 overflow-auto transition-all duration-300
+        ${sidebarCollapsed ? 'left-16' : 'left-64'}
       `, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-6", children: children }) })] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppLayout);
@@ -54392,6 +55423,8 @@ const menuItems = [
         icon: '📦',
         children: [
             { id: 'inventory-overview', label: '库存概览', icon: '📋' },
+            { id: 'inventory-card-view', label: '卡片视图', icon: '🗂️' },
+            { id: 'calendar-overview', label: '日历视图', icon: '📅' },
             { id: 'products', label: '商品管理', icon: '🏷️' },
             { id: 'categories', label: '分类管理', icon: '📂' },
             { id: 'warehouses', label: '仓库管理', icon: '🏭' },
@@ -54532,8 +55565,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ThemeSwitcher_ThemeSwitcher__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ThemeSwitcher/ThemeSwitcher */ "./src/components/ThemeSwitcher/ThemeSwitcher.tsx");
 /* harmony import */ var _services_inventory_inventoryService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/inventory/inventoryService */ "./src/services/inventory/inventoryService.ts");
-/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
-/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/notificationHelper */ "./src/utils/notificationHelper.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -54548,12 +55580,12 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-
 // 页面标题映射
 const pageTitles = {
     'dashboard': { title: '仪表板', breadcrumb: ['仪表板'] },
     // 库存管理
     'inventory-overview': { title: '库存概览', breadcrumb: ['库存管理', '库存概览'] },
+    'inventory-card-view': { title: '库存卡片视图', breadcrumb: ['库存管理', '库存卡片视图'] },
     'products': { title: '商品管理', breadcrumb: ['库存管理', '商品管理'] },
     'categories': { title: '分类管理', breadcrumb: ['库存管理', '分类管理'] },
     'warehouses': { title: '仓库管理', breadcrumb: ['库存管理', '仓库管理'] },
@@ -54624,28 +55656,11 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
         breadcrumb: ['未知页面']
     };
     // 加载通知数据
-    const loadNotifications = () => __awaiter(void 0, void 0, void 0, function* () {
+    const loadNotifications = () => {
         setIsLoadingNotifications(true);
         try {
-            yield _services_business__WEBPACK_IMPORTED_MODULE_4__.notificationService.initialize();
-            // 假设当前用户ID为 'current-user'，实际应该从认证系统获取
-            const currentUserId = 'current-user';
-            // 从系统配置读取最大显示数量
-            const getMaxDisplayCount = () => {
-                try {
-                    const savedNotifications = localStorage.getItem('systemSettings.notifications');
-                    if (savedNotifications) {
-                        const settings = JSON.parse(savedNotifications);
-                        return settings.maxDisplayCount || 5;
-                    }
-                }
-                catch (error) {
-                    console.error('读取通知配置失败:', error);
-                }
-                return 5; // 默认5条
-            };
-            const recentNotifications = yield _services_business__WEBPACK_IMPORTED_MODULE_4__.notificationService.getRecentNotifications(currentUserId, getMaxDisplayCount());
-            const unreadCount = yield _services_business__WEBPACK_IMPORTED_MODULE_4__.notificationService.getUnreadCount(currentUserId);
+            const recentNotifications = _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.getRecentNotifications();
+            const unreadCount = _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.getUnreadCount();
             setNotifications(recentNotifications);
             setUnreadCount(unreadCount);
         }
@@ -54657,49 +55672,32 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
         finally {
             setIsLoadingNotifications(false);
         }
-    });
+    };
     // 组件挂载时加载通知
     (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
         loadNotifications();
     }, []);
-    // 实时更新通知（根据系统配置的间隔刷新）
-    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-        // 从系统配置读取刷新间隔，默认30秒
-        const getRefreshInterval = () => {
-            try {
-                const savedNotifications = localStorage.getItem('systemSettings.notifications');
-                if (savedNotifications) {
-                    const settings = JSON.parse(savedNotifications);
-                    return (settings.autoRefreshInterval || 30) * 1000; // 转换为毫秒
-                }
-            }
-            catch (error) {
-                console.error('读取通知配置失败:', error);
-            }
-            return 30000; // 默认30秒
-        };
-        const interval = setInterval(() => {
-            loadNotifications();
-        }, getRefreshInterval());
-        return () => clearInterval(interval);
-    }, []);
     // 标记通知为已读
-    const handleNotificationClick = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
+    const handleNotificationClick = (notificationId) => {
         try {
-            const currentUserId = 'current-user';
-            yield _services_business__WEBPACK_IMPORTED_MODULE_4__.notificationService.markAsRead(notificationId, currentUserId);
+            _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.markAsRead(notificationId);
             // 重新加载通知数据
-            yield loadNotifications();
+            loadNotifications();
         }
         catch (error) {
             console.error('标记通知已读失败:', error);
         }
-    });
-    // 查看全部通知
-    const handleViewAllNotifications = () => {
-        setShowNotifications(false);
-        // 跳转到通知管理页面
-        window.location.hash = 'notifications';
+    };
+    // 标记所有通知为已读
+    const handleMarkAllAsRead = () => {
+        try {
+            _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.markAllAsRead();
+            loadNotifications();
+            setShowNotifications(false);
+        }
+        catch (error) {
+            console.error('标记所有通知已读失败:', error);
+        }
     };
     const handleSearch = (e) => __awaiter(void 0, void 0, void 0, function* () {
         e.preventDefault();
@@ -54751,18 +55749,18 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
     };
     const getNotificationTypeStyles = (type) => {
         switch (type) {
-            case _types_entities__WEBPACK_IMPORTED_MODULE_5__.NotificationType.WARNING: return 'border-l-4 border-l-yellow-400 bg-yellow-500/10';
-            case _types_entities__WEBPACK_IMPORTED_MODULE_5__.NotificationType.INFO: return 'border-l-4 border-l-blue-400 bg-blue-500/10';
-            case _types_entities__WEBPACK_IMPORTED_MODULE_5__.NotificationType.SUCCESS: return 'border-l-4 border-l-green-400 bg-green-500/10';
-            case _types_entities__WEBPACK_IMPORTED_MODULE_5__.NotificationType.ERROR: return 'border-l-4 border-l-red-400 bg-red-500/10';
+            case 'warning': return 'border-l-4 border-l-yellow-400 bg-yellow-500/10';
+            case 'info': return 'border-l-4 border-l-blue-400 bg-blue-500/10';
+            case 'success': return 'border-l-4 border-l-green-400 bg-green-500/10';
+            case 'error': return 'border-l-4 border-l-red-400 bg-red-500/10';
             default: return 'border-l-4 border-l-gray-400 bg-gray-500/10';
         }
     };
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("header", { className: `
-      fixed top-0 right-0 z-30 h-16 transition-all duration-300
+      fixed top-0 right-0 z-50 h-20 transition-all duration-300
       ${sidebarCollapsed ? 'left-16' : 'left-64'}
       glass-surface border-b border-white/10
-    `, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "h-full px-4 flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white", onClick: onToggleSidebar, children: "\u2630" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("nav", { className: "flex items-center text-sm text-white/60 mb-1", children: currentPageInfo.breadcrumb.map((crumb, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "flex items-center", children: [index > 0 && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mx-2 text-white/40", children: "/" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `transition-colors ${index === currentPageInfo.breadcrumb.length - 1
+    `, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "h-full px-4 flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white", onClick: onToggleSidebar, children: "\u2630" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col justify-center min-h-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("nav", { className: "flex items-center text-sm text-white/60 mb-1", children: currentPageInfo.breadcrumb.map((crumb, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "flex items-center", children: [index > 0 && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mx-2 text-white/40", children: "/" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `transition-colors ${index === currentPageInfo.breadcrumb.length - 1
                                                     ? 'text-white/90 font-medium'
                                                     : 'hover:text-white/80'}`, children: crumb })] }, index))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-xl font-bold text-white leading-tight", children: currentPageInfo.title })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex-1 max-w-md mx-8 hidden md:block", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: searchResultsRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("form", { onSubmit: handleSearch, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60", children: isSearching ? '⏳' : '🔍' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "text", className: "w-full h-10 pl-10 pr-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all", placeholder: "\u641C\u7D22\u5546\u54C1\u3001\u8BA2\u5355\u3001\u5BA2\u6237...", value: searchValue, onChange: (e) => setSearchValue(e.target.value) }), searchValue && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "absolute right-3 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white/80 transition-colors", onClick: () => {
                                                 setSearchValue('');
@@ -54772,346 +55770,14 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
                                                                 item.status === 'out-of-stock' ? 'bg-red-500/20 text-red-300' :
                                                                     'bg-gray-500/20 text-gray-300'}`, children: item.status === 'in-stock' ? '有库存' :
                                                             item.status === 'low-stock' ? '库存不足' :
-                                                                item.status === 'out-of-stock' ? '缺货' : '已停产' })] }) }, item.id)))] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/40 text-4xl mb-2", children: "\uD83D\uDD0D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/60 text-sm", children: isSearching ? '搜索中...' : `未找到包含 "${searchValue}" 的商品` })] })) }))] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "hidden lg:flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u65B0\u589E\u5546\u54C1", children: "\u2795" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u5237\u65B0\u6570\u636E", children: "\uD83D\uDD04" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u5BFC\u51FA\u6570\u636E", children: "\uD83D\uDCCA" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: notificationRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "relative w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", onClick: () => setShowNotifications(!showNotifications), children: ["\uD83D\uDD14", unreadCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center", children: unreadCount > 99 ? '99+' : unreadCount }))] }), showNotifications && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-80 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-4 border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white", children: "\u901A\u77E5\u6D88\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-white/70 hover:text-white transition-colors", onClick: () => setShowNotifications(false), children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "max-h-80 overflow-y-auto", children: isLoadingNotifications ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 text-center text-white/60", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin w-6 h-6 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2" }), "\u52A0\u8F7D\u4E2D..."] })) : notifications.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 text-center text-white/60", children: "\u6682\u65E0\u901A\u77E5\u6D88\u606F" })) : (notifications.map(notification => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `p-4 hover:bg-white/5 transition-colors cursor-pointer ${getNotificationTypeStyles(notification.type)}`, onClick: () => handleNotificationClick(notification.id), children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white text-sm font-medium mb-1", children: notification.title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 text-xs mb-2", children: notification.message }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/60 text-xs", children: new Date(notification.createdAt).toLocaleString('zh-CN', {
+                                                                item.status === 'out-of-stock' ? '缺货' : '已停产' })] }) }, item.id)))] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/40 text-4xl mb-2", children: "\uD83D\uDD0D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/60 text-sm", children: isSearching ? '搜索中...' : `未找到包含 "${searchValue}" 的商品` })] })) }))] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "hidden lg:flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u65B0\u589E\u5546\u54C1", children: "\u2795" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u5237\u65B0\u6570\u636E", children: "\uD83D\uDD04" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", title: "\u5BFC\u51FA\u6570\u636E", children: "\uD83D\uDCCA" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: notificationRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "relative w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/20", onClick: () => setShowNotifications(!showNotifications), children: ["\uD83D\uDD14", unreadCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center", children: unreadCount > 99 ? '99+' : unreadCount }))] }), showNotifications && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-80 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-4 border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white", children: "\u901A\u77E5\u6D88\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-white/70 hover:text-white transition-colors", onClick: () => setShowNotifications(false), children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "max-h-80 overflow-y-auto", children: isLoadingNotifications ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 text-center text-white/60", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin w-6 h-6 border-2 border-white/20 border-t-white/60 rounded-full mx-auto mb-2" }), "\u52A0\u8F7D\u4E2D..."] })) : notifications.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 text-center text-white/60", children: "\u6682\u65E0\u901A\u77E5\u6D88\u606F" })) : (notifications.map(notification => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `p-4 hover:bg-white/5 transition-colors cursor-pointer ${getNotificationTypeStyles(notification.type)}`, onClick: () => handleNotificationClick(notification.id), children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white text-sm font-medium mb-1", children: notification.title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 text-xs mb-2", children: notification.message }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/60 text-xs", children: new Date(notification.createdAt).toLocaleString('zh-CN', {
                                                                                 month: 'numeric',
                                                                                 day: 'numeric',
                                                                                 hour: '2-digit',
                                                                                 minute: '2-digit'
-                                                                            }) }), notification.status === 'unread' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-blue-400 rounded-full" }))] })] }) }, notification.id)))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-3 border-t border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-full text-center text-white/80 hover:text-white text-sm font-medium py-2 rounded-lg hover:bg-white/10 transition-colors", onClick: handleViewAllNotifications, children: "\u67E5\u770B\u5168\u90E8" }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "popup-overlay", onClick: () => setShowNotifications(false) })] }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: userMenuRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all border border-white/10 hover:border-white/20", onClick: () => setShowUserMenu(!showUserMenu), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white text-sm font-medium hidden sm:block", children: "\u7BA1\u7406\u5458" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/60 text-xs hidden sm:block", children: "\u23F7" })] }), showUserMenu && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-64 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 border-b border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-semibold truncate", children: "\u7CFB\u7EDF\u7BA1\u7406\u5458" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm truncate", children: "Administrator" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/50 text-xs truncate", children: "admin@system.com" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "py-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u4E2A\u4EBA\u8D44\u6599" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\u2699\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u7CFB\u7EDF\u8BBE\u7F6E" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDD10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u4FEE\u6539\u5BC6\u7801" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDCCB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u64CD\u4F5C\u65E5\u5FD7" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "my-2 border-t border-white/10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-red-300 hover:text-red-200 hover:bg-red-500/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDEAA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u9000\u51FA\u767B\u5F55" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "popup-overlay", onClick: () => setShowUserMenu(false) })] }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ThemeSwitcher_ThemeSwitcher__WEBPACK_IMPORTED_MODULE_2__["default"], {}), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-green-400 rounded-full animate-pulse" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/70 text-sm", children: "\u5728\u7EBF" })] })] })] }) }));
+                                                                            }) }), !notification.isRead && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-blue-400 rounded-full" }))] })] }) }, notification.id)))) }), notifications.length > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-3 border-t border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-full text-center text-white/80 hover:text-white text-sm font-medium py-2 rounded-lg hover:bg-white/10 transition-colors", onClick: handleMarkAllAsRead, children: "\u6807\u8BB0\u5168\u90E8\u5DF2\u8BFB" }) }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "popup-overlay", onClick: () => setShowNotifications(false) })] }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: userMenuRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all border border-white/10 hover:border-white/20", onClick: () => setShowUserMenu(!showUserMenu), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white text-sm font-medium hidden sm:block", children: "\u7BA1\u7406\u5458" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/60 text-xs hidden sm:block", children: "\u23F7" })] }), showUserMenu && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-64 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 border-b border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-semibold truncate", children: "\u7CFB\u7EDF\u7BA1\u7406\u5458" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm truncate", children: "Administrator" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/50 text-xs truncate", children: "admin@system.com" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "py-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u4E2A\u4EBA\u8D44\u6599" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\u2699\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u7CFB\u7EDF\u8BBE\u7F6E" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDD10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u4FEE\u6539\u5BC6\u7801" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDCCB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u64CD\u4F5C\u65E5\u5FD7" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "my-2 border-t border-white/10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "w-full flex items-center gap-3 px-4 py-2 text-red-300 hover:text-red-200 hover:bg-red-500/10 transition-colors text-left", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-base", children: "\uD83D\uDEAA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u9000\u51FA\u767B\u5F55" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "popup-overlay", onClick: () => setShowUserMenu(false) })] }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ThemeSwitcher_ThemeSwitcher__WEBPACK_IMPORTED_MODULE_2__["default"], {}), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-green-400 rounded-full animate-pulse" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/70 text-sm", children: "\u5728\u7EBF" })] })] })] }) }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TopBar);
-
-
-/***/ }),
-
-/***/ "./src/components/Notifications/NotificationDetail.tsx":
-/*!*************************************************************!*\
-  !*** ./src/components/Notifications/NotificationDetail.tsx ***!
-  \*************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
-
-
-const NotificationDetail = ({ notification, onClose, onMarkAsRead, onDelete }) => {
-    // 获取通知类型样式
-    const getNotificationTypeStyles = (type) => {
-        const baseClasses = "px-3 py-1 rounded-full text-sm font-medium";
-        switch (type) {
-            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.INFO:
-                return `${baseClasses} bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200`;
-            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.SUCCESS:
-                return `${baseClasses} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200`;
-            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.WARNING:
-                return `${baseClasses} bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200`;
-            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.ERROR:
-                return `${baseClasses} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200`;
-            default:
-                return `${baseClasses} bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200`;
-        }
-    };
-    // 获取优先级样式
-    const getPriorityStyles = (priority) => {
-        const baseClasses = "px-3 py-1 rounded-full text-sm font-medium";
-        switch (priority) {
-            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.CRITICAL:
-                return `${baseClasses} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200`;
-            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.HIGH:
-                return `${baseClasses} bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200`;
-            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.MEDIUM:
-                return `${baseClasses} bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200`;
-            case _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.LOW:
-                return `${baseClasses} bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200`;
-            default:
-                return `${baseClasses} bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200`;
-        }
-    };
-    // 获取类型显示文本
-    const getTypeDisplayText = (type) => {
-        const typeMap = {
-            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.INFO]: '信息',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.SUCCESS]: '成功',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.WARNING]: '警告',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationType.ERROR]: '错误'
-        };
-        return typeMap[type] || type;
-    };
-    // 获取优先级显示文本
-    const getPriorityDisplayText = (priority) => {
-        const priorityMap = {
-            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.LOW]: '低',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.MEDIUM]: '中',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.HIGH]: '高',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationPriority.CRITICAL]: '紧急'
-        };
-        return priorityMap[priority] || priority;
-    };
-    // 获取状态显示文本
-    const getStatusDisplayText = (status) => {
-        const statusMap = {
-            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationStatus.UNREAD]: '未读',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationStatus.READ]: '已读',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationStatus.DELETED]: '已删除'
-        };
-        return statusMap[status] || status;
-    };
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-xl font-semibold text-gray-900 dark:text-white", children: "\u901A\u77E5\u8BE6\u60C5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: onClose, className: "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-6 h-6", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-medium text-gray-900 dark:text-white", children: notification.title }), notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationStatus.UNREAD && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-3 h-3 bg-blue-500 rounded-full" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-wrap gap-2 mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: getNotificationTypeStyles(notification.type), children: getTypeDisplayText(notification.type) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: getPriorityStyles(notification.priority), children: ["\u4F18\u5148\u7EA7: ", getPriorityDisplayText(notification.priority)] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200", children: getStatusDisplayText(notification.status) })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u6D88\u606F\u5185\u5BB9" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-gray-50 dark:bg-gray-700 rounded-lg p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-900 dark:text-white whitespace-pre-wrap", children: notification.message }) })] }), notification.relatedEntity && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u5173\u8054\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-gray-50 dark:bg-gray-700 rounded-lg p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-gray-600 dark:text-gray-400", children: "\u7C7B\u578B:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-2 text-sm text-gray-900 dark:text-white", children: notification.relatedEntity.type })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-gray-600 dark:text-gray-400", children: "ID:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-2 text-sm text-gray-900 dark:text-white font-mono", children: notification.relatedEntity.id })] })] }) })] })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u65F6\u95F4\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-gray-50 dark:bg-gray-700 rounded-lg p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-gray-600 dark:text-gray-400", children: "\u521B\u5EFA\u65F6\u95F4:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-2 text-sm text-gray-900 dark:text-white", children: new Date(notification.createdAt).toLocaleString('zh-CN') })] }), notification.readAt && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-gray-600 dark:text-gray-400", children: "\u5DF2\u8BFB\u65F6\u95F4:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-2 text-sm text-gray-900 dark:text-white", children: new Date(notification.readAt).toLocaleString('zh-CN') })] })), notification.expiresAt && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-gray-600 dark:text-gray-400", children: "\u8FC7\u671F\u65F6\u95F4:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-2 text-sm text-gray-900 dark:text-white", children: new Date(notification.expiresAt).toLocaleString('zh-CN') })] }))] }) })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-end space-x-3 p-6 border-t border-gray-200 dark:border-gray-700", children: [notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_1__.NotificationStatus.UNREAD && onMarkAsRead && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onMarkAsRead(notification.id), className: "px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors", children: "\u6807\u8BB0\u5DF2\u8BFB" })), onDelete && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onDelete(notification.id), className: "px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition-colors", children: "\u5220\u9664" })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: onClose, className: "px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-md hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors", children: "\u5173\u95ED" })] })] }) }));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NotificationDetail);
-
-
-/***/ }),
-
-/***/ "./src/components/Notifications/NotificationManagement.tsx":
-/*!*****************************************************************!*\
-  !*** ./src/components/Notifications/NotificationManagement.tsx ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
-/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
-/* harmony import */ var _NotificationDetail__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NotificationDetail */ "./src/components/Notifications/NotificationDetail.tsx");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-
-
-
-const NotificationManagement = () => {
-    const [notifications, setNotifications] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
-    const [filteredNotifications, setFilteredNotifications] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
-    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
-    const [selectedNotifications, setSelectedNotifications] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(new Set());
-    const [searchTerm, setSearchTerm] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('');
-    const [filterType, setFilterType] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('all');
-    const [filterStatus, setFilterStatus] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('all');
-    const [filterPriority, setFilterPriority] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('all');
-    const [currentPage, setCurrentPage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
-    const [itemsPerPage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(20);
-    const [selectedNotificationForDetail, setSelectedNotificationForDetail] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-    // 加载通知数据
-    const loadNotifications = () => __awaiter(void 0, void 0, void 0, function* () {
-        setLoading(true);
-        try {
-            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.initialize();
-            const currentUserId = 'current-user'; // 实际应该从认证系统获取
-            const userNotifications = yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.findByUser(currentUserId);
-            setNotifications(userNotifications);
-            setFilteredNotifications(userNotifications);
-        }
-        catch (error) {
-            console.error('加载通知失败:', error);
-            setNotifications([]);
-            setFilteredNotifications([]);
-        }
-        finally {
-            setLoading(false);
-        }
-    });
-    // 组件挂载时加载数据
-    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-        loadNotifications();
-    }, []);
-    // 应用筛选和搜索
-    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-        let filtered = notifications;
-        // 搜索过滤
-        if (searchTerm) {
-            filtered = filtered.filter(notification => notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                notification.message.toLowerCase().includes(searchTerm.toLowerCase()));
-        }
-        // 类型过滤
-        if (filterType !== 'all') {
-            filtered = filtered.filter(notification => notification.type === filterType);
-        }
-        // 状态过滤
-        if (filterStatus !== 'all') {
-            filtered = filtered.filter(notification => notification.status === filterStatus);
-        }
-        // 优先级过滤
-        if (filterPriority !== 'all') {
-            filtered = filtered.filter(notification => notification.priority === filterPriority);
-        }
-        setFilteredNotifications(filtered);
-        setCurrentPage(1); // 重置到第一页
-    }, [notifications, searchTerm, filterType, filterStatus, filterPriority]);
-    // 分页数据
-    const totalPages = Math.ceil(filteredNotifications.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginatedNotifications = filteredNotifications.slice(startIndex, startIndex + itemsPerPage);
-    // 标记单个通知为已读
-    const handleMarkAsRead = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const currentUserId = 'current-user';
-            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.markAsRead(notificationId, currentUserId);
-            yield loadNotifications();
-        }
-        catch (error) {
-            console.error('标记通知已读失败:', error);
-        }
-    });
-    // 删除单个通知
-    const handleDeleteNotification = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.delete(notificationId);
-            yield loadNotifications();
-        }
-        catch (error) {
-            console.error('删除通知失败:', error);
-        }
-    });
-    // 批量标记已读
-    const handleBatchMarkAsRead = () => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const currentUserId = 'current-user';
-            for (const notificationId of selectedNotifications) {
-                yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.markAsRead(notificationId, currentUserId);
-            }
-            setSelectedNotifications(new Set());
-            yield loadNotifications();
-        }
-        catch (error) {
-            console.error('批量标记已读失败:', error);
-        }
-    });
-    // 批量删除
-    const handleBatchDelete = () => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            for (const notificationId of selectedNotifications) {
-                yield _services_business__WEBPACK_IMPORTED_MODULE_2__.notificationService.delete(notificationId);
-            }
-            setSelectedNotifications(new Set());
-            yield loadNotifications();
-        }
-        catch (error) {
-            console.error('批量删除失败:', error);
-        }
-    });
-    // 全选/取消全选
-    const handleSelectAll = () => {
-        if (selectedNotifications.size === paginatedNotifications.length) {
-            setSelectedNotifications(new Set());
-        }
-        else {
-            setSelectedNotifications(new Set(paginatedNotifications.map(n => n.id)));
-        }
-    };
-    // 单选通知
-    const handleSelectNotification = (notificationId) => {
-        const newSelected = new Set(selectedNotifications);
-        if (newSelected.has(notificationId)) {
-            newSelected.delete(notificationId);
-        }
-        else {
-            newSelected.add(notificationId);
-        }
-        setSelectedNotifications(newSelected);
-    };
-    // 查看通知详情
-    const handleViewNotificationDetail = (notification) => {
-        setSelectedNotificationForDetail(notification);
-    };
-    // 关闭通知详情
-    const handleCloseNotificationDetail = () => {
-        setSelectedNotificationForDetail(null);
-    };
-    // 从详情页面标记已读
-    const handleMarkAsReadFromDetail = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
-        yield handleMarkAsRead(notificationId);
-        setSelectedNotificationForDetail(null);
-    });
-    // 从详情页面删除
-    const handleDeleteFromDetail = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
-        yield handleDeleteNotification(notificationId);
-        setSelectedNotificationForDetail(null);
-    });
-    // 获取通知类型样式
-    const getNotificationTypeStyles = (type) => {
-        const baseClasses = "px-2 py-1 rounded-full text-xs font-medium";
-        switch (type) {
-            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.INFO:
-                return `${baseClasses} bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200`;
-            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.SUCCESS:
-                return `${baseClasses} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200`;
-            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.WARNING:
-                return `${baseClasses} bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200`;
-            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.ERROR:
-                return `${baseClasses} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200`;
-            default:
-                return `${baseClasses} bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200`;
-        }
-    };
-    // 获取优先级样式
-    const getPriorityStyles = (priority) => {
-        switch (priority) {
-            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.CRITICAL:
-                return "text-red-600 font-bold";
-            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.HIGH:
-                return "text-orange-600 font-semibold";
-            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.MEDIUM:
-                return "text-yellow-600";
-            case _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.LOW:
-                return "text-gray-600";
-            default:
-                return "text-gray-600";
-        }
-    };
-    // 获取类型显示文本
-    const getTypeDisplayText = (type) => {
-        const typeMap = {
-            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.INFO]: '信息',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.SUCCESS]: '成功',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.WARNING]: '警告',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.ERROR]: '错误'
-        };
-        return typeMap[type] || type;
-    };
-    // 获取优先级显示文本
-    const getPriorityDisplayText = (priority) => {
-        const priorityMap = {
-            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.LOW]: '低',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.MEDIUM]: '中',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.HIGH]: '高',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.CRITICAL]: '紧急'
-        };
-        return priorityMap[priority] || priority;
-    };
-    // 获取状态显示文本
-    const getStatusDisplayText = (status) => {
-        const statusMap = {
-            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD]: '未读',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.READ]: '已读',
-            [_types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.DELETED]: '已删除'
-        };
-        return statusMap[status] || status;
-    };
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "min-h-screen bg-gray-50 dark:bg-gray-900", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "py-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-2xl font-bold text-gray-900 dark:text-white", children: "\u901A\u77E5\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "mt-2 text-sm text-gray-600 dark:text-gray-400", children: "\u7BA1\u7406\u60A8\u7684\u7CFB\u7EDF\u901A\u77E5\u6D88\u606F" })] }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "lg:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "search", className: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u641C\u7D22\u901A\u77E5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "text", id: "search", value: searchTerm, onChange: (e) => setSearchTerm(e.target.value), placeholder: "\u641C\u7D22\u6807\u9898\u6216\u5185\u5BB9...", className: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "type-filter", className: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u7C7B\u578B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", { id: "type-filter", value: filterType, onChange: (e) => setFilterType(e.target.value), className: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "all", children: "\u5168\u90E8\u7C7B\u578B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.INFO, children: "\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.SUCCESS, children: "\u6210\u529F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.WARNING, children: "\u8B66\u544A" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationType.ERROR, children: "\u9519\u8BEF" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "status-filter", className: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", { id: "status-filter", value: filterStatus, onChange: (e) => setFilterStatus(e.target.value), className: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "all", children: "\u5168\u90E8\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD, children: "\u672A\u8BFB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.READ, children: "\u5DF2\u8BFB" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "priority-filter", className: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2", children: "\u4F18\u5148\u7EA7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", { id: "priority-filter", value: filterPriority, onChange: (e) => setFilterPriority(e.target.value), className: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "all", children: "\u5168\u90E8\u4F18\u5148\u7EA7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.LOW, children: "\u4F4E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.MEDIUM, children: "\u4E2D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.HIGH, children: "\u9AD8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationPriority.CRITICAL, children: "\u7D27\u6025" })] })] })] }) }), selectedNotifications.size > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-sm text-blue-700 dark:text-blue-300", children: ["\u5DF2\u9009\u62E9 ", selectedNotifications.size, " \u6761\u901A\u77E5"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleBatchMarkAsRead, className: "px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors", children: "\u6807\u8BB0\u5DF2\u8BFB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleBatchDelete, className: "px-3 py-1 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 transition-colors", children: "\u6279\u91CF\u5220\u9664" })] })] }) })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700", children: loading ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-8 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-600 dark:text-gray-400", children: "\u52A0\u8F7D\u4E2D..." })] })) : filteredNotifications.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-8 text-center", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-600 dark:text-gray-400", children: "\u6682\u65E0\u901A\u77E5\u6D88\u606F" }) })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "border-b border-gray-200 dark:border-gray-700 p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: selectedNotifications.size === paginatedNotifications.length && paginatedNotifications.length > 0, onChange: handleSelectAll, className: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-3 text-sm font-medium text-gray-700 dark:text-gray-300", children: "\u5168\u9009" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "divide-y divide-gray-200 dark:divide-gray-700", children: paginatedNotifications.map((notification) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-start space-x-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: selectedNotifications.has(notification.id), onChange: () => handleSelectNotification(notification.id), className: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center space-x-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: `text-sm font-medium ${notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD
-                                                                                ? 'text-gray-900 dark:text-white'
-                                                                                : 'text-gray-600 dark:text-gray-400'}`, children: notification.title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: getNotificationTypeStyles(notification.type), children: getTypeDisplayText(notification.type) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: getPriorityStyles(notification.priority), children: getPriorityDisplayText(notification.priority) }), notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-2 h-2 bg-blue-500 rounded-full" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-gray-500 dark:text-gray-400", children: new Date(notification.createdAt).toLocaleString('zh-CN') })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-sm text-gray-600 dark:text-gray-400 mb-3 cursor-pointer hover:text-gray-800 dark:hover:text-gray-200 transition-colors", onClick: () => handleViewNotificationDetail(notification), title: "\u70B9\u51FB\u67E5\u770B\u8BE6\u60C5", children: notification.message }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-xs text-gray-500 dark:text-gray-400", children: ["\u72B6\u6001: ", getStatusDisplayText(notification.status)] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex space-x-2", children: [notification.status === _types_entities__WEBPACK_IMPORTED_MODULE_3__.NotificationStatus.UNREAD && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleMarkAsRead(notification.id), className: "text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300", children: "\u6807\u8BB0\u5DF2\u8BFB" })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleDeleteNotification(notification.id), className: "text-xs text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300", children: "\u5220\u9664" })] })] })] })] }) }, notification.id))) }), totalPages > 1 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "border-t border-gray-200 dark:border-gray-700 p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-sm text-gray-700 dark:text-gray-300", children: ["\u663E\u793A ", startIndex + 1, " \u5230 ", Math.min(startIndex + itemsPerPage, filteredNotifications.length), " \u6761\uFF0C \u5171 ", filteredNotifications.length, " \u6761"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex space-x-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => setCurrentPage(Math.max(1, currentPage - 1)), disabled: currentPage === 1, className: "px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed", children: "\u4E0A\u4E00\u9875" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "px-3 py-1 text-sm text-gray-700 dark:text-gray-300", children: [currentPage, " / ", totalPages] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => setCurrentPage(Math.min(totalPages, currentPage + 1)), disabled: currentPage === totalPages, className: "px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed", children: "\u4E0B\u4E00\u9875" })] })] }) }))] })) })] }), selectedNotificationForDetail && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_NotificationDetail__WEBPACK_IMPORTED_MODULE_4__["default"], { notification: selectedNotificationForDetail, onClose: handleCloseNotificationDetail, onMarkAsRead: handleMarkAsReadFromDetail, onDelete: handleDeleteFromDetail }))] }));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NotificationManagement);
 
 
 /***/ }),
@@ -55139,26 +55805,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Inventory_StockOut__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Inventory/StockOut */ "./src/components/Inventory/StockOut.tsx");
 /* harmony import */ var _Inventory_StockAdjust__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Inventory/StockAdjust */ "./src/components/Inventory/StockAdjust.tsx");
 /* harmony import */ var _Inventory_TransactionRecords__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Inventory/TransactionRecords */ "./src/components/Inventory/TransactionRecords.tsx");
-/* harmony import */ var _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Purchase/SupplierManagement */ "./src/components/Purchase/SupplierManagement.tsx");
-/* harmony import */ var _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Purchase/PurchaseOrderManagement */ "./src/components/Purchase/PurchaseOrderManagement.tsx");
-/* harmony import */ var _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Purchase/PurchaseReceiptManagement */ "./src/components/Purchase/PurchaseReceiptManagement.tsx");
-/* harmony import */ var _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Sales/CustomerManagement */ "./src/components/Sales/CustomerManagement.tsx");
-/* harmony import */ var _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Sales/SalesOrderManagement */ "./src/components/Sales/SalesOrderManagement.tsx");
-/* harmony import */ var _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Sales/SalesDeliveryManagement */ "./src/components/Sales/SalesDeliveryManagement.tsx");
-/* harmony import */ var _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Reports/InventoryReports */ "./src/components/Reports/InventoryReports.tsx");
-/* harmony import */ var _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Reports/SalesReports */ "./src/components/Reports/SalesReports.tsx");
-/* harmony import */ var _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Reports/PurchaseReports */ "./src/components/Reports/PurchaseReports.tsx");
-/* harmony import */ var _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Reports/FinancialReports */ "./src/components/Reports/FinancialReports.tsx");
-/* harmony import */ var _Financial_Financial__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Financial/Financial */ "./src/components/Financial/Financial.tsx");
-/* harmony import */ var _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Financial/AccountsPayableManagement */ "./src/components/Financial/AccountsPayableManagement.tsx");
-/* harmony import */ var _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Financial/AccountsReceivableManagement */ "./src/components/Financial/AccountsReceivableManagement.tsx");
-/* harmony import */ var _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Financial/PaymentRecordsManagement */ "./src/components/Financial/PaymentRecordsManagement.tsx");
-/* harmony import */ var _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Financial/ReceiptRecordsManagement */ "./src/components/Financial/ReceiptRecordsManagement.tsx");
-/* harmony import */ var _System_UserManagement__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./System/UserManagement */ "./src/components/System/UserManagement.tsx");
-/* harmony import */ var _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./System/PermissionManagement */ "./src/components/System/PermissionManagement.tsx");
-/* harmony import */ var _System_SystemSettings__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./System/SystemSettings */ "./src/components/System/SystemSettings.tsx");
-/* harmony import */ var _System_OperationLogs__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./System/OperationLogs */ "./src/components/System/OperationLogs.tsx");
-/* harmony import */ var _Notifications_NotificationManagement__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./Notifications/NotificationManagement */ "./src/components/Notifications/NotificationManagement.tsx");
+/* harmony import */ var _pages_InventoryCardView__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../pages/InventoryCardView */ "./src/pages/InventoryCardView.tsx");
+/* harmony import */ var _Calendar_CalendarOverviewPage__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Calendar/CalendarOverviewPage */ "./src/components/Calendar/CalendarOverviewPage.tsx");
+/* harmony import */ var _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Purchase/SupplierManagement */ "./src/components/Purchase/SupplierManagement.tsx");
+/* harmony import */ var _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Purchase/PurchaseOrderManagement */ "./src/components/Purchase/PurchaseOrderManagement.tsx");
+/* harmony import */ var _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Purchase/PurchaseReceiptManagement */ "./src/components/Purchase/PurchaseReceiptManagement.tsx");
+/* harmony import */ var _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Sales/CustomerManagement */ "./src/components/Sales/CustomerManagement.tsx");
+/* harmony import */ var _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Sales/SalesOrderManagement */ "./src/components/Sales/SalesOrderManagement.tsx");
+/* harmony import */ var _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Sales/SalesDeliveryManagement */ "./src/components/Sales/SalesDeliveryManagement.tsx");
+/* harmony import */ var _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Reports/InventoryReports */ "./src/components/Reports/InventoryReports.tsx");
+/* harmony import */ var _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Reports/SalesReports */ "./src/components/Reports/SalesReports.tsx");
+/* harmony import */ var _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Reports/PurchaseReports */ "./src/components/Reports/PurchaseReports.tsx");
+/* harmony import */ var _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Reports/FinancialReports */ "./src/components/Reports/FinancialReports.tsx");
+/* harmony import */ var _Financial_Financial__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Financial/Financial */ "./src/components/Financial/Financial.tsx");
+/* harmony import */ var _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Financial/AccountsPayableManagement */ "./src/components/Financial/AccountsPayableManagement.tsx");
+/* harmony import */ var _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Financial/AccountsReceivableManagement */ "./src/components/Financial/AccountsReceivableManagement.tsx");
+/* harmony import */ var _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./Financial/PaymentRecordsManagement */ "./src/components/Financial/PaymentRecordsManagement.tsx");
+/* harmony import */ var _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./Financial/ReceiptRecordsManagement */ "./src/components/Financial/ReceiptRecordsManagement.tsx");
+/* harmony import */ var _System_UserManagement__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./System/UserManagement */ "./src/components/System/UserManagement.tsx");
+/* harmony import */ var _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./System/PermissionManagement */ "./src/components/System/PermissionManagement.tsx");
+/* harmony import */ var _System_SystemSettings__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./System/SystemSettings */ "./src/components/System/SystemSettings.tsx");
+/* harmony import */ var _System_OperationLogs__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./System/OperationLogs */ "./src/components/System/OperationLogs.tsx");
+
 
 
 
@@ -55196,6 +55864,8 @@ const pageComponents = {
     'inventory': _Inventory_InventoryOverview__WEBPACK_IMPORTED_MODULE_2__.InventoryOverview,
     'inventory-overview': _Inventory_InventoryOverview__WEBPACK_IMPORTED_MODULE_2__.InventoryOverview,
     'inventory-products': _Inventory_InventoryList__WEBPACK_IMPORTED_MODULE_3__.InventoryList,
+    'inventory-card-view': _pages_InventoryCardView__WEBPACK_IMPORTED_MODULE_11__["default"],
+    'calendar-overview': _Calendar_CalendarOverviewPage__WEBPACK_IMPORTED_MODULE_12__["default"],
     'products': _Inventory_ProductManagement__WEBPACK_IMPORTED_MODULE_4__.ProductManagement,
     'categories': _Inventory_CategoryManagement__WEBPACK_IMPORTED_MODULE_5__.CategoryManagement,
     'warehouses': _Inventory_WarehouseManagement__WEBPACK_IMPORTED_MODULE_6__.WarehouseManagement,
@@ -55203,21 +55873,21 @@ const pageComponents = {
     'stock-out': _Inventory_StockOut__WEBPACK_IMPORTED_MODULE_8__.StockOut,
     'stock-adjust': _Inventory_StockAdjust__WEBPACK_IMPORTED_MODULE_9__.StockAdjust,
     'transaction-records': _Inventory_TransactionRecords__WEBPACK_IMPORTED_MODULE_10__.TransactionRecords,
-    'suppliers': _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_11__["default"],
-    'purchase-orders': _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_12__["default"],
-    'purchase-receipts': _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_13__["default"],
-    'customers': _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_14__["default"],
-    'sales-orders': _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_15__["default"],
-    'sales-delivery': _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_16__["default"],
-    'inventory-reports': _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_17__["default"],
-    'sales-reports': _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_18__["default"],
-    'purchase-reports': _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_19__["default"],
-    'financial-reports': _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_20__["default"],
-    'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_21__["default"],
+    'suppliers': _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_13__["default"],
+    'purchase-orders': _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_14__["default"],
+    'purchase-receipts': _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_15__["default"],
+    'customers': _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_16__["default"],
+    'sales-orders': _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_17__["default"],
+    'sales-delivery': _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_18__["default"],
+    'inventory-reports': _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_19__["default"],
+    'sales-reports': _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_20__["default"],
+    'purchase-reports': _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_21__["default"],
+    'financial-reports': _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_22__["default"],
+    'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_23__["default"],
     // 'system-management': SystemManagement
 };
 // 开发中的页面组件
-const DevelopmentPage = ({ title, description }) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "development-page", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "development-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "development-icon", children: "\uD83D\uDEA7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "development-title", children: title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "development-description", children: description }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "development-info", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "info-item", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-label", children: "\u5F00\u53D1\u72B6\u6001:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-value", children: "\u89C4\u5212\u4E2D" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "info-item", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-label", children: "\u9884\u8BA1\u5B8C\u6210:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-value", children: "2024\u5E741\u6708" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "back-to-dashboard", onClick: () => window.location.hash = 'dashboard', children: "\u8FD4\u56DE\u4EEA\u8868\u677F" })] }) }));
+const DevelopmentPage = ({ title, description }) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "development-page", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "development-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "development-icon", children: "\uD83D\uDEA7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "development-title", children: title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "development-description", children: description }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "development-info", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "info-item", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-label", children: "\u5F00\u53D1\u72B6\u6001:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-value", children: "\u89C4\u5212\u4E2D" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "info-item", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-label", children: "\u9884\u8BA1\u5B8C\u6210:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-value", children: "2024\u5E741\u6708" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "back-to-dashboard", onClick: () => window.location.hash = 'dashboard', children: "\u8FD4\u56DE\u4EEA\u8868\u677F" })] }) }));
 // 为开发中的页面创建组件
 const createDevelopmentPage = (title, description) => () => (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(DevelopmentPage, { title: title, description: description });
 // 扩展页面映射，包含开发中的页面
@@ -55226,14 +55896,14 @@ const allPageComponents = Object.assign(Object.assign({}, pageComponents), {
     // 采购管理模块 - 已完成
     // 销售管理模块 - 已完成
     // 财务管理模块 - 已完成基础功能
-    'accounts-payable': _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_22__["default"], 'accounts-receivable': _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_23__["default"], 'payments': _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_24__["default"], 'receipts': _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_25__["default"], 'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_21__["default"], 
+    'accounts-payable': _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_24__["default"], 'accounts-receivable': _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_25__["default"], 'payments': _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_26__["default"], 'receipts': _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_27__["default"], 'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_23__["default"], 
     // 报表分析模块 - 部分完成
     // 系统管理模块 - 独立页面组件
-    'users': _System_UserManagement__WEBPACK_IMPORTED_MODULE_26__["default"], 'permissions': _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_27__["default"], 'settings': _System_SystemSettings__WEBPACK_IMPORTED_MODULE_28__["default"], 'logs': _System_OperationLogs__WEBPACK_IMPORTED_MODULE_29__["default"], 'notifications': _Notifications_NotificationManagement__WEBPACK_IMPORTED_MODULE_30__["default"] });
+    'users': _System_UserManagement__WEBPACK_IMPORTED_MODULE_28__["default"], 'permissions': _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_29__["default"], 'settings': _System_SystemSettings__WEBPACK_IMPORTED_MODULE_30__["default"], 'logs': _System_OperationLogs__WEBPACK_IMPORTED_MODULE_31__["default"] });
 const PageContainer = ({ currentPage }) => {
     const PageComponent = allPageComponents[currentPage];
     if (!PageComponent) {
-        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "page-not-found", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "not-found-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "not-found-icon", children: "\u2753" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "not-found-title", children: "\u9875\u9762\u672A\u627E\u5230" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "not-found-description", children: ["\u62B1\u6B49\uFF0C\u627E\u4E0D\u5230\u9875\u9762 \"", currentPage, "\""] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "back-to-dashboard", onClick: () => window.location.hash = 'dashboard', children: "\u8FD4\u56DE\u4EEA\u8868\u677F" })] }) }));
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "page-not-found", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "not-found-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "not-found-icon", children: "\u2753" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "not-found-title", children: "\u9875\u9762\u672A\u627E\u5230" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "not-found-description", children: ["\u62B1\u6B49\uFF0C\u627E\u4E0D\u5230\u9875\u9762 \"", currentPage, "\""] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "back-to-dashboard", onClick: () => window.location.hash = 'dashboard', children: "\u8FD4\u56DE\u4EEA\u8868\u677F" })] }) }));
     }
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "page-container", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(PageComponent, {}) }));
 };
@@ -58161,8 +58831,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
-/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
-/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -58172,8 +58840,6 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-
-
 
 
 
@@ -58201,15 +58867,6 @@ const SystemSettings = ({ className }) => {
         currencySymbol: '¥',
         taxRate: 0.13
     });
-    const [notificationSettings, setNotificationSettings] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
-        enabledTypes: [_types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.INFO, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.WARNING, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.ERROR, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.SUCCESS],
-        enabledPriorities: [_types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.LOW, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.MEDIUM, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.HIGH, _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.CRITICAL],
-        enableSound: true,
-        enableDesktop: false,
-        autoRefreshInterval: 30,
-        maxDisplayCount: 5,
-        enableCriticalForce: true
-    });
     (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
         loadSettings();
     }, []);
@@ -58219,25 +58876,10 @@ const SystemSettings = ({ className }) => {
             // 从localStorage或API加载设置
             const savedBasic = localStorage.getItem('systemSettings.basic');
             const savedBusiness = localStorage.getItem('systemSettings.business');
-            const savedNotifications = localStorage.getItem('systemSettings.notifications');
             if (savedBasic)
                 setBasicSettings(JSON.parse(savedBasic));
             if (savedBusiness)
                 setBusinessSettings(JSON.parse(savedBusiness));
-            if (savedNotifications)
-                setNotificationSettings(JSON.parse(savedNotifications));
-            // 同时加载用户的通知配置
-            try {
-                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.notificationService.initialize();
-                const currentUserId = 'current-user'; // 实际应该从认证系统获取
-                const userConfig = yield _services_business__WEBPACK_IMPORTED_MODULE_3__.notificationService.getUserConfig(currentUserId);
-                if (userConfig) {
-                    setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enabledTypes: userConfig.enabledTypes, enabledPriorities: userConfig.enabledPriorities, enableSound: userConfig.enableSound, enableDesktop: userConfig.enableDesktop })));
-                }
-            }
-            catch (error) {
-                console.error('加载用户通知配置失败:', error);
-            }
         }
         catch (error) {
             console.error('加载设置失败:', error);
@@ -58252,20 +58894,6 @@ const SystemSettings = ({ className }) => {
             // 保存到localStorage或API
             localStorage.setItem('systemSettings.basic', JSON.stringify(basicSettings));
             localStorage.setItem('systemSettings.business', JSON.stringify(businessSettings));
-            localStorage.setItem('systemSettings.notifications', JSON.stringify(notificationSettings));
-            // 同时更新用户的通知配置
-            try {
-                const currentUserId = 'current-user'; // 实际应该从认证系统获取
-                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.notificationService.updateUserConfig(currentUserId, {
-                    enabledTypes: notificationSettings.enabledTypes,
-                    enabledPriorities: notificationSettings.enabledPriorities,
-                    enableSound: notificationSettings.enableSound,
-                    enableDesktop: notificationSettings.enableDesktop
-                });
-            }
-            catch (error) {
-                console.error('保存用户通知配置失败:', error);
-            }
             setHasChanges(false);
             alert('设置保存成功！');
         }
@@ -58295,36 +58923,7 @@ const SystemSettings = ({ className }) => {
                                 ? 'text-white bg-white/10 border-b-2 border-blue-400'
                                 : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83C\uDFE2" }), "\u57FA\u672C\u914D\u7F6E"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('business'), className: `flex-1 px-6 py-4 text-sm font-medium transition-colors ${activeTab === 'business'
                                 ? 'text-white bg-white/10 border-b-2 border-blue-400'
-                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCCA" }), "\u4E1A\u52A1\u53C2\u6570"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('notifications'), className: `flex-1 px-6 py-4 text-sm font-medium transition-colors ${activeTab === 'notifications'
-                                ? 'text-white bg-white/10 border-b-2 border-blue-400'
-                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD14" }), "\u901A\u77E5\u914D\u7F6E"] })] }) }), activeTab === 'basic' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u57FA\u672C\u914D\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7CFB\u7EDF\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.systemName, onChange: (e) => handleBasicChange('systemName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u7CFB\u7EDF\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyName, onChange: (e) => handleBasicChange('companyName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u5730\u5740" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyAddress, onChange: (e) => handleBasicChange('companyAddress', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u5730\u5740" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u7535\u8BDD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "tel", value: basicSettings.contactPhone, onChange: (e) => handleBasicChange('contactPhone', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u7535\u8BDD" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u90AE\u7BB1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "email", value: basicSettings.contactEmail, onChange: (e) => handleBasicChange('contactEmail', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u90AE\u7BB1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u7F51\u7AD9" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.website, onChange: (e) => handleBasicChange('website', e.target.value), placeholder: "https://www.example.com" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8Logo URL" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.logo, onChange: (e) => handleBasicChange('logo', e.target.value), placeholder: "\u8BF7\u8F93\u5165Logo\u56FE\u7247URL" })] })] })] })), activeTab === 'business' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u4E1A\u52A1\u53C2\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u5E93\u5B58\u9884\u8B66\u9608\u503C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.stockWarningThreshold, onChange: (e) => handleBusinessChange('stockWarningThreshold', parseInt(e.target.value) || 0), placeholder: "10", min: "0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-white/60 mt-1", children: "\u5F53\u5E93\u5B58\u4F4E\u4E8E\u6B64\u503C\u65F6\u53D1\u51FA\u9884\u8B66" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u4EF7\u683C\u5C0F\u6570\u4F4D\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.priceDecimalPlaces, onChange: (e) => handleBusinessChange('priceDecimalPlaces', parseInt(e.target.value)), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 0, children: "0\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 1, children: "1\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 2, children: "2\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 3, children: "3\u4F4D\u5C0F\u6570" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u9ED8\u8BA4\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.defaultWarehouse, onChange: (e) => handleBusinessChange('defaultWarehouse', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "main", children: "\u4E3B\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "backup", children: "\u5907\u7528\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "temp", children: "\u4E34\u65F6\u4ED3\u5E93" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8D27\u5E01\u7B26\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.currencySymbol, onChange: (e) => handleBusinessChange('currencySymbol', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A5", children: "\u4EBA\u6C11\u5E01 (\u00A5)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "$", children: "\u7F8E\u5143 ($)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u20AC", children: "\u6B27\u5143 (\u20AC)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A3", children: "\u82F1\u9551 (\u00A3)" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7A0E\u7387 (%)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.taxRate * 100, onChange: (e) => handleBusinessChange('taxRate', (parseFloat(e.target.value) || 0) / 100), placeholder: "13", min: "0", max: "100", step: "0.1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u4E1A\u52A1\u89C4\u5219" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.autoStockOut, onChange: (e) => handleBusinessChange('autoStockOut', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u81EA\u52A8\u51FA\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u9500\u552E\u8BA2\u5355\u786E\u8BA4\u540E\u81EA\u52A8\u6267\u884C\u51FA\u5E93\u64CD\u4F5C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.requireApproval, onChange: (e) => handleBusinessChange('requireApproval', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u9700\u8981\u5BA1\u6279" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u5927\u989D\u8BA2\u5355\u9700\u8981\u7BA1\u7406\u5458\u5BA1\u6279" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.enableBarcode, onChange: (e) => handleBusinessChange('enableBarcode', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u542F\u7528\u6761\u7801\u626B\u63CF" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u652F\u6301\u6761\u7801\u626B\u63CF\u8FDB\u884C\u5FEB\u901F\u64CD\u4F5C" })] })] })] })] })] })), activeTab === 'notifications' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u901A\u77E5\u914D\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u542F\u7528\u7684\u901A\u77E5\u7C7B\u578B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-4", children: Object.values(_types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType).map((type) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3 cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: notificationSettings.enabledTypes.includes(type), onChange: (e) => {
-                                                const newTypes = e.target.checked
-                                                    ? [...notificationSettings.enabledTypes, type]
-                                                    : notificationSettings.enabledTypes.filter(t => t !== type);
-                                                setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enabledTypes: newTypes })));
-                                                setHasChanges(true);
-                                            }, className: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-white/80", children: [type === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.INFO && '📢 信息', type === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.SUCCESS && '✅ 成功', type === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.WARNING && '⚠️ 警告', type === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationType.ERROR && '❌ 错误'] })] }, type))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u542F\u7528\u7684\u4F18\u5148\u7EA7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-4", children: Object.values(_types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority).map((priority) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3 cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: notificationSettings.enabledPriorities.includes(priority), onChange: (e) => {
-                                                const newPriorities = e.target.checked
-                                                    ? [...notificationSettings.enabledPriorities, priority]
-                                                    : notificationSettings.enabledPriorities.filter(p => p !== priority);
-                                                setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enabledPriorities: newPriorities })));
-                                                setHasChanges(true);
-                                            }, className: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-white/80", children: [priority === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.LOW && '🔵 低', priority === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.MEDIUM && '🟡 中', priority === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.HIGH && '🟠 高', priority === _types_entities__WEBPACK_IMPORTED_MODULE_4__.NotificationPriority.CRITICAL && '🔴 紧急'] })] }, priority))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u901A\u77E5\u529F\u80FD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3 cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: notificationSettings.enableSound, onChange: (e) => {
-                                                    setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enableSound: e.target.checked })));
-                                                    setHasChanges(true);
-                                                }, className: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/80", children: "\uD83D\uDD0A \u542F\u7528\u58F0\u97F3\u63D0\u9192" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3 cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: notificationSettings.enableDesktop, onChange: (e) => {
-                                                    setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enableDesktop: e.target.checked })));
-                                                    setHasChanges(true);
-                                                }, className: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/80", children: "\uD83D\uDDA5\uFE0F \u542F\u7528\u684C\u9762\u901A\u77E5" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3 cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: notificationSettings.enableCriticalForce, onChange: (e) => {
-                                                    setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { enableCriticalForce: e.target.checked })));
-                                                    setHasChanges(true);
-                                                }, className: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/80", children: "\uD83D\uDEA8 \u5F3A\u5236\u663E\u793A\u7D27\u6025\u901A\u77E5" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u81EA\u52A8\u5237\u65B0\u95F4\u9694\uFF08\u79D2\uFF09" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", min: "10", max: "300", value: notificationSettings.autoRefreshInterval, onChange: (e) => {
-                                            setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { autoRefreshInterval: parseInt(e.target.value) || 30 })));
-                                            setHasChanges(true);
-                                        }, className: "w-full" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-white/60 mt-1", children: "\u8BBE\u7F6E\u901A\u77E5\u81EA\u52A8\u5237\u65B0\u7684\u65F6\u95F4\u95F4\u9694\uFF0C\u5EFA\u8BAE10-300\u79D2" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u9876\u680F\u6700\u5927\u663E\u793A\u6570\u91CF" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", min: "3", max: "10", value: notificationSettings.maxDisplayCount, onChange: (e) => {
-                                            setNotificationSettings(prev => (Object.assign(Object.assign({}, prev), { maxDisplayCount: parseInt(e.target.value) || 5 })));
-                                            setHasChanges(true);
-                                        }, className: "w-full" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-white/60 mt-1", children: "\u8BBE\u7F6E\u9876\u680F\u901A\u77E5\u5F39\u51FA\u6846\u6700\u591A\u663E\u793A\u7684\u901A\u77E5\u6570\u91CF" })] })] })] })), hasChanges && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-4 border-l-4 border-yellow-400", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-yellow-400 mr-2", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u60A8\u6709\u672A\u4FDD\u5B58\u7684\u66F4\u6539\uFF0C\u8BF7\u8BB0\u5F97\u4FDD\u5B58\u8BBE\u7F6E\u3002" })] }) }))] }));
+                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCCA" }), "\u4E1A\u52A1\u53C2\u6570"] })] }) }), activeTab === 'basic' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u57FA\u672C\u914D\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7CFB\u7EDF\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.systemName, onChange: (e) => handleBasicChange('systemName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u7CFB\u7EDF\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyName, onChange: (e) => handleBasicChange('companyName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u5730\u5740" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyAddress, onChange: (e) => handleBasicChange('companyAddress', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u5730\u5740" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u7535\u8BDD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "tel", value: basicSettings.contactPhone, onChange: (e) => handleBasicChange('contactPhone', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u7535\u8BDD" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u90AE\u7BB1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "email", value: basicSettings.contactEmail, onChange: (e) => handleBasicChange('contactEmail', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u90AE\u7BB1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u7F51\u7AD9" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.website, onChange: (e) => handleBasicChange('website', e.target.value), placeholder: "https://www.example.com" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8Logo URL" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.logo, onChange: (e) => handleBasicChange('logo', e.target.value), placeholder: "\u8BF7\u8F93\u5165Logo\u56FE\u7247URL" })] })] })] })), activeTab === 'business' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u4E1A\u52A1\u53C2\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u5E93\u5B58\u9884\u8B66\u9608\u503C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.stockWarningThreshold, onChange: (e) => handleBusinessChange('stockWarningThreshold', parseInt(e.target.value) || 0), placeholder: "10", min: "0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-white/60 mt-1", children: "\u5F53\u5E93\u5B58\u4F4E\u4E8E\u6B64\u503C\u65F6\u53D1\u51FA\u9884\u8B66" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u4EF7\u683C\u5C0F\u6570\u4F4D\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.priceDecimalPlaces, onChange: (e) => handleBusinessChange('priceDecimalPlaces', parseInt(e.target.value)), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 0, children: "0\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 1, children: "1\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 2, children: "2\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 3, children: "3\u4F4D\u5C0F\u6570" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u9ED8\u8BA4\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.defaultWarehouse, onChange: (e) => handleBusinessChange('defaultWarehouse', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "main", children: "\u4E3B\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "backup", children: "\u5907\u7528\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "temp", children: "\u4E34\u65F6\u4ED3\u5E93" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8D27\u5E01\u7B26\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.currencySymbol, onChange: (e) => handleBusinessChange('currencySymbol', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A5", children: "\u4EBA\u6C11\u5E01 (\u00A5)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "$", children: "\u7F8E\u5143 ($)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u20AC", children: "\u6B27\u5143 (\u20AC)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A3", children: "\u82F1\u9551 (\u00A3)" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7A0E\u7387 (%)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.taxRate * 100, onChange: (e) => handleBusinessChange('taxRate', (parseFloat(e.target.value) || 0) / 100), placeholder: "13", min: "0", max: "100", step: "0.1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u4E1A\u52A1\u89C4\u5219" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.autoStockOut, onChange: (e) => handleBusinessChange('autoStockOut', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u81EA\u52A8\u51FA\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u9500\u552E\u8BA2\u5355\u786E\u8BA4\u540E\u81EA\u52A8\u6267\u884C\u51FA\u5E93\u64CD\u4F5C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.requireApproval, onChange: (e) => handleBusinessChange('requireApproval', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u9700\u8981\u5BA1\u6279" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u5927\u989D\u8BA2\u5355\u9700\u8981\u7BA1\u7406\u5458\u5BA1\u6279" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.enableBarcode, onChange: (e) => handleBusinessChange('enableBarcode', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u542F\u7528\u6761\u7801\u626B\u63CF" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u652F\u6301\u6761\u7801\u626B\u63CF\u8FDB\u884C\u5FEB\u901F\u64CD\u4F5C" })] })] })] })] })] })), hasChanges && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-4 border-l-4 border-yellow-400", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-yellow-400 mr-2", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u60A8\u6709\u672A\u4FDD\u5B58\u7684\u66F4\u6539\uFF0C\u8BF7\u8BB0\u5F97\u4FDD\u5B58\u8BBE\u7F6E\u3002" })] }) }))] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SystemSettings);
 
@@ -59488,6 +60087,187 @@ function cn(...inputs) {
 
 /***/ }),
 
+/***/ "./src/pages/InventoryCardView.tsx":
+/*!*****************************************!*\
+  !*** ./src/pages/InventoryCardView.tsx ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_Inventory_WarehouseCard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Inventory/WarehouseCard */ "./src/components/Inventory/WarehouseCard.tsx");
+/* harmony import */ var _components_Inventory_InventoryFilter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Inventory/InventoryFilter */ "./src/components/Inventory/InventoryFilter.tsx");
+/* harmony import */ var _components_Inventory_InventorySearch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Inventory/InventorySearch */ "./src/components/Inventory/InventorySearch.tsx");
+/* harmony import */ var _components_Inventory_WarehouseDetailModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Inventory/WarehouseDetailModal */ "./src/components/Inventory/WarehouseDetailModal.tsx");
+/* harmony import */ var _components_Inventory_WarehouseCardSkeleton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/Inventory/WarehouseCardSkeleton */ "./src/components/Inventory/WarehouseCardSkeleton.tsx");
+/* harmony import */ var _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/notificationHelper */ "./src/utils/notificationHelper.ts");
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/business */ "./src/services/business/index.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+
+
+
+const InventoryCardView = () => {
+    const [state, setState] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+        warehouses: [],
+        filteredWarehouses: [],
+        filters: {
+            warehouseIds: [],
+            searchKeyword: '',
+            stockStatus: 'all',
+            category: '',
+            sortBy: 'name',
+            sortOrder: 'asc'
+        },
+        loading: true,
+        error: null,
+        selectedWarehouse: null
+    });
+    const [showDetailModal, setShowDetailModal] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    // 加载仓库数据
+    const loadWarehouseData = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            setState(prev => (Object.assign(Object.assign({}, prev), { loading: true, error: null })));
+            // 获取真实的仓库卡片数据
+            const warehouses = yield _services_business__WEBPACK_IMPORTED_MODULE_8__.inventoryCardService.getWarehouseCardData();
+            setState(prev => (Object.assign(Object.assign({}, prev), { warehouses, filteredWarehouses: warehouses, loading: false })));
+            // 检查是否有库存预警
+            const lowStockWarnings = yield _services_business__WEBPACK_IMPORTED_MODULE_8__.inventoryCardService.getLowStockWarnings();
+            if (lowStockWarnings.length > 0) {
+                _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_7__.notificationHelper.showWarning('库存预警', `发现 ${lowStockWarnings.length} 个商品库存不足，请及时补货`);
+            }
+        }
+        catch (error) {
+            console.error('加载仓库数据失败:', error);
+            setState(prev => (Object.assign(Object.assign({}, prev), { loading: false, error: (error === null || error === void 0 ? void 0 : error.message) || '加载仓库数据失败，请重试' })));
+            _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_7__.notificationHelper.showError('数据加载失败', '无法获取仓库数据，请检查网络连接后重试');
+        }
+    });
+    // 应用筛选条件
+    const applyFilters = (0,react__WEBPACK_IMPORTED_MODULE_1__.useMemo)(() => {
+        let filtered = [...state.warehouses];
+        // 仓库筛选
+        if (state.filters.warehouseIds.length > 0) {
+            filtered = filtered.filter(warehouse => state.filters.warehouseIds.includes(warehouse.warehouseId));
+        }
+        // 搜索关键词
+        if (state.filters.searchKeyword) {
+            const keyword = state.filters.searchKeyword.toLowerCase();
+            filtered = filtered.filter(warehouse => warehouse.warehouseName.toLowerCase().includes(keyword) ||
+                warehouse.warehouseCode.toLowerCase().includes(keyword) ||
+                warehouse.products.some(product => product.productName.toLowerCase().includes(keyword) ||
+                    product.sku.toLowerCase().includes(keyword)));
+        }
+        // 库存状态筛选
+        if (state.filters.stockStatus !== 'all') {
+            filtered = filtered.filter(warehouse => {
+                switch (state.filters.stockStatus) {
+                    case 'low':
+                        return warehouse.lowStockCount > 0;
+                    case 'out':
+                        return warehouse.outOfStockCount > 0;
+                    case 'normal':
+                        return warehouse.lowStockCount === 0 && warehouse.outOfStockCount === 0;
+                    default:
+                        return true;
+                }
+            });
+        }
+        // 排序
+        filtered.sort((a, b) => {
+            let aValue, bValue;
+            switch (state.filters.sortBy) {
+                case 'name':
+                    aValue = a.warehouseName;
+                    bValue = b.warehouseName;
+                    break;
+                case 'stock':
+                    aValue = a.totalProducts;
+                    bValue = b.totalProducts;
+                    break;
+                case 'value':
+                    aValue = a.totalValue;
+                    bValue = b.totalValue;
+                    break;
+                default:
+                    aValue = a.warehouseName;
+                    bValue = b.warehouseName;
+            }
+            if (typeof aValue === 'string') {
+                const result = aValue.localeCompare(bValue);
+                return state.filters.sortOrder === 'asc' ? result : -result;
+            }
+            else {
+                const result = aValue - bValue;
+                return state.filters.sortOrder === 'asc' ? result : -result;
+            }
+        });
+        return filtered;
+    }, [state.warehouses, state.filters]);
+    // 更新筛选结果
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        setState(prev => (Object.assign(Object.assign({}, prev), { filteredWarehouses: applyFilters })));
+    }, [applyFilters]);
+    // 初始化加载
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        loadWarehouseData();
+    }, []);
+    // 处理筛选条件变更
+    const handleFilterChange = (newFilters) => {
+        setState(prev => (Object.assign(Object.assign({}, prev), { filters: Object.assign(Object.assign({}, prev.filters), newFilters) })));
+    };
+    // 处理仓库卡片点击
+    const handleWarehouseClick = (warehouseId) => {
+        setState(prev => (Object.assign(Object.assign({}, prev), { selectedWarehouse: warehouseId })));
+        // 打开详情模态框
+        setShowDetailModal(true);
+        // 显示选中反馈
+        const warehouse = state.warehouses.find(w => w.warehouseId === warehouseId);
+        if (warehouse) {
+            _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_7__.notificationHelper.showInfo('仓库详情', `正在查看 ${warehouse.warehouseName} 的详细信息`);
+        }
+    };
+    // 关闭详情模态框
+    const handleCloseDetailModal = () => {
+        setShowDetailModal(false);
+        setState(prev => (Object.assign(Object.assign({}, prev), { selectedWarehouse: null })));
+    };
+    // 刷新数据
+    const handleRefresh = () => {
+        loadWarehouseData();
+    };
+    if (state.loading) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center min-h-96", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center glass-surface backdrop-blur-lg rounded-xl p-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin rounded-full h-16 w-16 border-4 border-white/20 mx-auto mb-4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin rounded-full h-16 w-16 border-4 border-white/60 border-t-transparent absolute top-0 left-1/2 transform -translate-x-1/2" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white text-lg font-medium drop-shadow-lg", children: "\u6B63\u5728\u52A0\u8F7D\u4ED3\u5E93\u6570\u636E..." }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 text-sm mt-2 drop-shadow-md", children: "\u8BF7\u7A0D\u5019\uFF0C\u6B63\u5728\u83B7\u53D6\u6700\u65B0\u7684\u5E93\u5B58\u4FE1\u606F" })] }) }));
+    }
+    if (state.error) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center min-h-96", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center glass-surface backdrop-blur-lg rounded-xl p-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-red-400 text-6xl mb-4 drop-shadow-lg", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-medium text-white mb-2 drop-shadow-lg", children: "\u52A0\u8F7D\u5931\u8D25" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 mb-4 drop-shadow-md", children: state.error }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: handleRefresh, className: "px-4 py-2 glass-surface backdrop-blur-md text-white rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 drop-shadow-md", children: "\u91CD\u65B0\u52A0\u8F7D" })] }) }));
+    }
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6 space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-2xl font-bold text-white drop-shadow-lg", children: "\u5E93\u5B58\u603B\u89C8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 mt-1 drop-shadow-md", children: "\u67E5\u770B\u5404\u4ED3\u5E93\u5E93\u5B58\u60C5\u51B5" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: handleRefresh, className: "px-4 py-2 glass-surface backdrop-blur-md text-white rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 flex items-center gap-2 drop-shadow-md", children: "\uD83D\uDD04 \u5237\u65B0" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface backdrop-blur-lg rounded-xl p-4 lg:p-6 space-y-4 lg:space-y-6 border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Inventory_InventorySearch__WEBPACK_IMPORTED_MODULE_4__["default"], { value: state.filters.searchKeyword, onChange: (keyword) => handleFilterChange({ searchKeyword: keyword }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Inventory_InventoryFilter__WEBPACK_IMPORTED_MODULE_3__["default"], { filters: state.filters, warehouses: state.warehouses, onChange: handleFilterChange })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface backdrop-blur-lg rounded-xl p-3 lg:p-4 text-center border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xl lg:text-2xl font-bold text-blue-300 drop-shadow-lg", children: state.filteredWarehouses.length }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs lg:text-sm text-white/80 drop-shadow-md", children: "\u4ED3\u5E93\u603B\u6570" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface backdrop-blur-lg rounded-xl p-3 lg:p-4 text-center border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xl lg:text-2xl font-bold text-green-300 drop-shadow-lg", children: state.filteredWarehouses.reduce((sum, w) => sum + w.totalProducts, 0) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs lg:text-sm text-white/80 drop-shadow-md", children: "\u5546\u54C1\u79CD\u7C7B" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface backdrop-blur-lg rounded-xl p-3 lg:p-4 text-center border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xl lg:text-2xl font-bold text-yellow-300 drop-shadow-lg", children: state.filteredWarehouses.reduce((sum, w) => sum + w.lowStockCount, 0) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs lg:text-sm text-white/80 drop-shadow-md", children: "\u4F4E\u5E93\u5B58\u5546\u54C1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface backdrop-blur-lg rounded-xl p-3 lg:p-4 text-center border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xl lg:text-2xl font-bold text-red-300 drop-shadow-lg", children: state.filteredWarehouses.reduce((sum, w) => sum + w.outOfStockCount, 0) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs lg:text-sm text-white/80 drop-shadow-md", children: "\u7F3A\u8D27\u5546\u54C1" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 lg:gap-6", children: state.loading ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Inventory_WarehouseCardSkeleton__WEBPACK_IMPORTED_MODULE_6__["default"], { count: 6 })) : (state.filteredWarehouses.map(warehouse => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Inventory_WarehouseCard__WEBPACK_IMPORTED_MODULE_2__["default"], { warehouse: warehouse, onClick: () => handleWarehouseClick(warehouse.warehouseId), isSelected: state.selectedWarehouse === warehouse.warehouseId }, warehouse.warehouseId)))) }), state.filteredWarehouses.length === 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center py-12 glass-surface backdrop-blur-lg rounded-xl border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/60 text-6xl mb-4 drop-shadow-lg", children: "\uD83D\uDCE6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-medium text-white mb-2 drop-shadow-lg", children: "\u6682\u65E0\u4ED3\u5E93\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 drop-shadow-md", children: "\u8BF7\u68C0\u67E5\u7B5B\u9009\u6761\u4EF6\u6216\u8054\u7CFB\u7BA1\u7406\u5458" })] })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Inventory_WarehouseDetailModal__WEBPACK_IMPORTED_MODULE_5__["default"], { warehouse: state.selectedWarehouse ? state.warehouses.find(w => w.warehouseId === state.selectedWarehouse) || null : null, isOpen: showDetailModal, onClose: handleCloseDetailModal })] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InventoryCardView);
+
+
+/***/ }),
+
 /***/ "./src/schemas/validation.ts":
 /*!***********************************!*\
   !*** ./src/schemas/validation.ts ***!
@@ -59519,6 +60299,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   SalesOrderSchema: () => (/* binding */ SalesOrderSchema),
 /* harmony export */   SupplierSchema: () => (/* binding */ SupplierSchema),
 /* harmony export */   SystemConfigSchema: () => (/* binding */ SystemConfigSchema),
+/* harmony export */   UnitConversionSchema: () => (/* binding */ UnitConversionSchema),
 /* harmony export */   UnitSchema: () => (/* binding */ UnitSchema),
 /* harmony export */   UserSchema: () => (/* binding */ UserSchema),
 /* harmony export */   WarehouseSchema: () => (/* binding */ WarehouseSchema),
@@ -59544,6 +60325,15 @@ const BaseEntitySchema = zod__WEBPACK_IMPORTED_MODULE_1__.object({
     id: idSchema,
     createdAt: dateSchema,
     updatedAt: dateSchema
+});
+// 单位转换验证 Schema
+const UnitConversionSchema = BaseEntitySchema.extend({
+    productId: idSchema,
+    baseUnitId: idSchema,
+    packageUnitId: idSchema,
+    conversionRate: zod__WEBPACK_IMPORTED_MODULE_1__.number().positive('转换比率必须大于0'),
+    isActive: zod__WEBPACK_IMPORTED_MODULE_1__.boolean(),
+    description: optionalStringSchema
 });
 // 商品验证 Schema
 const ProductSchema = zod__WEBPACK_IMPORTED_MODULE_1__.object({
@@ -60747,6 +61537,236 @@ const accountsReceivableService = new AccountsReceivableService();
 
 /***/ }),
 
+/***/ "./src/services/business/calendarDataService.ts":
+/*!******************************************************!*\
+  !*** ./src/services/business/calendarDataService.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   CalendarDataService: () => (/* binding */ CalendarDataService),
+/* harmony export */   calendarDataService: () => (/* binding */ calendarDataService)
+/* harmony export */ });
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+class CalendarDataService {
+    constructor() {
+        this.cache = new Map();
+        this.initializeTestData();
+    }
+    // =============== 主要API方法 ===============
+    /**
+     * 获取指定周的日历数据
+     * @param weekStart 周开始日期
+     * @param options 筛选选项
+     * @returns 周日历数据
+     */
+    getWeeklyData(weekStart, options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const cacheKey = this.getCacheKey(weekStart, options);
+            if (this.cache.has(cacheKey)) {
+                return this.cache.get(cacheKey);
+            }
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            const days = [];
+            let weeklyTotals = { purchases: 0, sales: 0, netChange: 0 };
+            // 生成7天的数据
+            for (let i = 0; i < 7; i++) {
+                const currentDate = new Date(weekStart);
+                currentDate.setDate(currentDate.getDate() + i);
+                const dailyData = yield this.getDailyData(currentDate, options);
+                days.push(dailyData);
+                // 累计周汇总
+                weeklyTotals.purchases += dailyData.purchases.totalValue;
+                weeklyTotals.sales += dailyData.sales.totalValue;
+                weeklyTotals.netChange += (dailyData.movements.inbound - dailyData.movements.outbound);
+            }
+            const weeklyData = {
+                weekStart,
+                weekEnd,
+                days,
+                weeklyTotals
+            };
+            this.cache.set(cacheKey, weeklyData);
+            return weeklyData;
+        });
+    }
+    /**
+     * 获取指定日期的业务数据汇总
+     * @param date 日期
+     * @param options 筛选选项
+     * @returns 日业务汇总
+     */
+    getDailyData(date, options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const dateStr = date.toISOString().split('T')[0];
+            // 模拟数据生成（实际应该从真实数据源聚合）
+            const dailyData = this.generateMockDailyData(date);
+            return dailyData;
+        });
+    }
+    /**
+     * 获取多周数据（用于月视图或趋势分析）
+     * @param startDate 开始日期
+     * @param weekCount 周数
+     * @param options 筛选选项
+     * @returns 多周数据数组
+     */
+    getMultiWeekData(startDate, weekCount, options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const weeks = [];
+            for (let i = 0; i < weekCount; i++) {
+                const weekStart = new Date(startDate);
+                weekStart.setDate(weekStart.getDate() + (i * 7));
+                const weekData = yield this.getWeeklyData(weekStart, options);
+                weeks.push(weekData);
+            }
+            return weeks;
+        });
+    }
+    // =============== 辅助方法 ===============
+    getCacheKey(weekStart, options) {
+        const dateStr = weekStart.toISOString().split('T')[0];
+        const optionsStr = options ? JSON.stringify(options) : '';
+        return `${dateStr}-${optionsStr}`;
+    }
+    generateMockDailyData(date) {
+        const dayOfWeek = date.getDay(); // 0=周日, 1=周一, ..., 6=周六
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+        const isWorkday = !isWeekend;
+        // 基础活动系数（工作日更活跃）
+        const activityFactor = isWorkday ? 1.0 : 0.3;
+        // 随机因子（增加真实感）
+        const randomFactor = 0.5 + Math.random();
+        const finalFactor = activityFactor * randomFactor;
+        // 生成采购数据
+        const purchases = {
+            totalAmount: Math.floor(finalFactor * (50 + Math.random() * 200)),
+            totalValue: Math.floor(finalFactor * (5000 + Math.random() * 20000)),
+            orderCount: Math.floor(finalFactor * (1 + Math.random() * 5)),
+            topProducts: this.generateTopProducts('purchase', finalFactor)
+        };
+        // 生成销售数据
+        const sales = {
+            totalAmount: Math.floor(finalFactor * (30 + Math.random() * 150)),
+            totalValue: Math.floor(finalFactor * (3000 + Math.random() * 15000)),
+            orderCount: Math.floor(finalFactor * (2 + Math.random() * 8)),
+            topProducts: this.generateTopProducts('sales', finalFactor)
+        };
+        // 生成库存数据
+        const inventory = {
+            totalValue: 150000 + Math.floor(Math.random() * 50000),
+            lowStockCount: Math.floor(Math.random() * 3),
+            outOfStockCount: Math.floor(Math.random() * 2),
+            newProductCount: isWorkday ? Math.floor(Math.random() * 2) : 0
+        };
+        // 生成库存变动数据
+        const movements = {
+            inbound: purchases.totalAmount,
+            outbound: sales.totalAmount,
+            adjustments: Math.floor((Math.random() - 0.5) * 20) // 可能为负数
+        };
+        return {
+            date,
+            purchases,
+            sales,
+            inventory,
+            movements
+        };
+    }
+    generateTopProducts(type, factor) {
+        const products = [
+            { id: 'product-001', name: 'iPhone 15 Pro', basePrice: 8999 },
+            { id: 'product-002', name: '小米13 Ultra', basePrice: 5999 },
+            { id: 'product-003', name: '薯片', basePrice: 15 },
+            { id: 'product-004', name: '运动鞋', basePrice: 299 }
+        ];
+        const count = Math.min(3, Math.floor(factor * 2) + 1);
+        const selected = products.slice(0, count);
+        return selected.map(product => {
+            const quantity = Math.floor(factor * (1 + Math.random() * 10));
+            const value = quantity * product.basePrice;
+            return {
+                productId: product.id,
+                productName: product.name,
+                quantity,
+                value
+            };
+        });
+    }
+    // =============== 工具方法 ===============
+    /**
+     * 获取周的开始日期（周一）
+     * @param date 任意日期
+     * @returns 该周的周一日期
+     */
+    static getWeekStart(date) {
+        const result = new Date(date);
+        const day = result.getDay();
+        const diff = result.getDate() - day + (day === 0 ? -6 : 1); // 调整为周一开始
+        result.setDate(diff);
+        result.setHours(0, 0, 0, 0);
+        return result;
+    }
+    /**
+     * 获取周的结束日期（周日）
+     * @param date 任意日期
+     * @returns 该周的周日日期
+     */
+    static getWeekEnd(date) {
+        const weekStart = this.getWeekStart(date);
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekEnd.getDate() + 6);
+        weekEnd.setHours(23, 59, 59, 999);
+        return weekEnd;
+    }
+    /**
+     * 格式化日期为字符串
+     * @param date 日期
+     * @returns 格式化的日期字符串
+     */
+    static formatDate(date) {
+        return date.toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
+    }
+    /**
+     * 清除缓存
+     */
+    clearCache() {
+        this.cache.clear();
+    }
+    // =============== 测试数据初始化 ===============
+    initializeTestData() {
+        // 预生成最近4周的数据到缓存
+        const today = new Date();
+        const fourWeeksAgo = new Date(today);
+        fourWeeksAgo.setDate(fourWeeksAgo.getDate() - 28);
+        for (let i = 0; i < 4; i++) {
+            const weekStart = CalendarDataService.getWeekStart(fourWeeksAgo);
+            weekStart.setDate(weekStart.getDate() + (i * 7));
+            // 异步预加载数据
+            this.getWeeklyData(weekStart).catch(console.error);
+        }
+    }
+}
+const calendarDataService = new CalendarDataService();
+
+
+/***/ }),
+
 /***/ "./src/services/business/categoryService.ts":
 /*!**************************************************!*\
   !*** ./src/services/business/categoryService.ts ***!
@@ -61574,21 +62594,24 @@ class CustomerService {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   BusinessServiceManager: () => (/* binding */ BusinessServiceManager),
-/* harmony export */   accountsPayableService: () => (/* reexport safe */ _accountsPayableService__WEBPACK_IMPORTED_MODULE_12__["default"]),
-/* harmony export */   accountsReceivableService: () => (/* reexport safe */ _accountsReceivableService__WEBPACK_IMPORTED_MODULE_13__["default"]),
+/* harmony export */   CalendarDataService: () => (/* reexport safe */ _calendarDataService__WEBPACK_IMPORTED_MODULE_14__.CalendarDataService),
+/* harmony export */   accountsPayableService: () => (/* reexport safe */ _accountsPayableService__WEBPACK_IMPORTED_MODULE_15__["default"]),
+/* harmony export */   accountsReceivableService: () => (/* reexport safe */ _accountsReceivableService__WEBPACK_IMPORTED_MODULE_16__["default"]),
 /* harmony export */   businessServiceManager: () => (/* binding */ businessServiceManager),
+/* harmony export */   calendarDataService: () => (/* reexport safe */ _calendarDataService__WEBPACK_IMPORTED_MODULE_14__.calendarDataService),
 /* harmony export */   categoryService: () => (/* reexport safe */ _categoryService__WEBPACK_IMPORTED_MODULE_0__["default"]),
 /* harmony export */   customerService: () => (/* reexport safe */ _customerService__WEBPACK_IMPORTED_MODULE_4__["default"]),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   inventoryCardService: () => (/* reexport safe */ _inventoryCardService__WEBPACK_IMPORTED_MODULE_12__["default"]),
 /* harmony export */   inventoryStockService: () => (/* reexport safe */ _inventoryStockService__WEBPACK_IMPORTED_MODULE_6__["default"]),
-/* harmony export */   notificationService: () => (/* reexport safe */ _notificationService__WEBPACK_IMPORTED_MODULE_15__["default"]),
-/* harmony export */   permissionService: () => (/* reexport safe */ _permissionService__WEBPACK_IMPORTED_MODULE_14__["default"]),
+/* harmony export */   permissionService: () => (/* reexport safe */ _permissionService__WEBPACK_IMPORTED_MODULE_17__["default"]),
 /* harmony export */   productService: () => (/* reexport safe */ _productService__WEBPACK_IMPORTED_MODULE_7__["default"]),
 /* harmony export */   purchaseOrderService: () => (/* reexport safe */ _purchaseOrderService__WEBPACK_IMPORTED_MODULE_8__["default"]),
 /* harmony export */   purchaseReceiptService: () => (/* reexport safe */ _purchaseReceiptService__WEBPACK_IMPORTED_MODULE_9__["default"]),
 /* harmony export */   salesDeliveryService: () => (/* reexport safe */ _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__["default"]),
 /* harmony export */   salesOrderService: () => (/* reexport safe */ _salesOrderService__WEBPACK_IMPORTED_MODULE_10__["default"]),
 /* harmony export */   supplierService: () => (/* reexport safe */ _supplierService__WEBPACK_IMPORTED_MODULE_3__["default"]),
+/* harmony export */   unitConversionService: () => (/* reexport safe */ _unitConversionService__WEBPACK_IMPORTED_MODULE_13__.unitConversionService),
 /* harmony export */   unitService: () => (/* reexport safe */ _unitService__WEBPACK_IMPORTED_MODULE_1__["default"]),
 /* harmony export */   userService: () => (/* reexport safe */ _userService__WEBPACK_IMPORTED_MODULE_5__["default"]),
 /* harmony export */   warehouseService: () => (/* reexport safe */ _warehouseService__WEBPACK_IMPORTED_MODULE_2__["default"])
@@ -61605,10 +62628,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _purchaseReceiptService__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./purchaseReceiptService */ "./src/services/business/purchaseReceiptService.ts");
 /* harmony import */ var _salesOrderService__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./salesOrderService */ "./src/services/business/salesOrderService.ts");
 /* harmony import */ var _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./salesDeliveryService */ "./src/services/business/salesDeliveryService.ts");
-/* harmony import */ var _accountsPayableService__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./accountsPayableService */ "./src/services/business/accountsPayableService.ts");
-/* harmony import */ var _accountsReceivableService__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./accountsReceivableService */ "./src/services/business/accountsReceivableService.ts");
-/* harmony import */ var _permissionService__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./permissionService */ "./src/services/business/permissionService.ts");
-/* harmony import */ var _notificationService__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./notificationService */ "./src/services/business/notificationService.ts");
+/* harmony import */ var _inventoryCardService__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./inventoryCardService */ "./src/services/business/inventoryCardService.ts");
+/* harmony import */ var _unitConversionService__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./unitConversionService */ "./src/services/business/unitConversionService.ts");
+/* harmony import */ var _calendarDataService__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./calendarDataService */ "./src/services/business/calendarDataService.ts");
+/* harmony import */ var _accountsPayableService__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./accountsPayableService */ "./src/services/business/accountsPayableService.ts");
+/* harmony import */ var _accountsReceivableService__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./accountsReceivableService */ "./src/services/business/accountsReceivableService.ts");
+/* harmony import */ var _permissionService__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./permissionService */ "./src/services/business/permissionService.ts");
 // 核心业务服务层 - 统一入口和服务管理
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -61632,12 +62657,13 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
+
+
 // 导入完整的财务服务
 
 
 // 导入权限服务
-
-// 导入通知服务
 
 // 导出所有服务实例（包括完整的财务服务）
 
@@ -61672,12 +62698,10 @@ class BusinessServiceManager {
                 yield _salesOrderService__WEBPACK_IMPORTED_MODULE_10__["default"].initialize();
                 yield _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__["default"].initialize();
                 // 财务服务（完整版）
-                yield _accountsPayableService__WEBPACK_IMPORTED_MODULE_12__["default"].initialize();
-                yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_13__["default"].initialize();
+                yield _accountsPayableService__WEBPACK_IMPORTED_MODULE_15__["default"].initialize();
+                yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_16__["default"].initialize();
                 // 权限服务
-                yield _permissionService__WEBPACK_IMPORTED_MODULE_14__["default"].initialize();
-                // 通知服务
-                yield _notificationService__WEBPACK_IMPORTED_MODULE_15__["default"].initialize();
+                yield _permissionService__WEBPACK_IMPORTED_MODULE_17__["default"].initialize();
                 console.log('所有业务服务初始化完成');
                 // 暂时注释掉其他服务的初始化
                 // // 2. 产品服务（依赖分类和单位）
@@ -61841,8 +62865,8 @@ class BusinessServiceManager {
             const salesOrderStats = yield _salesOrderService__WEBPACK_IMPORTED_MODULE_10__["default"].getOrderStats();
             const salesDeliveryStats = yield _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__["default"].getDeliveryStats();
             // 财务服务统计（完整版）
-            const accountsPayableStats = yield _accountsPayableService__WEBPACK_IMPORTED_MODULE_12__["default"].getPayableStats();
-            const accountsReceivableStats = yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_13__["default"].getReceivableStats();
+            const accountsPayableStats = yield _accountsPayableService__WEBPACK_IMPORTED_MODULE_15__["default"].getPayableStats();
+            const accountsReceivableStats = yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_16__["default"].getReceivableStats();
             return {
                 categories: categoryStats.total,
                 units: unitStats.total,
@@ -61952,6 +62976,238 @@ const businessServiceManager = new BusinessServiceManager();
 
 /***/ }),
 
+/***/ "./src/services/business/inventoryCardService.ts":
+/*!*******************************************************!*\
+  !*** ./src/services/business/inventoryCardService.ts ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+/**
+ * 库存卡片视图数据服务
+ */
+class InventoryCardService {
+    /**
+     * 获取所有仓库的卡片数据
+     */
+    getWarehouseCardData() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 暂时返回模拟数据，等数据库有数据后再使用真实数据
+                const mockData = [
+                    {
+                        warehouseId: '1',
+                        warehouseName: '主仓库',
+                        warehouseCode: 'WH001',
+                        description: '主要存储仓库，存放常用商品',
+                        products: [
+                            {
+                                productId: '1',
+                                productName: 'iPhone 15 Pro',
+                                sku: 'IP15P001',
+                                currentStock: 25,
+                                minStock: 10,
+                                maxStock: 100,
+                                unit: '台',
+                                unitPrice: 8999,
+                                totalValue: 224975,
+                                isLowStock: false,
+                                isOutOfStock: false,
+                                lastUpdated: new Date(),
+                                category: '电子产品'
+                            },
+                            {
+                                productId: '2',
+                                productName: '小米13 Ultra',
+                                sku: 'MI13U001',
+                                currentStock: 5,
+                                minStock: 15,
+                                maxStock: 80,
+                                unit: '台',
+                                unitPrice: 5999,
+                                totalValue: 29995,
+                                isLowStock: true,
+                                isOutOfStock: false,
+                                lastUpdated: new Date(),
+                                category: '电子产品'
+                            }
+                        ],
+                        totalProducts: 2,
+                        lowStockCount: 1,
+                        outOfStockCount: 0,
+                        totalValue: 254970
+                    },
+                    {
+                        warehouseId: '2',
+                        warehouseName: '备用仓库',
+                        warehouseCode: 'WH002',
+                        description: '备用存储仓库，存放季节性商品',
+                        products: [
+                            {
+                                productId: '3',
+                                productName: '薯片',
+                                sku: 'PC001',
+                                currentStock: 0,
+                                minStock: 200,
+                                maxStock: 1000,
+                                unit: '包',
+                                unitPrice: 8,
+                                totalValue: 0,
+                                isLowStock: false,
+                                isOutOfStock: true,
+                                lastUpdated: new Date(),
+                                category: '食品饮料'
+                            },
+                            {
+                                productId: '4',
+                                productName: '运动鞋',
+                                sku: 'SS001',
+                                currentStock: 45,
+                                minStock: 20,
+                                maxStock: 200,
+                                unit: '双',
+                                unitPrice: 599,
+                                totalValue: 26955,
+                                isLowStock: false,
+                                isOutOfStock: false,
+                                lastUpdated: new Date(),
+                                category: '服装鞋帽'
+                            }
+                        ],
+                        totalProducts: 2,
+                        lowStockCount: 0,
+                        outOfStockCount: 1,
+                        totalValue: 26955
+                    }
+                ];
+                return mockData;
+            }
+            catch (error) {
+                console.error('获取仓库卡片数据失败:', error);
+                throw new Error('获取仓库卡片数据失败');
+            }
+        });
+    }
+    /**
+     * 获取单个仓库的卡片数据
+     */
+    getWarehouseCardById(warehouseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 从模拟数据中查找
+                const allData = yield this.getWarehouseCardData();
+                const warehouseData = allData.find(w => w.warehouseId === warehouseId);
+                if (!warehouseData) {
+                    throw new Error(`仓库不存在: ${warehouseId}`);
+                }
+                return warehouseData;
+            }
+            catch (error) {
+                console.error(`获取仓库 ${warehouseId} 卡片数据失败:`, error);
+                throw new Error(`获取仓库卡片数据失败: ${(error === null || error === void 0 ? void 0 : error.message) || '未知错误'}`);
+            }
+        });
+    }
+    /**
+     * 获取库存统计信息
+     */
+    getInventoryStatistics() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const warehouseData = yield this.getWarehouseCardData();
+                const statistics = {
+                    totalWarehouses: warehouseData.length,
+                    totalProducts: warehouseData.reduce((sum, w) => sum + w.totalProducts, 0),
+                    totalLowStock: warehouseData.reduce((sum, w) => sum + w.lowStockCount, 0),
+                    totalOutOfStock: warehouseData.reduce((sum, w) => sum + w.outOfStockCount, 0),
+                    totalValue: warehouseData.reduce((sum, w) => sum + w.totalValue, 0),
+                    warehousesWithIssues: warehouseData.filter(w => w.lowStockCount > 0 || w.outOfStockCount > 0).length
+                };
+                return statistics;
+            }
+            catch (error) {
+                console.error('获取库存统计信息失败:', error);
+                throw new Error('获取库存统计信息失败');
+            }
+        });
+    }
+    /**
+     * 搜索产品库存信息
+     */
+    searchProductStock(keyword, warehouseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const warehouseData = warehouseId
+                    ? [yield this.getWarehouseCardById(warehouseId)]
+                    : yield this.getWarehouseCardData();
+                const allProducts = warehouseData.flatMap(w => w.products);
+                if (!keyword.trim()) {
+                    return allProducts;
+                }
+                const searchTerm = keyword.toLowerCase();
+                return allProducts.filter(product => product.productName.toLowerCase().includes(searchTerm) ||
+                    product.sku.toLowerCase().includes(searchTerm) ||
+                    (product.category && product.category.toLowerCase().includes(searchTerm)));
+            }
+            catch (error) {
+                console.error('搜索产品库存失败:', error);
+                throw new Error('搜索产品库存失败');
+            }
+        });
+    }
+    /**
+     * 获取低库存预警列表
+     */
+    getLowStockWarnings() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const warehouseData = yield this.getWarehouseCardData();
+                const allProducts = warehouseData.flatMap(w => w.products);
+                return allProducts.filter(product => product.isLowStock || product.isOutOfStock);
+            }
+            catch (error) {
+                console.error('获取低库存预警失败:', error);
+                throw new Error('获取低库存预警失败');
+            }
+        });
+    }
+    /**
+     * 刷新仓库卡片数据缓存
+     */
+    refreshWarehouseData(warehouseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 这里可以实现缓存刷新逻辑
+                // 目前直接重新获取数据
+                console.log('刷新仓库数据:', warehouseId || '全部');
+            }
+            catch (error) {
+                console.error('刷新仓库数据失败:', error);
+                throw new Error('刷新仓库数据失败');
+            }
+        });
+    }
+}
+// 导出单例实例
+const inventoryCardService = new InventoryCardService();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (inventoryCardService);
+
+
+/***/ }),
+
 /***/ "./src/services/business/inventoryStockService.ts":
 /*!********************************************************!*\
   !*** ./src/services/business/inventoryStockService.ts ***!
@@ -61969,7 +63225,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
 /* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
 /* harmony import */ var _warehouseService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./warehouseService */ "./src/services/business/warehouseService.ts");
-/* harmony import */ var _notificationService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./notificationService */ "./src/services/business/notificationService.ts");
+/* harmony import */ var _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/notificationHelper */ "./src/utils/notificationHelper.ts");
 /* harmony import */ var _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/concurrency */ "./src/utils/concurrency.ts");
 /* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
 /* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
@@ -62040,7 +63296,7 @@ class InventoryStockService {
                     lowStocks.push(stock);
                     // 触发库存不足通知
                     try {
-                        yield _notificationService__WEBPACK_IMPORTED_MODULE_4__["default"].createStockLowNotification(product.id, product.name, stock.currentStock, product.minStock);
+                        _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.showStockWarning(product.name, stock.currentStock, product.minStock);
                     }
                     catch (error) {
                         console.error('创建库存不足通知失败:', error);
@@ -62181,7 +63437,7 @@ class InventoryStockService {
                     // 触发库存不足错误通知
                     try {
                         const product = yield _productService__WEBPACK_IMPORTED_MODULE_2__["default"].findById(params.productId);
-                        yield _notificationService__WEBPACK_IMPORTED_MODULE_4__["default"].createSystemOperationNotification('库存出库', 'error', `库存不足，无法出库：${(product === null || product === void 0 ? void 0 : product.name) || params.productId}，需要${params.quantity}，可用${currentStock.availableStock}`, ['all']);
+                        _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.showError('库存出库失败', `库存不足，无法出库：${(product === null || product === void 0 ? void 0 : product.name) || params.productId}，需要${params.quantity}，可用${currentStock.availableStock}`);
                     }
                     catch (notificationError) {
                         console.error('创建库存不足错误通知失败:', notificationError);
@@ -62473,305 +63729,6 @@ class InventoryStockService {
 // 创建并导出服务实例
 const inventoryStockService = new InventoryStockService();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (inventoryStockService);
-
-
-/***/ }),
-
-/***/ "./src/services/business/notificationService.ts":
-/*!******************************************************!*\
-  !*** ./src/services/business/notificationService.ts ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   NotificationService: () => (/* binding */ NotificationService),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
-/* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-// 通知服务
-
-
-class NotificationService {
-    constructor() {
-        this.notifications = new Map();
-        this.configs = new Map();
-        this.userNotifications = new Map(); // userId -> notificationIds
-        this.initialized = false;
-    }
-    initialize() {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (this.initialized) {
-                console.log('NotificationService already initialized');
-                return;
-            }
-            console.log('Initializing NotificationService...');
-            // 不再自动创建示例数据，保持空白状态
-            this.initialized = true;
-            console.log('NotificationService initialized successfully');
-        });
-    }
-    // =============== CRUD操作 ===============
-    // 创建通知
-    create(data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            var _a;
-            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.NotificationSchema, data);
-            if (!validation.success) {
-                throw new Error(`通知数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
-            }
-            const notification = Object.assign(Object.assign({}, data), { id: `notification-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, createdAt: new Date(), updatedAt: new Date() });
-            this.notifications.set(notification.id, notification);
-            // 为每个目标用户建立索引
-            for (const userId of notification.targetUsers) {
-                if (!this.userNotifications.has(userId)) {
-                    this.userNotifications.set(userId, []);
-                }
-                this.userNotifications.get(userId).push(notification.id);
-            }
-            return notification;
-        });
-    }
-    // 查找所有通知
-    findAll() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return Array.from(this.notifications.values())
-                .filter(notification => notification.status !== _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.DELETED)
-                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        });
-    }
-    // 根据ID查找通知
-    findById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const notification = this.notifications.get(id);
-            return notification && notification.status !== _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.DELETED ? notification : null;
-        });
-    }
-    // 根据用户查找通知
-    findByUser(userId, limit) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const userNotificationIds = this.userNotifications.get(userId) || [];
-            const notifications = userNotificationIds
-                .map(id => this.notifications.get(id))
-                .filter((notification) => notification !== undefined && notification.status !== _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.DELETED)
-                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-            return limit ? notifications.slice(0, limit) : notifications;
-        });
-    }
-    // 获取用户的最新通知（用于TopBar显示）
-    getRecentNotifications(userId_1) {
-        return __awaiter(this, arguments, void 0, function* (userId, limit = 5) {
-            return this.findByUser(userId, limit);
-        });
-    }
-    // 更新通知
-    update(id, data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            var _a;
-            const existingNotification = this.notifications.get(id);
-            if (!existingNotification) {
-                throw new Error(`通知不存在: ${id}`);
-            }
-            const updatedNotification = Object.assign(Object.assign(Object.assign({}, existingNotification), data), { updatedAt: new Date() });
-            // 验证更新后的数据
-            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.NotificationSchema, updatedNotification);
-            if (!validation.success) {
-                throw new Error(`通知数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
-            }
-            this.notifications.set(id, updatedNotification);
-            return updatedNotification;
-        });
-    }
-    // 删除通知（软删除）
-    delete(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const notification = this.notifications.get(id);
-            if (!notification) {
-                throw new Error(`通知不存在: ${id}`);
-            }
-            yield this.update(id, { status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.DELETED });
-        });
-    }
-    // =============== 状态管理 ===============
-    // 标记为已读
-    markAsRead(id, userId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const notification = this.notifications.get(id);
-            if (!notification) {
-                throw new Error(`通知不存在: ${id}`);
-            }
-            if (!notification.targetUsers.includes(userId)) {
-                throw new Error('用户无权限操作此通知');
-            }
-            yield this.update(id, {
-                status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.READ,
-                readAt: new Date()
-            });
-        });
-    }
-    // 标记所有通知为已读
-    markAllAsRead(userId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const userNotifications = yield this.findByUser(userId);
-            const unreadNotifications = userNotifications.filter(n => n.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD);
-            for (const notification of unreadNotifications) {
-                yield this.markAsRead(notification.id, userId);
-            }
-        });
-    }
-    // 获取未读通知数量
-    getUnreadCount(userId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const userNotifications = yield this.findByUser(userId);
-            return userNotifications.filter(n => n.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD).length;
-        });
-    }
-    // =============== 业务触发接口 ===============
-    // 创建库存不足通知
-    createStockLowNotification(productId, productName, currentStock, minStock) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.create({
-                type: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.WARNING,
-                title: '库存不足警告',
-                message: `商品"${productName}"库存不足，当前库存：${currentStock}，最低库存：${minStock}`,
-                priority: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.HIGH,
-                status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD,
-                targetUsers: ['all'], // 所有用户都能看到库存警告
-                relatedEntity: {
-                    type: 'product',
-                    id: productId
-                }
-            });
-        });
-    }
-    // 创建订单状态变更通知
-    createOrderStatusNotification(orderId_1, orderNo_1, status_1) {
-        return __awaiter(this, arguments, void 0, function* (orderId, orderNo, status, targetUsers = ['all']) {
-            const statusMessages = {
-                'confirmed': '已确认',
-                'shipped': '已发货',
-                'completed': '已完成',
-                'cancelled': '已取消'
-            };
-            const message = statusMessages[status] || status;
-            yield this.create({
-                type: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.INFO,
-                title: '订单状态更新',
-                message: `订单 ${orderNo} 状态已更新为：${message}`,
-                priority: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.MEDIUM,
-                status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD,
-                targetUsers,
-                relatedEntity: {
-                    type: 'sales_order',
-                    id: orderId
-                }
-            });
-        });
-    }
-    // 创建系统操作结果通知
-    createSystemOperationNotification(operation_1, result_1, details_1) {
-        return __awaiter(this, arguments, void 0, function* (operation, result, details, targetUsers = ['all']) {
-            const type = result === 'success' ? _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.SUCCESS : _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.ERROR;
-            const priority = result === 'success' ? _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.LOW : _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.HIGH;
-            yield this.create({
-                type,
-                title: result === 'success' ? '操作成功' : '操作失败',
-                message: details || `${operation}${result === 'success' ? '成功' : '失败'}`,
-                priority,
-                status: _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD,
-                targetUsers
-            });
-        });
-    }
-    // =============== 通知配置管理 ===============
-    // 获取用户通知配置
-    getUserConfig(userId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.configs.get(userId) || null;
-        });
-    }
-    // 更新用户通知配置
-    updateUserConfig(userId, config) {
-        return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b, _c;
-            const existingConfig = this.configs.get(userId);
-            const notificationConfig = {
-                id: (existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.id) || `config-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-                userId,
-                enabledTypes: config.enabledTypes || (existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.enabledTypes) || [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.INFO, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.WARNING, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.ERROR, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.SUCCESS],
-                enabledPriorities: config.enabledPriorities || (existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.enabledPriorities) || [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.LOW, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.MEDIUM, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.HIGH, _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.CRITICAL],
-                enableSound: config.enableSound !== undefined ? config.enableSound : ((_a = existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.enableSound) !== null && _a !== void 0 ? _a : true),
-                enableDesktop: config.enableDesktop !== undefined ? config.enableDesktop : ((_b = existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.enableDesktop) !== null && _b !== void 0 ? _b : true),
-                createdAt: (existingConfig === null || existingConfig === void 0 ? void 0 : existingConfig.createdAt) || new Date(),
-                updatedAt: new Date()
-            };
-            // 验证配置数据
-            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.NotificationConfigSchema, notificationConfig);
-            if (!validation.success) {
-                throw new Error(`通知配置验证失败: ${(_c = validation.errors) === null || _c === void 0 ? void 0 : _c.join(', ')}`);
-            }
-            this.configs.set(userId, notificationConfig);
-            return notificationConfig;
-        });
-    }
-    // 检查用户是否应该接收特定类型的通知
-    shouldReceiveNotification(userId, type, priority) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // Critical级别的通知强制显示
-            if (priority === _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.CRITICAL) {
-                return true;
-            }
-            const config = yield this.getUserConfig(userId);
-            if (!config) {
-                // 如果没有配置，默认接收所有通知
-                return true;
-            }
-            return config.enabledTypes.includes(type) && config.enabledPriorities.includes(priority);
-        });
-    }
-    // =============== 统计和报表 ===============
-    // 获取通知统计
-    getNotificationStats(userId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const notifications = userId ? yield this.findByUser(userId) : yield this.findAll();
-            const stats = {
-                total: notifications.length,
-                unread: notifications.filter(n => n.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationStatus.UNREAD).length,
-                byType: {
-                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.INFO]: 0,
-                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.WARNING]: 0,
-                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.ERROR]: 0,
-                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationType.SUCCESS]: 0
-                },
-                byPriority: {
-                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.LOW]: 0,
-                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.MEDIUM]: 0,
-                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.HIGH]: 0,
-                    [_types_entities__WEBPACK_IMPORTED_MODULE_0__.NotificationPriority.CRITICAL]: 0
-                }
-            };
-            notifications.forEach(notification => {
-                stats.byType[notification.type]++;
-                stats.byPriority[notification.priority]++;
-            });
-            return stats;
-        });
-    }
-}
-// 创建并导出服务实例
-const notificationService = new NotificationService();
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (notificationService);
 
 
 /***/ }),
@@ -63089,7 +64046,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
 /* harmony import */ var _inventory_inventoryService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../inventory/inventoryService */ "./src/services/inventory/inventoryService.ts");
 /* harmony import */ var _userService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./userService */ "./src/services/business/userService.ts");
-/* harmony import */ var _notificationService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./notificationService */ "./src/services/business/notificationService.ts");
+/* harmony import */ var _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/notificationHelper */ "./src/utils/notificationHelper.ts");
 /* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
 /* harmony import */ var _utils_concurrency__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/concurrency */ "./src/utils/concurrency.ts");
 /* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
@@ -63202,7 +64159,7 @@ class ProductService {
                 });
                 // 触发商品创建成功通知
                 try {
-                    yield _notificationService__WEBPACK_IMPORTED_MODULE_4__["default"].createSystemOperationNotification('商品创建', 'success', `成功创建商品：${product.name} (${product.sku})`, ['all']);
+                    _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.showOperationResult('商品创建', true, `成功创建商品：${product.name} (${product.sku})`);
                 }
                 catch (error) {
                     console.error('创建商品成功通知失败:', error);
@@ -63462,7 +64419,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _supplierService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./supplierService */ "./src/services/business/supplierService.ts");
 /* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
 /* harmony import */ var _accountsPayableService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./accountsPayableService */ "./src/services/business/accountsPayableService.ts");
-/* harmony import */ var _notificationService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./notificationService */ "./src/services/business/notificationService.ts");
+/* harmony import */ var _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/notificationHelper */ "./src/utils/notificationHelper.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -63620,8 +64577,7 @@ class PurchaseOrderService {
             const updatedOrder = yield this.update(id, { status });
             // 触发采购订单状态变更通知
             try {
-                yield _notificationService__WEBPACK_IMPORTED_MODULE_5__["default"].createOrderStatusNotification(id, order.orderNo, status, ['all'] // 所有用户都能看到采购订单状态变更
-                );
+                _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_5__.notificationHelper.showOrderStatusChange(order.orderNo, status, 'purchase');
             }
             catch (error) {
                 console.error('创建采购订单状态变更通知失败:', error);
@@ -64774,7 +65730,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
 /* harmony import */ var _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./inventoryStockService */ "./src/services/business/inventoryStockService.ts");
 /* harmony import */ var _accountsReceivableService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./accountsReceivableService */ "./src/services/business/accountsReceivableService.ts");
-/* harmony import */ var _notificationService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./notificationService */ "./src/services/business/notificationService.ts");
+/* harmony import */ var _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/notificationHelper */ "./src/utils/notificationHelper.ts");
 /* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
 /* harmony import */ var _userService__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./userService */ "./src/services/business/userService.ts");
 /* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
@@ -65054,8 +66010,7 @@ class SalesOrderService {
             });
             // 触发订单状态变更通知
             try {
-                yield _notificationService__WEBPACK_IMPORTED_MODULE_6__["default"].createOrderStatusNotification(id, order.orderNo, status, ['all'] // 所有用户都能看到订单状态变更
-                );
+                _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_6__.notificationHelper.showOrderStatusChange(order.orderNo, status, 'sales');
             }
             catch (error) {
                 console.error('创建订单状态变更通知失败:', error);
@@ -65929,6 +66884,224 @@ class SupplierService {
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new SupplierService());
+
+
+/***/ }),
+
+/***/ "./src/services/business/unitConversionService.ts":
+/*!********************************************************!*\
+  !*** ./src/services/business/unitConversionService.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   UnitConversionService: () => (/* binding */ UnitConversionService),
+/* harmony export */   unitConversionService: () => (/* binding */ unitConversionService)
+/* harmony export */ });
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+class UnitConversionService {
+    constructor() {
+        this.conversions = new Map();
+        this.productConversions = new Map(); // productId -> conversionId
+        this.initializeTestData();
+    }
+    // =============== 基础CRUD操作 ===============
+    create(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const conversion = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_0__["default"])(), createdAt: new Date(), updatedAt: new Date() });
+            // 简单验证数据
+            if (!conversion.productId || !conversion.baseUnitId || !conversion.packageUnitId || conversion.conversionRate <= 0) {
+                throw new Error('单位转换规则数据验证失败: 必填字段不能为空，转换比率必须大于0');
+            }
+            // 检查是否已存在该商品的转换规则
+            if (this.productConversions.has(data.productId)) {
+                throw new Error(`商品 ${data.productId} 已存在转换规则`);
+            }
+            this.conversions.set(conversion.id, conversion);
+            this.productConversions.set(data.productId, conversion.id);
+            return conversion;
+        });
+    }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.conversions.get(id) || null;
+        });
+    }
+    findByProductId(productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const conversionId = this.productConversions.get(productId);
+            if (!conversionId)
+                return null;
+            return this.conversions.get(conversionId) || null;
+        });
+    }
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.conversions.values()).filter(c => c.isActive);
+        });
+    }
+    update(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const existing = this.conversions.get(id);
+            if (!existing) {
+                throw new Error(`单位转换规则不存在: ${id}`);
+            }
+            const updated = Object.assign(Object.assign(Object.assign({}, existing), data), { updatedAt: new Date() });
+            // 简单验证数据
+            if (updated.conversionRate !== undefined && updated.conversionRate <= 0) {
+                throw new Error('单位转换规则数据验证失败: 转换比率必须大于0');
+            }
+            this.conversions.set(id, updated);
+            return updated;
+        });
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const existing = this.conversions.get(id);
+            if (!existing) {
+                throw new Error(`单位转换规则不存在: ${id}`);
+            }
+            this.conversions.delete(id);
+            this.productConversions.delete(existing.productId);
+        });
+    }
+    // =============== 转换计算方法 ===============
+    /**
+     * 将基础单位转换为包装单位
+     * @param productId 商品ID
+     * @param baseQuantity 基础单位数量
+     * @returns 包装单位数量（可能有小数）
+     */
+    convertToPackageUnit(productId, baseQuantity) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const conversion = yield this.findByProductId(productId);
+            if (!conversion || !conversion.isActive)
+                return null;
+            return baseQuantity / conversion.conversionRate;
+        });
+    }
+    /**
+     * 将包装单位转换为基础单位
+     * @param productId 商品ID
+     * @param packageQuantity 包装单位数量
+     * @returns 基础单位数量
+     */
+    convertToBaseUnit(productId, packageQuantity) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const conversion = yield this.findByProductId(productId);
+            if (!conversion || !conversion.isActive)
+                return null;
+            return packageQuantity * conversion.conversionRate;
+        });
+    }
+    /**
+     * 获取格式化的数量显示（包含包装单位和余数）
+     * @param productId 商品ID
+     * @param baseQuantity 基础单位数量
+     * @returns 格式化的显示字符串，如 "10箱5个"
+     */
+    getFormattedQuantity(productId, baseQuantity) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const conversion = yield this.findByProductId(productId);
+            if (!conversion || !conversion.isActive)
+                return null;
+            const packageQuantity = Math.floor(baseQuantity / conversion.conversionRate);
+            const remainderQuantity = baseQuantity % conversion.conversionRate;
+            // 这里简化处理，实际应该从 unitService 获取单位名称
+            const packageUnitName = yield this.getUnitName(conversion.packageUnitId);
+            const baseUnitName = yield this.getUnitName(conversion.baseUnitId);
+            let formatted = '';
+            if (packageQuantity > 0) {
+                formatted += `${packageQuantity}${packageUnitName}`;
+            }
+            if (remainderQuantity > 0) {
+                if (formatted)
+                    formatted += '';
+                formatted += `${remainderQuantity}${baseUnitName}`;
+            }
+            if (!formatted) {
+                formatted = `0${baseUnitName}`;
+            }
+            return {
+                packageQuantity,
+                remainderQuantity,
+                packageUnitName,
+                baseUnitName,
+                formatted
+            };
+        });
+    }
+    // =============== 辅助方法 ===============
+    getUnitName(unitId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 简化实现，实际应该从 unitService 获取
+            const unitNames = {
+                'unit-001': '个',
+                'unit-002': '台',
+                'unit-003': '双',
+                'unit-004': '包',
+                'unit-005': '箱',
+                'unit-006': '件'
+            };
+            return unitNames[unitId] || '个';
+        });
+    }
+    // =============== 测试数据初始化 ===============
+    initializeTestData() {
+        const testConversions = [
+            {
+                productId: 'product-001', // iPhone 15 Pro
+                baseUnitId: 'unit-002', // 台
+                packageUnitId: 'unit-005', // 箱
+                conversionRate: 10, // 1箱 = 10台
+                isActive: true,
+                description: 'iPhone 15 Pro 包装规格：1箱装10台'
+            },
+            {
+                productId: 'product-002', // 小米13 Ultra
+                baseUnitId: 'unit-002', // 台
+                packageUnitId: 'unit-005', // 箱
+                conversionRate: 8, // 1箱 = 8台
+                isActive: true,
+                description: '小米13 Ultra 包装规格：1箱装8台'
+            },
+            {
+                productId: 'product-003', // 薯片
+                baseUnitId: 'unit-001', // 个
+                packageUnitId: 'unit-004', // 包
+                conversionRate: 12, // 1包 = 12个
+                isActive: true,
+                description: '薯片包装规格：1包装12个'
+            },
+            {
+                productId: 'product-004', // 运动鞋
+                baseUnitId: 'unit-003', // 双
+                packageUnitId: 'unit-006', // 件
+                conversionRate: 1, // 1件 = 1双
+                isActive: true,
+                description: '运动鞋包装规格：1件装1双'
+            }
+        ];
+        testConversions.forEach(data => {
+            const conversion = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_0__["default"])(), createdAt: new Date(), updatedAt: new Date() });
+            this.conversions.set(conversion.id, conversion);
+            this.productConversions.set(data.productId, conversion.id);
+        });
+    }
+}
+const unitConversionService = new UnitConversionService();
 
 
 /***/ }),
@@ -67736,6 +68909,59 @@ class InventoryService {
 
 /***/ }),
 
+/***/ "./src/styles/theme-adaptations.css":
+/*!******************************************!*\
+  !*** ./src/styles/theme-adaptations.css ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_theme_adaptations_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/dist/cjs.js!./theme-adaptations.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/styles/theme-adaptations.css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_theme_adaptations_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_theme_adaptations_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_theme_adaptations_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_theme_adaptations_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
 /***/ "./src/types/entities.ts":
 /*!*******************************!*\
   !*** ./src/types/entities.ts ***!
@@ -67931,6 +69157,27 @@ var NotificationStatus;
     NotificationStatus["READ"] = "read";
     NotificationStatus["DELETED"] = "deleted";
 })(NotificationStatus || (NotificationStatus = {}));
+
+
+/***/ }),
+
+/***/ "./src/types/simpleNotification.ts":
+/*!*****************************************!*\
+  !*** ./src/types/simpleNotification.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DEFAULT_NOTIFICATION_CONFIG: () => (/* binding */ DEFAULT_NOTIFICATION_CONFIG)
+/* harmony export */ });
+// 默认配置
+const DEFAULT_NOTIFICATION_CONFIG = {
+    enabled: true,
+    maxDisplay: 5,
+    enableSound: true
+};
 
 
 /***/ }),
@@ -68513,6 +69760,300 @@ const throttle = (func, delay) => {
 
 /***/ }),
 
+/***/ "./src/utils/notificationHelper.ts":
+/*!*****************************************!*\
+  !*** ./src/utils/notificationHelper.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   notificationHelper: () => (/* binding */ notificationHelper)
+/* harmony export */ });
+/* harmony import */ var _notificationStore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./notificationStore */ "./src/utils/notificationStore.ts");
+
+class NotificationHelper {
+    // 核心业务通知方法
+    // 显示库存不足警告
+    showStockWarning(productName, currentStock, threshold = 10) {
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.add({
+            type: 'warning',
+            title: '库存不足警告',
+            message: `商品"${productName}"库存不足，当前库存：${currentStock}，建议及时补货`,
+            isRead: false
+        });
+    }
+    // 显示订单状态变更通知
+    showOrderStatusChange(orderNo, newStatus, orderType = 'sales') {
+        const typeText = orderType === 'sales' ? '销售订单' : '采购订单';
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.add({
+            type: 'info',
+            title: '订单状态更新',
+            message: `${typeText} ${orderNo} 状态已更新为：${newStatus}`,
+            isRead: false
+        });
+    }
+    // 显示操作结果反馈
+    showOperationResult(operation, success, details) {
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.add({
+            type: success ? 'success' : 'error',
+            title: success ? '操作成功' : '操作失败',
+            message: success
+                ? `${operation}操作已成功完成${details ? '：' + details : ''}`
+                : `${operation}操作失败${details ? '：' + details : '，请重试或联系管理员'}`,
+            isRead: false
+        });
+    }
+    // 显示一般信息通知
+    showInfo(title, message) {
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.add({
+            type: 'info',
+            title,
+            message,
+            isRead: false
+        });
+    }
+    // 显示成功通知
+    showSuccess(title, message) {
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.add({
+            type: 'success',
+            title,
+            message,
+            isRead: false
+        });
+    }
+    // 显示警告通知
+    showWarning(title, message) {
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.add({
+            type: 'warning',
+            title,
+            message,
+            isRead: false
+        });
+    }
+    // 显示错误通知
+    showError(title, message) {
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.add({
+            type: 'error',
+            title,
+            message,
+            isRead: false
+        });
+    }
+    // 基本显示和管理方法
+    // 获取最新通知
+    getRecentNotifications(count) {
+        const config = _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.getConfig();
+        const maxCount = count || config.maxDisplay;
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.getRecent(maxCount);
+    }
+    // 获取未读通知数量
+    getUnreadCount() {
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.getUnreadCount();
+    }
+    // 标记通知为已读
+    markAsRead(id) {
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.markAsRead(id);
+    }
+    // 标记所有通知为已读
+    markAllAsRead() {
+        _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.markAllAsRead();
+    }
+    // 删除通知
+    deleteNotification(id) {
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.remove(id);
+    }
+    // 清空所有通知
+    clearAllNotifications() {
+        _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.clear();
+    }
+    // 配置管理方法
+    // 获取通知配置
+    getConfig() {
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.getConfig();
+    }
+    // 更新通知配置
+    updateConfig(config) {
+        _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.updateConfig(config);
+    }
+    // 检查通知是否启用
+    isEnabled() {
+        return _notificationStore__WEBPACK_IMPORTED_MODULE_0__.notificationStore.getConfig().enabled;
+    }
+    // 工具方法
+    // 获取通知类型的显示文本
+    getTypeDisplayText(type) {
+        const typeMap = {
+            'info': '信息',
+            'success': '成功',
+            'warning': '警告',
+            'error': '错误'
+        };
+        return typeMap[type] || type;
+    }
+    // 获取通知类型的图标
+    getTypeIcon(type) {
+        const iconMap = {
+            'info': '💡',
+            'success': '✅',
+            'warning': '⚠️',
+            'error': '❌'
+        };
+        return iconMap[type] || '📢';
+    }
+    // 获取通知类型的样式类
+    getTypeStyles(type) {
+        const styleMap = {
+            'info': 'bg-blue-50 border-blue-200 text-blue-800',
+            'success': 'bg-green-50 border-green-200 text-green-800',
+            'warning': 'bg-yellow-50 border-yellow-200 text-yellow-800',
+            'error': 'bg-red-50 border-red-200 text-red-800'
+        };
+        return styleMap[type] || 'bg-gray-50 border-gray-200 text-gray-800';
+    }
+}
+// 单例实例
+const notificationHelper = new NotificationHelper();
+// 默认导出
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (notificationHelper);
+
+
+/***/ }),
+
+/***/ "./src/utils/notificationStore.ts":
+/*!****************************************!*\
+  !*** ./src/utils/notificationStore.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   notificationStore: () => (/* binding */ notificationStore)
+/* harmony export */ });
+/* harmony import */ var _types_simpleNotification__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/simpleNotification */ "./src/types/simpleNotification.ts");
+
+const STORAGE_KEY = 'simple-notifications';
+const CONFIG_KEY = 'simple-notification-config';
+const MAX_STORED_NOTIFICATIONS = 50; // 最多存储50条通知
+class NotificationStore {
+    constructor() {
+        this.notifications = [];
+        this.config = _types_simpleNotification__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_NOTIFICATION_CONFIG;
+        this.loadFromStorage();
+    }
+    // 从localStorage加载数据
+    loadFromStorage() {
+        try {
+            // 加载通知数据
+            const storedNotifications = localStorage.getItem(STORAGE_KEY);
+            if (storedNotifications) {
+                const parsed = JSON.parse(storedNotifications);
+                this.notifications = parsed.map((n) => (Object.assign(Object.assign({}, n), { createdAt: new Date(n.createdAt) })));
+            }
+            // 加载配置数据
+            const storedConfig = localStorage.getItem(CONFIG_KEY);
+            if (storedConfig) {
+                this.config = Object.assign(Object.assign({}, _types_simpleNotification__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_NOTIFICATION_CONFIG), JSON.parse(storedConfig));
+            }
+        }
+        catch (error) {
+            console.error('加载通知数据失败:', error);
+            this.notifications = [];
+            this.config = _types_simpleNotification__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_NOTIFICATION_CONFIG;
+        }
+    }
+    // 保存到localStorage
+    saveToStorage() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(this.notifications));
+            localStorage.setItem(CONFIG_KEY, JSON.stringify(this.config));
+        }
+        catch (error) {
+            console.error('保存通知数据失败:', error);
+        }
+    }
+    // 添加通知
+    add(notification) {
+        var _a;
+        const newNotification = Object.assign(Object.assign({ id: `notification-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, createdAt: new Date() }, notification), { isRead: (_a = notification.isRead) !== null && _a !== void 0 ? _a : false });
+        // 添加到数组开头
+        this.notifications.unshift(newNotification);
+        // 限制存储数量
+        if (this.notifications.length > MAX_STORED_NOTIFICATIONS) {
+            this.notifications = this.notifications.slice(0, MAX_STORED_NOTIFICATIONS);
+        }
+        this.saveToStorage();
+        return newNotification;
+    }
+    // 获取最新通知
+    getRecent(count = 5) {
+        return this.notifications.slice(0, count);
+    }
+    // 获取所有通知
+    getAll() {
+        return [...this.notifications];
+    }
+    // 获取未读数量
+    getUnreadCount() {
+        return this.notifications.filter(n => !n.isRead).length;
+    }
+    // 标记为已读
+    markAsRead(id) {
+        const notification = this.notifications.find(n => n.id === id);
+        if (notification && !notification.isRead) {
+            notification.isRead = true;
+            this.saveToStorage();
+            return true;
+        }
+        return false;
+    }
+    // 标记所有为已读
+    markAllAsRead() {
+        let hasChanges = false;
+        this.notifications.forEach(n => {
+            if (!n.isRead) {
+                n.isRead = true;
+                hasChanges = true;
+            }
+        });
+        if (hasChanges) {
+            this.saveToStorage();
+        }
+    }
+    // 删除通知
+    remove(id) {
+        const index = this.notifications.findIndex(n => n.id === id);
+        if (index !== -1) {
+            this.notifications.splice(index, 1);
+            this.saveToStorage();
+            return true;
+        }
+        return false;
+    }
+    // 清空所有通知
+    clear() {
+        this.notifications = [];
+        this.saveToStorage();
+    }
+    // 获取配置
+    getConfig() {
+        return Object.assign({}, this.config);
+    }
+    // 更新配置
+    updateConfig(newConfig) {
+        this.config = Object.assign(Object.assign({}, this.config), newConfig);
+        this.saveToStorage();
+    }
+}
+// 单例实例
+const notificationStore = new NotificationStore();
+
+
+/***/ }),
+
 /***/ "./src/utils/secureLogger.ts":
 /*!***********************************!*\
   !*** ./src/utils/secureLogger.ts ***!
@@ -68756,6 +70297,258 @@ const logger = {
     clearAuditTrail: () => secureLogger.clearAuditTrail()
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (secureLogger);
+
+
+/***/ }),
+
+/***/ "./src/utils/unitConversionHelper.ts":
+/*!*******************************************!*\
+  !*** ./src/utils/unitConversionHelper.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   UnitConversionHelper: () => (/* binding */ UnitConversionHelper),
+/* harmony export */   unitConversionHelper: () => (/* binding */ unitConversionHelper)
+/* harmony export */ });
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/business */ "./src/services/business/index.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+/**
+ * 单位转换辅助工具类
+ */
+class UnitConversionHelper {
+    /**
+     * 获取商品的智能数量显示
+     * 根据数量大小自动选择最合适的单位显示
+     * @param productId 商品ID
+     * @param baseQuantity 基础单位数量
+     * @param preferPackage 是否优先显示包装单位
+     * @returns 格式化的数量字符串
+     */
+    static getSmartQuantityDisplay(productId_1, baseQuantity_1) {
+        return __awaiter(this, arguments, void 0, function* (productId, baseQuantity, preferPackage = true) {
+            try {
+                const conversion = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.unitConversionService.findByProductId(productId);
+                if (!conversion || !conversion.isActive) {
+                    // 没有转换规则，直接显示基础单位
+                    const baseUnitName = yield this.getUnitName((conversion === null || conversion === void 0 ? void 0 : conversion.baseUnitId) || 'unit-001');
+                    return `${baseQuantity}${baseUnitName}`;
+                }
+                const formatted = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.unitConversionService.getFormattedQuantity(productId, baseQuantity);
+                if (!formatted) {
+                    const baseUnitName = yield this.getUnitName(conversion.baseUnitId);
+                    return `${baseQuantity}${baseUnitName}`;
+                }
+                // 根据偏好和数量大小决定显示方式
+                if (preferPackage && formatted.packageQuantity > 0) {
+                    return formatted.formatted;
+                }
+                else if (baseQuantity < conversion.conversionRate) {
+                    // 数量小于一个包装单位时，显示基础单位
+                    return `${baseQuantity}${formatted.baseUnitName}`;
+                }
+                else {
+                    return formatted.formatted;
+                }
+            }
+            catch (error) {
+                console.error('获取智能数量显示失败:', error);
+                return `${baseQuantity}个`;
+            }
+        });
+    }
+    /**
+     * 获取双单位显示（同时显示包装单位和基础单位）
+     * @param productId 商品ID
+     * @param baseQuantity 基础单位数量
+     * @returns 包含两种单位的显示对象
+     */
+    static getDualUnitDisplay(productId, baseQuantity) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const conversion = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.unitConversionService.findByProductId(productId);
+                if (!conversion || !conversion.isActive) {
+                    const baseUnitName = yield this.getUnitName((conversion === null || conversion === void 0 ? void 0 : conversion.baseUnitId) || 'unit-001');
+                    return {
+                        baseDisplay: `${baseQuantity}${baseUnitName}`,
+                        packageDisplay: null,
+                        hasConversion: false
+                    };
+                }
+                const baseUnitName = yield this.getUnitName(conversion.baseUnitId);
+                const packageUnitName = yield this.getUnitName(conversion.packageUnitId);
+                const packageQuantity = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.unitConversionService.convertToPackageUnit(productId, baseQuantity);
+                return {
+                    baseDisplay: `${baseQuantity}${baseUnitName}`,
+                    packageDisplay: packageQuantity ? `${packageQuantity.toFixed(1)}${packageUnitName}` : null,
+                    hasConversion: true
+                };
+            }
+            catch (error) {
+                console.error('获取双单位显示失败:', error);
+                return {
+                    baseDisplay: `${baseQuantity}个`,
+                    packageDisplay: null,
+                    hasConversion: false
+                };
+            }
+        });
+    }
+    /**
+     * 检查商品是否有单位转换规则
+     * @param productId 商品ID
+     * @returns 是否有转换规则
+     */
+    static hasConversionRule(productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const conversion = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.unitConversionService.findByProductId(productId);
+                return conversion !== null && conversion.isActive;
+            }
+            catch (error) {
+                console.error('检查转换规则失败:', error);
+                return false;
+            }
+        });
+    }
+    /**
+     * 获取转换规则信息
+     * @param productId 商品ID
+     * @returns 转换规则信息
+     */
+    static getConversionInfo(productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const conversion = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.unitConversionService.findByProductId(productId);
+                if (!conversion || !conversion.isActive) {
+                    return null;
+                }
+                const baseUnitName = yield this.getUnitName(conversion.baseUnitId);
+                const packageUnitName = yield this.getUnitName(conversion.packageUnitId);
+                return {
+                    hasRule: true,
+                    baseUnitName,
+                    packageUnitName,
+                    conversionRate: conversion.conversionRate,
+                    description: conversion.description || `1${packageUnitName} = ${conversion.conversionRate}${baseUnitName}`
+                };
+            }
+            catch (error) {
+                console.error('获取转换规则信息失败:', error);
+                return null;
+            }
+        });
+    }
+    /**
+     * 计算建议的显示单位
+     * @param productId 商品ID
+     * @param baseQuantity 基础单位数量
+     * @returns 建议的显示单位类型
+     */
+    static getSuggestedDisplayUnit(productId, baseQuantity) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const conversion = yield _services_business__WEBPACK_IMPORTED_MODULE_0__.unitConversionService.findByProductId(productId);
+                if (!conversion || !conversion.isActive) {
+                    return 'base';
+                }
+                const packageQuantity = Math.floor(baseQuantity / conversion.conversionRate);
+                const remainder = baseQuantity % conversion.conversionRate;
+                if (packageQuantity === 0) {
+                    return 'base'; // 不足一个包装单位，显示基础单位
+                }
+                else if (remainder === 0) {
+                    return 'package'; // 正好整包装，显示包装单位
+                }
+                else {
+                    return 'mixed'; // 有余数，显示混合单位
+                }
+            }
+            catch (error) {
+                console.error('计算建议显示单位失败:', error);
+                return 'base';
+            }
+        });
+    }
+    /**
+     * 获取单位名称（简化实现）
+     * @param unitId 单位ID
+     * @returns 单位名称
+     */
+    static getUnitName(unitId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 简化实现，实际应该从 unitService 获取
+            const unitNames = {
+                'unit-001': '个',
+                'unit-002': '台',
+                'unit-003': '双',
+                'unit-004': '包',
+                'unit-005': '箱',
+                'unit-006': '件',
+                'unit-007': '盒',
+                'unit-008': '瓶',
+                'unit-009': '袋',
+                'unit-010': '套'
+            };
+            return unitNames[unitId] || '个';
+        });
+    }
+    /**
+     * 格式化数量显示，支持自定义格式
+     * @param packageQuantity 包装单位数量
+     * @param remainderQuantity 余数数量
+     * @param packageUnitName 包装单位名称
+     * @param baseUnitName 基础单位名称
+     * @param format 格式类型
+     * @returns 格式化的字符串
+     */
+    static formatQuantity(packageQuantity, remainderQuantity, packageUnitName, baseUnitName, format = 'compact') {
+        switch (format) {
+            case 'compact':
+                // 紧凑格式：10箱5个
+                let result = '';
+                if (packageQuantity > 0)
+                    result += `${packageQuantity}${packageUnitName}`;
+                if (remainderQuantity > 0)
+                    result += `${remainderQuantity}${baseUnitName}`;
+                return result || `0${baseUnitName}`;
+            case 'full':
+                // 完整格式：10箱 + 5个
+                if (packageQuantity > 0 && remainderQuantity > 0) {
+                    return `${packageQuantity}${packageUnitName} + ${remainderQuantity}${baseUnitName}`;
+                }
+                else if (packageQuantity > 0) {
+                    return `${packageQuantity}${packageUnitName}`;
+                }
+                else {
+                    return `${remainderQuantity}${baseUnitName}`;
+                }
+            case 'separate':
+                // 分离格式：返回数组形式的字符串
+                const parts = [];
+                if (packageQuantity > 0)
+                    parts.push(`${packageQuantity}${packageUnitName}`);
+                if (remainderQuantity > 0)
+                    parts.push(`${remainderQuantity}${baseUnitName}`);
+                return parts.join(' ');
+            default:
+                return `${packageQuantity}${packageUnitName}${remainderQuantity}${baseUnitName}`;
+        }
+    }
+}
+// 导出便捷的静态方法
+const unitConversionHelper = UnitConversionHelper;
 
 
 /***/ }),

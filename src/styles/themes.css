@@ -9,11 +9,11 @@
   /* 应用背景 - indigo-500 到 indigo-600 渐变 */
   --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);
 
-  /* 表面和卡片背景 - indigo-100 系列，半透明 */
-  --surface-background: oklch(0.93 0.034 272.788 / 0.15);
-  --card-background: oklch(0.93 0.034 272.788 / 0.1);
-  --hover-background: oklch(0.87 0.065 274.039 / 0.2);
-  --active-background: oklch(0.785 0.115 274.713 / 0.25);
+  /* 表面和卡片背景 - indigo-100 系列，增强可见性 */
+  --surface-background: oklch(0.93 0.034 272.788 / 0.25);
+  --card-background: oklch(0.93 0.034 272.788 / 0.15);
+  --hover-background: oklch(0.87 0.065 274.039 / 0.3);
+  --active-background: oklch(0.785 0.115 274.713 / 0.35);
 
   /* 弹出窗体背景系统 - indigo-50 系列 */
   --popup-background: oklch(0.962 0.018 272.314 / 0.85);
@@ -83,11 +83,11 @@
   /* 应用背景 - indigo-500 到 indigo-600 渐变 */
   --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);
 
-  /* 表面和卡片背景 - indigo-100 系列，增强透明度 */
-  --surface-background: oklch(0.93 0.034 272.788 / 0.12);
-  --card-background: oklch(0.93 0.034 272.788 / 0.08);
-  --hover-background: oklch(0.87 0.065 274.039 / 0.18);
-  --active-background: oklch(0.785 0.115 274.713 / 0.22);
+  /* 表面和卡片背景 - indigo-100 系列，增强可见性 */
+  --surface-background: oklch(0.93 0.034 272.788 / 0.22);
+  --card-background: oklch(0.93 0.034 272.788 / 0.12);
+  --hover-background: oklch(0.87 0.065 274.039 / 0.28);
+  --active-background: oklch(0.785 0.115 274.713 / 0.32);
 
   /* 弹出窗体背景系统 - 调整为更深的indigo色调，确保白色文字可读性 */
   --popup-background: oklch(0.511 0.262 276.966 / 0.9);
@@ -203,11 +203,11 @@
   /* 应用背景 - slate-900 到 slate-800 渐变 */
   --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);
 
-  /* 表面和卡片背景 - slate-800/700 系列，深色透明 */
-  --surface-background: oklch(0.279 0.041 260.031 / 0.05);
-  --card-background: oklch(0.279 0.041 260.031 / 0.03);
-  --hover-background: oklch(0.372 0.044 257.287 / 0.08);
-  --active-background: oklch(0.446 0.043 257.281 / 0.12);
+  /* 表面和卡片背景 - slate-800/700 系列，增强可见性 */
+  --surface-background: oklch(0.279 0.041 260.031 / 0.15);
+  --card-background: oklch(0.279 0.041 260.031 / 0.08);
+  --hover-background: oklch(0.372 0.044 257.287 / 0.18);
+  --active-background: oklch(0.446 0.043 257.281 / 0.22);
 
   /* 主题文字颜色 - slate-100/200 浅色文字，适合深色背景 */
   --text-primary: oklch(0.968 0.007 247.896);
@@ -301,11 +301,11 @@
   /* 应用背景 - amber-400 到 amber-500 渐变 */
   --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);
 
-  /* 表面和卡片背景 - amber-50 系列，温暖透明 */
-  --surface-background: oklch(0.987 0.022 95.277 / 0.6);
-  --card-background: oklch(0.987 0.022 95.277 / 0.4);
-  --hover-background: oklch(0.962 0.059 95.617 / 0.5);
-  --active-background: oklch(0.924 0.12 95.746 / 0.6);
+  /* 表面和卡片背景 - amber-50 系列，保持温暖可见性 */
+  --surface-background: oklch(0.987 0.022 95.277 / 0.7);
+  --card-background: oklch(0.987 0.022 95.277 / 0.5);
+  --hover-background: oklch(0.962 0.059 95.617 / 0.6);
+  --active-background: oklch(0.924 0.12 95.746 / 0.7);
 
   /* 主题文字颜色 - amber-900/800 深色文字，适合浅色背景 */
   --text-primary: oklch(0.414 0.112 45.904);

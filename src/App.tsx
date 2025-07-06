@@ -6,6 +6,7 @@ import { dataInitializer } from './services/dataInitializer';
 import { testDataInitializer } from './utils/testDataInitializer';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import './globals.css';
+import './styles/theme-adaptations.css';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('dashboard');

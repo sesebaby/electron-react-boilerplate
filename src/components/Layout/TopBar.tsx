@@ -215,7 +215,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 
   return (
     <header className={`
-      fixed top-0 right-0 z-30 h-16 transition-all duration-300
+      fixed top-0 right-0 z-50 h-20 transition-all duration-300
       ${sidebarCollapsed ? 'left-16' : 'left-64'}
       glass-surface border-b border-white/10
     `}>
@@ -233,14 +233,14 @@ export const TopBar: React.FC<TopBarProps> = ({
           </button>
 
           {/* 面包屑导航和标题 */}
-          <div className="flex flex-col">
+          <div className="flex flex-col justify-center min-h-0">
             <nav className="flex items-center text-sm text-white/60 mb-1">
               {currentPageInfo.breadcrumb.map((crumb, index) => (
                 <span key={index} className="flex items-center">
                   {index > 0 && <span className="mx-2 text-white/40">/</span>}
                   <span className={`transition-colors ${
-                    index === currentPageInfo.breadcrumb.length - 1 
-                      ? 'text-white/90 font-medium' 
+                    index === currentPageInfo.breadcrumb.length - 1
+                      ? 'text-white/90 font-medium'
                       : 'hover:text-white/80'
                   }`}>
                     {crumb}

@@ -194,13 +194,13 @@ const InventoryCardView: React.FC = () => {
   if (state.loading) {
     return (
       <div className="flex items-center justify-center min-h-96">
-        <div className="text-center">
+        <div className="text-center glass-surface backdrop-blur-lg rounded-xl p-8">
           <div className="relative">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200 mx-auto mb-4"></div>
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent absolute top-0 left-1/2 transform -translate-x-1/2"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-white/20 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-white/60 border-t-transparent absolute top-0 left-1/2 transform -translate-x-1/2"></div>
           </div>
-          <p className="text-gray-600 text-lg font-medium">正在加载仓库数据...</p>
-          <p className="text-gray-500 text-sm mt-2">请稍候，正在获取最新的库存信息</p>
+          <p className="text-white text-lg font-medium drop-shadow-lg">正在加载仓库数据...</p>
+          <p className="text-white/80 text-sm mt-2 drop-shadow-md">请稍候，正在获取最新的库存信息</p>
         </div>
       </div>
     );
@@ -209,14 +209,14 @@ const InventoryCardView: React.FC = () => {
   if (state.error) {
     return (
       <div className="flex items-center justify-center min-h-96">
-        <div className="text-center">
-          <div className="text-red-500 text-6xl mb-4">⚠️</div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">加载失败</h3>
-          <p className="text-gray-600 mb-4">{state.error}</p>
+        <div className="text-center glass-surface backdrop-blur-lg rounded-xl p-8">
+          <div className="text-red-400 text-6xl mb-4 drop-shadow-lg">⚠️</div>
+          <h3 className="text-lg font-medium text-white mb-2 drop-shadow-lg">加载失败</h3>
+          <p className="text-white/80 mb-4 drop-shadow-md">{state.error}</p>
           <button
             type="button"
             onClick={handleRefresh}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            className="px-4 py-2 glass-surface backdrop-blur-md text-white rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 drop-shadow-md"
           >
             重新加载
           </button>
@@ -230,20 +230,20 @@ const InventoryCardView: React.FC = () => {
       {/* 页面标题 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">库存总览</h1>
-          <p className="text-gray-600 mt-1">查看各仓库库存情况</p>
+          <h1 className="text-2xl font-bold text-white drop-shadow-lg">库存总览</h1>
+          <p className="text-white/80 mt-1 drop-shadow-md">查看各仓库库存情况</p>
         </div>
         <button
           type="button"
           onClick={handleRefresh}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+          className="px-4 py-2 glass-surface backdrop-blur-md text-white rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 flex items-center gap-2 drop-shadow-md"
         >
           🔄 刷新
         </button>
       </div>
 
       {/* 搜索和筛选区域 */}
-      <div className="glass-surface rounded-lg p-4 lg:p-6 space-y-4 lg:space-y-6">
+      <div className="glass-surface backdrop-blur-lg rounded-xl p-4 lg:p-6 space-y-4 lg:space-y-6 border border-white/20">
         <InventorySearch
           value={state.filters.searchKeyword}
           onChange={(keyword) => handleFilterChange({ searchKeyword: keyword })}
@@ -257,27 +257,27 @@ const InventoryCardView: React.FC = () => {
 
       {/* 统计信息 */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-        <div className="glass-surface rounded-lg p-3 lg:p-4 text-center">
-          <div className="text-xl lg:text-2xl font-bold text-blue-600">{state.filteredWarehouses.length}</div>
-          <div className="text-xs lg:text-sm text-gray-600">仓库总数</div>
+        <div className="glass-surface backdrop-blur-lg rounded-xl p-3 lg:p-4 text-center border border-white/20">
+          <div className="text-xl lg:text-2xl font-bold text-blue-300 drop-shadow-lg">{state.filteredWarehouses.length}</div>
+          <div className="text-xs lg:text-sm text-white/80 drop-shadow-md">仓库总数</div>
         </div>
-        <div className="glass-surface rounded-lg p-3 lg:p-4 text-center">
-          <div className="text-xl lg:text-2xl font-bold text-green-600">
+        <div className="glass-surface backdrop-blur-lg rounded-xl p-3 lg:p-4 text-center border border-white/20">
+          <div className="text-xl lg:text-2xl font-bold text-green-300 drop-shadow-lg">
             {state.filteredWarehouses.reduce((sum, w) => sum + w.totalProducts, 0)}
           </div>
-          <div className="text-xs lg:text-sm text-gray-600">商品种类</div>
+          <div className="text-xs lg:text-sm text-white/80 drop-shadow-md">商品种类</div>
         </div>
-        <div className="glass-surface rounded-lg p-3 lg:p-4 text-center">
-          <div className="text-xl lg:text-2xl font-bold text-yellow-600">
+        <div className="glass-surface backdrop-blur-lg rounded-xl p-3 lg:p-4 text-center border border-white/20">
+          <div className="text-xl lg:text-2xl font-bold text-yellow-300 drop-shadow-lg">
             {state.filteredWarehouses.reduce((sum, w) => sum + w.lowStockCount, 0)}
           </div>
-          <div className="text-xs lg:text-sm text-gray-600">低库存商品</div>
+          <div className="text-xs lg:text-sm text-white/80 drop-shadow-md">低库存商品</div>
         </div>
-        <div className="glass-surface rounded-lg p-3 lg:p-4 text-center">
-          <div className="text-xl lg:text-2xl font-bold text-red-600">
+        <div className="glass-surface backdrop-blur-lg rounded-xl p-3 lg:p-4 text-center border border-white/20">
+          <div className="text-xl lg:text-2xl font-bold text-red-300 drop-shadow-lg">
             {state.filteredWarehouses.reduce((sum, w) => sum + w.outOfStockCount, 0)}
           </div>
-          <div className="text-xs lg:text-sm text-gray-600">缺货商品</div>
+          <div className="text-xs lg:text-sm text-white/80 drop-shadow-md">缺货商品</div>
         </div>
       </div>
 
@@ -299,10 +299,10 @@ const InventoryCardView: React.FC = () => {
 
       {/* 空状态 */}
       {state.filteredWarehouses.length === 0 && (
-        <div className="text-center py-12">
-          <div className="text-gray-400 text-6xl mb-4">📦</div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">暂无仓库数据</h3>
-          <p className="text-gray-600">请检查筛选条件或联系管理员</p>
+        <div className="text-center py-12 glass-surface backdrop-blur-lg rounded-xl border border-white/20">
+          <div className="text-white/60 text-6xl mb-4 drop-shadow-lg">📦</div>
+          <h3 className="text-lg font-medium text-white mb-2 drop-shadow-lg">暂无仓库数据</h3>
+          <p className="text-white/80 drop-shadow-md">请检查筛选条件或联系管理员</p>
         </div>
       )}
 

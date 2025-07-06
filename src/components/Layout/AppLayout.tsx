@@ -58,8 +58,8 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       
       {/* 主内容区 */}
       <main className={`
-        pt-16 overflow-auto transition-all duration-300 h-screen
-        ${sidebarCollapsed ? 'ml-16' : 'ml-64'}
+        fixed top-20 bottom-0 right-0 overflow-auto transition-all duration-300
+        ${sidebarCollapsed ? 'left-16' : 'left-64'}
       `}>
         <div className="p-6">
           {children}

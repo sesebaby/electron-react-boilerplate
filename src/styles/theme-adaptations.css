@@ -1,0 +1,266 @@
+/* 新功能组件主题适配样式 */
+
+/* =============== 玻璃未来风主题 (Glass Future) =============== */
+[data-theme="glass-future"] .glass-surface {
+  background: rgba(99, 102, 241, 0.1) !important; /* indigo-500/10% */
+  backdrop-filter: blur(35px) !important;
+  border: 1px solid rgba(165, 180, 252, 0.3) !important; /* indigo-300/30% */
+  box-shadow: 0 25px 80px rgba(55, 48, 163, 0.15) !important; /* indigo-800/15% */
+}
+
+[data-theme="glass-future"] .glass-surface:hover {
+  background: rgba(99, 102, 241, 0.15) !important; /* indigo-500/15% */
+  border-color: rgba(165, 180, 252, 0.4) !important; /* indigo-300/40% */
+}
+
+/* 文字颜色适配 */
+[data-theme="glass-future"] .text-white {
+  color: rgb(248, 250, 252) !important; /* slate-50 */
+  text-shadow: 0 2px 8px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-white\/80 {
+  color: rgba(248, 250, 252, 0.8) !important; /* slate-50/80% */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.6) !important;
+}
+
+[data-theme="glass-future"] .text-white\/70 {
+  color: rgba(248, 250, 252, 0.7) !important; /* slate-50/70% */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.6) !important;
+}
+
+[data-theme="glass-future"] .text-white\/60 {
+  color: rgba(248, 250, 252, 0.6) !important; /* slate-50/60% */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.6) !important;
+}
+
+/* 彩色文字适配 */
+[data-theme="glass-future"] .text-blue-300,
+[data-theme="glass-future"] .text-blue-200 {
+  color: rgb(147, 197, 253) !important; /* blue-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-green-300,
+[data-theme="glass-future"] .text-green-200 {
+  color: rgb(134, 239, 172) !important; /* green-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-yellow-300 {
+  color: rgb(253, 224, 71) !important; /* yellow-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-red-300,
+[data-theme="glass-future"] .text-red-200 {
+  color: rgb(252, 165, 165) !important; /* red-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-orange-300,
+[data-theme="glass-future"] .text-orange-200 {
+  color: rgb(253, 186, 116) !important; /* orange-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+[data-theme="glass-future"] .text-purple-300,
+[data-theme="glass-future"] .text-purple-200 {
+  color: rgb(196, 181, 253) !important; /* purple-300 */
+  text-shadow: 0 2px 6px rgba(55, 48, 163, 0.8) !important;
+}
+
+/* =============== 深色科技风主题 (Dark Tech) =============== */
+[data-theme="dark-tech"] .glass-surface {
+  background: rgba(71, 85, 105, 0.1) !important; /* slate-600/10% */
+  backdrop-filter: blur(35px) !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important; /* slate-400/20% */
+  box-shadow: 0 25px 80px rgba(15, 23, 42, 0.3) !important; /* slate-900/30% */
+}
+
+[data-theme="dark-tech"] .glass-surface:hover {
+  background: rgba(71, 85, 105, 0.15) !important; /* slate-600/15% */
+  border-color: rgba(148, 163, 184, 0.3) !important; /* slate-400/30% */
+}
+
+/* 文字颜色适配 */
+[data-theme="dark-tech"] .text-white {
+  color: rgb(248, 250, 252) !important; /* slate-50 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-white\/80 {
+  color: rgba(248, 250, 252, 0.8) !important; /* slate-50/80% */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.6) !important;
+}
+
+[data-theme="dark-tech"] .text-white\/70 {
+  color: rgba(248, 250, 252, 0.7) !important; /* slate-50/70% */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.6) !important;
+}
+
+[data-theme="dark-tech"] .text-white\/60 {
+  color: rgba(248, 250, 252, 0.6) !important; /* slate-50/60% */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.6) !important;
+}
+
+/* 彩色文字适配 */
+[data-theme="dark-tech"] .text-blue-300,
+[data-theme="dark-tech"] .text-blue-200 {
+  color: rgb(147, 197, 253) !important; /* blue-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-green-300,
+[data-theme="dark-tech"] .text-green-200 {
+  color: rgb(134, 239, 172) !important; /* green-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-yellow-300 {
+  color: rgb(253, 224, 71) !important; /* yellow-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-red-300,
+[data-theme="dark-tech"] .text-red-200 {
+  color: rgb(252, 165, 165) !important; /* red-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-orange-300,
+[data-theme="dark-tech"] .text-orange-200 {
+  color: rgb(253, 186, 116) !important; /* orange-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+[data-theme="dark-tech"] .text-purple-300,
+[data-theme="dark-tech"] .text-purple-200 {
+  color: rgb(196, 181, 253) !important; /* purple-300 */
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.8) !important;
+}
+
+/* =============== 温暖商务风主题 (Warm Business) =============== */
+[data-theme="warm-business"] .glass-surface {
+  background: rgba(251, 191, 36, 0.1) !important; /* amber-400/10% */
+  backdrop-filter: blur(35px) !important;
+  border: 1px solid rgba(252, 211, 77, 0.3) !important; /* amber-300/30% */
+  box-shadow: 0 25px 80px rgba(146, 64, 14, 0.2) !important; /* amber-900/20% */
+}
+
+[data-theme="warm-business"] .glass-surface:hover {
+  background: rgba(251, 191, 36, 0.15) !important; /* amber-400/15% */
+  border-color: rgba(252, 211, 77, 0.4) !important; /* amber-300/40% */
+}
+
+/* 文字颜色适配 */
+[data-theme="warm-business"] .text-white {
+  color: rgb(146, 64, 14) !important; /* amber-900 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.9) !important;
+}
+
+[data-theme="warm-business"] .text-white\/80 {
+  color: rgba(146, 64, 14, 0.9) !important; /* amber-900/90% */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.7) !important;
+}
+
+[data-theme="warm-business"] .text-white\/70 {
+  color: rgba(146, 64, 14, 0.8) !important; /* amber-900/80% */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.7) !important;
+}
+
+[data-theme="warm-business"] .text-white\/60 {
+  color: rgba(146, 64, 14, 0.7) !important; /* amber-900/70% */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.7) !important;
+}
+
+/* 彩色文字适配 */
+[data-theme="warm-business"] .text-blue-300,
+[data-theme="warm-business"] .text-blue-200 {
+  color: rgb(59, 130, 246) !important; /* blue-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+[data-theme="warm-business"] .text-green-300,
+[data-theme="warm-business"] .text-green-200 {
+  color: rgb(34, 197, 94) !important; /* green-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+[data-theme="warm-business"] .text-yellow-300 {
+  color: rgb(234, 179, 8) !important; /* yellow-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+[data-theme="warm-business"] .text-red-300,
+[data-theme="warm-business"] .text-red-200 {
+  color: rgb(239, 68, 68) !important; /* red-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+[data-theme="warm-business"] .text-orange-300,
+[data-theme="warm-business"] .text-orange-200 {
+  color: rgb(249, 115, 22) !important; /* orange-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+[data-theme="warm-business"] .text-purple-300,
+[data-theme="warm-business"] .text-purple-200 {
+  color: rgb(168, 85, 247) !important; /* purple-500 */
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.8) !important;
+}
+
+/* =============== 通用样式增强 =============== */
+
+/* 玻璃效果增强 */
+.glass-surface {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-surface::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 阴影效果增强 */
+.drop-shadow-lg {
+  filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04)) drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1));
+}
+
+.drop-shadow-md {
+  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+  .glass-surface {
+    backdrop-filter: blur(20px) !important;
+  }
+  
+  .drop-shadow-lg,
+  .drop-shadow-md {
+    filter: none;
+  }
+}
+
+/* 动画优化 */
+.glass-surface {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-surface:hover {
+  transform: translateY(-1px);
+}
+
+/* 边框渐变效果 */
+.glass-surface {
+  background-clip: padding-box;
+}

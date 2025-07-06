@@ -82,9 +82,9 @@ const CalendarOverviewPage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <div className="text-gray-600">加载日历数据中...</div>
+        <div className="text-center glass-surface backdrop-blur-lg rounded-xl p-8 border border-white/20">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/60 mx-auto mb-4"></div>
+          <div className="text-white drop-shadow-lg">加载日历数据中...</div>
         </div>
       </div>
     );
@@ -93,11 +93,11 @@ const CalendarOverviewPage: React.FC = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="text-red-600 mb-4">❌ {error}</div>
+        <div className="text-center glass-surface backdrop-blur-lg rounded-xl p-8 border border-white/20">
+          <div className="text-red-300 mb-4 drop-shadow-lg">❌ {error}</div>
           <button
             onClick={() => loadWeekData(currentWeekStart)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-4 py-2 glass-surface backdrop-blur-md text-white rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 drop-shadow-md"
           >
             重新加载
           </button>
@@ -111,15 +111,15 @@ const CalendarOverviewPage: React.FC = () => {
       {/* 页面标题和导航 */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">日历式整体视图</h1>
-          <p className="text-gray-600 mt-1">查看每日采购、销售和库存变化趋势</p>
+          <h1 className="text-2xl font-bold text-white drop-shadow-lg">日历式整体视图</h1>
+          <p className="text-white/80 mt-1 drop-shadow-md">查看每日采购、销售和库存变化趋势</p>
         </div>
 
         {/* 周导航 */}
         <div className="flex items-center gap-2">
           <button
             onClick={goToPreviousWeek}
-            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200 glass-surface backdrop-blur-md border border-white/30"
             title="上一周"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,13 +127,13 @@ const CalendarOverviewPage: React.FC = () => {
             </svg>
           </button>
 
-          <div className="px-4 py-2 bg-gray-100 rounded-lg text-sm font-medium text-gray-700 min-w-[200px] text-center">
+          <div className="px-4 py-2 glass-surface backdrop-blur-lg rounded-lg text-sm font-medium text-white min-w-[200px] text-center border border-white/30 drop-shadow-md">
             {weekData && formatWeekRange(weekData.weekStart, weekData.weekEnd)}
           </div>
 
           <button
             onClick={goToNextWeek}
-            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200 glass-surface backdrop-blur-md border border-white/30"
             title="下一周"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,7 +144,7 @@ const CalendarOverviewPage: React.FC = () => {
           {!isCurrentWeek() && (
             <button
               onClick={goToCurrentWeek}
-              className="ml-2 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+              className="ml-2 px-3 py-2 glass-surface backdrop-blur-md text-white text-sm rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 drop-shadow-md"
             >
               回到本周
             </button>
@@ -155,64 +155,58 @@ const CalendarOverviewPage: React.FC = () => {
       {/* 快速统计 */}
       {weekData && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+          <div className="glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-blue-600 text-sm font-medium">本周采购</div>
-                <div className="text-2xl font-bold text-blue-700">
+                <div className="text-blue-300 text-sm font-medium drop-shadow-md">本周采购</div>
+                <div className="text-2xl font-bold text-blue-200 drop-shadow-lg">
                   ¥{weekData.weeklyTotals.purchases.toLocaleString()}
                 </div>
               </div>
-              <div className="text-blue-500 text-3xl">📦</div>
+              <div className="text-blue-300 text-3xl drop-shadow-lg">📦</div>
             </div>
           </div>
 
-          <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+          <div className="glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-green-600 text-sm font-medium">本周销售</div>
-                <div className="text-2xl font-bold text-green-700">
+                <div className="text-green-300 text-sm font-medium drop-shadow-md">本周销售</div>
+                <div className="text-2xl font-bold text-green-200 drop-shadow-lg">
                   ¥{weekData.weeklyTotals.sales.toLocaleString()}
                 </div>
               </div>
-              <div className="text-green-500 text-3xl">💰</div>
+              <div className="text-green-300 text-3xl drop-shadow-lg">💰</div>
             </div>
           </div>
 
-          <div className={`p-4 rounded-lg border ${
-            weekData.weeklyTotals.netChange > 0 
-              ? 'bg-green-50 border-green-200' 
-              : weekData.weeklyTotals.netChange < 0 
-                ? 'bg-red-50 border-red-200' 
-                : 'bg-gray-50 border-gray-200'
-          }`}>
+          <div className="glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <div className={`text-sm font-medium ${
-                  weekData.weeklyTotals.netChange > 0 
-                    ? 'text-green-600' 
-                    : weekData.weeklyTotals.netChange < 0 
-                      ? 'text-red-600' 
-                      : 'text-gray-600'
+                <div className={`text-sm font-medium drop-shadow-md ${
+                  weekData.weeklyTotals.netChange > 0
+                    ? 'text-green-300'
+                    : weekData.weeklyTotals.netChange < 0
+                      ? 'text-red-300'
+                      : 'text-white/80'
                 }`}>
                   本周净变化
                 </div>
-                <div className={`text-2xl font-bold ${
-                  weekData.weeklyTotals.netChange > 0 
-                    ? 'text-green-700' 
-                    : weekData.weeklyTotals.netChange < 0 
-                      ? 'text-red-700' 
-                      : 'text-gray-700'
+                <div className={`text-2xl font-bold drop-shadow-lg ${
+                  weekData.weeklyTotals.netChange > 0
+                    ? 'text-green-200'
+                    : weekData.weeklyTotals.netChange < 0
+                      ? 'text-red-200'
+                      : 'text-white/80'
                 }`}>
                   {weekData.weeklyTotals.netChange > 0 ? '+' : ''}{weekData.weeklyTotals.netChange}
                 </div>
               </div>
-              <div className={`text-3xl ${
-                weekData.weeklyTotals.netChange > 0 
-                  ? 'text-green-500' 
-                  : weekData.weeklyTotals.netChange < 0 
-                    ? 'text-red-500' 
-                    : 'text-gray-500'
+              <div className={`text-3xl drop-shadow-lg ${
+                weekData.weeklyTotals.netChange > 0
+                  ? 'text-green-300'
+                  : weekData.weeklyTotals.netChange < 0
+                    ? 'text-red-300'
+                    : 'text-white/60'
               }`}>
                 {weekData.weeklyTotals.netChange > 0 ? '📈' : weekData.weeklyTotals.netChange < 0 ? '📉' : '📊'}
               </div>
@@ -238,9 +232,9 @@ const CalendarOverviewPage: React.FC = () => {
       />
 
       {/* 使用说明 */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="text-blue-800 font-medium mb-2">💡 使用说明</h3>
-        <ul className="text-blue-700 text-sm space-y-1">
+      <div className="glass-surface backdrop-blur-lg border border-white/20 rounded-xl p-4">
+        <h3 className="text-blue-300 font-medium mb-2 drop-shadow-lg">💡 使用说明</h3>
+        <ul className="text-white/80 text-sm space-y-1 drop-shadow-md">
           <li>• 点击任意日期查看当日详细业务数据</li>
           <li>• 右上角的彩色圆点表示当日活动强度（绿色=高，黄色=中，灰色=低）</li>
           <li>• 使用左右箭头导航不同周份，点击"回到本周"快速返回当前周</li>
