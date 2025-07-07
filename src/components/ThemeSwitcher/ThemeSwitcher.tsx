@@ -55,6 +55,9 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
       {/* 主题选择下拉菜单 */}
       {isOpen && (
         <div className="absolute top-12 right-0 w-48 popup-dropdown z-50">
+          <div className="theme-dropdown-header p-3 border-b" style={{ borderColor: 'var(--popup-divider-color)' }}>
+            <h3 className="text-sm font-semibold m-0">选择主题</h3>
+          </div>
           <div className="p-2 space-y-1">
             {availableThemes.map((theme) => (
               <button
@@ -64,16 +67,13 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-left transition-all theme-option ${
                   currentTheme === theme.name ? 'active' : ''
                 }`}
-                style={{
-                  color: currentTheme === theme.name 
-                    ? 'var(--popup-text-primary)' 
-                    : 'var(--popup-text-secondary)',
-                  fontWeight: currentTheme === theme.name ? '600' : '400'
-                }}
               >
                 <span className="w-4 h-4 rounded-full border border-white/30"
                       style={{ background: theme.preview }}></span>
-                <span className="flex-1">{theme.displayName}</span>
+                <div className="flex-1 text-left">
+                  <h4 className="font-medium text-sm m-0">{theme.displayName}</h4>
+                  <p className="text-xs opacity-80 m-0">{theme.description || theme.name}</p>
+                </div>
                 {currentTheme === theme.name && (
                   <span className="text-xs opacity-70">✓</span>
                 )}
