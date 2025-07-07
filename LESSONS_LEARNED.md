@@ -661,6 +661,77 @@ rg "ipcMain\.handle\('db-" --type js
 
 ---
 
+---
+
+## ❌ 错误 #13: Electron IPC处理器时序冲突导致db-get-all-items处理器丢失
+
+### 🐛 问题描述
+项目启动时出现错误：`productConversionService.ts:211 Failed to load products from database: Error: Error invoking remote method 'db-get-all-items': Error: No handler registered for 'db-get-all-items'`，导致产品服务无法加载数据库数据。
+
+### 💡 根本原因
+**时序冲突问题**：IPC处理器的注册和清理存在时序冲突
+1. **重复管理**：`db-get-all-items` 处理器在 `main.js` 中单独注册，但在 `database-handlers.js` 的清理列表中也被包含
+2. **错误的清理时序**：
+   - `main.js` 第374-410行注册了 `db-get-all-items` 处理器
+   - `db-initialize` 被调用时，触发 `setupDatabaseHandlers(ipcMain, db)`
+   - `setupDatabaseHandlers` 函数清理了 `db-get-all-items` 处理器（第13行）
+   - 结果是处理器被意外清理，无法响应渲染进程请求
+
+### 🔧 时序分析
+```javascript
+// 时序流程：
+1. main.js:362 - ipcMain.removeHandler('db-get-all-items')
+2. main.js:374 - ipcMain.handle('db-get-all-items', ...) // 注册处理器
+3. 渲染进程调用 db-initialize
+4. main.js:370 - setupDatabaseHandlers(ipcMain, db)
+5. database-handlers.js:13 - 清理列表包含 'db-get-all-items'
+6. database-handlers.js:27 - ipcMain.removeHandler('db-get-all-items') // 错误清理
+7. 渲染进程调用 db-get-all-items - 失败，处理器不存在
+```
+
+### ✅ 解决方案
+**从清理列表中移除单独管理的处理器**：
+```javascript
+// 错误做法 - 清理列表包含在main.js中单独管理的处理器
+const handlersToRemove = [
+  'db-get-item-by-id',
+  'db-get-item-by-sku',
+  'db-create-item',
+  'db-get-all-items',  // ← 导致时序冲突
+  // ... 其他处理器
+];
+
+// 正确做法 - 移除单独管理的处理器
+const handlersToRemove = [
+  'db-get-item-by-id',
+  'db-get-item-by-sku',
+  'db-create-item',
+  // 'db-get-all-items',  // ← 移除，因为此处理器在 main.js 中单独管理
+  // ... 其他处理器
+];
+```
+
+### 📝 经验教训
+- **IPC处理器管理要统一**：避免在多个地方管理同一个处理器
+- **清理列表要与实际管理保持一致**：只清理在当前文件中注册的处理器
+- **时序问题难以调试**：IPC处理器的注册和清理时序很重要，需要仔细设计
+- **错误信息要准确解读**：`No handler registered` 不一定是忘记注册，可能是被意外清理
+
+### 🚨 预防措施
+- 建立处理器管理的清晰分工：核心处理器在main.js，其他处理器在database-handlers.js
+- 在清理列表中添加注释说明哪些处理器在哪里管理
+- 使用一致的处理器命名和管理模式
+- 定期检查处理器的注册和清理逻辑
+
+### 🔍 相关检查
+当遇到类似的IPC处理器缺失错误时：
+1. **确认处理器注册位置**：搜索 `ipcMain.handle('handler-name'`
+2. **检查清理列表**：确认是否被意外清理
+3. **验证时序**：确认注册和清理的调用顺序
+4. **测试修复**：启动应用验证处理器可用性
+
+---
+
 *记录时间: 2025-01-03 → 2025-07-07*  
 *项目: Inventory Management System*  
 *技术栈: React + TypeScript + shadcn/ui + Tailwind CSS + Electron + better-sqlite3*

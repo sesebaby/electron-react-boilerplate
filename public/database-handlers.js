@@ -10,7 +10,7 @@ function setupDatabaseHandlers(ipcMain, db) {
     'db-add-item',
     'db-update-item',
     'db-delete-item',
-    'db-get-all-items',
+    // 'db-get-all-items',      // 移除，因为此处理器在 main.js 中单独管理
     'db-search-items',
     'db-get-categories',
     'db-get-suppliers',
