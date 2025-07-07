@@ -19,8 +19,18 @@ import {
   ExportOptions
 } from '../../types/inventoryMovement';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
-import { MovementSummaryTable } from './components/MovementSummaryTable';
-import { TimeControl } from './components/TimeControl';
+import { MovementSummaryTable, TimeControl, ExportOptions, ColumnDisplayConfig } from './components';
+import {
+  saveColumnDisplayConfig,
+  loadColumnDisplayConfig,
+  getDefaultColumnDisplayConfig,
+  saveMovementConfig,
+  loadMovementConfig,
+  saveMovementFilters,
+  loadMovementFilters,
+  getCurrentMonthRange,
+  validateColumnDisplayConfig
+} from '../../utils/inventoryMovementStorage';
 
 interface InventoryMovementSummaryProps {
   className?: string;
@@ -38,29 +48,38 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
   const [showColumnConfig, setShowColumnConfig] = useState(false);
 
   // 筛选条件
-  const [filters, setFilters] = useState<MovementSummaryFilters>({
-    timeRange: {
-      startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1), // 当月第一天
-      endDate: new Date() // 今天
-    },
-    showZeroMovement: false
+  const [filters, setFilters] = useState<MovementSummaryFilters>(() => {
+    const savedFilters = loadMovementFilters();
+    const currentMonthRange = getCurrentMonthRange();
+
+    return {
+      timeRange: currentMonthRange,
+      showZeroMovement: savedFilters?.showZeroMovement ?? false,
+      productId: savedFilters?.productId,
+      categoryId: savedFilters?.categoryId,
+      warehouseId: savedFilters?.warehouseId,
+      searchKeyword: savedFilters?.searchKeyword
+    };
   });
 
   // 组件配置
-  const [config, setConfig] = useState<MovementSummaryConfig>({
-    displayDimension: MovementDimension.QUANTITY,
-    groupByWarehouse: false,
-    showConvertedQuantity: true,
-    enableColumnToggle: true,
-    autoRefreshInterval: undefined
+  const [config, setConfig] = useState<MovementSummaryConfig>(() => {
+    const savedConfig = loadMovementConfig();
+    return savedConfig || {
+      displayDimension: MovementDimension.QUANTITY,
+      groupByWarehouse: false,
+      showConvertedQuantity: true,
+      enableColumnToggle: true,
+      autoRefreshInterval: undefined
+    };
   });
 
   // 列显示配置
-  const [columnDisplay, setColumnDisplay] = useState<ColumnDisplayConfig>({
-    openingStock: { quantity: true, convertedQuantity: true, amount: true },
-    inboundTotal: { quantity: true, convertedQuantity: true, amount: true },
-    outboundTotal: { quantity: true, convertedQuantity: true, amount: true },
-    closingStock: { quantity: true, convertedQuantity: true, amount: true }
+  const [columnDisplay, setColumnDisplay] = useState<ColumnDisplayConfig>(() => {
+    const savedColumnDisplay = loadColumnDisplayConfig();
+    return savedColumnDisplay && validateColumnDisplayConfig(savedColumnDisplay)
+      ? savedColumnDisplay
+      : getDefaultColumnDisplayConfig();
   });
 
   // 排序配置
@@ -280,10 +299,16 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
 
   // =============== 事件处理 ===============
   const handleFilterChange = (field: keyof MovementSummaryFilters, value: any) => {
-    setFilters(prev => ({
-      ...prev,
+    const newFilters = {
+      ...filters,
       [field]: value
-    }));
+    };
+    setFilters(newFilters);
+
+    // 保存非时间相关的筛选条件
+    if (field !== 'timeRange') {
+      saveMovementFilters(newFilters);
+    }
   };
 
   const handleTimeRangeChange = (timeRange: TimeRangeFilter) => {
@@ -294,10 +319,24 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
   };
 
   const handleConfigChange = (field: keyof MovementSummaryConfig, value: any) => {
-    setConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...config,
       [field]: value
-    }));
+    };
+    setConfig(newConfig);
+    saveMovementConfig(newConfig);
+  };
+
+  const handleColumnDisplayChange = (newColumnDisplay: ColumnDisplayConfig) => {
+    // 验证至少有一列被选中
+    if (!validateColumnDisplayConfig(newColumnDisplay)) {
+      setError('至少需要显示一列数据');
+      return;
+    }
+
+    setColumnDisplay(newColumnDisplay);
+    saveColumnDisplayConfig(newColumnDisplay);
+    setError(null);
   };
 
   const handleSort = (field: string, direction: 'asc' | 'desc') => {
@@ -403,6 +442,23 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
               </button>
             </div>
           </GlassCard>
+        )}
+
+        {/* 导出选项 */}
+        {showExportOptions && (
+          <ExportOptions
+            data={data}
+            onClose={() => setShowExportOptions(false)}
+          />
+        )}
+
+        {/* 列显示配置 */}
+        {showColumnConfig && (
+          <ColumnDisplayConfig
+            columnDisplay={columnDisplay}
+            onChange={handleColumnDisplayChange}
+            onClose={() => setShowColumnConfig(false)}
+          />
         )}
 
         {/* 时间控制 */}

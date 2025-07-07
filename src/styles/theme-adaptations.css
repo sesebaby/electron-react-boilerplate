@@ -264,3 +264,133 @@
 .glass-surface {
   background-clip: padding-box;
 }
+
+/* =============== 出入库汇总表格样式 =============== */
+
+/* 表格固定表头样式 */
+.table-header-fixed {
+  background: var(--popup-header-background, rgba(255, 255, 255, 0.1)) !important;
+  backdrop-filter: blur(35px) !important;
+  border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2)) !important;
+  color: var(--popup-text-primary, rgba(255, 255, 255, 0.95)) !important;
+  text-shadow: var(--popup-text-shadow, 0 2px 8px rgba(0, 0, 0, 0.8)) !important;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* 固定列样式 */
+.table-fixed-column {
+  position: sticky;
+  left: 0;
+  z-index: 15;
+  background: var(--popup-background, rgba(255, 255, 255, 0.1)) !important;
+  backdrop-filter: blur(35px) !important;
+  border-right: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2)) !important;
+}
+
+/* 表格行悬浮效果 */
+.movement-table-row:hover {
+  background: var(--hover-background, rgba(255, 255, 255, 0.05)) !important;
+}
+
+/* 数据单元格样式 */
+.movement-table-cell {
+  color: var(--popup-text-secondary, rgba(255, 255, 255, 0.9)) !important;
+  border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.05)) !important;
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+/* 合计行样式 */
+.movement-table-total {
+  background: var(--active-background, rgba(255, 255, 255, 0.1)) !important;
+  border-top: 2px solid var(--glass-border, rgba(255, 255, 255, 0.3)) !important;
+  font-weight: 600;
+  color: var(--popup-text-primary, rgba(255, 255, 255, 0.95)) !important;
+}
+
+/* 玻璃未来风主题特定样式 */
+[data-theme="glass-future"] .table-header-fixed {
+  background: oklch(0.457 0.24 277.023 / 0.95) !important; /* indigo-700/95% */
+  color: oklch(100% 0.00011 271.152 / 0.945) !important; /* 接近白色 */
+  text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8) !important;
+}
+
+[data-theme="glass-future"] .table-fixed-column {
+  background: oklch(0.511 0.262 276.966 / 0.9) !important; /* indigo-600/90% */
+  border-right: 1px solid oklch(0.87 0.065 274.039 / 0.6) !important;
+}
+
+[data-theme="glass-future"] .movement-table-row:hover {
+  background: oklch(0.87 0.065 274.039 / 0.18) !important; /* indigo-200/18% */
+}
+
+[data-theme="glass-future"] .movement-table-cell {
+  color: oklch(92.369% 0.00263 230.33) !important; /* 浅灰白色 */
+  border-bottom: 1px solid oklch(0.87 0.065 274.039 / 0.1) !important;
+}
+
+[data-theme="glass-future"] .movement-table-total {
+  background: oklch(0.785 0.115 274.713 / 0.22) !important; /* indigo-300/22% */
+  border-top: 2px solid oklch(0.87 0.065 274.039 / 0.6) !important;
+  color: oklch(100% 0.00011 271.152 / 0.945) !important;
+}
+
+/* 深色科技风主题特定样式 */
+[data-theme="dark-tech"] .table-header-fixed {
+  background: oklch(0.372 0.044 257.287 / 0.9) !important; /* slate-700/90% */
+  color: oklch(0.968 0.007 247.896) !important; /* slate-100 */
+  text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8) !important;
+}
+
+[data-theme="dark-tech"] .table-fixed-column {
+  background: oklch(0.279 0.041 260.031 / 0.85) !important; /* slate-800/85% */
+  border-right: 1px solid oklch(0.446 0.043 257.281 / 0.3) !important;
+}
+
+[data-theme="dark-tech"] .movement-table-row:hover {
+  background: oklch(0.372 0.044 257.287 / 0.08) !important; /* slate-700/8% */
+}
+
+[data-theme="dark-tech"] .movement-table-cell {
+  color: oklch(0.929 0.013 255.508) !important; /* slate-200 */
+  border-bottom: 1px solid oklch(0.446 0.043 257.281 / 0.1) !important;
+}
+
+[data-theme="dark-tech"] .movement-table-total {
+  background: oklch(0.446 0.043 257.281 / 0.12) !important; /* slate-600/12% */
+  border-top: 2px solid oklch(0.446 0.043 257.281 / 0.3) !important;
+  color: oklch(0.968 0.007 247.896) !important;
+}
+
+/* 温暖商务风主题特定样式 */
+[data-theme="warm-business"] .table-header-fixed {
+  background: oklch(0.987 0.022 95.277 / 0.95) !important; /* amber-50/95% */
+  color: oklch(0.414 0.112 45.904) !important; /* amber-900 */
+  text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9) !important;
+}
+
+[data-theme="warm-business"] .table-fixed-column {
+  background: oklch(0.987 0.022 95.277 / 0.85) !important; /* amber-50/85% */
+  border-right: 1px solid oklch(0.924 0.12 95.746 / 0.4) !important;
+}
+
+[data-theme="warm-business"] .movement-table-row:hover {
+  background: oklch(0.962 0.059 95.617 / 0.5) !important; /* amber-100/50% */
+}
+
+[data-theme="warm-business"] .movement-table-cell {
+  color: oklch(0.473 0.137 46.201) !important; /* amber-800 */
+  border-bottom: 1px solid oklch(0.924 0.12 95.746 / 0.2) !important;
+}
+
+[data-theme="warm-business"] .movement-table-total {
+  background: oklch(0.924 0.12 95.746 / 0.6) !important; /* amber-200/60% */
+  border-top: 2px solid oklch(0.924 0.12 95.746 / 0.4) !important;
+  color: oklch(0.414 0.112 45.904) !important;
+}

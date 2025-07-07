@@ -2,3 +2,5 @@
 
 export { TimeControl } from './TimeControl';
 export { MovementSummaryTable } from './MovementSummaryTable';
+export { ExportOptions } from './ExportOptions';
+export { ColumnDisplayConfig } from './ColumnDisplayConfig';

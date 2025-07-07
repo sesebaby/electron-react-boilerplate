@@ -23,6 +23,7 @@ import SalesReports from './Reports/SalesReports';
 import PurchaseReports from './Reports/PurchaseReports';
 import FinancialReports from './Reports/FinancialReports';
 import InventoryEntryRegistration from './Reports/InventoryEntryRegistration';
+import InventoryMovementSummary from './Reports/InventoryMovementSummary';
 import Financial from './Financial/Financial';
 import AccountsPayableManagement from './Financial/AccountsPayableManagement';
 import AccountsReceivableManagement from './Financial/AccountsReceivableManagement';
@@ -63,6 +64,7 @@ const pageComponents: Record<string, React.ComponentType> = {
   'sales-delivery': SalesDeliveryManagement,
   'inventory-entry-registration': InventoryEntryRegistration,
   'inventory-reports': InventoryReports,
+  'inventory-movement-summary': InventoryMovementSummary,
   'sales-reports': SalesReports,
   'purchase-reports': PurchaseReports,
   'financial-reports': FinancialReports,

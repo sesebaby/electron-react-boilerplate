@@ -331,9 +331,9 @@
   --hover-background: oklch(0.962 0.059 95.617 / 0.6);
   --active-background: oklch(0.924 0.12 95.746 / 0.7);
 
-  /* TopBar专用背景 - 温暖商务风主题，与弹出窗体保持一致 */
-  --topbar-background: oklch(0.987 0.022 95.277 / 0.85);  /* amber-50/85% */
-  --topbar-shadow: 0 4px 16px oklch(0.279 0.077 45.635 / 0.3);
+  /* TopBar专用背景 - 温暖商务风主题，与主界面背景色保持一致 */
+  --topbar-background: oklch(0.828 0.189 84.429 / 0.95);  /* amber-400/95% - 与主界面保持一致 */
+  --topbar-shadow: 0 4px 16px oklch(0.279 0.077 45.635 / 0.5);
 
   /* 表格锁定专用背景 - 温暖主题版本 */
   --table-fixed-background: oklch(0.987 0.022 95.277 / 0.8);
@@ -369,9 +369,9 @@
   --accent-color: oklch(0.769 0.188 70.08);
   --danger-color: oklch(0.637 0.237 25.331);
 
-  /* 玻璃感效果调整 */
-  --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
-  --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);
+  /* 玻璃感效果调整 - 增强边框和阴影效果 */
+  --glass-border: 1px solid oklch(0.879 0.169 91.605 / 0.5);
+  --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.2);
 
   /* 财务状态颜色 - 温暖商务风主题 */
   --financial-positive: oklch(0.5 0.15 145);   /* 正值/收入 - 深绿色 */
@@ -422,6 +422,19 @@
 [data-theme="warm-business"] .glass-input:hover {
   background: var(--popup-item-hover-bg);
   border-color: oklch(0.879 0.169 91.605 / 0.6);
+}
+
+/* 温暖商务风主题 TopBar 专用样式优化 */
+[data-theme="warm-business"] .topbar-surface {
+  background: var(--topbar-background);
+  box-shadow: var(--topbar-shadow);
+  border-bottom: 1px solid oklch(0.769 0.188 70.08 / 0.8);  /* amber-500/80% 深色边框 */
+}
+
+[data-theme="warm-business"] .topbar-surface * {
+  color: var(--text-primary) !important;
+  text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9);  /* 增强文字阴影 */
+  font-weight: 600;  /* 增强字体权重 */
 }
 
 /* ===== 弹出窗体专用样式类 ===== */

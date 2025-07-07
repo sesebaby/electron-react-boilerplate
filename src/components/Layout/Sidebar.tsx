@@ -29,6 +29,7 @@ const menuItems: MenuItem[] = [
     children: [
       { id: 'inventory-entry-registration', label: '出入库登记', icon: '📋' },
       { id: 'inventory-reports', label: '库存报表', icon: '📊' },
+      { id: 'inventory-movement-summary', label: '出入库汇总', icon: '📋' },
       { id: 'sales-reports', label: '销售报表', icon: '📈' },
       { id: 'purchase-reports', label: '采购报表', icon: '📉' },
       { id: 'financial-reports', label: '财务报表', icon: '💹' }

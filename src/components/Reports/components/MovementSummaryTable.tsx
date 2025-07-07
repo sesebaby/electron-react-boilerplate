@@ -190,25 +190,25 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
    */
   const renderDataRow = (row: InventoryMovementSummaryData, index: number) => {
     return (
-      <tr 
+      <tr
         key={row.id}
-        className="border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer"
+        className="border-b border-white/5 movement-table-row transition-colors cursor-pointer"
         onClick={() => onRowClick?.(row)}
       >
         {/* 固定列 */}
-        <td className="sticky left-0 z-10 px-3 py-3 text-center border-r border-white/10 bg-inherit">
+        <td className="sticky left-0 z-10 px-3 py-3 text-center border-r border-white/10 table-fixed-column">
           {row.sequence}
         </td>
-        <td className="sticky left-[60px] z-10 px-4 py-3 border-r border-white/10 bg-inherit">
+        <td className="sticky left-[60px] z-10 px-4 py-3 border-r border-white/10 table-fixed-column">
           <div>
             <div className="font-medium text-white/90">{row.productName}</div>
             <div className="text-xs text-white/60">{row.productSku}</div>
           </div>
         </td>
-        <td className="sticky left-[260px] z-10 px-3 py-3 text-center border-r border-white/10 bg-inherit">
+        <td className="sticky left-[260px] z-10 px-3 py-3 text-center border-r border-white/10 table-fixed-column">
           <span className="text-sm text-white/80">{row.primaryCategory}</span>
         </td>
-        <td className="sticky left-[360px] z-10 px-3 py-3 text-center border-r-2 border-white/20 bg-inherit">
+        <td className="sticky left-[360px] z-10 px-3 py-3 text-center border-r-2 border-white/20 table-fixed-column">
           <span className="text-sm text-white/80">{row.secondaryCategory}</span>
         </td>
 
@@ -231,7 +231,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
 
     if (columnConfig.quantity) {
       cells.push(
-        <td key={`${columnKey}-quantity`} className="px-3 py-3 text-right border-r border-white/5">
+        <td key={`${columnKey}-quantity`} className="px-3 py-3 text-right border-r border-white/5 movement-table-cell">
           <span className="text-white/90">{formatNumber(stockData.quantity, 0)}</span>
           {row.unit && <span className="text-xs text-white/60 ml-1">{row.unit}</span>}
         </td>
@@ -240,7 +240,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
 
     if (columnConfig.convertedQuantity && config.showConvertedQuantity) {
       cells.push(
-        <td key={`${columnKey}-converted`} className="px-3 py-3 text-right border-r border-white/5">
+        <td key={`${columnKey}-converted`} className="px-3 py-3 text-right border-r border-white/5 movement-table-cell">
           <span className="text-white/90">{formatNumber(stockData.convertedQuantity, 2)}</span>
           {row.convertedUnit && <span className="text-xs text-white/60 ml-1">{row.convertedUnit}</span>}
         </td>
@@ -250,7 +250,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
     if (columnConfig.amount) {
       const amountClass = getAmountColorClass(stockData.amount, columnKey);
       cells.push(
-        <td key={`${columnKey}-amount`} className="px-3 py-3 text-right border-r border-white/5">
+        <td key={`${columnKey}-amount`} className="px-3 py-3 text-right border-r border-white/5 movement-table-cell">
           <span className={amountClass}>{formatAmount(stockData.amount)}</span>
         </td>
       );
@@ -308,16 +308,16 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
     });
 
     return (
-      <tr className="border-t-2 border-white/30 bg-white/5 font-semibold">
+      <tr className="movement-table-total font-semibold">
         {/* 固定列 */}
-        <td className="sticky left-0 z-10 px-3 py-3 text-center border-r border-white/20 bg-inherit">
+        <td className="sticky left-0 z-10 px-3 py-3 text-center border-r border-white/20 table-fixed-column">
           合计
         </td>
-        <td className="sticky left-[60px] z-10 px-4 py-3 border-r border-white/20 bg-inherit">
-          <span className="font-bold text-white">总计 ({data.length} 项)</span>
+        <td className="sticky left-[60px] z-10 px-4 py-3 border-r border-white/20 table-fixed-column">
+          <span className="font-bold financial-title">总计 ({data.length} 项)</span>
         </td>
-        <td className="sticky left-[260px] z-10 px-3 py-3 border-r border-white/20 bg-inherit"></td>
-        <td className="sticky left-[360px] z-10 px-3 py-3 border-r-2 border-white/30 bg-inherit"></td>
+        <td className="sticky left-[260px] z-10 px-3 py-3 border-r border-white/20 table-fixed-column"></td>
+        <td className="sticky left-[360px] z-10 px-3 py-3 border-r-2 border-white/30 table-fixed-column"></td>
 
         {/* 合计数据 */}
         {renderTotalCells(totals, 'openingStock')}
@@ -338,16 +338,16 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
 
     if (columnConfig.quantity) {
       cells.push(
-        <td key={`total-${columnKey}-quantity`} className="px-3 py-3 text-right border-r border-white/10 font-bold">
-          <span className="text-white">{formatNumber(stockData.quantity, 0)}</span>
+        <td key={`total-${columnKey}-quantity`} className="px-3 py-3 text-right border-r border-white/10 font-bold movement-table-cell">
+          <span className="financial-text">{formatNumber(stockData.quantity, 0)}</span>
         </td>
       );
     }
 
     if (columnConfig.convertedQuantity && config.showConvertedQuantity) {
       cells.push(
-        <td key={`total-${columnKey}-converted`} className="px-3 py-3 text-right border-r border-white/10 font-bold">
-          <span className="text-white">{formatNumber(stockData.convertedQuantity, 2)}</span>
+        <td key={`total-${columnKey}-converted`} className="px-3 py-3 text-right border-r border-white/10 font-bold movement-table-cell">
+          <span className="financial-text">{formatNumber(stockData.convertedQuantity, 2)}</span>
         </td>
       );
     }
@@ -355,7 +355,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
     if (columnConfig.amount) {
       const amountClass = getAmountColorClass(stockData.amount, columnKey);
       cells.push(
-        <td key={`total-${columnKey}-amount`} className="px-3 py-3 text-right border-r border-white/10 font-bold">
+        <td key={`total-${columnKey}-amount`} className="px-3 py-3 text-right border-r border-white/10 font-bold movement-table-cell">
           <span className={amountClass}>{formatAmount(stockData.amount)}</span>
         </td>
       );

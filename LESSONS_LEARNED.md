@@ -407,6 +407,260 @@ interface InventoryTableProps {
 
 ---
 
-*记录时间: 2025-01-03 → 2025-07-07*
-*项目: Inventory Management System*
-*技术栈: React + TypeScript + shadcn/ui + Tailwind CSS*
+## ❌ 错误 #10: UI组件硬编码颜色导致主题切换失效
+
+### 🐛 问题描述
+在实现主题切换功能后，发现多个UI组件仍然使用硬编码颜色（如 `text-white`, `bg-red-500`, `border-white/20`），导致：
+1. 主题切换时这些组件颜色不变
+2. 在不同主题下可读性问题
+3. 设计系统不一致
+
+### 💡 根本原因
+1. **遗留硬编码颜色**：在快速开发过程中使用了Tailwind固定颜色类
+2. **缺乏统一的设计系统类**：没有为所有组件变体创建对应的CSS变量类
+3. **主题适配不完整**：只适配了部分核心组件，忽略了细节组件
+
+### ✅ 解决方案
+
+#### 1. 统一使用CSS变量替代硬编码颜色
+```tsx
+// 错误做法 - 硬编码颜色
+<span className="text-white">用户名</span>
+<div className="bg-red-500 text-white">错误信息</div>
+<button className="border-white/30 hover:border-white/50">按钮</button>
+
+// 正确做法 - CSS变量
+<span style={{ color: 'var(--text-primary)' }}>用户名</span>
+<div style={{ backgroundColor: 'var(--error-color)', color: 'var(--text-primary)' }}>错误信息</div>
+<button className="glass-button">按钮</button>
+```
+
+#### 2. 建立完整的设计系统类
+```css
+/* 玻璃感徽章系统 */
+.glass-badge-default { background: var(--card-background); color: var(--text-primary); }
+.glass-badge-success { background: var(--success-color); color: var(--text-primary); }
+.glass-badge-error { background: var(--error-color); color: var(--text-primary); }
+.glass-badge-warning { background: var(--warning-color); color: var(--text-primary); }
+
+/* 吐司通知系统 */
+.toast-success { border: 1px solid var(--success-color); background: var(--card-background); }
+.toast-error { border: 1px solid var(--error-color); background: var(--card-background); }
+
+/* 分页器系统 */
+.glass-pagination-link { background: var(--card-background); border: var(--glass-border); }
+.glass-pagination-active { background: var(--active-background); border: 2px solid var(--accent-color); }
+```
+
+#### 3. 组件级别的主题适配
+```tsx
+// BadgeVariants 重构
+const badgeVariants = cva(
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors backdrop-blur-sm",
+  {
+    variants: {
+      variant: {
+        default: "border-transparent glass-badge-default",
+        destructive: "border-transparent glass-badge-destructive",
+        // ... 其他变体
+      },
+    }
+  }
+)
+```
+
+### 🔧 修复流程
+1. **搜索硬编码颜色**：使用 `rg "text-white|bg-white|border-white"` 搜索所有硬编码
+2. **优先级修复**：Layout组件 → UI基础组件 → 弹出组件 → 业务组件
+3. **建立设计系统类**：为每种组件变体创建对应的CSS类
+4. **逐个组件修复**：手动修复每个组件，确保不遗漏
+5. **验证主题切换**：在三个主题间切换验证效果
+
+### 📝 经验教训
+- **设计系统要在项目初期建立**：后期改造成本很高
+- **CSS变量比硬编码更灵活**：支持运行时主题切换
+- **组件变体要考虑主题适配**：每个variant都要有对应的主题类
+- **手动修复比批量工具更可靠**：避免误改和遗漏
+
+---
+
+## ❌ 错误 #11: TypeScript编译错误 - 组件重复定义和JSX语法错误
+
+### 🐛 问题描述
+在进行UI组件主题修复后，出现严重的编译错误导致应用无法运行：
+1. `select.tsx` - 重复的 `SelectSeparator` 组件定义
+2. `select.tsx` - 错误的JSX结构（SelectPrimitive.Separator包含ItemText）
+3. `InventoryEntryRegistration.tsx` - 缺失的右大括号
+
+### 💡 根本原因
+1. **修改冲突**：在批量修复过程中，代码出现了重复定义
+2. **JSX结构错误**：错误地将 ItemText 放在了 Separator 组件中
+3. **括号不匹配**：map函数的闭合括号丢失
+
+### ✅ 解决方案
+
+#### 1. 修复重复组件定义
+```tsx
+// 错误 - 重复定义 SelectSeparator
+const SelectSeparator = React.forwardRef<...>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Separator>
+    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText> // ← 错误结构
+  </SelectPrimitive.Separator>
+))
+
+const SelectSeparator = React.forwardRef<...>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Separator {...props} />
+))
+
+// 正确 - 只保留一个正确的定义
+const SelectSeparator = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-white/20", className)}
+    {...props}
+  />
+))
+```
+
+#### 2. 修复JSX语法错误
+```tsx
+// 错误 - 缺失闭合括号
+{filteredDates.map(date => {
+  // ...
+  return (
+    <React.Fragment key={date}>
+      {/* 内容 */}
+    </React.Fragment>
+  );
+}) // ← 缺少 }
+</tr>
+
+// 正确 - 添加缺失的括号
+{filteredDates.map(date => {
+  // ...
+  return (
+    <React.Fragment key={date}>
+      {/* 内容 */}
+    </React.Fragment>
+  );
+})} // ← 正确的闭合
+</tr>
+```
+
+### 🔧 错误排查步骤
+1. **关注编译错误信息**：TypeScript错误通常很精确地指向问题位置
+2. **逐个修复**：不要一次性修改多个文件，避免错误累积
+3. **验证修复效果**：每修复一个错误就编译测试
+4. **检查相关代码**：修复一个错误后检查周围代码的完整性
+
+### 📝 经验教训
+- **批量修改需要极其小心**：特别是涉及组件定义的修改
+- **JSX语法检查很重要**：使用ESLint和语法高亮预防错误
+- **编译错误要优先修复**：语法错误会阻止应用运行
+- **代码审查必不可少**：复杂修改后要仔细检查语法完整性
+
+### 🚨 预防措施
+- 使用TypeScript严格模式捕获类型错误
+- 配置ESLint检查JSX语法错误
+- 大规模修改时使用小步提交，便于回滚
+- 定期运行编译检查，早发现早修复
+
+---
+
+## ❌ 错误 #12: Electron IPC处理器重复注册导致系统初始化失败
+
+### 🐛 问题描述
+项目启动时出现错误：`Error: Attempted to register a second handler for 'db-create-item'`，导致系统无法正常初始化。
+
+### 💡 根本原因
+1. **清理列表不完整**：`database-handlers.js` 中的处理器清理列表缺少 `db-create-item` 等关键处理器
+2. **重复处理器定义**：`db-get-all-items` 在 `main.js` 和 `database-handlers.js` 中都被注册
+3. **热重载影响**：开发环境中热重载可能导致IPC处理器重复注册
+4. **初始化时序问题**：`setupDatabaseHandlers` 可能被多次调用
+
+### ✅ 解决方案
+
+#### 1. 完善处理器清理列表
+```javascript
+// 错误做法 - 清理列表不完整
+const handlersToRemove = [
+  'db-get-item-by-id',
+  'db-get-item-by-sku',
+  // 缺少 'db-create-item'
+];
+
+// 正确做法 - 包含所有处理器
+const handlersToRemove = [
+  'db-get-item-by-id',
+  'db-get-item-by-sku', 
+  'db-create-item',           // 添加缺失的处理器
+  'db-add-item',
+  'db-update-item',
+  'db-delete-item',
+  'db-get-all-items',
+  'db-search-items',
+  'db-get-categories',
+  'db-get-suppliers',
+  'db-get-all-categories',   // 添加缺失的处理器
+  'db-get-all-suppliers',    // 添加缺失的处理器
+  'db-get-all-transactions', // 添加缺失的处理器
+  'db-get-low-stock-items',
+  'db-get-items-by-category',
+  // ... 其他处理器
+];
+```
+
+#### 2. 移除重复的处理器定义
+```javascript
+// 错误做法 - 在两个文件中都定义了相同的处理器
+// main.js 中：
+ipcMain.handle('db-get-all-items', async () => { ... });
+
+// database-handlers.js 中：
+ipcMain.handle('db-get-all-items', async (event) => { ... }); // 重复
+
+// 正确做法 - 只在一个地方定义
+// 保留 main.js 中的定义，移除 database-handlers.js 中的重复定义
+```
+
+#### 3. 使用搜索工具确保完整性
+```bash
+# 搜索所有IPC处理器注册
+rg "ipcMain\.handle\('db-" --type js
+
+# 确保清理列表包含所有找到的处理器
+```
+
+### 🔧 修复步骤
+1. **搜索所有处理器**：使用 `rg "ipcMain\.handle\('db-"` 找出所有注册的处理器
+2. **更新清理列表**：在 `database-handlers.js` 中添加缺失的处理器名称
+3. **移除重复定义**：检查并移除在多个文件中重复定义的处理器
+4. **测试启动**：验证系统能够正常初始化，无重复注册错误
+
+### 📝 经验教训
+- **IPC处理器清理要全面**：每次添加新处理器时，必须同时更新清理列表
+- **避免重复定义**：确保每个IPC处理器只在一个地方注册
+- **开发环境特殊性**：热重载可能导致初始化逻辑多次执行，需要防护措施
+- **系统性检查**：使用工具搜索所有处理器，避免手动遗漏
+
+### 🚨 预防措施
+- 建立处理器注册的标准模式，所有数据库处理器在一个文件中管理
+- 添加自动化检查，确保清理列表与实际注册的处理器一致
+- 在开发环境中添加处理器注册状态的日志输出
+- 定期审查IPC处理器的注册和清理逻辑
+
+### 🔍 相关错误排查
+当遇到类似的IPC重复注册错误时：
+1. **查看错误信息**：确定具体哪个处理器被重复注册
+2. **搜索处理器定义**：找出所有注册该处理器的位置  
+3. **检查清理逻辑**：确认清理列表是否包含该处理器
+4. **验证修复**：测试系统初始化流程
+
+---
+
+*记录时间: 2025-01-03 → 2025-07-07*  
+*项目: Inventory Management System*  
+*技术栈: React + TypeScript + shadcn/ui + Tailwind CSS + Electron + better-sqlite3*

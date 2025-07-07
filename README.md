@@ -323,6 +323,48 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 3. 使用玻璃感设计系统保持视觉一致性
 4. 添加响应式断点适配移动设备
 
+### TopBar组件设计模式
+项目采用固定顶栏设计，关键实现要点：
+
+#### ✅ 正确的布局结构
+```tsx
+// Layout/TopBar.tsx - 推荐架构
+<header className="topbar-surface"> {/* 使用专用类 */}
+  <div className="flex items-center justify-between h-16 px-4">
+    {/* 左侧：品牌/标题 */}
+    <div className="flex items-center gap-3">
+      <h1 style={{ color: 'var(--text-primary)' }}>系统标题</h1>
+    </div>
+    
+    {/* 右侧：操作按钮 */}
+    <div className="flex items-center gap-2">
+      <ThemeSwitcher />
+      <UserMenu />
+    </div>
+  </div>
+</header>
+```
+
+#### 🎨 主题适配设计
+```css
+/* TopBar专用CSS类 - 支持三种主题 */
+.topbar-surface {
+  background: var(--topbar-background);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--topbar-shadow);
+  color: var(--text-primary);
+  text-shadow: var(--popup-text-shadow);
+}
+```
+
+#### 📋 TopBar设计原则
+- **固定定位**：使用 `sticky top-0` 或 `fixed top-0` 保持顶部可见
+- **层级管理**：z-index 要高于其他组件，建议 `z-50`
+- **主题变量**：所有颜色使用CSS变量，避免硬编码
+- **响应式高度**：固定高度 `h-16` (64px) 确保布局稳定
+- **内容区域适配**：确保主内容区域 `padding-top` 与TopBar高度匹配
+
 ### 修改 Mock 数据
 编辑 `src/data/mockData.ts` 文件来修改测试数据：
 
