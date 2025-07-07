@@ -12,10 +12,13 @@
     "dev:electron": "webpack serve --mode development",
     "lint": "eslint src --ext .ts,.tsx",
     "test": "jest",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "cleanup-data": "ts-node scripts/cleanup-data.ts",
     "test-data-flow": "ts-node scripts/test-data-flow.ts"
   },
   "devDependencies": {
+    "@playwright/test": "^1.53.2",
     "@tailwindcss/typography": "^0.5.16",
     "@types/sqlite3": "^3.1.11",
     "@typescript-eslint/eslint-plugin": "^8.35.1",
@@ -62,6 +65,7 @@
     "lucide-react": "^0.525.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sqlite3": "^5.1.7",
     "tailwind-merge": "^3.3.1",
     "uuid": "^11.1.0",
     "xlsx": "^0.18.5",

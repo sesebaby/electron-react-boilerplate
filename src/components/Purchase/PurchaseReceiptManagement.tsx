@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { purchaseReceiptService, purchaseOrderService, warehouseService, productService } from '../../services/business';
 import { PurchaseReceipt, PurchaseReceiptItem, ReceiptStatus, PurchaseOrder, Warehouse, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface PurchaseReceiptManagementProps {
   className?: string;
@@ -50,6 +51,10 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
   const [selectedWarehouse, setSelectedWarehouse] = useState('');
   const [stats, setStats] = useState<any>(null);
   const [availableOrderItems, setAvailableOrderItems] = useState<any[]>([]);
+
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -218,16 +223,29 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     setShowForm(true);
   };
 
-  const handleDelete = async (receiptId: string) => {
-    if (!confirm('确定要删除这个采购收货单吗？删除后无法恢复！')) return;
-    
+  const handleDelete = (receiptId: string) => {
+    setDeleteTargetId(receiptId);
+    setShowConfirmDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+
     try {
-      await purchaseReceiptService.delete(receiptId);
+      await purchaseReceiptService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除采购收货单失败');
       console.error('Failed to delete purchase receipt:', err);
+    } finally {
+      setShowConfirmDialog(false);
+      setDeleteTargetId(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDialog(false);
+    setDeleteTargetId(null);
   };
 
   const handleStatusUpdate = async (receiptId: string, newStatus: ReceiptStatus) => {
@@ -767,6 +785,18 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
           </div>
         </div>
       )}
+
+      {/* 删除确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="删除采购收货单"
+        message="确定要删除这个采购收货单吗？删除后无法恢复！"
+        confirmText="删除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { logger } from '../../utils/secureLogger';
 import { UserRole } from '../../types/entities';
 import PermissionGate from './PermissionGate';
 import { GlassCard, GlassButton, GlassSelect } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface LogEntry {
   level: 'debug' | 'info' | 'warn' | 'error';

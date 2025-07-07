@@ -14,10 +14,9 @@ interface TopBarProps {
 
 // 页面标题映射
 const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
-  'dashboard': { title: '仪表板', breadcrumb: ['仪表板'] },
+  'dashboard': { title: '仪表盘', breadcrumb: ['仪表盘'] },
 
   // 库存管理
-  'inventory-overview': { title: '库存概览', breadcrumb: ['库存管理', '库存概览'] },
   'inventory-card-view': { title: '库存卡片视图', breadcrumb: ['库存管理', '库存卡片视图'] },
   'daily-consumption': { title: '逐日消耗视图', breadcrumb: ['库存管理', '逐日消耗视图'] },
   'products': { title: '商品管理', breadcrumb: ['库存管理', '商品管理'] },
@@ -233,9 +232,6 @@ export const TopBar: React.FC<TopBarProps> = ({
     const exportActions: Record<string, () => void> = {
       'products': () => {
         window.dispatchEvent(new CustomEvent('export-products'));
-      },
-      'inventory-overview': () => {
-        window.dispatchEvent(new CustomEvent('export-inventory'));
       },
       'purchase-orders': () => {
         window.dispatchEvent(new CustomEvent('export-purchase-orders'));

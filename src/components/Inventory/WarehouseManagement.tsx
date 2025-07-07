@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { warehouseService } from '../../services/business';
 import { Warehouse } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface WarehouseManagementProps {
   className?: string;
@@ -35,6 +36,12 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [stats, setStats] = useState<any>(null);
+
+  // 确认对话框状态
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showDefaultDialog, setShowDefaultDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [defaultTargetId, setDefaultTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -93,34 +100,60 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     setShowForm(true);
   };
 
-  const handleDelete = async (warehouseId: string) => {
+  const handleDelete = (warehouseId: string) => {
     const warehouse = warehouses.find(w => w.id === warehouseId);
     if (warehouse?.isDefault) {
       setError('默认仓库不能删除');
       return;
     }
-    
-    if (!confirm('确定要删除这个仓库吗？删除后无法恢复！')) return;
-    
+
+    setDeleteTargetId(warehouseId);
+    setShowDeleteDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+
     try {
-      await warehouseService.delete(warehouseId);
+      await warehouseService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除仓库失败');
       console.error('Failed to delete warehouse:', err);
+    } finally {
+      setShowDeleteDialog(false);
+      setDeleteTargetId(null);
     }
   };
 
-  const handleSetDefault = async (warehouseId: string) => {
-    if (!confirm('确定要设置为默认仓库吗？')) return;
-    
+  const cancelDelete = () => {
+    setShowDeleteDialog(false);
+    setDeleteTargetId(null);
+  };
+
+  const handleSetDefault = (warehouseId: string) => {
+    setDefaultTargetId(warehouseId);
+    setShowDefaultDialog(true);
+  };
+
+  const confirmSetDefault = async () => {
+    if (!defaultTargetId) return;
+
     try {
-      await warehouseService.setDefault(warehouseId);
+      await warehouseService.setDefault(defaultTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '设置默认仓库失败');
       console.error('Failed to set default warehouse:', err);
+    } finally {
+      setShowDefaultDialog(false);
+      setDefaultTargetId(null);
     }
+  };
+
+  const cancelSetDefault = () => {
+    setShowDefaultDialog(false);
+    setDefaultTargetId(null);
   };
 
   const handleCancel = () => {
@@ -495,6 +528,30 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
           </div>
         </div>
       )}
+
+      {/* 删除确认对话框 */}
+      <ConfirmDialog
+        isOpen={showDeleteDialog}
+        title="删除仓库"
+        message="确定要删除这个仓库吗？删除后无法恢复！"
+        confirmText="删除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
+
+      {/* 设置默认仓库确认对话框 */}
+      <ConfirmDialog
+        isOpen={showDefaultDialog}
+        title="设置默认仓库"
+        message="确定要设置为默认仓库吗？"
+        confirmText="确定"
+        cancelText="取消"
+        variant="warning"
+        onConfirm={confirmSetDefault}
+        onCancel={cancelSetDefault}
+      />
     </div>
   );
 };

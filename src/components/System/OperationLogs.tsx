@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GlassCard, GlassInput, GlassButton, GlassSelect } from '../ui/FormControls';
+import AlertDialog from '../ui/AlertDialog';
 
 interface OperationLogsProps {
   className?: string;
@@ -69,6 +70,20 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
 
+  // 弹出框状态
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertTitle, setAlertTitle] = useState('');
+  const [alertVariant, setAlertVariant] = useState<'success' | 'error' | 'warning' | 'info'>('info');
+
+  // 弹出框辅助函数
+  const showAlert = (title: string, message: string, variant: 'success' | 'error' | 'warning' | 'info' = 'info') => {
+    setAlertTitle(title);
+    setAlertMessage(message);
+    setAlertVariant(variant);
+    setShowAlertDialog(true);
+  };
+
   // 计算分页
   const totalPages = Math.ceil(filteredLogs.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
@@ -130,10 +145,10 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
     try {
       localStorage.setItem('operationLogs.settings', JSON.stringify(logSettings));
       setHasChanges(false);
-      alert('日志设置保存成功！');
+      showAlert('保存成功', '日志设置保存成功！', 'success');
     } catch (error) {
       console.error('保存日志设置失败:', error);
-      alert('保存日志设置失败，请重试');
+      showAlert('保存失败', '保存日志设置失败，请重试', 'error');
     } finally {
       setLoading(false);
     }
@@ -334,6 +349,15 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
           </div>
         </GlassCard>
       )}
+
+      {/* 警告对话框 */}
+      <AlertDialog
+        isOpen={showAlertDialog}
+        title={alertTitle}
+        message={alertMessage}
+        variant={alertVariant}
+        onConfirm={() => setShowAlertDialog(false)}
+      />
     </div>
   );
 };

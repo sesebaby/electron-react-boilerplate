@@ -19,15 +19,26 @@ interface SidebarProps {
 const menuItems: MenuItem[] = [
   {
     id: 'dashboard',
-    label: '仪表板',
+    label: '仪表盘',
     icon: '📊'
+  },
+  {
+    id: 'reports',
+    label: '报表分析',
+    icon: '📈',
+    children: [
+      { id: 'inventory-entry-registration', label: '出入库登记', icon: '📋' },
+      { id: 'inventory-reports', label: '库存报表', icon: '📊' },
+      { id: 'sales-reports', label: '销售报表', icon: '📈' },
+      { id: 'purchase-reports', label: '采购报表', icon: '📉' },
+      { id: 'financial-reports', label: '财务报表', icon: '💹' }
+    ]
   },
   {
     id: 'inventory',
     label: '库存管理',
     icon: '📦',
     children: [
-      { id: 'inventory-overview', label: '库存概览', icon: '📋' },
       { id: 'inventory-card-view', label: '卡片视图', icon: '🗂️' },
       { id: 'calendar-overview', label: '日历视图', icon: '📅' },
       { id: 'daily-consumption', label: '逐日消耗', icon: '📈' },
@@ -69,17 +80,6 @@ const menuItems: MenuItem[] = [
       { id: 'accounts-receivable', label: '应收账款', icon: '💰' },
       { id: 'payments', label: '付款记录', icon: '🧾' },
       { id: 'receipts', label: '收款记录', icon: '🧾' }
-    ]
-  },
-  {
-    id: 'reports',
-    label: '报表分析',
-    icon: '📈',
-    children: [
-      { id: 'inventory-reports', label: '库存报表', icon: '📊' },
-      { id: 'sales-reports', label: '销售报表', icon: '📈' },
-      { id: 'purchase-reports', label: '采购报表', icon: '📉' },
-      { id: 'financial-reports', label: '财务报表', icon: '💹' }
     ]
   },
   {

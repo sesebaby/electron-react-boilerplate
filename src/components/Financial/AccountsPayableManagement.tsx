@@ -3,6 +3,7 @@ import accountsPayableService from '../../services/business/accountsPayableServi
 import { supplierService } from '../../services/business';
 import { AccountsPayable, Payment, PayableStatus, PaymentMethod, Supplier } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface AccountsPayableManagementProps {
   className?: string;
@@ -66,6 +67,10 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
   const [stats, setStats] = useState<any>(null);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [showPaymentHistory, setShowPaymentHistory] = useState(false);
+
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -160,16 +165,29 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     setShowPayableForm(true);
   };
 
-  const handleDeletePayable = async (payableId: string) => {
-    if (!confirm('确定要删除这个应付账款吗？删除后无法恢复！')) return;
-    
+  const handleDeletePayable = (payableId: string) => {
+    setDeleteTargetId(payableId);
+    setShowConfirmDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+
     try {
-      await accountsPayableService.delete(payableId);
+      await accountsPayableService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除应付账款失败');
       console.error('Failed to delete accounts payable:', err);
+    } finally {
+      setShowConfirmDialog(false);
+      setDeleteTargetId(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDialog(false);
+    setDeleteTargetId(null);
   };
 
   const handleAddPayment = async (payable: AccountsPayable) => {
@@ -914,6 +932,18 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
           </div>
         )}
       </div>
+
+      {/* 删除确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="删除应付账款"
+        message="确定要删除这个应付账款吗？删除后无法恢复！"
+        confirmText="删除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };

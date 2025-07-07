@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { userService } from '../../services/business';
 import { User, UserRole, UserStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface UserManagementProps {
   className?: string;
@@ -70,6 +71,10 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
   });
 
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -216,18 +221,29 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const handleDelete = async (user: User) => {
-    if (!window.confirm(`确定要删除用户 "${user.nickname}" 吗？此操作不可恢复。`)) {
-      return;
-    }
+  const handleDelete = (user: User) => {
+    setDeleteTargetId(user.id);
+    setShowConfirmDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
 
     try {
       setError(null);
-      await userService.delete(user.id);
+      await userService.delete(deleteTargetId);
       loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除失败');
+    } finally {
+      setShowConfirmDialog(false);
+      setDeleteTargetId(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDialog(false);
+    setDeleteTargetId(null);
   };
 
   const handleStatusChange = async (user: User, newStatus: UserStatus) => {
@@ -774,6 +790,18 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
           </div>
         </div>
       )}
+
+      {/* 删除确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="删除用户"
+        message="确定要删除这个用户吗？此操作不可恢复！"
+        confirmText="删除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };

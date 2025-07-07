@@ -71,7 +71,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ className 
         <div className="flex items-center justify-center min-h-96">
           <div className="flex flex-col items-center gap-4">
             <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-            <p className="text-white/80">加载仪表板数据中...</p>
+            <p className="text-white/80">加载仪表盘数据中...</p>
           </div>
         </div>
       </div>

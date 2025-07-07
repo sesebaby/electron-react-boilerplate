@@ -29,7 +29,7 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
       setInitialized(true);
     } catch (error) {
       console.error('Failed to initialize dashboard:', error);
-      setError(error instanceof Error ? error.message : '仪表板初始化失败');
+      setError(error instanceof Error ? error.message : '仪表盘初始化失败');
     } finally {
       setLoading(false);
     }
@@ -65,7 +65,7 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
           <div className="flex flex-col items-center gap-6">
             <div className="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-white mb-2">正在初始化仪表板...</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">正在初始化仪表盘...</h2>
               <p className="text-white/70">正在加载系统数据和服务</p>
             </div>
           </div>
@@ -79,7 +79,7 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
       <div className={`${className || ''}`}>
         <GlassCard className="text-center">
           <div className="text-red-400 text-6xl mb-4">❌</div>
-          <h2 className="text-2xl font-bold text-white mb-2">仪表板加载失败</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">仪表盘加载失败</h2>
           <p className="text-red-400 mb-6">{error}</p>
           <GlassButton onClick={initializeDashboard} variant="primary">
             重试

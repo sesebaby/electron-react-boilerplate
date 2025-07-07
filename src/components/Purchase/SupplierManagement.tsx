@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supplierService } from '../../services/business';
 import { Supplier, SupplierStatus, SupplierRating } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface SupplierManagementProps {
   className?: string;
@@ -44,6 +45,10 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
   const [selectedStatus, setSelectedStatus] = useState<SupplierStatus | ''>('');
   const [selectedRating, setSelectedRating] = useState<SupplierRating | ''>('');
   const [stats, setStats] = useState<any>(null);
+
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -110,16 +115,29 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     setShowForm(true);
   };
 
-  const handleDelete = async (supplierId: string) => {
-    if (!confirm('确定要删除这个供应商吗？删除后无法恢复！')) return;
-    
+  const handleDelete = (supplierId: string) => {
+    setDeleteTargetId(supplierId);
+    setShowConfirmDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+
     try {
-      await supplierService.delete(supplierId);
+      await supplierService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除供应商失败');
       console.error('Failed to delete supplier:', err);
+    } finally {
+      setShowConfirmDialog(false);
+      setDeleteTargetId(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDialog(false);
+    setDeleteTargetId(null);
   };
 
   const handleCancel = () => {
@@ -555,6 +573,18 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
           </div>
         </div>
       )}
+
+      {/* 删除确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="删除供应商"
+        message="确定要删除这个供应商吗？删除后无法恢复！"
+        confirmText="删除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };

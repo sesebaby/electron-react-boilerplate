@@ -1,6 +1,5 @@
 // 库存管理模块导出
 
-export { default as InventoryOverview } from './InventoryOverview';
 export { default as InventoryList } from './InventoryList';
 export { default as ProductManagement } from './ProductManagement';
 export { default as CategoryManagement } from './CategoryManagement';
@@ -16,5 +15,5 @@ export { default as MonthlyBalanceGenerator } from './MonthlyBalanceGenerator';
 export { default as MonthlyBalanceList } from './MonthlyBalanceList';
 export { default as MonthlyBalanceStatisticsView } from './MonthlyBalanceStatisticsView';
 
-// 默认导出概览组件
-export { default } from './InventoryOverview';
+// 默认导出列表组件
+export { default } from './InventoryList';

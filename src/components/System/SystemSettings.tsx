@@ -4,6 +4,8 @@ import { unitService, globalConversionService } from '../../services/business';
 import { Unit, GlobalConversionRule, UnitType } from '../../types/entities';
 import UnitManagementTab from './UnitManagementTab';
 import ConversionRulesTab from './ConversionRulesTab';
+import ConfirmDialog from '../ui/ConfirmDialog';
+import AlertDialog from '../ui/AlertDialog';
 
 interface SystemSettingsProps {
   className?: string;
@@ -67,6 +69,7 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     name: '',
     symbol: '',
     type: UnitType.QUANTITY,
+    precision: 0,
     description: '',
     isActive: true
   });
@@ -84,6 +87,27 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     description: '',
     isActive: true
   });
+
+  // 弹出框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertTitle, setAlertTitle] = useState('');
+  const [alertVariant, setAlertVariant] = useState<'success' | 'error' | 'warning' | 'info'>('info');
+
+  // 弹出框辅助函数
+  const showAlert = (title: string, message: string, variant: 'success' | 'error' | 'warning' | 'info' = 'info') => {
+    setAlertTitle(title);
+    setAlertMessage(message);
+    setAlertVariant(variant);
+    setShowAlertDialog(true);
+  };
+
+  const showConfirm = (message: string, onConfirm: () => void) => {
+    setConfirmAction(() => onConfirm);
+    setShowConfirmDialog(true);
+  };
 
   useEffect(() => {
     loadSettings();
@@ -115,20 +139,20 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
       localStorage.setItem('systemSettings.business', JSON.stringify(businessSettings));
 
       setHasChanges(false);
-      alert('设置保存成功！');
+      showAlert('保存成功', '设置保存成功！', 'success');
     } catch (error) {
       console.error('保存设置失败:', error);
-      alert('保存设置失败，请重试');
+      showAlert('保存失败', '保存设置失败，请重试', 'error');
     } finally {
       setLoading(false);
     }
   };
 
   const resetSettings = () => {
-    if (confirm('确定要重置所有设置到默认值吗？此操作不可撤销。')) {
+    showConfirm('确定要重置所有设置到默认值吗？此操作不可撤销。', () => {
       loadSettings();
       setHasChanges(false);
-    }
+    });
   };
 
   const handleBasicChange = (field: keyof BasicSettings, value: string) => {
@@ -155,7 +179,7 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
   const handleUnitSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!unitForm.name.trim() || !unitForm.symbol.trim()) {
-      alert('单位名称和符号不能为空');
+      showAlert('输入错误', '单位名称和符号不能为空', 'warning');
       return;
     }
 
@@ -172,11 +196,12 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
         name: '',
         symbol: '',
         type: UnitType.QUANTITY,
+        precision: 0,
         description: '',
         isActive: true
       });
     } catch (error) {
-      alert(error instanceof Error ? error.message : '保存单位失败');
+      showAlert('保存失败', error instanceof Error ? error.message : '保存单位失败', 'error');
     }
   };
 
@@ -186,21 +211,22 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
       name: unit.name,
       symbol: unit.symbol,
       type: unit.type,
+      precision: unit.precision,
       description: unit.description || '',
       isActive: unit.isActive
     });
     setShowUnitForm(true);
   };
 
-  const handleDeleteUnit = async (unitId: string) => {
-    if (confirm('确定要删除这个单位吗？')) {
+  const handleDeleteUnit = (unitId: string) => {
+    showConfirm('确定要删除这个单位吗？', async () => {
       try {
         await unitService.delete(unitId);
         await loadUnits();
       } catch (error) {
-        alert(error instanceof Error ? error.message : '删除单位失败');
+        showAlert('删除失败', error instanceof Error ? error.message : '删除单位失败', 'error');
       }
-    }
+    });
   };
 
   // =============== 换算规则管理 ===============
@@ -217,11 +243,11 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
   const handleConversionSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!conversionForm.name.trim() || !conversionForm.fromUnitId || !conversionForm.toUnitId) {
-      alert('规则名称和单位不能为空');
+      showAlert('输入错误', '规则名称和单位不能为空', 'warning');
       return;
     }
     if (conversionForm.conversionRate <= 0) {
-      alert('换算比率必须大于0');
+      showAlert('输入错误', '换算比率必须大于0', 'warning');
       return;
     }
 
@@ -251,7 +277,7 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
         isActive: true
       });
     } catch (error) {
-      alert(error instanceof Error ? error.message : '保存换算规则失败');
+      showAlert('保存失败', error instanceof Error ? error.message : '保存换算规则失败', 'error');
     }
   };
 
@@ -269,15 +295,15 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     setShowConversionForm(true);
   };
 
-  const handleDeleteConversion = async (ruleId: string) => {
-    if (confirm('确定要删除这个换算规则吗？')) {
+  const handleDeleteConversion = (ruleId: string) => {
+    showConfirm('确定要删除这个换算规则吗？', async () => {
       try {
         await globalConversionService.delete(ruleId);
         await loadConversionRules();
       } catch (error) {
-        alert(error instanceof Error ? error.message : '删除换算规则失败');
+        showAlert('删除失败', error instanceof Error ? error.message : '删除换算规则失败', 'error');
       }
-    }
+    });
   };
 
   return (
@@ -618,6 +644,30 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
           </div>
         </GlassCard>
       )}
+
+      {/* 确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="确认操作"
+        message="确定要执行此操作吗？"
+        confirmText="确定"
+        cancelText="取消"
+        variant="warning"
+        onConfirm={() => {
+          confirmAction();
+          setShowConfirmDialog(false);
+        }}
+        onCancel={() => setShowConfirmDialog(false)}
+      />
+
+      {/* 警告对话框 */}
+      <AlertDialog
+        isOpen={showAlertDialog}
+        title={alertTitle}
+        message={alertMessage}
+        variant={alertVariant}
+        onConfirm={() => setShowAlertDialog(false)}
+      />
     </div>
   );
 };

@@ -13,6 +13,7 @@ export interface Unit extends BaseEntity {
   name: string;             // 单位名称（如：千克、个、箱）
   symbol: string;           // 单位符号（如：kg、pcs、box）
   type: UnitType;           // 单位类型
+  precision: number;        // 精度（小数位数）
   description?: string;     // 单位描述
   isActive: boolean;        // 是否启用
 }

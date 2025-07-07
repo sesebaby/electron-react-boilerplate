@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { productService, categoryService, unitService } from '../../services/business';
 import { Product, Category, Unit, ProductStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface ProductManagementProps {
   className?: string;
@@ -51,6 +52,10 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<ProductStatus | ''>('');
+
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -118,16 +123,29 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     setShowForm(true);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('确定要删除这个商品吗？')) return;
-    
+  const handleDelete = (id: string) => {
+    setDeleteTargetId(id);
+    setShowConfirmDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+
     try {
-      await productService.delete(id);
+      await productService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError('删除商品失败');
       console.error('Failed to delete product:', err);
+    } finally {
+      setShowConfirmDialog(false);
+      setDeleteTargetId(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDialog(false);
+    setDeleteTargetId(null);
   };
 
   const handleCancel = () => {
@@ -489,6 +507,18 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
           </div>
         </div>
       )}
+
+      {/* 删除确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="删除商品"
+        message="确定要删除这个商品吗？删除后无法恢复！"
+        confirmText="删除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };

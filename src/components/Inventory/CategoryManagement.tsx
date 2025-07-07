@@ -3,6 +3,7 @@ import { categoryService } from '../../services/business';
 import { Category } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { notificationHelper } from '../../utils/notificationHelper';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface CategoryManagementProps {
   className?: string;
@@ -34,6 +35,10 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedParent, setSelectedParent] = useState('');
   const [stats, setStats] = useState<any>(null);
+
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -99,17 +104,31 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     setShowForm(true);
   };
 
-  const handleDelete = async (categoryId: string) => {
-    if (!confirm('确定要删除这个分类吗？删除后无法恢复！')) return;
-    
+  const handleDelete = (categoryId: string) => {
+    setDeleteTargetId(categoryId);
+    setShowConfirmDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+
     try {
-      await categoryService.delete(categoryId);
+      await categoryService.delete(deleteTargetId);
       await loadData();
+      notificationHelper.showSuccess('删除成功', '分类已成功删除');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '删除分类失败';
       notificationHelper.showError('分类删除失败', errorMessage);
       console.error('Failed to delete category:', err);
+    } finally {
+      setShowConfirmDialog(false);
+      setDeleteTargetId(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDialog(false);
+    setDeleteTargetId(null);
   };
 
   const handleCancel = () => {
@@ -468,6 +487,18 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
           </div>
         </div>
       )}
+
+      {/* 删除确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="删除分类"
+        message="确定要删除这个分类吗？删除后无法恢复！"
+        confirmText="删除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };

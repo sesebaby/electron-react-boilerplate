@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dashboard } from './Dashboard/Dashboard';
-import { InventoryOverview } from './Inventory/InventoryOverview';
 import { InventoryList } from './Inventory/InventoryList';
 import { ProductManagement } from './Inventory/ProductManagement';
 import { CategoryManagement } from './Inventory/CategoryManagement';
@@ -23,6 +22,7 @@ import InventoryReports from './Reports/InventoryReports';
 import SalesReports from './Reports/SalesReports';
 import PurchaseReports from './Reports/PurchaseReports';
 import FinancialReports from './Reports/FinancialReports';
+import InventoryEntryRegistration from './Reports/InventoryEntryRegistration';
 import Financial from './Financial/Financial';
 import AccountsPayableManagement from './Financial/AccountsPayableManagement';
 import AccountsReceivableManagement from './Financial/AccountsReceivableManagement';
@@ -43,8 +43,7 @@ interface PageContainerProps {
 // 页面映射
 const pageComponents: Record<string, React.ComponentType> = {
   'dashboard': Dashboard,
-  'inventory': InventoryOverview,
-  'inventory-overview': InventoryOverview,
+  'inventory': InventoryList,
   'inventory-products': InventoryList,
   'inventory-card-view': InventoryCardView,
   'calendar-overview': CalendarOverviewPage,
@@ -63,6 +62,7 @@ const pageComponents: Record<string, React.ComponentType> = {
   'customers': CustomerManagement,
   'sales-orders': SalesOrderManagement,
   'sales-delivery': SalesDeliveryManagement,
+  'inventory-entry-registration': InventoryEntryRegistration,
   'inventory-reports': InventoryReports,
   'sales-reports': SalesReports,
   'purchase-reports': PurchaseReports,
@@ -94,7 +94,7 @@ const DevelopmentPage: React.FC<{ title: string; description: string }> = ({ tit
         className="back-to-dashboard"
         onClick={() => window.location.hash = 'dashboard'}
       >
-        返回仪表板
+        返回仪表盘
       </button>
     </div>
   </div>
@@ -147,7 +147,7 @@ export const PageContainer: React.FC<PageContainerProps> = ({ currentPage }) => 
             className="back-to-dashboard"
             onClick={() => window.location.hash = 'dashboard'}
           >
-            返回仪表板
+            返回仪表盘
           </button>
         </div>
       </div>

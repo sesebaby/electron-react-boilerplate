@@ -12,6 +12,7 @@ interface UnitManagementTabProps {
     name: string;
     symbol: string;
     type: UnitType;
+    precision: number;
     description: string;
     isActive: boolean;
   };
@@ -186,6 +187,25 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
                       {option.label}
                     </option>
                   ))}
+                </GlassSelect>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-2">
+                  小数点精度 *
+                </label>
+                <GlassSelect
+                  value={unitForm.precision}
+                  onChange={(e) => setUnitForm((prev: typeof unitForm) => ({ ...prev, precision: parseInt(e.target.value) }))}
+                  required
+                >
+                  <option value={0}>0位小数</option>
+                  <option value={1}>1位小数</option>
+                  <option value={2}>2位小数</option>
+                  <option value={3}>3位小数</option>
+                  <option value={4}>4位小数</option>
+                  <option value={5}>5位小数</option>
+                  <option value={6}>6位小数</option>
                 </GlassSelect>
               </div>
 

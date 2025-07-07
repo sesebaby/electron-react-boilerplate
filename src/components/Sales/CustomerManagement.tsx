@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { customerService } from '../../services/business';
 import { Customer, CustomerType, CustomerLevel, CustomerStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface CustomerManagementProps {
   className?: string;
@@ -49,6 +50,10 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
   const [selectedLevel, setSelectedLevel] = useState<CustomerLevel | ''>('');
   const [selectedStatus, setSelectedStatus] = useState<CustomerStatus | ''>('');
   const [stats, setStats] = useState<any>(null);
+
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -113,16 +118,29 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     setShowForm(true);
   };
 
-  const handleDelete = async (customerId: string) => {
-    if (!confirm('确定要删除这个客户吗？删除后无法恢复！')) return;
-    
+  const handleDelete = (customerId: string) => {
+    setDeleteTargetId(customerId);
+    setShowConfirmDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+
     try {
-      await customerService.delete(customerId);
+      await customerService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除客户失败');
       console.error('Failed to delete customer:', err);
+    } finally {
+      setShowConfirmDialog(false);
+      setDeleteTargetId(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDialog(false);
+    setDeleteTargetId(null);
   };
 
   const handleCancel = () => {
@@ -627,6 +645,18 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
           </div>
         </div>
       )}
+
+      {/* 删除确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="删除客户"
+        message="确定要删除这个客户吗？删除后无法恢复！"
+        confirmText="删除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };

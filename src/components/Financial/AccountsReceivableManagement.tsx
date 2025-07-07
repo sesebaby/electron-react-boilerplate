@@ -3,6 +3,7 @@ import accountsReceivableService from '../../services/business/accountsReceivabl
 import { customerService } from '../../services/business';
 import { AccountsReceivable, Receipt, ReceivableStatus, PaymentMethod, Customer } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface AccountsReceivableManagementProps {
   className?: string;
@@ -66,6 +67,10 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
   const [stats, setStats] = useState<any>(null);
   const [receipts, setReceipts] = useState<Receipt[]>([]);
   const [showReceiptHistory, setShowReceiptHistory] = useState(false);
+
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -160,16 +165,29 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     setShowReceivableForm(true);
   };
 
-  const handleDeleteReceivable = async (receivableId: string) => {
-    if (!confirm('确定要删除这个应收账款吗？删除后无法恢复！')) return;
-    
+  const handleDeleteReceivable = (receivableId: string) => {
+    setDeleteTargetId(receivableId);
+    setShowConfirmDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+
     try {
-      await accountsReceivableService.delete(receivableId);
+      await accountsReceivableService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除应收账款失败');
       console.error('Failed to delete accounts receivable:', err);
+    } finally {
+      setShowConfirmDialog(false);
+      setDeleteTargetId(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDialog(false);
+    setDeleteTargetId(null);
   };
 
   const handleAddReceipt = async (receivable: AccountsReceivable) => {
@@ -892,6 +910,18 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
           </div>
         )}
       </div>
+
+      {/* 删除确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="删除应收账款"
+        message="确定要删除这个应收账款吗？删除后无法恢复！"
+        confirmText="删除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };

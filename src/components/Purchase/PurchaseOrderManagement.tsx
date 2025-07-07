@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { purchaseOrderService, supplierService, productService } from '../../services/business';
 import { PurchaseOrder, PurchaseOrderItem, PurchaseOrderStatus, Supplier, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface PurchaseOrderManagementProps {
   className?: string;
@@ -58,6 +59,10 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
   const [selectedStatus, setSelectedStatus] = useState<PurchaseOrderStatus | ''>('');
   const [selectedSupplier, setSelectedSupplier] = useState('');
   const [stats, setStats] = useState<any>(null);
+
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -184,16 +189,29 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     setShowForm(true);
   };
 
-  const handleDelete = async (orderId: string) => {
-    if (!confirm('确定要删除这个采购订单吗？删除后无法恢复！')) return;
-    
+  const handleDelete = (orderId: string) => {
+    setDeleteTargetId(orderId);
+    setShowConfirmDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+
     try {
-      await purchaseOrderService.delete(orderId);
+      await purchaseOrderService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除采购订单失败');
       console.error('Failed to delete purchase order:', err);
+    } finally {
+      setShowConfirmDialog(false);
+      setDeleteTargetId(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDialog(false);
+    setDeleteTargetId(null);
   };
 
   const handleStatusUpdate = async (orderId: string, newStatus: PurchaseOrderStatus) => {
@@ -821,6 +839,18 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
           </div>
         </div>
       )}
+
+      {/* 删除确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="删除采购订单"
+        message="确定要删除这个采购订单吗？删除后无法恢复！"
+        confirmText="删除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };

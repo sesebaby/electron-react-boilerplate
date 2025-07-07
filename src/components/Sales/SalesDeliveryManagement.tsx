@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { salesDeliveryService, salesOrderService, customerService, warehouseService, productService } from '../../services/business';
 import { SalesDelivery, SalesDeliveryItem, DeliveryStatus, SalesOrder, SalesOrderStatus, Customer, Warehouse, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface SalesDeliveryManagementProps {
   className?: string;
@@ -60,6 +61,10 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
   const [selectedWarehouse, setSelectedWarehouse] = useState('');
   const [stats, setStats] = useState<any>(null);
   const [availableOrderItems, setAvailableOrderItems] = useState<any[]>([]);
+
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -210,16 +215,29 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     setShowForm(true);
   };
 
-  const handleDelete = async (deliveryId: string) => {
-    if (!confirm('确定要删除这个销售出库单吗？删除后无法恢复！')) return;
-    
+  const handleDelete = (deliveryId: string) => {
+    setDeleteTargetId(deliveryId);
+    setShowConfirmDialog(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+
     try {
-      await salesDeliveryService.delete(deliveryId);
+      await salesDeliveryService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除销售出库单失败');
       console.error('Failed to delete sales delivery:', err);
+    } finally {
+      setShowConfirmDialog(false);
+      setDeleteTargetId(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDialog(false);
+    setDeleteTargetId(null);
   };
 
   const handleStatusUpdate = async (deliveryId: string, newStatus: DeliveryStatus) => {
@@ -848,6 +866,18 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
           </div>
         </div>
       )}
+
+      {/* 删除确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="删除销售出库单"
+        message="确定要删除这个销售出库单吗？删除后无法恢复！"
+        confirmText="删除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };
