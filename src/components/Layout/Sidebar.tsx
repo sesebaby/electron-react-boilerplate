@@ -30,14 +30,14 @@ const menuItems: MenuItem[] = [
       { id: 'inventory-overview', label: '库存概览', icon: '📋' },
       { id: 'inventory-card-view', label: '卡片视图', icon: '🗂️' },
       { id: 'calendar-overview', label: '日历视图', icon: '📅' },
-      { id: 'daily-consumption', label: '逐日消耗视图', icon: '📈' },
+      { id: 'daily-consumption', label: '逐日消耗', icon: '📈' },
+      { id: 'monthly-balance', label: '月度结余', icon: '📊' }, // 月度结余功能 - 第5个位置
       { id: 'products', label: '商品管理', icon: '🏷️' },
       { id: 'categories', label: '分类管理', icon: '📂' },
       { id: 'warehouses', label: '仓库管理', icon: '🏭' },
       { id: 'stock-in', label: '入库管理', icon: '📥' },
       { id: 'stock-out', label: '出库管理', icon: '📤' },
-      { id: 'stock-adjust', label: '库存调整', icon: '⚖️' },
-      { id: 'monthly-balance', label: '月度结余', icon: '📊' }
+      { id: 'stock-adjust', label: '库存调整', icon: '⚖️' }
     ]
   },
   {
@@ -195,7 +195,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {item.children && !collapsed && (
                 <div className={`
                   overflow-hidden transition-all duration-300 ease-in-out
-                  ${expandedMenus.includes(item.id) ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
+                  ${expandedMenus.includes(item.id) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}
                 `}>
                   <ul className="mt-1 ml-6 space-y-1">
                     {item.children.map(child => (
@@ -231,12 +231,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </ScrollArea>
 
       {/* 底部区域 */}
-      <div className="flex-shrink-0 border-t border-white/10 p-4">
+      <div className="flex-shrink-0 border-t border-white/10 p-2">
         {!collapsed ? (
           // 展开状态的用户信息
-          <div className="space-y-3">
+          <div className="space-y-2">
             <div className="flex items-center gap-3 p-2 rounded-lg bg-white/5 border border-white/10">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                 👤
               </div>
               <div className="flex-1 min-w-0">
@@ -245,7 +245,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             </div>
             
-            <div className="flex items-center justify-between text-xs">
+            <div className="flex items-center justify-between text-xs px-2">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 <span className="text-white/70">系统正常</span>
@@ -256,7 +256,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         ) : (
           // 收缩状态的用户头像
           <div className="flex flex-col items-center gap-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold relative">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm relative">
               👤
               <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
             </div>
