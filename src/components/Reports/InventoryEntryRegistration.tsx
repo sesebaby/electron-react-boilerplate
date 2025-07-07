@@ -207,129 +207,132 @@ export const InventoryEntryRegistration: React.FC = () => {
 
       {/* 数据表格 */}
       <Card className="overflow-hidden">
-        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
-          <table className="w-full min-w-max">
-            {/* 嵌套表头 */}
-            <thead>
-              {/* 第一层表头 - 日期 */}
-              <tr className="bg-white/10 border-b border-white/20">
-                <th rowSpan={2} className="px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20">
-                  序号
-                </th>
-                <th rowSpan={2} className="px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20">
-                  一级分类
-                </th>
-                <th rowSpan={2} className="px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20">
-                  二级分类
-                </th>
-                <th rowSpan={2} className="px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20">
-                  物品名称
-                </th>
-                <th rowSpan={2} className="px-4 py-3 text-center text-sm font-semibold text-white border-r border-white/20">
-                  总出库
-                </th>
-                {filteredDates.map(date => (
-                  <th key={date} colSpan={5} className="px-2 py-3 text-center text-xs font-semibold text-white border-r border-white/20">
-                    {new Date(date).getDate()}日
+        <div className="relative">
+          {/* 表格容器 - 支持横向和纵向滚动 */}
+          <div className="overflow-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent max-h-[600px]">
+            <table className="w-full min-w-max relative">
+              {/* 固定表头 */}
+              <thead className="sticky top-0 z-20 bg-white/10 backdrop-blur-md">
+                {/* 第一层表头 - 日期 */}
+                <tr className="border-b border-white/20">
+                  <th rowSpan={2} className="sticky left-0 z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 bg-white/10 backdrop-blur-md min-w-[60px]">
+                    序号
                   </th>
-                ))}
-              </tr>
-              
-              {/* 第二层表头 - 入库/时段/库存 */}
-              <tr className="bg-white/15 border-b border-white/20">
-                {filteredDates.map(date => (
-                  <React.Fragment key={date}>
-                    <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
-                      入库
+                  <th rowSpan={2} className="sticky left-[60px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 bg-white/10 backdrop-blur-md min-w-[120px]">
+                    一级分类
+                  </th>
+                  <th rowSpan={2} className="sticky left-[180px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 bg-white/10 backdrop-blur-md min-w-[120px]">
+                    二级分类
+                  </th>
+                  <th rowSpan={2} className="sticky left-[300px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 bg-white/10 backdrop-blur-md min-w-[150px]">
+                    物品名称
+                  </th>
+                  <th rowSpan={2} className="sticky left-[450px] z-30 px-4 py-3 text-center text-sm font-semibold text-white border-r border-white/20 bg-white/10 backdrop-blur-md min-w-[100px]">
+                    总出库
+                  </th>
+                  {filteredDates.map(date => (
+                    <th key={date} colSpan={5} className="px-2 py-3 text-center text-xs font-semibold text-white border-r border-white/20 min-w-[300px]">
+                      {new Date(date).getDate()}日
                     </th>
-                    <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
-                      早
-                    </th>
-                    <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
-                      中
-                    </th>
-                    <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
-                      晚
-                    </th>
-                    <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/20 min-w-[60px]">
-                      库存
-                    </th>
-                  </React.Fragment>
-                ))}
-              </tr>
-            </thead>
+                  ))}
+                </tr>
+                
+                {/* 第二层表头 - 入库/时段/库存 */}
+                <tr className="border-b border-white/20">
+                  {filteredDates.map(date => (
+                    <React.Fragment key={date}>
+                      <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
+                        入库
+                      </th>
+                      <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
+                        早
+                      </th>
+                      <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
+                        中
+                      </th>
+                      <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
+                        晚
+                      </th>
+                      <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/20 min-w-[60px]">
+                        库存
+                      </th>
+                    </React.Fragment>
+                  ))}
+                </tr>
+              </thead>
 
-            {/* 数据行 */}
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan={5 + filteredDates.length * 5} className="px-4 py-8 text-center text-white/60">
-                    加载中...
-                  </td>
-                </tr>
-              ) : data.length === 0 ? (
-                <tr>
-                  <td colSpan={5 + filteredDates.length * 5} className="px-4 py-8 text-center text-white/60">
-                    暂无数据
-                  </td>
-                </tr>
-              ) : (
-                data.map((item, index) => (
-                <tr key={item.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
-                  <td className="px-4 py-3 text-sm text-white/90 border-r border-white/10">
-                    {index + 1}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-white/90 border-r border-white/10">
-                    {item.primaryCategory}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-white/90 border-r border-white/10">
-                    {item.secondaryCategory}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-white/90 border-r border-white/10">
-                    {item.name}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-white/90 text-center border-r border-white/10">
-                    <span className="financial-value-accent">
-                      {item.totalOut}
-                    </span>
-                  </td>
-                  {filteredDates.map(date => {
-                    const dayData = item.dailyData[date];
-                    return (
-                      <React.Fragment key={date}>
-                        <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
-                          <span className="financial-value-positive font-medium">
-                            {dayData?.stockIn || 0}
-                          </span>
-                        </td>
-                        <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
-                          <span className="financial-value-warning">
-                            {dayData?.morning || 0}
-                          </span>
-                        </td>
-                        <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
-                          <span className="financial-value-warning">
-                            {dayData?.noon || 0}
-                          </span>
-                        </td>
-                        <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
-                          <span className="financial-value-warning">
-                            {dayData?.evening || 0}
-                          </span>
-                        </td>
-                        <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/20">
-                          <span className="financial-value-neutral font-medium">
-                            {dayData?.stock || 0}
-                          </span>
-                        </td>
-                      </React.Fragment>
-                    );
-                  })}
-                </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+              {/* 数据行 */}
+              <tbody>
+                {loading ? (
+                  <tr>
+                    <td colSpan={5 + filteredDates.length * 5} className="px-4 py-8 text-center text-white/60">
+                      加载中...
+                    </td>
+                  </tr>
+                ) : data.length === 0 ? (
+                  <tr>
+                    <td colSpan={5 + filteredDates.length * 5} className="px-4 py-8 text-center text-white/60">
+                      暂无数据
+                    </td>
+                  </tr>
+                ) : (
+                  data.map((item, index) => (
+                  <tr key={item.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                    <td className="sticky left-0 z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 bg-white/5 backdrop-blur-sm">
+                      {index + 1}
+                    </td>
+                    <td className="sticky left-[60px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 bg-white/5 backdrop-blur-sm">
+                      {item.primaryCategory}
+                    </td>
+                    <td className="sticky left-[180px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 bg-white/5 backdrop-blur-sm">
+                      {item.secondaryCategory}
+                    </td>
+                    <td className="sticky left-[300px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 bg-white/5 backdrop-blur-sm">
+                      {item.name}
+                    </td>
+                    <td className="sticky left-[450px] z-10 px-4 py-3 text-sm text-white/90 text-center border-r border-white/10 bg-white/5 backdrop-blur-sm">
+                      <span className="financial-value-accent">
+                        {item.totalOut}
+                      </span>
+                    </td>
+                    {filteredDates.map(date => {
+                      const dayData = item.dailyData[date];
+                      return (
+                        <React.Fragment key={date}>
+                          <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
+                            <span className="financial-value-positive font-medium">
+                              {dayData?.stockIn || 0}
+                            </span>
+                          </td>
+                          <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
+                            <span className="financial-value-warning">
+                              {dayData?.morning || 0}
+                            </span>
+                          </td>
+                          <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
+                            <span className="financial-value-warning">
+                              {dayData?.noon || 0}
+                            </span>
+                          </td>
+                          <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
+                            <span className="financial-value-warning">
+                              {dayData?.evening || 0}
+                            </span>
+                          </td>
+                          <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/20">
+                            <span className="financial-value-neutral font-medium">
+                              {dayData?.stock || 0}
+                            </span>
+                          </td>
+                        </React.Fragment>
+                      );
+                    })}
+                  </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </Card>
 
