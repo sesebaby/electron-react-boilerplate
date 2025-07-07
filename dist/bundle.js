@@ -3557,6 +3557,9 @@ video {
 .relative {
   position: relative;
 }
+.sticky {
+  position: sticky;
+}
 .inset-0 {
   inset: 0px;
 }
@@ -3636,6 +3639,9 @@ video {
 .z-10 {
   z-index: 10;
 }
+.z-20 {
+  z-index: 20;
+}
 .z-40 {
   z-index: 40;
 }
@@ -3692,6 +3698,9 @@ video {
 }
 .ml-2 {
   margin-left: 0.5rem;
+}
+.ml-3 {
+  margin-left: 0.75rem;
 }
 .ml-4 {
   margin-left: 1rem;
@@ -3813,6 +3822,9 @@ video {
 .h-\\[var\\(--radix-select-trigger-height\\)\\] {
   height: var(--radix-select-trigger-height);
 }
+.h-auto {
+  height: auto;
+}
 .h-full {
   height: 100%;
 }
@@ -3831,6 +3843,9 @@ video {
 .max-h-32 {
   max-height: 8rem;
 }
+.max-h-48 {
+  max-height: 12rem;
+}
 .max-h-60 {
   max-height: 15rem;
 }
@@ -3839,6 +3854,9 @@ video {
 }
 .max-h-96 {
   max-height: 24rem;
+}
+.max-h-\\[600px\\] {
+  max-height: 600px;
 }
 .max-h-\\[90vh\\] {
   max-height: 90vh;
@@ -3999,6 +4017,9 @@ video {
 .max-w-2xl {
   max-width: 42rem;
 }
+.max-w-3xl {
+  max-width: 48rem;
+}
 .max-w-4xl {
   max-width: 56rem;
 }
@@ -4025,6 +4046,9 @@ video {
 }
 .caption-bottom {
   caption-side: bottom;
+}
+.border-collapse {
+  border-collapse: collapse;
 }
 .-translate-x-1\\/2 {
   --tw-translate-x: -50%;
@@ -4307,6 +4331,9 @@ video {
 .border-t {
   border-top-width: 1px;
 }
+.border-t-2 {
+  border-top-width: 2px;
+}
 .border-blue-200 {
   --tw-border-opacity: 1;
   border-color: rgb(191 219 254 / var(--tw-border-opacity, 1));
@@ -4444,6 +4471,9 @@ video {
 .border-white\\/60 {
   border-color: rgb(255 255 255 / 0.6);
 }
+.border-white\\/70 {
+  border-color: rgb(255 255 255 / 0.7);
+}
 .border-yellow-200 {
   --tw-border-opacity: 1;
   border-color: rgb(254 240 138 / var(--tw-border-opacity, 1));
@@ -4534,6 +4564,9 @@ video {
 .bg-blue-500\\/20 {
   background-color: rgb(59 130 246 / 0.2);
 }
+.bg-blue-500\\/30 {
+  background-color: rgb(59 130 246 / 0.3);
+}
 .bg-blue-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
@@ -4576,6 +4609,10 @@ video {
 }
 .bg-gray-500\\/20 {
   background-color: rgb(107 114 128 / 0.2);
+}
+.bg-gray-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
 }
 .bg-green-100 {
   --tw-bg-opacity: 1;
@@ -4744,6 +4781,16 @@ video {
   --tw-gradient-to: rgb(59 130 246 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+.from-blue-500\\/20 {
+  --tw-gradient-from: rgb(59 130 246 / 0.2) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(59 130 246 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.from-blue-500\\/60 {
+  --tw-gradient-from: rgb(59 130 246 / 0.6) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(59 130 246 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
 .from-cyan-500 {
   --tw-gradient-from: #06b6d4 var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(6 182 212 / 0) var(--tw-gradient-to-position);
@@ -4774,6 +4821,11 @@ video {
   --tw-gradient-to: rgb(34 197 94 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+.from-green-500\\/20 {
+  --tw-gradient-from: rgb(34 197 94 / 0.2) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(34 197 94 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
 .from-indigo-500 {
   --tw-gradient-from: #6366f1 var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(99 102 241 / 0) var(--tw-gradient-to-position);
@@ -4794,6 +4846,11 @@ video {
   --tw-gradient-to: rgb(168 85 247 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+.from-purple-500\\/20 {
+  --tw-gradient-from: rgb(168 85 247 / 0.2) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(168 85 247 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
 .from-red-500 {
   --tw-gradient-from: #ef4444 var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(239 68 68 / 0) var(--tw-gradient-to-position);
@@ -4809,9 +4866,17 @@ video {
   --tw-gradient-to: rgb(234 179 8 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+.from-yellow-500\\/20 {
+  --tw-gradient-from: rgb(234 179 8 / 0.2) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(234 179 8 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
 .via-white {
   --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #fff var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+.to-blue-500\\/20 {
+  --tw-gradient-to: rgb(59 130 246 / 0.2) var(--tw-gradient-to-position);
 }
 .to-blue-600 {
   --tw-gradient-to: #2563eb var(--tw-gradient-to-position);
@@ -4837,8 +4902,14 @@ video {
 .to-indigo-600 {
   --tw-gradient-to: #4f46e5 var(--tw-gradient-to-position);
 }
+.to-orange-500\\/20 {
+  --tw-gradient-to: rgb(249 115 22 / 0.2) var(--tw-gradient-to-position);
+}
 .to-orange-600 {
   --tw-gradient-to: #ea580c var(--tw-gradient-to-position);
+}
+.to-pink-500\\/20 {
+  --tw-gradient-to: rgb(236 72 153 / 0.2) var(--tw-gradient-to-position);
 }
 .to-pink-600 {
   --tw-gradient-to: #db2777 var(--tw-gradient-to-position);
@@ -4848,6 +4919,12 @@ video {
 }
 .to-purple-500 {
   --tw-gradient-to: #a855f7 var(--tw-gradient-to-position);
+}
+.to-purple-500\\/20 {
+  --tw-gradient-to: rgb(168 85 247 / 0.2) var(--tw-gradient-to-position);
+}
+.to-purple-500\\/60 {
+  --tw-gradient-to: rgb(168 85 247 / 0.6) var(--tw-gradient-to-position);
 }
 .to-purple-600 {
   --tw-gradient-to: #9333ea var(--tw-gradient-to-position);
@@ -4963,6 +5040,9 @@ video {
 .pb-2 {
   padding-bottom: 0.5rem;
 }
+.pb-3 {
+  padding-bottom: 0.75rem;
+}
 .pb-4 {
   padding-bottom: 1rem;
 }
@@ -4995,6 +5075,9 @@ video {
 }
 .pt-4 {
   padding-top: 1rem;
+}
+.pt-6 {
+  padding-top: 1.5rem;
 }
 .text-left {
   text-align: left;
@@ -5092,6 +5175,10 @@ video {
   --tw-text-opacity: 1;
   color: rgb(147 197 253 / var(--tw-text-opacity, 1));
 }
+.text-blue-400 {
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity, 1));
+}
 .text-blue-500 {
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity, 1));
@@ -5115,6 +5202,12 @@ video {
 .text-gray-100 {
   --tw-text-opacity: 1;
   color: rgb(243 244 246 / var(--tw-text-opacity, 1));
+}
+.text-gray-200\\/60 {
+  color: rgb(229 231 235 / 0.6);
+}
+.text-gray-200\\/80 {
+  color: rgb(229 231 235 / 0.8);
 }
 .text-gray-300 {
   --tw-text-opacity: 1;
@@ -5156,6 +5249,9 @@ video {
   --tw-text-opacity: 1;
   color: rgb(134 239 172 / var(--tw-text-opacity, 1));
 }
+.text-green-300\\/80 {
+  color: rgb(134 239 172 / 0.8);
+}
 .text-green-400 {
   --tw-text-opacity: 1;
   color: rgb(74 222 128 / var(--tw-text-opacity, 1));
@@ -5183,6 +5279,12 @@ video {
   --tw-text-opacity: 1;
   color: rgb(254 215 170 / var(--tw-text-opacity, 1));
 }
+.text-orange-200\\/60 {
+  color: rgb(254 215 170 / 0.6);
+}
+.text-orange-200\\/80 {
+  color: rgb(254 215 170 / 0.8);
+}
 .text-orange-300 {
   --tw-text-opacity: 1;
   color: rgb(253 186 116 / var(--tw-text-opacity, 1));
@@ -5198,6 +5300,9 @@ video {
 .text-purple-200 {
   --tw-text-opacity: 1;
   color: rgb(233 213 255 / var(--tw-text-opacity, 1));
+}
+.text-purple-200\\/80 {
+  color: rgb(233 213 255 / 0.8);
 }
 .text-purple-300 {
   --tw-text-opacity: 1;
@@ -5218,6 +5323,12 @@ video {
 .text-red-200 {
   --tw-text-opacity: 1;
   color: rgb(254 202 202 / var(--tw-text-opacity, 1));
+}
+.text-red-200\\/60 {
+  color: rgb(254 202 202 / 0.6);
+}
+.text-red-200\\/80 {
+  color: rgb(254 202 202 / 0.8);
 }
 .text-red-300 {
   --tw-text-opacity: 1;
@@ -5274,6 +5385,12 @@ video {
 .text-yellow-200 {
   --tw-text-opacity: 1;
   color: rgb(254 240 138 / var(--tw-text-opacity, 1));
+}
+.text-yellow-200\\/60 {
+  color: rgb(254 240 138 / 0.6);
+}
+.text-yellow-200\\/80 {
+  color: rgb(254 240 138 / 0.8);
 }
 .text-yellow-300 {
   --tw-text-opacity: 1;
@@ -5448,6 +5565,9 @@ video {
 }
 .duration-300 {
   transition-duration: 300ms;
+}
+.duration-500 {
+  transition-duration: 500ms;
 }
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -5793,6 +5913,10 @@ video {
   border-color: rgb(147 197 253 / 0.5);
 }
 
+.hover\\:border-white\\/20:hover {
+  border-color: rgb(255 255 255 / 0.2);
+}
+
 .hover\\:border-white\\/30:hover {
   border-color: rgb(255 255 255 / 0.3);
 }
@@ -5936,6 +6060,11 @@ video {
   color: rgb(191 219 254 / var(--tw-text-opacity, 1));
 }
 
+.hover\\:text-blue-300:hover {
+  --tw-text-opacity: 1;
+  color: rgb(147 197 253 / var(--tw-text-opacity, 1));
+}
+
 .hover\\:text-blue-700:hover {
   --tw-text-opacity: 1;
   color: rgb(29 78 216 / var(--tw-text-opacity, 1));
@@ -5969,6 +6098,11 @@ video {
 .hover\\:text-red-200:hover {
   --tw-text-opacity: 1;
   color: rgb(254 202 202 / var(--tw-text-opacity, 1));
+}
+
+.hover\\:text-red-300:hover {
+  --tw-text-opacity: 1;
+  color: rgb(252 165 165 / var(--tw-text-opacity, 1));
 }
 
 .hover\\:text-red-600:hover {
@@ -6033,6 +6167,10 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.focus\\:border-blue-400\\/50:focus {
+  border-color: rgb(96 165 250 / 0.5);
+}
+
 .focus\\:border-blue-500:focus {
   --tw-border-opacity: 1;
   border-color: rgb(59 130 246 / var(--tw-border-opacity, 1));
@@ -6068,10 +6206,20 @@ video {
   outline-offset: 2px;
 }
 
+.focus\\:ring-1:focus {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
 .focus\\:ring-2:focus {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.focus\\:ring-blue-400\\/50:focus {
+  --tw-ring-color: rgb(96 165 250 / 0.5);
 }
 
 .focus\\:ring-blue-500:focus {
@@ -6221,6 +6369,10 @@ video {
     min-height: 320px;
   }
 
+  .sm\\:flex-none {
+    flex: none;
+  }
+
   .sm\\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -6306,6 +6458,18 @@ video {
 
   .md\\:w-auto {
     width: auto;
+  }
+
+  .md\\:min-w-24 {
+    min-width: 6rem;
+  }
+
+  .md\\:min-w-32 {
+    min-width: 8rem;
+  }
+
+  .md\\:flex-none {
+    flex: none;
   }
 
   .md\\:grid-cols-2 {
@@ -6502,7 +6666,7 @@ video {
 
 .\\[\\&_tr\\]\\:border-b tr {
   border-bottom-width: 1px;
-}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"AAAA;EAAA,wBAAc;EAAd,wBAAc;EAAd,mBAAc;EAAd,mBAAc;EAAd,cAAc;EAAd,cAAc;EAAd,cAAc;EAAd,eAAc;EAAd,eAAc;EAAd,aAAc;EAAd,aAAc;EAAd,kBAAc;EAAd,sCAAc;EAAd,8BAAc;EAAd,6BAAc;EAAd,4BAAc;EAAd,eAAc;EAAd,oBAAc;EAAd,sBAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,kBAAc;EAAd,2BAAc;EAAd,4BAAc;EAAd,sCAAc;EAAd,kCAAc;EAAd,2BAAc;EAAd,sBAAc;EAAd,8BAAc;EAAd,YAAc;EAAd,kBAAc;EAAd,gBAAc;EAAd,iBAAc;EAAd,kBAAc;EAAd,cAAc;EAAd,gBAAc;EAAd,aAAc;EAAd,mBAAc;EAAd,qBAAc;EAAd,2BAAc;EAAd,yBAAc;EAAd,0BAAc;EAAd,2BAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,yBAAc;EAAd,sBAAc;EAAd,oBAAc;EAAd,sBAAc;EAAd,qBAAc;EAAd;AAAc;;AAAd;EAAA,wBAAc;EAAd,wBAAc;EAAd,mBAAc;EAAd,mBAAc;EAAd,cAAc;EAAd,cAAc;EAAd,cAAc;EAAd,eAAc;EAAd,eAAc;EAAd,aAAc;EAAd,aAAc;EAAd,kBAAc;EAAd,sCAAc;EAAd,8BAAc;EAAd,6BAAc;EAAd,4BAAc;EAAd,eAAc;EAAd,oBAAc;EAAd,sBAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,kBAAc;EAAd,2BAAc;EAAd,4BAAc;EAAd,sCAAc;EAAd,kCAAc;EAAd,2BAAc;EAAd,sBAAc;EAAd,8BAAc;EAAd,YAAc;EAAd,kBAAc;EAAd,gBAAc;EAAd,iBAAc;EAAd,kBAAc;EAAd,cAAc;EAAd,gBAAc;EAAd,aAAc;EAAd,mBAAc;EAAd,qBAAc;EAAd,2BAAc;EAAd,yBAAc;EAAd,0BAAc;EAAd,2BAAc;EAAd,uBAAc;EAAd,wBAAc;EAAd,yBAAc;EAAd,sBAAc;EAAd,oBAAc;EAAd,sBAAc;EAAd,qBAAc;EAAd;AAAc,CAAd;;CAAc,CAAd;;;CAAc;;AAAd;;;EAAA,sBAAc,EAAd,MAAc;EAAd,eAAc,EAAd,MAAc;EAAd,mBAAc,EAAd,MAAc;EAAd,qBAAc,EAAd,MAAc;AAAA;;AAAd;;EAAA,gBAAc;AAAA;;AAAd;;;;;;;;CAAc;;AAAd;;EAAA,gBAAc,EAAd,MAAc;EAAd,8BAAc,EAAd,MAAc;EAAd,gBAAc,EAAd,MAAc;EAAd,cAAc;KAAd,WAAc,EAAd,MAAc;EAAd,+HAAc,EAAd,MAAc;EAAd,6BAAc,EAAd,MAAc;EAAd,+BAAc,EAAd,MAAc;EAAd,wCAAc,EAAd,MAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,SAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;AAAA;;AAAd;;;;CAAc;;AAAd;EAAA,SAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;EAAd,qBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,yCAAc;UAAd,iCAAc;AAAA;;AAAd;;CAAc;;AAAd;;;;;;EAAA,kBAAc;EAAd,oBAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,cAAc;EAAd,wBAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,mBAAc;AAAA;;AAAd;;;;;CAAc;;AAAd;;;;EAAA,+GAAc,EAAd,MAAc;EAAd,6BAAc,EAAd,MAAc;EAAd,+BAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,cAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,cAAc;EAAd,cAAc;EAAd,kBAAc;EAAd,wBAAc;AAAA;;AAAd;EAAA,eAAc;AAAA;;AAAd;EAAA,WAAc;AAAA;;AAAd;;;;CAAc;;AAAd;EAAA,cAAc,EAAd,MAAc;EAAd,qBAAc,EAAd,MAAc;EAAd,yBAAc,EAAd,MAAc;AAAA;;AAAd;;;;CAAc;;AAAd;;;;;EAAA,oBAAc,EAAd,MAAc;EAAd,8BAAc,EAAd,MAAc;EAAd,gCAAc,EAAd,MAAc;EAAd,eAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;EAAd,uBAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;EAAd,SAAc,EAAd,MAAc;EAAd,UAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,oBAAc;AAAA;;AAAd;;;CAAc;;AAAd;;;;EAAA,0BAAc,EAAd,MAAc;EAAd,6BAAc,EAAd,MAAc;EAAd,sBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,aAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,gBAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,wBAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,YAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,6BAAc,EAAd,MAAc;EAAd,oBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,wBAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,0BAAc,EAAd,MAAc;EAAd,aAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,kBAAc;AAAA;;AAAd;;CAAc;;AAAd;;;;;;;;;;;;;EAAA,SAAc;AAAA;;AAAd;EAAA,SAAc;EAAd,UAAc;AAAA;;AAAd;EAAA,UAAc;AAAA;;AAAd;;;EAAA,gBAAc;EAAd,SAAc;EAAd,UAAc;AAAA;;AAAd;;CAAc;AAAd;EAAA,UAAc;AAAA;;AAAd;;CAAc;;AAAd;EAAA,gBAAc;AAAA;;AAAd;;;CAAc;;AAAd;EAAA,UAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;AAAA;;AAAd;;EAAA,UAAc,EAAd,MAAc;EAAd,cAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,eAAc;AAAA;;AAAd;;CAAc;AAAd;EAAA,eAAc;AAAA;;AAAd;;;;CAAc;;AAAd;;;;;;;;EAAA,cAAc,EAAd,MAAc;EAAd,sBAAc,EAAd,MAAc;AAAA;;AAAd;;CAAc;;AAAd;;EAAA,eAAc;EAAd,YAAc;AAAA;;AAAd,wEAAc;AAAd;EAAA,aAAc;AAAA;EAAd;IAAA,yBAAc;IAAd,wBAAc;IAAd,mBAAc;IAAd,6BAAc;IAAd,sBAAc;IAAd,gCAAc;IAAd,qBAAc;IAAd,iCAAc;IAAd,wBAAc;IAAd,kCAAc;IAAd,oBAAc;IAAd,8BAAc;IAAd,qBAAc;IAAd,+BAAc;IAAd,wBAAc;IAAd,kCAAc;IAAd,qBAAc;IAAd,oBAAc;IAAd,kBAAc;IAAd,gBAAc;;IAAd,2BAAc;IAAd,qBAAc;IAAd,oBAAc;IAAd,kBAAc;IAAd,oBAAc;IAAd,kBAAc;;IAAd,4BAAc;IAAd,0BAAc;IAAd,2BAAc;;IAAd,wDAAc;IAAd,wBAAc;IAAd,kDAAc;EAAA;;EAAd,wBAAc;EAAd;IAAA;MAAA,2BAAc;MAAd,UAAc;IAAA;IAAd;MAAA,wBAAc;MAAd,UAAc;IAAA;EAAA;;EAAd;IAAA;MAAA,UAAc;IAAA;IAAd;MAAA,UAAc;IAAA;EAAA;;EAAd;IAAA;MAAA,qBAAc;MAAd,UAAc;IAAA;IAAd;MAAA,sBAAc;IAAA;IAAd;MAAA,qBAAc;IAAA;IAAd;MAAA,mBAAc;MAAd,UAAc;IAAA;EAAA;;EAAd;IAAA,uCAAc;EAAA;;EAAd,sCAAc;EAAd;IAAA,SAAc;IAAd,yGAAc;;IAAd,SAAc;IAAd,sDAAc,GAAd,mBAAc;IAAd,mDAAc,MAAd,kBAAc;IAAd,oDAAc,KAAd,mBAAc;IAAd,sDAAc,GAAd,mBAAc;;IAAd,yBAAc;IAAd,oDAAc,YAAd,mBAAc;IAAd,2DAAc,KAAd,mBAAc;IAAd,6DAAc,GAAd,mBAAc;;IAAd,yBAAc;IAAd,yDAAc,OAAd,SAAc;IAAd,qDAAc,WAAd,SAAc;IAAd,iDAAc,eAAd,aAAc;IAAd,mDAAc;IAAd,+CAAc;IAAd,yCAAc;;IAAd,SAAc;IAAd,8DAAc,EAAd,SAAc;IAAd,wBAAc;IAAd,yDAAc,QAAd,iBAAc;IAAd,2DAAc,MAAd,SAAc;IAAd,yDAAc;IAAd,2DAAc;EAAA;;EAAd,kCAAc;EAAd;IAAA,SAAc;IAAd,yGAAc;;IAAd,SAAc;IAAd,uDAAc,SAAd,iBAAc;IAAd,oDAAc,YAAd,iBAAc;IAAd,qDAAc,WAAd,iBAAc;IAAd,sDAAc,UAAd,kBAAc;;IAAd,uBAAc;IAAd,qDAAc,WAAd,kBAAc;IAAd,2DAAc,KAAd,kBAAc;IAAd,4DAAc,IAAd,kBAAc;;IAAd,2BAAc;IAAd,gDAAc,gBAAd,cAAc;IAAd,kDAAc,cAAd,cAAc;IAAd,iDAAc,eAAd,cAAc;IAAd,0CAAc;IAAd,4CAAc;IAAd,yCAAc;;IAAd,SAAc;IAAd,+DAAc,EAAd,SAAc;IAAd,wBAAc;IAAd,0DAAc;IAAd,4DAAc;IAAd,0DAAc;IAAd,4DAAc;EAAA;;EAAd,sCAAc;EAAd;IAAA,SAAc;IAAd,sGAAc;;IAAd,SAAc;IAAd,qDAAc,WAAd,iBAAc;IAAd,kDAAc,cAAd,iBAAc;IAAd,mDAAc,aAAd,kBAAc;IAAd,mDAAc,aAAd,kBAAc;;IAAd,uBAAc;IAAd,oDAAc,YAAd,iBAAc;IAAd,2DAAc,KAAd,iBAAc;IAAd,2DAAc,KAAd,iBAAc;;IAAd,2BAAc;IAAd,+CAAc,iBAAd,cAAc;IAAd,iDAAc,eAAd,cAAc;IAAd,gDAAc,gBAAd,cAAc;IAAd,yCAAc;IAAd,2CAAc;IAAd,wCAAc;;IAAd,SAAc;IAAd,8DAAc,EAAd,SAAc;IAAd,wBAAc;IAAd,wDAAc;IAAd,2DAAc;IAAd,wDAAc;IAAd,2DAAc;EAAA;EAAd;IAAA,gCAAc;EAAA;EAAd;IAAA,wCAAc;IAAd,6BAAc;IAAd,SAAc;IAAd,UAAc;IAAd,iHAAc;IAAd,iBAAc;IAAd,kBAAc;EAAA;AACd;EAAA,4CAAoB;EAApB,iDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,iDAAoB;EAApB;AAAoB;AAApB;EAAA,aAAoB;EAApB,4CAAoB;EAApB,wCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,iDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,2CAAoB;EAApB;AAAoB;AAApB;EAAA,wBAAoB;KAApB,qBAAoB;UAApB,gBAAoB;EAApB,qBAAoB;EAApB,yDAAoB;EAApB,wCAAoB;EAApB,4BAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,kDAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,kDAAoB;EAApB;AAAoB;AAApB;EAAA,aAAoB;EAApB,4CAAoB;EAApB,wCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,iCAAoB;EAApB;AAAoB;AAApB;EAAA,6CAAoB;EAApB,kDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,wCAAoB;EAApB;AAAoB;AAApB;EAAA,wBAAoB;KAApB,qBAAoB;UAApB,gBAAoB;EAApB,qBAAoB;EAApB,yDAAoB;EAApB,wCAAoB;EAApB,4BAAoB;EAApB;AAAoB;AAApB;EAAA,2CAAoB;EAApB,gDAAoB;EAApB;AAAoB;AAApB;EAAA,2CAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,gDAAoB;EAApB;AAAoB;AAApB;EAAA,aAAoB;EAApB,4CAAoB;EAApB,uCAAoB;EAApB;AAAoB;AAApB;EAAA,gCAAoB;EAApB;AAAoB;AAApB;EAAA,gCAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,gDAAoB;EAApB;AAAoB;AAApB;EAAA,4CAAoB;EAApB,uCAAoB;EAApB;AAAoB;AAApB;EAAA,wBAAoB;KAApB,qBAAoB;UAApB,gBAAoB;EAApB,qBAAoB;EAApB,yDAAoB;EAApB,wCAAoB;EAApB,4BAAoB;EAApB;AAAoB;AACpB;EAAA,kBAAmB;EAAnB,UAAmB;EAAnB,WAAmB;EAAnB,UAAmB;EAAnB,YAAmB;EAAnB,gBAAmB;EAAnB,sBAAmB;EAAnB,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,QAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,gBAAmB;EAAnB,oBAAmB;EAAnB,4BAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAA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EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAn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;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AA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","sourcesContent":["@tailwind base;\r\n@tailwind components;\r\n@tailwind utilities;\r\n\r\n/* 导入主题样式 */\r\n@import './styles/themes.css';\r\n\r\n@layer base {\r\n  :root {\r\n    --background: 220 20% 14%;\r\n    --foreground: 220 8% 95%;\r\n    --card: 220 20% 10%;\r\n    --card-foreground: 220 8% 95%;\r\n    --popover: 220 20% 10%;\r\n    --popover-foreground: 220 8% 95%;\r\n    --primary: 220 8% 95%;\r\n    --primary-foreground: 220 20% 14%;\r\n    --secondary: 220 20% 14%;\r\n    --secondary-foreground: 220 8% 95%;\r\n    --muted: 220 20% 14%;\r\n    --muted-foreground: 220 8% 65%;\r\n    --accent: 220 20% 14%;\r\n    --accent-foreground: 220 8% 95%;\r\n    --destructive: 0 84% 60%;\r\n    --destructive-foreground: 0 0% 98%;\r\n    --border: 220 13% 18%;\r\n    --input: 220 13% 18%;\r\n    --ring: 220 8% 95%;\r\n    --radius: 0.5rem;\r\n    \r\n    /* Theme System Variables */\r\n    --spacing-xs: 0.25rem;\r\n    --spacing-sm: 0.5rem;\r\n    --spacing-md: 1rem;\r\n    --spacing-lg: 1.5rem;\r\n    --spacing-xl: 2rem;\r\n    \r\n    --border-radius-sm: 0.375rem;\r\n    --border-radius-md: 0.5rem;\r\n    --border-radius-lg: 0.75rem;\r\n    \r\n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\r\n    --glass-blur: blur(20px);\r\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\r\n  }\r\n  \r\n  /* Animation utilities */\r\n  @keyframes slide-in-right {\r\n    from {\r\n      transform: translateX(100%);\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      transform: translateX(0);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes fade-in {\r\n    from {\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes bounce-in {\r\n    0% {\r\n      transform: scale(0.3);\r\n      opacity: 0;\r\n    }\r\n    50% {\r\n      transform: scale(1.05);\r\n    }\r\n    70% {\r\n      transform: scale(0.9);\r\n    }\r\n    100% {\r\n      transform: scale(1);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  .animate-slide-in-right {\r\n    animation: slide-in-right 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-fade-in {\r\n    animation: fade-in 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-bounce-in {\r\n    animation: bounce-in 0.5s ease-out;\r\n  }\r\n  \r\n  /* Glass Future Theme - 基于Indigo色块系列 */\r\n  [data-theme=\"glass-future\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\r\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\r\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\r\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\r\n    \r\n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\r\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\r\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\r\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\r\n    \r\n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\r\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\r\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\r\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\r\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\r\n    --text-secondary: oklch(92.369% 0.00263 230.33);\r\n    --text-accent: oklch(0.968 0.007 247.896);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\r\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\r\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\r\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\r\n  }\r\n  \r\n  /* Dark Tech Theme - 基于Slate色块系列 */\r\n  [data-theme=\"dark-tech\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\r\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\r\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\r\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\r\n    \r\n    /* 弹出窗体背景 - Slate深色系列 */\r\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\r\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\r\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\r\n    \r\n    /* 文字颜色 - Slate浅色系，适合深色背景 */\r\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\r\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\r\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\r\n    --text-primary: oklch(0.968 0.007 247.896);\r\n    --text-secondary: oklch(0.929 0.013 255.508);\r\n    --text-accent: oklch(0.869 0.022 252.894);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\r\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\r\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\r\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\r\n  }\r\n  \r\n  /* Warm Business Theme - 基于Amber色块系列 */\r\n  [data-theme=\"warm-business\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\r\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\r\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\r\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\r\n    \r\n    /* 弹出窗体背景 - Amber浅色系列 */\r\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\r\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\r\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\r\n    \r\n    /* 文字颜色 - Amber深色系，适合浅色背景 */\r\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\r\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\r\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\r\n    --text-primary: oklch(0.414 0.112 45.904);\r\n    --text-secondary: oklch(0.473 0.137 46.201);\r\n    --text-accent: oklch(0.555 0.163 48.998);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\r\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\r\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\r\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\r\n  }\r\n}\r\n\r\n@layer base {\r\n  * {\r\n    border-color: hsl(var(--border));\r\n  }\r\n  body {\r\n    background-color: hsl(var(--background));\r\n    color: hsl(var(--foreground));\r\n    margin: 0;\r\n    padding: 0;\r\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\r\n    min-height: 100vh;\r\n    overflow-x: hidden;\r\n  }\r\n}\r\n\r\n/* Custom glassmorphism styles matching current design */\r\n.app-bg {\r\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\r\n  min-height: 100vh;\r\n  position: relative;\r\n}\r\n\r\n.app-bg::before {\r\n  content: '';\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background: \r\n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\r\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\r\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\r\n  pointer-events: none;\r\n  z-index: 1;\r\n}\r\n\r\n@layer utilities {\r\n  .glass-card {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(12px);\r\n    border: 1px solid rgba(255, 255, 255, 0.2);\r\n    border-radius: 16px;\r\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\r\n  }\r\n  \r\n  /* Popup/Dropdown Styles */\r\n  .popup-dropdown {\r\n    position: absolute;\r\n    z-index: 1000;\r\n    border-radius: 16px;\r\n    backdrop-filter: blur(20px);\r\n    -webkit-backdrop-filter: blur(20px);\r\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\r\n    overflow: hidden;\r\n  }\r\n  \r\n  .popup-header {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(10px);\r\n    -webkit-backdrop-filter: blur(10px);\r\n  }\r\n  \r\n  .popup-content {\r\n    background: transparent;\r\n  }\r\n  \r\n  .glass-card-hover {\r\n    transition: all 0.3s ease;\r\n  }\r\n  \r\n  .glass-card-hover:hover {\r\n    background: rgba(255, 255, 255, 0.15);\r\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\r\n    transform: translateY(-2px);\r\n  }\r\n  \r\n  .glass-input {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(8px);\r\n    border: 1px solid rgba(255, 255, 255, 0.2);\r\n    color: white;\r\n  }\r\n  \r\n  .glass-input::placeholder {\r\n    color: rgba(255, 255, 255, 0.5);\r\n  }\r\n  \r\n  .glass-input:focus {\r\n    outline: none;\r\n    ring: 2px;\r\n    ring-color: rgba(255, 255, 255, 0.3);\r\n    ring-offset: 2px;\r\n  }\r\n  \r\n  .text-gradient {\r\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\r\n    -webkit-background-clip: text;\r\n    -webkit-text-fill-color: transparent;\r\n    background-clip: text;\r\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\r\n  }\r\n  \r\n  .animate-fade-in-up {\r\n    animation: fadeInUp 0.6s ease-out;\r\n  }\r\n}\r\n\r\n@keyframes fadeInUp {\r\n  from {\r\n    opacity: 0;\r\n    transform: translateY(30px);\r\n  }\r\n  to {\r\n    opacity: 1;\r\n    transform: translateY(0);\r\n  }\r\n}\r\n\r\n/* ===== App加载动画样式 ===== */\r\n.app-loading,\r\n.app-error {\r\n  width: 100vw;\r\n  height: 100vh;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\r\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  z-index: 9999;\r\n}\r\n\r\n.loading-container,\r\n.error-container {\r\n  background: rgba(255, 255, 255, 0.1);\r\n  backdrop-filter: blur(20px);\r\n  border-radius: 24px;\r\n  padding: 48px;\r\n  text-align: center;\r\n  max-width: 420px;\r\n  border: 1px solid rgba(255, 255, 255, 0.2);\r\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\r\n}\r\n\r\n/* 加载动画 */\r\n.loading-animation {\r\n  position: relative;\r\n  margin-bottom: 32px;\r\n}\r\n\r\n.loading-spinner {\r\n  width: 60px;\r\n  height: 60px;\r\n  border: 4px solid rgba(255, 255, 255, 0.3);\r\n  border-top: 4px solid white;\r\n  border-radius: 50%;\r\n  animation: spin 1s linear infinite;\r\n  margin: 0 auto 20px;\r\n}\r\n\r\n.loading-dots {\r\n  display: flex;\r\n  justify-content: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-dots span {\r\n  width: 8px;\r\n  height: 8px;\r\n  background: white;\r\n  border-radius: 50%;\r\n  animation: bounce 1.4s ease-in-out infinite both;\r\n}\r\n\r\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\r\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\r\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\r\n\r\n.loading-title {\r\n  color: white;\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 8px;\r\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\r\n}\r\n\r\n.loading-text {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 1.1rem;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.loading-progress {\r\n  width: 100%;\r\n  height: 4px;\r\n  background: rgba(255, 255, 255, 0.2);\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.progress-bar {\r\n  height: 100%;\r\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\r\n  border-radius: 2px;\r\n  animation: progress 2s ease-in-out infinite;\r\n}\r\n\r\n.loading-tips {\r\n  text-align: left;\r\n  background: rgba(255, 255, 255, 0.1);\r\n  border-radius: 12px;\r\n  padding: 16px;\r\n  border: 1px solid rgba(255, 255, 255, 0.2);\r\n}\r\n\r\n.loading-tips p {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 0.9rem;\r\n  margin-bottom: 6px;\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-tips p:last-child {\r\n  margin-bottom: 0;\r\n}\r\n\r\n/* 错误状态样式 */\r\n.error-icon {\r\n  font-size: 4rem;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.error-title {\r\n  color: white;\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 12px;\r\n}\r\n\r\n.error-message {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 1rem;\r\n  margin-bottom: 24px;\r\n  background: rgba(255, 77, 79, 0.2);\r\n  padding: 12px 16px;\r\n  border-radius: 8px;\r\n  border: 1px solid rgba(255, 77, 79, 0.3);\r\n}\r\n\r\n.error-retry {\r\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\r\n  color: white;\r\n  border: none;\r\n  padding: 12px 24px;\r\n  border-radius: 8px;\r\n  font-size: 1rem;\r\n  font-weight: 600;\r\n  cursor: pointer;\r\n  transition: all 0.3s ease;\r\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\r\n}\r\n\r\n.error-retry:hover {\r\n  transform: translateY(-2px);\r\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\r\n}\r\n\r\n/* 主App容器 */\r\n.app {\r\n  width: 100%;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n}\r\n\r\n/* 新增动画定义 */\r\n@keyframes spin {\r\n  0% { transform: rotate(0deg); }\r\n  100% { transform: rotate(360deg); }\r\n}\r\n\r\n@keyframes bounce {\r\n  0%, 80%, 100% {\r\n    transform: scale(0);\r\n  }\r\n  40% {\r\n    transform: scale(1);\r\n  }\r\n}\r\n\r\n@keyframes progress {\r\n  0% {\r\n    width: 0%;\r\n    opacity: 1;\r\n  }\r\n  50% {\r\n    width: 70%;\r\n    opacity: 1;\r\n  }\r\n  100% {\r\n    width: 100%;\r\n    opacity: 0;\r\n  }\r\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"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AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA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AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,0EAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,0EAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,yEAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,0EAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,yEAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,sEAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,2BAAmB;EAAnB;AAAmB;AAAnB;EAAA,2BAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,gDAAmB;EAAnB,6DAAmB;EAAnB;AAAmB;AAAnB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xfD;EAAA,2BAwfC;EAxfD;AAwfC;;AAxfD;EAAA,kBAwfC;EAxfD,kBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,kBAwfC;EAxfD,kBAwfC;EAxfD;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA,kBAwfC;EAxfD;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA,kBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,kBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,kBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,kBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,kBAwfC;EAxfD;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA,4DAwfC;EAxfD,mEAwfC;EAxfD;AAwfC;;AAxfD;EAAA,4DAwfC;EAxfD,mEAwfC;EAxfD;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA;AAwfC;;AAxfD;EAAA,oBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,oBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,oBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,oBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,oBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,oBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,oBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,oBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,oBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,oBAwfC;EAxfD;AAwfC;;AAxfD;EAAA,oB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","sourcesContent":["@tailwind base;\r\n@tailwind components;\r\n@tailwind utilities;\r\n\r\n/* 导入主题样式 */\r\n@import './styles/themes.css';\r\n\r\n@layer base {\r\n  :root {\r\n    --background: 220 20% 14%;\r\n    --foreground: 220 8% 95%;\r\n    --card: 220 20% 10%;\r\n    --card-foreground: 220 8% 95%;\r\n    --popover: 220 20% 10%;\r\n    --popover-foreground: 220 8% 95%;\r\n    --primary: 220 8% 95%;\r\n    --primary-foreground: 220 20% 14%;\r\n    --secondary: 220 20% 14%;\r\n    --secondary-foreground: 220 8% 95%;\r\n    --muted: 220 20% 14%;\r\n    --muted-foreground: 220 8% 65%;\r\n    --accent: 220 20% 14%;\r\n    --accent-foreground: 220 8% 95%;\r\n    --destructive: 0 84% 60%;\r\n    --destructive-foreground: 0 0% 98%;\r\n    --border: 220 13% 18%;\r\n    --input: 220 13% 18%;\r\n    --ring: 220 8% 95%;\r\n    --radius: 0.5rem;\r\n    \r\n    /* Theme System Variables */\r\n    --spacing-xs: 0.25rem;\r\n    --spacing-sm: 0.5rem;\r\n    --spacing-md: 1rem;\r\n    --spacing-lg: 1.5rem;\r\n    --spacing-xl: 2rem;\r\n    \r\n    --border-radius-sm: 0.375rem;\r\n    --border-radius-md: 0.5rem;\r\n    --border-radius-lg: 0.75rem;\r\n    \r\n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\r\n    --glass-blur: blur(20px);\r\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\r\n  }\r\n  \r\n  /* Animation utilities */\r\n  @keyframes slide-in-right {\r\n    from {\r\n      transform: translateX(100%);\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      transform: translateX(0);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes fade-in {\r\n    from {\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes bounce-in {\r\n    0% {\r\n      transform: scale(0.3);\r\n      opacity: 0;\r\n    }\r\n    50% {\r\n      transform: scale(1.05);\r\n    }\r\n    70% {\r\n      transform: scale(0.9);\r\n    }\r\n    100% {\r\n      transform: scale(1);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  .animate-slide-in-right {\r\n    animation: slide-in-right 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-fade-in {\r\n    animation: fade-in 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-bounce-in {\r\n    animation: bounce-in 0.5s ease-out;\r\n  }\r\n  \r\n  /* Glass Future Theme - 基于Indigo色块系列 */\r\n  [data-theme=\"glass-future\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\r\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\r\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\r\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\r\n    \r\n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\r\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\r\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\r\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\r\n    \r\n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\r\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\r\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\r\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\r\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\r\n    --text-secondary: oklch(92.369% 0.00263 230.33);\r\n    --text-accent: oklch(0.968 0.007 247.896);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\r\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\r\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\r\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\r\n  }\r\n  \r\n  /* Dark Tech Theme - 基于Slate色块系列 */\r\n  [data-theme=\"dark-tech\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\r\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\r\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\r\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\r\n    \r\n    /* 弹出窗体背景 - Slate深色系列 */\r\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\r\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\r\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\r\n    \r\n    /* 文字颜色 - Slate浅色系，适合深色背景 */\r\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\r\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\r\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\r\n    --text-primary: oklch(0.968 0.007 247.896);\r\n    --text-secondary: oklch(0.929 0.013 255.508);\r\n    --text-accent: oklch(0.869 0.022 252.894);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\r\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\r\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\r\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\r\n  }\r\n  \r\n  /* Warm Business Theme - 基于Amber色块系列 */\r\n  [data-theme=\"warm-business\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\r\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\r\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\r\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\r\n    \r\n    /* 弹出窗体背景 - Amber浅色系列 */\r\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\r\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\r\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\r\n    \r\n    /* 文字颜色 - Amber深色系，适合浅色背景 */\r\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\r\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\r\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\r\n    --text-primary: oklch(0.414 0.112 45.904);\r\n    --text-secondary: oklch(0.473 0.137 46.201);\r\n    --text-accent: oklch(0.555 0.163 48.998);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\r\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\r\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\r\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\r\n  }\r\n}\r\n\r\n@layer base {\r\n  * {\r\n    border-color: hsl(var(--border));\r\n  }\r\n  body {\r\n    background-color: hsl(var(--background));\r\n    color: hsl(var(--foreground));\r\n    margin: 0;\r\n    padding: 0;\r\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\r\n    min-height: 100vh;\r\n    overflow-x: hidden;\r\n  }\r\n}\r\n\r\n/* Custom glassmorphism styles matching current design */\r\n.app-bg {\r\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\r\n  min-height: 100vh;\r\n  position: relative;\r\n}\r\n\r\n.app-bg::before {\r\n  content: '';\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background: \r\n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\r\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\r\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\r\n  pointer-events: none;\r\n  z-index: 1;\r\n}\r\n\r\n@layer utilities {\r\n  .glass-card {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(12px);\r\n    border: 1px solid rgba(255, 255, 255, 0.2);\r\n    border-radius: 16px;\r\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\r\n  }\r\n  \r\n  /* Popup/Dropdown Styles */\r\n  .popup-dropdown {\r\n    position: absolute;\r\n    z-index: 1000;\r\n    border-radius: 16px;\r\n    backdrop-filter: blur(20px);\r\n    -webkit-backdrop-filter: blur(20px);\r\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\r\n    overflow: hidden;\r\n  }\r\n  \r\n  .popup-header {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(10px);\r\n    -webkit-backdrop-filter: blur(10px);\r\n  }\r\n  \r\n  .popup-content {\r\n    background: transparent;\r\n  }\r\n  \r\n  .glass-card-hover {\r\n    transition: all 0.3s ease;\r\n  }\r\n  \r\n  .glass-card-hover:hover {\r\n    background: rgba(255, 255, 255, 0.15);\r\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\r\n    transform: translateY(-2px);\r\n  }\r\n  \r\n  .glass-input {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(8px);\r\n    border: 1px solid rgba(255, 255, 255, 0.2);\r\n    color: white;\r\n  }\r\n  \r\n  .glass-input::placeholder {\r\n    color: rgba(255, 255, 255, 0.5);\r\n  }\r\n  \r\n  .glass-input:focus {\r\n    outline: none;\r\n    ring: 2px;\r\n    ring-color: rgba(255, 255, 255, 0.3);\r\n    ring-offset: 2px;\r\n  }\r\n  \r\n  .text-gradient {\r\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\r\n    -webkit-background-clip: text;\r\n    -webkit-text-fill-color: transparent;\r\n    background-clip: text;\r\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\r\n  }\r\n  \r\n  .animate-fade-in-up {\r\n    animation: fadeInUp 0.6s ease-out;\r\n  }\r\n}\r\n\r\n@keyframes fadeInUp {\r\n  from {\r\n    opacity: 0;\r\n    transform: translateY(30px);\r\n  }\r\n  to {\r\n    opacity: 1;\r\n    transform: translateY(0);\r\n  }\r\n}\r\n\r\n/* ===== App加载动画样式 ===== */\r\n.app-loading,\r\n.app-error {\r\n  width: 100vw;\r\n  height: 100vh;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\r\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  z-index: 9999;\r\n}\r\n\r\n.loading-container,\r\n.error-container {\r\n  background: rgba(255, 255, 255, 0.1);\r\n  backdrop-filter: blur(20px);\r\n  border-radius: 24px;\r\n  padding: 48px;\r\n  text-align: center;\r\n  max-width: 420px;\r\n  border: 1px solid rgba(255, 255, 255, 0.2);\r\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\r\n}\r\n\r\n/* 加载动画 */\r\n.loading-animation {\r\n  position: relative;\r\n  margin-bottom: 32px;\r\n}\r\n\r\n.loading-spinner {\r\n  width: 60px;\r\n  height: 60px;\r\n  border: 4px solid rgba(255, 255, 255, 0.3);\r\n  border-top: 4px solid white;\r\n  border-radius: 50%;\r\n  animation: spin 1s linear infinite;\r\n  margin: 0 auto 20px;\r\n}\r\n\r\n.loading-dots {\r\n  display: flex;\r\n  justify-content: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-dots span {\r\n  width: 8px;\r\n  height: 8px;\r\n  background: white;\r\n  border-radius: 50%;\r\n  animation: bounce 1.4s ease-in-out infinite both;\r\n}\r\n\r\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\r\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\r\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\r\n\r\n.loading-title {\r\n  color: white;\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 8px;\r\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\r\n}\r\n\r\n.loading-text {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 1.1rem;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.loading-progress {\r\n  width: 100%;\r\n  height: 4px;\r\n  background: rgba(255, 255, 255, 0.2);\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.progress-bar {\r\n  height: 100%;\r\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\r\n  border-radius: 2px;\r\n  animation: progress 2s ease-in-out infinite;\r\n}\r\n\r\n.loading-tips {\r\n  text-align: left;\r\n  background: rgba(255, 255, 255, 0.1);\r\n  border-radius: 12px;\r\n  padding: 16px;\r\n  border: 1px solid rgba(255, 255, 255, 0.2);\r\n}\r\n\r\n.loading-tips p {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 0.9rem;\r\n  margin-bottom: 6px;\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-tips p:last-child {\r\n  margin-bottom: 0;\r\n}\r\n\r\n/* 错误状态样式 */\r\n.error-icon {\r\n  font-size: 4rem;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.error-title {\r\n  color: white;\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 12px;\r\n}\r\n\r\n.error-message {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 1rem;\r\n  margin-bottom: 24px;\r\n  background: rgba(255, 77, 79, 0.2);\r\n  padding: 12px 16px;\r\n  border-radius: 8px;\r\n  border: 1px solid rgba(255, 77, 79, 0.3);\r\n}\r\n\r\n.error-retry {\r\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\r\n  color: white;\r\n  border: none;\r\n  padding: 12px 24px;\r\n  border-radius: 8px;\r\n  font-size: 1rem;\r\n  font-weight: 600;\r\n  cursor: pointer;\r\n  transition: all 0.3s ease;\r\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\r\n}\r\n\r\n.error-retry:hover {\r\n  transform: translateY(-2px);\r\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\r\n}\r\n\r\n/* 主App容器 */\r\n.app {\r\n  width: 100%;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n}\r\n\r\n/* 新增动画定义 */\r\n@keyframes spin {\r\n  0% { transform: rotate(0deg); }\r\n  100% { transform: rotate(360deg); }\r\n}\r\n\r\n@keyframes bounce {\r\n  0%, 80%, 100% {\r\n    transform: scale(0);\r\n  }\r\n  40% {\r\n    transform: scale(1);\r\n  }\r\n}\r\n\r\n@keyframes progress {\r\n  0% {\r\n    width: 0%;\r\n    opacity: 1;\r\n  }\r\n  50% {\r\n    width: 70%;\r\n    opacity: 1;\r\n  }\r\n  100% {\r\n    width: 100%;\r\n    opacity: 0;\r\n  }\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -51688,6 +51852,617 @@ const WeeklyCalendarView = ({ weekData, selectedDate, onDayClick }) => {
 
 /***/ }),
 
+/***/ "./src/components/Consumption/ConsumptionControls.tsx":
+/*!************************************************************!*\
+  !*** ./src/components/Consumption/ConsumptionControls.tsx ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _types_consumption__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../types/consumption */ "./src/types/consumption.ts");
+
+/**
+ * 逐日消耗控制面板组件
+ */
+
+
+const ConsumptionControls = ({ config, onChange, onRefresh, onExport, loading = false, className = '' }) => {
+    const [showAdvanced, setShowAdvanced] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    /**
+     * 处理日期范围变更
+     */
+    const handleDateRangeChange = (field, value) => {
+        const newConfig = Object.assign(Object.assign({}, config), { dateRange: Object.assign(Object.assign({}, config.dateRange), { [field]: new Date(value) }) });
+        onChange(newConfig);
+    };
+    /**
+     * 处理显示模式变更
+     */
+    const handleDisplayModeChange = (mode) => {
+        const newConfig = Object.assign(Object.assign({}, config), { displayMode: mode });
+        onChange(newConfig);
+    };
+    /**
+     * 处理快速日期选择
+     */
+    const handleQuickDateSelect = (days) => {
+        const endDate = new Date();
+        const startDate = new Date();
+        startDate.setDate(endDate.getDate() - days + 1);
+        const newConfig = Object.assign(Object.assign({}, config), { dateRange: {
+                startDate,
+                endDate
+            } });
+        onChange(newConfig);
+    };
+    /**
+     * 格式化日期为输入框格式
+     */
+    const formatDateForInput = (date) => {
+        return date.toISOString().split('T')[0];
+    };
+    /**
+     * 获取显示模式的图标
+     */
+    const getDisplayModeIcon = (mode) => {
+        switch (mode) {
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.QUANTITY:
+                return '📦';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.CONVERTED:
+                return '📊';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.AMOUNT:
+                return '💰';
+            default:
+                return '📦';
+        }
+    };
+    /**
+     * 获取显示模式的标题
+     */
+    const getDisplayModeTitle = (mode) => {
+        switch (mode) {
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.QUANTITY:
+                return '数量统计';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.CONVERTED:
+                return '换算数量';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.AMOUNT:
+                return '金额统计';
+            default:
+                return '数量统计';
+        }
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `glass-surface backdrop-blur-lg rounded-xl border border-white/20 p-6 ${className}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-wrap items-center gap-4 mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-sm font-medium text-white/90 drop-shadow-md", children: "\u65E5\u671F\u8303\u56F4:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "date", value: formatDateForInput(config.dateRange.startDate), onChange: (e) => handleDateRangeChange('startDate', e.target.value), className: "px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white/90 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm", disabled: loading }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/70", children: "\u81F3" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "date", value: formatDateForInput(config.dateRange.endDate), onChange: (e) => handleDateRangeChange('endDate', e.target.value), className: "px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white/90 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400/50 backdrop-blur-sm", disabled: loading })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/70", children: "\u5FEB\u9009:" }), [7, 15, 30].map(days => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { onClick: () => handleQuickDateSelect(days), disabled: loading, className: "px-3 py-1 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-sm text-white/90 transition-colors duration-200 disabled:opacity-50", children: [days, "\u5929"] }, days)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-sm font-medium text-white/90 drop-shadow-md", children: "\u663E\u793A\u6A21\u5F0F:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex bg-white/10 rounded-lg border border-white/20 overflow-hidden", children: Object.values(_types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode).map(mode => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { onClick: () => handleDisplayModeChange(mode), disabled: loading, className: `px-4 py-2 text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${config.displayMode === mode
+                                        ? 'bg-blue-500/30 text-white/95 border-blue-400/50'
+                                        : 'text-white/70 hover:text-white/90 hover:bg-white/10'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: getDisplayModeIcon(mode) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: getDisplayModeTitle(mode) })] }, mode))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2 ml-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { onClick: () => setShowAdvanced(!showAdvanced), className: "px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-sm text-white/90 transition-colors duration-200 flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u2699\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u9AD8\u7EA7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `transform transition-transform duration-200 ${showAdvanced ? 'rotate-180' : ''}`, children: "\u25BC" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { onClick: onRefresh, disabled: loading, className: "px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30 rounded-lg text-sm text-white/90 transition-colors duration-200 flex items-center gap-2 disabled:opacity-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: loading ? 'animate-spin' : '', children: "\uD83D\uDD04" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u5237\u65B0" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { onClick: onExport, disabled: loading, className: "px-4 py-2 bg-green-500/20 hover:bg-green-500/30 border border-green-400/30 rounded-lg text-sm text-white/90 transition-colors duration-200 flex items-center gap-2 disabled:opacity-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\uD83D\uDCE4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u5BFC\u51FA" })] })] })] }), showAdvanced && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "border-t border-white/20 pt-4 mt-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-sm font-medium text-white/90 drop-shadow-md", children: "\u65F6\u95F4\u6BB5\u914D\u7F6E:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-yellow-300 w-8", children: "\u65E9:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "time", value: config.timeSlotConfig.morning.start, className: "px-2 py-1 bg-white/10 border border-white/20 rounded text-xs text-white/90 focus:outline-none focus:ring-1 focus:ring-blue-400/50", disabled: loading }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/70", children: "-" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "time", value: config.timeSlotConfig.morning.end, className: "px-2 py-1 bg-white/10 border border-white/20 rounded text-xs text-white/90 focus:outline-none focus:ring-1 focus:ring-blue-400/50", disabled: loading })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-blue-300 w-8", children: "\u4E2D:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "time", value: config.timeSlotConfig.afternoon.start, className: "px-2 py-1 bg-white/10 border border-white/20 rounded text-xs text-white/90 focus:outline-none focus:ring-1 focus:ring-blue-400/50", disabled: loading }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/70", children: "-" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "time", value: config.timeSlotConfig.afternoon.end, className: "px-2 py-1 bg-white/10 border border-white/20 rounded text-xs text-white/90 focus:outline-none focus:ring-1 focus:ring-blue-400/50", disabled: loading })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-purple-300 w-8", children: "\u665A:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "time", value: config.timeSlotConfig.evening.start, className: "px-2 py-1 bg-white/10 border border-white/20 rounded text-xs text-white/90 focus:outline-none focus:ring-1 focus:ring-blue-400/50", disabled: loading }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/70", children: "-" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "time", value: config.timeSlotConfig.evening.end, className: "px-2 py-1 bg-white/10 border border-white/20 rounded text-xs text-white/90 focus:outline-none focus:ring-1 focus:ring-blue-400/50", disabled: loading })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-sm font-medium text-white/90 drop-shadow-md", children: "\u663E\u793A\u9009\u9879:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: config.showSubCategories, className: "rounded border-white/20 bg-white/10 text-blue-500 focus:ring-blue-400/50", disabled: loading }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/80", children: "\u663E\u793A\u5B50\u5206\u7C7B" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: config.groupByCategory, className: "rounded border-white/20 bg-white/10 text-blue-500 focus:ring-blue-400/50", disabled: loading }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/80", children: "\u6309\u5206\u7C7B\u5206\u7EC4" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-sm font-medium text-white/90 drop-shadow-md", children: "\u7B5B\u9009\u9009\u9879:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", { className: "w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white/90 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400/50", disabled: loading, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u9009\u62E9\u5206\u7C7B\u7B5B\u9009" }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", { className: "w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white/90 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400/50", disabled: loading, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u9009\u62E9\u4ED3\u5E93\u7B5B\u9009" }) })] })] })] }) }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConsumptionControls);
+
+
+/***/ }),
+
+/***/ "./src/components/Consumption/ConsumptionSummary.tsx":
+/*!***********************************************************!*\
+  !*** ./src/components/Consumption/ConsumptionSummary.tsx ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _types_consumption__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/consumption */ "./src/types/consumption.ts");
+/* harmony import */ var _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/consumptionCalculator */ "./src/utils/consumptionCalculator.ts");
+/* harmony import */ var _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/timeSlotHelper */ "./src/utils/timeSlotHelper.ts");
+
+
+
+
+const ConsumptionSummary = ({ totals, displayMode, dateRange, className = '' }) => {
+    /**
+     * 计算日期范围天数
+     */
+    const getDaysCount = () => {
+        return _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_3__["default"].getDaysBetween(dateRange.startDate, dateRange.endDate) + 1;
+    };
+    /**
+     * 计算平均值
+     */
+    const getAverageValue = (total) => {
+        const days = getDaysCount();
+        return days > 0 ? total / days : 0;
+    };
+    /**
+     * 格式化显示值
+     */
+    const formatValue = (value) => {
+        return _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_2__["default"].formatDisplayValue(value, displayMode);
+    };
+    /**
+     * 获取显示单位
+     */
+    const getUnit = () => {
+        return _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_2__["default"].getDisplayUnit(displayMode, '个', '包装单位');
+    };
+    /**
+     * 获取时间段颜色主题
+     */
+    const getTimeSlotTheme = (timeSlot) => {
+        return _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_3__["default"].getTimeSlotColorTheme(timeSlot);
+    };
+    const grandTotalValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_2__["default"].getDisplayValue(totals.grandTotal, displayMode);
+    const morningTotalValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_2__["default"].getDisplayValue(totals.timeSlotTotals.morning, displayMode);
+    const afternoonTotalValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_2__["default"].getDisplayValue(totals.timeSlotTotals.afternoon, displayMode);
+    const eveningTotalValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_2__["default"].getDisplayValue(totals.timeSlotTotals.evening, displayMode);
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `glass-surface backdrop-blur-lg rounded-xl border border-white/20 p-6 ${className}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3 mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-2xl", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white/95 drop-shadow-md", children: "\u6D88\u8017\u6570\u636E\u6C47\u603B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "text-sm text-white/70", children: [dateRange.startDate.toLocaleDateString('zh-CN'), " - ", dateRange.endDate.toLocaleDateString('zh-CN'), "\uFF08\u5171 ", getDaysCount(), " \u5929\uFF09"] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-lg p-4 border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm font-medium text-white/80", children: "\u603B\u8BA1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xl", children: "\uD83C\uDFAF" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white/95 drop-shadow-md", children: formatValue(grandTotalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-white/70", children: ["\u65E5\u5747: ", formatValue(getAverageValue(grandTotalValue))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-white/60", children: ["\u4EA4\u6613\u6B21\u6570: ", totals.grandTotal.transactionCount.toLocaleString()] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `rounded-lg p-4 border border-white/20 ${getTimeSlotTheme(_types_consumption__WEBPACK_IMPORTED_MODULE_1__.TimeSlot.MORNING)}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm font-medium text-white/80", children: "\u65E9 (06-12)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xl", children: "\uD83C\uDF05" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xl font-bold text-white/95 drop-shadow-md", children: formatValue(morningTotalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-white/70", children: ["\u5360\u6BD4: ", grandTotalValue > 0 ? ((morningTotalValue / grandTotalValue) * 100).toFixed(1) : 0, "%"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-white/60", children: ["\u4EA4\u6613: ", totals.timeSlotTotals.morning.transactionCount] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `rounded-lg p-4 border border-white/20 ${getTimeSlotTheme(_types_consumption__WEBPACK_IMPORTED_MODULE_1__.TimeSlot.AFTERNOON)}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm font-medium text-white/80", children: "\u4E2D (12-18)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xl", children: "\u2600\uFE0F" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xl font-bold text-white/95 drop-shadow-md", children: formatValue(afternoonTotalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-white/70", children: ["\u5360\u6BD4: ", grandTotalValue > 0 ? ((afternoonTotalValue / grandTotalValue) * 100).toFixed(1) : 0, "%"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-white/60", children: ["\u4EA4\u6613: ", totals.timeSlotTotals.afternoon.transactionCount] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `rounded-lg p-4 border border-white/20 ${getTimeSlotTheme(_types_consumption__WEBPACK_IMPORTED_MODULE_1__.TimeSlot.EVENING)}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm font-medium text-white/80", children: "\u665A (18-06)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xl", children: "\uD83C\uDF19" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xl font-bold text-white/95 drop-shadow-md", children: formatValue(eveningTotalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-white/70", children: ["\u5360\u6BD4: ", grandTotalValue > 0 ? ((eveningTotalValue / grandTotalValue) * 100).toFixed(1) : 0, "%"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-xs text-white/60", children: ["\u4EA4\u6613: ", totals.timeSlotTotals.evening.transactionCount] })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 lg:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-white/5 rounded-lg p-4 border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-sm font-medium text-white/90 mb-3 drop-shadow-md", children: "\u65F6\u95F4\u6BB5\u5206\u5E03" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-3", children: [
+                                    { slot: _types_consumption__WEBPACK_IMPORTED_MODULE_1__.TimeSlot.MORNING, name: '早上', value: morningTotalValue, icon: '🌅' },
+                                    { slot: _types_consumption__WEBPACK_IMPORTED_MODULE_1__.TimeSlot.AFTERNOON, name: '下午', value: afternoonTotalValue, icon: '☀️' },
+                                    { slot: _types_consumption__WEBPACK_IMPORTED_MODULE_1__.TimeSlot.EVENING, name: '晚上', value: eveningTotalValue, icon: '🌙' }
+                                ].map(({ slot, name, value, icon }) => {
+                                    const percentage = grandTotalValue > 0 ? (value / grandTotalValue) * 100 : 0;
+                                    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-lg", children: icon }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center mb-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/80", children: name }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-sm text-white/90 font-medium", children: [formatValue(value), " (", percentage.toFixed(1), "%)"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-full bg-white/10 rounded-full h-2", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `h-2 rounded-full transition-all duration-500 ${getTimeSlotTheme(slot)}`, style: { width: `${percentage}%` } }) })] })] }, slot));
+                                }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bg-white/5 rounded-lg p-4 border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-sm font-medium text-white/90 mb-3 drop-shadow-md", children: "\u7EDF\u8BA1\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-3", children: [displayMode === _types_consumption__WEBPACK_IMPORTED_MODULE_1__.DisplayMode.AMOUNT && totals.grandTotal.avgUnitPrice && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/70", children: "\u5E73\u5747\u5355\u4EF7:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-sm text-white/90 font-medium", children: ["\u00A5", totals.grandTotal.avgUnitPrice.toFixed(2)] })] })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/70", children: "\u603B\u4EA4\u6613\u6B21\u6570:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/90 font-medium", children: totals.grandTotal.transactionCount.toLocaleString() })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/70", children: "\u65E5\u5747\u4EA4\u6613\u6B21\u6570:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/90 font-medium", children: (totals.grandTotal.transactionCount / getDaysCount()).toFixed(1) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/70", children: "\u6D89\u53CA\u5206\u7C7B:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-sm text-white/90 font-medium", children: [totals.categoryTotals.size, " \u4E2A"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/70", children: "\u6570\u636E\u5355\u4F4D:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/90 font-medium", children: getUnit() })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/70", children: "\u6700\u6D3B\u8DC3\u65F6\u95F4\u6BB5:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm text-white/90 font-medium", children: morningTotalValue >= afternoonTotalValue && morningTotalValue >= eveningTotalValue ? '早上' :
+                                                    afternoonTotalValue >= eveningTotalValue ? '下午' : '晚上' })] })] })] })] })] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConsumptionSummary);
+
+
+/***/ }),
+
+/***/ "./src/components/Consumption/ConsumptionTable.tsx":
+/*!*********************************************************!*\
+  !*** ./src/components/Consumption/ConsumptionTable.tsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ConsumptionTableHeader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ConsumptionTableHeader */ "./src/components/Consumption/ConsumptionTableHeader.tsx");
+/* harmony import */ var _ConsumptionTableRow__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ConsumptionTableRow */ "./src/components/Consumption/ConsumptionTableRow.tsx");
+/* harmony import */ var _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/consumptionCalculator */ "./src/utils/consumptionCalculator.ts");
+
+/**
+ * 逐日消耗表格主组件
+ */
+
+
+
+
+const ConsumptionTable = ({ data, loading = false, onCategoryToggle, onCellClick, className = '' }) => {
+    const [expandedCategories, setExpandedCategories] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(new Set());
+    /**
+     * 处理分类展开/折叠
+     */
+    const handleCategoryToggle = (categoryId) => {
+        const newExpanded = new Set(expandedCategories);
+        if (newExpanded.has(categoryId)) {
+            newExpanded.delete(categoryId);
+        }
+        else {
+            newExpanded.add(categoryId);
+        }
+        setExpandedCategories(newExpanded);
+        if (onCategoryToggle) {
+            onCategoryToggle(categoryId);
+        }
+    };
+    /**
+     * 处理单元格点击
+     */
+    const handleCellClick = (id, date, timeSlot) => {
+        if (onCellClick) {
+            onCellClick(id, date, timeSlot);
+        }
+    };
+    /**
+     * 渲染分类及其子项
+     */
+    const renderCategoryWithChildren = (category, level = 1) => {
+        const rows = [];
+        // 渲染分类行
+        const updatedCategory = Object.assign(Object.assign({}, category), { isExpanded: expandedCategories.has(category.categoryId) });
+        rows.push((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ConsumptionTableRow__WEBPACK_IMPORTED_MODULE_3__["default"], { rowData: updatedCategory, dateColumns: data.dateColumns, displayMode: data.config.displayMode, level: level, onToggle: handleCategoryToggle, onCellClick: handleCellClick }, `category-${category.categoryId}`));
+        // 如果分类展开，渲染子项
+        if (expandedCategories.has(category.categoryId)) {
+            // 渲染产品
+            category.products.forEach(product => {
+                rows.push((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ConsumptionTableRow__WEBPACK_IMPORTED_MODULE_3__["default"], { rowData: product, dateColumns: data.dateColumns, displayMode: data.config.displayMode, level: level + 1, onCellClick: handleCellClick }, `product-${product.productId}`));
+            });
+            // 渲染子分类
+            if (category.children) {
+                category.children.forEach(childCategory => {
+                    rows.push(...renderCategoryWithChildren(childCategory, level + 1));
+                });
+            }
+        }
+        return rows;
+    };
+    /**
+     * 渲染合计行
+     */
+    const renderTotalRow = () => {
+        const { totals, config, dateColumns } = data;
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-t-2 border-white/30 bg-white/10 font-semibold", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "sticky left-0 z-10 bg-white/15 backdrop-blur-lg px-4 py-3 border-r border-white/30", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center text-white/95 drop-shadow-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2 text-yellow-300", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-bold", children: "\u603B\u8BA1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/70", children: _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].getDisplayUnit(config.displayMode, '个', '包装单位') })] })] }) }), dateColumns.map((date) => {
+                    const dateTotal = totals.dateTotals.get(date);
+                    if (!dateTotal) {
+                        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-3 py-3 text-center text-white/70 bg-yellow-500/10 border-r border-white/10", children: "-" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-3 py-3 text-center text-white/70 bg-blue-500/10 border-r border-white/10", children: "-" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-3 py-3 text-center text-white/70 bg-purple-500/10 border-r border-white/20", children: "-" })] }, `total-${date}`));
+                    }
+                    // 计算各时间段的值（需要从日期总计中分解）
+                    const morningValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].getDisplayValue(totals.timeSlotTotals.morning, config.displayMode);
+                    const afternoonValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].getDisplayValue(totals.timeSlotTotals.afternoon, config.displayMode);
+                    const eveningValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].getDisplayValue(totals.timeSlotTotals.evening, config.displayMode);
+                    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-3 py-3 text-center text-white/95 bg-yellow-500/20 border-r border-white/10 drop-shadow-md", children: _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].formatDisplayValue(morningValue, config.displayMode) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-3 py-3 text-center text-white/95 bg-blue-500/20 border-r border-white/10 drop-shadow-md", children: _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].formatDisplayValue(afternoonValue, config.displayMode) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-3 py-3 text-center text-white/95 bg-purple-500/20 border-r border-white/20 drop-shadow-md", children: _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].formatDisplayValue(eveningValue, config.displayMode) })] }, `total-${date}`));
+                }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-center font-bold text-white/95 bg-white/20 border-l border-white/40 drop-shadow-lg", children: _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].formatDisplayValue(_utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].getDisplayValue(totals.grandTotal, config.displayMode), config.displayMode) })] }));
+    };
+    /**
+     * 计算表格的最小宽度
+     */
+    const tableMinWidth = (0,react__WEBPACK_IMPORTED_MODULE_1__.useMemo)(() => {
+        const categoryColumnWidth = 300; // 分类列宽度
+        const timeSlotColumnWidth = 80; // 时间段列宽度
+        const totalColumnWidth = 120; // 合计列宽度
+        return categoryColumnWidth +
+            (data.dateColumns.length * 3 * timeSlotColumnWidth) +
+            totalColumnWidth;
+    }, [data.dateColumns.length]);
+    if (loading) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `glass-surface backdrop-blur-lg rounded-xl border border-white/20 p-8 ${className}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin rounded-full h-8 w-8 border-b-2 border-white/70" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-3 text-white/80 drop-shadow-md", children: "\u52A0\u8F7D\u6D88\u8017\u6570\u636E\u4E2D..." })] }) }));
+    }
+    if (!data || data.categories.length === 0) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `glass-surface backdrop-blur-lg rounded-xl border border-white/20 p-8 ${className}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center text-white/70 drop-shadow-md", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-4xl mb-4 block", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-lg mb-2", children: "\u6682\u65E0\u6D88\u8017\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-sm", children: "\u8BF7\u9009\u62E9\u4E0D\u540C\u7684\u65E5\u671F\u8303\u56F4\u6216\u68C0\u67E5\u7B5B\u9009\u6761\u4EF6" })] }) }));
+    }
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `glass-surface backdrop-blur-lg rounded-xl border border-white/20 overflow-hidden ${className}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "overflow-x-auto overflow-y-auto max-h-[600px]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", { className: "w-full border-collapse", style: { minWidth: `${tableMinWidth}px` }, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ConsumptionTableHeader__WEBPACK_IMPORTED_MODULE_2__["default"], { dateColumns: data.dateColumns, displayMode: data.config.displayMode }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tbody", { children: [data.categories.map(category => renderCategoryWithChildren(category)), renderTotalRow()] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "px-4 py-3 border-t border-white/20 bg-white/5", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center text-sm text-white/70", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { children: ["\u5171 ", data.categories.length, " \u4E2A\u5206\u7C7B\uFF0C", data.categories.reduce((sum, cat) => sum + cat.products.length, 0), " \u4E2A\u4EA7\u54C1"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { children: ["\u6570\u636E\u66F4\u65B0\u65F6\u95F4: ", data.lastUpdated.toLocaleString('zh-CN')] })] }) })] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConsumptionTable);
+
+
+/***/ }),
+
+/***/ "./src/components/Consumption/ConsumptionTableHeader.tsx":
+/*!***************************************************************!*\
+  !*** ./src/components/Consumption/ConsumptionTableHeader.tsx ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _types_consumption__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../types/consumption */ "./src/types/consumption.ts");
+
+/**
+ * 逐日消耗表格双层表头组件
+ */
+
+
+const ConsumptionTableHeader = ({ dateColumns, displayMode, className = '' }) => {
+    /**
+     * 获取显示模式的标题
+     */
+    const getDisplayModeTitle = (mode) => {
+        switch (mode) {
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.QUANTITY:
+                return '数量';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.CONVERTED:
+                return '换算数量';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.AMOUNT:
+                return '金额';
+            default:
+                return '数量';
+        }
+    };
+    /**
+     * 获取显示模式的单位
+     */
+    const getDisplayModeUnit = (mode) => {
+        switch (mode) {
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.QUANTITY:
+                return '(个)';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.CONVERTED:
+                return '(包装单位)';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.AMOUNT:
+                return '(元)';
+            default:
+                return '';
+        }
+    };
+    /**
+     * 格式化日期显示
+     */
+    const formatDateDisplay = (dateString) => {
+        const date = new Date(dateString);
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const weekDay = ['日', '一', '二', '三', '四', '五', '六'][date.getDay()];
+        return `${month}/${day} 周${weekDay}`;
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("thead", { className: `glass-surface backdrop-blur-lg ${className}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "sticky left-0 z-20 bg-white/10 backdrop-blur-lg px-4 py-3 text-left font-semibold text-white/90 border-r border-white/20", rowSpan: 2, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm drop-shadow-md", children: "\u5206\u7C7B/\u4EA7\u54C1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/70 mt-1", children: "Category/Product" })] }) }), dateColumns.map((date) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-2 py-3 text-center font-medium text-white/90 border-r border-white/20 bg-white/5", colSpan: 3, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm drop-shadow-md", children: formatDateDisplay(date) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/70 mt-1", children: getDisplayModeTitle(displayMode) })] }) }, date))), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-4 py-3 text-center font-semibold text-white/90 bg-white/10 border-l border-white/30", rowSpan: 2, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm drop-shadow-md", children: "\u5408\u8BA1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-xs text-white/70 mt-1", children: [getDisplayModeTitle(displayMode), " ", getDisplayModeUnit(displayMode)] })] }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", { className: "border-b border-white/20", children: dateColumns.map((date) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-3 py-2 text-center text-sm font-medium text-yellow-300 bg-yellow-500/10 border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "drop-shadow-md", children: "\u65E9" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-yellow-200/80", children: "06-12" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-3 py-2 text-center text-sm font-medium text-blue-300 bg-blue-500/10 border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "drop-shadow-md", children: "\u4E2D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-blue-200/80", children: "12-18" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-3 py-2 text-center text-sm font-medium text-purple-300 bg-purple-500/10 border-r border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "drop-shadow-md", children: "\u665A" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-purple-200/80", children: "18-06" })] }) })] }, `${date}-slots`))) })] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConsumptionTableHeader);
+
+
+/***/ }),
+
+/***/ "./src/components/Consumption/ConsumptionTableRow.tsx":
+/*!************************************************************!*\
+  !*** ./src/components/Consumption/ConsumptionTableRow.tsx ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _types_consumption__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../types/consumption */ "./src/types/consumption.ts");
+/* harmony import */ var _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/consumptionCalculator */ "./src/utils/consumptionCalculator.ts");
+/* harmony import */ var _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/timeSlotHelper */ "./src/utils/timeSlotHelper.ts");
+
+/**
+ * 逐日消耗表格行组件
+ */
+
+
+
+
+const ConsumptionTableRow = ({ rowData, dateColumns, displayMode, level, onToggle, onCellClick, className = '' }) => {
+    const isCategoryRow = 'children' in rowData;
+    const categoryData = isCategoryRow ? rowData : null;
+    const productData = !isCategoryRow ? rowData : null;
+    /**
+     * 处理行展开/折叠
+     */
+    const handleToggle = () => {
+        if (onToggle && isCategoryRow) {
+            onToggle(categoryData.categoryId);
+        }
+    };
+    /**
+     * 处理单元格点击
+     */
+    const handleCellClick = (date, timeSlot) => {
+        if (onCellClick) {
+            const id = isCategoryRow ? categoryData.categoryId : productData.productId;
+            onCellClick(id, date, timeSlot);
+        }
+    };
+    /**
+     * 格式化显示值
+     */
+    const formatValue = (value) => {
+        if (value === 0)
+            return '-';
+        return _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_3__["default"].formatDisplayValue(value, displayMode);
+    };
+    /**
+     * 获取单元格样式
+     */
+    const getCellStyle = (value, timeSlot) => {
+        const baseStyle = "px-3 py-2 text-center text-sm border-r border-white/10 cursor-pointer transition-colors duration-200";
+        const timeSlotStyle = _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_4__["default"].getTimeSlotColorTheme(timeSlot);
+        if (value === 0) {
+            return `${baseStyle} text-white/40 hover:bg-white/5`;
+        }
+        return `${baseStyle} text-white/90 hover:bg-white/10 ${timeSlotStyle}`;
+    };
+    /**
+     * 获取行样式
+     */
+    const getRowStyle = () => {
+        const baseStyle = "border-b border-white/10 hover:bg-white/5 transition-colors duration-200";
+        if (isCategoryRow) {
+            const levelStyle = level === 1 ? 'bg-white/5' : 'bg-white/3';
+            return `${baseStyle} ${levelStyle} ${className}`;
+        }
+        return `${baseStyle} ${className}`;
+    };
+    /**
+     * 获取分类名称样式
+     */
+    const getCategoryNameStyle = () => {
+        const baseStyle = "flex items-center text-white/90 drop-shadow-md";
+        const indentStyle = `ml-${Math.min(level * 4, 16)}`;
+        return `${baseStyle} ${indentStyle}`;
+    };
+    /**
+     * 渲染分类行
+     */
+    const renderCategoryRow = () => {
+        if (!categoryData)
+            return null;
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: getRowStyle(), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "sticky left-0 z-10 bg-white/5 backdrop-blur-lg px-4 py-3 border-r border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: getCategoryNameStyle(), children: [categoryData.hasChildren && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleToggle, className: "mr-2 w-4 h-4 flex items-center justify-center text-white/70 hover:text-white/90 transition-colors", children: categoryData.isExpanded ? '▼' : '▶' })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2 text-blue-300", children: "\uD83D\uDCC1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium", children: categoryData.categoryName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-xs text-white/60", children: [categoryData.products.length, " \u4E2A\u4EA7\u54C1"] })] })] }) }), dateColumns.map((date) => {
+                    const timeSlotData = categoryData.data.get(date);
+                    if (!timeSlotData) {
+                        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(0, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.MORNING), children: "-" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(0, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.AFTERNOON), children: "-" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(0, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.EVENING), children: "-" })] }, `${categoryData.categoryId}-${date}`));
+                    }
+                    const morningValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_3__["default"].getDisplayValue(timeSlotData.morning, displayMode);
+                    const afternoonValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_3__["default"].getDisplayValue(timeSlotData.afternoon, displayMode);
+                    const eveningValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_3__["default"].getDisplayValue(timeSlotData.evening, displayMode);
+                    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(morningValue, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.MORNING), onClick: () => handleCellClick(date, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.MORNING), children: formatValue(morningValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(afternoonValue, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.AFTERNOON), onClick: () => handleCellClick(date, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.AFTERNOON), children: formatValue(afternoonValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(eveningValue, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.EVENING), onClick: () => handleCellClick(date, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.EVENING), children: formatValue(eveningValue) })] }, `${categoryData.categoryId}-${date}`));
+                }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-center font-semibold text-white/90 bg-white/10 border-l border-white/30", children: formatValue(_utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_3__["default"].getDisplayValue(categoryData.rowTotal, displayMode)) })] }));
+    };
+    /**
+     * 渲染产品行
+     */
+    const renderProductRow = () => {
+        if (!productData)
+            return null;
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: getRowStyle(), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "sticky left-0 z-10 bg-white/3 backdrop-blur-lg px-4 py-3 border-r border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `flex items-center text-white/80 ml-${Math.min((level + 1) * 4, 20)}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2 text-green-300", children: "\uD83D\uDCE6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium", children: productData.productName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-xs text-white/60", children: ["SKU: ", productData.productSku] }), productData.hasUnitConversion && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-xs text-blue-300", children: [productData.baseUnit, " \u2192 ", productData.convertedUnit] }))] })] }) }), dateColumns.map((date) => {
+                    const timeSlotData = productData.data.get(date);
+                    if (!timeSlotData) {
+                        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(0, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.MORNING), children: "-" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(0, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.AFTERNOON), children: "-" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(0, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.EVENING), children: "-" })] }, `${productData.productId}-${date}`));
+                    }
+                    const morningValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_3__["default"].getDisplayValue(timeSlotData.morning, displayMode);
+                    const afternoonValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_3__["default"].getDisplayValue(timeSlotData.afternoon, displayMode);
+                    const eveningValue = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_3__["default"].getDisplayValue(timeSlotData.evening, displayMode);
+                    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(morningValue, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.MORNING), onClick: () => handleCellClick(date, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.MORNING), children: formatValue(morningValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(afternoonValue, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.AFTERNOON), onClick: () => handleCellClick(date, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.AFTERNOON), children: formatValue(afternoonValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: getCellStyle(eveningValue, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.EVENING), onClick: () => handleCellClick(date, _types_consumption__WEBPACK_IMPORTED_MODULE_2__.TimeSlot.EVENING), children: formatValue(eveningValue) })] }, `${productData.productId}-${date}`));
+                }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-center font-medium text-white/80 bg-white/5 border-l border-white/30", children: formatValue(_utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_3__["default"].getDisplayValue(productData.rowTotal, displayMode)) })] }));
+    };
+    return isCategoryRow ? renderCategoryRow() : renderProductRow();
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConsumptionTableRow);
+
+
+/***/ }),
+
+/***/ "./src/components/Consumption/DailyConsumptionView.tsx":
+/*!*************************************************************!*\
+  !*** ./src/components/Consumption/DailyConsumptionView.tsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _types_consumption__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../types/consumption */ "./src/types/consumption.ts");
+/* harmony import */ var _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/timeSlotHelper */ "./src/utils/timeSlotHelper.ts");
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
+/* harmony import */ var _ConsumptionControls__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ConsumptionControls */ "./src/components/Consumption/ConsumptionControls.tsx");
+/* harmony import */ var _ConsumptionTable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ConsumptionTable */ "./src/components/Consumption/ConsumptionTable.tsx");
+/* harmony import */ var _ConsumptionSummary__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ConsumptionSummary */ "./src/components/Consumption/ConsumptionSummary.tsx");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+/**
+ * 逐日消耗视图主组件
+ */
+
+
+
+
+
+
+
+const DailyConsumptionView = ({ className = '', initialConfig, onConfigChange, onDataExport }) => {
+    // 默认配置
+    const getDefaultConfig = () => {
+        const endDate = new Date();
+        const startDate = new Date();
+        startDate.setDate(endDate.getDate() - 6); // 默认显示最近7天
+        return Object.assign({ dateRange: {
+                startDate,
+                endDate
+            }, displayMode: _types_consumption__WEBPACK_IMPORTED_MODULE_2__.DisplayMode.QUANTITY, timeSlotConfig: _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_3__.DEFAULT_TIME_SLOT_CONFIG, showSubCategories: true, groupByCategory: true }, initialConfig);
+    };
+    // 状态管理
+    const [config, setConfig] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(getDefaultConfig());
+    const [data, setData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    /**
+     * 加载消耗数据
+     */
+    const loadData = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => __awaiter(void 0, void 0, void 0, function* () {
+        setLoading(true);
+        setError(null);
+        try {
+            console.log('开始加载消耗数据...', config);
+            const result = yield _services_business__WEBPACK_IMPORTED_MODULE_4__.dailyConsumptionService.getConsumptionData(config);
+            setData(result);
+            console.log('消耗数据加载完成', result);
+        }
+        catch (err) {
+            const errorMessage = err instanceof Error ? err.message : '加载数据失败';
+            setError(errorMessage);
+            console.error('加载消耗数据失败:', err);
+        }
+        finally {
+            setLoading(false);
+        }
+    }), [config]);
+    /**
+     * 处理配置变更
+     */
+    const handleConfigChange = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)((newConfig) => {
+        setConfig(newConfig);
+        if (onConfigChange) {
+            onConfigChange(newConfig);
+        }
+    }, [onConfigChange]);
+    /**
+     * 处理刷新
+     */
+    const handleRefresh = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => {
+        // 清除缓存并重新加载
+        _services_business__WEBPACK_IMPORTED_MODULE_4__.dailyConsumptionService.clearCache();
+        loadData();
+    }, [loadData]);
+    /**
+     * 处理导出
+     */
+    const handleExport = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => {
+        if (data && onDataExport) {
+            onDataExport(data);
+        }
+        else {
+            // 默认导出逻辑
+            console.log('导出消耗数据', data);
+            // TODO: 实现默认的导出功能
+        }
+    }, [data, onDataExport]);
+    /**
+     * 处理分类展开/折叠
+     */
+    const handleCategoryToggle = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)((categoryId) => {
+        console.log('切换分类展开状态:', categoryId);
+        // 这里可以添加分类展开状态的持久化逻辑
+    }, []);
+    /**
+     * 处理单元格点击
+     */
+    const handleCellClick = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)((id, date, timeSlot) => {
+        console.log('单元格点击:', { id, date, timeSlot });
+        // 这里可以添加单元格点击的详细信息显示逻辑
+        // 例如显示该时间段的详细交易记录
+    }, []);
+    // 初始加载数据
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        loadData();
+    }, [loadData]);
+    // 错误显示组件
+    const renderError = () => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface backdrop-blur-lg rounded-xl border border-red-400/30 p-8 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-red-300 mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-4xl mb-4 block", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold mb-2", children: "\u6570\u636E\u52A0\u8F7D\u5931\u8D25" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-sm text-red-200/80", children: error })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleRefresh, className: "px-4 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-400/30 rounded-lg text-sm text-white/90 transition-colors duration-200", children: "\u91CD\u8BD5" })] }));
+    // 空数据显示组件
+    const renderEmptyState = () => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface backdrop-blur-lg rounded-xl border border-white/20 p-8 text-center", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white/70", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-4xl mb-4 block", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold mb-2 text-white/90", children: "\u6682\u65E0\u6D88\u8017\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-sm mb-4", children: "\u5728\u9009\u5B9A\u7684\u65E5\u671F\u8303\u56F4\u5185\u6CA1\u6709\u627E\u5230\u51FA\u5E93\u8BB0\u5F55" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-2 text-sm text-white/60", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { children: "\u2022 \u8BF7\u68C0\u67E5\u65E5\u671F\u8303\u56F4\u8BBE\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { children: "\u2022 \u786E\u8BA4\u8BE5\u65F6\u95F4\u6BB5\u5185\u6709\u51FA\u5E93\u64CD\u4F5C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { children: "\u2022 \u68C0\u67E5\u5206\u7C7B\u548C\u4EA7\u54C1\u7B5B\u9009\u6761\u4EF6" })] })] }) }));
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center gap-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-3xl", children: "\uD83D\uDCC8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-2xl font-bold text-white/95 drop-shadow-lg", children: "\u9010\u65E5\u6D88\u8017\u89C6\u56FE" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-sm text-white/70", children: "\u6309\u65F6\u95F4\u6BB5\u7EDF\u8BA1\u548C\u5206\u6790\u4EA7\u54C1\u6D88\u8017\u6570\u636E" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ConsumptionControls__WEBPACK_IMPORTED_MODULE_5__["default"], { config: config, onChange: handleConfigChange, onRefresh: handleRefresh, onExport: handleExport, loading: loading }), error && renderError(), !error && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [data && !loading && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ConsumptionSummary__WEBPACK_IMPORTED_MODULE_7__["default"], { totals: data.totals, displayMode: config.displayMode, dateRange: config.dateRange })), loading && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface backdrop-blur-lg rounded-xl border border-white/20 p-8", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin rounded-full h-8 w-8 border-b-2 border-white/70" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-3 text-white/80 drop-shadow-md", children: "\u52A0\u8F7D\u6D88\u8017\u6570\u636E\u4E2D..." })] }) })), !loading && data && data.categories.length > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ConsumptionTable__WEBPACK_IMPORTED_MODULE_6__["default"], { data: data, loading: loading, onCategoryToggle: handleCategoryToggle, onCellClick: handleCellClick })), !loading && data && data.categories.length === 0 && renderEmptyState()] })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-center text-sm text-white/60", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { children: "\uD83D\uDCA1 \u63D0\u793A\uFF1A\u70B9\u51FB\u8868\u683C\u5355\u5143\u683C\u53EF\u67E5\u770B\u8BE6\u7EC6\u4EA4\u6613\u8BB0\u5F55\uFF0C\u70B9\u51FB\u5206\u7C7B\u540D\u79F0\u53EF\u5C55\u5F00/\u6298\u53E0\u5B50\u9879" }) })] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DailyConsumptionView);
+
+
+/***/ }),
+
 /***/ "./src/components/Dashboard/Dashboard.tsx":
 /*!************************************************!*\
   !*** ./src/components/Dashboard/Dashboard.tsx ***!
@@ -53259,6 +54034,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
 /* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+/* harmony import */ var _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/notificationHelper */ "./src/utils/notificationHelper.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -53268,6 +54044,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -53304,7 +54081,8 @@ const CategoryManagement = ({ className }) => {
             setStats(statsData);
         }
         catch (err) {
-            setError('加载分类数据失败');
+            const errorMessage = err instanceof Error ? err.message : '加载分类数据失败';
+            _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.showError('数据加载失败', errorMessage);
             console.error('Failed to load category data:', err);
         }
         finally {
@@ -53314,11 +54092,13 @@ const CategoryManagement = ({ className }) => {
     const handleSubmit = (e) => __awaiter(void 0, void 0, void 0, function* () {
         e.preventDefault();
         try {
+            // 处理根分类的parentId：将空字符串转换为undefined
+            const submitData = Object.assign(Object.assign({}, formData), { parentId: formData.parentId || undefined });
             if (editingCategory) {
-                yield _services_business__WEBPACK_IMPORTED_MODULE_2__.categoryService.update(editingCategory.id, formData);
+                yield _services_business__WEBPACK_IMPORTED_MODULE_2__.categoryService.update(editingCategory.id, submitData);
             }
             else {
-                yield _services_business__WEBPACK_IMPORTED_MODULE_2__.categoryService.create(formData);
+                yield _services_business__WEBPACK_IMPORTED_MODULE_2__.categoryService.create(submitData);
             }
             yield loadData();
             setShowForm(false);
@@ -53326,7 +54106,8 @@ const CategoryManagement = ({ className }) => {
             setFormData(emptyForm);
         }
         catch (err) {
-            setError(err instanceof Error ? err.message : '保存分类失败');
+            const errorMessage = err instanceof Error ? err.message : '保存分类失败';
+            _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.showError('分类保存失败', errorMessage);
             console.error('Failed to save category:', err);
         }
     });
@@ -53349,7 +54130,8 @@ const CategoryManagement = ({ className }) => {
             yield loadData();
         }
         catch (err) {
-            setError(err instanceof Error ? err.message : '删除分类失败');
+            const errorMessage = err instanceof Error ? err.message : '删除分类失败';
+            _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.showError('分类删除失败', errorMessage);
             console.error('Failed to delete category:', err);
         }
     });
@@ -53402,11 +54184,11 @@ const CategoryManagement = ({ className }) => {
     if (loading) {
         return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `space-y-6 ${className || ''}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center min-h-96", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80", children: "\u52A0\u8F7D\u5206\u7C7B\u6570\u636E\u4E2D..." })] }) }) }));
     }
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white mb-2", children: "\u5206\u7C7B\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u7BA1\u7406\u5546\u54C1\u5206\u7C7B\u3001\u5C42\u7EA7\u5173\u7CFB\u548C\u5206\u7C7B\u5C5E\u6027" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "primary", onClick: () => setShowForm(true), className: "self-start lg:self-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCC2" }), "\u65B0\u5EFA\u5206\u7C7B"] })] }), error && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-red-500/20 border border-red-400/30 rounded-lg flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-red-400 text-xl", children: "\u274C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-red-300 flex-1", children: error }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => setError(null), className: "text-red-300 hover:text-red-200 w-6 h-6 flex items-center justify-center", children: "\u2715" })] })), stats && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83D\uDCC2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: stats.total }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u603B\u5206\u7C7B\u6570" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\u2705" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: stats.active }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u542F\u7528\u5206\u7C7B" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83C\uDFD7\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: stats.roots }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u6839\u5206\u7C7B" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: stats.maxLevel }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u6700\u5927\u5C42\u7EA7" })] })] }) })] })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\u641C\u7D22\u548C\u7B5B\u9009", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { label: "\u641C\u7D22\u5206\u7C7B", type: "text", placeholder: "\u641C\u7D22\u5206\u7C7B\u540D\u79F0...", value: searchTerm, onChange: (e) => setSearchTerm(e.target.value) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { label: "\u7236\u5206\u7C7B", value: selectedParent, onChange: (e) => setSelectedParent(e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u5168\u90E8\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "root", children: "\u6839\u5206\u7C7B" }), getRootCategories().map(category => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: category.id, children: category.name }, category.id)))] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: `分类列表 (${filteredCategories.length})`, children: filteredCategories.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center py-12", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-4", children: "\uD83D\uDCC2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-2", children: "\u6CA1\u6709\u627E\u5230\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70 mb-4", children: "\u8BF7\u8C03\u6574\u641C\u7D22\u6761\u4EF6\u6216\u521B\u5EFA\u65B0\u7684\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "primary", onClick: () => setShowForm(true), children: "\u6DFB\u52A0\u7B2C\u4E00\u4E2A\u5206\u7C7B" })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "overflow-x-auto", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", { className: "w-full", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u5206\u7C7B\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u5206\u7C7B\u8DEF\u5F84" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u7EA7\u522B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u6392\u5E8F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u64CD\u4F5C" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", { children: filteredCategories.map(category => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/5 hover:bg-white/5 transition-colors", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-semibold text-white", children: category.name }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/80 text-sm", children: getCategoryPath(category) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "inline-block px-2 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-300 border border-blue-400/30", children: ["L", category.level] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/80", children: category.sortOrder }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `inline-block px-2 py-1 rounded-full text-xs font-medium border ${category.isActive
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white mb-2", children: "\u5206\u7C7B\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u7BA1\u7406\u5546\u54C1\u5206\u7C7B\u3001\u5C42\u7EA7\u5173\u7CFB\u548C\u5206\u7C7B\u5C5E\u6027" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "primary", onClick: () => setShowForm(true), className: "self-start lg:self-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCC2" }), "\u65B0\u5EFA\u5206\u7C7B"] })] }), stats && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83D\uDCC2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: stats.total }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u603B\u5206\u7C7B\u6570" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\u2705" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: stats.active }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u542F\u7528\u5206\u7C7B" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83C\uDFD7\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: stats.roots }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u6839\u5206\u7C7B" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: stats.maxLevel }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u6700\u5927\u5C42\u7EA7" })] })] }) })] })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\u641C\u7D22\u548C\u7B5B\u9009", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { label: "\u641C\u7D22\u5206\u7C7B", type: "text", placeholder: "\u641C\u7D22\u5206\u7C7B\u540D\u79F0...", value: searchTerm, onChange: (e) => setSearchTerm(e.target.value) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { label: "\u7236\u5206\u7C7B", value: selectedParent, onChange: (e) => setSelectedParent(e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u5168\u90E8\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "root", children: "\u6839\u5206\u7C7B" }), getRootCategories().map(category => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: category.id, children: category.name }, category.id)))] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: `分类列表 (${filteredCategories.length})`, children: filteredCategories.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center py-12", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-4", children: "\uD83D\uDCC2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-2", children: "\u6CA1\u6709\u627E\u5230\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70 mb-4", children: "\u8BF7\u8C03\u6574\u641C\u7D22\u6761\u4EF6\u6216\u521B\u5EFA\u65B0\u7684\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "primary", onClick: () => setShowForm(true), children: "\u6DFB\u52A0\u7B2C\u4E00\u4E2A\u5206\u7C7B" })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "overflow-x-auto", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", { className: "w-full", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u5206\u7C7B\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u5206\u7C7B\u8DEF\u5F84" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u7EA7\u522B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u6392\u5E8F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u64CD\u4F5C" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", { children: filteredCategories.map(category => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/5 hover:bg-white/5 transition-colors", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-semibold text-white", children: category.name }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/80 text-sm", children: getCategoryPath(category) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "inline-block px-2 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-300 border border-blue-400/30", children: ["L", category.level] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/80", children: category.sortOrder }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `inline-block px-2 py-1 rounded-full text-xs font-medium border ${category.isActive
                                                     ? 'bg-green-500/20 text-green-300 border-green-400/30'
-                                                    : 'bg-gray-500/20 text-gray-300 border-gray-400/30'}`, children: category.isActive ? '启用' : '禁用' }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleEdit(category), className: "px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors", title: "\u7F16\u8F91", children: "\u270F\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleDelete(category.id), className: "px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors", title: "\u5220\u9664", children: "\uD83D\uDDD1\uFE0F" })] }) })] }, category.id))) })] }) })) }), showForm && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card max-w-2xl w-full max-h-[90vh] overflow-y-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white", children: editingCategory ? '编辑分类' : '新建分类' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleCancel, className: "w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white", children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", { onSubmit: handleSubmit, className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { label: "\u5206\u7C7B\u540D\u79F0", type: "text", placeholder: "\u8F93\u5165\u5206\u7C7B\u540D\u79F0", value: formData.name, onChange: (e) => handleInputChange('name', e.target.value), required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { label: "\u7236\u5206\u7C7B", value: formData.parentId, onChange: (e) => handleInputChange('parentId', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u6839\u5206\u7C7B" }), categories
-                                                    .filter(c => c.id !== (editingCategory === null || editingCategory === void 0 ? void 0 : editingCategory.id))
-                                                    .map(category => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: category.id, children: getCategoryPath(category) }, category.id)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { label: "\u7EA7\u522B", type: "number", value: formData.level, onChange: (e) => handleInputChange('level', parseInt(e.target.value) || 1), min: "1", max: "10", disabled: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { label: "\u6392\u5E8F", type: "number", value: formData.sortOrder, onChange: (e) => handleInputChange('sortOrder', parseInt(e.target.value) || 1), min: "1", placeholder: "\u6392\u5E8F\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { label: "\u72B6\u6001", value: formData.isActive ? 'true' : 'false', onChange: (e) => handleInputChange('isActive', e.target.value === 'true'), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "true", children: "\u542F\u7528" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "false", children: "\u7981\u7528" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-4 pt-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { type: "submit", variant: "primary", disabled: !formData.name, children: editingCategory ? '更新分类' : '创建分类' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { type: "button", variant: "secondary", onClick: handleCancel, children: "\u53D6\u6D88" })] })] })] }) }))] }));
+                                                    : 'bg-gray-500/20 text-gray-300 border-gray-400/30'}`, children: category.isActive ? '启用' : '禁用' }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleEdit(category), className: "px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors", title: "\u7F16\u8F91", children: "\u270F\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleDelete(category.id), className: "px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors", title: "\u5220\u9664", children: "\uD83D\uDDD1\uFE0F" })] }) })] }, category.id))) })] }) })) }), showForm && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card max-w-3xl w-full max-h-[90vh] overflow-y-auto p-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-2xl font-semibold text-white mb-2", children: editingCategory ? '编辑分类' : '新建分类' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70 text-sm", children: editingCategory ? '修改分类信息和层级关系' : '创建新的商品分类，设置层级关系和属性' })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleCancel, className: "w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white", children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", { onSubmit: handleSubmit, className: "space-y-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white border-b border-white/20 pb-3", children: "\u57FA\u672C\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "md:col-span-2", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { label: "\u5206\u7C7B\u540D\u79F0", type: "text", placeholder: "\u8F93\u5165\u5206\u7C7B\u540D\u79F0", value: formData.name, onChange: (e) => handleInputChange('name', e.target.value), required: true }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { label: "\u7236\u5206\u7C7B", value: formData.parentId, onChange: (e) => handleInputChange('parentId', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u6839\u5206\u7C7B" }), categories
+                                                            .filter(c => c.id !== (editingCategory === null || editingCategory === void 0 ? void 0 : editingCategory.id))
+                                                            .map(category => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: category.id, children: getCategoryPath(category) }, category.id)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { label: "\u7EA7\u522B", type: "number", value: formData.level, onChange: (e) => handleInputChange('level', parseInt(e.target.value) || 1), min: "1", max: "10", disabled: true })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white border-b border-white/20 pb-3", children: "\u5C5E\u6027\u8BBE\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { label: "\u6392\u5E8F", type: "number", value: formData.sortOrder, onChange: (e) => handleInputChange('sortOrder', parseInt(e.target.value) || 1), min: "1", placeholder: "\u6392\u5E8F\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { label: "\u72B6\u6001", value: formData.isActive ? 'true' : 'false', onChange: (e) => handleInputChange('isActive', e.target.value === 'true'), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "true", children: "\u542F\u7528" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "false", children: "\u7981\u7528" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-4 pt-6 border-t border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { type: "submit", variant: "primary", disabled: !formData.name, className: "flex-1 md:flex-none md:min-w-32", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: editingCategory ? '💾' : '✨' }), editingCategory ? '更新分类' : '创建分类'] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { type: "button", variant: "secondary", onClick: handleCancel, className: "flex-1 md:flex-none md:min-w-24", children: "\u53D6\u6D88" })] })] })] }) }))] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CategoryManagement);
 
@@ -53811,6 +54593,568 @@ const InventorySearch = ({ value, onChange, placeholder = '搜索仓库、商品
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "h-5 w-5 text-gray-400", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "text", value: localValue, onChange: (e) => setLocalValue(e.target.value), placeholder: placeholder, className: "\r\n            block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg\r\n            bg-white/50 backdrop-blur-sm\r\n            focus:ring-2 focus:ring-blue-500 focus:border-blue-500\r\n            placeholder-gray-500 text-gray-900\r\n            transition-all duration-200\r\n          " }), localValue && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute inset-y-0 right-0 pr-3 flex items-center", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: handleClear, className: "\r\n                h-5 w-5 text-gray-400 hover:text-gray-600\r\n                transition-colors duration-200\r\n                focus:outline-none focus:ring-2 focus:ring-blue-500 rounded\r\n              ", title: "\u6E05\u7A7A\u641C\u7D22", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) }) }) }))] }), localValue && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute top-full left-0 right-0 mt-1 z-10" }))] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InventorySearch);
+
+
+/***/ }),
+
+/***/ "./src/components/Inventory/MonthlyBalanceGenerator.tsx":
+/*!**************************************************************!*\
+  !*** ./src/components/Inventory/MonthlyBalanceGenerator.tsx ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MonthlyBalanceGenerator: () => (/* binding */ MonthlyBalanceGenerator),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _services_business_monthlyBalanceService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/business/monthlyBalanceService */ "./src/services/business/monthlyBalanceService.ts");
+/* harmony import */ var _services_business_warehouseService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/business/warehouseService */ "./src/services/business/warehouseService.ts");
+/* harmony import */ var _services_business_categoryService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/business/categoryService */ "./src/services/business/categoryService.ts");
+/* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+const MonthlyBalanceGenerator = ({ onSuccess }) => {
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [warehouses, setWarehouses] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [categories, setCategories] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [result, setResult] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    // 表单状态
+    const [params, setParams] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(() => {
+        const now = new Date();
+        const lastMonth = now.getMonth() === 0 ? 12 : now.getMonth();
+        const year = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
+        return {
+            year,
+            month: lastMonth,
+            operator: '系统管理员',
+            includeZeroStock: false,
+            includeExpired: true
+        };
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        loadFormData();
+    }, []);
+    const loadFormData = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const [warehouseList, categoryList] = yield Promise.all([
+                _services_business_warehouseService__WEBPACK_IMPORTED_MODULE_3__["default"].findAll(),
+                _services_business_categoryService__WEBPACK_IMPORTED_MODULE_4__["default"].findAll()
+            ]);
+            setWarehouses(warehouseList);
+            setCategories(categoryList);
+        }
+        catch (err) {
+            console.error('Failed to load form data:', err);
+            setError('加载表单数据失败');
+        }
+    });
+    const handleGenerate = () => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
+        try {
+            setLoading(true);
+            setError(null);
+            setResult(null);
+            // 输入验证
+            if (!params.operator.trim()) {
+                setError('请输入操作人');
+                return;
+            }
+            const generateResult = yield _services_business_monthlyBalanceService__WEBPACK_IMPORTED_MODULE_2__["default"].generateMonthlyBalance(params);
+            if (!generateResult.success) {
+                setError(((_a = generateResult.error) === null || _a === void 0 ? void 0 : _a.message) || '生成失败');
+                return;
+            }
+            setResult(generateResult.data);
+            if (onSuccess) {
+                onSuccess();
+            }
+        }
+        catch (err) {
+            console.error('Failed to generate monthly balance:', err);
+            setError('生成月度结余失败');
+        }
+        finally {
+            setLoading(false);
+        }
+    });
+    const handleParamChange = (key, value) => {
+        setParams(prev => (Object.assign(Object.assign({}, prev), { [key]: value })));
+    };
+    const formatCurrency = (value) => {
+        return new Intl.NumberFormat('zh-CN', {
+            style: 'currency',
+            currency: 'CNY'
+        }).format(value);
+    };
+    const formatNumber = (value) => {
+        return new Intl.NumberFormat('zh-CN').format(value);
+    };
+    const formatPeriod = (year, month) => {
+        return `${year}年${month}月`;
+    };
+    // 生成年份选项（最近5年）
+    const currentYear = new Date().getFullYear();
+    const yearOptions = Array.from({ length: 5 }, (_, i) => currentYear - i);
+    // 生成月份选项
+    const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-2xl font-bold text-white mb-2", children: "\u751F\u6210\u6708\u5EA6\u7ED3\u4F59" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u6839\u636EFIFO\u6279\u6B21\u5E93\u5B58\u6570\u636E\u751F\u6210\u6307\u5B9A\u6708\u4EFD\u7684\u7ED3\u4F59\u8BB0\u5F55" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { title: "\u751F\u6210\u53C2\u6570\u8BBE\u7F6E", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "block text-white/90 text-sm font-medium mb-2", children: ["\u7ED3\u4F59\u5E74\u4EFD ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-red-400", children: "*" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", { value: params.year, onChange: (e) => handleParamChange('year', parseInt(e.target.value)), className: "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 transition-all duration-200", disabled: loading, children: yearOptions.map(year => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: year, className: "bg-gray-800", children: [year, "\u5E74"] }, year))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "block text-white/90 text-sm font-medium mb-2", children: ["\u7ED3\u4F59\u6708\u4EFD ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-red-400", children: "*" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", { value: params.month, onChange: (e) => handleParamChange('month', parseInt(e.target.value)), className: "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 transition-all duration-200", disabled: loading, children: monthOptions.map(month => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: month, className: "bg-gray-800", children: [month, "\u6708"] }, month))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "block text-white/90 text-sm font-medium mb-2", children: ["\u64CD\u4F5C\u4EBA ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-red-400", children: "*" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "text", value: params.operator, onChange: (e) => handleParamChange('operator', e.target.value), className: "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 transition-all duration-200", placeholder: "\u8BF7\u8F93\u5165\u64CD\u4F5C\u4EBA\u59D3\u540D", disabled: loading })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white", children: "\u8FC7\u6EE4\u6761\u4EF6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-white/90 text-sm font-medium mb-2", children: "\u6307\u5B9A\u4ED3\u5E93\uFF08\u53EF\u9009\uFF09" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-48 overflow-y-auto", children: warehouses.map(warehouse => {
+                                                var _a;
+                                                return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center gap-2 p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: ((_a = params.warehouseIds) === null || _a === void 0 ? void 0 : _a.includes(warehouse.id)) || false, onChange: (e) => {
+                                                                const warehouseIds = params.warehouseIds || [];
+                                                                if (e.target.checked) {
+                                                                    handleParamChange('warehouseIds', [...warehouseIds, warehouse.id]);
+                                                                }
+                                                                else {
+                                                                    handleParamChange('warehouseIds', warehouseIds.filter(id => id !== warehouse.id));
+                                                                }
+                                                            }, className: "rounded text-blue-500 focus:ring-2 focus:ring-blue-400/50", disabled: loading }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white text-sm", children: warehouse.name })] }, warehouse.id));
+                                            }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/50 text-xs mt-2", children: "\u4E0D\u9009\u62E9\u5219\u5305\u542B\u6240\u6709\u4ED3\u5E93" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-white/90 text-sm font-medium mb-2", children: "\u6307\u5B9A\u5206\u7C7B\uFF08\u53EF\u9009\uFF09" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-48 overflow-y-auto", children: categories.map(category => {
+                                                var _a;
+                                                return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center gap-2 p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: ((_a = params.categoryIds) === null || _a === void 0 ? void 0 : _a.includes(category.id)) || false, onChange: (e) => {
+                                                                const categoryIds = params.categoryIds || [];
+                                                                if (e.target.checked) {
+                                                                    handleParamChange('categoryIds', [...categoryIds, category.id]);
+                                                                }
+                                                                else {
+                                                                    handleParamChange('categoryIds', categoryIds.filter(id => id !== category.id));
+                                                                }
+                                                            }, className: "rounded text-blue-500 focus:ring-2 focus:ring-blue-400/50", disabled: loading }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white text-sm", children: category.name })] }, category.id));
+                                            }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/50 text-xs mt-2", children: "\u4E0D\u9009\u62E9\u5219\u5305\u542B\u6240\u6709\u5206\u7C7B" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white", children: "\u9AD8\u7EA7\u9009\u9879" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center gap-3 p-4 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: params.includeZeroStock || false, onChange: (e) => handleParamChange('includeZeroStock', e.target.checked), className: "rounded text-blue-500 focus:ring-2 focus:ring-blue-400/50", disabled: loading }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white font-medium", children: "\u5305\u542B\u96F6\u5E93\u5B58" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/60 text-sm", children: "\u5305\u542B\u5269\u4F59\u6570\u91CF\u4E3A0\u7684\u6279\u6B21" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center gap-3 p-4 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: params.includeExpired || false, onChange: (e) => handleParamChange('includeExpired', e.target.checked), className: "rounded text-blue-500 focus:ring-2 focus:ring-blue-400/50", disabled: loading }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white font-medium", children: "\u5305\u542B\u8FC7\u671F\u6279\u6B21" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/60 text-sm", children: "\u5305\u542B\u5DF2\u8FC7\u671F\u7684\u5E93\u5B58\u6279\u6B21" })] })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-white/90 text-sm font-medium mb-2", children: "\u5907\u6CE8\uFF08\u53EF\u9009\uFF09" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("textarea", { value: params.remark || '', onChange: (e) => handleParamChange('remark', e.target.value), className: "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 transition-all duration-200 resize-none", placeholder: "\u8BF7\u8F93\u5165\u751F\u6210\u5907\u6CE8...", rows: 3, disabled: loading })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-4 pt-4 border-t border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassButton, { variant: "primary", onClick: handleGenerate, disabled: loading, className: "flex-1 sm:flex-none", children: loading ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" }), "\u751F\u6210\u4E2D..."] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\u2699\uFE0F" }), "\u751F\u6210", formatPeriod(params.year, params.month), "\u7ED3\u4F59"] })) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white/70 text-sm flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCC5" }), "\u7ED3\u4F59\u65E5\u671F: ", new Date(params.year, params.month, 0).toLocaleDateString('zh-CN')] })] })] }) }), error && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "border-red-400/30 bg-red-500/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 flex items-center gap-3 text-red-300", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xl", children: "\u274C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: error })] }) })), result && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { title: "\u751F\u6210\u7ED3\u679C", className: "border-green-400/30 bg-green-500/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3 text-green-300 mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-2xl", children: "\u2705" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-lg font-semibold", children: [formatPeriod(params.year, params.month), "\u6708\u5EA6\u7ED3\u4F59\u751F\u6210\u6210\u529F"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-green-400/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatNumber(result.generatedRecords) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-green-300/80 text-sm", children: "\u751F\u6210\u8BB0\u5F55\u6570" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-green-400/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatCurrency(result.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-green-300/80 text-sm", children: "\u7ED3\u4F59\u603B\u4EF7\u503C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-green-400/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatNumber(result.batchCount) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-green-300/80 text-sm", children: "\u6D89\u53CA\u6279\u6B21" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-green-400/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatNumber(result.productCount) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-green-300/80 text-sm", children: "\u6D89\u53CA\u4EA7\u54C1" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white/70 text-sm", children: ["\u23F1\uFE0F \u5904\u7406\u8017\u65F6: ", result.processingTime, "ms"] }), result.errors && result.errors.length > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-yellow-500/10 border border-yellow-400/30 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-yellow-300 font-semibold mb-2", children: "\u26A0\uFE0F \u5904\u7406\u8B66\u544A" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("ul", { className: "text-yellow-200/80 text-sm space-y-1", children: result.errors.map((error, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("li", { children: ["\u2022 ", error] }, index))) })] }))] }) }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MonthlyBalanceGenerator);
+
+
+/***/ }),
+
+/***/ "./src/components/Inventory/MonthlyBalanceList.tsx":
+/*!*********************************************************!*\
+  !*** ./src/components/Inventory/MonthlyBalanceList.tsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MonthlyBalanceList: () => (/* binding */ MonthlyBalanceList),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _services_business_monthlyBalanceService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/business/monthlyBalanceService */ "./src/services/business/monthlyBalanceService.ts");
+/* harmony import */ var _services_business_warehouseService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/business/warehouseService */ "./src/services/business/warehouseService.ts");
+/* harmony import */ var _services_business_categoryService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/business/categoryService */ "./src/services/business/categoryService.ts");
+/* harmony import */ var _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../types/monthlyBalance */ "./src/types/monthlyBalance.ts");
+/* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+
+const MonthlyBalanceList = ({ onViewStatistics }) => {
+    const [balances, setBalances] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [warehouses, setWarehouses] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [categories, setCategories] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [currentPage, setCurrentPage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
+    const [totalPages, setTotalPages] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
+    const [showFilters, setShowFilters] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    // 查询参数
+    const [queryParams, setQueryParams] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+        sortBy: 'balanceDate',
+        sortOrder: 'desc',
+        page: 1,
+        pageSize: 20
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        loadFormData();
+        loadBalances();
+    }, [queryParams]);
+    const loadFormData = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const [warehouseList, categoryList] = yield Promise.all([
+                _services_business_warehouseService__WEBPACK_IMPORTED_MODULE_3__["default"].findAll(),
+                _services_business_categoryService__WEBPACK_IMPORTED_MODULE_4__["default"].findAll()
+            ]);
+            setWarehouses(warehouseList);
+            setCategories(categoryList);
+        }
+        catch (err) {
+            console.error('Failed to load form data:', err);
+        }
+    });
+    const loadBalances = () => __awaiter(void 0, void 0, void 0, function* () {
+        var _a, _b;
+        try {
+            setLoading(true);
+            setError(null);
+            const result = yield _services_business_monthlyBalanceService__WEBPACK_IMPORTED_MODULE_2__["default"].queryMonthlyBalance(queryParams);
+            if (!result.success) {
+                setError(((_a = result.error) === null || _a === void 0 ? void 0 : _a.message) || '查询失败');
+                return;
+            }
+            setBalances(result.data || []);
+            // 计算总页数（简化处理，实际应该从服务端返回）
+            const totalItems = ((_b = result.data) === null || _b === void 0 ? void 0 : _b.length) || 0;
+            const pageSize = queryParams.pageSize || 20;
+            setTotalPages(Math.ceil(totalItems / pageSize));
+        }
+        catch (err) {
+            console.error('Failed to load monthly balances:', err);
+            setError('加载月度结余失败');
+        }
+        finally {
+            setLoading(false);
+        }
+    });
+    const handleParamChange = (key, value) => {
+        setQueryParams(prev => (Object.assign(Object.assign({}, prev), { [key]: value, page: key !== 'page' ? 1 : value // 除了页码变化外，其他条件变化都重置到第一页
+         })));
+        if (key !== 'page') {
+            setCurrentPage(1);
+        }
+    };
+    const handleClearFilters = () => {
+        setQueryParams({
+            sortBy: 'balanceDate',
+            sortOrder: 'desc',
+            page: 1,
+            pageSize: 20
+        });
+        setCurrentPage(1);
+    };
+    const formatCurrency = (value) => {
+        return new Intl.NumberFormat('zh-CN', {
+            style: 'currency',
+            currency: 'CNY'
+        }).format(value);
+    };
+    const formatNumber = (value) => {
+        return new Intl.NumberFormat('zh-CN').format(value);
+    };
+    const formatDate = (date) => {
+        return new Date(date).toLocaleDateString('zh-CN');
+    };
+    const formatPeriod = (year, month) => {
+        return `${year}年${month}月`;
+    };
+    const getStatusColor = (status) => {
+        switch (status) {
+            case _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_5__.MonthlyBalanceStatus.ACTIVE:
+                return 'text-green-300 bg-green-500/20 border-green-400/30';
+            case _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_5__.MonthlyBalanceStatus.EXPIRED:
+                return 'text-red-300 bg-red-500/20 border-red-400/30';
+            case _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_5__.MonthlyBalanceStatus.ADJUSTED:
+                return 'text-yellow-300 bg-yellow-500/20 border-yellow-400/30';
+            case _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_5__.MonthlyBalanceStatus.ARCHIVED:
+                return 'text-gray-300 bg-gray-500/20 border-gray-400/30';
+            default:
+                return 'text-blue-300 bg-blue-500/20 border-blue-400/30';
+        }
+    };
+    const getStatusText = (status) => {
+        switch (status) {
+            case _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_5__.MonthlyBalanceStatus.ACTIVE:
+                return '正常';
+            case _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_5__.MonthlyBalanceStatus.EXPIRED:
+                return '已过期';
+            case _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_5__.MonthlyBalanceStatus.ADJUSTED:
+                return '已调整';
+            case _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_5__.MonthlyBalanceStatus.ARCHIVED:
+                return '已归档';
+            default:
+                return '未知';
+        }
+    };
+    // 按期间分组
+    const groupedBalances = balances.reduce((groups, balance) => {
+        const key = `${balance.year}-${balance.month}`;
+        if (!groups[key]) {
+            groups[key] = {
+                year: balance.year,
+                month: balance.month,
+                balanceDate: balance.balanceDate,
+                balances: [],
+                totalValue: 0,
+                totalQuantity: 0,
+                batchCount: 0
+            };
+        }
+        groups[key].balances.push(balance);
+        groups[key].totalValue += balance.totalValue;
+        groups[key].totalQuantity += balance.remainingQuantity;
+        groups[key].batchCount += 1;
+        return groups;
+    }, {});
+    const periods = Object.values(groupedBalances).sort((a, b) => new Date(b.balanceDate).getTime() - new Date(a.balanceDate).getTime());
+    if (loading) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center min-h-96", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80", children: "\u52A0\u8F7D\u6708\u5EA6\u7ED3\u4F59\u5217\u8868\u4E2D..." })] }) }) }));
+    }
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-2xl font-bold text-white mb-2", children: "\u6708\u5EA6\u7ED3\u4F59\u5217\u8868" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u67E5\u770B\u5386\u53F2\u6708\u5EA6\u7ED3\u4F59\u8BB0\u5F55\uFF0C\u6309\u671F\u95F4\u5C55\u793A\u8BE6\u7EC6\u4FE1\u606F" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_6__.GlassButton, { variant: "secondary", onClick: () => setShowFilters(!showFilters), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD0D" }), showFilters ? '隐藏筛选' : '显示筛选'] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_6__.GlassButton, { variant: "secondary", onClick: loadBalances, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD04" }), "\u5237\u65B0"] })] })] }), showFilters && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_6__.GlassCard, { title: "\u7B5B\u9009\u6761\u4EF6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-white/90 text-sm font-medium mb-2", children: "\u5E74\u4EFD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", { value: queryParams.year || '', onChange: (e) => handleParamChange('year', e.target.value ? parseInt(e.target.value) : undefined), className: "w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", className: "bg-gray-800", children: "\u5168\u90E8\u5E74\u4EFD" }), Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i).map(year => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: year, className: "bg-gray-800", children: [year, "\u5E74"] }, year)))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-white/90 text-sm font-medium mb-2", children: "\u6708\u4EFD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", { value: queryParams.month || '', onChange: (e) => handleParamChange('month', e.target.value ? parseInt(e.target.value) : undefined), className: "w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", className: "bg-gray-800", children: "\u5168\u90E8\u6708\u4EFD" }), Array.from({ length: 12 }, (_, i) => i + 1).map(month => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: month, className: "bg-gray-800", children: [month, "\u6708"] }, month)))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-white/90 text-sm font-medium mb-2", children: "\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", { value: queryParams.warehouseId || '', onChange: (e) => handleParamChange('warehouseId', e.target.value || undefined), className: "w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", className: "bg-gray-800", children: "\u5168\u90E8\u4ED3\u5E93" }), warehouses.map(warehouse => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: warehouse.id, className: "bg-gray-800", children: warehouse.name }, warehouse.id)))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-white/90 text-sm font-medium mb-2", children: "\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", { value: queryParams.categoryId || '', onChange: (e) => handleParamChange('categoryId', e.target.value || undefined), className: "w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", className: "bg-gray-800", children: "\u5168\u90E8\u5206\u7C7B" }), categories.map(category => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: category.id, className: "bg-gray-800", children: category.name }, category.id)))] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3 pt-4 border-t border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_6__.GlassButton, { variant: "primary", onClick: loadBalances, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD0D" }), "\u5E94\u7528\u7B5B\u9009"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_6__.GlassButton, { variant: "secondary", onClick: handleClearFilters, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD04" }), "\u6E05\u7A7A\u7B5B\u9009"] })] })] }) })), balances.length > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatNumber(periods.length) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u7ED3\u4F59\u671F\u95F4" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatNumber(balances.length) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u7ED3\u4F59\u8BB0\u5F55" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatCurrency(balances.reduce((sum, b) => sum + b.totalValue, 0)) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u603B\u7ED3\u4F59\u4EF7\u503C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatNumber(new Set(balances.map(b => b.productId)).size) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u6D89\u53CA\u4EA7\u54C1" })] })] })), error && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_6__.GlassCard, { className: "border-red-400/30 bg-red-500/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 flex items-center gap-3 text-red-300", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xl", children: "\u274C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: error })] }) })), periods.length === 0 && !loading ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_6__.GlassCard, { className: "p-12 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-4", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-2", children: "\u6682\u65E0\u7ED3\u4F59\u8BB0\u5F55" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: queryParams.year || queryParams.month || queryParams.warehouseId || queryParams.categoryId
+                            ? '当前筛选条件下没有找到结余记录'
+                            : '还没有生成任何月度结余记录' })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-6", children: periods.map((period) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_6__.GlassCard, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xl", children: "\uD83D\uDCC5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white", children: formatPeriod(period.year, period.month) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "text-white/60 text-sm", children: ["\u7ED3\u4F59\u65E5\u671F: ", formatDate(period.balanceDate)] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex gap-2", children: onViewStatistics && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_6__.GlassButton, { variant: "secondary", onClick: () => onViewStatistics(period.year, period.month), className: "text-sm", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-1", children: "\uD83D\uDCC8" }), "\u7EDF\u8BA1\u5206\u6790"] })) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-3 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatCurrency(period.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u671F\u95F4\u603B\u4EF7\u503C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-3 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatNumber(period.batchCount) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u6279\u6B21\u6570\u91CF" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-3 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatNumber(new Set(period.balances.map((b) => b.productId)).size) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u6D89\u53CA\u4EA7\u54C1" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h4", { className: "text-sm font-medium text-white/80 mb-3", children: ["\u7ED3\u4F59\u660E\u7EC6 (\u663E\u793A\u524D10\u6761\uFF0C\u5171", period.batchCount, "\u6761)"] }), period.balances.slice(0, 10).map((balance) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-blue-300 font-medium", children: balance.productName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-white/60 text-sm", children: ["SKU: ", balance.productSku] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(balance.status)}`, children: getStatusText(balance.status) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-semibold", children: formatCurrency(balance.totalValue) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-white/70", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/50", children: "\u6279\u6B21\u53F7:" }), " ", balance.batchNo] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/50", children: "\u4ED3\u5E93:" }), " ", balance.warehouseName] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/50", children: "\u6570\u91CF:" }), " ", formatNumber(balance.remainingQuantity), " ", balance.unitSymbol] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/50", children: "\u5355\u4EF7:" }), " ", formatCurrency(balance.unitCost)] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/50", children: "\u5165\u5E93:" }), " ", formatDate(balance.inboundDate)] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/50", children: "\u5E74\u9F84:" }), " ", balance.batchAge, "\u5929"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/50", children: "\u5206\u7C7B:" }), " ", balance.categoryName] }), balance.expiryDate && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/50", children: "\u8FC7\u671F:" }), " ", formatDate(balance.expiryDate)] }))] })] }, balance.id))), period.batchCount > 10 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-center py-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "text-white/60 text-sm", children: ["\u8FD8\u6709 ", period.batchCount - 10, " \u6761\u8BB0\u5F55\u672A\u663E\u793A"] }) }))] })] }, `${period.year}-${period.month}`))) }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MonthlyBalanceList);
+
+
+/***/ }),
+
+/***/ "./src/components/Inventory/MonthlyBalanceOverview.tsx":
+/*!*************************************************************!*\
+  !*** ./src/components/Inventory/MonthlyBalanceOverview.tsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MonthlyBalanceOverview: () => (/* binding */ MonthlyBalanceOverview),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _services_business_monthlyBalanceService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/business/monthlyBalanceService */ "./src/services/business/monthlyBalanceService.ts");
+/* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+/* harmony import */ var _MonthlyBalanceGenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./MonthlyBalanceGenerator */ "./src/components/Inventory/MonthlyBalanceGenerator.tsx");
+/* harmony import */ var _MonthlyBalanceList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MonthlyBalanceList */ "./src/components/Inventory/MonthlyBalanceList.tsx");
+/* harmony import */ var _MonthlyBalanceStatisticsView__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MonthlyBalanceStatisticsView */ "./src/components/Inventory/MonthlyBalanceStatisticsView.tsx");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+
+const MonthlyBalanceOverview = ({ className }) => {
+    const [stats, setStats] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [activeTab, setActiveTab] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('overview');
+    const [selectedPeriod, setSelectedPeriod] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        loadOverviewStats();
+    }, []);
+    const loadOverviewStats = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            setLoading(true);
+            setError(null);
+            // 获取服务统计
+            const serviceStats = yield _services_business_monthlyBalanceService__WEBPACK_IMPORTED_MODULE_2__["default"].getServiceStats();
+            // 这里可以添加更多统计逻辑，比如获取最新期间的数据
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = currentDate.getMonth() + 1;
+            // 尝试获取上个月的结余数据
+            const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+            const lastYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+            let latestPeriod = undefined;
+            try {
+                const queryResult = yield _services_business_monthlyBalanceService__WEBPACK_IMPORTED_MODULE_2__["default"].queryMonthlyBalance({
+                    year: lastYear,
+                    month: lastMonth
+                });
+                if (queryResult.success && queryResult.data && queryResult.data.length > 0) {
+                    const balances = queryResult.data;
+                    latestPeriod = {
+                        year: lastYear,
+                        month: lastMonth,
+                        value: balances.reduce((sum, b) => sum + b.totalValue, 0),
+                        batchCount: balances.length
+                    };
+                }
+            }
+            catch (err) {
+                console.log('No data for latest period:', err);
+            }
+            setStats({
+                totalPeriods: serviceStats.totalPeriods,
+                totalValue: serviceStats.totalValue,
+                totalBatches: serviceStats.totalBalances,
+                totalProducts: serviceStats.totalProducts,
+                latestPeriod
+            });
+        }
+        catch (err) {
+            setError('加载月度结余统计失败');
+            console.error('Failed to load monthly balance stats:', err);
+        }
+        finally {
+            setLoading(false);
+        }
+    });
+    const formatCurrency = (value) => {
+        return new Intl.NumberFormat('zh-CN', {
+            style: 'currency',
+            currency: 'CNY'
+        }).format(value);
+    };
+    const formatNumber = (value) => {
+        return new Intl.NumberFormat('zh-CN').format(value);
+    };
+    const formatPeriod = (year, month) => {
+        return `${year}年${month}月`;
+    };
+    const handleGenerateSuccess = () => {
+        loadOverviewStats();
+        setActiveTab('list');
+    };
+    const handleViewStatistics = (year, month) => {
+        setSelectedPeriod({ year, month });
+        setActiveTab('statistics');
+    };
+    const renderTabButton = (tabKey, label, icon) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { onClick: () => setActiveTab(tabKey), className: `px-4 py-2 rounded-lg font-medium transition-all duration-200 ${activeTab === tabKey
+            ? 'bg-white/20 text-white border border-white/30'
+            : 'text-white/70 hover:text-white hover:bg-white/10'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: icon }), label] }));
+    if (loading) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `space-y-6 ${className || ''}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center min-h-96", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80", children: "\u52A0\u8F7D\u6708\u5EA6\u7ED3\u4F59\u6570\u636E\u4E2D..." })] }) }) }));
+    }
+    if (error) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `space-y-6 ${className || ''}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-12 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-4", children: "\u274C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-2", children: "\u52A0\u8F7D\u5931\u8D25" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70 mb-6", children: error }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { onClick: loadOverviewStats, variant: "primary", children: "\u91CD\u65B0\u52A0\u8F7D" })] }) }));
+    }
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white mb-2", children: "\u6708\u5EA6\u7ED3\u4F59" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u6BCF\u6708\u672B\u5E93\u5B58\u7ED3\u4F59\u7EDF\u8BA1\uFF0C\u652F\u6301FIFO\u6279\u6B21\u7BA1\u7406" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2 bg-white/5 p-1 rounded-lg border border-white/10", children: [renderTabButton('overview', '概览', '📊'), renderTabButton('generate', '生成', '⚙️'), renderTabButton('list', '列表', '📋'), renderTabButton('statistics', '统计', '📈')] })] }), activeTab === 'overview' && stats && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83D\uDCC5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: formatNumber(stats.totalPeriods) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u5386\u53F2\u671F\u95F4" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83D\uDCB0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: formatCurrency(stats.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u603B\u7ED3\u4F59\u4EF7\u503C" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83D\uDCE6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: formatNumber(stats.totalBatches) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u7ED3\u4F59\u6279\u6B21" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83C\uDFF7\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: formatNumber(stats.totalProducts) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u6D89\u53CA\u4EA7\u54C1" })] })] }) })] }), stats.latestPeriod && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\u6700\u65B0\u7ED3\u4F59\u671F\u95F4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white", children: formatPeriod(stats.latestPeriod.year, stats.latestPeriod.month) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u6700\u65B0\u7684\u6708\u5EA6\u7ED3\u4F59\u6570\u636E" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "primary", onClick: () => handleViewStatistics(stats.latestPeriod.year, stats.latestPeriod.month), children: "\u67E5\u770B\u8BE6\u60C5" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatCurrency(stats.latestPeriod.value) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u7ED3\u4F59\u603B\u4EF7\u503C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-white", children: formatNumber(stats.latestPeriod.batchCount) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u6279\u6B21\u6570\u91CF" })] })] })] }) })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\u5FEB\u901F\u64CD\u4F5C", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "primary", onClick: () => setActiveTab('generate'), className: "p-4 h-auto", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl mb-2", children: "\u2699\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium", children: "\u751F\u6210\u6708\u5EA6\u7ED3\u4F59" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/70 mt-1", children: "\u521B\u5EFA\u65B0\u7684\u6708\u5EA6\u7ED3\u4F59\u8BB0\u5F55" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "secondary", onClick: () => setActiveTab('list'), className: "p-4 h-auto", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl mb-2", children: "\uD83D\uDCCB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium", children: "\u67E5\u770B\u7ED3\u4F59\u5217\u8868" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/70 mt-1", children: "\u6D4F\u89C8\u5386\u53F2\u7ED3\u4F59\u8BB0\u5F55" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "secondary", onClick: () => setActiveTab('statistics'), className: "p-4 h-auto", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl mb-2", children: "\uD83D\uDCC8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium", children: "\u7EDF\u8BA1\u5206\u6790" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/70 mt-1", children: "\u67E5\u770B\u7ED3\u4F59\u7EDF\u8BA1\u5206\u6790" })] }) })] }) }) }), stats.totalPeriods === 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-12 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-4", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-2", children: "\u6682\u65E0\u6708\u5EA6\u7ED3\u4F59\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70 mb-6", children: "\u8FD8\u6CA1\u6709\u751F\u6210\u8FC7\u6708\u5EA6\u7ED3\u4F59\uFF0C\u70B9\u51FB\u4E0B\u65B9\u6309\u94AE\u5F00\u59CB\u751F\u6210\u7B2C\u4E00\u4E2A\u6708\u5EA6\u7ED3\u4F59" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "primary", onClick: () => setActiveTab('generate'), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\u2699\uFE0F" }), "\u7ACB\u5373\u751F\u6210"] })] }))] })), activeTab === 'generate' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_MonthlyBalanceGenerator__WEBPACK_IMPORTED_MODULE_4__.MonthlyBalanceGenerator, { onSuccess: handleGenerateSuccess })), activeTab === 'list' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_MonthlyBalanceList__WEBPACK_IMPORTED_MODULE_5__.MonthlyBalanceList, { onViewStatistics: handleViewStatistics })), activeTab === 'statistics' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_MonthlyBalanceStatisticsView__WEBPACK_IMPORTED_MODULE_6__.MonthlyBalanceStatisticsView, { selectedPeriod: selectedPeriod }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MonthlyBalanceOverview);
+
+
+/***/ }),
+
+/***/ "./src/components/Inventory/MonthlyBalanceStatisticsView.tsx":
+/*!*******************************************************************!*\
+  !*** ./src/components/Inventory/MonthlyBalanceStatisticsView.tsx ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MonthlyBalanceStatisticsView: () => (/* binding */ MonthlyBalanceStatisticsView),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _services_business_monthlyBalanceService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/business/monthlyBalanceService */ "./src/services/business/monthlyBalanceService.ts");
+/* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+const MonthlyBalanceStatisticsView = ({ selectedPeriod }) => {
+    const [statistics, setStatistics] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [selectedYear, setSelectedYear] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(() => {
+        return (selectedPeriod === null || selectedPeriod === void 0 ? void 0 : selectedPeriod.year) || new Date().getFullYear();
+    });
+    const [selectedMonth, setSelectedMonth] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(() => {
+        return (selectedPeriod === null || selectedPeriod === void 0 ? void 0 : selectedPeriod.month) || new Date().getMonth() + 1;
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        if (selectedPeriod) {
+            setSelectedYear(selectedPeriod.year);
+            setSelectedMonth(selectedPeriod.month);
+        }
+    }, [selectedPeriod]);
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        loadStatistics();
+    }, [selectedYear, selectedMonth]);
+    const loadStatistics = () => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
+        try {
+            setLoading(true);
+            setError(null);
+            const result = yield _services_business_monthlyBalanceService__WEBPACK_IMPORTED_MODULE_2__["default"].getMonthlyBalanceStatistics(selectedYear, selectedMonth);
+            if (!result.success) {
+                setError(((_a = result.error) === null || _a === void 0 ? void 0 : _a.message) || '获取统计数据失败');
+                setStatistics(null);
+                return;
+            }
+            setStatistics(result.data);
+        }
+        catch (err) {
+            console.error('Failed to load statistics:', err);
+            setError('加载统计数据失败');
+            setStatistics(null);
+        }
+        finally {
+            setLoading(false);
+        }
+    });
+    const formatCurrency = (value) => {
+        return new Intl.NumberFormat('zh-CN', {
+            style: 'currency',
+            currency: 'CNY'
+        }).format(value);
+    };
+    const formatNumber = (value) => {
+        return new Intl.NumberFormat('zh-CN').format(value);
+    };
+    const formatPercentage = (value) => {
+        return `${value.toFixed(1)}%`;
+    };
+    const formatPeriod = (year, month) => {
+        return `${year}年${month}月`;
+    };
+    // 生成年份和月份选项
+    const currentYear = new Date().getFullYear();
+    const yearOptions = Array.from({ length: 5 }, (_, i) => currentYear - i);
+    const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
+    if (loading) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center min-h-96", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80", children: "\u52A0\u8F7D\u7EDF\u8BA1\u6570\u636E\u4E2D..." })] }) }) }));
+    }
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-2xl font-bold text-white mb-2", children: "\u6708\u5EA6\u7ED3\u4F59\u7EDF\u8BA1\u5206\u6790" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u67E5\u770B\u6307\u5B9A\u671F\u95F4\u7684\u6708\u5EA6\u7ED3\u4F59\u7EDF\u8BA1\u5206\u6790\u62A5\u544A" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3 items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", { value: selectedYear, onChange: (e) => setSelectedYear(parseInt(e.target.value)), className: "px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white", children: yearOptions.map(year => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: year, className: "bg-gray-800", children: [year, "\u5E74"] }, year))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", { value: selectedMonth, onChange: (e) => setSelectedMonth(parseInt(e.target.value)), className: "px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white", children: monthOptions.map(month => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: month, className: "bg-gray-800", children: [month, "\u6708"] }, month))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "primary", onClick: loadStatistics, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCCA" }), "\u67E5\u770B\u7EDF\u8BA1"] })] })] }), error && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "border-red-400/30 bg-red-500/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 flex items-center gap-3 text-red-300", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xl", children: "\u274C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "font-medium", children: error }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "text-sm text-red-200/80 mt-1", children: ["\u8BF7\u68C0\u67E5\u662F\u5426\u5DF2\u751F\u6210", formatPeriod(selectedYear, selectedMonth), "\u7684\u6708\u5EA6\u7ED3\u4F59\u6570\u636E"] })] })] }) })), statistics && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: `${formatPeriod(statistics.period.year, statistics.period.month)} 基础统计`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white mb-1", children: formatNumber(statistics.basic.totalRecords) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u7ED3\u4F59\u8BB0\u5F55" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white mb-1", children: formatNumber(statistics.basic.totalProducts) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u6D89\u53CA\u4EA7\u54C1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white mb-1", children: formatNumber(statistics.basic.totalBatches) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u5E93\u5B58\u6279\u6B21" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white mb-1", children: formatCurrency(statistics.basic.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u603B\u7ED3\u4F59\u4EF7\u503C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white mb-1", children: formatCurrency(statistics.basic.avgBatchValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u5E73\u5747\u6279\u6B21\u4EF7\u503C" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\uD83D\uDCCA \u6279\u6B21\u5E74\u9F84\u5206\u6790", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-semibold text-white mb-4", children: "\u5E74\u9F84\u5206\u5E03" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-3", children: statistics.ageAnalysis.ranges.map((range, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-20 text-white/70 text-sm font-medium", children: range.range }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 bg-white/10 rounded-full h-6 relative overflow-hidden", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "h-full bg-gradient-to-r from-blue-500/60 to-purple-500/60 rounded-full transition-all duration-500", style: { width: `${range.percentage}%` } }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute inset-0 flex items-center justify-center text-white text-xs font-medium", children: formatPercentage(range.percentage) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "w-24 text-right", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white font-medium text-sm", children: [formatNumber(range.batchCount), "\u6279\u6B21"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/60 text-xs", children: formatCurrency(range.totalValue) })] })] }, index))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-lg font-semibold text-white mb-2", children: [statistics.ageAnalysis.avgAge.toFixed(1), " \u5929"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u5E73\u5747\u6279\u6B21\u5E74\u9F84" })] }), statistics.ageAnalysis.oldestBatch && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-lg font-semibold text-white mb-2", children: [statistics.ageAnalysis.oldestBatch.age, " \u5929"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u6700\u8001\u6279\u6B21\u5E74\u9F84" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white/50 text-xs mt-1", children: [statistics.ageAnalysis.oldestBatch.productName, " - ", statistics.ageAnalysis.oldestBatch.batchNo] })] }))] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 lg:grid-cols-3 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\uD83D\uDCB0 \u4EF7\u503CTOP\u4EA7\u54C1", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-3", children: statistics.valueAnalysis.topProducts.slice(0, 5).map((product, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-8 h-8 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-lg flex items-center justify-center text-xs font-bold text-yellow-300", children: index + 1 }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-medium truncate", children: product.productName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white/60 text-sm", children: [formatNumber(product.batchCount), " \u6279\u6B21 \u2022 ", formatPercentage(product.percentage)] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-semibold text-sm", children: formatCurrency(product.totalValue) })] }, product.productId))) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\uD83C\uDFE2 \u4EF7\u503CTOP\u4ED3\u5E93", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-3", children: statistics.valueAnalysis.topWarehouses.slice(0, 5).map((warehouse, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-8 h-8 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-lg flex items-center justify-center text-xs font-bold text-green-300", children: index + 1 }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-medium truncate", children: warehouse.warehouseName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white/60 text-sm", children: [formatNumber(warehouse.batchCount), " \u6279\u6B21 \u2022 ", formatPercentage(warehouse.percentage)] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-semibold text-sm", children: formatCurrency(warehouse.totalValue) })] }, warehouse.warehouseId))) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\uD83C\uDFF7\uFE0F \u4EF7\u503CTOP\u5206\u7C7B", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-3", children: statistics.valueAnalysis.topCategories.slice(0, 5).map((category, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-8 h-8 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg flex items-center justify-center text-xs font-bold text-purple-300", children: index + 1 }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex-1 min-w-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-medium truncate", children: category.categoryName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white/60 text-sm", children: [formatNumber(category.batchCount), " \u6279\u6B21 \u2022 ", formatPercentage(category.percentage)] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-semibold text-sm", children: formatCurrency(category.totalValue) })] }, category.categoryId))) }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 lg:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\u26A0\uFE0F \u8FC7\u671F\u5206\u6790", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-red-500/10 border border-red-400/30 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-red-300 mb-1", children: formatNumber(statistics.expiryAnalysis.expiredBatches) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-red-200/80 text-sm", children: "\u5DF2\u8FC7\u671F\u6279\u6B21" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-red-200/60 text-xs mt-1", children: [formatCurrency(statistics.expiryAnalysis.expiredValue), " \u2022 ", formatPercentage(statistics.expiryAnalysis.expiredPercentage)] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-yellow-500/10 border border-yellow-400/30 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-yellow-300 mb-1", children: formatNumber(statistics.expiryAnalysis.soonToExpire.batchCount) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-yellow-200/80 text-sm", children: "\u5373\u5C06\u8FC7\u671F(30\u5929\u5185)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-yellow-200/60 text-xs mt-1", children: [formatCurrency(statistics.expiryAnalysis.soonToExpire.totalValue), " \u2022 ", formatPercentage(statistics.expiryAnalysis.soonToExpire.percentage)] })] })] }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\uD83D\uDD04 \u5E93\u5B58\u5468\u8F6C\u5206\u6790", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "space-y-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-orange-500/10 border border-orange-400/30 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-orange-300 mb-1", children: formatNumber(statistics.turnoverAnalysis.slowMoving.batchCount) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-orange-200/80 text-sm", children: "\u6EDE\u9500\u6279\u6B21(>90\u5929)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-orange-200/60 text-xs mt-1", children: [formatCurrency(statistics.turnoverAnalysis.slowMoving.totalValue), " \u2022 ", formatPercentage(statistics.turnoverAnalysis.slowMoving.percentage)] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-gray-500/10 border border-gray-400/30 rounded-lg", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-lg font-semibold text-gray-300 mb-1", children: formatNumber(statistics.turnoverAnalysis.deadStock.batchCount) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-gray-200/80 text-sm", children: "\u6B7B\u5E93\u5B58(>365\u5929)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-gray-200/60 text-xs mt-1", children: [formatCurrency(statistics.turnoverAnalysis.deadStock.totalValue), " \u2022 ", formatPercentage(statistics.turnoverAnalysis.deadStock.percentage)] })] })] }) }) })] })] })), !loading && !error && !statistics && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-12 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-4", children: "\uD83D\uDCCA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-2", children: "\u9009\u62E9\u67E5\u770B\u671F\u95F4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u8BF7\u9009\u62E9\u5E74\u4EFD\u548C\u6708\u4EFD\u6765\u67E5\u770B\u5BF9\u5E94\u7684\u6708\u5EA6\u7ED3\u4F59\u7EDF\u8BA1\u5206\u6790" })] }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MonthlyBalanceStatisticsView);
 
 
 /***/ }),
@@ -55513,6 +56857,154 @@ const AppLayout = ({ children }) => {
 
 /***/ }),
 
+/***/ "./src/components/Layout/QuickActions.tsx":
+/*!************************************************!*\
+  !*** ./src/components/Layout/QuickActions.tsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   QuickActions: () => (/* binding */ QuickActions),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const QuickActions = ({ onRefresh, onExportData }) => {
+    const [showActions, setShowActions] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const actionsRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+    // 点击外部关闭弹出框
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        const handleClickOutside = (event) => {
+            if (actionsRef.current && !actionsRef.current.contains(event.target)) {
+                setShowActions(false);
+            }
+        };
+        if (showActions) {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
+        }
+    }, [showActions]);
+    // 快捷操作配置
+    const quickActions = [
+        {
+            id: 'add-product',
+            icon: '🏷️',
+            label: '添加商品',
+            page: 'products'
+        },
+        {
+            id: 'purchase-order',
+            icon: '🛒',
+            label: '商品采购',
+            page: 'purchase-orders'
+        },
+        {
+            id: 'stock-in',
+            icon: '📥',
+            label: '商品入库',
+            page: 'stock-in'
+        },
+        {
+            id: 'stock-out',
+            icon: '📤',
+            label: '商品出库',
+            page: 'stock-out'
+        },
+        {
+            id: 'stock-adjust',
+            icon: '⚖️',
+            label: '库存调整',
+            page: 'stock-adjust'
+        },
+        {
+            id: 'sales-order',
+            icon: '💰',
+            label: '销售订单',
+            page: 'sales-orders'
+        },
+        {
+            id: 'refresh',
+            icon: '🔄',
+            label: '刷新数据',
+            page: '',
+            action: () => {
+                console.log('执行刷新数据操作');
+                if (onRefresh) {
+                    onRefresh();
+                }
+                else {
+                    // 触发自定义刷新事件
+                    window.dispatchEvent(new CustomEvent('quickaction-refresh'));
+                    // 显示刷新提示
+                    console.log('数据已刷新');
+                }
+            }
+        },
+        {
+            id: 'unit-conversion',
+            icon: '📏',
+            label: '单位换算',
+            page: 'settings'
+        },
+        {
+            id: 'export-data',
+            icon: '📊',
+            label: '导出数据',
+            page: '',
+            action: () => {
+                console.log('执行导出数据操作');
+                if (onExportData) {
+                    onExportData();
+                }
+                else {
+                    // 触发自定义导出事件
+                    window.dispatchEvent(new CustomEvent('quickaction-export'));
+                    // 显示导出提示
+                    console.log('开始导出数据...');
+                }
+            }
+        }
+    ];
+    // 处理快捷操作点击
+    const handleActionClick = (action) => {
+        setShowActions(false);
+        if (action.action) {
+            // 执行自定义操作
+            action.action();
+        }
+        else if (action.page) {
+            // 页面跳转 - 简化跳转逻辑，确保兼容性
+            console.log(`快捷操作：跳转到页面 ${action.page}`);
+            // 直接设置hash，不使用复杂的URL参数
+            window.location.hash = action.page;
+            // 强制触发页面更新
+            setTimeout(() => {
+                window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }, 50);
+            // 如果有参数，通过localStorage临时存储
+            if (action.params) {
+                localStorage.setItem('quickAction_params', JSON.stringify(action.params));
+                // 1秒后清除参数，避免影响后续操作
+                setTimeout(() => {
+                    localStorage.removeItem('quickAction_params');
+                }, 1000);
+            }
+        }
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: actionsRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "glass-button w-9 h-9 flex items-center justify-center rounded-lg transition-all", title: "\u5FEB\u6377\u64CD\u4F5C", onClick: () => setShowActions(!showActions), children: "\u26A1" }), showActions && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-80 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-4 border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold", style: { color: 'var(--popup-text-primary)' }, children: "\u5FEB\u6377\u64CD\u4F5C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 transition-colors", style: { color: 'var(--popup-text-secondary)' }, onClick: () => setShowActions(false), children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-3 gap-3", children: quickActions.map((action) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "flex flex-col items-center justify-center p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 group", onClick: () => handleActionClick(action), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl mb-1 group-hover:scale-110 transition-transform duration-200", children: action.icon }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-center leading-tight", style: { color: 'var(--popup-text-secondary)' }, children: action.label })] }, action.id))) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "px-4 pb-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs text-center p-2 bg-white/5 rounded-lg", style: { color: 'var(--popup-text-tertiary)' }, children: "\uD83D\uDCA1 \u70B9\u51FB\u56FE\u6807\u5FEB\u901F\u8BBF\u95EE\u5E38\u7528\u529F\u80FD" }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "popup-overlay", onClick: () => setShowActions(false) })] }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuickActions);
+
+
+/***/ }),
+
 /***/ "./src/components/Layout/Sidebar.tsx":
 /*!*******************************************!*\
   !*** ./src/components/Layout/Sidebar.tsx ***!
@@ -55546,12 +57038,14 @@ const menuItems = [
             { id: 'inventory-overview', label: '库存概览', icon: '📋' },
             { id: 'inventory-card-view', label: '卡片视图', icon: '🗂️' },
             { id: 'calendar-overview', label: '日历视图', icon: '📅' },
+            { id: 'daily-consumption', label: '逐日消耗视图', icon: '📈' },
             { id: 'products', label: '商品管理', icon: '🏷️' },
             { id: 'categories', label: '分类管理', icon: '📂' },
             { id: 'warehouses', label: '仓库管理', icon: '🏭' },
             { id: 'stock-in', label: '入库管理', icon: '📥' },
             { id: 'stock-out', label: '出库管理', icon: '📤' },
-            { id: 'stock-adjust', label: '库存调整', icon: '⚖️' }
+            { id: 'stock-adjust', label: '库存调整', icon: '⚖️' },
+            { id: 'monthly-balance', label: '月度结余', icon: '📊' }
         ]
     },
     {
@@ -55685,8 +57179,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ThemeSwitcher_ThemeSwitcher__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ThemeSwitcher/ThemeSwitcher */ "./src/components/ThemeSwitcher/ThemeSwitcher.tsx");
-/* harmony import */ var _services_inventory_inventoryService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/inventory/inventoryService */ "./src/services/inventory/inventoryService.ts");
-/* harmony import */ var _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/notificationHelper */ "./src/utils/notificationHelper.ts");
+/* harmony import */ var _QuickActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuickActions */ "./src/components/Layout/QuickActions.tsx");
+/* harmony import */ var _services_inventory_inventoryService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/inventory/inventoryService */ "./src/services/inventory/inventoryService.ts");
+/* harmony import */ var _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/notificationHelper */ "./src/utils/notificationHelper.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -55701,12 +57196,14 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
 // 页面标题映射
 const pageTitles = {
     'dashboard': { title: '仪表板', breadcrumb: ['仪表板'] },
     // 库存管理
     'inventory-overview': { title: '库存概览', breadcrumb: ['库存管理', '库存概览'] },
     'inventory-card-view': { title: '库存卡片视图', breadcrumb: ['库存管理', '库存卡片视图'] },
+    'daily-consumption': { title: '逐日消耗视图', breadcrumb: ['库存管理', '逐日消耗视图'] },
     'products': { title: '商品管理', breadcrumb: ['库存管理', '商品管理'] },
     'categories': { title: '分类管理', breadcrumb: ['库存管理', '分类管理'] },
     'warehouses': { title: '仓库管理', breadcrumb: ['库存管理', '仓库管理'] },
@@ -55751,7 +57248,7 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
     const notificationRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
     const userMenuRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
     const searchResultsRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
-    const inventoryService = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(new _services_inventory_inventoryService__WEBPACK_IMPORTED_MODULE_3__.InventoryService());
+    const inventoryService = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(new _services_inventory_inventoryService__WEBPACK_IMPORTED_MODULE_4__.InventoryService());
     // 点击外部关闭弹出窗体
     (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
         const handleClickOutside = (event) => {
@@ -55780,8 +57277,8 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
     const loadNotifications = () => {
         setIsLoadingNotifications(true);
         try {
-            const recentNotifications = _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.getRecentNotifications();
-            const unreadCount = _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.getUnreadCount();
+            const recentNotifications = _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_5__.notificationHelper.getRecentNotifications();
+            const unreadCount = _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_5__.notificationHelper.getUnreadCount();
             setNotifications(recentNotifications);
             setUnreadCount(unreadCount);
         }
@@ -55801,7 +57298,7 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
     // 标记通知为已读
     const handleNotificationClick = (notificationId) => {
         try {
-            _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.markAsRead(notificationId);
+            _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_5__.notificationHelper.markAsRead(notificationId);
             // 重新加载通知数据
             loadNotifications();
         }
@@ -55812,7 +57309,7 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
     // 标记所有通知为已读
     const handleMarkAllAsRead = () => {
         try {
-            _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__.notificationHelper.markAllAsRead();
+            _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_5__.notificationHelper.markAllAsRead();
             loadNotifications();
             setShowNotifications(false);
         }
@@ -55877,6 +57374,40 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
             default: return 'border-l-4 border-l-gray-400 bg-gray-500/10';
         }
     };
+    // 刷新数据处理函数
+    const handleRefreshData = () => {
+        // 重新加载通知
+        loadNotifications();
+        // 触发页面数据刷新
+        window.dispatchEvent(new CustomEvent('refresh-data'));
+        // 显示刷新成功通知
+        _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_5__.notificationHelper.showOperationResult('数据刷新', true, '页面数据已刷新');
+    };
+    // 导出数据处理函数
+    const handleExportData = () => {
+        // 根据当前页面导出对应数据
+        const exportActions = {
+            'products': () => {
+                window.dispatchEvent(new CustomEvent('export-products'));
+            },
+            'inventory-overview': () => {
+                window.dispatchEvent(new CustomEvent('export-inventory'));
+            },
+            'purchase-orders': () => {
+                window.dispatchEvent(new CustomEvent('export-purchase-orders'));
+            },
+            'sales-orders': () => {
+                window.dispatchEvent(new CustomEvent('export-sales-orders'));
+            },
+            default: () => {
+                window.dispatchEvent(new CustomEvent('export-current-page'));
+            }
+        };
+        const action = exportActions[currentPage] || exportActions.default;
+        action();
+        // 显示导出提示
+        _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_5__.notificationHelper.showInfo('数据导出', '正在导出当前页面数据...');
+    };
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("header", { className: `
       fixed top-0 right-0 z-50 h-20 transition-all duration-300
       ${sidebarCollapsed ? 'left-16' : 'left-64'}
@@ -55895,7 +57426,7 @@ const TopBar = ({ currentPage, onToggleSidebar, sidebarCollapsed }) => {
                                                                 item.status === 'out-of-stock' ? 'bg-red-500/20 text-red-300' :
                                                                     'bg-gray-500/20 text-gray-300'}`, children: item.status === 'in-stock' ? '有库存' :
                                                             item.status === 'low-stock' ? '库存不足' :
-                                                                item.status === 'out-of-stock' ? '缺货' : '已停产' })] }) }, item.id)))] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/40 text-4xl mb-2", children: "\uD83D\uDD0D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/60 text-sm", children: isSearching ? '搜索中...' : `未找到包含 "${searchValue}" 的商品` })] })) }))] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "hidden lg:flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "glass-button w-9 h-9 flex items-center justify-center rounded-lg transition-all", title: "\u65B0\u589E\u5546\u54C1", children: "\u2795" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "glass-button w-9 h-9 flex items-center justify-center rounded-lg transition-all", title: "\u5237\u65B0\u6570\u636E", children: "\uD83D\uDD04" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "glass-button w-9 h-9 flex items-center justify-center rounded-lg transition-all", title: "\u5BFC\u51FA\u6570\u636E", children: "\uD83D\uDCCA" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: notificationRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "glass-button relative w-9 h-9 flex items-center justify-center rounded-lg transition-all", onClick: () => setShowNotifications(!showNotifications), children: ["\uD83D\uDD14", unreadCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center", children: unreadCount > 99 ? '99+' : unreadCount }))] }), showNotifications && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-80 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-4 border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold", style: { color: 'var(--popup-text-primary)' }, children: "\u901A\u77E5\u6D88\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 transition-colors", style: { color: 'var(--popup-text-secondary)' }, onClick: () => setShowNotifications(false), children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "max-h-80 overflow-y-auto", children: isLoadingNotifications ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 text-center", style: { color: 'var(--popup-text-tertiary)' }, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin w-6 h-6 border-2 rounded-full mx-auto mb-2", style: { borderColor: 'var(--popup-text-tertiary)', borderTopColor: 'var(--popup-text-secondary)' } }), "\u52A0\u8F7D\u4E2D..."] })) : notifications.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 text-center", style: { color: 'var(--popup-text-tertiary)' }, children: "\u6682\u65E0\u901A\u77E5\u6D88\u606F" })) : (notifications.map(notification => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `p-4 hover:bg-white/5 transition-colors cursor-pointer ${getNotificationTypeStyles(notification.type)}`, onClick: () => handleNotificationClick(notification.id), children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-sm font-medium mb-1", style: { color: 'var(--popup-text-primary)' }, children: notification.title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs mb-2", style: { color: 'var(--popup-text-secondary)' }, children: notification.message }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs", style: { color: 'var(--popup-text-tertiary)' }, children: new Date(notification.createdAt).toLocaleString('zh-CN', {
+                                                                item.status === 'out-of-stock' ? '缺货' : '已停产' })] }) }, item.id)))] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/40 text-4xl mb-2", children: "\uD83D\uDD0D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/60 text-sm", children: isSearching ? '搜索中...' : `未找到包含 "${searchValue}" 的商品` })] })) }))] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "hidden lg:flex items-center gap-2", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_QuickActions__WEBPACK_IMPORTED_MODULE_3__["default"], { onRefresh: handleRefreshData, onExportData: handleExportData }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "relative", ref: notificationRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "glass-button relative w-9 h-9 flex items-center justify-center rounded-lg transition-all", onClick: () => setShowNotifications(!showNotifications), children: ["\uD83D\uDD14", unreadCount > 0 && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center", children: unreadCount > 99 ? '99+' : unreadCount }))] }), showNotifications && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-80 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-4 border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold", style: { color: 'var(--popup-text-primary)' }, children: "\u901A\u77E5\u6D88\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 transition-colors", style: { color: 'var(--popup-text-secondary)' }, onClick: () => setShowNotifications(false), children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "max-h-80 overflow-y-auto", children: isLoadingNotifications ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 text-center", style: { color: 'var(--popup-text-tertiary)' }, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin w-6 h-6 border-2 rounded-full mx-auto mb-2", style: { borderColor: 'var(--popup-text-tertiary)', borderTopColor: 'var(--popup-text-secondary)' } }), "\u52A0\u8F7D\u4E2D..."] })) : notifications.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 text-center", style: { color: 'var(--popup-text-tertiary)' }, children: "\u6682\u65E0\u901A\u77E5\u6D88\u606F" })) : (notifications.map(notification => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `p-4 hover:bg-white/5 transition-colors cursor-pointer ${getNotificationTypeStyles(notification.type)}`, onClick: () => handleNotificationClick(notification.id), children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-sm font-medium mb-1", style: { color: 'var(--popup-text-primary)' }, children: notification.title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs mb-2", style: { color: 'var(--popup-text-secondary)' }, children: notification.message }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs", style: { color: 'var(--popup-text-tertiary)' }, children: new Date(notification.createdAt).toLocaleString('zh-CN', {
                                                                                 month: 'numeric',
                                                                                 day: 'numeric',
                                                                                 hour: '2-digit',
@@ -55930,27 +57461,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Inventory_StockOut__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Inventory/StockOut */ "./src/components/Inventory/StockOut.tsx");
 /* harmony import */ var _Inventory_StockAdjust__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Inventory/StockAdjust */ "./src/components/Inventory/StockAdjust.tsx");
 /* harmony import */ var _Inventory_TransactionRecords__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Inventory/TransactionRecords */ "./src/components/Inventory/TransactionRecords.tsx");
-/* harmony import */ var _pages_InventoryCardView__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../pages/InventoryCardView */ "./src/pages/InventoryCardView.tsx");
-/* harmony import */ var _Calendar_CalendarOverviewPage__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Calendar/CalendarOverviewPage */ "./src/components/Calendar/CalendarOverviewPage.tsx");
-/* harmony import */ var _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Purchase/SupplierManagement */ "./src/components/Purchase/SupplierManagement.tsx");
-/* harmony import */ var _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Purchase/PurchaseOrderManagement */ "./src/components/Purchase/PurchaseOrderManagement.tsx");
-/* harmony import */ var _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Purchase/PurchaseReceiptManagement */ "./src/components/Purchase/PurchaseReceiptManagement.tsx");
-/* harmony import */ var _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Sales/CustomerManagement */ "./src/components/Sales/CustomerManagement.tsx");
-/* harmony import */ var _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Sales/SalesOrderManagement */ "./src/components/Sales/SalesOrderManagement.tsx");
-/* harmony import */ var _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Sales/SalesDeliveryManagement */ "./src/components/Sales/SalesDeliveryManagement.tsx");
-/* harmony import */ var _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Reports/InventoryReports */ "./src/components/Reports/InventoryReports.tsx");
-/* harmony import */ var _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Reports/SalesReports */ "./src/components/Reports/SalesReports.tsx");
-/* harmony import */ var _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Reports/PurchaseReports */ "./src/components/Reports/PurchaseReports.tsx");
-/* harmony import */ var _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Reports/FinancialReports */ "./src/components/Reports/FinancialReports.tsx");
-/* harmony import */ var _Financial_Financial__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Financial/Financial */ "./src/components/Financial/Financial.tsx");
-/* harmony import */ var _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Financial/AccountsPayableManagement */ "./src/components/Financial/AccountsPayableManagement.tsx");
-/* harmony import */ var _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Financial/AccountsReceivableManagement */ "./src/components/Financial/AccountsReceivableManagement.tsx");
-/* harmony import */ var _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./Financial/PaymentRecordsManagement */ "./src/components/Financial/PaymentRecordsManagement.tsx");
-/* harmony import */ var _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./Financial/ReceiptRecordsManagement */ "./src/components/Financial/ReceiptRecordsManagement.tsx");
-/* harmony import */ var _System_UserManagement__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./System/UserManagement */ "./src/components/System/UserManagement.tsx");
-/* harmony import */ var _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./System/PermissionManagement */ "./src/components/System/PermissionManagement.tsx");
-/* harmony import */ var _System_SystemSettings__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./System/SystemSettings */ "./src/components/System/SystemSettings.tsx");
-/* harmony import */ var _System_OperationLogs__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./System/OperationLogs */ "./src/components/System/OperationLogs.tsx");
+/* harmony import */ var _Inventory_MonthlyBalanceOverview__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Inventory/MonthlyBalanceOverview */ "./src/components/Inventory/MonthlyBalanceOverview.tsx");
+/* harmony import */ var _pages_InventoryCardView__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../pages/InventoryCardView */ "./src/pages/InventoryCardView.tsx");
+/* harmony import */ var _Calendar_CalendarOverviewPage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Calendar/CalendarOverviewPage */ "./src/components/Calendar/CalendarOverviewPage.tsx");
+/* harmony import */ var _Consumption_DailyConsumptionView__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Consumption/DailyConsumptionView */ "./src/components/Consumption/DailyConsumptionView.tsx");
+/* harmony import */ var _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Purchase/SupplierManagement */ "./src/components/Purchase/SupplierManagement.tsx");
+/* harmony import */ var _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Purchase/PurchaseOrderManagement */ "./src/components/Purchase/PurchaseOrderManagement.tsx");
+/* harmony import */ var _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Purchase/PurchaseReceiptManagement */ "./src/components/Purchase/PurchaseReceiptManagement.tsx");
+/* harmony import */ var _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Sales/CustomerManagement */ "./src/components/Sales/CustomerManagement.tsx");
+/* harmony import */ var _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Sales/SalesOrderManagement */ "./src/components/Sales/SalesOrderManagement.tsx");
+/* harmony import */ var _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Sales/SalesDeliveryManagement */ "./src/components/Sales/SalesDeliveryManagement.tsx");
+/* harmony import */ var _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Reports/InventoryReports */ "./src/components/Reports/InventoryReports.tsx");
+/* harmony import */ var _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Reports/SalesReports */ "./src/components/Reports/SalesReports.tsx");
+/* harmony import */ var _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Reports/PurchaseReports */ "./src/components/Reports/PurchaseReports.tsx");
+/* harmony import */ var _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Reports/FinancialReports */ "./src/components/Reports/FinancialReports.tsx");
+/* harmony import */ var _Financial_Financial__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Financial/Financial */ "./src/components/Financial/Financial.tsx");
+/* harmony import */ var _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./Financial/AccountsPayableManagement */ "./src/components/Financial/AccountsPayableManagement.tsx");
+/* harmony import */ var _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./Financial/AccountsReceivableManagement */ "./src/components/Financial/AccountsReceivableManagement.tsx");
+/* harmony import */ var _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./Financial/PaymentRecordsManagement */ "./src/components/Financial/PaymentRecordsManagement.tsx");
+/* harmony import */ var _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./Financial/ReceiptRecordsManagement */ "./src/components/Financial/ReceiptRecordsManagement.tsx");
+/* harmony import */ var _System_UserManagement__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./System/UserManagement */ "./src/components/System/UserManagement.tsx");
+/* harmony import */ var _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./System/PermissionManagement */ "./src/components/System/PermissionManagement.tsx");
+/* harmony import */ var _System_SystemSettings__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./System/SystemSettings */ "./src/components/System/SystemSettings.tsx");
+/* harmony import */ var _System_OperationLogs__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./System/OperationLogs */ "./src/components/System/OperationLogs.tsx");
+
+
 
 
 
@@ -55989,8 +57524,9 @@ const pageComponents = {
     'inventory': _Inventory_InventoryOverview__WEBPACK_IMPORTED_MODULE_2__.InventoryOverview,
     'inventory-overview': _Inventory_InventoryOverview__WEBPACK_IMPORTED_MODULE_2__.InventoryOverview,
     'inventory-products': _Inventory_InventoryList__WEBPACK_IMPORTED_MODULE_3__.InventoryList,
-    'inventory-card-view': _pages_InventoryCardView__WEBPACK_IMPORTED_MODULE_11__["default"],
-    'calendar-overview': _Calendar_CalendarOverviewPage__WEBPACK_IMPORTED_MODULE_12__["default"],
+    'inventory-card-view': _pages_InventoryCardView__WEBPACK_IMPORTED_MODULE_12__["default"],
+    'calendar-overview': _Calendar_CalendarOverviewPage__WEBPACK_IMPORTED_MODULE_13__["default"],
+    'daily-consumption': _Consumption_DailyConsumptionView__WEBPACK_IMPORTED_MODULE_14__["default"],
     'products': _Inventory_ProductManagement__WEBPACK_IMPORTED_MODULE_4__.ProductManagement,
     'categories': _Inventory_CategoryManagement__WEBPACK_IMPORTED_MODULE_5__.CategoryManagement,
     'warehouses': _Inventory_WarehouseManagement__WEBPACK_IMPORTED_MODULE_6__.WarehouseManagement,
@@ -55998,17 +57534,18 @@ const pageComponents = {
     'stock-out': _Inventory_StockOut__WEBPACK_IMPORTED_MODULE_8__.StockOut,
     'stock-adjust': _Inventory_StockAdjust__WEBPACK_IMPORTED_MODULE_9__.StockAdjust,
     'transaction-records': _Inventory_TransactionRecords__WEBPACK_IMPORTED_MODULE_10__.TransactionRecords,
-    'suppliers': _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_13__["default"],
-    'purchase-orders': _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_14__["default"],
-    'purchase-receipts': _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_15__["default"],
-    'customers': _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_16__["default"],
-    'sales-orders': _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_17__["default"],
-    'sales-delivery': _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_18__["default"],
-    'inventory-reports': _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_19__["default"],
-    'sales-reports': _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_20__["default"],
-    'purchase-reports': _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_21__["default"],
-    'financial-reports': _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_22__["default"],
-    'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_23__["default"],
+    'monthly-balance': _Inventory_MonthlyBalanceOverview__WEBPACK_IMPORTED_MODULE_11__.MonthlyBalanceOverview,
+    'suppliers': _Purchase_SupplierManagement__WEBPACK_IMPORTED_MODULE_15__["default"],
+    'purchase-orders': _Purchase_PurchaseOrderManagement__WEBPACK_IMPORTED_MODULE_16__["default"],
+    'purchase-receipts': _Purchase_PurchaseReceiptManagement__WEBPACK_IMPORTED_MODULE_17__["default"],
+    'customers': _Sales_CustomerManagement__WEBPACK_IMPORTED_MODULE_18__["default"],
+    'sales-orders': _Sales_SalesOrderManagement__WEBPACK_IMPORTED_MODULE_19__["default"],
+    'sales-delivery': _Sales_SalesDeliveryManagement__WEBPACK_IMPORTED_MODULE_20__["default"],
+    'inventory-reports': _Reports_InventoryReports__WEBPACK_IMPORTED_MODULE_21__["default"],
+    'sales-reports': _Reports_SalesReports__WEBPACK_IMPORTED_MODULE_22__["default"],
+    'purchase-reports': _Reports_PurchaseReports__WEBPACK_IMPORTED_MODULE_23__["default"],
+    'financial-reports': _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_24__["default"],
+    'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_25__["default"],
     // 'system-management': SystemManagement
 };
 // 开发中的页面组件
@@ -56021,10 +57558,10 @@ const allPageComponents = Object.assign(Object.assign({}, pageComponents), {
     // 采购管理模块 - 已完成
     // 销售管理模块 - 已完成
     // 财务管理模块 - 已完成基础功能
-    'accounts-payable': _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_24__["default"], 'accounts-receivable': _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_25__["default"], 'payments': _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_26__["default"], 'receipts': _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_27__["default"], 'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_23__["default"], 
+    'accounts-payable': _Financial_AccountsPayableManagement__WEBPACK_IMPORTED_MODULE_26__["default"], 'accounts-receivable': _Financial_AccountsReceivableManagement__WEBPACK_IMPORTED_MODULE_27__["default"], 'payments': _Financial_PaymentRecordsManagement__WEBPACK_IMPORTED_MODULE_28__["default"], 'receipts': _Financial_ReceiptRecordsManagement__WEBPACK_IMPORTED_MODULE_29__["default"], 'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_25__["default"], 
     // 报表分析模块 - 部分完成
     // 系统管理模块 - 独立页面组件
-    'users': _System_UserManagement__WEBPACK_IMPORTED_MODULE_28__["default"], 'permissions': _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_29__["default"], 'settings': _System_SystemSettings__WEBPACK_IMPORTED_MODULE_30__["default"], 'logs': _System_OperationLogs__WEBPACK_IMPORTED_MODULE_31__["default"] });
+    'users': _System_UserManagement__WEBPACK_IMPORTED_MODULE_30__["default"], 'permissions': _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_31__["default"], 'settings': _System_SystemSettings__WEBPACK_IMPORTED_MODULE_32__["default"], 'logs': _System_OperationLogs__WEBPACK_IMPORTED_MODULE_33__["default"] });
 const PageContainer = ({ currentPage }) => {
     const PageComponent = allPageComponents[currentPage];
     if (!PageComponent) {
@@ -58649,6 +60186,58 @@ const SalesOrderManagement = ({ className }) => {
 
 /***/ }),
 
+/***/ "./src/components/System/ConversionRulesTab.tsx":
+/*!******************************************************!*\
+  !*** ./src/components/System/ConversionRulesTab.tsx ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+
+
+
+const ConversionRulesTab = ({ conversionRules, units, showConversionForm, setShowConversionForm, editingConversion, conversionForm, setConversionForm, onConversionSubmit, onEditConversion, onDeleteConversion }) => {
+    const unitTypeOptions = [
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.WEIGHT, label: '重量' },
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.LENGTH, label: '长度' },
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.VOLUME, label: '体积' },
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.QUANTITY, label: '数量' },
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.AREA, label: '面积' },
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.TIME, label: '时间' }
+    ];
+    const getUnitTypeLabel = (type) => {
+        var _a;
+        return ((_a = unitTypeOptions.find(opt => opt.value === type)) === null || _a === void 0 ? void 0 : _a.label) || type;
+    };
+    const getUnitName = (unitId) => {
+        const unit = units.find(u => u.id === unitId);
+        return unit ? `${unit.name}(${unit.symbol})` : unitId;
+    };
+    // 按类别过滤单位
+    const getUnitsForCategory = (category) => {
+        return units.filter(unit => unit.type === category && unit.isActive);
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white", children: "\u6362\u7B97\u89C4\u5219" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70 text-sm mt-1", children: "\u7BA1\u7406\u5168\u5C40\u5355\u4F4D\u6362\u7B97\u89C4\u5219" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassButton, { onClick: () => setShowConversionForm(true), variant: "primary", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\u2795" }), "\u6DFB\u52A0\u6362\u7B97\u89C4\u5219"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface rounded-lg overflow-hidden mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "overflow-x-auto", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", { className: "w-full", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u89C4\u5219\u540D\u79F0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u7C7B\u522B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u6E90\u5355\u4F4D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u76EE\u6807\u5355\u4F4D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u6BD4\u7387" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u63CF\u8FF0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u64CD\u4F5C" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", { children: conversionRules.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { colSpan: 8, className: "text-center py-8 text-white/60", children: "\u6682\u65E0\u6362\u7B97\u89C4\u5219\uFF0C\u8BF7\u6DFB\u52A0\u89C4\u5219" }) })) : (conversionRules.map(rule => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/5 hover:bg-white/5 transition-colors", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white font-medium", children: rule.name }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/80", children: getUnitTypeLabel(rule.category) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/80", children: getUnitName(rule.fromUnitId) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/80", children: getUnitName(rule.toUnitId) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/80", children: rule.conversionRate }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/70 max-w-xs truncate", children: rule.description || '-' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `px-2 py-1 rounded text-xs font-medium ${rule.isActive
+                                                    ? 'bg-green-500/20 text-green-300'
+                                                    : 'bg-gray-500/20 text-gray-300'}`, children: rule.isActive ? '启用' : '禁用' }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onEditConversion(rule), className: "text-blue-400 hover:text-blue-300 transition-colors", title: "\u7F16\u8F91", children: "\u270F\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onDeleteConversion(rule.id), className: "text-red-400 hover:text-red-300 transition-colors", title: "\u5220\u9664", children: "\uD83D\uDDD1\uFE0F" })] }) })] }, rule.id)))) })] }) }) }), showConversionForm && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 flex items-center justify-center z-50", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card w-full max-w-md mx-4 p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-semibold text-white", children: editingConversion ? '编辑换算规则' : '添加换算规则' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => setShowConversionForm(false), className: "text-white/60 hover:text-white transition-colors", children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", { onSubmit: onConversionSubmit, className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u89C4\u5219\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassInput, { type: "text", value: conversionForm.name, onChange: (e) => setConversionForm((prev) => (Object.assign(Object.assign({}, prev), { name: e.target.value }))), placeholder: "\u5982\uFF1A\u91CD\u91CF\u6807\u51C6\u6362\u7B97", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u6362\u7B97\u7C7B\u522B *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassSelect, { value: conversionForm.category, onChange: (e) => {
+                                                const category = e.target.value;
+                                                setConversionForm((prev) => (Object.assign(Object.assign({}, prev), { category, fromUnitId: '', toUnitId: '' })));
+                                            }, required: true, children: unitTypeOptions.map(option => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: option.value, children: option.label }, option.value))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u6E90\u5355\u4F4D *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassSelect, { value: conversionForm.fromUnitId, onChange: (e) => setConversionForm((prev) => (Object.assign(Object.assign({}, prev), { fromUnitId: e.target.value }))), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u6E90\u5355\u4F4D" }), getUnitsForCategory(conversionForm.category).map(unit => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: unit.id, children: [unit.name, "(", unit.symbol, ")"] }, unit.id)))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u76EE\u6807\u5355\u4F4D *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassSelect, { value: conversionForm.toUnitId, onChange: (e) => setConversionForm((prev) => (Object.assign(Object.assign({}, prev), { toUnitId: e.target.value }))), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u76EE\u6807\u5355\u4F4D" }), getUnitsForCategory(conversionForm.category)
+                                                    .filter(unit => unit.id !== conversionForm.fromUnitId)
+                                                    .map(unit => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: unit.id, children: [unit.name, "(", unit.symbol, ")"] }, unit.id)))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u6362\u7B97\u6BD4\u7387 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassInput, { type: "number", value: conversionForm.conversionRate, onChange: (e) => setConversionForm((prev) => (Object.assign(Object.assign({}, prev), { conversionRate: parseFloat(e.target.value) || 0 }))), placeholder: "\u5982\uFF1A1000\uFF081\u5343\u514B=1000\u514B\uFF09", step: "0.01", min: "0.01", required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "text-xs text-white/60 mt-1", children: ["1\u4E2A\u6E90\u5355\u4F4D = ", conversionForm.conversionRate, "\u4E2A\u76EE\u6807\u5355\u4F4D"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u63CF\u8FF0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassInput, { type: "text", value: conversionForm.description, onChange: (e) => setConversionForm((prev) => (Object.assign(Object.assign({}, prev), { description: e.target.value }))), placeholder: "\u6362\u7B97\u89C4\u5219\u7684\u8BE6\u7EC6\u63CF\u8FF0\uFF08\u53EF\u9009\uFF09" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", id: "conversionActive", checked: conversionForm.isActive, onChange: (e) => setConversionForm((prev) => (Object.assign(Object.assign({}, prev), { isActive: e.target.checked }))), className: "w-4 h-4 rounded border-white/20 bg-white/10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "conversionActive", className: "text-sm text-white/80", children: "\u542F\u7528\u6B64\u6362\u7B97\u89C4\u5219" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3 pt-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassButton, { type: "button", onClick: () => setShowConversionForm(false), variant: "secondary", className: "flex-1", children: "\u53D6\u6D88" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassButton, { type: "submit", variant: "primary", className: "flex-1", children: editingConversion ? '保存' : '添加' })] })] })] }) }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConversionRulesTab);
+
+
+/***/ }),
+
 /***/ "./src/components/System/OperationLogs.tsx":
 /*!*************************************************!*\
   !*** ./src/components/System/OperationLogs.tsx ***!
@@ -58956,6 +60545,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var _UnitManagementTab__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./UnitManagementTab */ "./src/components/System/UnitManagementTab.tsx");
+/* harmony import */ var _ConversionRulesTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ConversionRulesTab */ "./src/components/System/ConversionRulesTab.tsx");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -58965,6 +60558,10 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
+
+
+
 
 
 
@@ -58992,8 +60589,34 @@ const SystemSettings = ({ className }) => {
         currencySymbol: '¥',
         taxRate: 0.13
     });
+    // 单位管理状态
+    const [units, setUnits] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [showUnitForm, setShowUnitForm] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [editingUnit, setEditingUnit] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [unitForm, setUnitForm] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+        name: '',
+        symbol: '',
+        type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
+        description: '',
+        isActive: true
+    });
+    // 换算规则状态
+    const [conversionRules, setConversionRules] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [showConversionForm, setShowConversionForm] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [editingConversion, setEditingConversion] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [conversionForm, setConversionForm] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+        name: '',
+        fromUnitId: '',
+        toUnitId: '',
+        conversionRate: 1,
+        category: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
+        description: '',
+        isActive: true
+    });
     (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
         loadSettings();
+        loadUnits();
+        loadConversionRules();
     }, []);
     const loadSettings = () => __awaiter(void 0, void 0, void 0, function* () {
         setLoading(true);
@@ -59044,13 +60667,187 @@ const SystemSettings = ({ className }) => {
         setBusinessSettings(prev => (Object.assign(Object.assign({}, prev), { [field]: value })));
         setHasChanges(true);
     };
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white", children: "\u7CFB\u7EDF\u8BBE\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "mt-1 text-white/80", children: "\u914D\u7F6E\u7CFB\u7EDF\u53C2\u6570\u548C\u4E1A\u52A1\u89C4\u5219" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassButton, { onClick: resetSettings, variant: "secondary", disabled: loading, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD04" }), "\u91CD\u7F6E"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassButton, { onClick: saveSettings, variant: "primary", disabled: loading || !hasChanges, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCBE" }), loading ? '保存中...' : '保存设置'] })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-0", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex border-b border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('basic'), className: `flex-1 px-6 py-4 text-sm font-medium transition-colors ${activeTab === 'basic'
+    // =============== 单位管理 ===============
+    const loadUnits = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const allUnits = yield _services_business__WEBPACK_IMPORTED_MODULE_3__.unitService.findAll();
+            setUnits(allUnits);
+        }
+        catch (error) {
+            console.error('加载单位失败:', error);
+        }
+    });
+    const handleUnitSubmit = (e) => __awaiter(void 0, void 0, void 0, function* () {
+        e.preventDefault();
+        if (!unitForm.name.trim() || !unitForm.symbol.trim()) {
+            alert('单位名称和符号不能为空');
+            return;
+        }
+        try {
+            if (editingUnit) {
+                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.unitService.update(editingUnit.id, unitForm);
+            }
+            else {
+                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.unitService.create(unitForm);
+            }
+            yield loadUnits();
+            setShowUnitForm(false);
+            setEditingUnit(null);
+            setUnitForm({
+                name: '',
+                symbol: '',
+                type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
+                description: '',
+                isActive: true
+            });
+        }
+        catch (error) {
+            alert(error instanceof Error ? error.message : '保存单位失败');
+        }
+    });
+    const handleEditUnit = (unit) => {
+        setEditingUnit(unit);
+        setUnitForm({
+            name: unit.name,
+            symbol: unit.symbol,
+            type: unit.type,
+            description: unit.description || '',
+            isActive: unit.isActive
+        });
+        setShowUnitForm(true);
+    };
+    const handleDeleteUnit = (unitId) => __awaiter(void 0, void 0, void 0, function* () {
+        if (confirm('确定要删除这个单位吗？')) {
+            try {
+                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.unitService.delete(unitId);
+                yield loadUnits();
+            }
+            catch (error) {
+                alert(error instanceof Error ? error.message : '删除单位失败');
+            }
+        }
+    });
+    // =============== 换算规则管理 ===============
+    const loadConversionRules = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const rules = yield _services_business__WEBPACK_IMPORTED_MODULE_3__.globalConversionService.findAll(false);
+            setConversionRules(rules);
+        }
+        catch (error) {
+            console.error('加载换算规则失败:', error);
+        }
+    });
+    const handleConversionSubmit = (e) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a, _b;
+        e.preventDefault();
+        if (!conversionForm.name.trim() || !conversionForm.fromUnitId || !conversionForm.toUnitId) {
+            alert('规则名称和单位不能为空');
+            return;
+        }
+        if (conversionForm.conversionRate <= 0) {
+            alert('换算比率必须大于0');
+            return;
+        }
+        try {
+            const description = `1${(_a = units.find(u => u.id === conversionForm.fromUnitId)) === null || _a === void 0 ? void 0 : _a.symbol} = ${conversionForm.conversionRate}${(_b = units.find(u => u.id === conversionForm.toUnitId)) === null || _b === void 0 ? void 0 : _b.symbol}`;
+            const ruleData = Object.assign(Object.assign({}, conversionForm), { description });
+            if (editingConversion) {
+                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.globalConversionService.update(editingConversion.id, ruleData);
+            }
+            else {
+                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.globalConversionService.create(ruleData);
+            }
+            yield loadConversionRules();
+            setShowConversionForm(false);
+            setEditingConversion(null);
+            setConversionForm({
+                name: '',
+                fromUnitId: '',
+                toUnitId: '',
+                conversionRate: 1,
+                category: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
+                description: '',
+                isActive: true
+            });
+        }
+        catch (error) {
+            alert(error instanceof Error ? error.message : '保存换算规则失败');
+        }
+    });
+    const handleEditConversion = (rule) => {
+        setEditingConversion(rule);
+        setConversionForm({
+            name: rule.name,
+            fromUnitId: rule.fromUnitId,
+            toUnitId: rule.toUnitId,
+            conversionRate: rule.conversionRate,
+            category: rule.category,
+            description: rule.description,
+            isActive: rule.isActive
+        });
+        setShowConversionForm(true);
+    };
+    const handleDeleteConversion = (ruleId) => __awaiter(void 0, void 0, void 0, function* () {
+        if (confirm('确定要删除这个换算规则吗？')) {
+            try {
+                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.globalConversionService.delete(ruleId);
+                yield loadConversionRules();
+            }
+            catch (error) {
+                alert(error instanceof Error ? error.message : '删除换算规则失败');
+            }
+        }
+    });
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white", children: "\u7CFB\u7EDF\u8BBE\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "mt-1 text-white/80", children: "\u914D\u7F6E\u7CFB\u7EDF\u53C2\u6570\u548C\u4E1A\u52A1\u89C4\u5219" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassButton, { onClick: resetSettings, variant: "secondary", disabled: loading, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD04" }), "\u91CD\u7F6E"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassButton, { onClick: saveSettings, variant: "primary", disabled: loading || !hasChanges, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCBE" }), loading ? '保存中...' : '保存设置'] })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-0", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex border-b border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('basic'), className: `flex-1 px-4 py-4 text-sm font-medium transition-colors ${activeTab === 'basic'
                                 ? 'text-white bg-white/10 border-b-2 border-blue-400'
-                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83C\uDFE2" }), "\u57FA\u672C\u914D\u7F6E"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('business'), className: `flex-1 px-6 py-4 text-sm font-medium transition-colors ${activeTab === 'business'
+                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83C\uDFE2" }), "\u57FA\u672C\u914D\u7F6E"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('business'), className: `flex-1 px-4 py-4 text-sm font-medium transition-colors ${activeTab === 'business'
                                 ? 'text-white bg-white/10 border-b-2 border-blue-400'
-                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCCA" }), "\u4E1A\u52A1\u53C2\u6570"] })] }) }), activeTab === 'basic' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u57FA\u672C\u914D\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7CFB\u7EDF\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.systemName, onChange: (e) => handleBasicChange('systemName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u7CFB\u7EDF\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyName, onChange: (e) => handleBasicChange('companyName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u5730\u5740" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyAddress, onChange: (e) => handleBasicChange('companyAddress', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u5730\u5740" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u7535\u8BDD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "tel", value: basicSettings.contactPhone, onChange: (e) => handleBasicChange('contactPhone', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u7535\u8BDD" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u90AE\u7BB1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "email", value: basicSettings.contactEmail, onChange: (e) => handleBasicChange('contactEmail', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u90AE\u7BB1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u7F51\u7AD9" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.website, onChange: (e) => handleBasicChange('website', e.target.value), placeholder: "https://www.example.com" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8Logo URL" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.logo, onChange: (e) => handleBasicChange('logo', e.target.value), placeholder: "\u8BF7\u8F93\u5165Logo\u56FE\u7247URL" })] })] })] })), activeTab === 'business' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u4E1A\u52A1\u53C2\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u5E93\u5B58\u9884\u8B66\u9608\u503C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.stockWarningThreshold, onChange: (e) => handleBusinessChange('stockWarningThreshold', parseInt(e.target.value) || 0), placeholder: "10", min: "0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-white/60 mt-1", children: "\u5F53\u5E93\u5B58\u4F4E\u4E8E\u6B64\u503C\u65F6\u53D1\u51FA\u9884\u8B66" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u4EF7\u683C\u5C0F\u6570\u4F4D\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.priceDecimalPlaces, onChange: (e) => handleBusinessChange('priceDecimalPlaces', parseInt(e.target.value)), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 0, children: "0\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 1, children: "1\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 2, children: "2\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 3, children: "3\u4F4D\u5C0F\u6570" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u9ED8\u8BA4\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.defaultWarehouse, onChange: (e) => handleBusinessChange('defaultWarehouse', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "main", children: "\u4E3B\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "backup", children: "\u5907\u7528\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "temp", children: "\u4E34\u65F6\u4ED3\u5E93" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8D27\u5E01\u7B26\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.currencySymbol, onChange: (e) => handleBusinessChange('currencySymbol', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A5", children: "\u4EBA\u6C11\u5E01 (\u00A5)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "$", children: "\u7F8E\u5143 ($)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u20AC", children: "\u6B27\u5143 (\u20AC)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A3", children: "\u82F1\u9551 (\u00A3)" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7A0E\u7387 (%)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.taxRate * 100, onChange: (e) => handleBusinessChange('taxRate', (parseFloat(e.target.value) || 0) / 100), placeholder: "13", min: "0", max: "100", step: "0.1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u4E1A\u52A1\u89C4\u5219" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.autoStockOut, onChange: (e) => handleBusinessChange('autoStockOut', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u81EA\u52A8\u51FA\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u9500\u552E\u8BA2\u5355\u786E\u8BA4\u540E\u81EA\u52A8\u6267\u884C\u51FA\u5E93\u64CD\u4F5C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.requireApproval, onChange: (e) => handleBusinessChange('requireApproval', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u9700\u8981\u5BA1\u6279" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u5927\u989D\u8BA2\u5355\u9700\u8981\u7BA1\u7406\u5458\u5BA1\u6279" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.enableBarcode, onChange: (e) => handleBusinessChange('enableBarcode', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u542F\u7528\u6761\u7801\u626B\u63CF" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u652F\u6301\u6761\u7801\u626B\u63CF\u8FDB\u884C\u5FEB\u901F\u64CD\u4F5C" })] })] })] })] })] })), hasChanges && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-4 border-l-4 border-yellow-400", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-yellow-400 mr-2", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u60A8\u6709\u672A\u4FDD\u5B58\u7684\u66F4\u6539\uFF0C\u8BF7\u8BB0\u5F97\u4FDD\u5B58\u8BBE\u7F6E\u3002" })] }) }))] }));
+                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCCA" }), "\u4E1A\u52A1\u53C2\u6570"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('units'), className: `flex-1 px-4 py-4 text-sm font-medium transition-colors ${activeTab === 'units'
+                                ? 'text-white bg-white/10 border-b-2 border-blue-400'
+                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCCF" }), "\u5355\u4F4D\u7BA1\u7406"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('conversions'), className: `flex-1 px-4 py-4 text-sm font-medium transition-colors ${activeTab === 'conversions'
+                                ? 'text-white bg-white/10 border-b-2 border-blue-400'
+                                : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD04" }), "\u6362\u7B97\u89C4\u5219"] })] }) }), activeTab === 'basic' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u57FA\u672C\u914D\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7CFB\u7EDF\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.systemName, onChange: (e) => handleBasicChange('systemName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u7CFB\u7EDF\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyName, onChange: (e) => handleBasicChange('companyName', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u540D\u79F0", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u5730\u5740" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "text", value: basicSettings.companyAddress, onChange: (e) => handleBasicChange('companyAddress', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u516C\u53F8\u5730\u5740" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u7535\u8BDD" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "tel", value: basicSettings.contactPhone, onChange: (e) => handleBasicChange('contactPhone', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u7535\u8BDD" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8054\u7CFB\u90AE\u7BB1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "email", value: basicSettings.contactEmail, onChange: (e) => handleBasicChange('contactEmail', e.target.value), placeholder: "\u8BF7\u8F93\u5165\u8054\u7CFB\u90AE\u7BB1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8\u7F51\u7AD9" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.website, onChange: (e) => handleBasicChange('website', e.target.value), placeholder: "https://www.example.com" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u516C\u53F8Logo URL" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "url", value: basicSettings.logo, onChange: (e) => handleBasicChange('logo', e.target.value), placeholder: "\u8BF7\u8F93\u5165Logo\u56FE\u7247URL" })] })] })] })), activeTab === 'business' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-6", children: "\u4E1A\u52A1\u53C2\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u5E93\u5B58\u9884\u8B66\u9608\u503C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.stockWarningThreshold, onChange: (e) => handleBusinessChange('stockWarningThreshold', parseInt(e.target.value) || 0), placeholder: "10", min: "0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs text-white/60 mt-1", children: "\u5F53\u5E93\u5B58\u4F4E\u4E8E\u6B64\u503C\u65F6\u53D1\u51FA\u9884\u8B66" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u4EF7\u683C\u5C0F\u6570\u4F4D\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.priceDecimalPlaces, onChange: (e) => handleBusinessChange('priceDecimalPlaces', parseInt(e.target.value)), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 0, children: "0\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 1, children: "1\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 2, children: "2\u4F4D\u5C0F\u6570" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: 3, children: "3\u4F4D\u5C0F\u6570" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u9ED8\u8BA4\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.defaultWarehouse, onChange: (e) => handleBusinessChange('defaultWarehouse', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "main", children: "\u4E3B\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "backup", children: "\u5907\u7528\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "temp", children: "\u4E34\u65F6\u4ED3\u5E93" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u8D27\u5E01\u7B26\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { value: businessSettings.currencySymbol, onChange: (e) => handleBusinessChange('currencySymbol', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A5", children: "\u4EBA\u6C11\u5E01 (\u00A5)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "$", children: "\u7F8E\u5143 ($)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u20AC", children: "\u6B27\u5143 (\u20AC)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "\u00A3", children: "\u82F1\u9551 (\u00A3)" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u7A0E\u7387 (%)" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { type: "number", value: businessSettings.taxRate * 100, onChange: (e) => handleBusinessChange('taxRate', (parseFloat(e.target.value) || 0) / 100), placeholder: "13", min: "0", max: "100", step: "0.1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-4", children: "\u4E1A\u52A1\u89C4\u5219" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.autoStockOut, onChange: (e) => handleBusinessChange('autoStockOut', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u81EA\u52A8\u51FA\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u9500\u552E\u8BA2\u5355\u786E\u8BA4\u540E\u81EA\u52A8\u6267\u884C\u51FA\u5E93\u64CD\u4F5C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.requireApproval, onChange: (e) => handleBusinessChange('requireApproval', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u9700\u8981\u5BA1\u6279" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u5927\u989D\u8BA2\u5355\u9700\u8981\u7BA1\u7406\u5458\u5BA1\u6279" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "flex items-center space-x-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: businessSettings.enableBarcode, onChange: (e) => handleBusinessChange('enableBarcode', e.target.checked), className: "w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u542F\u7528\u6761\u7801\u626B\u63CF" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs text-white/60", children: "\u652F\u6301\u6761\u7801\u626B\u63CF\u8FDB\u884C\u5FEB\u901F\u64CD\u4F5C" })] })] })] })] })] })), activeTab === 'units' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_UnitManagementTab__WEBPACK_IMPORTED_MODULE_5__["default"], { units: units, showUnitForm: showUnitForm, setShowUnitForm: setShowUnitForm, editingUnit: editingUnit, unitForm: unitForm, setUnitForm: setUnitForm, onUnitSubmit: handleUnitSubmit, onEditUnit: handleEditUnit, onDeleteUnit: handleDeleteUnit })), activeTab === 'conversions' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ConversionRulesTab__WEBPACK_IMPORTED_MODULE_6__["default"], { conversionRules: conversionRules, units: units, showConversionForm: showConversionForm, setShowConversionForm: setShowConversionForm, editingConversion: editingConversion, conversionForm: conversionForm, setConversionForm: setConversionForm, onConversionSubmit: handleConversionSubmit, onEditConversion: handleEditConversion, onDeleteConversion: handleDeleteConversion })), hasChanges && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-4 border-l-4 border-yellow-400", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-yellow-400 mr-2", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/90", children: "\u60A8\u6709\u672A\u4FDD\u5B58\u7684\u66F4\u6539\uFF0C\u8BF7\u8BB0\u5F97\u4FDD\u5B58\u8BBE\u7F6E\u3002" })] }) }))] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SystemSettings);
+
+
+/***/ }),
+
+/***/ "./src/components/System/UnitManagementTab.tsx":
+/*!*****************************************************!*\
+  !*** ./src/components/System/UnitManagementTab.tsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+
+
+
+const UnitManagementTab = ({ units, showUnitForm, setShowUnitForm, editingUnit, unitForm, setUnitForm, onUnitSubmit, onEditUnit, onDeleteUnit }) => {
+    const unitTypeOptions = [
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.WEIGHT, label: '重量' },
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.LENGTH, label: '长度' },
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.VOLUME, label: '体积' },
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.QUANTITY, label: '数量' },
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.AREA, label: '面积' },
+        { value: _types_entities__WEBPACK_IMPORTED_MODULE_2__.UnitType.TIME, label: '时间' }
+    ];
+    const getUnitTypeLabel = (type) => {
+        var _a;
+        return ((_a = unitTypeOptions.find(opt => opt.value === type)) === null || _a === void 0 ? void 0 : _a.label) || type;
+    };
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white", children: "\u5355\u4F4D\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70 text-sm mt-1", children: "\u7BA1\u7406\u7CFB\u7EDF\u4E2D\u7684\u8BA1\u91CF\u5355\u4F4D" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassButton, { onClick: () => setShowUnitForm(true), variant: "primary", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\u2795" }), "\u6DFB\u52A0\u5355\u4F4D"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface rounded-lg overflow-hidden mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "overflow-x-auto", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", { className: "w-full", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u540D\u79F0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u7B26\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u7C7B\u578B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u63CF\u8FF0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 text-white/80 font-medium", children: "\u64CD\u4F5C" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", { children: units.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { colSpan: 6, className: "text-center py-8 text-white/60", children: "\u6682\u65E0\u5355\u4F4D\u6570\u636E\uFF0C\u8BF7\u6DFB\u52A0\u5355\u4F4D" }) })) : (units.map(unit => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/5 hover:bg-white/5 transition-colors", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white", children: unit.name }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/80", children: unit.symbol }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/80", children: getUnitTypeLabel(unit.type) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/70 max-w-xs truncate", children: unit.description || '-' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `px-2 py-1 rounded text-xs font-medium ${unit.isActive
+                                                    ? 'bg-green-500/20 text-green-300'
+                                                    : 'bg-gray-500/20 text-gray-300'}`, children: unit.isActive ? '启用' : '禁用' }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onEditUnit(unit), className: "text-blue-400 hover:text-blue-300 transition-colors", title: "\u7F16\u8F91", children: "\u270F\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onDeleteUnit(unit.id), className: "text-red-400 hover:text-red-300 transition-colors", title: "\u5220\u9664", children: "\uD83D\uDDD1\uFE0F" })] }) })] }, unit.id)))) })] }) }) }), showUnitForm && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 flex items-center justify-center z-50", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card w-full max-w-md mx-4 p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-semibold text-white", children: editingUnit ? '编辑单位' : '添加单位' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => setShowUnitForm(false), className: "text-white/60 hover:text-white transition-colors", children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", { onSubmit: onUnitSubmit, className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u5355\u4F4D\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassInput, { type: "text", value: unitForm.name, onChange: (e) => setUnitForm(prev => (Object.assign(Object.assign({}, prev), { name: e.target.value }))), placeholder: "\u5982\uFF1A\u5343\u514B\u3001\u4E2A\u3001\u7BB1", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u5355\u4F4D\u7B26\u53F7 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassInput, { type: "text", value: unitForm.symbol, onChange: (e) => setUnitForm(prev => (Object.assign(Object.assign({}, prev), { symbol: e.target.value }))), placeholder: "\u5982\uFF1Akg\u3001pcs\u3001box", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u5355\u4F4D\u7C7B\u578B *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassSelect, { value: unitForm.type, onChange: (e) => setUnitForm(prev => (Object.assign(Object.assign({}, prev), { type: e.target.value }))), required: true, children: unitTypeOptions.map(option => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: option.value, children: option.label }, option.value))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u63CF\u8FF0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassInput, { type: "text", value: unitForm.description, onChange: (e) => setUnitForm(prev => (Object.assign(Object.assign({}, prev), { description: e.target.value }))), placeholder: "\u5355\u4F4D\u7684\u8BE6\u7EC6\u63CF\u8FF0" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", id: "unitActive", checked: unitForm.isActive, onChange: (e) => setUnitForm(prev => (Object.assign(Object.assign({}, prev), { isActive: e.target.checked }))), className: "w-4 h-4 rounded border-white/20 bg-white/10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "unitActive", className: "text-sm text-white/80", children: "\u542F\u7528\u6B64\u5355\u4F4D" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3 pt-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassButton, { type: "button", onClick: () => setShowUnitForm(false), variant: "secondary", className: "flex-1", children: "\u53D6\u6D88" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassButton, { type: "submit", variant: "primary", className: "flex-1", children: editingUnit ? '保存' : '添加' })] })] })] }) }))] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UnitManagementTab);
 
 
 /***/ }),
@@ -60492,7 +62289,7 @@ const ProductSchema = zod__WEBPACK_IMPORTED_MODULE_1__.object({
 const CategorySchema = zod__WEBPACK_IMPORTED_MODULE_1__.object({
     id: idSchema.optional(),
     name: zod__WEBPACK_IMPORTED_MODULE_1__.string().min(1, '分类名称不能为空').max(50, '分类名称长度不能超过50字符'),
-    parentId: idSchema.optional(),
+    parentId: zod__WEBPACK_IMPORTED_MODULE_1__.string().min(1, 'ID不能为空').optional().or(zod__WEBPACK_IMPORTED_MODULE_1__["null"]()),
     level: zod__WEBPACK_IMPORTED_MODULE_1__.number().min(1).max(5, '分类层级不能超过5级'),
     sortOrder: zod__WEBPACK_IMPORTED_MODULE_1__.number().min(0),
     isActive: zod__WEBPACK_IMPORTED_MODULE_1__.boolean(),
@@ -62711,6 +64508,1070 @@ class CustomerService {
 
 /***/ }),
 
+/***/ "./src/services/business/dailyConsumptionService.ts":
+/*!**********************************************************!*\
+  !*** ./src/services/business/dailyConsumptionService.ts ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DailyConsumptionService: () => (/* binding */ DailyConsumptionService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_consumption__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/consumption */ "./src/types/consumption.ts");
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index */ "./src/services/business/index.ts");
+/* harmony import */ var _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/timeSlotHelper */ "./src/utils/timeSlotHelper.ts");
+/* harmony import */ var _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/consumptionCalculator */ "./src/utils/consumptionCalculator.ts");
+/**
+ * 逐日消耗数据服务
+ */
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+/**
+ * 逐日消耗数据服务类
+ */
+class DailyConsumptionService {
+    constructor() {
+        this.cache = new Map();
+        this.cacheExpiry = new Map();
+        this.CACHE_DURATION = 5 * 60 * 1000; // 5分钟缓存
+        console.log('Daily consumption service initialized');
+    }
+    // =============== 主要API方法 ===============
+    /**
+     * 获取逐日消耗数据
+     * @param config 视图配置
+     * @returns 消耗表格数据
+     */
+    getConsumptionData(config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const cacheKey = this.generateCacheKey(config);
+            // 检查缓存
+            if (this.isCacheValid(cacheKey)) {
+                const cachedData = this.cache.get(cacheKey);
+                if (cachedData) {
+                    console.log('返回缓存的消耗数据');
+                    return cachedData;
+                }
+            }
+            console.log('开始获取逐日消耗数据...', config);
+            const startTime = Date.now();
+            try {
+                // 1. 获取库存事务数据
+                const transactions = yield this.getInventoryTransactions(config);
+                console.log(`获取到 ${transactions.length} 条库存事务记录`);
+                // 2. 构建分类层级结构
+                const categories = yield this.buildCategoryHierarchy(transactions, config);
+                console.log(`构建了 ${categories.length} 个分类层级`);
+                // 3. 生成日期列
+                const dateColumns = _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_3__["default"].getDateRange(config.dateRange.startDate, config.dateRange.endDate);
+                // 4. 计算汇总数据
+                const totals = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].calculateTotals(categories, dateColumns);
+                // 5. 构建结果
+                const result = {
+                    categories,
+                    dateColumns,
+                    config,
+                    totals,
+                    lastUpdated: new Date()
+                };
+                // 6. 缓存结果
+                this.cache.set(cacheKey, result);
+                this.cacheExpiry.set(cacheKey, Date.now() + this.CACHE_DURATION);
+                const endTime = Date.now();
+                console.log(`消耗数据获取完成，耗时: ${endTime - startTime}ms`);
+                return result;
+            }
+            catch (error) {
+                console.error('获取消耗数据失败:', error);
+                throw new Error(`获取消耗数据失败: ${error instanceof Error ? error.message : '未知错误'}`);
+            }
+        });
+    }
+    /**
+     * 查询库存事务数据
+     * @param config 视图配置
+     * @returns 库存事务数组
+     */
+    getInventoryTransactions(config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 获取所有库存事务
+                const allTransactions = yield _index__WEBPACK_IMPORTED_MODULE_2__.inventoryStockService.findAllTransactions();
+                // 筛选出库事务
+                const outTransactions = allTransactions.filter(t => t.transactionType === _types_entities__WEBPACK_IMPORTED_MODULE_1__.TransactionType.OUT);
+                // 按日期范围筛选
+                const filteredTransactions = outTransactions.filter(t => {
+                    const transactionDate = new Date(t.createdAt);
+                    return _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_3__["default"].isDateInRange(transactionDate, config.dateRange.startDate, config.dateRange.endDate);
+                });
+                // 应用其他筛选条件
+                let result = filteredTransactions;
+                if (config.categoryFilter && config.categoryFilter.length > 0) {
+                    const products = yield _index__WEBPACK_IMPORTED_MODULE_2__.productService.findAll();
+                    const filteredProductIds = products
+                        .filter(p => config.categoryFilter.includes(p.categoryId))
+                        .map(p => p.id);
+                    result = result.filter(t => filteredProductIds.includes(t.productId));
+                }
+                return result;
+            }
+            catch (error) {
+                console.error('查询库存事务失败:', error);
+                throw error;
+            }
+        });
+    }
+    /**
+     * 构建分类层级结构
+     * @param transactions 库存事务数组
+     * @param config 视图配置
+     * @returns 分类行数据数组
+     */
+    buildCategoryHierarchy(transactions, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 获取所有分类和产品
+                const [allCategories, allProducts] = yield Promise.all([
+                    _index__WEBPACK_IMPORTED_MODULE_2__.categoryService.findAll(),
+                    _index__WEBPACK_IMPORTED_MODULE_2__.productService.findAll()
+                ]);
+                // 构建分类映射
+                const categoryMap = new Map();
+                allCategories.forEach(cat => categoryMap.set(cat.id, cat));
+                const productMap = new Map();
+                allProducts.forEach(prod => productMap.set(prod.id, prod));
+                // 按产品分组事务
+                const transactionsByProduct = new Map();
+                transactions.forEach(t => {
+                    if (!transactionsByProduct.has(t.productId)) {
+                        transactionsByProduct.set(t.productId, []);
+                    }
+                    transactionsByProduct.get(t.productId).push(t);
+                });
+                // 按分类分组产品
+                const productsByCategory = new Map();
+                allProducts.forEach(product => {
+                    if (!productsByCategory.has(product.categoryId)) {
+                        productsByCategory.set(product.categoryId, []);
+                    }
+                    productsByCategory.get(product.categoryId).push(product);
+                });
+                // 生成日期列
+                const dateColumns = _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_3__["default"].getDateRange(config.dateRange.startDate, config.dateRange.endDate);
+                // 构建分类行数据
+                const categoryRows = [];
+                // 获取根分类
+                const rootCategories = allCategories.filter(cat => !cat.parentId);
+                for (const category of rootCategories) {
+                    const categoryRow = yield this.buildCategoryRow(category, productsByCategory, transactionsByProduct, categoryMap, productMap, dateColumns, config);
+                    if (categoryRow) {
+                        categoryRows.push(categoryRow);
+                    }
+                }
+                return categoryRows;
+            }
+            catch (error) {
+                console.error('构建分类层级失败:', error);
+                throw error;
+            }
+        });
+    }
+    /**
+     * 构建单个分类行数据
+     */
+    buildCategoryRow(category, productsByCategory, transactionsByProduct, categoryMap, productMap, dateColumns, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 获取该分类下的产品
+                const products = productsByCategory.get(category.id) || [];
+                // 构建产品行数据
+                const productRows = [];
+                for (const product of products) {
+                    const productRow = yield this.buildProductRow(product, transactionsByProduct.get(product.id) || [], dateColumns, config);
+                    productRows.push(productRow);
+                }
+                // 获取子分类
+                const childCategories = Array.from(categoryMap.values())
+                    .filter(cat => cat.parentId === category.id);
+                const children = [];
+                for (const childCategory of childCategories) {
+                    const childRow = yield this.buildCategoryRow(childCategory, productsByCategory, transactionsByProduct, categoryMap, productMap, dateColumns, config);
+                    if (childRow) {
+                        children.push(childRow);
+                    }
+                }
+                // 构建分类数据映射
+                const categoryData = new Map();
+                for (const date of dateColumns) {
+                    const timeSlotData = this.aggregateTimeSlotDataForCategory(productRows, children, date);
+                    categoryData.set(date, timeSlotData);
+                }
+                // 计算行总计
+                const allSlotData = [];
+                categoryData.forEach(timeSlotData => {
+                    allSlotData.push(timeSlotData.dailyTotal);
+                });
+                children.forEach(child => allSlotData.push(child.rowTotal));
+                const rowTotal = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].mergeConsumptionData(allSlotData);
+                return {
+                    categoryId: category.id,
+                    categoryName: category.name,
+                    level: category.level,
+                    parentId: category.parentId,
+                    isExpanded: true,
+                    hasChildren: children.length > 0,
+                    children,
+                    products: productRows,
+                    data: categoryData,
+                    rowTotal,
+                    sortOrder: category.sortOrder
+                };
+            }
+            catch (error) {
+                console.error(`构建分类行失败 (${category.name}):`, error);
+                return null;
+            }
+        });
+    }
+    /**
+     * 构建产品行数据
+     */
+    buildProductRow(product, transactions, dateColumns, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 按日期和时间段分组事务
+            const productData = new Map();
+            for (const date of dateColumns) {
+                const dateTransactions = transactions.filter(t => {
+                    const transactionDate = _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_3__["default"].formatDate(new Date(t.createdAt));
+                    return transactionDate === date;
+                });
+                const timeSlotData = yield this.buildTimeSlotDataFromTransactions(dateTransactions, product.id, config);
+                productData.set(date, timeSlotData);
+            }
+            // 计算行总计
+            const allSlotData = [];
+            productData.forEach(timeSlotData => {
+                allSlotData.push(timeSlotData.dailyTotal);
+            });
+            const rowTotal = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].mergeConsumptionData(allSlotData);
+            // 检查单位转换
+            const unitConversion = yield _index__WEBPACK_IMPORTED_MODULE_2__.unitConversionService.findByProductId(product.id);
+            // 获取基础单位信息
+            const baseUnit = yield _index__WEBPACK_IMPORTED_MODULE_2__.unitService.findById(product.unitId);
+            return {
+                productId: product.id,
+                productName: product.name,
+                productSku: product.sku,
+                categoryId: product.categoryId,
+                data: productData,
+                rowTotal,
+                hasUnitConversion: !!unitConversion,
+                baseUnit: (baseUnit === null || baseUnit === void 0 ? void 0 : baseUnit.symbol) || '个',
+                convertedUnit: unitConversion === null || unitConversion === void 0 ? void 0 : unitConversion.packageUnitId,
+                conversionRate: unitConversion === null || unitConversion === void 0 ? void 0 : unitConversion.conversionRate
+            };
+        });
+    }
+    /**
+     * 从事务构建时间段数据
+     */
+    buildTimeSlotDataFromTransactions(transactions, productId, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 按时间段分组事务
+            const morningTransactions = [];
+            const afternoonTransactions = [];
+            const eveningTransactions = [];
+            transactions.forEach(t => {
+                const timeSlotResult = _utils_timeSlotHelper__WEBPACK_IMPORTED_MODULE_3__["default"].getTimeSlot(new Date(t.createdAt), config.timeSlotConfig);
+                switch (timeSlotResult.timeSlot) {
+                    case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.MORNING:
+                        morningTransactions.push(t);
+                        break;
+                    case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.AFTERNOON:
+                        afternoonTransactions.push(t);
+                        break;
+                    case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.EVENING:
+                        eveningTransactions.push(t);
+                        break;
+                }
+            });
+            // 计算各时间段的消耗数据
+            const morning = yield this.calculateSlotConsumption(morningTransactions, productId);
+            const afternoon = yield this.calculateSlotConsumption(afternoonTransactions, productId);
+            const evening = yield this.calculateSlotConsumption(eveningTransactions, productId);
+            const timeSlotData = {
+                morning,
+                afternoon,
+                evening,
+                dailyTotal: _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].createEmptyConsumptionData()
+            };
+            return _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].calculateTimeSlotTotals(timeSlotData);
+        });
+    }
+    /**
+     * 计算时间段消耗数据
+     */
+    calculateSlotConsumption(transactions, productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const baseData = _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].calculateConsumptionFromTransactions(transactions);
+            return yield _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].applyUnitConversion(productId, baseData);
+        });
+    }
+    /**
+     * 聚合分类的时间段数据
+     */
+    aggregateTimeSlotDataForCategory(productRows, childCategories, date) {
+        const allMorningData = [];
+        const allAfternoonData = [];
+        const allEveningData = [];
+        // 收集产品数据
+        productRows.forEach(product => {
+            const timeSlotData = product.data.get(date);
+            if (timeSlotData) {
+                allMorningData.push(timeSlotData.morning);
+                allAfternoonData.push(timeSlotData.afternoon);
+                allEveningData.push(timeSlotData.evening);
+            }
+        });
+        // 收集子分类数据
+        childCategories.forEach(child => {
+            const timeSlotData = child.data.get(date);
+            if (timeSlotData) {
+                allMorningData.push(timeSlotData.morning);
+                allAfternoonData.push(timeSlotData.afternoon);
+                allEveningData.push(timeSlotData.evening);
+            }
+        });
+        const timeSlotData = {
+            morning: _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].mergeConsumptionData(allMorningData),
+            afternoon: _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].mergeConsumptionData(allAfternoonData),
+            evening: _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].mergeConsumptionData(allEveningData),
+            dailyTotal: _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].createEmptyConsumptionData()
+        };
+        return _utils_consumptionCalculator__WEBPACK_IMPORTED_MODULE_4__["default"].calculateTimeSlotTotals(timeSlotData);
+    }
+    // =============== 缓存管理 ===============
+    /**
+     * 生成缓存键
+     */
+    generateCacheKey(config) {
+        var _a, _b, _c;
+        return JSON.stringify({
+            startDate: config.dateRange.startDate.toISOString(),
+            endDate: config.dateRange.endDate.toISOString(),
+            displayMode: config.displayMode,
+            categoryFilter: (_a = config.categoryFilter) === null || _a === void 0 ? void 0 : _a.sort(),
+            productFilter: (_b = config.productFilter) === null || _b === void 0 ? void 0 : _b.sort(),
+            warehouseFilter: (_c = config.warehouseFilter) === null || _c === void 0 ? void 0 : _c.sort()
+        });
+    }
+    /**
+     * 检查缓存是否有效
+     */
+    isCacheValid(cacheKey) {
+        const expiry = this.cacheExpiry.get(cacheKey);
+        return expiry ? Date.now() < expiry : false;
+    }
+    /**
+     * 清除缓存
+     */
+    clearCache() {
+        this.cache.clear();
+        this.cacheExpiry.clear();
+        console.log('消耗数据缓存已清除');
+    }
+    /**
+     * 清除过期缓存
+     */
+    clearExpiredCache() {
+        const now = Date.now();
+        for (const [key, expiry] of this.cacheExpiry.entries()) {
+            if (now >= expiry) {
+                this.cache.delete(key);
+                this.cacheExpiry.delete(key);
+            }
+        }
+    }
+}
+// 创建并导出服务实例
+const dailyConsumptionService = new DailyConsumptionService();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (dailyConsumptionService);
+
+
+/***/ }),
+
+/***/ "./src/services/business/fifoInventoryService.ts":
+/*!*******************************************************!*\
+  !*** ./src/services/business/fifoInventoryService.ts ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   FifoInventoryService: () => (/* binding */ FifoInventoryService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _types_fifo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/fifo */ "./src/types/fifo.ts");
+/* harmony import */ var _utils_concurrencyManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/concurrencyManager */ "./src/utils/concurrencyManager.ts");
+/* harmony import */ var _utils_logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/logger */ "./src/utils/logger.ts");
+/**
+ * FIFO (先进先出) 库存管理服务
+ */
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+/**
+ * FIFO库存管理服务类
+ */
+class FifoInventoryService {
+    constructor() {
+        this.batches = new Map();
+        this.batchConsumptions = new Map();
+        this.batchesByProduct = new Map(); // productId -> batchIds
+        this.batchesByWarehouse = new Map(); // warehouseId -> batchIds
+        // 默认FIFO配置
+        this.config = {
+            enableFifo: true,
+            autoGenerateBatchNo: true,
+            batchNoPrefix: 'BATCH',
+            enableExpiryTracking: true,
+            expiryWarningDays: 30,
+            enableBatchMerging: false,
+            maxBatchAge: 365,
+            cleanupDepletedBatches: false
+        };
+        console.log('FIFO Inventory Service initialized');
+    }
+    // =============== 配置管理 ===============
+    /**
+     * 更新FIFO配置
+     */
+    updateConfig(newConfig) {
+        this.config = Object.assign(Object.assign({}, this.config), newConfig);
+        _utils_logger__WEBPACK_IMPORTED_MODULE_2__.logger.info('FIFO configuration updated', newConfig);
+    }
+    /**
+     * 获取当前配置
+     */
+    getConfig() {
+        return Object.assign({}, this.config);
+    }
+    // =============== 批次管理 ===============
+    /**
+     * 创建新批次（入库）
+     */
+    createBatch(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 输入验证
+                if (params.quantity <= 0) {
+                    return {
+                        success: false,
+                        error: {
+                            type: _types_fifo__WEBPACK_IMPORTED_MODULE_0__.FifoErrorType.INVALID_QUANTITY,
+                            message: '入库数量必须大于0',
+                            details: { quantity: params.quantity }
+                        }
+                    };
+                }
+                if (params.unitCost < 0) {
+                    return {
+                        success: false,
+                        error: {
+                            type: _types_fifo__WEBPACK_IMPORTED_MODULE_0__.FifoErrorType.INVALID_COST,
+                            message: '单位成本不能为负数',
+                            details: { unitCost: params.unitCost }
+                        }
+                    };
+                }
+                // 生成批次号
+                const batchNo = params.batchNo || this.generateBatchNo();
+                // 创建批次记录
+                const batch = {
+                    id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(),
+                    batchNo,
+                    productId: params.productId,
+                    warehouseId: params.warehouseId,
+                    originalQuantity: params.quantity,
+                    remainingQuantity: params.quantity,
+                    unitCost: params.unitCost,
+                    totalCost: params.quantity * params.unitCost,
+                    inboundDate: new Date(),
+                    expiryDate: params.expiryDate,
+                    supplierBatchNo: params.supplierBatchNo,
+                    referenceType: params.referenceType,
+                    referenceId: params.referenceId,
+                    status: _types_fifo__WEBPACK_IMPORTED_MODULE_0__.BatchStatus.ACTIVE,
+                    remark: params.remark,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                };
+                // 保存批次
+                this.batches.set(batch.id, batch);
+                // 更新索引
+                this.addToProductIndex(params.productId, batch.id);
+                this.addToWarehouseIndex(params.warehouseId, batch.id);
+                _utils_logger__WEBPACK_IMPORTED_MODULE_2__.logger.info('New inventory batch created', {
+                    batchId: batch.id,
+                    batchNo: batch.batchNo,
+                    productId: params.productId,
+                    warehouseId: params.warehouseId,
+                    quantity: params.quantity,
+                    unitCost: params.unitCost
+                });
+                return {
+                    success: true,
+                    data: batch
+                };
+            }
+            catch (error) {
+                _utils_logger__WEBPACK_IMPORTED_MODULE_2__.logger.error('Failed to create inventory batch', error);
+                return {
+                    success: false,
+                    error: {
+                        type: _types_fifo__WEBPACK_IMPORTED_MODULE_0__.FifoErrorType.CONFIGURATION_ERROR,
+                        message: '创建批次失败',
+                        details: error
+                    }
+                };
+            }
+        });
+    }
+    /**
+     * FIFO出库计算
+     */
+    calculateFifoOutbound(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 获取可用批次（按FIFO顺序）
+                const availableBatches = yield this.getAvailableBatches(params.productId, params.warehouseId);
+                if (availableBatches.length === 0) {
+                    return {
+                        success: false,
+                        error: {
+                            type: _types_fifo__WEBPACK_IMPORTED_MODULE_0__.FifoErrorType.INSUFFICIENT_STOCK,
+                            message: '没有可用的库存批次',
+                            productId: params.productId,
+                            warehouseId: params.warehouseId
+                        }
+                    };
+                }
+                // 计算分配
+                const allocations = [];
+                let remainingQuantity = params.quantity;
+                let totalCost = 0;
+                for (const batch of availableBatches) {
+                    if (remainingQuantity <= 0)
+                        break;
+                    const allocatedQuantity = Math.min(remainingQuantity, batch.remainingQuantity);
+                    const allocationCost = allocatedQuantity * batch.unitCost;
+                    allocations.push({
+                        batchId: batch.id,
+                        batchNo: batch.batchNo,
+                        allocatedQuantity,
+                        unitCost: batch.unitCost,
+                        totalCost: allocationCost,
+                        inboundDate: batch.inboundDate,
+                        remainingAfterAllocation: batch.remainingQuantity - allocatedQuantity
+                    });
+                    totalCost += allocationCost;
+                    remainingQuantity -= allocatedQuantity;
+                }
+                const canFulfill = remainingQuantity <= 0;
+                const avgUnitCost = params.quantity > 0 ? totalCost / (params.quantity - remainingQuantity) : 0;
+                const result = {
+                    canFulfill,
+                    totalCost,
+                    avgUnitCost,
+                    batchAllocations: allocations,
+                    insufficientQuantity: remainingQuantity > 0 ? remainingQuantity : undefined
+                };
+                return {
+                    success: true,
+                    data: result
+                };
+            }
+            catch (error) {
+                _utils_logger__WEBPACK_IMPORTED_MODULE_2__.logger.error('Failed to calculate FIFO outbound', error);
+                return {
+                    success: false,
+                    error: {
+                        type: _types_fifo__WEBPACK_IMPORTED_MODULE_0__.FifoErrorType.CONFIGURATION_ERROR,
+                        message: 'FIFO出库计算失败',
+                        details: error
+                    }
+                };
+            }
+        });
+    }
+    /**
+     * 执行FIFO出库
+     */
+    executeFifoOutbound(params, transaction) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const lockKey = `fifo-outbound-${params.productId}-${params.warehouseId}`;
+            return _utils_concurrencyManager__WEBPACK_IMPORTED_MODULE_1__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+                try {
+                    // 先计算分配
+                    const calculationResult = yield this.calculateFifoOutbound(params);
+                    if (!calculationResult.success || !calculationResult.data) {
+                        return {
+                            success: false,
+                            error: calculationResult.error
+                        };
+                    }
+                    const { canFulfill, batchAllocations } = calculationResult.data;
+                    // 检查是否可以满足需求
+                    if (!canFulfill && !params.allowPartialFulfillment) {
+                        return {
+                            success: false,
+                            error: {
+                                type: _types_fifo__WEBPACK_IMPORTED_MODULE_0__.FifoErrorType.INSUFFICIENT_STOCK,
+                                message: '库存不足，无法完全满足出库需求',
+                                productId: params.productId,
+                                warehouseId: params.warehouseId,
+                                details: {
+                                    requestedQuantity: params.quantity,
+                                    insufficientQuantity: calculationResult.data.insufficientQuantity
+                                }
+                            }
+                        };
+                    }
+                    // 执行批次消耗
+                    const consumptions = [];
+                    for (const allocation of batchAllocations) {
+                        // 更新批次剩余数量
+                        const batch = this.batches.get(allocation.batchId);
+                        if (!batch) {
+                            throw new Error(`批次不存在: ${allocation.batchId}`);
+                        }
+                        batch.remainingQuantity = allocation.remainingAfterAllocation;
+                        batch.updatedAt = new Date();
+                        // 如果批次已耗尽，更新状态
+                        if (batch.remainingQuantity <= 0) {
+                            batch.status = _types_fifo__WEBPACK_IMPORTED_MODULE_0__.BatchStatus.DEPLETED;
+                        }
+                        // 创建消耗记录
+                        const consumption = {
+                            id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(),
+                            batchId: allocation.batchId,
+                            transactionId: transaction.id,
+                            consumedQuantity: allocation.allocatedQuantity,
+                            unitCost: allocation.unitCost,
+                            totalCost: allocation.totalCost,
+                            consumptionDate: new Date(),
+                            createdAt: new Date(),
+                            updatedAt: new Date()
+                        };
+                        this.batchConsumptions.set(consumption.id, consumption);
+                        consumptions.push(consumption);
+                    }
+                    _utils_logger__WEBPACK_IMPORTED_MODULE_2__.logger.info('FIFO outbound executed successfully', {
+                        transactionId: transaction.id,
+                        productId: params.productId,
+                        warehouseId: params.warehouseId,
+                        requestedQuantity: params.quantity,
+                        allocatedBatches: batchAllocations.length,
+                        totalCost: batchAllocations.reduce((sum, a) => sum + a.totalCost, 0)
+                    });
+                    return {
+                        success: true,
+                        data: consumptions
+                    };
+                }
+                catch (error) {
+                    _utils_logger__WEBPACK_IMPORTED_MODULE_2__.logger.error('Failed to execute FIFO outbound', error);
+                    return {
+                        success: false,
+                        error: {
+                            type: _types_fifo__WEBPACK_IMPORTED_MODULE_0__.FifoErrorType.CONFIGURATION_ERROR,
+                            message: 'FIFO出库执行失败',
+                            details: error
+                        }
+                    };
+                }
+            }));
+        });
+    }
+    // =============== 查询方法 ===============
+    /**
+     * 获取可用批次（按FIFO顺序）
+     */
+    getAvailableBatches(productId, warehouseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const productBatchIds = this.batchesByProduct.get(productId) || new Set();
+            const warehouseBatchIds = this.batchesByWarehouse.get(warehouseId) || new Set();
+            // 找到同时属于指定产品和仓库的批次
+            const relevantBatchIds = new Set([...productBatchIds].filter(id => warehouseBatchIds.has(id)));
+            const batches = Array.from(relevantBatchIds)
+                .map(id => this.batches.get(id))
+                .filter((batch) => batch !== undefined &&
+                batch.status === _types_fifo__WEBPACK_IMPORTED_MODULE_0__.BatchStatus.ACTIVE &&
+                batch.remainingQuantity > 0);
+            // 按入库日期排序（FIFO）
+            return batches.sort((a, b) => a.inboundDate.getTime() - b.inboundDate.getTime());
+        });
+    }
+    /**
+     * 查询批次
+     */
+    queryBatches(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let batches = Array.from(this.batches.values());
+            // 应用筛选条件
+            if (params.productId) {
+                const productBatchIds = this.batchesByProduct.get(params.productId) || new Set();
+                batches = batches.filter(batch => productBatchIds.has(batch.id));
+            }
+            if (params.warehouseId) {
+                const warehouseBatchIds = this.batchesByWarehouse.get(params.warehouseId) || new Set();
+                batches = batches.filter(batch => warehouseBatchIds.has(batch.id));
+            }
+            if (params.status) {
+                batches = batches.filter(batch => batch.status === params.status);
+            }
+            if (params.dateRange) {
+                batches = batches.filter(batch => batch.inboundDate >= params.dateRange.startDate &&
+                    batch.inboundDate <= params.dateRange.endDate);
+            }
+            if (!params.includeExpired) {
+                const now = new Date();
+                batches = batches.filter(batch => !batch.expiryDate || batch.expiryDate > now);
+            }
+            // 排序
+            if (params.sortBy) {
+                batches.sort((a, b) => {
+                    var _a, _b;
+                    let aValue, bValue;
+                    switch (params.sortBy) {
+                        case 'inboundDate':
+                            aValue = a.inboundDate.getTime();
+                            bValue = b.inboundDate.getTime();
+                            break;
+                        case 'expiryDate':
+                            aValue = ((_a = a.expiryDate) === null || _a === void 0 ? void 0 : _a.getTime()) || 0;
+                            bValue = ((_b = b.expiryDate) === null || _b === void 0 ? void 0 : _b.getTime()) || 0;
+                            break;
+                        case 'remainingQuantity':
+                            aValue = a.remainingQuantity;
+                            bValue = b.remainingQuantity;
+                            break;
+                        default:
+                            return 0;
+                    }
+                    const result = aValue - bValue;
+                    return params.sortOrder === 'desc' ? -result : result;
+                });
+            }
+            return batches;
+        });
+    }
+    // =============== 工具方法 ===============
+    /**
+     * 生成批次号
+     */
+    generateBatchNo() {
+        const timestamp = Date.now();
+        const random = Math.random().toString(36).substr(2, 4).toUpperCase();
+        return `${this.config.batchNoPrefix}-${timestamp}-${random}`;
+    }
+    /**
+     * 添加到产品索引
+     */
+    addToProductIndex(productId, batchId) {
+        if (!this.batchesByProduct.has(productId)) {
+            this.batchesByProduct.set(productId, new Set());
+        }
+        this.batchesByProduct.get(productId).add(batchId);
+    }
+    /**
+     * 添加到仓库索引
+     */
+    addToWarehouseIndex(warehouseId, batchId) {
+        if (!this.batchesByWarehouse.has(warehouseId)) {
+            this.batchesByWarehouse.set(warehouseId, new Set());
+        }
+        this.batchesByWarehouse.get(warehouseId).add(batchId);
+    }
+    /**
+     * 获取批次统计信息
+     */
+    getBatchStatistics(productId, warehouseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const batches = yield this.queryBatches({ productId, warehouseId });
+            if (batches.length === 0) {
+                return {
+                    totalBatches: 0,
+                    activeBatches: 0,
+                    depletedBatches: 0,
+                    expiredBatches: 0,
+                    totalValue: 0,
+                    oldestBatchDate: null,
+                    newestBatchDate: null,
+                    avgBatchAge: 0
+                };
+            }
+            const now = new Date();
+            const activeBatches = batches.filter(b => b.status === _types_fifo__WEBPACK_IMPORTED_MODULE_0__.BatchStatus.ACTIVE).length;
+            const depletedBatches = batches.filter(b => b.status === _types_fifo__WEBPACK_IMPORTED_MODULE_0__.BatchStatus.DEPLETED).length;
+            const expiredBatches = batches.filter(b => b.status === _types_fifo__WEBPACK_IMPORTED_MODULE_0__.BatchStatus.EXPIRED).length;
+            const totalValue = batches.reduce((sum, b) => sum + (b.remainingQuantity * b.unitCost), 0);
+            const dates = batches.map(b => b.inboundDate.getTime()).sort((a, b) => a - b);
+            const oldestBatchDate = dates.length > 0 ? new Date(dates[0]) : null;
+            const newestBatchDate = dates.length > 0 ? new Date(dates[dates.length - 1]) : null;
+            const totalAge = batches.reduce((sum, b) => {
+                const age = (now.getTime() - b.inboundDate.getTime()) / (1000 * 60 * 60 * 24);
+                return sum + age;
+            }, 0);
+            const avgBatchAge = batches.length > 0 ? totalAge / batches.length : 0;
+            return {
+                totalBatches: batches.length,
+                activeBatches,
+                depletedBatches,
+                expiredBatches,
+                totalValue,
+                oldestBatchDate,
+                newestBatchDate,
+                avgBatchAge
+            };
+        });
+    }
+}
+// 创建并导出服务实例
+const fifoInventoryService = new FifoInventoryService();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (fifoInventoryService);
+
+
+/***/ }),
+
+/***/ "./src/services/business/globalConversionService.ts":
+/*!**********************************************************!*\
+  !*** ./src/services/business/globalConversionService.ts ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   GlobalConversionService: () => (/* binding */ GlobalConversionService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+class GlobalConversionService {
+    constructor() {
+        this.rules = new Map();
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('GlobalConversionService initialized');
+            // 不创建默认规则，所有规则由用户手动设置
+        });
+    }
+    // =============== 基础CRUD操作 ===============
+    create(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            // 验证数据
+            if (!((_a = data.name) === null || _a === void 0 ? void 0 : _a.trim())) {
+                throw new Error('规则名称不能为空');
+            }
+            if (!data.fromUnitId || !data.toUnitId) {
+                throw new Error('源单位和目标单位不能为空');
+            }
+            if (data.conversionRate <= 0) {
+                throw new Error('换算比率必须大于0');
+            }
+            if (data.fromUnitId === data.toUnitId) {
+                throw new Error('源单位和目标单位不能相同');
+            }
+            // 检查是否已存在相同的换算规则
+            const existingRule = Array.from(this.rules.values()).find(rule => rule.fromUnitId === data.fromUnitId &&
+                rule.toUnitId === data.toUnitId &&
+                rule.isActive);
+            if (existingRule) {
+                throw new Error(`已存在从 ${data.fromUnitId} 到 ${data.toUnitId} 的换算规则`);
+            }
+            const rule = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_1__["default"])(), createdAt: new Date(), updatedAt: new Date() });
+            this.rules.set(rule.id, rule);
+            return rule;
+        });
+    }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.rules.get(id) || null;
+        });
+    }
+    findAll() {
+        return __awaiter(this, arguments, void 0, function* (activeOnly = true) {
+            const allRules = Array.from(this.rules.values());
+            return activeOnly ? allRules.filter(rule => rule.isActive) : allRules;
+        });
+    }
+    findByCategory(category_1) {
+        return __awaiter(this, arguments, void 0, function* (category, activeOnly = true) {
+            const allRules = yield this.findAll(activeOnly);
+            return allRules.filter(rule => rule.category === category);
+        });
+    }
+    findByUnits(fromUnitId, toUnitId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Array.from(this.rules.values()).find(rule => rule.fromUnitId === fromUnitId &&
+                rule.toUnitId === toUnitId &&
+                rule.isActive) || null;
+        });
+    }
+    update(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const existingRule = this.rules.get(id);
+            if (!existingRule) {
+                throw new Error('换算规则不存在');
+            }
+            // 如果修改单位，检查是否会产生冲突
+            if (data.fromUnitId || data.toUnitId) {
+                const fromUnit = data.fromUnitId || existingRule.fromUnitId;
+                const toUnit = data.toUnitId || existingRule.toUnitId;
+                if (fromUnit === toUnit) {
+                    throw new Error('源单位和目标单位不能相同');
+                }
+                const conflictRule = Array.from(this.rules.values()).find(rule => rule.id !== id &&
+                    rule.fromUnitId === fromUnit &&
+                    rule.toUnitId === toUnit &&
+                    rule.isActive);
+                if (conflictRule) {
+                    throw new Error(`已存在从 ${fromUnit} 到 ${toUnit} 的换算规则`);
+                }
+            }
+            const updatedRule = Object.assign(Object.assign(Object.assign({}, existingRule), data), { updatedAt: new Date() });
+            this.rules.set(id, updatedRule);
+            return updatedRule;
+        });
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.rules.delete(id);
+        });
+    }
+    toggleActive(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const rule = this.rules.get(id);
+            if (!rule) {
+                throw new Error('换算规则不存在');
+            }
+            return this.update(id, { isActive: !rule.isActive });
+        });
+    }
+    // =============== 换算计算 ===============
+    convert(value, fromUnitId, toUnitId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (fromUnitId === toUnitId) {
+                return value;
+            }
+            const rule = yield this.findByUnits(fromUnitId, toUnitId);
+            if (!rule) {
+                return null; // 没有找到换算规则
+            }
+            return value * rule.conversionRate;
+        });
+    }
+    getConversionDescription(fromUnitId, toUnitId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const rule = yield this.findByUnits(fromUnitId, toUnitId);
+            return rule ? rule.description : null;
+        });
+    }
+    // =============== 统计信息 ===============
+    getStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const allRules = Array.from(this.rules.values());
+            const activeRules = allRules.filter(rule => rule.isActive);
+            const byCategory = {
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UnitType.WEIGHT]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UnitType.LENGTH]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UnitType.VOLUME]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UnitType.QUANTITY]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UnitType.AREA]: 0,
+                [_types_entities__WEBPACK_IMPORTED_MODULE_0__.UnitType.TIME]: 0
+            };
+            activeRules.forEach(rule => {
+                byCategory[rule.category]++;
+            });
+            return {
+                total: allRules.length,
+                active: activeRules.length,
+                byCategory
+            };
+        });
+    }
+    // =============== 搜索和筛选 ===============
+    search(searchTerm) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const term = searchTerm.toLowerCase().trim();
+            if (!term)
+                return this.findAll();
+            return Array.from(this.rules.values()).filter(rule => rule.isActive && (rule.name.toLowerCase().includes(term) ||
+                rule.description.toLowerCase().includes(term)));
+        });
+    }
+    // =============== 批量操作 ===============
+    bulkToggleActive(ids) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const updates = ids.map(id => this.toggleActive(id));
+            yield Promise.all(updates);
+        });
+    }
+    bulkDelete(ids) {
+        return __awaiter(this, void 0, void 0, function* () {
+            ids.forEach(id => this.rules.delete(id));
+        });
+    }
+}
+// 创建并导出服务实例
+const globalConversionService = new GlobalConversionService();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (globalConversionService);
+
+
+/***/ }),
+
 /***/ "./src/services/business/index.ts":
 /*!****************************************!*\
   !*** ./src/services/business/index.ts ***!
@@ -62722,16 +65583,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   BusinessServiceManager: () => (/* binding */ BusinessServiceManager),
 /* harmony export */   CalendarDataService: () => (/* reexport safe */ _calendarDataService__WEBPACK_IMPORTED_MODULE_14__.CalendarDataService),
-/* harmony export */   accountsPayableService: () => (/* reexport safe */ _accountsPayableService__WEBPACK_IMPORTED_MODULE_15__["default"]),
-/* harmony export */   accountsReceivableService: () => (/* reexport safe */ _accountsReceivableService__WEBPACK_IMPORTED_MODULE_16__["default"]),
+/* harmony export */   accountsPayableService: () => (/* reexport safe */ _accountsPayableService__WEBPACK_IMPORTED_MODULE_20__["default"]),
+/* harmony export */   accountsReceivableService: () => (/* reexport safe */ _accountsReceivableService__WEBPACK_IMPORTED_MODULE_21__["default"]),
 /* harmony export */   businessServiceManager: () => (/* binding */ businessServiceManager),
 /* harmony export */   calendarDataService: () => (/* reexport safe */ _calendarDataService__WEBPACK_IMPORTED_MODULE_14__.calendarDataService),
 /* harmony export */   categoryService: () => (/* reexport safe */ _categoryService__WEBPACK_IMPORTED_MODULE_0__["default"]),
 /* harmony export */   customerService: () => (/* reexport safe */ _customerService__WEBPACK_IMPORTED_MODULE_4__["default"]),
+/* harmony export */   dailyConsumptionService: () => (/* reexport safe */ _dailyConsumptionService__WEBPACK_IMPORTED_MODULE_15__["default"]),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   fifoInventoryService: () => (/* reexport safe */ _fifoInventoryService__WEBPACK_IMPORTED_MODULE_16__["default"]),
+/* harmony export */   globalConversionService: () => (/* reexport safe */ _globalConversionService__WEBPACK_IMPORTED_MODULE_18__["default"]),
 /* harmony export */   inventoryCardService: () => (/* reexport safe */ _inventoryCardService__WEBPACK_IMPORTED_MODULE_12__["default"]),
 /* harmony export */   inventoryStockService: () => (/* reexport safe */ _inventoryStockService__WEBPACK_IMPORTED_MODULE_6__["default"]),
-/* harmony export */   permissionService: () => (/* reexport safe */ _permissionService__WEBPACK_IMPORTED_MODULE_17__["default"]),
+/* harmony export */   monthlyBalanceService: () => (/* reexport safe */ _monthlyBalanceService__WEBPACK_IMPORTED_MODULE_17__["default"]),
+/* harmony export */   permissionService: () => (/* reexport safe */ _permissionService__WEBPACK_IMPORTED_MODULE_22__["default"]),
+/* harmony export */   productConversionService: () => (/* reexport safe */ _productConversionService__WEBPACK_IMPORTED_MODULE_19__["default"]),
 /* harmony export */   productService: () => (/* reexport safe */ _productService__WEBPACK_IMPORTED_MODULE_7__["default"]),
 /* harmony export */   purchaseOrderService: () => (/* reexport safe */ _purchaseOrderService__WEBPACK_IMPORTED_MODULE_8__["default"]),
 /* harmony export */   purchaseReceiptService: () => (/* reexport safe */ _purchaseReceiptService__WEBPACK_IMPORTED_MODULE_9__["default"]),
@@ -62758,9 +65624,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inventoryCardService__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./inventoryCardService */ "./src/services/business/inventoryCardService.ts");
 /* harmony import */ var _unitConversionService__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./unitConversionService */ "./src/services/business/unitConversionService.ts");
 /* harmony import */ var _calendarDataService__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./calendarDataService */ "./src/services/business/calendarDataService.ts");
-/* harmony import */ var _accountsPayableService__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./accountsPayableService */ "./src/services/business/accountsPayableService.ts");
-/* harmony import */ var _accountsReceivableService__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./accountsReceivableService */ "./src/services/business/accountsReceivableService.ts");
-/* harmony import */ var _permissionService__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./permissionService */ "./src/services/business/permissionService.ts");
+/* harmony import */ var _dailyConsumptionService__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./dailyConsumptionService */ "./src/services/business/dailyConsumptionService.ts");
+/* harmony import */ var _fifoInventoryService__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./fifoInventoryService */ "./src/services/business/fifoInventoryService.ts");
+/* harmony import */ var _monthlyBalanceService__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./monthlyBalanceService */ "./src/services/business/monthlyBalanceService.ts");
+/* harmony import */ var _globalConversionService__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./globalConversionService */ "./src/services/business/globalConversionService.ts");
+/* harmony import */ var _productConversionService__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./productConversionService */ "./src/services/business/productConversionService.ts");
+/* harmony import */ var _accountsPayableService__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./accountsPayableService */ "./src/services/business/accountsPayableService.ts");
+/* harmony import */ var _accountsReceivableService__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./accountsReceivableService */ "./src/services/business/accountsReceivableService.ts");
+/* harmony import */ var _permissionService__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./permissionService */ "./src/services/business/permissionService.ts");
 // 核心业务服务层 - 统一入口和服务管理
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -62772,6 +65643,11 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
     });
 };
 // 临时注释掉可能有循环依赖的服务，逐步启用
+
+
+
+
+
 
 
 
@@ -62825,10 +65701,15 @@ class BusinessServiceManager {
                 yield _salesOrderService__WEBPACK_IMPORTED_MODULE_10__["default"].initialize();
                 yield _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__["default"].initialize();
                 // 财务服务（完整版）
-                yield _accountsPayableService__WEBPACK_IMPORTED_MODULE_15__["default"].initialize();
-                yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_16__["default"].initialize();
+                yield _accountsPayableService__WEBPACK_IMPORTED_MODULE_20__["default"].initialize();
+                yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_21__["default"].initialize();
                 // 权限服务
-                yield _permissionService__WEBPACK_IMPORTED_MODULE_17__["default"].initialize();
+                yield _permissionService__WEBPACK_IMPORTED_MODULE_22__["default"].initialize();
+                // 月度结余服务
+                yield _monthlyBalanceService__WEBPACK_IMPORTED_MODULE_17__["default"].initialize();
+                // 换算服务
+                yield _globalConversionService__WEBPACK_IMPORTED_MODULE_18__["default"].initialize();
+                yield _productConversionService__WEBPACK_IMPORTED_MODULE_19__["default"].initialize();
                 console.log('所有业务服务初始化完成');
                 // 暂时注释掉其他服务的初始化
                 // // 2. 产品服务（依赖分类和单位）
@@ -62992,8 +65873,8 @@ class BusinessServiceManager {
             const salesOrderStats = yield _salesOrderService__WEBPACK_IMPORTED_MODULE_10__["default"].getOrderStats();
             const salesDeliveryStats = yield _salesDeliveryService__WEBPACK_IMPORTED_MODULE_11__["default"].getDeliveryStats();
             // 财务服务统计（完整版）
-            const accountsPayableStats = yield _accountsPayableService__WEBPACK_IMPORTED_MODULE_15__["default"].getPayableStats();
-            const accountsReceivableStats = yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_16__["default"].getReceivableStats();
+            const accountsPayableStats = yield _accountsPayableService__WEBPACK_IMPORTED_MODULE_20__["default"].getPayableStats();
+            const accountsReceivableStats = yield _accountsReceivableService__WEBPACK_IMPORTED_MODULE_21__["default"].getReceivableStats();
             return {
                 categories: categoryStats.total,
                 units: unitStats.total,
@@ -63349,13 +66230,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 /* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
 /* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
 /* harmony import */ var _warehouseService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./warehouseService */ "./src/services/business/warehouseService.ts");
 /* harmony import */ var _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/notificationHelper */ "./src/utils/notificationHelper.ts");
-/* harmony import */ var _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/concurrency */ "./src/utils/concurrency.ts");
+/* harmony import */ var _utils_concurrencyManager__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/concurrencyManager */ "./src/utils/concurrencyManager.ts");
 /* harmony import */ var _utils_errors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/errors */ "./src/utils/errors.ts");
 /* harmony import */ var _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/secureLogger */ "./src/utils/secureLogger.ts");
+/* harmony import */ var _fifoInventoryService__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./fifoInventoryService */ "./src/services/business/fifoInventoryService.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -63374,16 +66256,31 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
 class InventoryStockService {
     constructor() {
         this.stocks = new Map();
         this.transactions = new Map();
         this.stockIndex = new Map(); // "productId:warehouseId" -> stockId
+        this.useFifo = true; // 启用FIFO模式
     }
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Inventory stock service initialized');
         });
+    }
+    /**
+     * 设置是否使用FIFO模式
+     */
+    setFifoMode(enabled) {
+        this.useFifo = enabled;
+        _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.info(`FIFO mode ${enabled ? 'enabled' : 'disabled'}`);
+    }
+    /**
+     * 获取当前是否使用FIFO模式
+     */
+    isFifoEnabled() {
+        return this.useFifo;
     }
     // =============== 库存管理 ===============
     findAllStocks() {
@@ -63456,7 +66353,7 @@ class InventoryStockService {
                 return this.updateStock(existingStock.id, data);
             }
             // 创建新库存记录
-            const stock = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(), createdAt: new Date(), updatedAt: new Date() });
+            const stock = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_9__["default"])(), createdAt: new Date(), updatedAt: new Date() });
             // 验证数据
             const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.InventoryStockSchema, stock);
             if (!validation.success) {
@@ -63528,7 +66425,23 @@ class InventoryStockService {
             }
             // 使用库存锁，确保并发安全
             const lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
-            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrencyManager__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+                // 如果启用FIFO，创建批次记录
+                if (this.useFifo) {
+                    const batchResult = yield _fifoInventoryService__WEBPACK_IMPORTED_MODULE_8__["default"].createBatch({
+                        productId: params.productId,
+                        warehouseId: params.warehouseId,
+                        quantity: params.quantity,
+                        unitCost: params.unitPrice,
+                        referenceType: params.referenceType,
+                        referenceId: params.referenceId,
+                        remark: params.remark,
+                        operator: params.operator
+                    });
+                    if (!batchResult.success) {
+                        throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('FIFO批次创建失败', batchResult.error);
+                    }
+                }
                 return this.processStockTransaction(Object.assign(Object.assign({}, params), { transactionType: _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.IN }));
             }));
         });
@@ -63544,7 +66457,7 @@ class InventoryStockService {
             }
             // 使用库存锁，确保原子性操作，防止并发竞态条件
             const lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
-            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrencyManager__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
                 // 在锁内重新检查库存（防止检查后其他事务修改库存）
                 const currentStock = yield this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
                 if (!currentStock) {
@@ -63576,7 +66489,11 @@ class InventoryStockService {
                         warehouseId: params.warehouseId
                     });
                 }
-                // 原子性库存事务处理
+                // 如果启用FIFO，使用FIFO出库逻辑
+                if (this.useFifo) {
+                    return this.processFifoStockOut(params, currentStock);
+                }
+                // 原子性库存事务处理（传统加权平均成本法）
                 return this.processStockTransaction(Object.assign(Object.assign({}, params), { transactionType: _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.OUT, quantity: -params.quantity // 出库为负数
                  }));
             }));
@@ -63628,7 +66545,7 @@ class InventoryStockService {
             const transactionNo = yield this.generateTransactionNo(params.transactionType);
             // 创建库存流水记录
             const transaction = {
-                id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
+                id: (0,uuid__WEBPACK_IMPORTED_MODULE_9__["default"])(),
                 transactionNo,
                 productId: params.productId,
                 warehouseId: params.warehouseId,
@@ -63712,7 +66629,7 @@ class InventoryStockService {
             }
             // 使用库存锁，确保原子性操作
             const lockKey = `stock-reserve-${productId}-${warehouseId}`;
-            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrencyManager__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
                 const stock = yield this.findStockByProductAndWarehouse(productId, warehouseId);
                 if (!stock) {
                     throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('库存记录不存在', { productId, warehouseId });
@@ -63750,7 +66667,7 @@ class InventoryStockService {
             }
             // 使用库存锁，确保原子性操作
             const lockKey = `stock-reserve-${productId}-${warehouseId}`;
-            return _utils_concurrency__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+            return _utils_concurrencyManager__WEBPACK_IMPORTED_MODULE_5__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
                 const stock = yield this.findStockByProductAndWarehouse(productId, warehouseId);
                 if (!stock) {
                     throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('库存记录不存在', { productId, warehouseId });
@@ -63852,10 +66769,983 @@ class InventoryStockService {
             };
         });
     }
+    /**
+     * 创建库存事务记录
+     */
+    createTransaction(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            // 生成流水单号
+            const transactionNo = yield this.generateTransactionNo(params.transactionType);
+            // 创建库存流水记录
+            const transaction = {
+                id: (0,uuid__WEBPACK_IMPORTED_MODULE_9__["default"])(),
+                transactionNo,
+                productId: params.productId,
+                warehouseId: params.warehouseId,
+                transactionType: params.transactionType,
+                quantity: params.quantity,
+                unitPrice: params.unitPrice,
+                totalAmount: params.quantity * params.unitPrice,
+                referenceType: params.referenceType,
+                referenceId: params.referenceId,
+                remark: params.remark,
+                operator: params.operator,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            };
+            // 验证流水数据
+            const transactionValidation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.InventoryTransactionSchema, transaction);
+            if (!transactionValidation.success) {
+                throw new Error(`库存流水数据验证失败: ${(_a = transactionValidation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
+            }
+            // 保存事务记录
+            this.transactions.set(transaction.id, transaction);
+            return transaction;
+        });
+    }
+    /**
+     * 更新库存数量
+     */
+    updateStockQuantity(stock, quantityChange, newUnitCost) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 计算新的库存数量
+            const newCurrentStock = stock.currentStock + quantityChange;
+            const newAvailableStock = stock.availableStock + quantityChange;
+            // 计算新的平均成本（加权平均）
+            let newAvgCost = stock.avgCost;
+            if (quantityChange > 0) {
+                // 入库时重新计算平均成本
+                const totalValue = (stock.currentStock * stock.avgCost) + (quantityChange * newUnitCost);
+                newAvgCost = newCurrentStock > 0 ? totalValue / newCurrentStock : newUnitCost;
+            }
+            else {
+                // 出库时使用FIFO计算的成本
+                newAvgCost = newUnitCost;
+            }
+            // 更新库存记录
+            const updatedStock = Object.assign(Object.assign({}, stock), { currentStock: newCurrentStock, availableStock: newAvailableStock, avgCost: newAvgCost, unitPrice: newUnitCost, updatedAt: new Date() });
+            // 保存更新后的库存
+            this.stocks.set(stock.id, updatedStock);
+            return updatedStock;
+        });
+    }
+    /**
+     * 处理FIFO出库
+     */
+    processFifoStockOut(params, currentStock) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 创建库存事务记录
+                const transaction = yield this.createTransaction(Object.assign(Object.assign({}, params), { transactionType: _types_entities__WEBPACK_IMPORTED_MODULE_0__.TransactionType.OUT, quantity: -params.quantity // 出库为负数
+                 }));
+                // 使用FIFO服务计算出库成本
+                const fifoResult = yield _fifoInventoryService__WEBPACK_IMPORTED_MODULE_8__["default"].executeFifoOutbound({
+                    productId: params.productId,
+                    warehouseId: params.warehouseId,
+                    quantity: params.quantity,
+                    referenceType: params.referenceType,
+                    referenceId: params.referenceId,
+                    remark: params.remark,
+                    operator: params.operator,
+                    allowPartialFulfillment: false
+                }, transaction);
+                if (!fifoResult.success) {
+                    throw new _utils_errors__WEBPACK_IMPORTED_MODULE_6__.BusinessError('FIFO出库失败', fifoResult.error);
+                }
+                // 计算FIFO平均成本
+                const totalCost = fifoResult.data.reduce((sum, consumption) => sum + consumption.totalCost, 0);
+                const avgUnitCost = params.quantity > 0 ? totalCost / params.quantity : 0;
+                // 更新事务的实际成本（使用FIFO计算的成本）
+                transaction.unitPrice = avgUnitCost;
+                transaction.totalAmount = totalCost;
+                this.transactions.set(transaction.id, transaction);
+                // 更新库存记录
+                const updatedStock = yield this.updateStockQuantity(currentStock, -params.quantity, avgUnitCost);
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.info('FIFO stock out completed', {
+                    transactionId: transaction.id,
+                    productId: params.productId,
+                    warehouseId: params.warehouseId,
+                    quantity: params.quantity,
+                    fifoAvgCost: avgUnitCost,
+                    totalCost: totalCost,
+                    batchConsumptions: fifoResult.data.length
+                });
+                return {
+                    stock: updatedStock,
+                    transaction
+                };
+            }
+            catch (error) {
+                _utils_secureLogger__WEBPACK_IMPORTED_MODULE_7__.logger.error('FIFO stock out failed', error);
+                throw error;
+            }
+        });
+    }
 }
 // 创建并导出服务实例
 const inventoryStockService = new InventoryStockService();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (inventoryStockService);
+
+
+/***/ }),
+
+/***/ "./src/services/business/monthlyBalanceService.ts":
+/*!********************************************************!*\
+  !*** ./src/services/business/monthlyBalanceService.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MonthlyBalanceService: () => (/* binding */ MonthlyBalanceService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/monthlyBalance */ "./src/types/monthlyBalance.ts");
+/* harmony import */ var _types_fifo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/fifo */ "./src/types/fifo.ts");
+/* harmony import */ var _fifoInventoryService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fifoInventoryService */ "./src/services/business/fifoInventoryService.ts");
+/* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
+/* harmony import */ var _categoryService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./categoryService */ "./src/services/business/categoryService.ts");
+/* harmony import */ var _unitService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./unitService */ "./src/services/business/unitService.ts");
+/* harmony import */ var _warehouseService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./warehouseService */ "./src/services/business/warehouseService.ts");
+/* harmony import */ var _utils_logger__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/logger */ "./src/utils/logger.ts");
+/* harmony import */ var _utils_concurrencyManager__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utils/concurrencyManager */ "./src/utils/concurrencyManager.ts");
+/**
+ * 月度结余服务
+ * 处理月度结余的生成、查询、统计和分析
+ */
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+
+
+
+
+/**
+ * 月度结余服务类
+ */
+class MonthlyBalanceService {
+    constructor() {
+        this.balances = new Map();
+        this.balancesByPeriod = new Map(); // "YYYY-MM" -> balanceIds
+        this.balancesByProduct = new Map(); // productId -> balanceIds
+        this.balancesByWarehouse = new Map(); // warehouseId -> balanceIds
+        this.initialized = false;
+        console.log('Monthly Balance Service initialized');
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.initialized) {
+                return;
+            }
+            try {
+                // 初始化服务状态
+                console.log('Initializing Monthly Balance Service...');
+                // 这里可以从数据库加载历史数据
+                yield this.loadHistoricalData();
+                this.initialized = true;
+                _utils_logger__WEBPACK_IMPORTED_MODULE_7__.logger.info('Monthly Balance Service initialized successfully');
+            }
+            catch (error) {
+                _utils_logger__WEBPACK_IMPORTED_MODULE_7__.logger.error('Failed to initialize Monthly Balance Service', error);
+                throw error;
+            }
+        });
+    }
+    // =============== 月度结余生成 ===============
+    /**
+     * 生成月度结余
+     */
+    generateMonthlyBalance(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const lockKey = `monthly-balance-generate-${params.year}-${params.month}`;
+            return _utils_concurrencyManager__WEBPACK_IMPORTED_MODULE_8__.ConcurrencyManager.withMutex(lockKey, () => __awaiter(this, void 0, void 0, function* () {
+                const startTime = Date.now();
+                try {
+                    // 输入验证
+                    if (params.year < 2020 || params.year > 2030) {
+                        return {
+                            success: false,
+                            error: {
+                                code: 'INVALID_YEAR',
+                                message: '年份必须在2020-2030范围内'
+                            }
+                        };
+                    }
+                    if (params.month < 1 || params.month > 12) {
+                        return {
+                            success: false,
+                            error: {
+                                code: 'INVALID_MONTH',
+                                message: '月份必须在1-12范围内'
+                            }
+                        };
+                    }
+                    // 计算结余日期（月末）
+                    const balanceDate = new Date(params.year, params.month, 0); // 当月最后一天
+                    const periodKey = `${params.year}-${params.month.toString().padStart(2, '0')}`;
+                    // 检查是否已生成过该月的结余
+                    const existingBalances = this.balancesByPeriod.get(periodKey) || new Set();
+                    if (existingBalances.size > 0) {
+                        return {
+                            success: false,
+                            error: {
+                                code: 'BALANCE_ALREADY_EXISTS',
+                                message: `${params.year}年${params.month}月的结余已经生成过了`
+                            }
+                        };
+                    }
+                    // 获取所有批次数据
+                    const allBatches = yield _fifoInventoryService__WEBPACK_IMPORTED_MODULE_2__["default"].queryBatches({
+                        includeExpired: params.includeExpired,
+                        dateRange: {
+                            startDate: new Date(2020, 0, 1), // 从2020年开始
+                            endDate: balanceDate
+                        }
+                    });
+                    // 过滤出在结余日期仍有库存的批次
+                    const validBatches = allBatches.filter(batch => {
+                        // 批次必须在结余日期之前入库
+                        if (batch.inboundDate > balanceDate) {
+                            return false;
+                        }
+                        // 如果不包含零库存，则过滤掉剩余数量为0的批次
+                        if (!params.includeZeroStock && batch.remainingQuantity <= 0) {
+                            return false;
+                        }
+                        // 如果不包含过期批次，则过滤掉已过期的批次
+                        if (!params.includeExpired && batch.expiryDate && batch.expiryDate < balanceDate) {
+                            return false;
+                        }
+                        return true;
+                    });
+                    // 应用过滤条件
+                    const filteredBatches = yield this.applyFilters(validBatches, params);
+                    // 获取相关的产品、仓库、分类、单位信息
+                    const productIds = [...new Set(filteredBatches.map(b => b.productId))];
+                    const warehouseIds = [...new Set(filteredBatches.map(b => b.warehouseId))];
+                    const [products, warehouses, categories, units] = yield Promise.all([
+                        this.getProductsByIds(productIds),
+                        this.getWarehousesByIds(warehouseIds),
+                        this.getAllCategories(),
+                        this.getAllUnits()
+                    ]);
+                    // 创建映射表
+                    const productMap = new Map(products.map(p => [p.id, p]));
+                    const warehouseMap = new Map(warehouses.map(w => [w.id, w]));
+                    const categoryMap = new Map(categories.map(c => [c.id, c]));
+                    const unitMap = new Map(units.map(u => [u.id, u]));
+                    // 生成月度结余记录
+                    const generatedBalances = [];
+                    const errors = [];
+                    for (const batch of filteredBatches) {
+                        try {
+                            const product = productMap.get(batch.productId);
+                            const warehouse = warehouseMap.get(batch.warehouseId);
+                            if (!product || !warehouse) {
+                                errors.push(`批次 ${batch.batchNo} 的产品或仓库信息不存在`);
+                                continue;
+                            }
+                            const category = categoryMap.get(product.categoryId);
+                            const unit = unitMap.get(product.unitId);
+                            if (!category || !unit) {
+                                errors.push(`产品 ${product.name} 的分类或单位信息不存在`);
+                                continue;
+                            }
+                            // 计算批次年龄
+                            const batchAge = Math.floor((balanceDate.getTime() - batch.inboundDate.getTime()) / (1000 * 60 * 60 * 24));
+                            // 创建月度结余记录
+                            const balance = {
+                                id: (0,uuid__WEBPACK_IMPORTED_MODULE_9__["default"])(),
+                                balanceDate,
+                                year: params.year,
+                                month: params.month,
+                                productId: product.id,
+                                productName: product.name,
+                                productSku: product.sku,
+                                categoryId: category.id,
+                                categoryName: category.name,
+                                warehouseId: warehouse.id,
+                                warehouseName: warehouse.name,
+                                unitId: unit.id,
+                                unitName: unit.name,
+                                unitSymbol: unit.symbol,
+                                batchId: batch.id,
+                                batchNo: batch.batchNo,
+                                inboundDate: batch.inboundDate,
+                                supplierBatchNo: batch.supplierBatchNo,
+                                remainingQuantity: batch.remainingQuantity,
+                                unitCost: batch.unitCost,
+                                totalValue: batch.remainingQuantity * batch.unitCost,
+                                expiryDate: batch.expiryDate,
+                                batchAge,
+                                status: this.calculateBalanceStatus(batch, balanceDate),
+                                generatedBy: params.operator,
+                                generatedAt: new Date(),
+                                isAutoGenerated: true,
+                                remark: params.remark,
+                                createdAt: new Date(),
+                                updatedAt: new Date()
+                            };
+                            generatedBalances.push(balance);
+                            // 保存到内存
+                            this.balances.set(balance.id, balance);
+                            // 更新索引
+                            this.addToPeriodIndex(periodKey, balance.id);
+                            this.addToProductIndex(balance.productId, balance.id);
+                            this.addToWarehouseIndex(balance.warehouseId, balance.id);
+                        }
+                        catch (error) {
+                            errors.push(`处理批次 ${batch.batchNo} 时出错: ${error instanceof Error ? error.message : '未知错误'}`);
+                        }
+                    }
+                    // 生成汇总信息
+                    const summary = yield this.generateSummary(params.year, params.month, generatedBalances);
+                    const processingTime = Date.now() - startTime;
+                    const result = {
+                        success: true,
+                        generatedRecords: generatedBalances.length,
+                        totalValue: summary.totals.totalValue,
+                        batchCount: summary.totals.batchCount,
+                        productCount: summary.totals.productCount,
+                        warehouseCount: summary.warehouseSummary.length,
+                        processingTime,
+                        errors: errors.length > 0 ? errors : undefined,
+                        summary
+                    };
+                    _utils_logger__WEBPACK_IMPORTED_MODULE_7__.logger.info('Monthly balance generated successfully', {
+                        year: params.year,
+                        month: params.month,
+                        generatedRecords: generatedBalances.length,
+                        totalValue: summary.totals.totalValue,
+                        processingTime
+                    });
+                    return {
+                        success: true,
+                        data: result
+                    };
+                }
+                catch (error) {
+                    _utils_logger__WEBPACK_IMPORTED_MODULE_7__.logger.error('Failed to generate monthly balance', error);
+                    return {
+                        success: false,
+                        error: {
+                            code: 'GENERATION_FAILED',
+                            message: '月度结余生成失败',
+                            details: error
+                        }
+                    };
+                }
+            }));
+        });
+    }
+    // =============== 月度结余查询 ===============
+    /**
+     * 查询月度结余
+     */
+    queryMonthlyBalance(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let balances = Array.from(this.balances.values());
+                // 应用筛选条件
+                if (params.year) {
+                    balances = balances.filter(b => b.year === params.year);
+                }
+                if (params.month) {
+                    balances = balances.filter(b => b.month === params.month);
+                }
+                if (params.startDate) {
+                    balances = balances.filter(b => b.balanceDate >= params.startDate);
+                }
+                if (params.endDate) {
+                    balances = balances.filter(b => b.balanceDate <= params.endDate);
+                }
+                if (params.productId) {
+                    balances = balances.filter(b => b.productId === params.productId);
+                }
+                if (params.warehouseId) {
+                    balances = balances.filter(b => b.warehouseId === params.warehouseId);
+                }
+                if (params.categoryId) {
+                    balances = balances.filter(b => b.categoryId === params.categoryId);
+                }
+                if (params.status) {
+                    balances = balances.filter(b => b.status === params.status);
+                }
+                if (!params.includeExpired) {
+                    balances = balances.filter(b => b.status !== _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__.MonthlyBalanceStatus.EXPIRED);
+                }
+                if (params.minValue !== undefined) {
+                    balances = balances.filter(b => b.totalValue >= params.minValue);
+                }
+                if (params.maxValue !== undefined) {
+                    balances = balances.filter(b => b.totalValue <= params.maxValue);
+                }
+                if (params.batchNoPattern) {
+                    const pattern = new RegExp(params.batchNoPattern, 'i');
+                    balances = balances.filter(b => pattern.test(b.batchNo));
+                }
+                // 排序
+                if (params.sortBy) {
+                    balances.sort((a, b) => {
+                        let aValue, bValue;
+                        switch (params.sortBy) {
+                            case 'balanceDate':
+                                aValue = a.balanceDate.getTime();
+                                bValue = b.balanceDate.getTime();
+                                break;
+                            case 'productName':
+                                aValue = a.productName;
+                                bValue = b.productName;
+                                break;
+                            case 'totalValue':
+                                aValue = a.totalValue;
+                                bValue = b.totalValue;
+                                break;
+                            case 'batchAge':
+                                aValue = a.batchAge;
+                                bValue = b.batchAge;
+                                break;
+                            case 'inboundDate':
+                                aValue = a.inboundDate.getTime();
+                                bValue = b.inboundDate.getTime();
+                                break;
+                            default:
+                                return 0;
+                        }
+                        if (typeof aValue === 'string' && typeof bValue === 'string') {
+                            return params.sortOrder === 'desc' ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue);
+                        }
+                        const result = aValue - bValue;
+                        return params.sortOrder === 'desc' ? -result : result;
+                    });
+                }
+                // 分页
+                if (params.page && params.pageSize) {
+                    const start = (params.page - 1) * params.pageSize;
+                    const end = start + params.pageSize;
+                    balances = balances.slice(start, end);
+                }
+                return {
+                    success: true,
+                    data: balances
+                };
+            }
+            catch (error) {
+                _utils_logger__WEBPACK_IMPORTED_MODULE_7__.logger.error('Failed to query monthly balance', error);
+                return {
+                    success: false,
+                    error: {
+                        code: 'QUERY_FAILED',
+                        message: '月度结余查询失败',
+                        details: error
+                    }
+                };
+            }
+        });
+    }
+    // =============== 月度结余统计 ===============
+    /**
+     * 获取月度结余统计信息
+     */
+    getMonthlyBalanceStatistics(year, month) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const periodKey = `${year}-${month.toString().padStart(2, '0')}`;
+                const balanceIds = this.balancesByPeriod.get(periodKey) || new Set();
+                if (balanceIds.size === 0) {
+                    return {
+                        success: false,
+                        error: {
+                            code: 'NO_DATA',
+                            message: `${year}年${month}月的结余数据不存在`
+                        }
+                    };
+                }
+                const balances = Array.from(balanceIds).map(id => this.balances.get(id));
+                const balanceDate = new Date(year, month, 0);
+                // 基础统计
+                const totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
+                const productIds = new Set(balances.map(b => b.productId));
+                const batchIds = new Set(balances.map(b => b.batchId));
+                const avgBatchValue = balances.length > 0 ? totalValue / balances.length : 0;
+                // 年龄分析
+                const ageAnalysis = this.calculateAgeAnalysis(balances);
+                // 价值分析
+                const valueAnalysis = this.calculateValueAnalysis(balances);
+                // 过期分析
+                const expiryAnalysis = this.calculateExpiryAnalysis(balances, balanceDate);
+                // 周转分析
+                const turnoverAnalysis = this.calculateTurnoverAnalysis(balances);
+                const statistics = {
+                    period: {
+                        year,
+                        month,
+                        balanceDate
+                    },
+                    basic: {
+                        totalRecords: balances.length,
+                        totalProducts: productIds.size,
+                        totalBatches: batchIds.size,
+                        totalValue,
+                        avgBatchValue
+                    },
+                    ageAnalysis,
+                    valueAnalysis,
+                    expiryAnalysis,
+                    turnoverAnalysis
+                };
+                return {
+                    success: true,
+                    data: statistics
+                };
+            }
+            catch (error) {
+                _utils_logger__WEBPACK_IMPORTED_MODULE_7__.logger.error('Failed to get monthly balance statistics', error);
+                return {
+                    success: false,
+                    error: {
+                        code: 'STATISTICS_FAILED',
+                        message: '月度结余统计失败',
+                        details: error
+                    }
+                };
+            }
+        });
+    }
+    // =============== 工具方法 ===============
+    /**
+     * 应用过滤条件
+     */
+    applyFilters(batches, params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let filteredBatches = batches;
+            if (params.warehouseIds && params.warehouseIds.length > 0) {
+                filteredBatches = filteredBatches.filter(b => params.warehouseIds.includes(b.warehouseId));
+            }
+            if (params.productIds && params.productIds.length > 0) {
+                filteredBatches = filteredBatches.filter(b => params.productIds.includes(b.productId));
+            }
+            if (params.categoryIds && params.categoryIds.length > 0) {
+                const products = yield this.getProductsByIds([...new Set(filteredBatches.map(b => b.productId))]);
+                const productIdsInCategories = products
+                    .filter(p => params.categoryIds.includes(p.categoryId))
+                    .map(p => p.id);
+                filteredBatches = filteredBatches.filter(b => productIdsInCategories.includes(b.productId));
+            }
+            return filteredBatches;
+        });
+    }
+    /**
+     * 计算结余状态
+     */
+    calculateBalanceStatus(batch, balanceDate) {
+        if (batch.expiryDate && batch.expiryDate < balanceDate) {
+            return _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__.MonthlyBalanceStatus.EXPIRED;
+        }
+        if (batch.status === _types_fifo__WEBPACK_IMPORTED_MODULE_1__.BatchStatus.DEPLETED) {
+            return _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__.MonthlyBalanceStatus.ARCHIVED;
+        }
+        return _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__.MonthlyBalanceStatus.ACTIVE;
+    }
+    /**
+     * 生成汇总信息
+     */
+    generateSummary(year, month, balances) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const balanceDate = new Date(year, month, 0);
+            // 按产品汇总
+            const productSummaryMap = new Map();
+            balances.forEach(balance => {
+                if (!productSummaryMap.has(balance.productId)) {
+                    productSummaryMap.set(balance.productId, {
+                        productId: balance.productId,
+                        productName: balance.productName,
+                        productSku: balance.productSku,
+                        categoryName: balance.categoryName,
+                        unitName: balance.unitName,
+                        unitSymbol: balance.unitSymbol,
+                        totalQuantity: 0,
+                        totalValue: 0,
+                        batchCount: 0,
+                        totalCost: 0,
+                        inboundDates: []
+                    });
+                }
+                const summary = productSummaryMap.get(balance.productId);
+                summary.totalQuantity += balance.remainingQuantity;
+                summary.totalValue += balance.totalValue;
+                summary.batchCount += 1;
+                summary.totalCost += balance.totalValue;
+                summary.inboundDates.push(balance.inboundDate);
+            });
+            const productSummary = Array.from(productSummaryMap.values()).map(p => (Object.assign(Object.assign({}, p), { avgUnitCost: p.totalQuantity > 0 ? p.totalValue / p.totalQuantity : 0, oldestBatchDate: new Date(Math.min(...p.inboundDates.map((d) => d.getTime()))), newestBatchDate: new Date(Math.max(...p.inboundDates.map((d) => d.getTime()))), avgBatchAge: p.inboundDates.length > 0 ?
+                    p.inboundDates.reduce((sum, date) => sum + (balanceDate.getTime() - date.getTime()), 0) /
+                        (p.inboundDates.length * 1000 * 60 * 60 * 24) : 0, expiredBatchCount: balances.filter(b => b.productId === p.productId && b.status === _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__.MonthlyBalanceStatus.EXPIRED).length, expiredQuantity: balances.filter(b => b.productId === p.productId && b.status === _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__.MonthlyBalanceStatus.EXPIRED)
+                    .reduce((sum, b) => sum + b.remainingQuantity, 0), expiredValue: balances.filter(b => b.productId === p.productId && b.status === _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__.MonthlyBalanceStatus.EXPIRED)
+                    .reduce((sum, b) => sum + b.totalValue, 0) })));
+            // 按仓库汇总
+            const warehouseSummaryMap = new Map();
+            balances.forEach(balance => {
+                if (!warehouseSummaryMap.has(balance.warehouseId)) {
+                    warehouseSummaryMap.set(balance.warehouseId, {
+                        warehouseId: balance.warehouseId,
+                        warehouseName: balance.warehouseName,
+                        totalValue: 0,
+                        productIds: new Set(),
+                        batchCount: 0,
+                        inboundDates: []
+                    });
+                }
+                const summary = warehouseSummaryMap.get(balance.warehouseId);
+                summary.totalValue += balance.totalValue;
+                summary.productIds.add(balance.productId);
+                summary.batchCount += 1;
+                summary.inboundDates.push(balance.inboundDate);
+            });
+            const warehouseSummary = Array.from(warehouseSummaryMap.values()).map(w => ({
+                warehouseId: w.warehouseId,
+                warehouseName: w.warehouseName,
+                totalValue: w.totalValue,
+                productCount: w.productIds.size,
+                batchCount: w.batchCount,
+                avgBatchAge: w.inboundDates.length > 0 ?
+                    w.inboundDates.reduce((sum, date) => sum + (balanceDate.getTime() - date.getTime()), 0) /
+                        (w.inboundDates.length * 1000 * 60 * 60 * 24) : 0
+            }));
+            // 按分类汇总
+            const categorySummaryMap = new Map();
+            balances.forEach(balance => {
+                if (!categorySummaryMap.has(balance.categoryId)) {
+                    categorySummaryMap.set(balance.categoryId, {
+                        categoryId: balance.categoryId,
+                        categoryName: balance.categoryName,
+                        totalValue: 0,
+                        productIds: new Set(),
+                        batchCount: 0
+                    });
+                }
+                const summary = categorySummaryMap.get(balance.categoryId);
+                summary.totalValue += balance.totalValue;
+                summary.productIds.add(balance.productId);
+                summary.batchCount += 1;
+            });
+            const categorySummary = Array.from(categorySummaryMap.values()).map(c => ({
+                categoryId: c.categoryId,
+                categoryName: c.categoryName,
+                totalValue: c.totalValue,
+                productCount: c.productIds.size,
+                batchCount: c.batchCount
+            }));
+            // 总计
+            const totals = {
+                totalValue: balances.reduce((sum, b) => sum + b.totalValue, 0),
+                totalQuantity: balances.reduce((sum, b) => sum + b.remainingQuantity, 0),
+                productCount: new Set(balances.map(b => b.productId)).size,
+                batchCount: balances.length,
+                expiredBatchCount: balances.filter(b => b.status === _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__.MonthlyBalanceStatus.EXPIRED).length,
+                expiredValue: balances.filter(b => b.status === _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__.MonthlyBalanceStatus.EXPIRED)
+                    .reduce((sum, b) => sum + b.totalValue, 0)
+            };
+            return {
+                year,
+                month,
+                balanceDate,
+                productSummary,
+                warehouseSummary,
+                categorySummary,
+                totals
+            };
+        });
+    }
+    /**
+     * 计算年龄分析
+     */
+    calculateAgeAnalysis(balances) {
+        const ranges = [
+            { range: '0-30天', min: 0, max: 30 },
+            { range: '31-60天', min: 31, max: 60 },
+            { range: '61-90天', min: 61, max: 90 },
+            { range: '91-180天', min: 91, max: 180 },
+            { range: '181-365天', min: 181, max: 365 },
+            { range: '365天以上', min: 365, max: Infinity }
+        ];
+        const totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
+        const rangeStats = ranges.map(range => {
+            const rangeBalances = balances.filter(b => b.batchAge >= range.min && b.batchAge <= range.max);
+            const totalQuantity = rangeBalances.reduce((sum, b) => sum + b.remainingQuantity, 0);
+            const rangeTotalValue = rangeBalances.reduce((sum, b) => sum + b.totalValue, 0);
+            return {
+                range: range.range,
+                batchCount: rangeBalances.length,
+                totalQuantity,
+                totalValue: rangeTotalValue,
+                percentage: totalValue > 0 ? (rangeTotalValue / totalValue) * 100 : 0
+            };
+        });
+        const avgAge = balances.length > 0 ?
+            balances.reduce((sum, b) => sum + b.batchAge, 0) / balances.length : 0;
+        const oldestBalance = balances.reduce((oldest, current) => current.batchAge > oldest.batchAge ? current : oldest, balances[0]);
+        return {
+            ranges: rangeStats,
+            avgAge,
+            oldestBatch: oldestBalance ? {
+                batchId: oldestBalance.batchId,
+                batchNo: oldestBalance.batchNo,
+                age: oldestBalance.batchAge,
+                productName: oldestBalance.productName,
+                quantity: oldestBalance.remainingQuantity,
+                value: oldestBalance.totalValue
+            } : null
+        };
+    }
+    /**
+     * 计算价值分析
+     */
+    calculateValueAnalysis(balances) {
+        const totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
+        // 按产品统计
+        const productValueMap = new Map();
+        balances.forEach(balance => {
+            if (!productValueMap.has(balance.productId)) {
+                productValueMap.set(balance.productId, {
+                    balance,
+                    totalValue: 0,
+                    batchCount: 0
+                });
+            }
+            const stat = productValueMap.get(balance.productId);
+            stat.totalValue += balance.totalValue;
+            stat.batchCount += 1;
+        });
+        const topProducts = Array.from(productValueMap.values())
+            .map(p => ({
+            productId: p.balance.productId,
+            productName: p.balance.productName,
+            totalValue: p.totalValue,
+            batchCount: p.batchCount,
+            percentage: totalValue > 0 ? (p.totalValue / totalValue) * 100 : 0
+        }))
+            .sort((a, b) => b.totalValue - a.totalValue)
+            .slice(0, 10);
+        // 按仓库统计
+        const warehouseValueMap = new Map();
+        balances.forEach(balance => {
+            if (!warehouseValueMap.has(balance.warehouseId)) {
+                warehouseValueMap.set(balance.warehouseId, {
+                    balance,
+                    totalValue: 0,
+                    batchCount: 0
+                });
+            }
+            const stat = warehouseValueMap.get(balance.warehouseId);
+            stat.totalValue += balance.totalValue;
+            stat.batchCount += 1;
+        });
+        const topWarehouses = Array.from(warehouseValueMap.values())
+            .map(w => ({
+            warehouseId: w.balance.warehouseId,
+            warehouseName: w.balance.warehouseName,
+            totalValue: w.totalValue,
+            batchCount: w.batchCount,
+            percentage: totalValue > 0 ? (w.totalValue / totalValue) * 100 : 0
+        }))
+            .sort((a, b) => b.totalValue - a.totalValue)
+            .slice(0, 10);
+        // 按分类统计
+        const categoryValueMap = new Map();
+        balances.forEach(balance => {
+            if (!categoryValueMap.has(balance.categoryId)) {
+                categoryValueMap.set(balance.categoryId, {
+                    balance,
+                    totalValue: 0,
+                    batchCount: 0
+                });
+            }
+            const stat = categoryValueMap.get(balance.categoryId);
+            stat.totalValue += balance.totalValue;
+            stat.batchCount += 1;
+        });
+        const topCategories = Array.from(categoryValueMap.values())
+            .map(c => ({
+            categoryId: c.balance.categoryId,
+            categoryName: c.balance.categoryName,
+            totalValue: c.totalValue,
+            batchCount: c.batchCount,
+            percentage: totalValue > 0 ? (c.totalValue / totalValue) * 100 : 0
+        }))
+            .sort((a, b) => b.totalValue - a.totalValue)
+            .slice(0, 10);
+        return {
+            topProducts,
+            topWarehouses,
+            topCategories
+        };
+    }
+    /**
+     * 计算过期分析
+     */
+    calculateExpiryAnalysis(balances, balanceDate) {
+        const totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
+        const expiredBalances = balances.filter(b => b.status === _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__.MonthlyBalanceStatus.EXPIRED);
+        const expiredValue = expiredBalances.reduce((sum, b) => sum + b.totalValue, 0);
+        // 即将过期（30天内）
+        const soonToExpireDate = new Date(balanceDate.getTime() + 30 * 24 * 60 * 60 * 1000);
+        const soonToExpireBalances = balances.filter(b => b.expiryDate && b.expiryDate <= soonToExpireDate && b.status === _types_monthlyBalance__WEBPACK_IMPORTED_MODULE_0__.MonthlyBalanceStatus.ACTIVE);
+        const soonToExpireValue = soonToExpireBalances.reduce((sum, b) => sum + b.totalValue, 0);
+        return {
+            expiredBatches: expiredBalances.length,
+            expiredValue,
+            expiredPercentage: totalValue > 0 ? (expiredValue / totalValue) * 100 : 0,
+            soonToExpire: {
+                batchCount: soonToExpireBalances.length,
+                totalValue: soonToExpireValue,
+                percentage: totalValue > 0 ? (soonToExpireValue / totalValue) * 100 : 0
+            }
+        };
+    }
+    /**
+     * 计算周转分析
+     */
+    calculateTurnoverAnalysis(balances) {
+        const totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
+        // 滞销品（批次年龄>90天）
+        const slowMovingBalances = balances.filter(b => b.batchAge > 90);
+        const slowMovingValue = slowMovingBalances.reduce((sum, b) => sum + b.totalValue, 0);
+        // 死库存（批次年龄>365天）
+        const deadStockBalances = balances.filter(b => b.batchAge > 365);
+        const deadStockValue = deadStockBalances.reduce((sum, b) => sum + b.totalValue, 0);
+        return {
+            slowMoving: {
+                batchCount: slowMovingBalances.length,
+                totalValue: slowMovingValue,
+                percentage: totalValue > 0 ? (slowMovingValue / totalValue) * 100 : 0
+            },
+            deadStock: {
+                batchCount: deadStockBalances.length,
+                totalValue: deadStockValue,
+                percentage: totalValue > 0 ? (deadStockValue / totalValue) * 100 : 0
+            }
+        };
+    }
+    /**
+     * 获取产品信息
+     */
+    getProductsByIds(productIds) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const products = [];
+            for (const productId of productIds) {
+                const product = yield _productService__WEBPACK_IMPORTED_MODULE_3__["default"].findById(productId);
+                if (product) {
+                    products.push(product);
+                }
+            }
+            return products;
+        });
+    }
+    /**
+     * 获取仓库信息
+     */
+    getWarehousesByIds(warehouseIds) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const warehouses = [];
+            for (const warehouseId of warehouseIds) {
+                const warehouse = yield _warehouseService__WEBPACK_IMPORTED_MODULE_6__["default"].findById(warehouseId);
+                if (warehouse) {
+                    warehouses.push(warehouse);
+                }
+            }
+            return warehouses;
+        });
+    }
+    /**
+     * 获取所有分类
+     */
+    getAllCategories() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield _categoryService__WEBPACK_IMPORTED_MODULE_4__["default"].findAll();
+        });
+    }
+    /**
+     * 获取所有单位
+     */
+    getAllUnits() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield _unitService__WEBPACK_IMPORTED_MODULE_5__["default"].findAll();
+        });
+    }
+    /**
+     * 加载历史数据
+     */
+    loadHistoricalData() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 这里可以从数据库或其他持久化存储加载历史数据
+            // 目前为空实现
+            console.log('Loading historical monthly balance data...');
+        });
+    }
+    /**
+     * 添加到周期索引
+     */
+    addToPeriodIndex(periodKey, balanceId) {
+        if (!this.balancesByPeriod.has(periodKey)) {
+            this.balancesByPeriod.set(periodKey, new Set());
+        }
+        this.balancesByPeriod.get(periodKey).add(balanceId);
+    }
+    /**
+     * 添加到产品索引
+     */
+    addToProductIndex(productId, balanceId) {
+        if (!this.balancesByProduct.has(productId)) {
+            this.balancesByProduct.set(productId, new Set());
+        }
+        this.balancesByProduct.get(productId).add(balanceId);
+    }
+    /**
+     * 添加到仓库索引
+     */
+    addToWarehouseIndex(warehouseId, balanceId) {
+        if (!this.balancesByWarehouse.has(warehouseId)) {
+            this.balancesByWarehouse.set(warehouseId, new Set());
+        }
+        this.balancesByWarehouse.get(warehouseId).add(balanceId);
+    }
+    /**
+     * 获取服务统计信息
+     */
+    getServiceStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const totalValue = Array.from(this.balances.values())
+                .reduce((sum, b) => sum + b.totalValue, 0);
+            return {
+                totalBalances: this.balances.size,
+                totalPeriods: this.balancesByPeriod.size,
+                totalProducts: this.balancesByProduct.size,
+                totalWarehouses: this.balancesByWarehouse.size,
+                totalValue,
+                initialized: this.initialized
+            };
+        });
+    }
+}
+// 创建并导出服务实例
+const monthlyBalanceService = new MonthlyBalanceService();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (monthlyBalanceService);
 
 
 /***/ }),
@@ -64152,6 +68042,259 @@ class PermissionService {
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new PermissionService());
+
+
+/***/ }),
+
+/***/ "./src/services/business/productConversionService.ts":
+/*!***********************************************************!*\
+  !*** ./src/services/business/productConversionService.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ProductConversionService: () => (/* binding */ ProductConversionService),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _globalConversionService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./globalConversionService */ "./src/services/business/globalConversionService.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+class ProductConversionService {
+    constructor() {
+        this.settings = new Map();
+        this.productIndex = new Map(); // productId -> settingId
+    }
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('ProductConversionService initialized');
+        });
+    }
+    // =============== 基础CRUD操作 ===============
+    create(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 验证数据
+            if (!data.productId) {
+                throw new Error('商品ID不能为空');
+            }
+            // 检查商品是否已有换算设置
+            if (this.productIndex.has(data.productId)) {
+                throw new Error('该商品已存在换算设置');
+            }
+            // 如果启用换算，验证换算规则
+            if (data.enableConversion) {
+                if (data.conversionType === 'global' && !data.globalRuleId) {
+                    throw new Error('使用全局换算时必须选择全局规则');
+                }
+                if (data.conversionType === 'custom' && !data.customRule) {
+                    throw new Error('使用自定义换算时必须设置自定义规则');
+                }
+                if (data.conversionType === 'custom' && data.customRule) {
+                    if (data.customRule.conversionRate <= 0) {
+                        throw new Error('换算比率必须大于0');
+                    }
+                    if (data.customRule.fromUnitId === data.customRule.toUnitId) {
+                        throw new Error('源单位和目标单位不能相同');
+                    }
+                }
+            }
+            const setting = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_1__["default"])(), createdAt: new Date(), updatedAt: new Date() });
+            this.settings.set(setting.id, setting);
+            this.productIndex.set(data.productId, setting.id);
+            return setting;
+        });
+    }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.settings.get(id) || null;
+        });
+    }
+    findByProductId(productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const settingId = this.productIndex.get(productId);
+            if (!settingId)
+                return null;
+            return this.settings.get(settingId) || null;
+        });
+    }
+    findAll() {
+        return __awaiter(this, arguments, void 0, function* (activeOnly = true) {
+            const allSettings = Array.from(this.settings.values());
+            return activeOnly ? allSettings.filter(setting => setting.isActive) : allSettings;
+        });
+    }
+    update(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const existingSetting = this.settings.get(id);
+            if (!existingSetting) {
+                throw new Error('换算设置不存在');
+            }
+            // 验证更新数据
+            if (data.enableConversion !== undefined && data.enableConversion) {
+                const conversionType = data.conversionType || existingSetting.conversionType;
+                const globalRuleId = data.globalRuleId || existingSetting.globalRuleId;
+                const customRule = data.customRule || existingSetting.customRule;
+                if (conversionType === 'global' && !globalRuleId) {
+                    throw new Error('使用全局换算时必须选择全局规则');
+                }
+                if (conversionType === 'custom' && !customRule) {
+                    throw new Error('使用自定义换算时必须设置自定义规则');
+                }
+                if (conversionType === 'custom' && customRule) {
+                    if (customRule.conversionRate <= 0) {
+                        throw new Error('换算比率必须大于0');
+                    }
+                    if (customRule.fromUnitId === customRule.toUnitId) {
+                        throw new Error('源单位和目标单位不能相同');
+                    }
+                }
+            }
+            const updatedSetting = Object.assign(Object.assign(Object.assign({}, existingSetting), data), { updatedAt: new Date() });
+            this.settings.set(id, updatedSetting);
+            return updatedSetting;
+        });
+    }
+    updateByProductId(productId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const setting = yield this.findByProductId(productId);
+            if (!setting) {
+                throw new Error('商品换算设置不存在');
+            }
+            return this.update(setting.id, data);
+        });
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const setting = this.settings.get(id);
+            if (!setting)
+                return false;
+            this.productIndex.delete(setting.productId);
+            return this.settings.delete(id);
+        });
+    }
+    deleteByProductId(productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const settingId = this.productIndex.get(productId);
+            if (!settingId)
+                return false;
+            return this.delete(settingId);
+        });
+    }
+    // =============== 换算操作 ===============
+    convertProductQuantity(productId, quantity, fromUnitId, toUnitId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (fromUnitId === toUnitId) {
+                return {
+                    convertedQuantity: quantity,
+                    conversionRule: '相同单位，无需换算'
+                };
+            }
+            const setting = yield this.findByProductId(productId);
+            if (!setting || !setting.enableConversion || !setting.isActive) {
+                return {
+                    convertedQuantity: null,
+                    conversionRule: null
+                };
+            }
+            let convertedQuantity = null;
+            let conversionRule = null;
+            if (setting.conversionType === 'global' && setting.globalRuleId) {
+                // 使用全局换算规则
+                const globalRule = yield _globalConversionService__WEBPACK_IMPORTED_MODULE_0__["default"].findById(setting.globalRuleId);
+                if (globalRule && globalRule.fromUnitId === fromUnitId && globalRule.toUnitId === toUnitId) {
+                    convertedQuantity = quantity * globalRule.conversionRate;
+                    conversionRule = globalRule.description;
+                }
+            }
+            else if (setting.conversionType === 'custom' && setting.customRule) {
+                // 使用自定义换算规则
+                const { customRule } = setting;
+                if (customRule.fromUnitId === fromUnitId && customRule.toUnitId === toUnitId) {
+                    convertedQuantity = quantity * customRule.conversionRate;
+                    conversionRule = customRule.description;
+                }
+            }
+            return {
+                convertedQuantity,
+                conversionRule
+            };
+        });
+    }
+    getProductConversionInfo(productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const setting = yield this.findByProductId(productId);
+            if (!setting || !setting.enableConversion || !setting.isActive) {
+                return { hasConversion: false };
+            }
+            let conversionRule = '';
+            let fromUnit = '';
+            let toUnit = '';
+            if (setting.conversionType === 'global' && setting.globalRuleId) {
+                const globalRule = yield _globalConversionService__WEBPACK_IMPORTED_MODULE_0__["default"].findById(setting.globalRuleId);
+                if (globalRule) {
+                    conversionRule = globalRule.description;
+                    fromUnit = globalRule.fromUnitId;
+                    toUnit = globalRule.toUnitId;
+                }
+            }
+            else if (setting.conversionType === 'custom' && setting.customRule) {
+                const { customRule } = setting;
+                conversionRule = customRule.description;
+                fromUnit = customRule.fromUnitId;
+                toUnit = customRule.toUnitId;
+            }
+            return {
+                hasConversion: true,
+                conversionType: setting.conversionType,
+                conversionRule,
+                fromUnit,
+                toUnit
+            };
+        });
+    }
+    // =============== 统计信息 ===============
+    getStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const allSettings = Array.from(this.settings.values());
+            const activeSettings = allSettings.filter(setting => setting.isActive);
+            const enabledSettings = activeSettings.filter(setting => setting.enableConversion);
+            return {
+                total: allSettings.length,
+                enabled: enabledSettings.length,
+                globalType: enabledSettings.filter(s => s.conversionType === 'global').length,
+                customType: enabledSettings.filter(s => s.conversionType === 'custom').length
+            };
+        });
+    }
+    // =============== 批量操作 ===============
+    bulkUpdateProductSettings(updates) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const updatePromises = updates.map(({ productId, data }) => this.updateByProductId(productId, data));
+            yield Promise.all(updatePromises);
+        });
+    }
+    // =============== 验证操作 ===============
+    validateGlobalRule(globalRuleId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const rule = yield _globalConversionService__WEBPACK_IMPORTED_MODULE_0__["default"].findById(globalRuleId);
+            return !!(rule && rule.isActive);
+        });
+    }
+}
+// 创建并导出服务实例
+const productConversionService = new ProductConversionService();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (productConversionService);
 
 
 /***/ }),
@@ -69089,6 +73232,55 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./src/types/consumption.ts":
+/*!**********************************!*\
+  !*** ./src/types/consumption.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DisplayMode: () => (/* binding */ DisplayMode),
+/* harmony export */   ExportFormat: () => (/* binding */ ExportFormat),
+/* harmony export */   TimeSlot: () => (/* binding */ TimeSlot)
+/* harmony export */ });
+/**
+ * 逐日消耗视图相关类型定义
+ */
+// =============== 基础数据类型 ===============
+/**
+ * 时间段枚举
+ */
+var TimeSlot;
+(function (TimeSlot) {
+    TimeSlot["MORNING"] = "morning";
+    TimeSlot["AFTERNOON"] = "afternoon";
+    TimeSlot["EVENING"] = "evening"; // 晚 (18:00-06:00)
+})(TimeSlot || (TimeSlot = {}));
+/**
+ * 显示模式枚举
+ */
+var DisplayMode;
+(function (DisplayMode) {
+    DisplayMode["QUANTITY"] = "quantity";
+    DisplayMode["CONVERTED"] = "converted";
+    DisplayMode["AMOUNT"] = "amount"; // 金额统计
+})(DisplayMode || (DisplayMode = {}));
+// =============== 导出类型 ===============
+/**
+ * 导出格式枚举
+ */
+var ExportFormat;
+(function (ExportFormat) {
+    ExportFormat["EXCEL"] = "excel";
+    ExportFormat["CSV"] = "csv";
+    ExportFormat["PDF"] = "pdf";
+})(ExportFormat || (ExportFormat = {}));
+
+
+/***/ }),
+
 /***/ "./src/types/entities.ts":
 /*!*******************************!*\
   !*** ./src/types/entities.ts ***!
@@ -69119,10 +73311,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   SupplierRating: () => (/* binding */ SupplierRating),
 /* harmony export */   SupplierStatus: () => (/* binding */ SupplierStatus),
 /* harmony export */   TransactionType: () => (/* binding */ TransactionType),
+/* harmony export */   UnitType: () => (/* binding */ UnitType),
 /* harmony export */   UserRole: () => (/* binding */ UserRole),
 /* harmony export */   UserStatus: () => (/* binding */ UserStatus)
 /* harmony export */ });
 // 核心实体类型定义
+var UnitType;
+(function (UnitType) {
+    UnitType["WEIGHT"] = "weight";
+    UnitType["LENGTH"] = "length";
+    UnitType["VOLUME"] = "volume";
+    UnitType["QUANTITY"] = "quantity";
+    UnitType["AREA"] = "area";
+    UnitType["TIME"] = "time"; // 时间
+})(UnitType || (UnitType = {}));
 var ProductStatus;
 (function (ProductStatus) {
     ProductStatus["ACTIVE"] = "active";
@@ -69284,6 +73486,80 @@ var NotificationStatus;
     NotificationStatus["READ"] = "read";
     NotificationStatus["DELETED"] = "deleted";
 })(NotificationStatus || (NotificationStatus = {}));
+
+
+/***/ }),
+
+/***/ "./src/types/fifo.ts":
+/*!***************************!*\
+  !*** ./src/types/fifo.ts ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BatchStatus: () => (/* binding */ BatchStatus),
+/* harmony export */   FifoErrorType: () => (/* binding */ FifoErrorType)
+/* harmony export */ });
+/**
+ * FIFO (先进先出) 库存管理相关类型定义
+ */
+/**
+ * 批次状态枚举
+ */
+var BatchStatus;
+(function (BatchStatus) {
+    BatchStatus["ACTIVE"] = "active";
+    BatchStatus["DEPLETED"] = "depleted";
+    BatchStatus["EXPIRED"] = "expired";
+    BatchStatus["LOCKED"] = "locked"; // 已锁定（不可用）
+})(BatchStatus || (BatchStatus = {}));
+// =============== 验证和错误处理 ===============
+/**
+ * FIFO操作错误类型
+ */
+var FifoErrorType;
+(function (FifoErrorType) {
+    FifoErrorType["INSUFFICIENT_STOCK"] = "insufficient_stock";
+    FifoErrorType["BATCH_NOT_FOUND"] = "batch_not_found";
+    FifoErrorType["BATCH_EXPIRED"] = "batch_expired";
+    FifoErrorType["BATCH_LOCKED"] = "batch_locked";
+    FifoErrorType["INVALID_QUANTITY"] = "invalid_quantity";
+    FifoErrorType["INVALID_COST"] = "invalid_cost";
+    FifoErrorType["CONFIGURATION_ERROR"] = "configuration_error";
+})(FifoErrorType || (FifoErrorType = {}));
+// =============== 导出类型 ===============
+// 注意：所有类型都已在上面定义，这里不需要重复导出
+
+
+/***/ }),
+
+/***/ "./src/types/monthlyBalance.ts":
+/*!*************************************!*\
+  !*** ./src/types/monthlyBalance.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MonthlyBalanceStatus: () => (/* binding */ MonthlyBalanceStatus)
+/* harmony export */ });
+/**
+ * 月度结余相关类型定义
+ * 用于记录每月末的库存结余情况，支持FIFO批次管理
+ */
+/**
+ * 月度结余状态枚举
+ */
+var MonthlyBalanceStatus;
+(function (MonthlyBalanceStatus) {
+    MonthlyBalanceStatus["ACTIVE"] = "active";
+    MonthlyBalanceStatus["EXPIRED"] = "expired";
+    MonthlyBalanceStatus["ADJUSTED"] = "adjusted";
+    MonthlyBalanceStatus["ARCHIVED"] = "archived"; // 已归档
+})(MonthlyBalanceStatus || (MonthlyBalanceStatus = {}));
 
 
 /***/ }),
@@ -69579,6 +73855,453 @@ class DistributedLock {
     }
 }
 DistributedLock._locks = new Map();
+
+
+/***/ }),
+
+/***/ "./src/utils/concurrencyManager.ts":
+/*!*****************************************!*\
+  !*** ./src/utils/concurrencyManager.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ConcurrencyManager: () => (/* binding */ ConcurrencyManager),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * 并发管理器
+ * 用于处理并发操作和互斥锁
+ */
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+/**
+ * 互斥锁实现
+ */
+class Mutex {
+    constructor() {
+        this.locked = false;
+        this.waitingQueue = [];
+    }
+    acquire() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                if (!this.locked) {
+                    this.locked = true;
+                    resolve();
+                }
+                else {
+                    this.waitingQueue.push(resolve);
+                }
+            });
+        });
+    }
+    release() {
+        if (this.waitingQueue.length > 0) {
+            const next = this.waitingQueue.shift();
+            if (next) {
+                next();
+            }
+        }
+        else {
+            this.locked = false;
+        }
+    }
+    isLocked() {
+        return this.locked;
+    }
+}
+/**
+ * 并发管理器类
+ */
+class ConcurrencyManager {
+    /**
+     * 获取或创建互斥锁
+     */
+    static getMutex(key) {
+        if (!this.mutexes.has(key)) {
+            this.mutexes.set(key, new Mutex());
+        }
+        return this.mutexes.get(key);
+    }
+    /**
+     * 使用互斥锁执行操作
+     */
+    static withMutex(key, operation) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const mutex = this.getMutex(key);
+            yield mutex.acquire();
+            try {
+                return yield operation();
+            }
+            finally {
+                mutex.release();
+            }
+        });
+    }
+    /**
+     * 检查锁是否被占用
+     */
+    static isLocked(key) {
+        const mutex = this.mutexes.get(key);
+        return mutex ? mutex.isLocked() : false;
+    }
+    /**
+     * 清理未使用的锁
+     */
+    static cleanup() {
+        for (const [key, mutex] of this.mutexes.entries()) {
+            if (!mutex.isLocked()) {
+                this.mutexes.delete(key);
+            }
+        }
+    }
+    /**
+     * 获取当前锁的数量
+     */
+    static getLockCount() {
+        return this.mutexes.size;
+    }
+}
+ConcurrencyManager.mutexes = new Map();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConcurrencyManager);
+
+
+/***/ }),
+
+/***/ "./src/utils/consumptionCalculator.ts":
+/*!********************************************!*\
+  !*** ./src/utils/consumptionCalculator.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ConsumptionCalculator: () => (/* binding */ ConsumptionCalculator),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_consumption__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/consumption */ "./src/types/consumption.ts");
+/* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../types/entities */ "./src/types/entities.ts");
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/business */ "./src/services/business/index.ts");
+/**
+ * 消耗数据计算工具
+ */
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+/**
+ * 消耗数据计算工具类
+ */
+class ConsumptionCalculator {
+    /**
+     * 创建空的消耗数据
+     * @returns 空的消耗数据
+     */
+    static createEmptyConsumptionData() {
+        return {
+            quantity: 0,
+            convertedQuantity: 0,
+            amount: 0,
+            transactionCount: 0,
+            avgUnitPrice: 0
+        };
+    }
+    /**
+     * 创建空的时间段数据
+     * @returns 空的时间段数据
+     */
+    static createEmptyTimeSlotData() {
+        return {
+            morning: this.createEmptyConsumptionData(),
+            afternoon: this.createEmptyConsumptionData(),
+            evening: this.createEmptyConsumptionData(),
+            dailyTotal: this.createEmptyConsumptionData()
+        };
+    }
+    /**
+     * 从库存事务计算消耗数据
+     * @param transactions 库存事务数组
+     * @returns 消耗数据
+     */
+    static calculateConsumptionFromTransactions(transactions) {
+        // 只处理出库事务
+        const outTransactions = transactions.filter(t => t.transactionType === _types_entities__WEBPACK_IMPORTED_MODULE_1__.TransactionType.OUT);
+        if (outTransactions.length === 0) {
+            return this.createEmptyConsumptionData();
+        }
+        const totalQuantity = outTransactions.reduce((sum, t) => sum + Math.abs(t.quantity), 0);
+        const totalAmount = outTransactions.reduce((sum, t) => sum + Math.abs(t.totalAmount), 0);
+        const avgUnitPrice = totalQuantity > 0 ? totalAmount / totalQuantity : 0;
+        return {
+            quantity: totalQuantity,
+            convertedQuantity: 0, // 将在后续步骤中计算
+            amount: totalAmount,
+            transactionCount: outTransactions.length,
+            avgUnitPrice
+        };
+    }
+    /**
+     * 应用单位转换
+     * @param productId 产品ID
+     * @param consumptionData 消耗数据
+     * @returns 应用转换后的消耗数据
+     */
+    static applyUnitConversion(productId, consumptionData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const convertedQuantity = yield _services_business__WEBPACK_IMPORTED_MODULE_2__.unitConversionService.convertToPackageUnit(productId, consumptionData.quantity);
+                return Object.assign(Object.assign({}, consumptionData), { convertedQuantity: convertedQuantity || consumptionData.quantity });
+            }
+            catch (error) {
+                console.warn(`单位转换失败 (产品ID: ${productId}):`, error);
+                return Object.assign(Object.assign({}, consumptionData), { convertedQuantity: consumptionData.quantity });
+            }
+        });
+    }
+    /**
+     * 计算时间段总计
+     * @param timeSlotData 时间段数据
+     * @returns 更新后的时间段数据（包含总计）
+     */
+    static calculateTimeSlotTotals(timeSlotData) {
+        const { morning, afternoon, evening } = timeSlotData;
+        const dailyTotal = {
+            quantity: morning.quantity + afternoon.quantity + evening.quantity,
+            convertedQuantity: (morning.convertedQuantity || 0) +
+                (afternoon.convertedQuantity || 0) +
+                (evening.convertedQuantity || 0),
+            amount: morning.amount + afternoon.amount + evening.amount,
+            transactionCount: morning.transactionCount + afternoon.transactionCount + evening.transactionCount,
+            avgUnitPrice: 0 // 将在下面计算
+        };
+        // 计算平均单价
+        if (dailyTotal.quantity > 0) {
+            dailyTotal.avgUnitPrice = dailyTotal.amount / dailyTotal.quantity;
+        }
+        return Object.assign(Object.assign({}, timeSlotData), { dailyTotal });
+    }
+    /**
+     * 合并多个消耗数据
+     * @param dataArray 消耗数据数组
+     * @returns 合并后的消耗数据
+     */
+    static mergeConsumptionData(dataArray) {
+        if (dataArray.length === 0) {
+            return this.createEmptyConsumptionData();
+        }
+        const merged = dataArray.reduce((acc, data) => ({
+            quantity: acc.quantity + data.quantity,
+            convertedQuantity: (acc.convertedQuantity || 0) + (data.convertedQuantity || 0),
+            amount: acc.amount + data.amount,
+            transactionCount: acc.transactionCount + data.transactionCount,
+            avgUnitPrice: 0 // 将在后面重新计算
+        }), this.createEmptyConsumptionData());
+        // 重新计算平均单价
+        if (merged.quantity > 0) {
+            merged.avgUnitPrice = merged.amount / merged.quantity;
+        }
+        return merged;
+    }
+    /**
+     * 计算分类行总计
+     * @param categoryRow 分类行数据
+     * @returns 更新后的分类行数据
+     */
+    static calculateCategoryRowTotals(categoryRow) {
+        const allTimeSlotData = [];
+        // 收集所有日期的数据
+        categoryRow.data.forEach(timeSlotData => {
+            allTimeSlotData.push(timeSlotData.morning);
+            allTimeSlotData.push(timeSlotData.afternoon);
+            allTimeSlotData.push(timeSlotData.evening);
+        });
+        // 收集子分类的数据
+        if (categoryRow.children) {
+            categoryRow.children.forEach(child => {
+                allTimeSlotData.push(child.rowTotal);
+            });
+        }
+        // 收集产品数据
+        categoryRow.products.forEach(product => {
+            allTimeSlotData.push(product.rowTotal);
+        });
+        const rowTotal = this.mergeConsumptionData(allTimeSlotData);
+        return Object.assign(Object.assign({}, categoryRow), { rowTotal });
+    }
+    /**
+     * 计算产品行总计
+     * @param productRow 产品行数据
+     * @returns 更新后的产品行数据
+     */
+    static calculateProductRowTotals(productRow) {
+        const allTimeSlotData = [];
+        // 收集所有日期的数据
+        productRow.data.forEach(timeSlotData => {
+            allTimeSlotData.push(timeSlotData.morning);
+            allTimeSlotData.push(timeSlotData.afternoon);
+            allTimeSlotData.push(timeSlotData.evening);
+        });
+        const rowTotal = this.mergeConsumptionData(allTimeSlotData);
+        return Object.assign(Object.assign({}, productRow), { rowTotal });
+    }
+    /**
+     * 计算总计数据
+     * @param categories 分类数据数组
+     * @param dateColumns 日期列数组
+     * @returns 总计数据
+     */
+    static calculateTotals(categories, dateColumns) {
+        const categoryTotals = new Map();
+        const dateTotals = new Map();
+        // 计算分类总计
+        categories.forEach(category => {
+            categoryTotals.set(category.categoryId, category.rowTotal);
+        });
+        // 计算日期总计
+        dateColumns.forEach(date => {
+            const dateData = [];
+            categories.forEach(category => {
+                const timeSlotData = category.data.get(date);
+                if (timeSlotData) {
+                    dateData.push(timeSlotData.dailyTotal);
+                }
+            });
+            dateTotals.set(date, this.mergeConsumptionData(dateData));
+        });
+        // 计算时间段总计
+        const morningData = [];
+        const afternoonData = [];
+        const eveningData = [];
+        categories.forEach(category => {
+            category.data.forEach(timeSlotData => {
+                morningData.push(timeSlotData.morning);
+                afternoonData.push(timeSlotData.afternoon);
+                eveningData.push(timeSlotData.evening);
+            });
+        });
+        const timeSlotTotals = {
+            morning: this.mergeConsumptionData(morningData),
+            afternoon: this.mergeConsumptionData(afternoonData),
+            evening: this.mergeConsumptionData(eveningData)
+        };
+        // 计算总计
+        const grandTotal = this.mergeConsumptionData([
+            timeSlotTotals.morning,
+            timeSlotTotals.afternoon,
+            timeSlotTotals.evening
+        ]);
+        return {
+            categoryTotals,
+            dateTotals,
+            timeSlotTotals,
+            grandTotal
+        };
+    }
+    /**
+     * 根据显示模式获取显示值
+     * @param data 消耗数据
+     * @param displayMode 显示模式
+     * @returns 显示值
+     */
+    static getDisplayValue(data, displayMode) {
+        switch (displayMode) {
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.DisplayMode.QUANTITY:
+                return data.quantity;
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.DisplayMode.CONVERTED:
+                return data.convertedQuantity || data.quantity;
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.DisplayMode.AMOUNT:
+                return data.amount;
+            default:
+                return data.quantity;
+        }
+    }
+    /**
+     * 格式化显示值
+     * @param value 数值
+     * @param displayMode 显示模式
+     * @returns 格式化的字符串
+     */
+    static formatDisplayValue(value, displayMode) {
+        switch (displayMode) {
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.DisplayMode.QUANTITY:
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.DisplayMode.CONVERTED:
+                return value.toLocaleString();
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.DisplayMode.AMOUNT:
+                return `¥${value.toLocaleString()}`;
+            default:
+                return value.toString();
+        }
+    }
+    /**
+     * 获取显示模式的单位
+     * @param displayMode 显示模式
+     * @param baseUnit 基础单位
+     * @param convertedUnit 转换单位
+     * @returns 单位字符串
+     */
+    static getDisplayUnit(displayMode, baseUnit, convertedUnit) {
+        switch (displayMode) {
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.DisplayMode.QUANTITY:
+                return baseUnit || '个';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.DisplayMode.CONVERTED:
+                return convertedUnit || baseUnit || '个';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.DisplayMode.AMOUNT:
+                return '元';
+            default:
+                return '';
+        }
+    }
+    /**
+     * 验证消耗数据
+     * @param data 消耗数据
+     * @returns 验证结果
+     */
+    static validateConsumptionData(data) {
+        const errors = [];
+        if (data.quantity < 0) {
+            errors.push('数量不能为负数');
+        }
+        if (data.amount < 0) {
+            errors.push('金额不能为负数');
+        }
+        if (data.transactionCount < 0) {
+            errors.push('交易次数不能为负数');
+        }
+        if (data.avgUnitPrice && data.avgUnitPrice < 0) {
+            errors.push('平均单价不能为负数');
+        }
+        if (data.convertedQuantity && data.convertedQuantity < 0) {
+            errors.push('转换数量不能为负数');
+        }
+        return {
+            isValid: errors.length === 0,
+            errors
+        };
+    }
+}
+/**
+ * 导出默认实例
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConsumptionCalculator);
 
 
 /***/ }),
@@ -69883,6 +74606,110 @@ const throttle = (func, delay) => {
         }
     };
 };
+
+
+/***/ }),
+
+/***/ "./src/utils/logger.ts":
+/*!*****************************!*\
+  !*** ./src/utils/logger.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   LogLevel: () => (/* binding */ LogLevel),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   logger: () => (/* binding */ logger)
+/* harmony export */ });
+/**
+ * 日志工具
+ */
+var LogLevel;
+(function (LogLevel) {
+    LogLevel[LogLevel["DEBUG"] = 0] = "DEBUG";
+    LogLevel[LogLevel["INFO"] = 1] = "INFO";
+    LogLevel[LogLevel["WARN"] = 2] = "WARN";
+    LogLevel[LogLevel["ERROR"] = 3] = "ERROR";
+})(LogLevel || (LogLevel = {}));
+/**
+ * 简单的日志记录器
+ */
+class Logger {
+    constructor() {
+        this.level = LogLevel.INFO;
+        this.logs = [];
+        this.maxLogs = 1000;
+    }
+    setLevel(level) {
+        this.level = level;
+    }
+    log(level, message, data, source) {
+        if (level >= this.level) {
+            const entry = {
+                timestamp: new Date(),
+                level,
+                message,
+                data,
+                source
+            };
+            this.logs.push(entry);
+            // 保持日志数量在限制内
+            if (this.logs.length > this.maxLogs) {
+                this.logs.shift();
+            }
+            // 输出到控制台
+            this.outputToConsole(entry);
+        }
+    }
+    outputToConsole(entry) {
+        const timestamp = entry.timestamp.toISOString();
+        const levelName = LogLevel[entry.level];
+        const prefix = `[${timestamp}] [${levelName}]`;
+        switch (entry.level) {
+            case LogLevel.DEBUG:
+                console.debug(prefix, entry.message, entry.data || '');
+                break;
+            case LogLevel.INFO:
+                console.info(prefix, entry.message, entry.data || '');
+                break;
+            case LogLevel.WARN:
+                console.warn(prefix, entry.message, entry.data || '');
+                break;
+            case LogLevel.ERROR:
+                console.error(prefix, entry.message, entry.data || '');
+                break;
+        }
+    }
+    debug(message, data, source) {
+        this.log(LogLevel.DEBUG, message, data, source);
+    }
+    info(message, data, source) {
+        this.log(LogLevel.INFO, message, data, source);
+    }
+    warn(message, data, source) {
+        this.log(LogLevel.WARN, message, data, source);
+    }
+    error(message, data, source) {
+        this.log(LogLevel.ERROR, message, data, source);
+    }
+    getLogs(level) {
+        if (level !== undefined) {
+            return this.logs.filter(log => log.level >= level);
+        }
+        return [...this.logs];
+    }
+    clearLogs() {
+        this.logs = [];
+    }
+    getLogCount() {
+        return this.logs.length;
+    }
+}
+// 创建并导出默认日志实例
+const logger = new Logger();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (logger);
 
 
 /***/ }),
@@ -70424,6 +75251,265 @@ const logger = {
     clearAuditTrail: () => secureLogger.clearAuditTrail()
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (secureLogger);
+
+
+/***/ }),
+
+/***/ "./src/utils/timeSlotHelper.ts":
+/*!*************************************!*\
+  !*** ./src/utils/timeSlotHelper.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DEFAULT_TIME_SLOT_CONFIG: () => (/* binding */ DEFAULT_TIME_SLOT_CONFIG),
+/* harmony export */   TimeSlotHelper: () => (/* binding */ TimeSlotHelper),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_consumption__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/consumption */ "./src/types/consumption.ts");
+/**
+ * 时间段处理工具
+ */
+
+/**
+ * 默认时间段配置
+ */
+const DEFAULT_TIME_SLOT_CONFIG = {
+    morning: { start: '06:00', end: '12:00' },
+    afternoon: { start: '12:00', end: '18:00' },
+    evening: { start: '18:00', end: '06:00' }
+};
+/**
+ * 时间段处理工具类
+ */
+class TimeSlotHelper {
+    /**
+     * 根据时间戳判断时间段
+     * @param timestamp 时间戳
+     * @param config 时间段配置（可选）
+     * @returns 时间段结果
+     */
+    static getTimeSlot(timestamp, config = DEFAULT_TIME_SLOT_CONFIG) {
+        const hour = timestamp.getHours();
+        const minute = timestamp.getMinutes();
+        const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        // 解析配置中的时间
+        const morningStart = this.parseTime(config.morning.start);
+        const morningEnd = this.parseTime(config.morning.end);
+        const afternoonStart = this.parseTime(config.afternoon.start);
+        const afternoonEnd = this.parseTime(config.afternoon.end);
+        const eveningStart = this.parseTime(config.evening.start);
+        const eveningEnd = this.parseTime(config.evening.end);
+        const currentMinutes = hour * 60 + minute;
+        // 判断时间段
+        let timeSlot;
+        if (currentMinutes >= morningStart && currentMinutes < morningEnd) {
+            timeSlot = _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.MORNING;
+        }
+        else if (currentMinutes >= afternoonStart && currentMinutes < afternoonEnd) {
+            timeSlot = _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.AFTERNOON;
+        }
+        else {
+            // 晚上时间段可能跨越午夜，需要特殊处理
+            timeSlot = _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.EVENING;
+        }
+        return {
+            timeSlot,
+            hour,
+            isValidTime: true
+        };
+    }
+    /**
+     * 解析时间字符串为分钟数
+     * @param timeString 时间字符串 (HH:MM)
+     * @returns 分钟数
+     */
+    static parseTime(timeString) {
+        const [hours, minutes] = timeString.split(':').map(Number);
+        return hours * 60 + minutes;
+    }
+    /**
+     * 获取时间段的显示名称
+     * @param timeSlot 时间段
+     * @returns 显示名称
+     */
+    static getTimeSlotDisplayName(timeSlot) {
+        switch (timeSlot) {
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.MORNING:
+                return '早';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.AFTERNOON:
+                return '中';
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.EVENING:
+                return '晚';
+            default:
+                return '未知';
+        }
+    }
+    /**
+     * 获取时间段的详细描述
+     * @param timeSlot 时间段
+     * @param config 时间段配置
+     * @returns 详细描述
+     */
+    static getTimeSlotDescription(timeSlot, config = DEFAULT_TIME_SLOT_CONFIG) {
+        switch (timeSlot) {
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.MORNING:
+                return `早 (${config.morning.start}-${config.morning.end})`;
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.AFTERNOON:
+                return `中 (${config.afternoon.start}-${config.afternoon.end})`;
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.EVENING:
+                return `晚 (${config.evening.start}-${config.evening.end})`;
+            default:
+                return '未知时间段';
+        }
+    }
+    /**
+     * 验证时间段配置
+     * @param config 时间段配置
+     * @returns 验证结果
+     */
+    static validateTimeSlotConfig(config) {
+        const errors = [];
+        try {
+            // 验证时间格式
+            const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+            if (!timeRegex.test(config.morning.start)) {
+                errors.push('早上开始时间格式无效');
+            }
+            if (!timeRegex.test(config.morning.end)) {
+                errors.push('早上结束时间格式无效');
+            }
+            if (!timeRegex.test(config.afternoon.start)) {
+                errors.push('下午开始时间格式无效');
+            }
+            if (!timeRegex.test(config.afternoon.end)) {
+                errors.push('下午结束时间格式无效');
+            }
+            if (!timeRegex.test(config.evening.start)) {
+                errors.push('晚上开始时间格式无效');
+            }
+            if (!timeRegex.test(config.evening.end)) {
+                errors.push('晚上结束时间格式无效');
+            }
+            // 验证时间逻辑
+            const morningStart = this.parseTime(config.morning.start);
+            const morningEnd = this.parseTime(config.morning.end);
+            const afternoonStart = this.parseTime(config.afternoon.start);
+            const afternoonEnd = this.parseTime(config.afternoon.end);
+            const eveningStart = this.parseTime(config.evening.start);
+            const eveningEnd = this.parseTime(config.evening.end);
+            if (morningStart >= morningEnd) {
+                errors.push('早上开始时间必须早于结束时间');
+            }
+            if (afternoonStart >= afternoonEnd) {
+                errors.push('下午开始时间必须早于结束时间');
+            }
+            // 检查时间段是否重叠
+            if (morningEnd > afternoonStart) {
+                errors.push('早上和下午时间段重叠');
+            }
+            if (afternoonEnd > eveningStart) {
+                errors.push('下午和晚上时间段重叠');
+            }
+        }
+        catch (error) {
+            errors.push('时间段配置解析失败');
+        }
+        return {
+            isValid: errors.length === 0,
+            errors
+        };
+    }
+    /**
+     * 获取所有时间段
+     * @returns 时间段数组
+     */
+    static getAllTimeSlots() {
+        return [_types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.MORNING, _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.AFTERNOON, _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.EVENING];
+    }
+    /**
+     * 格式化日期为字符串
+     * @param date 日期
+     * @returns 格式化的日期字符串 (YYYY-MM-DD)
+     */
+    static formatDate(date) {
+        return date.toISOString().split('T')[0];
+    }
+    /**
+     * 解析日期字符串
+     * @param dateString 日期字符串 (YYYY-MM-DD)
+     * @returns 日期对象
+     */
+    static parseDate(dateString) {
+        return new Date(dateString + 'T00:00:00.000Z');
+    }
+    /**
+     * 获取日期范围内的所有日期
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @returns 日期字符串数组
+     */
+    static getDateRange(startDate, endDate) {
+        const dates = [];
+        const current = new Date(startDate);
+        while (current <= endDate) {
+            dates.push(this.formatDate(current));
+            current.setDate(current.getDate() + 1);
+        }
+        return dates;
+    }
+    /**
+     * 检查日期是否在范围内
+     * @param date 要检查的日期
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @returns 是否在范围内
+     */
+    static isDateInRange(date, startDate, endDate) {
+        return date >= startDate && date <= endDate;
+    }
+    /**
+     * 获取时间段的颜色主题
+     * @param timeSlot 时间段
+     * @returns 颜色类名
+     */
+    static getTimeSlotColorTheme(timeSlot) {
+        switch (timeSlot) {
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.MORNING:
+                return 'text-yellow-300 bg-yellow-500/20'; // 早晨 - 黄色
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.AFTERNOON:
+                return 'text-blue-300 bg-blue-500/20'; // 下午 - 蓝色
+            case _types_consumption__WEBPACK_IMPORTED_MODULE_0__.TimeSlot.EVENING:
+                return 'text-purple-300 bg-purple-500/20'; // 晚上 - 紫色
+            default:
+                return 'text-gray-300 bg-gray-500/20';
+        }
+    }
+    /**
+     * 获取当前时间段
+     * @param config 时间段配置
+     * @returns 当前时间段
+     */
+    static getCurrentTimeSlot(config = DEFAULT_TIME_SLOT_CONFIG) {
+        return this.getTimeSlot(new Date(), config);
+    }
+    /**
+     * 计算两个日期之间的天数
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @returns 天数
+     */
+    static getDaysBetween(startDate, endDate) {
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        return Math.ceil(timeDiff / (1000 * 3600 * 24));
+    }
+}
+/**
+ * 导出默认实例
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TimeSlotHelper);
 
 
 /***/ }),

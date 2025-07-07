@@ -4,17 +4,34 @@ import { v4 as uuidv4 } from 'uuid';
 import productService from './productService';
 import warehouseService from './warehouseService';
 import { notificationHelper } from '../../utils/notificationHelper';
-import { ConcurrencyManager } from '../../utils/concurrency';
+import { ConcurrencyManager } from '../../utils/concurrencyManager';
 import { ValidationError, BusinessError } from '../../utils/errors';
 import { logger } from '../../utils/secureLogger';
+import fifoInventoryService from './fifoInventoryService';
 
 export class InventoryStockService {
   private stocks: Map<string, InventoryStock> = new Map();
   private transactions: Map<string, InventoryTransaction> = new Map();
   private stockIndex: Map<string, string> = new Map(); // "productId:warehouseId" -> stockId
+  private useFifo: boolean = true; // 启用FIFO模式
 
   async initialize(): Promise<void> {
     console.log('Inventory stock service initialized');
+  }
+
+  /**
+   * 设置是否使用FIFO模式
+   */
+  setFifoMode(enabled: boolean): void {
+    this.useFifo = enabled;
+    logger.info(`FIFO mode ${enabled ? 'enabled' : 'disabled'}`);
+  }
+
+  /**
+   * 获取当前是否使用FIFO模式
+   */
+  isFifoEnabled(): boolean {
+    return this.useFifo;
   }
 
   // =============== 库存管理 ===============
@@ -196,6 +213,24 @@ export class InventoryStockService {
     const lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
     
     return ConcurrencyManager.withMutex(lockKey, async () => {
+      // 如果启用FIFO，创建批次记录
+      if (this.useFifo) {
+        const batchResult = await fifoInventoryService.createBatch({
+          productId: params.productId,
+          warehouseId: params.warehouseId,
+          quantity: params.quantity,
+          unitCost: params.unitPrice,
+          referenceType: params.referenceType,
+          referenceId: params.referenceId,
+          remark: params.remark,
+          operator: params.operator
+        });
+
+        if (!batchResult.success) {
+          throw new BusinessError('FIFO批次创建失败', batchResult.error);
+        }
+      }
+
       return this.processStockTransaction({
         ...params,
         transactionType: TransactionType.IN
@@ -264,7 +299,12 @@ export class InventoryStockService {
         });
       }
 
-      // 原子性库存事务处理
+      // 如果启用FIFO，使用FIFO出库逻辑
+      if (this.useFifo) {
+        return this.processFifoStockOut(params, currentStock);
+      }
+
+      // 原子性库存事务处理（传统加权平均成本法）
       return this.processStockTransaction({
         ...params,
         transactionType: TransactionType.OUT,
@@ -606,6 +646,172 @@ export class InventoryStockService {
       lowStockCount: lowStockItems.length,
       totalValue: totalValue
     };
+  }
+
+  /**
+   * 创建库存事务记录
+   */
+  private async createTransaction(params: {
+    productId: string;
+    warehouseId: string;
+    quantity: number;
+    unitPrice: number;
+    transactionType: TransactionType;
+    referenceType?: string;
+    referenceId?: string;
+    remark?: string;
+    operator: string;
+  }): Promise<InventoryTransaction> {
+    // 生成流水单号
+    const transactionNo = await this.generateTransactionNo(params.transactionType);
+
+    // 创建库存流水记录
+    const transaction: InventoryTransaction = {
+      id: uuidv4(),
+      transactionNo,
+      productId: params.productId,
+      warehouseId: params.warehouseId,
+      transactionType: params.transactionType,
+      quantity: params.quantity,
+      unitPrice: params.unitPrice,
+      totalAmount: params.quantity * params.unitPrice,
+      referenceType: params.referenceType,
+      referenceId: params.referenceId,
+      remark: params.remark,
+      operator: params.operator,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    // 验证流水数据
+    const transactionValidation = validateEntity(InventoryTransactionSchema, transaction);
+    if (!transactionValidation.success) {
+      throw new Error(`库存流水数据验证失败: ${transactionValidation.errors?.join(', ')}`);
+    }
+
+    // 保存事务记录
+    this.transactions.set(transaction.id, transaction);
+
+    return transaction;
+  }
+
+  /**
+   * 更新库存数量
+   */
+  private async updateStockQuantity(
+    stock: InventoryStock,
+    quantityChange: number,
+    newUnitCost: number
+  ): Promise<InventoryStock> {
+    // 计算新的库存数量
+    const newCurrentStock = stock.currentStock + quantityChange;
+    const newAvailableStock = stock.availableStock + quantityChange;
+
+    // 计算新的平均成本（加权平均）
+    let newAvgCost = stock.avgCost;
+    if (quantityChange > 0) {
+      // 入库时重新计算平均成本
+      const totalValue = (stock.currentStock * stock.avgCost) + (quantityChange * newUnitCost);
+      newAvgCost = newCurrentStock > 0 ? totalValue / newCurrentStock : newUnitCost;
+    } else {
+      // 出库时使用FIFO计算的成本
+      newAvgCost = newUnitCost;
+    }
+
+    // 更新库存记录
+    const updatedStock: InventoryStock = {
+      ...stock,
+      currentStock: newCurrentStock,
+      availableStock: newAvailableStock,
+      avgCost: newAvgCost,
+      unitPrice: newUnitCost,
+      updatedAt: new Date()
+    };
+
+    // 保存更新后的库存
+    this.stocks.set(stock.id, updatedStock);
+
+    return updatedStock;
+  }
+
+  /**
+   * 处理FIFO出库
+   */
+  private async processFifoStockOut(
+    params: {
+      productId: string;
+      warehouseId: string;
+      quantity: number;
+      unitPrice: number;
+      referenceType?: string;
+      referenceId?: string;
+      remark?: string;
+      operator: string;
+    },
+    currentStock: InventoryStock
+  ): Promise<{ stock: InventoryStock; transaction: InventoryTransaction }> {
+    try {
+      // 创建库存事务记录
+      const transaction = await this.createTransaction({
+        ...params,
+        transactionType: TransactionType.OUT,
+        quantity: -params.quantity // 出库为负数
+      });
+
+      // 使用FIFO服务计算出库成本
+      const fifoResult = await fifoInventoryService.executeFifoOutbound(
+        {
+          productId: params.productId,
+          warehouseId: params.warehouseId,
+          quantity: params.quantity,
+          referenceType: params.referenceType,
+          referenceId: params.referenceId,
+          remark: params.remark,
+          operator: params.operator,
+          allowPartialFulfillment: false
+        },
+        transaction
+      );
+
+      if (!fifoResult.success) {
+        throw new BusinessError('FIFO出库失败', fifoResult.error);
+      }
+
+      // 计算FIFO平均成本
+      const totalCost = fifoResult.data!.reduce((sum, consumption) => sum + consumption.totalCost, 0);
+      const avgUnitCost = params.quantity > 0 ? totalCost / params.quantity : 0;
+
+      // 更新事务的实际成本（使用FIFO计算的成本）
+      transaction.unitPrice = avgUnitCost;
+      transaction.totalAmount = totalCost;
+      this.transactions.set(transaction.id, transaction);
+
+      // 更新库存记录
+      const updatedStock = await this.updateStockQuantity(
+        currentStock,
+        -params.quantity,
+        avgUnitCost
+      );
+
+      logger.info('FIFO stock out completed', {
+        transactionId: transaction.id,
+        productId: params.productId,
+        warehouseId: params.warehouseId,
+        quantity: params.quantity,
+        fifoAvgCost: avgUnitCost,
+        totalCost: totalCost,
+        batchConsumptions: fifoResult.data!.length
+      });
+
+      return {
+        stock: updatedStock,
+        transaction
+      };
+
+    } catch (error) {
+      logger.error('FIFO stock out failed', error);
+      throw error;
+    }
   }
 }
 

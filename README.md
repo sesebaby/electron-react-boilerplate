@@ -1,6 +1,6 @@
-# 📦 Inventory Management System
+# 📦 Enterprise Inventory Management System (进销存管理系统)
 
-一个基于 Electron + React + TypeScript 的现代化库存管理系统，采用玻璃感设计风格，提供美观、高效的库存管理界面。
+一个基于 Electron + React + TypeScript + SQLite 的现代化企业级进销存管理系统，采用玻璃感设计风格，提供美观、高效的全流程业务管理界面。
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -14,19 +14,60 @@
 - **响应式布局**：适配桌面和移动设备
 - **流畅动画**：悬浮、过渡、脉冲等交互效果
 
-### 📊 **库存管理功能**
-- **仪表盘概览**：总库存、总价值、低库存预警
-- **智能搜索**：支持商品名称、SKU、描述全文搜索
-- **多维筛选**：按分类、状态筛选库存
-- **详细表格**：完整的商品信息展示
-- **实时状态栏**：系统状态、时间、用户信息
+### 📊 **核心业务功能**
+
+#### 🏠 **仪表盘 (Dashboard)**
+- **数据概览**：库存总值、采购金额、销售额、利润分析
+- **图表分析**：销售趋势、库存周转、热销商品分析
+- **快速操作**：常用功能快捷入口
+
+#### 📦 **库存管理 (Inventory)**
+- **库存总览**：多仓库库存统计、库存预警
+- **商品管理**：产品信息、分类管理、SKU管理
+- **库存调整**：入库、出库、盘点、调拨
+- **仓库管理**：多仓库支持、库位管理
+
+#### 🛒 **采购管理 (Purchase)**
+- **供应商管理**：供应商档案、联系方式、合作历史
+- **采购订单**：订单创建、审批、跟踪
+- **采购收货**：收货确认、质检记录、入库处理
+
+#### 💰 **销售管理 (Sales)**
+- **客户管理**：客户档案、信用管理、交易历史
+- **销售订单**：订单管理、价格策略、折扣管理
+- **销售出库**：发货管理、物流跟踪、签收确认
+
+#### 💼 **财务管理 (Financial)**
+- **应付账款**：供应商付款管理、账期跟踪
+- **应收账款**：客户收款管理、账龄分析
+- **收支记录**：收入支出明细、财务报表
+
+#### 📊 **报表分析 (Reports)**
+- **库存报表**：库存明细、库存周转、呆滞分析
+- **销售报表**：销售统计、客户分析、商品排行
+- **采购报表**：采购分析、供应商评估
+- **财务报表**：损益分析、现金流报表
+
+#### 📅 **日历功能 (Calendar)**
+- **业务日历**：重要事件提醒、任务计划
+- **周视图**：业务安排可视化管理
+
+#### ⚙️ **系统管理 (System)**
+- **用户管理**：用户权限、角色分配
+- **权限控制**：功能权限、数据权限
+- **操作日志**：系统操作记录、审计追踪
+- **系统设置**：参数配置、基础数据设置
 
 ### 🔧 **技术特色**
 - **跨平台桌面应用**：基于 Electron 框架
-- **现代化前端技术栈**：React 18 + TypeScript + Webpack 5
-- **模块化组件设计**：可复用的 UI 组件库
-- **响应式表格**：自适应列宽，避免内容换行
-- **Mock 数据系统**：完整的测试数据支持
+- **现代化前端技术栈**：React 18 + TypeScript + Webpack 5 + Tailwind CSS
+- **企业级数据库**：SQLite 数据库 + 完整的数据迁移系统
+- **模块化架构**：分层服务架构 + 业务服务管理器
+- **组件化设计**：Radix UI + 自定义组件库
+- **状态管理**：React Hooks + Context API
+- **安全特性**：用户权限管理 + 操作日志 + 数据加密
+- **数据导入导出**：Excel 导入导出 + 数据备份
+- **实时监控**：系统状态监控 + 错误边界处理
 
 ## 🚀 快速开始
 
@@ -96,33 +137,152 @@ npm test
 ## 📁 项目结构
 
 ```
-InventoryTest/
-├── public/                 # Electron 主进程文件
-│   ├── main.js             # Electron 入口文件
-│   └── index.html          # HTML 模板
-├── src/                    # React 应用源码
-│   ├── components/         # React 组件
-│   │   ├── Dashboard.tsx   # 仪表盘组件
-│   │   ├── SearchAndFilters.tsx  # 搜索筛选组件
-│   │   ├── InventoryTable.tsx    # 库存表格组件
-│   │   ├── StatusBar.tsx   # 状态栏组件
-│   │   └── *.css          # 组件样式文件
-│   ├── hooks/             # 自定义 React Hooks
-│   │   └── useInventory.ts # 库存数据管理
-│   ├── types/             # TypeScript 类型定义
-│   │   └── inventory.ts   # 库存相关类型
-│   ├── data/              # 数据层
-│   │   └── mockData.ts    # Mock 测试数据
-│   ├── App.tsx            # 主应用组件
-│   ├── App.css            # 全局样式
-│   └── index.tsx          # React 入口文件
-├── dist/                  # 构建输出目录
-├── webpack.config.js      # Webpack 配置
-├── tsconfig.json          # TypeScript 配置
-├── package.json           # 项目配置
-├── CLAUDE.md             # AI 开发指南
-├── UI_DESIGN_SYSTEM.md   # UI 设计系统文档
-└── README.md             # 项目说明文档
+inventory-management/
+├── public/                          # Electron 主进程
+│   ├── main.js                      # Electron 主进程入口
+│   ├── preload.js                   # 预加载脚本
+│   ├── database-handlers.js         # 数据库处理器
+│   └── index.html                   # HTML 模板
+├── data/                            # 数据存储
+│   └── inventory.db                 # SQLite 数据库文件
+├── src/                             # React 应用源码
+│   ├── components/                  # React 组件
+│   │   ├── Calendar/                # 日历模块
+│   │   │   ├── CalendarOverviewPage.tsx
+│   │   │   ├── DayCell.tsx
+│   │   │   ├── DayDetailModal.tsx
+│   │   │   └── WeeklyCalendarView.tsx
+│   │   ├── Dashboard/               # 仪表盘模块
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── DashboardCharts.tsx
+│   │   │   ├── DashboardOverview.tsx
+│   │   │   └── DashboardQuickActions.tsx
+│   │   ├── Financial/               # 财务管理模块
+│   │   │   ├── AccountsPayableManagement.tsx
+│   │   │   ├── AccountsReceivableManagement.tsx
+│   │   │   ├── PaymentRecordsManagement.tsx
+│   │   │   └── ReceiptRecordsManagement.tsx
+│   │   ├── Inventory/               # 库存管理模块
+│   │   │   ├── InventoryOverview.tsx
+│   │   │   ├── ProductManagement.tsx
+│   │   │   ├── CategoryManagement.tsx
+│   │   │   ├── WarehouseManagement.tsx
+│   │   │   ├── StockIn.tsx
+│   │   │   ├── StockOut.tsx
+│   │   │   ├── StockAdjust.tsx
+│   │   │   └── TransactionRecords.tsx
+│   │   ├── Purchase/                # 采购管理模块
+│   │   │   ├── SupplierManagement.tsx
+│   │   │   ├── PurchaseOrderManagement.tsx
+│   │   │   └── PurchaseReceiptManagement.tsx
+│   │   ├── Sales/                   # 销售管理模块
+│   │   │   ├── CustomerManagement.tsx
+│   │   │   ├── SalesOrderManagement.tsx
+│   │   │   └── SalesDeliveryManagement.tsx
+│   │   ├── Reports/                 # 报表模块
+│   │   │   ├── InventoryReports.tsx
+│   │   │   ├── SalesReports.tsx
+│   │   │   ├── PurchaseReports.tsx
+│   │   │   └── FinancialReports.tsx
+│   │   ├── System/                  # 系统管理模块
+│   │   │   ├── UserManagement.tsx
+│   │   │   ├── PermissionManagement.tsx
+│   │   │   ├── SystemSettings.tsx
+│   │   │   └── OperationLogs.tsx
+│   │   ├── Layout/                  # 布局组件
+│   │   │   ├── AppLayout.tsx
+│   │   │   ├── Sidebar.tsx
+│   │   │   └── TopBar.tsx
+│   │   ├── ui/                      # 基础UI组件
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── table.tsx
+│   │   │   ├── input.tsx
+│   │   │   └── ...
+│   │   └── security/                # 安全组件
+│   │       ├── PermissionGate.tsx
+│   │       └── SecurityMonitor.tsx
+│   ├── services/                    # 服务层
+│   │   ├── business/                # 业务服务
+│   │   │   ├── categoryService.ts
+│   │   │   ├── productService.ts
+│   │   │   ├── inventoryStockService.ts
+│   │   │   ├── warehouseService.ts
+│   │   │   ├── supplierService.ts
+│   │   │   ├── customerService.ts
+│   │   │   ├── purchaseOrderService.ts
+│   │   │   ├── salesOrderService.ts
+│   │   │   ├── accountsPayableService.ts
+│   │   │   ├── accountsReceivableService.ts
+│   │   │   ├── userService.ts
+│   │   │   ├── permissionService.ts
+│   │   │   └── index.ts             # 服务管理器
+│   │   ├── database/                # 数据库服务
+│   │   │   ├── connection.ts
+│   │   │   ├── electronDatabase.ts
+│   │   │   ├── memoryDatabase.ts
+│   │   │   └── inventoryDb.ts
+│   │   ├── excel/                   # Excel 导入导出
+│   │   │   ├── exporter.ts
+│   │   │   └── importer.ts
+│   │   ├── api/                     # API 客户端
+│   │   │   └── apiClient.ts
+│   │   └── dashboard/               # 仪表盘服务
+│   │       └── dashboardService.ts
+│   ├── hooks/                       # 自定义 Hooks
+│   │   ├── useAuth.tsx
+│   │   ├── useInventory.ts
+│   │   ├── useTheme.ts
+│   │   ├── useExcel.ts
+│   │   └── useErrorHandler.ts
+│   ├── types/                       # TypeScript 类型定义
+│   │   ├── entities.ts              # 实体类型
+│   │   ├── database.ts              # 数据库类型
+│   │   ├── inventory.ts             # 库存类型
+│   │   ├── excel.ts                 # Excel类型
+│   │   └── electron.ts              # Electron类型
+│   ├── utils/                       # 工具函数
+│   │   ├── formatters.ts            # 格式化工具
+│   │   ├── errors.ts                # 错误处理
+│   │   ├── secureLogger.ts          # 安全日志
+│   │   ├── concurrency.ts           # 并发控制
+│   │   ├── notificationHelper.ts    # 通知帮助
+│   │   └── dataCleanup.ts           # 数据清理
+│   ├── data/                        # 数据相关
+│   │   └── schema.sql               # 数据库表结构
+│   ├── database/                    # 数据库迁移
+│   │   ├── migrations.ts            # 数据库迁移
+│   │   └── seedData.ts              # 种子数据
+│   ├── schemas/                     # 数据验证模式
+│   │   └── validation.ts            # Zod 验证模式
+│   ├── pages/                       # 页面组件
+│   │   └── InventoryCardView.tsx
+│   ├── styles/                      # 样式文件
+│   │   ├── themes.css               # 主题样式
+│   │   └── theme-adaptations.css    # 主题适配
+│   ├── config/                      # 配置文件
+│   │   └── index.ts                 # 应用配置
+│   ├── constants/                   # 常量定义
+│   │   └── index.ts                 # 应用常量
+│   ├── lib/                         # 核心库
+│   │   └── utils.ts                 # 核心工具函数
+│   ├── globals.css                  # 全局样式
+│   ├── App.tsx                      # 主应用组件
+│   └── index.tsx                    # React 入口文件
+├── dist/                            # 构建输出目录
+├── 检查报告/                         # 开发文档
+│   ├── DEVELOPMENT_PLAN.md          # 开发计划
+│   ├── STATUS.md                    # 项目状态
+│   └── ...                          # 其他开发文档
+├── webpack.config.js                # Webpack 生产配置
+├── webpack.dev.config.js            # Webpack 开发配置
+├── tailwind.config.js               # Tailwind CSS 配置
+├── postcss.config.js                # PostCSS 配置
+├── tsconfig.json                    # TypeScript 配置
+├── package.json                     # 项目依赖配置
+├── CLAUDE.md                        # AI 开发指南
+├── UI_DESIGN_SYSTEM.md             # UI 设计系统文档
+└── README.md                        # 项目说明文档
 ```
 
 ## 🎨 设计系统
@@ -171,33 +331,90 @@ export const mockInventoryData: InventoryItem[] = [
 
 ## 📦 依赖说明
 
-### 核心依赖
-- **electron**: 桌面应用框架
-- **react**: 前端 UI 框架
-- **react-dom**: React DOM 渲染
-- **typescript**: 类型安全的 JavaScript
+### 核心运行时依赖
+- **electron**: 跨平台桌面应用框架
+- **react**: 前端 UI 框架 (v18.3+)
+- **react-dom**: React DOM 渲染器
+- **typescript**: 类型安全的 JavaScript 超集
+- **better-sqlite3**: 高性能 SQLite 数据库
+- **tailwindcss**: 实用优先的 CSS 框架
+- **lucide-react**: 现代图标库
+- **zod**: TypeScript 优先的模式验证
+
+### UI 组件库
+- **@radix-ui/react-***: 无头 UI 组件库
+  - dropdown-menu, scroll-area, select, separator, slot
+- **class-variance-authority**: 组件变体管理
+- **clsx**: 条件性 CSS 类名工具
+- **tailwind-merge**: Tailwind 类名合并工具
+
+### 数据处理
+- **xlsx**: Excel 文件读写
+- **uuid**: 唯一标识符生成
+- **axios**: HTTP 客户端
+- **bcryptjs**: 密码哈希和验证
 
 ### 开发依赖
-- **webpack**: 模块打包工具
-- **ts-loader**: TypeScript 加载器
-- **css-loader**: CSS 文件处理
-- **style-loader**: 样式注入
+- **webpack**: 模块打包工具 (v5+)
+  - webpack-cli, webpack-dev-server
+- **typescript**: TypeScript 编译器 (v5.4+)
+- **ts-loader**: TypeScript 文件加载器
+- **css-loader & style-loader**: CSS 文件处理
+- **postcss & autoprefixer**: CSS 后处理器
 - **html-webpack-plugin**: HTML 文件生成
-- **concurrently**: 并行运行多个脚本
+- **concurrently**: 并行脚本执行
+- **ts-node**: TypeScript 脚本直接执行
+
+### 开发工具配置
+- **@types/***: TypeScript 类型定义文件
+- **buffer, crypto-browserify, process**: Node.js 兼容层
+- **path-browserify, stream-browserify, util**: 浏览器兼容工具
 
 ## 🐛 常见问题
 
-### Q: Electron 应用无法启动？
-A: 确保已运行 `npm run build` 构建 React 应用，Electron 需要加载构建后的文件。
+### Q: 系统无法启动或初始化失败？
+A: 
+1. 确保已运行 `npm run build` 构建应用
+2. 检查 `data/inventory.db` 数据库文件权限
+3. 查看控制台错误日志，检查数据库连接和服务初始化
 
-### Q: 表格在小屏幕上显示不完整？
-A: 表格设计为水平滚动，保持列宽不换行。可以左右滑动查看完整内容。
+### Q: 数据库相关错误？
+A: 
+1. 检查 SQLite 数据库文件是否存在于 `data/` 目录
+2. 验证数据库表结构是否完整 (参考 `src/data/schema.sql`)
+3. 尝试删除数据库文件让系统重新创建
 
-### Q: 如何添加新的库存状态？
-A: 在 `src/types/inventory.ts` 的 `status` 类型中添加新状态，并在相关组件中添加对应的样式和逻辑。
+### Q: 权限访问被拒绝？
+A: 
+1. 检查用户是否已正确登录
+2. 确认用户权限配置 (`src/services/business/permissionService.ts`)
+3. 联系系统管理员分配相应权限
 
-### Q: 如何修改主题颜色？
-A: 编辑 `src/App.css` 中的渐变背景色，或参考 `UI_DESIGN_SYSTEM.md` 进行系统性修改。
+### Q: Excel 导入导出功能异常？
+A: 
+1. 确保上传的 Excel 文件格式正确
+2. 检查文件大小限制
+3. 验证 Excel 数据格式与系统要求匹配
+
+### Q: 如何添加新的业务模块？
+A: 
+1. 在 `src/components/` 下创建新模块目录
+2. 在 `src/services/business/` 下创建对应业务服务
+3. 在数据库中添加相应表结构 (`src/data/schema.sql`)
+4. 更新路由和权限配置
+
+### Q: 如何自定义主题样式？
+A: 
+1. 编辑 `src/styles/themes.css` 修改主题变量
+2. 参考 `UI_DESIGN_SYSTEM.md` 了解设计规范
+3. 使用 Tailwind CSS 类名进行样式定制
+
+### Q: 系统性能优化建议？
+A: 
+1. 定期清理历史数据和日志
+2. 合理设置数据分页大小
+3. 优化数据库查询索引
+4. 监控内存使用情况
 
 ## 🤝 贡献指南
 
@@ -221,8 +438,50 @@ A: 编辑 `src/App.css` 中的渐变背景色，或参考 `UI_DESIGN_SYSTEM.md` 
 
 ---
 
+## 📊 系统架构
+
+### 数据库设计
+- **SQLite 本地数据库**：轻量级、高性能
+- **完整的关系模型**：库存、采购、销售、财务一体化
+- **数据迁移系统**：版本控制和数据升级
+- **自动备份机制**：数据安全保障
+
+### 服务层架构
+- **业务服务管理器**：统一的服务生命周期管理
+- **分层架构设计**：数据层、业务层、表现层分离
+- **事务管理**：保证数据一致性
+- **错误处理机制**：完善的异常捕获和处理
+
+### 安全特性
+- **用户权限管理**：基于角色的访问控制 (RBAC)
+- **数据加密存储**：敏感信息安全保护
+- **操作日志记录**：完整的审计跟踪
+- **输入验证**：防止 SQL 注入和 XSS 攻击
+
+---
+
 **构建时间**: 2024年7月  
-**技术栈**: Electron + React + TypeScript + Webpack  
+**技术栈**: Electron + React 18 + TypeScript 5 + SQLite + Tailwind CSS  
+**架构模式**: 分层架构 + 服务化设计  
 **设计风格**: Glassmorphism / 未来科技风  
+**适用场景**: 中小企业进销存管理、仓储物流、零售连锁  
 
 🌟 **如果这个项目对您有帮助，请给我们一个 Star！**
+
+## 🔄 版本更新日志
+
+### v1.0.0 (当前版本)
+- ✅ 完整的进销存业务流程
+- ✅ 企业级数据库设计
+- ✅ 现代化 UI/UX 设计
+- ✅ 完善的权限管理系统
+- ✅ Excel 数据导入导出
+- ✅ 多主题支持
+- ✅ 完整的报表系统
+
+### 计划中的功能
+- 📋 移动端 APP 支持
+- 🌐 多语言国际化
+- 📊 更多数据可视化图表
+- 🔗 第三方系统集成 API
+- ☁️ 云端数据同步
