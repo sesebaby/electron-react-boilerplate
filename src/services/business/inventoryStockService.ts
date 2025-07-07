@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import productService from './productService';
 import warehouseService from './warehouseService';
 import { notificationHelper } from '../../utils/notificationHelper';
-import { ConcurrencyManager } from '../../utils/concurrencyManager';
+import { ConcurrencyManager } from '../../utils/concurrency';
 import { ValidationError, BusinessError } from '../../utils/errors';
 import { logger } from '../../utils/secureLogger';
 import fifoInventoryService from './fifoInventoryService';

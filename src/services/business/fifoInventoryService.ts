@@ -18,8 +18,8 @@ import {
   FifoErrorType
 } from '../../types/fifo';
 import { InventoryTransaction, TransactionType } from '../../types/entities';
-import { ConcurrencyManager } from '../../utils/concurrencyManager';
-import { logger } from '../../utils/logger';
+import { ConcurrencyManager } from '../../utils/concurrency';
+import { logger } from '../../utils/secureLogger';
 
 /**
  * FIFO库存管理服务类

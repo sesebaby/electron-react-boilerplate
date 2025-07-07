@@ -173,13 +173,12 @@ export class BusinessServiceManager {
         details: warehouseStats
       });
 
-      // 暂时注释掉产品服务，避免循环依赖
-      // const productStats = await productService.getProductStats();
-      // services.push({
-      //   name: 'ProductService',
-      //   status: 'active' as const,
-      //   details: productStats
-      // });
+      const productStats = await productService.getProductStats();
+      services.push({
+        name: 'ProductService',
+        status: 'active' as const,
+        details: productStats
+      });
 
       const supplierStats = await supplierService.getSupplierStats();
       services.push({
@@ -195,13 +194,12 @@ export class BusinessServiceManager {
         details: customerStats
       });
 
-      // 暂时注释掉库存服务，避免循环依赖
-      // const inventoryStats = await inventoryStockService.getInventorySummary();
-      // services.push({
-      //   name: 'InventoryStockService',
-      //   status: 'active' as const,
-      //   details: inventoryStats
-      // });
+      const inventoryStats = await inventoryStockService.getInventorySummary();
+      services.push({
+        name: 'InventoryStockService',
+        status: 'active' as const,
+        details: inventoryStats
+      });
 
       // 暂时注释掉这些服务，避免循环依赖
       // const purchaseOrderStats = await purchaseOrderService.getOrderStats();

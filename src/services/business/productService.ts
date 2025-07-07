@@ -1,7 +1,7 @@
 import { Product, ProductStatus } from '../../types/entities';
 import { ProductSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
-import { InventoryService } from '../inventory/inventoryService';
+// Removed direct InventoryService import to break circular dependency
 import userService from './userService';
 import { notificationHelper } from '../../utils/notificationHelper';
 import { logger } from '../../utils/secureLogger';
@@ -12,14 +12,12 @@ import electronDatabase from '../database/electronDatabase';
 export class ProductService {
   private products: Map<string, Product> = new Map();
   private skuIndex: Map<string, string> = new Map(); // SKU -> ID mapping
-  private inventoryService: InventoryService;
 
   constructor() {
-    this.inventoryService = new InventoryService();
+    // No longer directly instantiate InventoryService to avoid circular dependency
   }
 
   async initialize(): Promise<void> {
-    await this.inventoryService.initialize();
     console.log('Product service initializing...');
     
     try {
@@ -286,10 +284,27 @@ export class ProductService {
     return { created, errors };
   }
 
-  async getLowStockProducts(): Promise<Product[]> {
+  async getLowStockProducts(lowStockItems?: Array<{sku: string, stockQuantity: number}>): Promise<Product[]> {
     try {
-      // 获取库存不足的商品
-      const lowStockItems = await this.inventoryService.getLowStockItems();
+      // 如果没有提供库存数据，返回基于minStock设置的产品
+      if (!lowStockItems || lowStockItems.length === 0) {
+        const allProducts = Array.from(this.products.values());
+        const lowStockProducts: Product[] = [];
+        
+        for (const product of allProducts) {
+          if (product.status === ProductStatus.ACTIVE && product.minStock && product.minStock > 0) {
+            // 注意：没有实际库存数据时，只能基于产品设置判断
+            // 实际使用时应该由调用者提供库存数据
+            lowStockProducts.push(product);
+          }
+        }
+        
+        logger.warn('Low stock products retrieved without inventory data - results may be incomplete', { 
+          count: lowStockProducts.length
+        });
+        
+        return lowStockProducts;
+      }
       
       // 根据SKU匹配产品信息
       const lowStockProducts: Product[] = [];

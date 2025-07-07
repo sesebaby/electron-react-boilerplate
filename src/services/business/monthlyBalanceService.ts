@@ -23,7 +23,7 @@ import categoryService from './categoryService';
 import unitService from './unitService';
 import warehouseService from './warehouseService';
 import { logger } from '../../utils/logger';
-import { ConcurrencyManager } from '../../utils/concurrencyManager';
+import { ConcurrencyManager } from '../../utils/concurrency';
 
 /**
  * 月度结余服务类
