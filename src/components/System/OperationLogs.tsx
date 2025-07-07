@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { GlassCard, GlassInput, GlassButton, GlassSelect } from '../ui/FormControls';
 import AlertDialog from '../ui/AlertDialog';
+import { logger, LogLevel, LogEntry } from '../../utils/logger';
+import { globalErrorHandler } from '../../utils/globalErrorHandler';
+import { userActionLogger, UserActionType, ActionContext } from '../../utils/userActionLogger';
 
 interface OperationLogsProps {
   className?: string;
@@ -14,43 +17,171 @@ interface LogSettings {
 interface OperationLog {
   id: string;
   timestamp: string;
+  level: string;
+  message: string;
+  source: string;
   user: string;
   action: string;
   module: string;
   details: string;
-  ip: string;
+  data?: any;
   status: 'success' | 'warning' | 'error';
+  duration?: number;
 }
 
-// 模拟日志数据
-const generateMockLogs = (): OperationLog[] => {
-  const users = ['系统管理员', '张三', '李四', '王五', '赵六'];
-  const modules = ['用户管理', '商品管理', '库存管理', '订单管理', '系统设置'];
-  const actions = ['登录', '新增', '修改', '删除', '查询', '导出', '导入'];
-  const statuses: ('success' | 'warning' | 'error')[] = ['success', 'warning', 'error'];
+interface LogStatistics {
+  totalLogs: number;
+  logsByLevel: Record<string, number>;
+  logsBySource: Record<string, number>;
+  recentErrorCount: number;
+  averageLogsPerHour: number;
+}
 
-  const logs: OperationLog[] = [];
+// 转换日志条目为操作日志格式
+const convertLogEntryToOperationLog = (entry: LogEntry, index: number): OperationLog => {
+  const levelName = LogLevel[entry.level];
+  
+  // 从消息中提取操作信息
+  const parseMessage = (message: string) => {
+    // 尝试从消息中提取操作和模块信息
+    if (message.includes('User Action:')) {
+      const actionMatch = message.match(/User Action: (\w+) - (.+)/);
+      if (actionMatch) {
+        return {
+          action: actionMatch[1],
+          details: actionMatch[2]
+        };
+      }
+    }
+    
+    if (message.includes('API Request')) {
+      return {
+        action: message.includes('Success') ? 'API调用成功' : 'API调用',
+        details: message
+      };
+    }
+    
+    if (message.includes('Error')) {
+      return {
+        action: '错误',
+        details: message
+      };
+    }
+    
+    return {
+      action: '系统日志',
+      details: message
+    };
+  };
+  
+  const parseSource = (source?: string) => {
+    if (!source) return '系统';
+    
+    const sourceMap: Record<string, string> = {
+      'ApiClient': 'API接口',
+      'UserAction': '用户操作',
+      'ErrorBoundary': '错误处理',
+      'GlobalErrorHandler': '全局错误',
+      'FileLoggerService': '文件日志',
+      'ProductManagement': '商品管理',
+      'InventoryService': '库存服务'
+    };
+    
+    return sourceMap[source] || source;
+  };
+  
+  const getStatus = (level: LogLevel): 'success' | 'warning' | 'error' => {
+    switch (level) {
+      case LogLevel.ERROR:
+        return 'error';
+      case LogLevel.WARN:
+        return 'warning';
+      default:
+        return 'success';
+    }
+  };
+  
+  const getUserFromData = (data: any): string => {
+    if (data?.userId) return data.userId;
+    if (data?.user) return data.user;
+    return '系统';
+  };
+  
+  const parsed = parseMessage(entry.message);
+  
+  return {
+    id: `log_${entry.timestamp.getTime()}_${index}`,
+    timestamp: entry.timestamp.toISOString(),
+    level: levelName,
+    message: entry.message,
+    source: entry.source || '系统',
+    user: getUserFromData(entry.data),
+    action: parsed.action,
+    module: parseSource(entry.source),
+    details: parsed.details,
+    data: entry.data,
+    status: getStatus(entry.level),
+    duration: entry.data?.duration
+  };
+};
 
-  for (let i = 0; i < 50; i++) {
-    const timestamp = new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000);
-    const user = users[Math.floor(Math.random() * users.length)];
-    const module = modules[Math.floor(Math.random() * modules.length)];
-    const action = actions[Math.floor(Math.random() * actions.length)];
-    const status = statuses[Math.floor(Math.random() * statuses.length)];
-
-    logs.push({
-      id: `log_${i + 1}`,
-      timestamp: timestamp.toISOString(),
-      user,
-      action,
-      module,
-      details: `${action}${module}操作`,
-      ip: `192.168.1.${Math.floor(Math.random() * 255)}`,
-      status
-    });
+// 获取真实日志数据
+const getRealLogData = (): OperationLog[] => {
+  try {
+    // 从日志系统获取日志
+    const logEntries = logger.getLogs();
+    
+    // 转换为操作日志格式
+    const operationLogs = logEntries.map(convertLogEntryToOperationLog);
+    
+    // 按时间排序（最新的在前）
+    return operationLogs.sort((a, b) => 
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+  } catch (error) {
+    console.error('Failed to get real log data:', error);
+    return [];
   }
+};
 
-  return logs.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+// 获取日志统计信息
+const getLogStatistics = (): LogStatistics => {
+  try {
+    const stats = logger.getStats();
+    const errorStats = globalErrorHandler.getErrorStats();
+    const actionStats = userActionLogger.getActionStats();
+    
+    // 计算每小时平均日志数
+    const now = Date.now();
+    const oneHourAgo = now - 60 * 60 * 1000;
+    const recentLogs = logger.getLogs().filter(log => 
+      log.timestamp.getTime() > oneHourAgo
+    );
+    
+    // 统计来源分布
+    const logsBySource: Record<string, number> = {};
+    logger.getLogs().forEach(log => {
+      const source = log.source || '未知';
+      logsBySource[source] = (logsBySource[source] || 0) + 1;
+    });
+    
+    return {
+      totalLogs: stats.totalLogs,
+      logsByLevel: stats.logsByLevel,
+      logsBySource,
+      recentErrorCount: errorStats.errorsByType.javascript || 0,
+      averageLogsPerHour: recentLogs.length
+    };
+  } catch (error) {
+    console.error('Failed to get log statistics:', error);
+    return {
+      totalLogs: 0,
+      logsByLevel: {},
+      logsBySource: {},
+      recentErrorCount: 0,
+      averageLogsPerHour: 0
+    };
+  }
 };
 
 export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
@@ -67,8 +198,16 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedModule, setSelectedModule] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedLevel, setSelectedLevel] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(10);
+  const [pageSize] = useState(20);
+  
+  // 新增状态
+  const [statistics, setStatistics] = useState<LogStatistics | null>(null);
+  const [autoRefresh, setAutoRefresh] = useState(false);
+  const [refreshInterval, setRefreshInterval] = useState<NodeJS.Timeout | null>(null);
+  const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
+  const [isExporting, setIsExporting] = useState(false);
 
   // 弹出框状态
   const [showAlertDialog, setShowAlertDialog] = useState(false);
@@ -90,10 +229,75 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
   const endIndex = startIndex + pageSize;
   const currentLogs = filteredLogs.slice(startIndex, endIndex);
 
+  // 加载日志数据
+  const loadLogData = useCallback(() => {
+    try {
+      const realLogs = getRealLogData();
+      const stats = getLogStatistics();
+      
+      setLogs(realLogs);
+      setStatistics(stats);
+      setLastRefresh(new Date());
+      
+      // 记录页面访问
+      userActionLogger.logAction({
+        type: UserActionType.PAGE_VIEW,
+        context: ActionContext.SYSTEM,
+        description: 'Viewed operation logs page',
+        details: {
+          totalLogs: stats.totalLogs,
+          logLevels: Object.keys(stats.logsByLevel)
+        }
+      });
+    } catch (error) {
+      console.error('Failed to load log data:', error);
+      showAlert('加载失败', '无法加载日志数据，请稍后重试', 'error');
+    }
+  }, []);
+
+  // 自动刷新控制
+  const toggleAutoRefresh = useCallback(() => {
+    if (autoRefresh) {
+      // 停止自动刷新
+      if (refreshInterval) {
+        clearInterval(refreshInterval);
+        setRefreshInterval(null);
+      }
+      setAutoRefresh(false);
+      
+      userActionLogger.logAction({
+        type: UserActionType.SETTINGS_CHANGE,
+        context: ActionContext.SYSTEM,
+        description: 'Disabled auto refresh for logs'
+      });
+    } else {
+      // 启动自动刷新
+      const interval = setInterval(() => {
+        loadLogData();
+      }, 10000); // 每10秒刷新一次
+      
+      setRefreshInterval(interval);
+      setAutoRefresh(true);
+      
+      userActionLogger.logAction({
+        type: UserActionType.SETTINGS_CHANGE,
+        context: ActionContext.SYSTEM,
+        description: 'Enabled auto refresh for logs'
+      });
+    }
+  }, [autoRefresh, refreshInterval, loadLogData]);
+
   useEffect(() => {
     loadLogSettings();
-    initializeLogs();
-  }, []);
+    loadLogData();
+    
+    return () => {
+      // 清理定时器
+      if (refreshInterval) {
+        clearInterval(refreshInterval);
+      }
+    };
+  }, [loadLogData]);
 
   // 筛选日志
   useEffect(() => {
@@ -105,7 +309,8 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
         log.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
         log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
         log.module.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        log.details.toLowerCase().includes(searchTerm.toLowerCase())
+        log.details.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        log.message.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -119,9 +324,14 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
       filtered = filtered.filter(log => log.status === selectedStatus);
     }
 
+    // 按日志级别筛选
+    if (selectedLevel) {
+      filtered = filtered.filter(log => log.level === selectedLevel);
+    }
+
     setFilteredLogs(filtered);
     setCurrentPage(1); // 重置到第一页
-  }, [logs, searchTerm, selectedModule, selectedStatus]);
+  }, [logs, searchTerm, selectedModule, selectedStatus, selectedLevel]);
 
   const loadLogSettings = async () => {
     try {
@@ -134,11 +344,99 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
     }
   };
 
-  const initializeLogs = () => {
-    const mockLogs = generateMockLogs();
-    setLogs(mockLogs);
-    setFilteredLogs(mockLogs);
-  };
+  // 导出日志功能
+  const exportLogs = useCallback(async (format: 'csv' | 'json' = 'csv') => {
+    setIsExporting(true);
+    
+    try {
+      const exportData = filteredLogs.map(log => ({
+        时间: new Date(log.timestamp).toLocaleString('zh-CN'),
+        级别: log.level,
+        用户: log.user,
+        操作: log.action,
+        模块: log.module,
+        详情: log.details,
+        状态: log.status === 'success' ? '成功' : log.status === 'warning' ? '警告' : '错误',
+        耗时: log.duration ? `${log.duration}ms` : ''
+      }));
+
+      let content: string;
+      let filename: string;
+      let mimeType: string;
+
+      if (format === 'csv') {
+        // 生成CSV内容
+        const headers = Object.keys(exportData[0] || {});
+        const csvContent = [
+          headers.join(','),
+          ...exportData.map(row => 
+            headers.map(header => 
+              `"${String(row[header as keyof typeof row]).replace(/"/g, '""')}"`
+            ).join(',')
+          )
+        ].join('\n');
+        
+        content = '\uFEFF' + csvContent; // 添加BOM以支持中文
+        filename = `operation_logs_${new Date().toISOString().split('T')[0]}.csv`;
+        mimeType = 'text/csv;charset=utf-8';
+      } else {
+        // 生成JSON内容
+        content = JSON.stringify(exportData, null, 2);
+        filename = `operation_logs_${new Date().toISOString().split('T')[0]}.json`;
+        mimeType = 'application/json';
+      }
+
+      // 创建下载链接
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      // 记录导出操作
+      userActionLogger.logAction({
+        type: UserActionType.EXPORT,
+        context: ActionContext.SYSTEM,
+        description: `Exported ${filteredLogs.length} logs as ${format.toUpperCase()}`,
+        details: {
+          format,
+          recordCount: filteredLogs.length,
+          filename
+        }
+      });
+
+      showAlert('导出成功', `成功导出 ${filteredLogs.length} 条日志记录`, 'success');
+      
+    } catch (error) {
+      console.error('Export failed:', error);
+      showAlert('导出失败', '导出日志失败，请稍后重试', 'error');
+    } finally {
+      setIsExporting(false);
+    }
+  }, [filteredLogs]);
+
+  // 清理日志功能
+  const clearLogs = useCallback(() => {
+    try {
+      logger.clearLogs();
+      loadLogData();
+      
+      userActionLogger.logAction({
+        type: UserActionType.DELETE,
+        context: ActionContext.SYSTEM,
+        description: 'Cleared all logs',
+      });
+      
+      showAlert('清理成功', '已清理所有日志记录', 'success');
+    } catch (error) {
+      console.error('Clear logs failed:', error);
+      showAlert('清理失败', '清理日志失败，请稍后重试', 'error');
+    }
+  }, [loadLogData]);
 
   const saveLogSettings = async () => {
     setLoading(true);
@@ -232,8 +530,80 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
           </div>
         </div>
 
+        {/* 统计信息面板 */}
+        {statistics && (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div className="bg-blue-500/20 border border-blue-400/30 rounded-lg p-4">
+              <div className="text-blue-300 text-sm">总日志数</div>
+              <div className="text-white text-2xl font-bold">{statistics.totalLogs}</div>
+            </div>
+            <div className="bg-green-500/20 border border-green-400/30 rounded-lg p-4">
+              <div className="text-green-300 text-sm">错误数量</div>
+              <div className="text-white text-2xl font-bold">{statistics.recentErrorCount}</div>
+            </div>
+            <div className="bg-purple-500/20 border border-purple-400/30 rounded-lg p-4">
+              <div className="text-purple-300 text-sm">每小时平均</div>
+              <div className="text-white text-2xl font-bold">{statistics.averageLogsPerHour}</div>
+            </div>
+            <div className="bg-orange-500/20 border border-orange-400/30 rounded-lg p-4">
+              <div className="text-orange-300 text-sm">最后刷新</div>
+              <div className="text-white text-sm">{lastRefresh.toLocaleTimeString('zh-CN')}</div>
+            </div>
+          </div>
+        )}
+
+        {/* 操作按钮 */}
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <GlassButton
+            onClick={loadLogData}
+            variant="secondary"
+            className="flex items-center gap-2"
+          >
+            <span>🔄</span>
+            刷新日志
+          </GlassButton>
+          
+          <GlassButton
+            onClick={toggleAutoRefresh}
+            variant={autoRefresh ? "primary" : "secondary"}
+            className="flex items-center gap-2"
+          >
+            <span>{autoRefresh ? "⏸️" : "▶️"}</span>
+            {autoRefresh ? "停止自动刷新" : "开启自动刷新"}
+          </GlassButton>
+          
+          <GlassButton
+            onClick={() => exportLogs('csv')}
+            disabled={isExporting || filteredLogs.length === 0}
+            variant="secondary"
+            className="flex items-center gap-2"
+          >
+            <span>📁</span>
+            {isExporting ? "导出中..." : "导出CSV"}
+          </GlassButton>
+          
+          <GlassButton
+            onClick={() => exportLogs('json')}
+            disabled={isExporting || filteredLogs.length === 0}
+            variant="secondary"
+            className="flex items-center gap-2"
+          >
+            <span>📄</span>
+            导出JSON
+          </GlassButton>
+          
+          <GlassButton
+            onClick={clearLogs}
+            variant="danger"
+            className="flex items-center gap-2 ml-auto"
+          >
+            <span>🗑️</span>
+            清理日志
+          </GlassButton>
+        </div>
+
         {/* 搜索和筛选 */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
           <div className="md:col-span-2">
             <GlassInput
               type="text"
@@ -248,11 +618,21 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
               onChange={(e) => setSelectedModule(e.target.value)}
             >
               <option value="">所有模块</option>
-              <option value="用户管理">用户管理</option>
-              <option value="商品管理">商品管理</option>
-              <option value="库存管理">库存管理</option>
-              <option value="订单管理">订单管理</option>
-              <option value="系统设置">系统设置</option>
+              {statistics && Object.keys(statistics.logsBySource).map(source => (
+                <option key={source} value={source}>{source}</option>
+              ))}
+            </GlassSelect>
+          </div>
+          <div>
+            <GlassSelect
+              value={selectedLevel}
+              onChange={(e) => setSelectedLevel(e.target.value)}
+            >
+              <option value="">所有级别</option>
+              <option value="INFO">信息</option>
+              <option value="WARN">警告</option>
+              <option value="ERROR">错误</option>
+              <option value="DEBUG">调试</option>
             </GlassSelect>
           </div>
           <div>
@@ -274,11 +654,11 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
             <thead>
               <tr className="border-b border-white/20">
                 <th className="text-left py-3 px-4 text-white/80 font-medium">时间</th>
+                <th className="text-left py-3 px-4 text-white/80 font-medium">级别</th>
                 <th className="text-left py-3 px-4 text-white/80 font-medium">用户</th>
                 <th className="text-left py-3 px-4 text-white/80 font-medium">操作</th>
                 <th className="text-left py-3 px-4 text-white/80 font-medium">模块</th>
                 <th className="text-left py-3 px-4 text-white/80 font-medium">详情</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">IP地址</th>
                 <th className="text-left py-3 px-4 text-white/80 font-medium">状态</th>
               </tr>
             </thead>
@@ -288,11 +668,22 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
                   <td className="py-3 px-4 text-white/90 text-sm">
                     {new Date(log.timestamp).toLocaleString('zh-CN')}
                   </td>
+                  <td className="py-3 px-4">
+                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                      log.level === 'ERROR' ? 'bg-red-500/20 text-red-400' :
+                      log.level === 'WARN' ? 'bg-yellow-500/20 text-yellow-400' :
+                      log.level === 'INFO' ? 'bg-blue-500/20 text-blue-400' :
+                      'bg-gray-500/20 text-gray-400'
+                    }`}>
+                      {log.level}
+                    </span>
+                  </td>
                   <td className="py-3 px-4 text-white/90">{log.user}</td>
                   <td className="py-3 px-4 text-white/90">{log.action}</td>
                   <td className="py-3 px-4 text-white/90">{log.module}</td>
-                  <td className="py-3 px-4 text-white/80 text-sm">{log.details}</td>
-                  <td className="py-3 px-4 text-white/70 text-sm">{log.ip}</td>
+                  <td className="py-3 px-4 text-white/80 text-sm" title={log.details}>
+                    {log.details.length > 50 ? `${log.details.substring(0, 50)}...` : log.details}
+                  </td>
                   <td className="py-3 px-4">
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                       log.status === 'success' ? 'bg-green-500/20 text-green-400' :
@@ -302,6 +693,9 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
                       {log.status === 'success' ? '成功' :
                        log.status === 'warning' ? '警告' : '错误'}
                     </span>
+                    {log.duration && (
+                      <div className="text-xs text-white/60 mt-1">{log.duration}ms</div>
+                    )}
                   </td>
                 </tr>
               ))}
