@@ -34,6 +34,7 @@ import UserManagement from './System/UserManagement';
 import PermissionManagement from './System/PermissionManagement';
 import SystemSettings from './System/SystemSettings';
 import OperationLogs from './System/OperationLogs';
+import ConfirmDialogTest from './test/ConfirmDialogTest';
 
 interface PageContainerProps {
   currentPage: string;
@@ -68,6 +69,7 @@ const pageComponents: Record<string, React.ComponentType> = {
   'financial-reports': FinancialReports,
   'financial': Financial,
   // 'system-management': SystemManagement
+  'test-confirm-dialog': ConfirmDialogTest
 };
 
 // 开发中的页面组件
