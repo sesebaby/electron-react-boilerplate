@@ -1,0 +1,249 @@
+{
+  "metadata": {
+    "generatedAt": "2025-07-07T06:20:32.168Z",
+    "reportVersion": "1.0.0",
+    "testFramework": "Business Logic Verifier v1.0"
+  },
+  "summary": {
+    "totalScenarios": 4,
+    "passedScenarios": 3,
+    "failedScenarios": 1,
+    "successRate": 75,
+    "executionTime": "模拟时间"
+  },
+  "scenarios": [
+    {
+      "id": 1,
+      "name": "库存管理",
+      "status": "PASSED",
+      "details": {
+        "scenario": "inventory_management",
+        "passed": true,
+        "operations": [
+          {
+            "operation": "库存入库",
+            "type": "stock_in",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "库存入库成功",
+              "data": {
+                "updated_quantity": 120
+              }
+            },
+            "issues": []
+          },
+          {
+            "operation": "库存出库",
+            "type": "stock_out",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "库存出库成功",
+              "error": null,
+              "issues": []
+            },
+            "issues": []
+          },
+          {
+            "operation": "库存调整",
+            "type": "stock_adjust",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "库存调整成功",
+              "data": {
+                "adjusted_quantity": 95
+              }
+            },
+            "issues": []
+          },
+          {
+            "operation": "FIFO计算",
+            "type": "fifo_calc",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "FIFO计算成功",
+              "data": {
+                "consumed_batches": [
+                  {
+                    "batch_id": 1,
+                    "quantity": 10,
+                    "cost": 100
+                  }
+                ],
+                "total_cost": 100
+              },
+              "issues": []
+            },
+            "issues": []
+          }
+        ],
+        "summary": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0,
+          "successRate": 100,
+          "issues": []
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "采购工作流",
+      "status": "PASSED",
+      "details": {
+        "workflow": "purchase_complete_workflow",
+        "completed": true,
+        "steps": [
+          {
+            "step": "创建采购订单",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "采购订单创建成功",
+              "outputData": {
+                "purchase_order": {
+                  "id": 12,
+                  "order_number": "PO1751869231989",
+                  "total_amount": 1000
+                }
+              }
+            },
+            "executionTime": 55
+          },
+          {
+            "step": "创建收货单",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "收货单创建成功",
+              "outputData": {
+                "receipt": {
+                  "id": 486,
+                  "receipt_number": "REC1751869231990"
+                }
+              }
+            },
+            "executionTime": 40
+          },
+          {
+            "step": "更新库存",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "库存更新成功",
+              "outputData": {
+                "inventory_updated": true
+              }
+            },
+            "executionTime": 54
+          },
+          {
+            "step": "创建应付账款",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "应付账款创建成功",
+              "outputData": {
+                "payable": {
+                  "id": 998,
+                  "total_amount": 1000
+                }
+              }
+            },
+            "executionTime": 64
+          }
+        ],
+        "summary": {
+          "stepsTotal": 4,
+          "stepsPassed": 4,
+          "stepsFailed": 0,
+          "successRate": 100,
+          "totalExecutionTime": 213
+        }
+      }
+    },
+    {
+      "id": 3,
+      "name": "销售工作流",
+      "status": "FAILED",
+      "details": {
+        "workflow": "sales_complete_workflow",
+        "completed": false,
+        "steps": [
+          {
+            "step": "创建销售订单",
+            "passed": false,
+            "result": {
+              "success": false,
+              "message": "库存不足，无法创建订单",
+              "error": "库存不足",
+              "outputData": null
+            },
+            "executionTime": 55
+          }
+        ],
+        "summary": {
+          "stepsTotal": 1,
+          "stepsPassed": 0,
+          "stepsFailed": 1,
+          "successRate": 0,
+          "totalExecutionTime": 55
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name": "数据完整性",
+      "status": "PASSED",
+      "details": {
+        "scenario": "data_integrity",
+        "passed": true,
+        "checks": [
+          {
+            "check": "库存数量非负检查",
+            "passed": true,
+            "violations": [],
+            "warnings": []
+          },
+          {
+            "check": "FIFO队列一致性检查",
+            "passed": true,
+            "violations": [],
+            "warnings": []
+          },
+          {
+            "check": "应付应收余额检查",
+            "passed": true,
+            "violations": [],
+            "warnings": []
+          },
+          {
+            "check": "外键完整性检查",
+            "passed": true,
+            "violations": [],
+            "warnings": []
+          }
+        ],
+        "summary": {
+          "checksTotal": 4,
+          "checksPassed": 4,
+          "checksFailed": 0,
+          "totalViolations": 0,
+          "criticalViolations": 0
+        }
+      }
+    }
+  ],
+  "issues": [],
+  "recommendations": [
+    "立即修复Critical级别的问题，特别是数据完整性违规",
+    "检查和修复库存管理中的负数问题",
+    "完善工作流程中的错误处理机制",
+    "建立实时数据一致性监控",
+    "加强业务规则验证逻辑",
+    "定期执行完整的业务逻辑验证"
+  ]
+}
