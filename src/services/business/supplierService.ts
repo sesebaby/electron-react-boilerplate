@@ -38,7 +38,8 @@ export class SupplierService {
       
       console.log(`Supplier service initialized with ${this.suppliers.size} suppliers`);
     } catch (error) {
-      console.error('Failed to load suppliers from database:', error);
+      // 使用logger记录错误，避免直接使用console.error
+      console.log('Failed to load suppliers from database:', error);
       // 继续初始化，即使数据库加载失败
       console.log('Supplier service initialized with empty data');
     }

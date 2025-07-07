@@ -364,7 +364,7 @@ export class DatabaseSnapshot {
       console.log(`[DatabaseSnapshot] 比较结果已保存: ${comparisonFile}`);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      console.error(`[DatabaseSnapshot] 保存比较结果失败:`, errorMessage);
+      console.log(`[DatabaseSnapshot] 保存比较结果失败:`, errorMessage);
     }
   }
 
@@ -377,7 +377,7 @@ export class DatabaseSnapshot {
       const result = await db.get(`SELECT COUNT(*) as count FROM ${tableName}`);
       return result?.count || 0;
     } catch (error) {
-      console.error(`[DatabaseSnapshot] 获取表 ${tableName} 行数失败:`, error);
+      console.log(`[DatabaseSnapshot] 获取表 ${tableName} 行数失败:`, error);
       return 0;
     }
   }

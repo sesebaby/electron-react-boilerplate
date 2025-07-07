@@ -37,6 +37,7 @@ class GlobalErrorHandler {
   private userId: string | null = null;
   private originalConsoleError: typeof console.error;
   private originalConsoleWarn: typeof console.warn;
+  private isHandlingError: boolean = false; // 防止循环调用的标志
 
   constructor(config?: Partial<GlobalErrorConfig>) {
     this.config = {
@@ -60,6 +61,26 @@ class GlobalErrorHandler {
    */
   private generateSessionId(): string {
     return `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * 安全的JSON序列化，避免循环引用
+   */
+  private safeStringify(obj: any): string {
+    try {
+      const seen = new WeakSet();
+      return JSON.stringify(obj, (key, value) => {
+        if (typeof value === 'object' && value !== null) {
+          if (seen.has(value)) {
+            return '[Circular Reference]';
+          }
+          seen.add(value);
+        }
+        return value;
+      });
+    } catch (error) {
+      return '[Unstringifiable Object]';
+    }
   }
 
   /**
@@ -135,28 +156,43 @@ class GlobalErrorHandler {
   private setupConsoleErrorCapture(): void {
     // 重写console.error
     console.error = (...args: any[]) => {
-      const message = args.map(arg =>
-        typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
-      ).join(' ');
-
-      const errorReport: ErrorReport = {
-        type: 'console',
-        message: `Console Error: ${message}`,
-        url: window.location.href,
-        userAgent: navigator.userAgent,
-        timestamp: new Date(),
-        sessionId: this.sessionId,
-        userId: this.userId,
-        errorCount: 0
-      };
-
-      // 检查是否是Error对象
-      const errorArg = args.find(arg => arg instanceof Error);
-      if (errorArg) {
-        errorReport.stack = errorArg.stack;
+      // 防止循环调用
+      if (this.isHandlingError) {
+        this.originalConsoleError.apply(console, args);
+        return;
       }
 
-      this.handleError(errorReport);
+      try {
+        this.isHandlingError = true;
+
+        const message = args.map(arg =>
+          typeof arg === 'object' ? this.safeStringify(arg) : String(arg)
+        ).join(' ');
+
+        const errorReport: ErrorReport = {
+          type: 'console',
+          message: `Console Error: ${message}`,
+          url: window.location.href,
+          userAgent: navigator.userAgent,
+          timestamp: new Date(),
+          sessionId: this.sessionId,
+          userId: this.userId,
+          errorCount: 0
+        };
+
+        // 检查是否是Error对象
+        const errorArg = args.find(arg => arg instanceof Error);
+        if (errorArg) {
+          errorReport.stack = errorArg.stack;
+        }
+
+        this.handleError(errorReport);
+      } catch (error) {
+        // 如果处理错误时出现问题，直接使用原始console.error
+        this.originalConsoleError.apply(console, ['Error in error handler:', error, ...args]);
+      } finally {
+        this.isHandlingError = false;
+      }
 
       // 调用原始console.error
       this.originalConsoleError.apply(console, args);
@@ -225,33 +261,43 @@ class GlobalErrorHandler {
    * 处理错误报告
    */
   private handleError(errorReport: ErrorReport): void {
-    const errorKey = this.generateErrorKey(errorReport);
-    const now = Date.now();
-    
-    // 检查错误频率限制
-    const lastTime = this.lastErrorTime.get(errorKey) || 0;
-    const timeDiff = now - lastTime;
-    
-    if (timeDiff < this.config.errorReportingThreshold * 60 * 1000) {
-      // 在阈值时间内，不重复报告相同错误
+    // 防止在错误处理过程中再次触发错误处理
+    if (this.isHandlingError) {
       return;
     }
 
-    // 更新错误计数
-    const currentCount = this.errorCounts.get(errorKey) || 0;
-    const newCount = currentCount + 1;
-    
-    if (newCount > this.config.maxErrorsPerSession) {
-      // 超过会话最大错误数，停止报告
-      return;
+    try {
+      const errorKey = this.generateErrorKey(errorReport);
+      const now = Date.now();
+
+      // 检查错误频率限制
+      const lastTime = this.lastErrorTime.get(errorKey) || 0;
+      const timeDiff = now - lastTime;
+
+      if (timeDiff < this.config.errorReportingThreshold * 60 * 1000) {
+        // 在阈值时间内，不重复报告相同错误
+        return;
+      }
+
+      // 更新错误计数
+      const currentCount = this.errorCounts.get(errorKey) || 0;
+      const newCount = currentCount + 1;
+
+      if (newCount > this.config.maxErrorsPerSession) {
+        // 超过会话最大错误数，停止报告
+        return;
+      }
+
+      this.errorCounts.set(errorKey, newCount);
+      this.lastErrorTime.set(errorKey, now);
+      errorReport.errorCount = newCount;
+
+      // 记录到日志系统
+      this.logError(errorReport);
+    } catch (error) {
+      // 如果错误处理本身出现问题，使用原始console.error记录
+      this.originalConsoleError('Error in handleError:', error);
     }
-
-    this.errorCounts.set(errorKey, newCount);
-    this.lastErrorTime.set(errorKey, now);
-    errorReport.errorCount = newCount;
-
-    // 记录到日志系统
-    this.logError(errorReport);
 
     // 在开发环境中提供额外的调试信息
     if (process.env.NODE_ENV === 'development') {
@@ -278,27 +324,32 @@ class GlobalErrorHandler {
    * 记录错误到日志系统
    */
   private logError(errorReport: ErrorReport): void {
-    const logData = {
-      ...errorReport,
-      context: 'GlobalErrorHandler'
-    };
+    try {
+      const logData = {
+        ...errorReport,
+        context: 'GlobalErrorHandler'
+      };
 
-    switch (errorReport.type) {
-      case 'javascript':
-      case 'promise':
-        logger.error(`${errorReport.type.toUpperCase()} Error: ${errorReport.message}`, logData);
-        break;
-      
-      case 'console':
-        logger.warn(`Console captured: ${errorReport.message}`, logData);
-        break;
-      
-      case 'network':
-        logger.warn(`Resource loading failed: ${errorReport.message}`, logData);
-        break;
-      
-      default:
-        logger.error(`Unknown error type: ${errorReport.message}`, logData);
+      switch (errorReport.type) {
+        case 'javascript':
+        case 'promise':
+          logger.error(`${errorReport.type.toUpperCase()} Error: ${errorReport.message}`, logData);
+          break;
+
+        case 'console':
+          logger.warn(`Console captured: ${errorReport.message}`, logData);
+          break;
+
+        case 'network':
+          logger.warn(`Resource loading failed: ${errorReport.message}`, logData);
+          break;
+
+        default:
+          logger.error(`Unknown error type: ${errorReport.message}`, logData);
+      }
+    } catch (error) {
+      // 如果日志记录失败，使用原始console.error
+      this.originalConsoleError('Failed to log error to logger system:', error, errorReport);
     }
   }
 

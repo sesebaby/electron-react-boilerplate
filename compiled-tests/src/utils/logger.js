@@ -113,7 +113,7 @@ class Logger {
             // 写入文件（异步）
             if (this.config.enableFileLogging && this.fileLoggerService) {
                 this.fileLoggerService.writeLog(entry).catch((error) => {
-                    console.error('文件日志写入失败:', error);
+                    this.originalConsole.error('文件日志写入失败:', error);
                 });
             }
         }

@@ -82347,7 +82347,8 @@ class SupplierService {
                 console.log(`Supplier service initialized with ${this.suppliers.size} suppliers`);
             }
             catch (error) {
-                console.error('Failed to load suppliers from database:', error);
+                // 使用logger记录错误，避免直接使用console.error
+                console.log('Failed to load suppliers from database:', error);
                 // 继续初始化，即使数据库加载失败
                 console.log('Supplier service initialized with empty data');
             }
@@ -86179,6 +86180,7 @@ class GlobalErrorHandler {
         this.errorCounts = new Map();
         this.lastErrorTime = new Map();
         this.userId = null;
+        this.isHandlingError = false; // 防止循环调用的标志
         this.config = Object.assign({ enableWindowErrorHandler: true, enableUnhandledRejectionHandler: true, enableConsoleErrorCapture: true, maxErrorsPerSession: 100, errorReportingThreshold: 5 }, config);
         this.sessionId = this.generateSessionId();
         this.originalConsoleError = console.error;
@@ -86190,6 +86192,26 @@ class GlobalErrorHandler {
      */
     generateSessionId() {
         return `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    }
+    /**
+     * 安全的JSON序列化，避免循环引用
+     */
+    safeStringify(obj) {
+        try {
+            const seen = new WeakSet();
+            return JSON.stringify(obj, (key, value) => {
+                if (typeof value === 'object' && value !== null) {
+                    if (seen.has(value)) {
+                        return '[Circular Reference]';
+                    }
+                    seen.add(value);
+                }
+                return value;
+            });
+        }
+        catch (error) {
+            return '[Unstringifiable Object]';
+        }
     }
     /**
      * 初始化全局错误处理
@@ -86257,23 +86279,38 @@ class GlobalErrorHandler {
     setupConsoleErrorCapture() {
         // 重写console.error
         console.error = (...args) => {
-            const message = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' ');
-            const errorReport = {
-                type: 'console',
-                message: `Console Error: ${message}`,
-                url: window.location.href,
-                userAgent: navigator.userAgent,
-                timestamp: new Date(),
-                sessionId: this.sessionId,
-                userId: this.userId,
-                errorCount: 0
-            };
-            // 检查是否是Error对象
-            const errorArg = args.find(arg => arg instanceof Error);
-            if (errorArg) {
-                errorReport.stack = errorArg.stack;
+            // 防止循环调用
+            if (this.isHandlingError) {
+                this.originalConsoleError.apply(console, args);
+                return;
             }
-            this.handleError(errorReport);
+            try {
+                this.isHandlingError = true;
+                const message = args.map(arg => typeof arg === 'object' ? this.safeStringify(arg) : String(arg)).join(' ');
+                const errorReport = {
+                    type: 'console',
+                    message: `Console Error: ${message}`,
+                    url: window.location.href,
+                    userAgent: navigator.userAgent,
+                    timestamp: new Date(),
+                    sessionId: this.sessionId,
+                    userId: this.userId,
+                    errorCount: 0
+                };
+                // 检查是否是Error对象
+                const errorArg = args.find(arg => arg instanceof Error);
+                if (errorArg) {
+                    errorReport.stack = errorArg.stack;
+                }
+                this.handleError(errorReport);
+            }
+            catch (error) {
+                // 如果处理错误时出现问题，直接使用原始console.error
+                this.originalConsoleError.apply(console, ['Error in error handler:', error, ...args]);
+            }
+            finally {
+                this.isHandlingError = false;
+            }
             // 调用原始console.error
             this.originalConsoleError.apply(console, args);
         };
@@ -86333,27 +86370,37 @@ class GlobalErrorHandler {
      * 处理错误报告
      */
     handleError(errorReport) {
-        const errorKey = this.generateErrorKey(errorReport);
-        const now = Date.now();
-        // 检查错误频率限制
-        const lastTime = this.lastErrorTime.get(errorKey) || 0;
-        const timeDiff = now - lastTime;
-        if (timeDiff < this.config.errorReportingThreshold * 60 * 1000) {
-            // 在阈值时间内，不重复报告相同错误
+        // 防止在错误处理过程中再次触发错误处理
+        if (this.isHandlingError) {
             return;
         }
-        // 更新错误计数
-        const currentCount = this.errorCounts.get(errorKey) || 0;
-        const newCount = currentCount + 1;
-        if (newCount > this.config.maxErrorsPerSession) {
-            // 超过会话最大错误数，停止报告
-            return;
+        try {
+            const errorKey = this.generateErrorKey(errorReport);
+            const now = Date.now();
+            // 检查错误频率限制
+            const lastTime = this.lastErrorTime.get(errorKey) || 0;
+            const timeDiff = now - lastTime;
+            if (timeDiff < this.config.errorReportingThreshold * 60 * 1000) {
+                // 在阈值时间内，不重复报告相同错误
+                return;
+            }
+            // 更新错误计数
+            const currentCount = this.errorCounts.get(errorKey) || 0;
+            const newCount = currentCount + 1;
+            if (newCount > this.config.maxErrorsPerSession) {
+                // 超过会话最大错误数，停止报告
+                return;
+            }
+            this.errorCounts.set(errorKey, newCount);
+            this.lastErrorTime.set(errorKey, now);
+            errorReport.errorCount = newCount;
+            // 记录到日志系统
+            this.logError(errorReport);
         }
-        this.errorCounts.set(errorKey, newCount);
-        this.lastErrorTime.set(errorKey, now);
-        errorReport.errorCount = newCount;
-        // 记录到日志系统
-        this.logError(errorReport);
+        catch (error) {
+            // 如果错误处理本身出现问题，使用原始console.error记录
+            this.originalConsoleError('Error in handleError:', error);
+        }
         // 在开发环境中提供额外的调试信息
         if (true) {
             this.logDevelopmentInfo(errorReport);
@@ -86376,20 +86423,26 @@ class GlobalErrorHandler {
      * 记录错误到日志系统
      */
     logError(errorReport) {
-        const logData = Object.assign(Object.assign({}, errorReport), { context: 'GlobalErrorHandler' });
-        switch (errorReport.type) {
-            case 'javascript':
-            case 'promise':
-                _logger__WEBPACK_IMPORTED_MODULE_0__.logger.error(`${errorReport.type.toUpperCase()} Error: ${errorReport.message}`, logData);
-                break;
-            case 'console':
-                _logger__WEBPACK_IMPORTED_MODULE_0__.logger.warn(`Console captured: ${errorReport.message}`, logData);
-                break;
-            case 'network':
-                _logger__WEBPACK_IMPORTED_MODULE_0__.logger.warn(`Resource loading failed: ${errorReport.message}`, logData);
-                break;
-            default:
-                _logger__WEBPACK_IMPORTED_MODULE_0__.logger.error(`Unknown error type: ${errorReport.message}`, logData);
+        try {
+            const logData = Object.assign(Object.assign({}, errorReport), { context: 'GlobalErrorHandler' });
+            switch (errorReport.type) {
+                case 'javascript':
+                case 'promise':
+                    _logger__WEBPACK_IMPORTED_MODULE_0__.logger.error(`${errorReport.type.toUpperCase()} Error: ${errorReport.message}`, logData);
+                    break;
+                case 'console':
+                    _logger__WEBPACK_IMPORTED_MODULE_0__.logger.warn(`Console captured: ${errorReport.message}`, logData);
+                    break;
+                case 'network':
+                    _logger__WEBPACK_IMPORTED_MODULE_0__.logger.warn(`Resource loading failed: ${errorReport.message}`, logData);
+                    break;
+                default:
+                    _logger__WEBPACK_IMPORTED_MODULE_0__.logger.error(`Unknown error type: ${errorReport.message}`, logData);
+            }
+        }
+        catch (error) {
+            // 如果日志记录失败，使用原始console.error
+            this.originalConsoleError('Failed to log error to logger system:', error, errorReport);
         }
     }
     /**
@@ -86814,7 +86867,8 @@ class Logger {
             // 写入文件（异步）
             if (this.config.enableFileLogging && this.fileLoggerService) {
                 this.fileLoggerService.writeLog(entry).catch((error) => {
-                    console.error('文件日志写入失败:', error);
+                    // 使用原始console.error避免与全局错误处理器形成循环调用
+                    this.originalConsole.error('文件日志写入失败:', error);
                 });
             }
         }
@@ -86883,7 +86937,8 @@ class Logger {
         // 批量写入文件
         if (this.config.enableFileLogging && this.fileLoggerService && filteredEntries.length > 0) {
             this.fileLoggerService.writeLogBatch(filteredEntries).catch((error) => {
-                console.error('批量文件日志写入失败:', error);
+                // 使用原始console.error避免与全局错误处理器形成循环调用
+                this.originalConsole.error('批量文件日志写入失败:', error);
             });
         }
     }
@@ -86918,7 +86973,7 @@ class Logger {
                     yield this.fileLoggerService.flush();
                 }
                 catch (error) {
-                    console.error('手动刷新日志失败:', error);
+                    this.originalConsole.error('手动刷新日志失败:', error);
                 }
             }
         });

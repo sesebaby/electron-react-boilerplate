@@ -149,7 +149,8 @@ export class Logger {
       // 写入文件（异步）
       if (this.config.enableFileLogging && this.fileLoggerService) {
         this.fileLoggerService.writeLog(entry).catch((error: any) => {
-          console.error('文件日志写入失败:', error);
+          // 使用原始console.error避免与全局错误处理器形成循环调用
+          this.originalConsole.error('文件日志写入失败:', error);
         });
       }
     }
@@ -233,7 +234,8 @@ export class Logger {
     // 批量写入文件
     if (this.config.enableFileLogging && this.fileLoggerService && filteredEntries.length > 0) {
       this.fileLoggerService.writeLogBatch(filteredEntries).catch((error: any) => {
-        console.error('批量文件日志写入失败:', error);
+        // 使用原始console.error避免与全局错误处理器形成循环调用
+        this.originalConsole.error('批量文件日志写入失败:', error);
       });
     }
   }
@@ -270,7 +272,7 @@ export class Logger {
       try {
         await this.fileLoggerService.flush();
       } catch (error) {
-        console.error('手动刷新日志失败:', error);
+        this.originalConsole.error('手动刷新日志失败:', error);
       }
     }
   }

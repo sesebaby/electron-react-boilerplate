@@ -1,0 +1,2 @@
+2025-07-07T21:28:39.544Z INFO  [PerformanceMonitor][PerformanceMonitor] Performance: First Input Delay | {"metric":"First Input Delay","value":2.300000000745058,"unit":"ms","category":"navigation","details":{"inputDelay":2.300000000745058}}
+2025-07-07T21:28:39.544Z INFO  [PerformanceMonitor][PerformanceMonitor] Performance: First Input Delay | {"metric":"First Input Delay","value":2.300000000745058,"unit":"ms","category":"user_interaction","details":{"inputType":"pointerdown","startTime":6451.5}}

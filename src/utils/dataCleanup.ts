@@ -189,14 +189,14 @@ class DataCleanupManager {
       try {
         await this.db.run('ROLLBACK');
       } catch (rollbackError) {
-        console.error('回滚事务失败:', rollbackError);
+        console.log('回滚事务失败:', rollbackError);
       }
 
       const errorMsg = `数据清理过程中发生严重错误: ${error instanceof Error ? error.message : '未知错误'}`;
       result.success = false;
       result.message = errorMsg;
       result.errors.push(errorMsg);
-      console.error('💥 数据清理过程中发生严重错误:', error);
+      console.log('💥 数据清理过程中发生严重错误:', error);
     }
 
     return result;

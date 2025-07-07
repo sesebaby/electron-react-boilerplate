@@ -715,7 +715,7 @@ export class MigrationManager {
       } catch (error) {
         // 回滚事务
         this.db.exec('ROLLBACK;');
-        console.error(`Migration ${migration.version} failed:`, error);
+        console.log(`Migration ${migration.version} failed:`, error);
         throw error;
       }
     }
@@ -764,7 +764,7 @@ export class MigrationManager {
       } catch (error) {
         // 回滚事务
         this.db.exec('ROLLBACK;');
-        console.error(`Rollback of migration ${migration.version} failed:`, error);
+        console.log(`Rollback of migration ${migration.version} failed:`, error);
         throw error;
       }
     }
