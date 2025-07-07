@@ -176,7 +176,7 @@ export class InventoryEntryRegistrationService {
     const currentDate = new Date(date);
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    const daysInMonth = getDaysInMonth(currentDate);
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
     
     const weeks = [];
     

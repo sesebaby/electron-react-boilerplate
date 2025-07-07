@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Card } from '../ui/card';
+import { inventoryEntryRegistrationService, InventoryEntryItem } from '../../services/business/inventoryEntryRegistrationService';
 
 interface TimeRange {
   startDate: string;
@@ -11,22 +12,7 @@ interface DisplayMode {
   label: string;
 }
 
-interface InventoryItem {
-  id: string;
-  primaryCategory: string;
-  secondaryCategory: string;
-  name: string;
-  totalOut: number;
-  dailyData: {
-    [date: string]: {
-      stockIn: number;
-      morning: number;
-      noon: number;
-      evening: number;
-      stock: number;
-    };
-  };
-}
+// InventoryItem 接口已从服务中导入为 InventoryEntryItem
 
 const displayModes: DisplayMode[] = [
   { type: 'amount', label: '金额' },
@@ -42,6 +28,8 @@ export const InventoryEntryRegistration: React.FC = () => {
   
   const [displayMode, setDisplayMode] = useState<DisplayMode['type']>('quantity');
   const [selectedWeek, setSelectedWeek] = useState<number | null>(null);
+  const [data, setData] = useState<InventoryEntryItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // 获取当前月份的所有日期
   const monthDates = useMemo(() => {
@@ -58,89 +46,48 @@ export const InventoryEntryRegistration: React.FC = () => {
 
   // 生成周快捷选择
   const weekRanges = useMemo(() => {
-    const weeks = [];
-    const currentDate = new Date(timeRange.startDate);
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    const firstDay = new Date(year, month, 1);
-    
-    for (let week = 1; week <= 5; week++) {
-      const startDay = (week - 1) * 7 + 1;
-      const endDay = Math.min(week * 7, new Date(year, month + 1, 0).getDate());
-      
-      if (startDay <= new Date(year, month + 1, 0).getDate()) {
-        weeks.push({
-          week,
-          startDate: new Date(year, month, startDay).toISOString().split('T')[0],
-          endDate: new Date(year, month, endDay).toISOString().split('T')[0],
-          label: `第${week}周`
-        });
-      }
-    }
-    
-    return weeks;
+    return inventoryEntryRegistrationService.getMonthlyWeekRanges(timeRange.startDate);
   }, [timeRange.startDate]);
 
-  // 模拟数据
-  const mockData: InventoryItem[] = [
-    {
-      id: '1',
-      primaryCategory: '食品',
-      secondaryCategory: '蔬菜',
-      name: '白菜',
-      totalOut: 120,
-      dailyData: Object.fromEntries(
-        monthDates.map(date => [
-          date,
-          {
-            stockIn: Math.floor(Math.random() * 20),
-            morning: Math.floor(Math.random() * 10),
-            noon: Math.floor(Math.random() * 15),
-            evening: Math.floor(Math.random() * 8),
-            stock: Math.floor(Math.random() * 50)
-          }
-        ])
-      )
-    },
-    {
-      id: '2',
-      primaryCategory: '食品',
-      secondaryCategory: '水果',
-      name: '苹果',
-      totalOut: 85,
-      dailyData: Object.fromEntries(
-        monthDates.map(date => [
-          date,
-          {
-            stockIn: Math.floor(Math.random() * 25),
-            morning: Math.floor(Math.random() * 12),
-            noon: Math.floor(Math.random() * 18),
-            evening: Math.floor(Math.random() * 10),
-            stock: Math.floor(Math.random() * 60)
-          }
-        ])
-      )
-    },
-    {
-      id: '3',
-      primaryCategory: '用品',
-      secondaryCategory: '清洁用品',
-      name: '洗涤剂',
-      totalOut: 30,
-      dailyData: Object.fromEntries(
-        monthDates.map(date => [
-          date,
-          {
-            stockIn: Math.floor(Math.random() * 5),
-            morning: Math.floor(Math.random() * 3),
-            noon: Math.floor(Math.random() * 5),
-            evening: Math.floor(Math.random() * 2),
-            stock: Math.floor(Math.random() * 20)
-          }
-        ])
-      )
+  // 获取数据
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const result = await inventoryEntryRegistrationService.getInventoryEntryData({
+          startDate: timeRange.startDate,
+          endDate: timeRange.endDate,
+          displayMode
+        });
+        setData(result);
+      } catch (error) {
+        console.error('获取出入库登记数据失败:', error);
+        // 可以在这里添加错误提示
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [timeRange, displayMode]);
+
+  // 导出数据功能
+  const handleExportData = () => {
+    try {
+      const csvData = inventoryEntryRegistrationService.exportToCSV(data, filteredDates);
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `出入库登记_${timeRange.startDate}_${timeRange.endDate}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('导出数据失败:', error);
     }
-  ];
+  };
 
   const handleWeekSelect = (week: number) => {
     const weekRange = weekRanges.find(w => w.week === week);
@@ -284,7 +231,20 @@ export const InventoryEntryRegistration: React.FC = () => {
 
             {/* 数据行 */}
             <tbody>
-              {mockData.map((item, index) => (
+              {loading ? (
+                <tr>
+                  <td colSpan={5 + filteredDates.length * 5} className="px-4 py-8 text-center text-white/60">
+                    加载中...
+                  </td>
+                </tr>
+              ) : data.length === 0 ? (
+                <tr>
+                  <td colSpan={5 + filteredDates.length * 5} className="px-4 py-8 text-center text-white/60">
+                    暂无数据
+                  </td>
+                </tr>
+              ) : (
+                data.map((item, index) => (
                 <tr key={item.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
                   <td className="px-4 py-3 text-sm text-white/90 border-r border-white/10">
                     {index + 1}
@@ -336,7 +296,8 @@ export const InventoryEntryRegistration: React.FC = () => {
                     );
                   })}
                 </tr>
-              ))}
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -345,13 +306,20 @@ export const InventoryEntryRegistration: React.FC = () => {
       {/* 操作按钮区域 */}
       <div className="flex justify-between items-center">
         <div className="text-sm text-white/60">
-          显示 {mockData.length} 条记录，时间范围：{timeRange.startDate} 至 {timeRange.endDate}
+          显示 {data.length} 条记录，时间范围：{timeRange.startDate} 至 {timeRange.endDate}
         </div>
         <div className="flex gap-3">
-          <button className="glass-button px-4 py-2 text-sm">
+          <button 
+            className="glass-button px-4 py-2 text-sm"
+            onClick={handleExportData}
+            disabled={loading || data.length === 0}
+          >
             导出数据
           </button>
-          <button className="glass-button px-4 py-2 text-sm bg-blue-500/20 border-blue-400/30 hover:bg-blue-500/30">
+          <button 
+            className="glass-button px-4 py-2 text-sm bg-blue-500/20 border-blue-400/30 hover:bg-blue-500/30"
+            onClick={() => window.print()}
+          >
             打印报表
           </button>
         </div>
