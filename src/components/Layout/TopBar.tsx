@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
+import QuickActions from './QuickActions';
 import { InventoryService } from '../../services/inventory/inventoryService';
 import { InventoryItem } from '../../types/inventory';
 import { notificationHelper } from '../../utils/notificationHelper';
@@ -18,6 +19,7 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
   // 库存管理
   'inventory-overview': { title: '库存概览', breadcrumb: ['库存管理', '库存概览'] },
   'inventory-card-view': { title: '库存卡片视图', breadcrumb: ['库存管理', '库存卡片视图'] },
+  'daily-consumption': { title: '逐日消耗视图', breadcrumb: ['库存管理', '逐日消耗视图'] },
   'products': { title: '商品管理', breadcrumb: ['库存管理', '商品管理'] },
   'categories': { title: '分类管理', breadcrumb: ['库存管理', '分类管理'] },
   'warehouses': { title: '仓库管理', breadcrumb: ['库存管理', '仓库管理'] },
@@ -213,6 +215,46 @@ export const TopBar: React.FC<TopBarProps> = ({
     }
   };
 
+  // 刷新数据处理函数
+  const handleRefreshData = () => {
+    // 重新加载通知
+    loadNotifications();
+    
+    // 触发页面数据刷新
+    window.dispatchEvent(new CustomEvent('refresh-data'));
+    
+    // 显示刷新成功通知
+    notificationHelper.showOperationResult('数据刷新', true, '页面数据已刷新');
+  };
+
+  // 导出数据处理函数
+  const handleExportData = () => {
+    // 根据当前页面导出对应数据
+    const exportActions: Record<string, () => void> = {
+      'products': () => {
+        window.dispatchEvent(new CustomEvent('export-products'));
+      },
+      'inventory-overview': () => {
+        window.dispatchEvent(new CustomEvent('export-inventory'));
+      },
+      'purchase-orders': () => {
+        window.dispatchEvent(new CustomEvent('export-purchase-orders'));
+      },
+      'sales-orders': () => {
+        window.dispatchEvent(new CustomEvent('export-sales-orders'));
+      },
+      default: () => {
+        window.dispatchEvent(new CustomEvent('export-current-page'));
+      }
+    };
+
+    const action = exportActions[currentPage] || exportActions.default;
+    action();
+    
+    // 显示导出提示
+    notificationHelper.showInfo('数据导出', '正在导出当前页面数据...');
+  };
+
   return (
     <header className={`
       fixed top-0 right-0 z-50 h-20 transition-all duration-300
@@ -350,27 +392,10 @@ export const TopBar: React.FC<TopBarProps> = ({
         <div className="flex items-center gap-3">
           {/* 快捷操作 */}
           <div className="hidden lg:flex items-center gap-2">
-            <button
-              type="button"
-              className="glass-button w-9 h-9 flex items-center justify-center rounded-lg transition-all"
-              title="新增商品"
-            >
-              ➕
-            </button>
-            <button
-              type="button"
-              className="glass-button w-9 h-9 flex items-center justify-center rounded-lg transition-all"
-              title="刷新数据"
-            >
-              🔄
-            </button>
-            <button
-              type="button"
-              className="glass-button w-9 h-9 flex items-center justify-center rounded-lg transition-all"
-              title="导出数据"
-            >
-              📊
-            </button>
+            <QuickActions
+              onRefresh={handleRefreshData}
+              onExportData={handleExportData}
+            />
           </div>
 
           {/* 通知 */}
