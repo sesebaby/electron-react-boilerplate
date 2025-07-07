@@ -1,0 +1,362 @@
+{
+  "metadata": {
+    "generatedAt": "2025-07-07T06:42:29.744Z",
+    "reportVersion": "1.0.0",
+    "testFramework": "Business Logic Verifier v1.0"
+  },
+  "summary": {
+    "totalScenarios": 4,
+    "passedScenarios": 0,
+    "failedScenarios": 4,
+    "successRate": 0,
+    "executionTime": "模拟时间"
+  },
+  "scenarios": [
+    {
+      "id": 1,
+      "name": "库存管理",
+      "status": "FAILED",
+      "details": {
+        "scenario": "inventory_management",
+        "passed": false,
+        "operations": [
+          {
+            "operation": "库存入库",
+            "type": "stock_in",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "库存入库成功",
+              "data": {
+                "updated_quantity": 120
+              }
+            },
+            "issues": []
+          },
+          {
+            "operation": "库存出库",
+            "type": "stock_out",
+            "passed": false,
+            "result": {
+              "success": false,
+              "message": "库存不足",
+              "error": "尝试出库50个单位，但可用库存仅有30个单位",
+              "issues": [
+                "库存不足",
+                "可能存在超卖风险"
+              ]
+            },
+            "issues": [
+              "库存不足",
+              "可能存在超卖风险"
+            ]
+          },
+          {
+            "operation": "库存调整",
+            "type": "stock_adjust",
+            "passed": false,
+            "result": {
+              "success": false,
+              "message": "库存调整失败",
+              "error": "调整后库存数量为负数：-15",
+              "issues": [
+                "库存调整导致负库存",
+                "业务规则违反"
+              ]
+            },
+            "issues": [
+              "库存调整导致负库存",
+              "业务规则违反"
+            ]
+          },
+          {
+            "operation": "FIFO计算",
+            "type": "fifo_calc",
+            "passed": false,
+            "result": {
+              "success": false,
+              "message": "FIFO计算失败",
+              "error": "FIFO队列数据不一致，总数量100与库存数量95不匹配",
+              "issues": [
+                "FIFO队列数据不一致",
+                "成本计算可能错误"
+              ]
+            },
+            "issues": [
+              "FIFO队列数据不一致",
+              "成本计算可能错误"
+            ]
+          }
+        ],
+        "summary": {
+          "total": 4,
+          "passed": 1,
+          "failed": 3,
+          "successRate": 25,
+          "issues": [
+            "库存不足",
+            "可能存在超卖风险",
+            "库存调整导致负库存",
+            "业务规则违反",
+            "FIFO队列数据不一致",
+            "成本计算可能错误"
+          ]
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "采购工作流",
+      "status": "FAILED",
+      "details": {
+        "workflow": "purchase_complete_workflow",
+        "completed": false,
+        "steps": [
+          {
+            "step": "创建采购订单",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "采购订单创建成功",
+              "outputData": {
+                "purchase_order": {
+                  "id": 113,
+                  "order_number": "PO1751870549611",
+                  "total_amount": 1000
+                }
+              }
+            },
+            "executionTime": 13
+          },
+          {
+            "step": "创建收货单",
+            "passed": false,
+            "result": {
+              "success": false,
+              "message": "收货单创建失败",
+              "error": "供应商ID不存在，无法创建收货单",
+              "outputData": null
+            },
+            "executionTime": 11
+          }
+        ],
+        "summary": {
+          "stepsTotal": 2,
+          "stepsPassed": 1,
+          "stepsFailed": 1,
+          "successRate": 50,
+          "totalExecutionTime": 24
+        }
+      }
+    },
+    {
+      "id": 3,
+      "name": "销售工作流",
+      "status": "FAILED",
+      "details": {
+        "workflow": "sales_complete_workflow",
+        "completed": false,
+        "steps": [
+          {
+            "step": "创建销售订单",
+            "passed": false,
+            "result": {
+              "success": false,
+              "message": "销售订单创建失败",
+              "error": "产品ID 1的库存不足，需要100个单位，但仅有30个可用",
+              "outputData": null
+            },
+            "executionTime": 23
+          }
+        ],
+        "summary": {
+          "stepsTotal": 1,
+          "stepsPassed": 0,
+          "stepsFailed": 1,
+          "successRate": 0,
+          "totalExecutionTime": 23
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name": "数据完整性",
+      "status": "FAILED",
+      "details": {
+        "scenario": "data_integrity",
+        "passed": false,
+        "checks": [
+          {
+            "check": "库存数量非负检查",
+            "passed": false,
+            "violations": [
+              {
+                "type": "Negative Stock",
+                "description": "产品 1 的库存数量为负数: -15",
+                "severity": "Critical"
+              },
+              {
+                "type": "Negative Stock",
+                "description": "产品 3 的库存数量为负数: -5",
+                "severity": "Critical"
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "check": "FIFO队列一致性检查",
+            "passed": false,
+            "violations": [
+              {
+                "type": "FIFO Inconsistency",
+                "description": "产品 1 的FIFO队列总数量 100 与库存数量 95 不匹配",
+                "severity": "High"
+              },
+              {
+                "type": "FIFO Missing Batch",
+                "description": "产品 2 缺少FIFO批次记录",
+                "severity": "Medium"
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "check": "应付应收余额检查",
+            "passed": false,
+            "violations": [
+              {
+                "type": "Balance Mismatch",
+                "description": "供应商A的应付账款余额计算错误：期望 5000，实际 4800",
+                "severity": "High"
+              },
+              {
+                "type": "Overpayment",
+                "description": "客户B的已收金额 15000 超过应收总额 12000",
+                "severity": "Critical"
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "check": "外键完整性检查",
+            "passed": false,
+            "violations": [
+              {
+                "type": "Foreign Key Violation",
+                "description": "库存记录引用了不存在的产品ID: 999",
+                "severity": "Critical"
+              },
+              {
+                "type": "Foreign Key Violation",
+                "description": "销售订单引用了不存在的客户ID: 888",
+                "severity": "High"
+              }
+            ],
+            "warnings": []
+          }
+        ],
+        "summary": {
+          "checksTotal": 4,
+          "checksPassed": 0,
+          "checksFailed": 4,
+          "totalViolations": 8,
+          "criticalViolations": 4
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "description": "库存不足",
+      "severity": "Medium",
+      "type": "Operation Error",
+      "scenario": "库存管理"
+    },
+    {
+      "description": "可能存在超卖风险",
+      "severity": "Medium",
+      "type": "Operation Error",
+      "scenario": "库存管理"
+    },
+    {
+      "description": "库存调整导致负库存",
+      "severity": "Medium",
+      "type": "Operation Error",
+      "scenario": "库存管理"
+    },
+    {
+      "description": "业务规则违反",
+      "severity": "Medium",
+      "type": "Operation Error",
+      "scenario": "库存管理"
+    },
+    {
+      "description": "FIFO队列数据不一致",
+      "severity": "Medium",
+      "type": "Operation Error",
+      "scenario": "库存管理"
+    },
+    {
+      "description": "成本计算可能错误",
+      "severity": "Medium",
+      "type": "Operation Error",
+      "scenario": "库存管理"
+    },
+    {
+      "description": "产品 1 的库存数量为负数: -15",
+      "severity": "Critical",
+      "type": "Negative Stock",
+      "scenario": "数据完整性"
+    },
+    {
+      "description": "产品 3 的库存数量为负数: -5",
+      "severity": "Critical",
+      "type": "Negative Stock",
+      "scenario": "数据完整性"
+    },
+    {
+      "description": "产品 1 的FIFO队列总数量 100 与库存数量 95 不匹配",
+      "severity": "High",
+      "type": "FIFO Inconsistency",
+      "scenario": "数据完整性"
+    },
+    {
+      "description": "产品 2 缺少FIFO批次记录",
+      "severity": "Medium",
+      "type": "FIFO Missing Batch",
+      "scenario": "数据完整性"
+    },
+    {
+      "description": "供应商A的应付账款余额计算错误：期望 5000，实际 4800",
+      "severity": "High",
+      "type": "Balance Mismatch",
+      "scenario": "数据完整性"
+    },
+    {
+      "description": "客户B的已收金额 15000 超过应收总额 12000",
+      "severity": "Critical",
+      "type": "Overpayment",
+      "scenario": "数据完整性"
+    },
+    {
+      "description": "库存记录引用了不存在的产品ID: 999",
+      "severity": "Critical",
+      "type": "Foreign Key Violation",
+      "scenario": "数据完整性"
+    },
+    {
+      "description": "销售订单引用了不存在的客户ID: 888",
+      "severity": "High",
+      "type": "Foreign Key Violation",
+      "scenario": "数据完整性"
+    }
+  ],
+  "recommendations": [
+    "立即修复Critical级别的问题，特别是数据完整性违规",
+    "检查和修复库存管理中的负数问题",
+    "完善工作流程中的错误处理机制",
+    "建立实时数据一致性监控",
+    "加强业务规则验证逻辑",
+    "定期执行完整的业务逻辑验证"
+  ]
+}

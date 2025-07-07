@@ -2,7 +2,49 @@ const { v4: uuidv4 } = require('uuid');
 
 // Database handlers for better-sqlite3
 function setupDatabaseHandlers(ipcMain, db) {
-  
+  // 清理已存在的处理器，避免重复注册
+  const handlersToRemove = [
+    'db-get-item-by-id',
+    'db-get-item-by-sku',
+    'db-add-item',
+    'db-update-item',
+    'db-delete-item',
+    'db-get-all-items',
+    'db-search-items',
+    'db-get-categories',
+    'db-get-suppliers',
+    'db-get-low-stock-items',
+    'db-get-out-of-stock-items',
+    'db-get-items-by-category',
+    'db-get-items-by-supplier',
+    'db-update-stock',
+    'db-add-transaction',
+    'db-get-transactions',
+    'db-get-transactions-by-item',
+    'db-get-all-transactions'
+  ];
+
+  handlersToRemove.forEach(handler => {
+    try {
+      ipcMain.removeHandler(handler);
+    } catch (error) {
+      // 忽略移除不存在处理器的错误
+      console.log(`Handler ${handler} was not registered, skipping removal`);
+    }
+  });
+
+  // 检查处理器是否已经注册
+  try {
+    // 尝试检查是否已经有处理器注册
+    const hasHandlers = ipcMain.listenerCount && ipcMain.listenerCount('db-get-item-by-id') > 0;
+    if (hasHandlers) {
+      console.log('Database handlers already registered, skipping setup');
+      return;
+    }
+  } catch (error) {
+    console.log('Unable to check existing handlers, proceeding with registration');
+  }
+
   ipcMain.handle('db-get-item-by-id', async (event, id) => {
     try {
       if (!db) {
@@ -405,11 +447,34 @@ function setupDatabaseHandlers(ipcMain, db) {
       if (!db) {
         return { success: false, error: 'Database not initialized' };
       }
-      
+
       const stmt = db.prepare('SELECT * FROM inventory_transactions ORDER BY created_at DESC');
       const rows = stmt.all();
-      
+
       return { success: true, data: rows };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  ipcMain.handle('db-get-all-items', async (event) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const stmt = db.prepare('SELECT * FROM inventory_items ORDER BY created_at DESC');
+      const rows = stmt.all();
+
+      // 转换日期字段
+      const items = rows.map(row => ({
+        ...row,
+        created_at: new Date(row.created_at),
+        updated_at: new Date(row.updated_at),
+        last_updated: row.last_updated ? new Date(row.last_updated) : null
+      }));
+
+      return { success: true, data: items };
     } catch (error) {
       return { success: false, error: error.message };
     }

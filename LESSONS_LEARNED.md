@@ -355,6 +355,58 @@ interface InventoryTableProps {
 
 ---
 
+## ❌ 错误 #9: JSX 语法错误 - 模板字符串括号不匹配
+
+### 🐛 问题描述
+项目启动时出现 `Module parse failed: Unexpected token` 错误，错误信息指向 `Sidebar.tsx` 文件的模板字符串语法问题。
+
+### 💡 根本原因
+在 JSX 中使用模板字符串时，出现了多余的反引号和闭合括号，导致语法解析错误：
+1. **第174行**：`style={{...} as React.CSSProperties}`} - 多余的 `}`
+2. **第221行**：`style={{...} as React.CSSProperties}`} - 多余的 `}`
+
+### ✅ 解决方案
+```tsx
+// 错误做法 - 多余的闭合括号
+<button
+  style={{
+    color: isMenuActive(item) ? 'var(--text-primary)' : 'var(--text-secondary)',
+    '--hover-color': 'var(--text-primary)'
+  } as React.CSSProperties}
+  `}  // ← 这里多余
+  onClick={() => handleMenuClick(item)}
+>
+
+// 正确做法 - 移除多余的括号
+<button
+  style={{
+    color: isMenuActive(item) ? 'var(--text-primary)' : 'var(--text-secondary)',
+    '--hover-color': 'var(--text-primary)'
+  } as React.CSSProperties}
+  onClick={() => handleMenuClick(item)}
+>
+```
+
+### 🔧 修复步骤
+1. **定位错误**：根据webpack错误信息找到具体的语法错误位置
+2. **修复语法**：移除多余的 `}` 和反引号
+3. **验证修复**：运行构建命令确认错误消失
+4. **提交修复**：将修复内容提交到版本控制
+
+### 📝 经验教训
+- **JSX 语法检查**：在复杂的 JSX 结构中，特别注意模板字符串的括号匹配
+- **错误信息解读**：webpack 的错误信息通常能准确定位到问题行号
+- **逐步修复**：对于语法错误，应该逐一修复，避免一次性修改过多导致新问题
+- **测试验证**：每次修复后立即验证，确保问题真正解决
+
+### 🚨 预防措施
+- 使用 ESLint 和 Prettier 自动检查和格式化代码
+- 在 IDE 中启用 TypeScript 语法高亮和错误提示
+- 定期运行构建命令检查语法错误
+- 复杂的 JSX 结构应该分解为更小的组件
+
+---
+
 *记录时间: 2025-01-03 → 2025-07-07*
 *项目: Inventory Management System*
 *技术栈: React + TypeScript + shadcn/ui + Tailwind CSS*

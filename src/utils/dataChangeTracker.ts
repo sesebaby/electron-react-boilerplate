@@ -3,14 +3,14 @@
  * 用于分析和验证业务操作中的数据变化
  */
 
-import { DatabaseSnapshot } from './databaseSnapshot';
+import { IDatabaseSnapshot } from './databaseSnapshot';
 
 export interface DataChangeRecord {
   operationId: string;
   operation: string;
   timestamp: Date;
-  beforeSnapshot: DatabaseSnapshot;
-  afterSnapshot: DatabaseSnapshot;
+  beforeSnapshot: IDatabaseSnapshot;
+  afterSnapshot: IDatabaseSnapshot;
   changes: Map<string, TableChangeRecord>;
   integrity: DataIntegrityReport;
 }
@@ -70,8 +70,8 @@ export class DataChangeTracker {
    */
   async trackOperation(
     operation: string,
-    beforeSnapshot: DatabaseSnapshot,
-    afterSnapshot: DatabaseSnapshot
+    beforeSnapshot: IDatabaseSnapshot,
+    afterSnapshot: IDatabaseSnapshot
   ): Promise<DataChangeRecord> {
     const operationId = `${operation}_${Date.now()}`;
     
@@ -99,8 +99,8 @@ export class DataChangeTracker {
    * 分析数据变化
    */
   private async analyzeChanges(
-    beforeSnapshot: DatabaseSnapshot,
-    afterSnapshot: DatabaseSnapshot
+    beforeSnapshot: IDatabaseSnapshot,
+    afterSnapshot: IDatabaseSnapshot
   ): Promise<Map<string, TableChangeRecord>> {
     const changes = new Map<string, TableChangeRecord>();
     
@@ -237,8 +237,8 @@ export class DataChangeTracker {
    * 验证数据完整性
    */
   async verifyDataIntegrity(
-    beforeSnapshot: DatabaseSnapshot,
-    afterSnapshot: DatabaseSnapshot,
+    beforeSnapshot: IDatabaseSnapshot,
+    afterSnapshot: IDatabaseSnapshot,
     changes: Map<string, TableChangeRecord>
   ): Promise<DataIntegrityReport> {
     const violations: IntegrityViolation[] = [];
@@ -309,7 +309,7 @@ export class DataChangeTracker {
   private async checkCrossTableIntegrity(
     tableName: string,
     tableChange: TableChangeRecord,
-    snapshot: DatabaseSnapshot
+    snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
     
@@ -343,7 +343,7 @@ export class DataChangeTracker {
    */
   private async checkInventoryStockIntegrity(
     tableChange: TableChangeRecord,
-    snapshot: DatabaseSnapshot
+    snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
     
@@ -384,7 +384,7 @@ export class DataChangeTracker {
    */
   private async checkFifoQueueIntegrity(
     tableChange: TableChangeRecord,
-    snapshot: DatabaseSnapshot
+    snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
     
@@ -426,7 +426,7 @@ export class DataChangeTracker {
    */
   private async checkAccountsPayableIntegrity(
     tableChange: TableChangeRecord,
-    snapshot: DatabaseSnapshot
+    snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
     
@@ -453,7 +453,7 @@ export class DataChangeTracker {
    */
   private async checkAccountsReceivableIntegrity(
     tableChange: TableChangeRecord,
-    snapshot: DatabaseSnapshot
+    snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
     
@@ -480,7 +480,7 @@ export class DataChangeTracker {
    */
   private async checkPurchaseOrderIntegrity(
     tableChange: TableChangeRecord,
-    snapshot: DatabaseSnapshot
+    snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
     
@@ -516,7 +516,7 @@ export class DataChangeTracker {
    */
   private async checkSalesOrderIntegrity(
     tableChange: TableChangeRecord,
-    snapshot: DatabaseSnapshot
+    snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
     
@@ -552,7 +552,7 @@ export class DataChangeTracker {
    */
   private async checkBusinessLogicIntegrity(
     changes: Map<string, TableChangeRecord>,
-    snapshot: DatabaseSnapshot
+    snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
     
@@ -569,7 +569,7 @@ export class DataChangeTracker {
    */
   private async checkInventoryBusinessLogic(
     changes: Map<string, TableChangeRecord>,
-    snapshot: DatabaseSnapshot
+    snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
     
@@ -590,7 +590,7 @@ export class DataChangeTracker {
    */
   private async checkFinancialBusinessLogic(
     changes: Map<string, TableChangeRecord>,
-    snapshot: DatabaseSnapshot
+    snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
     
@@ -611,7 +611,7 @@ export class DataChangeTracker {
    */
   private async checkOrderBusinessLogic(
     changes: Map<string, TableChangeRecord>,
-    snapshot: DatabaseSnapshot
+    snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
     

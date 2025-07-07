@@ -234,20 +234,33 @@ inventory-management/
 │   │   ├── useInventory.ts
 │   │   ├── useTheme.ts
 │   │   ├── useExcel.ts
-│   │   └── useErrorHandler.ts
+│   │   ├── useErrorHandler.ts
+│   │   └── useDialog.ts              # 对话框管理Hook
+│   ├── contexts/                    # React Context
+│   │   ├── DialogContext.tsx         # 对话框上下文
+│   │   └── ThemeContext.tsx          # 主题上下文
 │   ├── types/                       # TypeScript 类型定义
 │   │   ├── entities.ts              # 实体类型
 │   │   ├── database.ts              # 数据库类型
 │   │   ├── inventory.ts             # 库存类型
 │   │   ├── excel.ts                 # Excel类型
-│   │   └── electron.ts              # Electron类型
+│   │   ├── electron.ts              # Electron类型
+│   │   ├── consumption.ts           # 消耗数据类型
+│   │   ├── fifo.ts                  # FIFO库存类型
+│   │   ├── monthlyBalance.ts        # 月度结余类型
+│   │   └── simpleNotification.ts    # 通知类型
 │   ├── utils/                       # 工具函数
 │   │   ├── formatters.ts            # 格式化工具
 │   │   ├── errors.ts                # 错误处理
 │   │   ├── secureLogger.ts          # 安全日志
 │   │   ├── concurrency.ts           # 并发控制
 │   │   ├── notificationHelper.ts    # 通知帮助
-│   │   └── dataCleanup.ts           # 数据清理
+│   │   ├── dataCleanup.ts           # 数据清理
+│   │   ├── logger.ts                # 高级日志系统
+│   │   ├── concurrencyManager.ts    # 并发管理器
+│   │   ├── consumptionCalculator.ts # 消耗计算器
+│   │   ├── timeSlotHelper.ts        # 时间段帮助器
+│   │   └── unitConversionHelper.ts  # 单位转换帮助器
 │   ├── data/                        # 数据相关
 │   │   └── schema.sql               # 数据库表结构
 │   ├── database/                    # 数据库迁移

@@ -865,6 +865,127 @@
   color: var(--text-tertiary);
 }
 
+/* 玻璃感标签徽章 */
+.glass-badge-default {
+  background: var(--card-background);
+  color: var(--text-primary);
+  border: var(--glass-border);
+}
+
+.glass-badge-secondary {
+  background: var(--accent-color);
+  color: var(--text-primary);
+  border: 1px solid var(--accent-color);
+}
+
+.glass-badge-destructive {
+  background: var(--error-color);
+  color: var(--text-primary);
+  border: 1px solid var(--error-color);
+}
+
+.glass-badge-outline {
+  background: transparent;
+  color: var(--text-primary);
+  border: var(--glass-border);
+}
+
+.glass-badge-success {
+  background: var(--success-color);
+  color: var(--text-primary);
+  border: 1px solid var(--success-color);
+}
+
+.glass-badge-warning {
+  background: var(--warning-color);
+  color: var(--text-primary);
+  border: 1px solid var(--warning-color);
+}
+
+/* 玻璃感骨架屏 */
+.glass-skeleton {
+  background: var(--card-background);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  opacity: 0.6;
+}
+
+/* 玻璃感分页器 */
+.glass-pagination-link {
+  background: var(--card-background);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  transition: var(--transition-base);
+}
+
+.glass-pagination-link:hover {
+  background: var(--hover-background);
+  transform: translateY(-1px);
+}
+
+.glass-pagination-active {
+  background: var(--active-background);
+  border: 2px solid var(--accent-color);
+}
+
+/* 玻璃感吐司通知 */
+.toast-success {
+  border: 1px solid var(--success-color);
+  background: var(--card-background);
+}
+
+.toast-error {
+  border: 1px solid var(--error-color);
+  background: var(--card-background);
+}
+
+.toast-warning {
+  border: 1px solid var(--warning-color);
+  background: var(--card-background);
+}
+
+.toast-info {
+  border: 1px solid var(--accent-color);
+  background: var(--card-background);
+}
+
+/* 玻璃感关闭按钮 */
+.glass-button-close {
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.glass-button-close:hover {
+  background: var(--hover-background);
+  color: var(--popup-text-primary);
+}
+
+/* 警告对话框图标 */
+.alert-icon-success {
+  background: var(--success-color);
+  opacity: 0.2;
+}
+
+.alert-icon-error {
+  background: var(--error-color);
+  opacity: 0.2;
+}
+
+.alert-icon-warning {
+  background: var(--warning-color);
+  opacity: 0.2;
+}
+
+.alert-icon-info {
+  background: var(--accent-color);
+  opacity: 0.2;
+}
+
 /* 响应式适配 */
 @media (max-width: 768px) {
   :root {

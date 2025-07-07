@@ -1,0 +1,307 @@
+{
+  "metadata": {
+    "generatedAt": "2025-07-07T06:42:29.361Z",
+    "reportVersion": "1.0.0",
+    "testFramework": "Business Logic Verifier v1.0"
+  },
+  "summary": {
+    "totalScenarios": 4,
+    "passedScenarios": 4,
+    "failedScenarios": 0,
+    "successRate": 100,
+    "executionTime": "模拟时间"
+  },
+  "scenarios": [
+    {
+      "id": 1,
+      "name": "库存管理",
+      "status": "PASSED",
+      "details": {
+        "scenario": "inventory_management",
+        "passed": true,
+        "operations": [
+          {
+            "operation": "库存入库",
+            "type": "stock_in",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "库存入库成功",
+              "data": {
+                "updated_quantity": 120
+              }
+            },
+            "issues": []
+          },
+          {
+            "operation": "库存出库",
+            "type": "stock_out",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "库存出库成功",
+              "error": null,
+              "issues": []
+            },
+            "issues": []
+          },
+          {
+            "operation": "库存调整",
+            "type": "stock_adjust",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "库存调整成功",
+              "data": {
+                "adjusted_quantity": 95
+              }
+            },
+            "issues": []
+          },
+          {
+            "operation": "FIFO计算",
+            "type": "fifo_calc",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "FIFO计算成功",
+              "data": {
+                "consumed_batches": [
+                  {
+                    "batch_id": 1,
+                    "quantity": 10,
+                    "cost": 100
+                  }
+                ],
+                "total_cost": 100
+              },
+              "issues": []
+            },
+            "issues": []
+          }
+        ],
+        "summary": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0,
+          "successRate": 100,
+          "issues": []
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "采购工作流",
+      "status": "PASSED",
+      "details": {
+        "workflow": "purchase_complete_workflow",
+        "completed": true,
+        "steps": [
+          {
+            "step": "创建采购订单",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "采购订单创建成功",
+              "outputData": {
+                "purchase_order": {
+                  "id": 252,
+                  "order_number": "PO1751870549019",
+                  "total_amount": 1000
+                }
+              }
+            },
+            "executionTime": 12
+          },
+          {
+            "step": "创建收货单",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "收货单创建成功",
+              "outputData": {
+                "receipt": {
+                  "id": 82,
+                  "receipt_number": "REC1751870549060"
+                }
+              }
+            },
+            "executionTime": 96
+          },
+          {
+            "step": "更新库存",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "库存更新成功",
+              "outputData": {
+                "inventory_updated": true
+              }
+            },
+            "executionTime": 108
+          },
+          {
+            "step": "创建应付账款",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "应付账款创建成功",
+              "outputData": {
+                "payable": {
+                  "id": 129,
+                  "total_amount": 1000
+                }
+              }
+            },
+            "executionTime": 23
+          }
+        ],
+        "summary": {
+          "stepsTotal": 4,
+          "stepsPassed": 4,
+          "stepsFailed": 0,
+          "successRate": 100,
+          "totalExecutionTime": 239
+        }
+      }
+    },
+    {
+      "id": 3,
+      "name": "销售工作流",
+      "status": "PASSED",
+      "details": {
+        "workflow": "sales_complete_workflow",
+        "completed": true,
+        "steps": [
+          {
+            "step": "创建销售订单",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "销售订单创建成功",
+              "error": null,
+              "outputData": {
+                "sales_order": {
+                  "id": 455,
+                  "order_number": "SO1751870549150",
+                  "total_amount": 500
+                }
+              }
+            },
+            "executionTime": 90
+          },
+          {
+            "step": "预留库存",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "库存预留成功",
+              "outputData": {
+                "stock_reserved": true
+              }
+            },
+            "executionTime": 86
+          },
+          {
+            "step": "创建发货单",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "发货单创建成功",
+              "outputData": {
+                "delivery": {
+                  "id": 551,
+                  "delivery_number": "DEL1751870549229"
+                }
+              }
+            },
+            "executionTime": 36
+          },
+          {
+            "step": "更新库存",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "库存更新成功",
+              "outputData": {
+                "inventory_updated": true
+              }
+            },
+            "executionTime": 10
+          },
+          {
+            "step": "创建应收账款",
+            "passed": true,
+            "result": {
+              "success": true,
+              "message": "应收账款创建成功",
+              "outputData": {
+                "receivable": {
+                  "id": 481,
+                  "total_amount": 500
+                }
+              }
+            },
+            "executionTime": 25
+          }
+        ],
+        "summary": {
+          "stepsTotal": 5,
+          "stepsPassed": 5,
+          "stepsFailed": 0,
+          "successRate": 100,
+          "totalExecutionTime": 247
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name": "数据完整性",
+      "status": "PASSED",
+      "details": {
+        "scenario": "data_integrity",
+        "passed": true,
+        "checks": [
+          {
+            "check": "库存数量非负检查",
+            "passed": true,
+            "violations": [],
+            "warnings": []
+          },
+          {
+            "check": "FIFO队列一致性检查",
+            "passed": true,
+            "violations": [],
+            "warnings": []
+          },
+          {
+            "check": "应付应收余额检查",
+            "passed": true,
+            "violations": [],
+            "warnings": []
+          },
+          {
+            "check": "外键完整性检查",
+            "passed": true,
+            "violations": [],
+            "warnings": []
+          }
+        ],
+        "summary": {
+          "checksTotal": 4,
+          "checksPassed": 4,
+          "checksFailed": 0,
+          "totalViolations": 0,
+          "criticalViolations": 0
+        }
+      }
+    }
+  ],
+  "issues": [],
+  "recommendations": [
+    "继续保持良好的代码质量",
+    "定期运行业务逻辑验证以预防问题",
+    "考虑增加更多边界情况的测试",
+    "建立持续集成中的自动验证"
+  ]
+}

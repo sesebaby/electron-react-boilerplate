@@ -9,7 +9,7 @@ function Skeleton({ className, ...props }: SkeletonProps) {
   return (
     <div
       className={cn(
-        "animate-pulse rounded-md bg-white/10 backdrop-blur-sm",
+        "animate-pulse rounded-md glass-skeleton",
         className
       )}
       {...props}

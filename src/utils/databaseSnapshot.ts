@@ -13,7 +13,7 @@ export interface TableSnapshot {
   timestamp: Date;
 }
 
-export interface DatabaseSnapshot {
+export interface IDatabaseSnapshot {
   snapshotId: string;
   testId: string;
   operation: string;
@@ -61,13 +61,13 @@ export class DatabaseSnapshot {
   /**
    * 捕获数据库快照
    */
-  async captureSnapshot(testId: string, operation: string): Promise<DatabaseSnapshot> {
+  async captureSnapshot(testId: string, operation: string): Promise<IDatabaseSnapshot> {
     const snapshotId = `${testId}_${operation}_${Date.now()}`;
     const timestamp = new Date();
     
     console.log(`[DatabaseSnapshot] 捕获快照: ${snapshotId}`);
     
-    const snapshot: DatabaseSnapshot = {
+    const snapshot: IDatabaseSnapshot = {
       snapshotId,
       testId,
       operation,
@@ -183,7 +183,7 @@ export class DatabaseSnapshot {
   /**
    * 加载快照文件
    */
-  async loadSnapshot(snapshotId: string): Promise<DatabaseSnapshot | null> {
+  async loadSnapshot(snapshotId: string): Promise<IDatabaseSnapshot | null> {
     try {
       const fs = require('fs').promises;
       const path = require('path');
@@ -193,7 +193,7 @@ export class DatabaseSnapshot {
       const snapshotData = JSON.parse(data);
       
       // 恢复 Map 结构
-      const snapshot: DatabaseSnapshot = {
+      const snapshot: IDatabaseSnapshot = {
         ...snapshotData,
         tables: new Map(snapshotData.tables.map(item => [item.key, item.value]))
       };
@@ -208,7 +208,7 @@ export class DatabaseSnapshot {
   /**
    * 比较两个快照的差异
    */
-  async compareSnapshots(beforeSnapshot: DatabaseSnapshot, afterSnapshot: DatabaseSnapshot): Promise<any> {
+  async compareSnapshots(beforeSnapshot: IDatabaseSnapshot, afterSnapshot: IDatabaseSnapshot): Promise<any> {
     console.log(`[DatabaseSnapshot] 比较快照: ${beforeSnapshot.snapshotId} vs ${afterSnapshot.snapshotId}`);
     
     const comparison = {

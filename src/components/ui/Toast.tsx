@@ -34,37 +34,27 @@ export const Toast: React.FC<ToastProps> = ({
       case 'success':
         return {
           icon: '✅',
-          bg: 'bg-green-500/20',
-          border: 'border-green-400/30',
-          text: 'text-green-300'
+          className: 'toast-success'
         };
       case 'error':
         return {
           icon: '❌',
-          bg: 'bg-red-500/20',
-          border: 'border-red-400/30',
-          text: 'text-red-300'
+          className: 'toast-error'
         };
       case 'warning':
         return {
           icon: '⚠️',
-          bg: 'bg-yellow-500/20',
-          border: 'border-yellow-400/30',
-          text: 'text-yellow-300'
+          className: 'toast-warning'
         };
       case 'info':
         return {
           icon: 'ℹ️',
-          bg: 'bg-blue-500/20',
-          border: 'border-blue-400/30',
-          text: 'text-blue-300'
+          className: 'toast-info'
         };
       default:
         return {
           icon: 'ℹ️',
-          bg: 'bg-blue-500/20',
-          border: 'border-blue-400/30',
-          text: 'text-blue-300'
+          className: 'toast-info'
         };
     }
   };
@@ -77,8 +67,8 @@ export const Toast: React.FC<ToastProps> = ({
     <div className="fixed top-4 right-4 z-[9999]">
       <div 
         className={`
-          glass-card p-4 min-w-80 max-w-md backdrop-blur-lg border
-          ${styles.bg} ${styles.border}
+          glass-card p-4 min-w-80 max-w-md backdrop-blur-lg
+          ${styles.className}
           transform transition-all duration-300 ease-in-out
           ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}
         `}
@@ -88,7 +78,7 @@ export const Toast: React.FC<ToastProps> = ({
             <span className="text-xl">{styles.icon}</span>
           </div>
           <div className="flex-1">
-            <p className={`text-sm font-medium ${styles.text}`}>
+            <p className="text-sm font-medium" style={{ color: 'var(--popup-text-primary)' }}>
               {message}
             </p>
           </div>
@@ -97,7 +87,8 @@ export const Toast: React.FC<ToastProps> = ({
               setIsVisible(false);
               setTimeout(onClose, 300);
             }}
-            className="flex-shrink-0 text-white/60 hover:text-white/80 transition-colors"
+            className="flex-shrink-0 transition-colors glass-button-close"
+            style={{ color: 'var(--popup-text-secondary)' }}
           >
             ✕
           </button>

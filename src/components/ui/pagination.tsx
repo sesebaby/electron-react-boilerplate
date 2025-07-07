@@ -48,10 +48,11 @@ const PaginationLink = ({
     aria-current={isActive ? "page" : undefined}
     className={cn(
       "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-      "h-10 w-10 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20",
-      isActive && "bg-white/30 border-white/40",
+      "h-10 w-10 glass-pagination-link",
+      isActive && "glass-pagination-active",
       className
     )}
+    style={{ color: 'var(--text-primary)', ...props.style } as React.CSSProperties}
     {...props}
   />
 )
@@ -94,9 +95,10 @@ const PaginationEllipsis = ({
   <span
     aria-hidden
     className={cn("flex h-9 w-9 items-center justify-center", className)}
+    style={{ color: 'var(--text-tertiary)', ...props.style } as React.CSSProperties}
     {...props}
   >
-    <MoreHorizontal className="h-4 w-4 text-white/60" />
+    <MoreHorizontal className="h-4 w-4" style={{ color: 'var(--text-tertiary)' }} />
     <span className="sr-only">More pages</span>
   </span>
 )
