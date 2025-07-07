@@ -334,7 +334,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                 {searchResults.length > 0 ? (
                   <>
                     <div className="p-3 border-b border-white/10">
-                      <h3 className="text-sm font-medium text-white/80">
+                      <h3 className="text-sm font-medium" style={{ color: 'var(--popup-text-secondary)' }}>
                         找到 {searchResults.length} 个商品
                       </h3>
                     </div>
@@ -346,15 +346,15 @@ export const TopBar: React.FC<TopBarProps> = ({
                         onClick={() => handleSearchResultClick(item)}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-white/60 text-sm">
+                          <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-sm" style={{ color: 'var(--popup-text-tertiary)' }}>
                             📦
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="text-white font-medium truncate">{item.name}</div>
-                            <div className="text-white/60 text-sm truncate">
+                            <div className="font-medium truncate" style={{ color: 'var(--popup-text-primary)' }}>{item.name}</div>
+                            <div className="text-sm truncate" style={{ color: 'var(--popup-text-secondary)' }}>
                               SKU: {item.sku} | 分类: {item.category}
                             </div>
-                            <div className="text-white/50 text-xs">
+                            <div className="text-xs" style={{ color: 'var(--popup-text-tertiary)' }}>
                               库存: {item.stockQuantity} | ¥{item.unitPrice}
                             </div>
                           </div>
@@ -374,8 +374,8 @@ export const TopBar: React.FC<TopBarProps> = ({
                   </>
                 ) : (
                   <div className="p-6 text-center">
-                    <div className="text-white/40 text-4xl mb-2">🔍</div>
-                    <div className="text-white/60 text-sm">
+                    <div className="text-4xl mb-2" style={{ color: 'var(--popup-text-tertiary)' }}>🔍</div>
+                    <div className="text-sm" style={{ color: 'var(--popup-text-secondary)' }}>
                       {isSearching ? '搜索中...' : `未找到包含 "${searchValue}" 的商品`}
                     </div>
                   </div>
@@ -404,7 +404,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             >
               🔔
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 w-5 h-5 text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--error-color)', color: 'var(--text-primary)' }}>
                   {unreadCount > 99 ? '99+' : unreadCount}
                 </span>
               )}
@@ -487,7 +487,7 @@ export const TopBar: React.FC<TopBarProps> = ({
               className="glass-button flex items-center gap-2 px-3 py-2 rounded-lg transition-all"
               onClick={() => setShowUserMenu(!showUserMenu)}
             >
-              <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+              <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>
                 👤
               </div>
               <span className="text-sm font-medium hidden sm:block" style={{ color: 'var(--text-primary)' }}>管理员</span>
@@ -499,7 +499,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                 <div className="absolute top-12 right-0 w-64 popup-dropdown z-50">
                   <div className="p-4 border-b border-white/10">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center font-semibold" style={{ color: 'var(--text-primary)' }}>
                         👤
                       </div>
                       <div className="flex-1 min-w-0">
@@ -543,7 +543,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 
           {/* 系统状态 */}
           <div className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg glass-surface">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+            <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'var(--success-color)' }}></span>
             <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>在线</span>
           </div>
         </div>
