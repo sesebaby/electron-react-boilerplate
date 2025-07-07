@@ -296,6 +296,65 @@ interface InventoryTableProps {
 
 ---
 
-*记录时间: 2025-01-03*
+## ❌ 错误 #8: 侧边栏子菜单被截断 - 月度结余功能不可见
+
+### 🐛 问题描述
+月度结余功能已正确实现并配置，但在侧边栏导航中不可见。用户反馈库存管理子菜单只显示部分菜单项，最后几个菜单项（出库管理、库存调整、月度结余）被截断无法显示。
+
+### 💡 根本原因
+1. **子菜单高度限制过严**：`max-h-96` (384px) 限制导致内容超出时被隐藏
+2. **底部用户信息区域占用过多空间**：固定高度挤压了导航菜单的可用空间
+3. **ScrollArea组件配置不当**：没有为子菜单提供足够的滚动空间
+4. **菜单项数量增加**：随着功能迭代，子菜单项数量超出了初始设计预期
+
+### ✅ 解决方案
+```tsx
+// 错误做法 - 高度限制过严
+<div className={`
+  overflow-hidden transition-all duration-300 ease-in-out
+  ${expandedMenus.includes(item.id) ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
+`}>
+
+// 正确做法 - 增加高度限制
+<div className={`
+  overflow-hidden transition-all duration-300 ease-in-out
+  ${expandedMenus.includes(item.id) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}
+`}>
+
+// 错误做法 - 底部区域占用过多空间
+<div className="flex-shrink-0 border-t border-white/10 p-4">
+  <div className="space-y-3">
+    <div className="flex items-center gap-3 p-2 rounded-lg bg-white/5 border border-white/10">
+      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full">
+
+// 正确做法 - 压缩底部区域高度
+<div className="flex-shrink-0 border-t border-white/10 p-2">
+  <div className="space-y-2">
+    <div className="flex items-center gap-3 p-2 rounded-lg bg-white/5 border border-white/10">
+      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full text-sm">
+```
+
+### 🔧 优化策略
+1. **菜单项重新排序**：将重要功能（月度结余）提前到第5位，确保优先显示
+2. **渐进式空间压缩**：优先压缩辅助区域，保证核心导航功能
+3. **响应式高度调整**：根据内容动态计算合适的最大高度
+4. **用户体验优化**：简化菜单文本（"逐日消耗视图" → "逐日消耗"）
+
+### 📝 经验教训
+- **菜单设计要考虑扩展性**：初始设计应预留足够空间应对功能增长
+- **高度限制要基于实际内容**：不要使用固定像素值，应该基于内容量动态调整
+- **用户反馈是发现问题的重要渠道**：仅靠开发者测试可能错过真实使用场景
+- **布局优先级要明确**：导航功能比装饰性元素更重要，应优先保证导航空间
+- **渐进式优化原则**：先解决功能问题，再考虑美观性调整
+
+### 🚨 预防措施
+- 定期检查菜单在不同屏幕尺寸下的显示效果
+- 建立菜单项数量上限警告机制
+- 使用相对单位而非固定像素值设置高度限制
+- 在功能迭代时同步检查UI适配性
+
+---
+
+*记录时间: 2025-01-03 → 2025-07-07*
 *项目: Inventory Management System*
 *技术栈: React + TypeScript + shadcn/ui + Tailwind CSS*
