@@ -46,10 +46,19 @@ const App: React.FC = () => {
     // 初始化系统和数据
     const initSystem = async () => {
       try {
-        // 初始化业务服务
+        // 首先初始化数据库
+        console.log('Initializing database...');
+        if (window.electronAPI?.dbInitialize) {
+          await window.electronAPI.dbInitialize();
+          console.log('Database initialized successfully');
+        }
+
+        // 然后初始化业务服务（会从数据库加载数据）
+        console.log('Initializing business services...');
         await businessServiceManager.initialize();
 
-        // 初始化种子数据
+        // 最后初始化其他数据
+        console.log('Initializing additional data...');
         await dataInitializer.initializeData();
 
         // TODO: 初始化库存卡片视图测试数据（暂时禁用）

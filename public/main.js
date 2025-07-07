@@ -203,10 +203,61 @@ async function initializeDatabase() {
     db.exec(schema);
     console.log('Database schema initialized');
     
+    // 检查数据库是否为空，如果是则导入mock数据
+    await importMockDataIfEmpty();
+    
     return Promise.resolve();
   } catch (error) {
     console.error('Database initialization failed:', error);
     return Promise.reject(error);
+  }
+}
+
+// 导入mock数据（如果数据库为空）
+async function importMockDataIfEmpty() {
+  try {
+    // 检查是否已有数据
+    const itemCount = db.prepare('SELECT COUNT(*) as count FROM inventory_items').get();
+    
+    if (itemCount.count > 0) {
+      console.log(`Database already has ${itemCount.count} items, skipping mock data import`);
+      return;
+    }
+    
+    console.log('Database is empty, importing mock data...');
+    
+    // 读取mock-data.sql文件
+    const mockDataPath = path.join(__dirname, '../mock-data.sql');
+    
+    if (!await fs.access(mockDataPath).then(() => true).catch(() => false)) {
+      console.log('Mock data file not found, skipping import');
+      return;
+    }
+    
+    const mockDataSql = await fs.readFile(mockDataPath, 'utf8');
+    
+    // 执行SQL脚本
+    db.exec(mockDataSql);
+    
+    // 验证导入结果
+    const finalCount = db.prepare('SELECT COUNT(*) as count FROM inventory_items').get();
+    console.log(`Mock data import completed: ${finalCount.count} items imported`);
+    
+    // 显示统计信息
+    const tables = ['categories', 'suppliers', 'inventory_items', 'inventory_transactions'];
+    console.log('Import statistics:');
+    for (const table of tables) {
+      try {
+        const count = db.prepare(`SELECT COUNT(*) as count FROM ${table}`).get();
+        console.log(`  ${table}: ${count.count} records`);
+      } catch (error) {
+        console.log(`  ${table}: query failed - ${error.message}`);
+      }
+    }
+    
+  } catch (error) {
+    console.error('Failed to import mock data:', error);
+    // 不抛出错误，让应用继续启动
   }
 }
 

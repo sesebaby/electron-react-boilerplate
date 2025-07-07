@@ -45,8 +45,9 @@ export const InventoryEntryRegistration: React.FC = () => {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     
     return Array.from({ length: daysInMonth }, (_, i) => {
-      const date = new Date(year, month, i + 1);
-      return date.toISOString().split('T')[0];
+      const day = i + 1;
+      // 直接构建日期字符串，避免时区问题
+      return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     });
   }, []); // 移除依赖，只在组件首次加载时计算
 
