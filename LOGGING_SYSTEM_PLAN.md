@@ -47,18 +47,23 @@
 - **Git Hash**: N/A 
 
 ### 第三阶段：日志收集集成
-#### 4. 全局错误捕获 ⏳
-- **状态**: 待执行
+#### 4. 全局错误捕获 ✅
+- **状态**: 已完成
 - **描述**: 集成React错误边界和全局错误处理
 - **技术要点**:
-  - 增强ErrorBoundary组件
-  - 集成window.onerror
-  - 未捕获Promise异常处理
+  - ✅ 增强ErrorBoundary组件
+  - ✅ 集成window.onerror
+  - ✅ 未捕获Promise异常处理
+  - ✅ 控制台错误捕获
+  - ✅ 资源加载错误监听
+  - ✅ 错误频率限制和去重
+  - ✅ 会话级别错误统计
 - **文件修改**:
-  - `src/components/ErrorBoundary.tsx`
-  - `src/utils/globalErrorHandler.ts`
-- **完成时间**: 
-- **Git Hash**: 
+  - ✅ `src/components/ErrorBoundary.tsx`
+  - ✅ `src/utils/globalErrorHandler.ts`
+  - ✅ `src/index.tsx`
+- **完成时间**: 2025-07-07
+- **Git Hash**: 5ac5b1e 
 
 #### 5. API调用日志记录 ⏳
 - **状态**: 待执行

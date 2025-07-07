@@ -1,6 +1,17 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import { logger } from '../../utils/secureLogger';
+import { logger } from '../../utils/logger';
+
+// 扩展Axios配置类型以支持metadata
+declare module 'axios' {
+  interface InternalAxiosRequestConfig {
+    metadata?: {
+      requestId: string;
+      startTime: Date;
+      logEntry: ApiLogEntry;
+    };
+  }
+}
 
 export interface ApiConfig {
   baseURL: string;
@@ -15,10 +26,34 @@ export interface ApiResponse<T = any> {
   error?: string;
 }
 
+export interface ApiLogEntry {
+  requestId: string;
+  method: string;
+  url: string;
+  baseURL?: string;
+  fullUrl: string;
+  requestTime: Date;
+  responseTime?: Date;
+  duration?: number;
+  status?: number;
+  statusText?: string;
+  requestHeaders?: Record<string, any>;
+  responseHeaders?: Record<string, any>;
+  requestData?: any;
+  responseData?: any;
+  error?: string;
+  success: boolean;
+  userAgent: string;
+  userId?: string | null;
+}
+
 class ApiClient {
   private client: AxiosInstance;
   private config: ApiConfig;
   private encryptionKey: string;
+  private enableApiLogging: boolean = true;
+  private logSensitiveData: boolean = false;
+  private currentUserId: string | null = null;
 
   constructor(config: ApiConfig) {
     this.config = config;
@@ -38,18 +73,33 @@ class ApiClient {
   private setupInterceptors() {
     // Request interceptor
     this.client.interceptors.request.use(
-      (config) => {
+      (config: InternalAxiosRequestConfig) => {
+        // Add request ID for tracking
+        const requestId = uuidv4();
+        config.metadata = { 
+          requestId, 
+          startTime: new Date(),
+          logEntry: this.createInitialLogEntry(config, requestId)
+        };
+
         // Add auth token if available
         const token = this.getAuthToken();
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
         
-        logger.debug(`API Request: ${config.method?.toUpperCase()} ${config.url}`);
+        // Log request start
+        if (this.enableApiLogging) {
+          this.logRequestStart(config);
+        }
+        
         return config;
       },
       (error) => {
-        logger.error('Request Error', error);
+        // Log request error
+        if (this.enableApiLogging) {
+          this.logRequestError(error);
+        }
         return Promise.reject(error);
       }
     );
@@ -57,11 +107,17 @@ class ApiClient {
     // Response interceptor
     this.client.interceptors.response.use(
       (response: AxiosResponse) => {
-        logger.debug(`API Response: ${response.status} ${response.config.url}`);
+        // Log successful response
+        if (this.enableApiLogging) {
+          this.logResponseSuccess(response);
+        }
         return response;
       },
       (error) => {
-        logger.error('Response Error', error);
+        // Log response error
+        if (this.enableApiLogging) {
+          this.logResponseError(error);
+        }
         
         if (error.response?.status === 401) {
           // Handle unauthorized access
@@ -121,11 +177,211 @@ class ApiClient {
     }
   }
 
+  /**
+   * 创建初始日志条目
+   */
+  private createInitialLogEntry(config: InternalAxiosRequestConfig, requestId: string): ApiLogEntry {
+    const fullUrl = `${config.baseURL || this.config.baseURL}${config.url}`;
+    
+    return {
+      requestId,
+      method: (config.method || 'GET').toUpperCase(),
+      url: config.url || '',
+      baseURL: config.baseURL || this.config.baseURL,
+      fullUrl,
+      requestTime: new Date(),
+      requestHeaders: this.sanitizeHeaders(config.headers),
+      requestData: this.logSensitiveData ? config.data : this.sanitizeRequestData(config.data),
+      success: false,
+      userAgent: navigator.userAgent,
+      userId: this.currentUserId
+    };
+  }
+
+  /**
+   * 记录请求开始
+   */
+  private logRequestStart(config: InternalAxiosRequestConfig): void {
+    const logEntry = config.metadata?.logEntry;
+    if (!logEntry) return;
+
+    logger.info(`API Request Started: ${logEntry.method} ${logEntry.fullUrl}`, {
+      requestId: logEntry.requestId,
+      method: logEntry.method,
+      url: logEntry.fullUrl,
+      headers: logEntry.requestHeaders,
+      data: logEntry.requestData,
+      userId: this.currentUserId
+    }, 'ApiClient');
+  }
+
+  /**
+   * 记录请求错误
+   */
+  private logRequestError(error: any): void {
+    logger.error('API Request Error (before sending)', {
+      error: error.message || 'Unknown request error',
+      stack: error.stack,
+      userId: this.currentUserId
+    }, 'ApiClient');
+  }
+
+  /**
+   * 记录响应成功
+   */
+  private logResponseSuccess(response: AxiosResponse): void {
+    const config = response.config;
+    const startTime = config.metadata?.startTime;
+    const requestId = config.metadata?.requestId;
+    const endTime = new Date();
+    const duration = startTime ? endTime.getTime() - startTime.getTime() : undefined;
+
+    const logEntry: ApiLogEntry = {
+      requestId: requestId || 'unknown',
+      method: (config.method || 'GET').toUpperCase(),
+      url: config.url || '',
+      baseURL: config.baseURL || this.config.baseURL,
+      fullUrl: `${config.baseURL || this.config.baseURL}${config.url}`,
+      requestTime: startTime || endTime,
+      responseTime: endTime,
+      duration,
+      status: response.status,
+      statusText: response.statusText,
+      requestHeaders: this.sanitizeHeaders(config.headers),
+      responseHeaders: this.sanitizeHeaders(response.headers),
+      requestData: this.logSensitiveData ? config.data : this.sanitizeRequestData(config.data),
+      responseData: this.logSensitiveData ? response.data : this.sanitizeResponseData(response.data),
+      success: true,
+      userAgent: navigator.userAgent,
+      userId: this.currentUserId
+    };
+
+    logger.info(`API Request Success: ${logEntry.method} ${logEntry.fullUrl} (${duration}ms)`, logEntry, 'ApiClient');
+  }
+
+  /**
+   * 记录响应错误
+   */
+  private logResponseError(error: any): void {
+    const config = error.config;
+    const response = error.response;
+    const startTime = config?.metadata?.startTime;
+    const requestId = config?.metadata?.requestId;
+    const endTime = new Date();
+    const duration = startTime ? endTime.getTime() - startTime.getTime() : undefined;
+
+    const logEntry: ApiLogEntry = {
+      requestId: requestId || 'unknown',
+      method: (config?.method || 'GET').toUpperCase(),
+      url: config?.url || '',
+      baseURL: config?.baseURL || this.config.baseURL,
+      fullUrl: config ? `${config.baseURL || this.config.baseURL}${config.url}` : 'unknown',
+      requestTime: startTime || endTime,
+      responseTime: endTime,
+      duration,
+      status: response?.status,
+      statusText: response?.statusText,
+      requestHeaders: config ? this.sanitizeHeaders(config.headers) : undefined,
+      responseHeaders: response ? this.sanitizeHeaders(response.headers) : undefined,
+      requestData: config && this.logSensitiveData ? config.data : this.sanitizeRequestData(config?.data),
+      responseData: response && this.logSensitiveData ? response.data : this.sanitizeResponseData(response?.data),
+      error: this.formatErrorMessage(error),
+      success: false,
+      userAgent: navigator.userAgent,
+      userId: this.currentUserId
+    };
+
+    logger.error(`API Request Failed: ${logEntry.method} ${logEntry.fullUrl} (${duration}ms)`, logEntry, 'ApiClient');
+  }
+
+  /**
+   * 清理敏感头信息
+   */
+  private sanitizeHeaders(headers: any): Record<string, any> {
+    if (!headers) return {};
+    
+    const sanitized = { ...headers };
+    const sensitiveKeys = ['authorization', 'auth', 'cookie', 'set-cookie', 'x-api-key', 'x-auth-token'];
+    
+    for (const key of sensitiveKeys) {
+      const lowerKey = key.toLowerCase();
+      for (const headerKey of Object.keys(sanitized)) {
+        if (headerKey.toLowerCase() === lowerKey) {
+          sanitized[headerKey] = '[REDACTED]';
+        }
+      }
+    }
+    
+    return sanitized;
+  }
+
+  /**
+   * 清理请求数据中的敏感信息
+   */
+  private sanitizeRequestData(data: any): any {
+    if (!data) return data;
+    
+    if (typeof data !== 'object') return '[DATA]';
+    
+    const sanitized = { ...data };
+    const sensitiveKeys = ['password', 'token', 'auth', 'secret', 'key', 'pin', 'ssn', 'credit'];
+    
+    for (const key of sensitiveKeys) {
+      if (sanitized[key] !== undefined) {
+        sanitized[key] = '[REDACTED]';
+      }
+    }
+    
+    return sanitized;
+  }
+
+  /**
+   * 清理响应数据中的敏感信息
+   */
+  private sanitizeResponseData(data: any): any {
+    if (!data) return data;
+    
+    // 限制响应数据大小
+    const dataStr = JSON.stringify(data);
+    if (dataStr.length > 10000) {
+      return '[LARGE_RESPONSE]';
+    }
+    
+    if (typeof data !== 'object') return data;
+    
+    const sanitized = { ...data };
+    const sensitiveKeys = ['password', 'token', 'auth', 'secret', 'key', 'pin', 'ssn', 'credit'];
+    
+    for (const key of sensitiveKeys) {
+      if (sanitized[key] !== undefined) {
+        sanitized[key] = '[REDACTED]';
+      }
+    }
+    
+    return sanitized;
+  }
+
+  /**
+   * 格式化错误消息
+   */
+  private formatErrorMessage(error: any): string {
+    if (error.response) {
+      return `${error.response.status} ${error.response.statusText}: ${error.response.data?.message || 'Request failed'}`;
+    } else if (error.request) {
+      return 'Network error: No response from server';
+    } else {
+      return error.message || 'Unknown error';
+    }
+  }
+
   private handleUnauthorized() {
     // Clear auth token and redirect to login
     this.clearAuthToken();
     // Emit event or call callback for unauthorized access
-    logger.security('Unauthorized access detected');
+    logger.warn('Unauthorized access detected, clearing tokens', {
+      userId: this.currentUserId,
+      url: window.location.href
+    }, 'ApiClient');
   }
 
   private formatError(error: any): Error {
@@ -226,16 +482,70 @@ class ApiClient {
     try {
       const encryptedToken = this.encryptToken(token);
       localStorage.setItem('_auth_data', encryptedToken);
-      logger.info('Auth token stored securely');
+      logger.info('Auth token stored securely', { userId: this.currentUserId }, 'ApiClient');
     } catch (error) {
-      logger.error('Failed to store auth token');
+      logger.error('Failed to store auth token', { 
+        error: error instanceof Error ? error.message : 'Unknown error',
+        userId: this.currentUserId 
+      }, 'ApiClient');
     }
   }
 
   clearAuthToken() {
     localStorage.removeItem('_auth_data');
     localStorage.removeItem('auth_token'); // Remove old tokens if they exist
-    logger.info('Auth token cleared');
+    logger.info('Auth token cleared', { userId: this.currentUserId }, 'ApiClient');
+  }
+
+  /**
+   * 设置当前用户ID（用于日志记录）
+   */
+  setUserId(userId: string | null): void {
+    this.currentUserId = userId;
+    logger.info('API Client user ID updated', { userId }, 'ApiClient');
+  }
+
+  /**
+   * 获取当前用户ID
+   */
+  getUserId(): string | null {
+    return this.currentUserId;
+  }
+
+  /**
+   * 启用/禁用API日志记录
+   */
+  setApiLogging(enabled: boolean): void {
+    this.enableApiLogging = enabled;
+    logger.info(`API logging ${enabled ? 'enabled' : 'disabled'}`, { 
+      userId: this.currentUserId 
+    }, 'ApiClient');
+  }
+
+  /**
+   * 启用/禁用敏感数据日志记录
+   */
+  setSensitiveDataLogging(enabled: boolean): void {
+    this.logSensitiveData = enabled;
+    logger.warn(`Sensitive data logging ${enabled ? 'enabled' : 'disabled'}`, { 
+      userId: this.currentUserId,
+      warning: enabled ? 'This may expose sensitive information in logs' : undefined
+    }, 'ApiClient');
+  }
+
+  /**
+   * 获取API日志配置
+   */
+  getLoggingConfig(): {
+    enableApiLogging: boolean;
+    logSensitiveData: boolean;
+    userId: string | null;
+  } {
+    return {
+      enableApiLogging: this.enableApiLogging,
+      logSensitiveData: this.logSensitiveData,
+      userId: this.currentUserId
+    };
   }
 
   updateConfig(newConfig: Partial<ApiConfig>) {
