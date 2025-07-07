@@ -986,6 +986,53 @@
   opacity: 0.2;
 }
 
+/* 错误边界组件样式 */
+.error-badge-info {
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-color));
+  border: 1px solid var(--accent-color);
+}
+
+.error-badge-warning {
+  background: linear-gradient(135deg, var(--warning-color), var(--warning-color));
+  border: 1px solid var(--warning-color);
+}
+
+.error-badge-error {
+  background: linear-gradient(135deg, var(--error-color), var(--error-color));
+  border: 1px solid var(--error-color);
+}
+
+.error-badge-critical {
+  background: linear-gradient(135deg, var(--error-color), var(--danger-color));
+  border: 1px solid var(--danger-color);
+}
+
+.error-fallback-simple {
+  background: var(--card-background);
+  border: 1px solid var(--error-color);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.glass-code-block {
+  background: var(--popup-content-background);
+  border: 1px solid var(--popup-divider-color);
+  color: var(--popup-text-tertiary);
+}
+
+.glass-button-primary {
+  background: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  color: var(--text-primary);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.glass-button-primary:hover {
+  background: var(--active-background);
+  transform: translateY(-1px);
+}
+
 /* 响应式适配 */
 @media (max-width: 768px) {
   :root {

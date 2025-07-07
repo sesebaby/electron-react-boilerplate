@@ -61,11 +61,15 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
                 key={theme.name}
                 type="button"
                 onClick={() => handleThemeSelect(theme.name)}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-left transition-all hover:bg-white/10 ${
-                  currentTheme === theme.name
-                    ? 'bg-white/20 text-white font-medium'
-                    : 'text-white/80 hover:text-white'
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-left transition-all theme-option ${
+                  currentTheme === theme.name ? 'active' : ''
                 }`}
+                style={{
+                  color: currentTheme === theme.name 
+                    ? 'var(--popup-text-primary)' 
+                    : 'var(--popup-text-secondary)',
+                  fontWeight: currentTheme === theme.name ? '600' : '400'
+                }}
               >
                 <span className="w-4 h-4 rounded-full border border-white/30"
                       style={{ background: theme.preview }}></span>
@@ -77,8 +81,8 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
             ))}
           </div>
 
-          <div className="mt-3 pt-2 border-t border-white/10">
-            <div className="text-xs text-white/50 px-3 py-1">
+          <div className="mt-3 pt-2 border-t" style={{ borderColor: 'var(--popup-divider-color)' }}>
+            <div className="text-xs px-3 py-1" style={{ color: 'var(--popup-text-tertiary)' }}>
               主题设置已自动保存
             </div>
           </div>

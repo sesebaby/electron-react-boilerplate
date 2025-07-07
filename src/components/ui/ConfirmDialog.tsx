@@ -29,29 +29,25 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       case 'danger':
         return {
           icon: '⚠️',
-          iconBg: 'bg-red-500/20',
-          iconText: 'text-red-300',
+          iconClassName: 'alert-icon-error',
           confirmVariant: 'danger' as const
         };
       case 'warning':
         return {
           icon: '⚠️',
-          iconBg: 'bg-yellow-500/20',
-          iconText: 'text-yellow-300',
+          iconClassName: 'alert-icon-warning',
           confirmVariant: 'primary' as const
         };
       case 'info':
         return {
           icon: 'ℹ️',
-          iconBg: 'bg-blue-500/20',
-          iconText: 'text-blue-300',
+          iconClassName: 'alert-icon-info',
           confirmVariant: 'primary' as const
         };
       default:
         return {
           icon: '⚠️',
-          iconBg: 'bg-yellow-500/20',
-          iconText: 'text-yellow-300',
+          iconClassName: 'alert-icon-warning',
           confirmVariant: 'primary' as const
         };
     }
@@ -60,15 +56,15 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   const styles = getVariantStyles();
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9999]">
+    <div className="popup-overlay flex items-center justify-center p-4 z-[9999]">
       <div className="glass-card max-w-md w-full p-6 animate-in fade-in-0 zoom-in-95 duration-200">
         {/* 图标和标题 */}
         <div className="flex items-center gap-4 mb-4">
-          <div className={`w-12 h-12 rounded-full ${styles.iconBg} flex items-center justify-center`}>
+          <div className={`w-12 h-12 rounded-full ${styles.iconClassName} flex items-center justify-center`}>
             <span className="text-2xl">{styles.icon}</span>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-white mb-1">
+            <h3 className="text-lg font-semibold mb-1" style={{ color: 'var(--popup-text-primary)' }}>
               {title}
             </h3>
           </div>
@@ -76,7 +72,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 
         {/* 消息内容 */}
         <div className="mb-6">
-          <p className="text-white/80 leading-relaxed">
+          <p className="leading-relaxed" style={{ color: 'var(--popup-text-secondary)' }}>
             {message}
           </p>
         </div>

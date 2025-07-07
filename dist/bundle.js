@@ -69403,9 +69403,12 @@ const ThemeSwitcher = ({ className }) => {
         setIsOpen(false);
     };
     const currentThemeInfo = getCurrentTheme();
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `relative z-50 ${className || ''}`, ref: themeSwitcherRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { onClick: () => setIsOpen(!isOpen), className: "flex items-center gap-2 min-w-[120px] px-3 py-2 text-sm font-medium whitespace-nowrap", title: "\u5207\u6362\u4E3B\u9898", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-lg", children: "\uD83C\uDFA8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "flex-1 text-left", children: currentThemeInfo.displayName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `text-xs opacity-70 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`, children: "\u23F7" })] }), isOpen && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-48 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-2 space-y-1", children: availableThemes.map((theme) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => handleThemeSelect(theme.name), className: `w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-left transition-all hover:bg-white/10 ${currentTheme === theme.name
-                                ? 'bg-white/20 text-white font-medium'
-                                : 'text-white/80 hover:text-white'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-4 h-4 rounded-full border border-white/30", style: { background: theme.preview } }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "flex-1", children: theme.displayName }), currentTheme === theme.name && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs opacity-70", children: "\u2713" }))] }, theme.name))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mt-3 pt-2 border-t border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs text-white/50 px-3 py-1", children: "\u4E3B\u9898\u8BBE\u7F6E\u5DF2\u81EA\u52A8\u4FDD\u5B58" }) })] }))] }));
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `relative z-50 ${className || ''}`, ref: themeSwitcherRef, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { onClick: () => setIsOpen(!isOpen), className: "flex items-center gap-2 min-w-[120px] px-3 py-2 text-sm font-medium whitespace-nowrap", title: "\u5207\u6362\u4E3B\u9898", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-lg", children: "\uD83C\uDFA8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "flex-1 text-left", children: currentThemeInfo.displayName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `text-xs opacity-70 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`, children: "\u23F7" })] }), isOpen && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute top-12 right-0 w-48 popup-dropdown z-50", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-2 space-y-1", children: availableThemes.map((theme) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => handleThemeSelect(theme.name), className: `w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-left transition-all theme-option ${currentTheme === theme.name ? 'active' : ''}`, style: {
+                                color: currentTheme === theme.name
+                                    ? 'var(--popup-text-primary)'
+                                    : 'var(--popup-text-secondary)',
+                                fontWeight: currentTheme === theme.name ? '600' : '400'
+                            }, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-4 h-4 rounded-full border border-white/30", style: { background: theme.preview } }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "flex-1", children: theme.displayName }), currentTheme === theme.name && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs opacity-70", children: "\u2713" }))] }, theme.name))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mt-3 pt-2 border-t", style: { borderColor: 'var(--popup-divider-color)' }, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs px-3 py-1", style: { color: 'var(--popup-text-tertiary)' }, children: "\u4E3B\u9898\u8BBE\u7F6E\u5DF2\u81EA\u52A8\u4FDD\u5B58" }) })] }))] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ThemeSwitcher);
 
@@ -69566,35 +69569,31 @@ const ConfirmDialog = ({ isOpen, title, message, confirmText = '确定', cancelT
             case 'danger':
                 return {
                     icon: '⚠️',
-                    iconBg: 'bg-red-500/20',
-                    iconText: 'text-red-300',
+                    iconClassName: 'alert-icon-error',
                     confirmVariant: 'danger'
                 };
             case 'warning':
                 return {
                     icon: '⚠️',
-                    iconBg: 'bg-yellow-500/20',
-                    iconText: 'text-yellow-300',
+                    iconClassName: 'alert-icon-warning',
                     confirmVariant: 'primary'
                 };
             case 'info':
                 return {
                     icon: 'ℹ️',
-                    iconBg: 'bg-blue-500/20',
-                    iconText: 'text-blue-300',
+                    iconClassName: 'alert-icon-info',
                     confirmVariant: 'primary'
                 };
             default:
                 return {
                     icon: '⚠️',
-                    iconBg: 'bg-yellow-500/20',
-                    iconText: 'text-yellow-300',
+                    iconClassName: 'alert-icon-warning',
                     confirmVariant: 'primary'
                 };
         }
     };
     const styles = getVariantStyles();
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9999]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card max-w-md w-full p-6 animate-in fade-in-0 zoom-in-95 duration-200", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4 mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `w-12 h-12 rounded-full ${styles.iconBg} flex items-center justify-center`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-2xl", children: styles.icon }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white mb-1", children: title }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 leading-relaxed", children: message }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3 justify-end", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassButton, { variant: "secondary", onClick: onCancel, className: "px-6 py-2", children: cancelText }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassButton, { variant: styles.confirmVariant, onClick: onConfirm, className: "px-6 py-2", children: confirmText })] })] }) }));
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "popup-overlay flex items-center justify-center p-4 z-[9999]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card max-w-md w-full p-6 animate-in fade-in-0 zoom-in-95 duration-200", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4 mb-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `w-12 h-12 rounded-full ${styles.iconClassName} flex items-center justify-center`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-2xl", children: styles.icon }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold mb-1", style: { color: 'var(--popup-text-primary)' }, children: title }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "leading-relaxed", style: { color: 'var(--popup-text-secondary)' }, children: message }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3 justify-end", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassButton, { variant: "secondary", onClick: onCancel, className: "px-6 py-2", children: cancelText }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_FormControls__WEBPACK_IMPORTED_MODULE_1__.GlassButton, { variant: styles.confirmVariant, onClick: onConfirm, className: "px-6 py-2", children: confirmText })] })] }) }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConfirmDialog);
 

@@ -126,10 +126,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     const isAppError = ErrorUtils.isAppError(error);
     
     const severityColors = {
-      low: 'from-blue-500 to-blue-600',
-      medium: 'from-yellow-500 to-yellow-600', 
-      high: 'from-orange-500 to-orange-600',
-      critical: 'from-red-500 to-red-600'
+      low: 'error-badge-info',
+      medium: 'error-badge-warning', 
+      high: 'error-badge-error',
+      critical: 'error-badge-critical'
     };
 
     const severityEmojis = {
@@ -148,7 +148,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           </div>
 
           {/* 错误标题 */}
-          <h1 className="text-2xl font-bold text-white mb-4">
+          <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--popup-text-primary)' }}>
             {
               severity === 'critical' ? '系统错误' :
               severity === 'high' ? '操作失败' :
@@ -157,16 +157,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           </h1>
 
           {/* 错误消息 */}
-          <div className="text-white/80 mb-6">
+          <div className="mb-6" style={{ color: 'var(--popup-text-secondary)' }}>
             {isAppError ? (
               <p className="text-sm">{error.message}</p>
             ) : (
               <div>
                 <p className="text-sm mb-2">应用出现了意外错误，请稍后重试。</p>
                 {process.env.NODE_ENV === 'development' && (
-                  <details className="text-left text-xs text-white/60 mt-4">
-                    <summary className="cursor-pointer hover:text-white/80">查看错误详情</summary>
-                    <pre className="mt-2 p-2 bg-black/20 rounded overflow-auto max-h-32">
+                  <details className="text-left text-xs mt-4" style={{ color: 'var(--popup-text-tertiary)' }}>
+                    <summary className="cursor-pointer" style={{ color: 'var(--popup-text-secondary)' }}>查看错误详情</summary>
+                    <pre className="mt-2 p-2 rounded overflow-auto max-h-32 glass-code-block">
                       {error.stack}
                     </pre>
                   </details>
@@ -177,7 +177,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
           {/* 错误 ID */}
           {this.state.errorId && (
-            <div className="text-xs text-white/50 mb-6">
+            <div className="text-xs mb-6" style={{ color: 'var(--popup-text-tertiary)' }}>
               错误 ID: {this.state.errorId}
             </div>
           )}
@@ -187,7 +187,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             {this.props.enableRetry !== false && (
               <button
                 onClick={this.handleRetry}
-                className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-medium transition-all duration-200 transform hover:scale-105"
+                className="px-6 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 glass-button-primary"
               >
                 🔄 重试
               </button>
@@ -195,21 +195,21 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-medium transition-all duration-200 border border-white/20 hover:border-white/40"
+              className="px-6 py-2 rounded-lg font-medium transition-all duration-200 glass-button"
             >
               🔄 刷新页面
             </button>
             
             <button
               onClick={() => window.location.href = '/'}
-              className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-medium transition-all duration-200 border border-white/20 hover:border-white/40"
+              className="px-6 py-2 rounded-lg font-medium transition-all duration-200 glass-button"
             >
               🏠 返回首页
             </button>
           </div>
 
           {/* 帮助信息 */}
-          <div className="mt-6 text-xs text-white/60">
+          <div className="mt-6 text-xs" style={{ color: 'var(--popup-text-tertiary)' }}>
             <p>如果问题持续存在，请联系系统管理员。</p>
           </div>
         </div>
@@ -244,9 +244,9 @@ export const SimpleErrorBoundary: React.FC<{ children: ReactNode; fallback?: Rea
     <ErrorBoundary
       fallback={(error) => (
         fallback || (
-          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-300">
-            <p className="text-sm font-medium">加载失败</p>
-            <p className="text-xs mt-1 text-red-300/80">{error.message}</p>
+          <div className="p-4 rounded-lg error-fallback-simple">
+            <p className="text-sm font-medium" style={{ color: 'var(--error-color)' }}>加载失败</p>
+            <p className="text-xs mt-1" style={{ color: 'var(--popup-text-tertiary)' }}>{error.message}</p>
           </div>
         )
       )}
