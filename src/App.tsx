@@ -6,6 +6,7 @@ import { dataInitializer } from './services/dataInitializer';
 // testDataInitializer removed - using database mock data instead
 import { ErrorBoundary } from './components/ErrorBoundary';
 import GlobalDialogProvider from './components/providers/GlobalDialogProvider';
+import { AuthProvider } from './hooks/useAuth';
 import './globals.css';
 import './styles/theme-adaptations.css';
 
@@ -146,13 +147,15 @@ const App: React.FC = () => {
         // 这里可以发送错误报告到监控服务
       }}
     >
-      <GlobalDialogProvider>
-        <div className="min-h-screen">
-          <AppLayout>
-            <PageContainer currentPage={currentPage} />
-          </AppLayout>
-        </div>
-      </GlobalDialogProvider>
+      <AuthProvider>
+        <GlobalDialogProvider>
+          <div className="min-h-screen">
+            <AppLayout>
+              <PageContainer currentPage={currentPage} />
+            </AppLayout>
+          </div>
+        </GlobalDialogProvider>
+      </AuthProvider>
     </ErrorBoundary>
   );
 };
