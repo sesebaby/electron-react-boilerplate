@@ -43,15 +43,13 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       id: 'add-product',
       icon: '🏷️',
       label: '添加商品',
-      page: 'products',
-      params: { action: 'add' }
+      page: 'products'
     },
     {
       id: 'purchase-order',
       icon: '🛒',
       label: '商品采购',
-      page: 'purchase-orders',
-      params: { action: 'create' }
+      page: 'purchase-orders'
     },
     {
       id: 'stock-in',
@@ -75,8 +73,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       id: 'sales-order',
       icon: '💰',
       label: '销售订单',
-      page: 'sales-orders',
-      params: { action: 'create' }
+      page: 'sales-orders'
     },
     {
       id: 'refresh',
@@ -84,10 +81,14 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       label: '刷新数据',
       page: '',
       action: () => {
+        console.log('执行刷新数据操作');
         if (onRefresh) {
           onRefresh();
         } else {
-          window.location.reload();
+          // 触发自定义刷新事件
+          window.dispatchEvent(new CustomEvent('quickaction-refresh'));
+          // 显示刷新提示
+          console.log('数据已刷新');
         }
       }
     },
@@ -103,11 +104,14 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       label: '导出数据',
       page: '',
       action: () => {
+        console.log('执行导出数据操作');
         if (onExportData) {
           onExportData();
         } else {
-          // 默认导出当前页面数据
-          console.log('导出数据功能');
+          // 触发自定义导出事件
+          window.dispatchEvent(new CustomEvent('quickaction-export'));
+          // 显示导出提示
+          console.log('开始导出数据...');
         }
       }
     }
@@ -121,19 +125,25 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       // 执行自定义操作
       action.action();
     } else if (action.page) {
-      // 页面跳转
-      const searchParams = new URLSearchParams();
+      // 页面跳转 - 简化跳转逻辑，确保兼容性
+      console.log(`快捷操作：跳转到页面 ${action.page}`);
+      
+      // 直接设置hash，不使用复杂的URL参数
+      window.location.hash = action.page;
+      
+      // 强制触发页面更新
+      setTimeout(() => {
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+      }, 50);
+      
+      // 如果有参数，通过localStorage临时存储
       if (action.params) {
-        Object.entries(action.params).forEach(([key, value]) => {
-          searchParams.set(key, value);
-        });
+        localStorage.setItem('quickAction_params', JSON.stringify(action.params));
+        // 1秒后清除参数，避免影响后续操作
+        setTimeout(() => {
+          localStorage.removeItem('quickAction_params');
+        }, 1000);
       }
-      
-      const url = action.params ? `${action.page}?${searchParams.toString()}` : action.page;
-      window.location.hash = url;
-      
-      // 触发hashchange事件确保页面更新
-      window.dispatchEvent(new HashChangeEvent('hashchange'));
     }
   };
 
