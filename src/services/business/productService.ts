@@ -36,9 +36,11 @@ export class ProductService {
           sku: dbItem.sku,
           categoryId: dbItem.category || 'default',
           unitId: 'default', // 默认单位，因为数据库没有单位字段
+          purchasePrice: dbItem.unitPrice || 0,
+          salePrice: dbItem.unitPrice || 0,
+          minStock: dbItem.reorderLevel || 0,
+          maxStock: dbItem.maxStock || 0,
           status: dbItem.status as ProductStatus || 'active',
-          attributes: {},
-          tags: [],
           createdAt: new Date(dbItem.lastUpdated || Date.now()),
           updatedAt: new Date(dbItem.lastUpdated || Date.now())
         };

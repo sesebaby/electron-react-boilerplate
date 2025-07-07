@@ -18,10 +18,10 @@ export class CategoryService {
         const category: Category = {
           id: dbCategory.id,
           name: dbCategory.name,
-          description: dbCategory.description || '',
           parentId: dbCategory.parent_id || undefined,
+          level: dbCategory.parent_id ? 2 : 1, // 如果有父级则是二级，否则是一级
+          sortOrder: 0,
           isActive: true,
-          order: 0,
           createdAt: new Date(dbCategory.created_at || Date.now()),
           updatedAt: new Date(Date.now())
         };

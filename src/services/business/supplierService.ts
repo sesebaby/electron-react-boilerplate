@@ -24,11 +24,10 @@ export class SupplierService {
           phone: dbSupplier.phone || '',
           email: dbSupplier.email || '',
           address: dbSupplier.address || '',
-          status: 'active' as SupplierStatus,
-          rating: 'good' as SupplierRating,
           paymentTerms: '',
-          deliveryTerms: '',
-          notes: '',
+          creditLimit: 0,
+          rating: 'B' as SupplierRating,
+          status: 'active' as SupplierStatus,
           createdAt: new Date(dbSupplier.created_at || Date.now()),
           updatedAt: new Date(dbSupplier.updated_at || Date.now())
         };
