@@ -44,6 +44,7 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
 
   // 报表分析
   'inventory-reports': { title: '库存报表', breadcrumb: ['报表分析', '库存报表'] },
+  'inventory-entry-registration': { title: '出入库登记', breadcrumb: ['报表分析', '出入库登记'] },
   'sales-reports': { title: '销售报表', breadcrumb: ['报表分析', '销售报表'] },
   'purchase-reports': { title: '采购报表', breadcrumb: ['报表分析', '采购报表'] },
   'financial-reports': { title: '财务报表', breadcrumb: ['报表分析', '财务报表'] },

@@ -71,7 +71,20 @@ export const InventoryEntryRegistration: React.FC = () => {
           endDate: timeRange.endDate,
           displayMode
         });
-        setData(result);
+        // 按一级分类、二级分类排序
+        const sortedData = result.sort((a, b) => {
+          // 首先按一级分类排序
+          if (a.primaryCategory !== b.primaryCategory) {
+            return a.primaryCategory.localeCompare(b.primaryCategory, 'zh-CN');
+          }
+          // 然后按二级分类排序
+          if (a.secondaryCategory !== b.secondaryCategory) {
+            return a.secondaryCategory.localeCompare(b.secondaryCategory, 'zh-CN');
+          }
+          // 最后按物品名称排序
+          return a.name.localeCompare(b.name, 'zh-CN');
+        });
+        setData(sortedData);
       } catch (error) {
         console.error('获取出入库登记数据失败:', error);
         // 可以在这里添加错误提示
@@ -219,23 +232,23 @@ export const InventoryEntryRegistration: React.FC = () => {
               <thead className="sticky top-0 z-20 table-header-fixed">
                 {/* 第一层表头 - 日期 */}
                 <tr className="border-b border-white/20">
-                  <th rowSpan={2} className="sticky left-0 z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 table-cell-fixed min-w-[60px]">
+                  <th rowSpan={2} className="sticky left-0 z-30 px-4 py-3 text-left text-sm font-semibold border-r border-white/20 table-cell-fixed min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
                     序号
                   </th>
-                  <th rowSpan={2} className="sticky left-[60px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 table-cell-fixed min-w-[120px]">
+                  <th rowSpan={2} className="sticky left-[60px] z-30 px-4 py-3 text-left text-sm font-semibold border-r border-white/20 table-cell-fixed min-w-[120px]" style={{ color: 'var(--text-primary)' }}>
                     一级分类
                   </th>
-                  <th rowSpan={2} className="sticky left-[180px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 table-cell-fixed min-w-[120px]">
+                  <th rowSpan={2} className="sticky left-[180px] z-30 px-4 py-3 text-left text-sm font-semibold border-r border-white/20 table-cell-fixed min-w-[120px]" style={{ color: 'var(--text-primary)' }}>
                     二级分类
                   </th>
-                  <th rowSpan={2} className="sticky left-[300px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 table-cell-fixed min-w-[150px]">
+                  <th rowSpan={2} className="sticky left-[300px] z-30 px-4 py-3 text-left text-sm font-semibold border-r border-white/20 table-cell-fixed min-w-[150px]" style={{ color: 'var(--text-primary)' }}>
                     物品名称
                   </th>
-                  <th rowSpan={2} className="sticky left-[450px] z-30 px-4 py-3 text-center text-sm font-semibold text-white border-r border-white/20 table-cell-fixed min-w-[100px]">
+                  <th rowSpan={2} className="sticky left-[450px] z-30 px-4 py-3 text-center text-sm font-semibold border-r border-white/20 table-cell-fixed min-w-[100px]" style={{ color: 'var(--text-primary)' }}>
                     总出库
                   </th>
                   {filteredDates.map(date => (
-                    <th key={date} colSpan={5} className="px-2 py-3 text-center text-xs font-semibold text-white border-r border-white/20 min-w-[300px]">
+                    <th key={date} colSpan={5} className="px-2 py-3 text-center text-xs font-semibold border-r border-white/20 min-w-[300px]" style={{ color: 'var(--text-primary)' }}>
                       {new Date(date).getDate()}日
                     </th>
                   ))}
@@ -245,19 +258,19 @@ export const InventoryEntryRegistration: React.FC = () => {
                 <tr className="border-b border-white/20">
                   {filteredDates.map(date => (
                     <React.Fragment key={date}>
-                      <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
+                      <th className="px-1 py-2 text-center text-xs font-medium border-r border-white/10 min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
                         入库
                       </th>
-                      <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
+                      <th className="px-1 py-2 text-center text-xs font-medium border-r border-white/10 min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
                         早
                       </th>
-                      <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
+                      <th className="px-1 py-2 text-center text-xs font-medium border-r border-white/10 min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
                         中
                       </th>
-                      <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]">
+                      <th className="px-1 py-2 text-center text-xs font-medium border-r border-white/10 min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
                         晚
                       </th>
-                      <th className="px-1 py-2 text-center text-xs font-medium text-white border-r border-white/20 min-w-[60px]">
+                      <th className="px-1 py-2 text-center text-xs font-medium border-r border-white/20 min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
                         库存
                       </th>
                     </React.Fragment>
@@ -282,19 +295,19 @@ export const InventoryEntryRegistration: React.FC = () => {
                 ) : (
                   data.map((item, index) => (
                   <tr key={item.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
-                    <td className="sticky left-0 z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 table-cell-fixed">
+                    <td className="sticky left-0 z-10 px-4 py-3 text-sm border-r border-white/10 table-cell-fixed" style={{ color: 'var(--text-secondary)' }}>
                       {index + 1}
                     </td>
-                    <td className="sticky left-[60px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 table-cell-fixed">
+                    <td className="sticky left-[60px] z-10 px-4 py-3 text-sm border-r border-white/10 table-cell-fixed" style={{ color: 'var(--text-secondary)' }}>
                       {item.primaryCategory}
                     </td>
-                    <td className="sticky left-[180px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 table-cell-fixed">
+                    <td className="sticky left-[180px] z-10 px-4 py-3 text-sm border-r border-white/10 table-cell-fixed" style={{ color: 'var(--text-secondary)' }}>
                       {item.secondaryCategory}
                     </td>
-                    <td className="sticky left-[300px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 table-cell-fixed">
+                    <td className="sticky left-[300px] z-10 px-4 py-3 text-sm border-r border-white/10 table-cell-fixed" style={{ color: 'var(--text-secondary)' }}>
                       {item.name}
                     </td>
-                    <td className="sticky left-[450px] z-10 px-4 py-3 text-sm text-white/90 text-center border-r border-white/10 table-cell-fixed">
+                    <td className="sticky left-[450px] z-10 px-4 py-3 text-sm text-center border-r border-white/10 table-cell-fixed">
                       <span className="financial-value-accent">
                         {item.totalOut}
                       </span>
@@ -303,34 +316,34 @@ export const InventoryEntryRegistration: React.FC = () => {
                       const dayData = item.dailyData[date];
                       return (
                         <React.Fragment key={date}>
-                          <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
+                          <td className="px-1 py-3 text-xs text-center border-r border-white/10">
                             <span className="financial-value-positive font-medium">
                               {dayData?.stockIn || 0}
                             </span>
                           </td>
-                          <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
+                          <td className="px-1 py-3 text-xs text-center border-r border-white/10">
                             <span className="financial-value-warning">
                               {dayData?.morning || 0}
                             </span>
                           </td>
-                          <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
+                          <td className="px-1 py-3 text-xs text-center border-r border-white/10">
                             <span className="financial-value-warning">
                               {dayData?.noon || 0}
                             </span>
                           </td>
-                          <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
+                          <td className="px-1 py-3 text-xs text-center border-r border-white/10">
                             <span className="financial-value-warning">
                               {dayData?.evening || 0}
                             </span>
                           </td>
-                          <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/20">
+                          <td className="px-1 py-3 text-xs text-center border-r border-white/20">
                             <span className="financial-value-neutral font-medium">
                               {dayData?.stock || 0}
                             </span>
                           </td>
                         </React.Fragment>
                       );
-                    })}
+                    })
                   </tr>
                   ))
                 )}
