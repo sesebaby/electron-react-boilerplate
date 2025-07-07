@@ -147,7 +147,7 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
 
       {/* 换算规则表单弹出框 */}
       {showConversionForm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]">
           <div className="glass-card w-full max-w-md mx-4 p-6">
             <div className="flex items-center justify-between mb-6">
               <h4 className="text-lg font-semibold text-white">
