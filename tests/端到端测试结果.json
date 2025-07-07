@@ -1,0 +1,257 @@
+{
+  "testMetadata": {
+    "testId": "E2E_1751877140433",
+    "testType": "端到端数据流测试",
+    "executionDate": "2025-07-07",
+    "executionTime": "5.38秒",
+    "testFramework": "端到端数据流测试框架 v1.0",
+    "environment": "测试环境"
+  },
+  "overallResult": {
+    "status": "FAILED",
+    "dataConsistencyScore": 20,
+    "totalIssues": 4,
+    "criticalIssues": 4,
+    "mediumIssues": 0,
+    "minorIssues": 0,
+    "warningCount": 1
+  },
+  "phaseResults": [
+    {
+      "phase": "data_preparation",
+      "phaseName": "数据环境准备",
+      "status": "SUCCESS",
+      "duration": 1300,
+      "summary": {
+        "dataCleanup": "成功",
+        "baseDataCreation": "成功",
+        "categoriesCreated": 5,
+        "warehousesCreated": 3,
+        "suppliersCreated": 8,
+        "productsCreated": 20
+      },
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "phase": "business_process_test",
+      "phaseName": "业务流程测试",
+      "status": "PARTIAL_SUCCESS",
+      "duration": 3800,
+      "subTests": {
+        "inboundTests": {
+          "totalTests": 10,
+          "passedTests": 9,
+          "successRate": 90.0,
+          "issues": ["入库单据 3 创建失败: 商品不存在"]
+        },
+        "outboundTests": {
+          "totalTests": 8,
+          "passedTests": 7,
+          "successRate": 87.5,
+          "issues": ["出库单据 5 创建失败: 库存不足"]
+        },
+        "fifoValidation": {
+          "totalTests": 5,
+          "passedTests": 5,
+          "successRate": 100.0,
+          "issues": []
+        },
+        "stockValidation": {
+          "totalTests": 6,
+          "passedTests": 5,
+          "successRate": 83.3,
+          "issues": ["多仓库库存汇总错误，期望: 150, 实际: 148"]
+        },
+        "costValidation": {
+          "totalTests": 4,
+          "passedTests": 4,
+          "successRate": 100.0,
+          "issues": []
+        },
+        "reportValidation": {
+          "totalTests": 3,
+          "passedTests": 2,
+          "successRate": 66.7,
+          "issues": ["进销存数量平衡错误，计算期末: 170, 报表期末: 168"],
+          "warnings": ["月度库存结余报表数据延迟更新"]
+        }
+      },
+      "issues": [
+        "入库单据 3 创建失败: 商品不存在",
+        "出库单据 5 创建失败: 库存不足",
+        "多仓库库存汇总错误，期望: 150, 实际: 148",
+        "进销存数量平衡错误，计算期末: 170, 报表期末: 168"
+      ],
+      "warnings": ["月度库存结余报表数据延迟更新"]
+    },
+    {
+      "phase": "issue_reporting",
+      "phaseName": "问题记录与报告",
+      "status": "SUCCESS",
+      "duration": 280,
+      "summary": {
+        "issuesCollected": 4,
+        "issuesCategorized": true,
+        "reportGenerated": true
+      },
+      "issues": [],
+      "warnings": []
+    }
+  ],
+  "detailedIssues": [
+    {
+      "issueId": "E2E-001",
+      "severity": "CRITICAL",
+      "category": "入库流程",
+      "title": "入库单据创建失败",
+      "description": "入库单据 3 创建失败: 商品不存在",
+      "impact": "影响基础入库业务流程",
+      "possibleCauses": [
+        "商品基础数据不完整",
+        "商品ID引用错误",
+        "数据验证逻辑缺陷"
+      ],
+      "recommendations": [
+        "检查商品基础数据的完整性",
+        "验证入库单据中的商品ID是否存在于商品主表",
+        "加强入库前的数据验证"
+      ],
+      "priority": "HIGH",
+      "affectedModules": ["入库管理", "商品管理"]
+    },
+    {
+      "issueId": "E2E-002",
+      "severity": "CRITICAL",
+      "category": "出库流程",
+      "title": "出库单据创建失败",
+      "description": "出库单据 5 创建失败: 库存不足",
+      "impact": "影响出库业务流程",
+      "possibleCauses": [
+        "库存数量计算错误",
+        "入库和出库数据不同步",
+        "库存预留逻辑问题"
+      ],
+      "recommendations": [
+        "验证库存数量的实时计算逻辑",
+        "检查入库后库存更新是否正确",
+        "确保出库前进行准确的库存检查"
+      ],
+      "priority": "HIGH",
+      "affectedModules": ["出库管理", "库存管理"]
+    },
+    {
+      "issueId": "E2E-003",
+      "severity": "CRITICAL",
+      "category": "库存计算",
+      "title": "多仓库库存汇总错误",
+      "description": "多仓库库存汇总错误，期望: 150, 实际: 148",
+      "impact": "影响库存统计和报表准确性",
+      "possibleCauses": [
+        "多仓库数据汇总算法错误",
+        "并发操作导致的数据不一致",
+        "库存事务处理问题"
+      ],
+      "recommendations": [
+        "检查多仓库库存汇总的SQL查询逻辑",
+        "验证库存事务的原子性",
+        "加强并发控制机制"
+      ],
+      "priority": "HIGH",
+      "affectedModules": ["库存管理", "仓库管理", "统计报表"]
+    },
+    {
+      "issueId": "E2E-004",
+      "severity": "CRITICAL",
+      "category": "报表数据",
+      "title": "进销存数量平衡错误",
+      "description": "进销存数量平衡错误，计算期末: 170, 报表期末: 168",
+      "impact": "影响进销存报表准确性和财务数据",
+      "possibleCauses": [
+        "期初期末数据计算错误",
+        "进销存流水记录不完整",
+        "报表生成逻辑缺陷"
+      ],
+      "recommendations": [
+        "验证进销存平衡公式: 期末 = 期初 + 入库 - 出库",
+        "检查所有库存变动是否正确记录",
+        "确保报表数据与实际库存数据一致"
+      ],
+      "priority": "HIGH",
+      "affectedModules": ["进销存报表", "库存管理", "财务管理"]
+    }
+  ],
+  "businessProcessAnalysis": {
+    "inboundProcess": {
+      "testCases": 10,
+      "successRate": 90.0,
+      "status": "MOSTLY_WORKING",
+      "keyFindings": "入库流程基本正常，但存在商品验证问题"
+    },
+    "outboundProcess": {
+      "testCases": 8,
+      "successRate": 87.5,
+      "status": "MOSTLY_WORKING",
+      "keyFindings": "出库流程基本正常，但库存检查需要优化"
+    },
+    "fifoLogic": {
+      "testCases": 5,
+      "successRate": 100.0,
+      "status": "WORKING",
+      "keyFindings": "FIFO先进先出逻辑运行完全正常"
+    },
+    "stockCalculation": {
+      "testCases": 6,
+      "successRate": 83.3,
+      "status": "NEEDS_ATTENTION",
+      "keyFindings": "库存计算基本正确，但多仓库汇总存在问题"
+    },
+    "costAccounting": {
+      "testCases": 4,
+      "successRate": 100.0,
+      "status": "WORKING",
+      "keyFindings": "成本核算逻辑完全正确"
+    },
+    "reportGeneration": {
+      "testCases": 3,
+      "successRate": 66.7,
+      "status": "NEEDS_IMPROVEMENT",
+      "keyFindings": "报表生成存在数据一致性问题"
+    }
+  },
+  "recommendations": {
+    "immediate": [
+      "修复入库单据商品验证逻辑",
+      "解决多仓库库存汇总计算错误",
+      "修正进销存平衡计算问题"
+    ],
+    "shortTerm": [
+      "优化出库库存检查机制",
+      "提升报表数据一致性",
+      "加强数据验证规则"
+    ],
+    "longTerm": [
+      "建立数据一致性监控机制",
+      "优化并发控制策略",
+      "完善异常处理和日志记录"
+    ]
+  },
+  "testDataSummary": {
+    "baseDataGenerated": true,
+    "transactionDataGenerated": true,
+    "testScenariosExecuted": 36,
+    "dataConsistencyChecks": 18,
+    "performanceMetrics": {
+      "averageResponseTime": "150ms",
+      "peakMemoryUsage": "45MB",
+      "databaseConnections": 3
+    }
+  },
+  "nextSteps": [
+    "根据问题报告进行代码修复",
+    "编写针对性的单元测试",
+    "执行回归测试验证修复效果",
+    "更新业务流程文档",
+    "建立持续监控机制"
+  ]
+}
