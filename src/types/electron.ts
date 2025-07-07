@@ -7,8 +7,15 @@ export interface ElectronAPI {
   
   // File I/O operations
   readFile: (filePath: string) => Promise<{ success: boolean; data?: ArrayBuffer; error?: string }>;
-  writeFile: (filePath: string, data: ArrayBuffer) => Promise<{ success: boolean; error?: string }>;
+  writeFile: (filePath: string, data: ArrayBuffer | string) => Promise<{ success: boolean; error?: string }>;
   checkFileExists: (filePath: string) => Promise<{ exists: boolean }>;
+  
+  // Directory operations
+  mkdir: (dirPath: string, options?: { recursive?: boolean }) => Promise<{ success: boolean; error?: string }>;
+  readdir: (dirPath: string) => Promise<{ success: boolean; data?: string[]; error?: string }>;
+  stat: (filePath: string) => Promise<{ success: boolean; data?: { size: number; mtime: Date; birthtime?: Date }; error?: string }>;
+  rename: (oldPath: string, newPath: string) => Promise<{ success: boolean; error?: string }>;
+  unlink: (filePath: string) => Promise<{ success: boolean; error?: string }>;
   
   // System paths
   getAppPath: (name?: string) => Promise<{ path: string }>;
