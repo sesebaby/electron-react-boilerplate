@@ -4,6 +4,7 @@ import { Category } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { notificationHelper } from '../../utils/notificationHelper';
 import ConfirmDialog from '../ui/ConfirmDialog';
+import ErrorDisplay from '../ui/ErrorDisplay';
 
 interface CategoryManagementProps {
   className?: string;
@@ -87,6 +88,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       setFormData(emptyForm);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '保存分类失败';
+      setError(errorMessage);
       notificationHelper.showError('分类保存失败', errorMessage);
       console.error('Failed to save category:', err);
     }
@@ -135,6 +137,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     setShowForm(false);
     setEditingCategory(null);
     setFormData(emptyForm);
+    setError(null); // 清除错误信息
   };
 
   const handleInputChange = (field: keyof CategoryForm, value: any) => {
@@ -155,6 +158,11 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       
       return newData;
     });
+    
+    // 当用户开始输入时清除错误信息
+    if (error) {
+      setError(null);
+    }
   };
 
   const getCategoryPath = (category: Category): string => {
@@ -397,6 +405,15 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8">
+              {/* 错误信息显示 */}
+              {error && (
+                <ErrorDisplay
+                  error={new Error(error)}
+                  variant="inline"
+                  onClear={() => setError(null)}
+                />
+              )}
+
               {/* 基本信息区域 */}
               <div className="space-y-6">
                 <h4 className="text-lg font-medium text-white border-b border-white/20 pb-3">基本信息</h4>

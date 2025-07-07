@@ -3,6 +3,7 @@ import { purchaseOrderService, supplierService, productService } from '../../ser
 import { PurchaseOrder, PurchaseOrderItem, PurchaseOrderStatus, Supplier, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
+import ErrorDisplay from '../ui/ErrorDisplay';
 
 interface PurchaseOrderManagementProps {
   className?: string;
@@ -229,10 +230,15 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     setEditingOrder(null);
     setFormData(emptyForm);
     setFormItems([]);
+    setError(null); // 清除错误信息
   };
 
   const handleInputChange = (field: keyof OrderForm, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    // 当用户开始输入时清除错误信息
+    if (error) {
+      setError(null);
+    }
   };
 
   const addItem = () => {
@@ -602,6 +608,15 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* 错误信息显示 */}
+              {error && (
+                <ErrorDisplay
+                  error={new Error(error)}
+                  variant="inline"
+                  onClear={() => setError(null)}
+                />
+              )}
+
               {/* 基本信息 */}
               <GlassCard title="基本信息">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

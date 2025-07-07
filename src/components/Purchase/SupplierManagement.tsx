@@ -3,6 +3,7 @@ import { supplierService } from '../../services/business';
 import { Supplier, SupplierStatus, SupplierRating } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
+import ErrorDisplay from '../ui/ErrorDisplay';
 
 interface SupplierManagementProps {
   className?: string;
@@ -144,10 +145,15 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     setShowForm(false);
     setEditingSupplier(null);
     setFormData(emptyForm);
+    setError(null); // 清除错误信息
   };
 
   const handleInputChange = (field: keyof SupplierForm, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    // 当用户开始输入时清除错误信息
+    if (error) {
+      setError(null);
+    }
   };
 
   const getStatusText = (status: SupplierStatus): string => {
@@ -461,6 +467,15 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* 错误信息显示 */}
+              {error && (
+                <ErrorDisplay
+                  error={new Error(error)}
+                  variant="inline"
+                  onClear={() => setError(null)}
+                />
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <GlassInput
                   label="供应商编码"

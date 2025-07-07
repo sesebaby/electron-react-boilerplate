@@ -6,6 +6,7 @@ import ConfirmDialog from '../ui/ConfirmDialog';
 import UnitConversionSettings from './UnitConversionSettings';
 import { userActionLogger, UserActionType, ActionContext } from '../../utils/userActionLogger';
 import { usePerformanceLogger } from '../../hooks/usePerformanceLogger';
+import ErrorDisplay from '../ui/ErrorDisplay';
 
 interface ProductManagementProps {
   className?: string;
@@ -347,10 +348,15 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     setEditingProduct(null);
     setFormData(emptyForm);
     setConversionSettings(emptyConversionSettings);
+    setError(null); // 清除错误信息
   };
 
   const handleInputChange = (field: keyof ProductForm, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    // 当用户开始输入时清除错误信息
+    if (error) {
+      setError(null);
+    }
   };
 
   // 过滤商品
@@ -556,6 +562,15 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
 
                 <div className="p-3 sm:p-6 max-h-[calc(100vh-8rem)] overflow-y-auto">
                   <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                    {/* 错误信息显示 */}
+                    {error && (
+                      <ErrorDisplay
+                        error={new Error(error)}
+                        variant="inline"
+                        onClear={() => setError(null)}
+                      />
+                    )}
+
                     {/* 基本信息 */}
                     <GlassCard title="基本信息">
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
