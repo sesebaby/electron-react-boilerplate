@@ -6,12 +6,14 @@ import UnitManagementTab from './UnitManagementTab';
 import ConversionRulesTab from './ConversionRulesTab';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import AlertDialog from '../ui/AlertDialog';
+import { notificationHelper } from '../../utils/notificationHelper';
+import { NotificationType, ALL_MESSAGE_TYPES, IMPORTANT_MESSAGE_TYPES } from '../../types/simpleNotification';
 
 interface SystemSettingsProps {
   className?: string;
 }
 
-type SettingsTab = 'basic' | 'business' | 'units' | 'conversions';
+type SettingsTab = 'basic' | 'business' | 'units' | 'conversions' | 'notifications';
 
 interface BasicSettings {
   systemName: string;
@@ -59,6 +61,11 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     enableBarcode: true,
     currencySymbol: '¥',
     taxRate: 0.13
+  });
+
+  // 通知配置状态
+  const [notificationSettings, setNotificationSettings] = useState(() => {
+    return notificationHelper.getConfig();
   });
 
   // 单位管理状态
@@ -124,6 +131,9 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
 
       if (savedBasic) setBasicSettings(JSON.parse(savedBasic));
       if (savedBusiness) setBusinessSettings(JSON.parse(savedBusiness));
+
+      // 加载通知配置
+      setNotificationSettings(notificationHelper.getConfig());
     } catch (error) {
       console.error('加载设置失败:', error);
     } finally {
@@ -137,6 +147,9 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
       // 保存到localStorage或API
       localStorage.setItem('systemSettings.basic', JSON.stringify(basicSettings));
       localStorage.setItem('systemSettings.business', JSON.stringify(businessSettings));
+
+      // 保存通知配置
+      notificationHelper.updateConfig(notificationSettings);
 
       setHasChanges(false);
       showAlert('保存成功', '设置保存成功！', 'success');
@@ -162,6 +175,33 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
 
   const handleBusinessChange = (field: keyof BusinessSettings, value: any) => {
     setBusinessSettings(prev => ({ ...prev, [field]: value }));
+    setHasChanges(true);
+  };
+
+  // 通知配置处理函数
+  const handleNotificationChange = (field: string, value: any) => {
+    setNotificationSettings(prev => ({ ...prev, [field]: value }));
+    setHasChanges(true);
+  };
+
+  const handleMessageTypeToggle = (type: NotificationType) => {
+    setNotificationSettings(prev => {
+      const enabledTypes = prev.enabledTypes.includes(type)
+        ? prev.enabledTypes.filter(t => t !== type)
+        : [...prev.enabledTypes, type];
+
+      return { ...prev, enabledTypes };
+    });
+    setHasChanges(true);
+  };
+
+  const handleImportantModeToggle = (enabled: boolean) => {
+    setNotificationSettings(prev => ({
+      ...prev,
+      showOnlyImportant: enabled,
+      // 如果启用重要模式，自动设置启用的类型为重要类型
+      enabledTypes: enabled ? IMPORTANT_MESSAGE_TYPES : ALL_MESSAGE_TYPES
+    }));
     setHasChanges(true);
   };
 
@@ -398,6 +438,18 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
           >
             <span className="mr-2">🔄</span>
             换算规则
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('notifications')}
+            className={`flex-1 px-4 py-4 text-sm font-medium transition-colors ${
+              activeTab === 'notifications'
+                ? 'text-white bg-white/10 border-b-2 border-blue-400'
+                : 'text-white/70 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span className="mr-2">🔔</span>
+            通知配置
           </button>
         </div>
       </GlassCard>
@@ -641,6 +693,170 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
           onEditConversion={handleEditConversion}
           onDeleteConversion={handleDeleteConversion}
         />
+      )}
+
+      {activeTab === 'notifications' && (
+        <GlassCard className="p-6">
+          <h3 className="text-xl font-semibold text-white mb-6">通知配置</h3>
+
+          <div className="space-y-8">
+            {/* 通知总开关 */}
+            <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+              <div>
+                <h4 className="text-lg font-medium text-white">启用通知系统</h4>
+                <p className="text-sm text-white/70 mt-1">控制是否显示系统通知消息</p>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={notificationSettings.enabled}
+                  onChange={(e) => handleNotificationChange('enabled', e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              </label>
+            </div>
+
+            {/* 消息级别设置 */}
+            <div className="space-y-4">
+              <h4 className="text-lg font-medium text-white">消息级别设置</h4>
+
+              {/* 快捷模式选择 */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button
+                  type="button"
+                  onClick={() => handleImportantModeToggle(false)}
+                  className={`p-4 rounded-lg border-2 transition-all ${
+                    !notificationSettings.showOnlyImportant
+                      ? 'border-blue-400 bg-blue-400/20 text-white'
+                      : 'border-white/20 bg-white/5 text-white/70 hover:border-white/40'
+                  }`}
+                >
+                  <div className="text-center">
+                    <span className="text-2xl block mb-2">📢</span>
+                    <span className="font-medium">显示全部</span>
+                    <p className="text-xs mt-1 opacity-80">显示所有类型的消息</p>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleImportantModeToggle(true)}
+                  className={`p-4 rounded-lg border-2 transition-all ${
+                    notificationSettings.showOnlyImportant
+                      ? 'border-orange-400 bg-orange-400/20 text-white'
+                      : 'border-white/20 bg-white/5 text-white/70 hover:border-white/40'
+                  }`}
+                >
+                  <div className="text-center">
+                    <span className="text-2xl block mb-2">⚠️</span>
+                    <span className="font-medium">只显示重要</span>
+                    <p className="text-xs mt-1 opacity-80">只显示警告和错误消息</p>
+                  </div>
+                </button>
+
+                <div className={`p-4 rounded-lg border-2 ${
+                  !notificationSettings.showOnlyImportant &&
+                  (notificationSettings.enabledTypes.length !== ALL_MESSAGE_TYPES.length)
+                    ? 'border-purple-400 bg-purple-400/20 text-white'
+                    : 'border-white/20 bg-white/5 text-white/70'
+                }`}>
+                  <div className="text-center">
+                    <span className="text-2xl block mb-2">🎛️</span>
+                    <span className="font-medium">自定义</span>
+                    <p className="text-xs mt-1 opacity-80">自定义显示的消息类型</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 详细消息类型选择 */}
+              {!notificationSettings.showOnlyImportant && (
+                <div className="space-y-3">
+                  <h5 className="text-md font-medium text-white/90">选择要显示的消息类型：</h5>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {ALL_MESSAGE_TYPES.map(type => {
+                      const typeConfig = {
+                        info: { icon: '💡', label: '信息', color: 'blue' },
+                        success: { icon: '✅', label: '成功', color: 'green' },
+                        warning: { icon: '⚠️', label: '警告', color: 'yellow' },
+                        error: { icon: '❌', label: '错误', color: 'red' }
+                      }[type];
+
+                      const isEnabled = notificationSettings.enabledTypes.includes(type);
+
+                      return (
+                        <label key={type} className="flex items-center space-x-3 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={isEnabled}
+                            onChange={() => handleMessageTypeToggle(type)}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <span className="text-lg">{typeConfig.icon}</span>
+                          <span className={`text-sm ${isEnabled ? 'text-white' : 'text-white/60'}`}>
+                            {typeConfig.label}
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 其他设置 */}
+            <div className="space-y-4">
+              <h4 className="text-lg font-medium text-white">其他设置</h4>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">
+                    最大显示数量
+                  </label>
+                  <GlassSelect
+                    value={notificationSettings.maxDisplay.toString()}
+                    onChange={(e) => handleNotificationChange('maxDisplay', parseInt(e.target.value))}
+                  >
+                    <option value="3">3条</option>
+                    <option value="5">5条</option>
+                    <option value="10">10条</option>
+                  </GlassSelect>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-sm font-medium text-white/80">声音提醒</label>
+                    <p className="text-xs text-white/60 mt-1">新通知时播放提示音</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={notificationSettings.enableSound}
+                      onChange={(e) => handleNotificationChange('enableSound', e.target.checked)}
+                      className="sr-only peer"
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* 当前配置预览 */}
+            <div className="p-4 bg-white/5 rounded-lg">
+              <h5 className="text-md font-medium text-white/90 mb-3">当前配置预览：</h5>
+              <div className="text-sm text-white/70 space-y-1">
+                <p>• 通知系统：{notificationSettings.enabled ? '已启用' : '已禁用'}</p>
+                <p>• 显示模式：{notificationSettings.showOnlyImportant ? '只显示重要消息' : '自定义显示'}</p>
+                <p>• 启用类型：{notificationSettings.showOnlyImportant
+                  ? IMPORTANT_MESSAGE_TYPES.map(t => notificationHelper.getTypeDisplayText(t)).join('、')
+                  : notificationSettings.enabledTypes.map(t => notificationHelper.getTypeDisplayText(t)).join('、')
+                }</p>
+                <p>• 最大显示：{notificationSettings.maxDisplay}条</p>
+                <p>• 声音提醒：{notificationSettings.enableSound ? '已启用' : '已禁用'}</p>
+              </div>
+            </div>
+          </div>
+        </GlassCard>
       )}
 
       {/* 保存提示 */}

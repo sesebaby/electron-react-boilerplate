@@ -1,4 +1,4 @@
-import { SimpleNotification, SimpleNotificationConfig, DEFAULT_NOTIFICATION_CONFIG } from '../types/simpleNotification';
+import { SimpleNotification, SimpleNotificationConfig, DEFAULT_NOTIFICATION_CONFIG, NotificationType, IMPORTANT_MESSAGE_TYPES } from '../types/simpleNotification';
 
 const STORAGE_KEY = 'simple-notifications';
 const CONFIG_KEY = 'simple-notification-config';
@@ -68,19 +68,47 @@ class NotificationStore {
     return newNotification;
   }
 
-  // 获取最新通知
+  // 获取最新通知（根据配置过滤）
   getRecent(count: number = 5): SimpleNotification[] {
-    return this.notifications.slice(0, count);
+    const filteredNotifications = this.getFilteredNotifications();
+    return filteredNotifications.slice(0, count);
   }
 
-  // 获取所有通知
+  // 根据配置过滤通知
+  private getFilteredNotifications(): SimpleNotification[] {
+    if (!this.config.enabled) {
+      return [];
+    }
+
+    let enabledTypes: NotificationType[];
+
+    if (this.config.showOnlyImportant) {
+      // 只显示重要消息模式
+      enabledTypes = IMPORTANT_MESSAGE_TYPES;
+    } else {
+      // 使用用户自定义的类型配置
+      enabledTypes = this.config.enabledTypes;
+    }
+
+    return this.notifications.filter(notification =>
+      enabledTypes.includes(notification.type)
+    );
+  }
+
+  // 获取所有通知（根据配置过滤）
   getAll(): SimpleNotification[] {
+    return this.getFilteredNotifications();
+  }
+
+  // 获取所有通知（不过滤）
+  getAllUnfiltered(): SimpleNotification[] {
     return [...this.notifications];
   }
 
-  // 获取未读数量
+  // 获取未读数量（根据配置过滤）
   getUnreadCount(): number {
-    return this.notifications.filter(n => !n.isRead).length;
+    const filteredNotifications = this.getFilteredNotifications();
+    return filteredNotifications.filter(n => !n.isRead).length;
   }
 
   // 标记为已读

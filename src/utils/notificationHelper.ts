@@ -1,4 +1,4 @@
-import { SimpleNotification, NotificationType } from '../types/simpleNotification';
+import { SimpleNotification, NotificationType, IMPORTANT_MESSAGE_TYPES, ALL_MESSAGE_TYPES } from '../types/simpleNotification';
 import { notificationStore } from './notificationStore';
 
 class NotificationHelper {
@@ -126,6 +126,27 @@ class NotificationHelper {
   // 检查通知是否启用
   isEnabled(): boolean {
     return notificationStore.getConfig().enabled;
+  }
+
+  // 检查特定类型的通知是否启用
+  isTypeEnabled(type: NotificationType): boolean {
+    const config = notificationStore.getConfig();
+    if (!config.enabled) return false;
+
+    if (config.showOnlyImportant) {
+      return IMPORTANT_MESSAGE_TYPES.includes(type);
+    }
+
+    return config.enabledTypes.includes(type);
+  }
+
+  // 获取当前启用的消息类型
+  getEnabledTypes(): NotificationType[] {
+    const config = notificationStore.getConfig();
+    if (config.showOnlyImportant) {
+      return IMPORTANT_MESSAGE_TYPES;
+    }
+    return config.enabledTypes;
   }
 
   // 工具方法
