@@ -9,6 +9,9 @@ import {
   DisplayMode 
 } from '../../types/consumption';
 
+// 基准日期配置 - 第1天的起始日期
+const BASE_DATE = new Date('2024-01-01');
+
 const ConsumptionControls: React.FC<ConsumptionControlsProps> = ({
   config,
   onChange,
@@ -52,6 +55,27 @@ const ConsumptionControls: React.FC<ConsumptionControlsProps> = ({
     const endDate = new Date();
     const startDate = new Date();
     startDate.setDate(endDate.getDate() - days + 1);
+    
+    const newConfig: DailyConsumptionViewConfig = {
+      ...config,
+      dateRange: {
+        startDate,
+        endDate
+      }
+    };
+    onChange(newConfig);
+  };
+
+  /**
+   * 处理周快速选择
+   */
+  const handleWeekSelect = (weekNumber: number) => {
+    // 计算该周的开始日期和结束日期
+    const startDate = new Date(BASE_DATE);
+    startDate.setDate(BASE_DATE.getDate() + (weekNumber - 1) * 7);
+    
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 6);
     
     const newConfig: DailyConsumptionViewConfig = {
       ...config,
@@ -138,6 +162,21 @@ const ConsumptionControls: React.FC<ConsumptionControlsProps> = ({
               className="px-3 py-1 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-sm text-white/90 transition-colors duration-200 disabled:opacity-50"
             >
               {days}天
+            </button>
+          ))}
+        </div>
+
+        {/* 周快速选择 */}
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-white/70">周选:</span>
+          {[1, 2, 3, 4, 5].map(week => (
+            <button
+              key={week}
+              onClick={() => handleWeekSelect(week)}
+              disabled={loading}
+              className="px-3 py-1 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30 rounded-md text-sm text-white/90 transition-colors duration-200 disabled:opacity-50"
+            >
+              第{week}周
             </button>
           ))}
         </div>

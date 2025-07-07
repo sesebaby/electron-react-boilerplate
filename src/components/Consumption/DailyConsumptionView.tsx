@@ -16,6 +16,9 @@ import ConsumptionControls from './ConsumptionControls';
 import ConsumptionTable from './ConsumptionTable';
 import ConsumptionSummary from './ConsumptionSummary';
 
+// 基准日期配置 - 第1天的起始日期
+const BASE_DATE = new Date('2024-01-01');
+
 const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   className = '',
   initialConfig,
@@ -25,9 +28,10 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   
   // 默认配置
   const getDefaultConfig = (): DailyConsumptionViewConfig => {
-    const endDate = new Date();
-    const startDate = new Date();
-    startDate.setDate(endDate.getDate() - 6); // 默认显示最近7天
+    // 默认显示第1周 (第1天到第7天)
+    const startDate = new Date(BASE_DATE);
+    const endDate = new Date(BASE_DATE);
+    endDate.setDate(BASE_DATE.getDate() + 6);
     
     return {
       dateRange: {
