@@ -190,7 +190,7 @@ export class WorkflowVerifier {
         service: step.service,
         method: step.method,
         passed: false,
-        error: error.message,
+        error: error instanceof Error ? error.message : String(error),
         executionTime
       };
     }
@@ -224,7 +224,7 @@ export class WorkflowVerifier {
    */
   private getNestedValue(context: WorkflowContext, path: string): any {
     const parts = path.split('.');
-    let value = context;
+    let value: any = context;
     
     for (const part of parts) {
       if (part === 'stepResults') {
@@ -440,7 +440,7 @@ export class WorkflowVerifier {
     context: WorkflowContext,
     stepResults: WorkflowStepResult[]
   ): Promise<any[]> {
-    const issues = [];
+    const issues: any[] = [];
     
     // 检查采购订单创建
     const orderCreation = stepResults.find(s => s.step === 'create_purchase_order');
@@ -482,7 +482,7 @@ export class WorkflowVerifier {
     context: WorkflowContext,
     stepResults: WorkflowStepResult[]
   ): Promise<any[]> {
-    const issues = [];
+    const issues: any[] = [];
     
     // 检查销售订单创建
     const orderCreation = stepResults.find(s => s.step === 'create_sales_order');
@@ -524,7 +524,7 @@ export class WorkflowVerifier {
     context: WorkflowContext,
     stepResults: WorkflowStepResult[]
   ): Promise<any[]> {
-    const issues = [];
+    const issues: any[] = [];
     
     // 检查库存更新操作
     const inventoryUpdates = stepResults.filter(s => s.step.includes('inventory'));
@@ -548,7 +548,7 @@ export class WorkflowVerifier {
     context: WorkflowContext,
     stepResults: WorkflowStepResult[]
   ): Promise<any[]> {
-    const issues = [];
+    const issues: any[] = [];
     
     // 检查财务操作
     const financialSteps = stepResults.filter(s => 

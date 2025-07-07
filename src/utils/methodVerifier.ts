@@ -119,16 +119,17 @@ export class MethodVerifier {
       
     } catch (error) {
       const executionTime = Date.now() - startTime;
+      const errorMessage = error instanceof Error ? error.message : String(error);
       
       // 检查是否是预期的错误
       if (testCase.expectedError) {
-        const passed = error.message.includes(testCase.expectedError);
+        const passed = errorMessage.includes(testCase.expectedError);
         return {
           service: serviceName,
           method: methodName,
           testCase: testCase.id,
           passed,
-          error: passed ? undefined : `预期错误不匹配。预期: ${testCase.expectedError}, 实际: ${error.message}`,
+          error: passed ? undefined : `预期错误不匹配。预期: ${testCase.expectedError}, 实际: ${errorMessage}`,
           executionTime
         };
       }
@@ -138,7 +139,7 @@ export class MethodVerifier {
         method: methodName,
         testCase: testCase.id,
         passed: false,
-        error: error.message,
+        error: errorMessage,
         executionTime
       };
     }

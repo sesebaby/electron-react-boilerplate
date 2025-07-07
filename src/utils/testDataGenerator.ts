@@ -15,6 +15,22 @@ export interface TestDataSpecs {
   userCount?: number;
 }
 
+export interface TestData {
+  categories: any[];
+  suppliers: any[];
+  customers: any[];
+  warehouses: any[];
+  units: any[];
+  products: any[];
+  inventoryStocks: any[];
+  fifoQueue: any[];
+  purchaseOrders: any[];
+  salesOrders: any[];
+  accountsPayable: any[];
+  accountsReceivable: any[];
+  users: any[];
+}
+
 export class TestDataGenerator {
   private readonly categories = [
     '电子产品', '办公用品', '工业材料', '建筑材料', '化工原料',
@@ -59,7 +75,7 @@ export class TestDataGenerator {
   async generateTestData(specs: TestDataSpecs = {}): Promise<any> {
     console.log('[TestDataGenerator] 开始生成测试数据...');
     
-    const testData = {
+    const testData: TestData = {
       categories: await this.generateCategories(specs.categoryCount || 5),
       suppliers: await this.generateSuppliers(specs.supplierCount || 10),
       customers: await this.generateCustomers(specs.customerCount || 15),
@@ -421,10 +437,10 @@ export class TestDataGenerator {
    * 生成应付账款数据
    */
   async generateAccountsPayable(purchaseOrders: any[]): Promise<any[]> {
-    const accountsPayable = [];
+    const accountsPayable: any[] = [];
     
     purchaseOrders.forEach((order, index) => {
-      if (order.status === 'completed') {
+      if (order.status === 'completed' || order.status === 'approved') {
         const paidAmount = Math.random() > 0.5 
           ? order.total_amount * (0.3 + Math.random() * 0.7)
           : 0;
@@ -451,10 +467,10 @@ export class TestDataGenerator {
    * 生成应收账款数据
    */
   async generateAccountsReceivable(salesOrders: any[]): Promise<any[]> {
-    const accountsReceivable = [];
+    const accountsReceivable: any[] = [];
     
     salesOrders.forEach((order, index) => {
-      if (order.status === 'completed') {
+      if (order.status === 'completed' || order.status === 'approved') {
         const receivedAmount = Math.random() > 0.4 
           ? order.total_amount * (0.2 + Math.random() * 0.8)
           : 0;

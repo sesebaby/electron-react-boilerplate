@@ -250,16 +250,16 @@ export class ResultLogger {
         <div class="section">
             <h2 class="section-title expandable" onclick="toggleSection(this)">工作流验证结果</h2>
             <div class="collapsible">
-                ${workflowResults.map(workflow => `
-                    <div style="margin-bottom: 20px;">
-                        <h3>${workflow.workflow}</h3>
-                        <p><strong>状态:</strong> <span class="status-badge ${workflow.completed ? 'status-passed' : 'status-failed'}">${workflow.completed ? '完成' : '失败'}</span></p>
-                        ${workflow.steps.map(step => `
-                            <div class="workflow-step ${step.passed ? 'step-passed' : 'step-failed'}">
-                                <strong>${step.step}:</strong> ${step.passed ? '通过' : '失败'}
-                                ${step.error ? `<br><small>错误: ${step.error}</small>` : ''}
-                            </div>
-                        `).join('')}
+                ${workflowResults.map(result => `
+                    <div class="workflow">
+                        <h4>${result.workflow} - <span class="status-badge ${result.completed ? 'status-passed' : 'status-failed'}">${result.completed ? '通过' : '失败'}</span></h4>
+                        <div class="workflow-steps">
+                            ${result.steps.map((step: any) => `
+                                <div class="workflow-step ${step.passed ? 'step-passed' : 'step-failed'}">
+                                    <strong>${step.step}:</strong> ${step.passed ? '通过' : `失败 (${step.error})`}
+                                </div>
+                            `).join('')}
+                        </div>
                     </div>
                 `).join('')}
             </div>
@@ -305,121 +305,120 @@ export class ResultLogger {
       return '<div class="section"><h2 class="section-title">数据完整性报告</h2><p>无数据完整性报告</p></div>';
     }
 
+    const { passed, violations, warnings, summary } = dataIntegrity;
+
     return `
         <div class="section">
-            <h2 class="section-title expandable" onclick="toggleSection(this)">数据完整性报告</h2>
+            <h2 class="section-title expandable" onclick="toggleSection(this)">数据完整性报告 - ${passed ? '通过' : '失败'} (${summary.totalViolations}个违规, ${warnings.length}个警告)</h2>
             <div class="collapsible">
-                <p><strong>状态:</strong> <span class="status-badge ${dataIntegrity.passed ? 'status-passed' : 'status-failed'}">${dataIntegrity.passed ? '通过' : '失败'}</span></p>
-                <p><strong>总违规数:</strong> ${dataIntegrity.summary?.totalViolations || 0}</p>
-                <p><strong>严重违规数:</strong> ${dataIntegrity.summary?.criticalViolations || 0}</p>
-                <p><strong>完整性分数:</strong> ${dataIntegrity.summary?.overallScore || 0}</p>
-                
-                ${dataIntegrity.violations && dataIntegrity.violations.length > 0 ? `
-                    <h3>违规详情</h3>
-                    ${dataIntegrity.violations.map(violation => `
-                        <div class="issue ${violation.severity.toLowerCase()}">
-                            <strong>${violation.type}:</strong> ${violation.description}
-                            <br><small>表: ${violation.table}</small>
-                            <br><small>业务规则: ${violation.businessRule}</small>
-                            <br><small>建议修复: ${violation.suggestedFix}</small>
-                        </div>
-                    `).join('')}
-                ` : ''}
+                <h3>违规项</h3>
+                ${violations.length > 0 ? violations.map((violation: any) => `
+                    <div class="issue ${violation.severity.toLowerCase()}">
+                        <strong>${violation.type} (${violation.severity})</strong> on table <strong>${violation.table}</strong>
+                        <p>${violation.description}</p>
+                    </div>
+                `).join('') : '<p>无违规项</p>'}
             </div>
         </div>`;
   }
 
   /**
-   * 生成CSV报告内容
+   * 生成CSV格式报告
    */
   private generateCsvReport(testResult: TestResult): string {
-    const lines = [];
+    const csvRows: string[] = [];
+    csvRows.push('测试类型,测试项目,状态,错误信息,时间戳');
     
-    // 添加标题行
-    lines.push('测试类型,测试项目,状态,错误信息,时间戳');
-    
-    // 添加方法验证结果
     testResult.methodResults.forEach(result => {
-      lines.push(`方法验证,${result.service || 'N/A'}.${result.method || 'N/A'},${result.passed ? '通过' : '失败'},"${result.error || ''}","${this.formatDateTime(new Date())}"`);
+      csvRows.push([
+        `方法验证`,
+        `${result.service || 'N/A'}.${result.method || 'N/A'}`,
+        result.passed ? '通过' : '失败',
+        `"${result.error || ''}"`,
+        `"${this.formatDateTime(new Date())}"`
+      ].join(','));
     });
-    
-    // 添加工作流验证结果
+
     testResult.workflowResults.forEach(workflow => {
-      workflow.steps.forEach(step => {
-        lines.push(`工作流验证,${workflow.workflow}.${step.step},${step.passed ? '通过' : '失败'},"${step.error || ''}","${this.formatDateTime(new Date())}"`);
+      workflow.steps.forEach((step: any) => {
+        csvRows.push([
+          `工作流验证`,
+          `${workflow.workflow}.${step.step}`,
+          step.passed ? '通过' : '失败',
+          `"${step.error || ''}"`,
+          `"${this.formatDateTime(new Date())}"`
+        ].join(','));
       });
     });
-    
-    // 添加问题
+
     testResult.issues.forEach(issue => {
-      lines.push(`问题,${issue.type},${issue.severity},"${issue.description}","${this.formatDateTime(issue.timestamp)}"`);
+        csvRows.push([
+            `问题`,
+            issue.type,
+            issue.severity,
+            `"${issue.description}"`,
+            `"${this.formatDateTime(issue.timestamp)}"`
+        ].join(','))
     });
-    
-    return lines.join('\n');
+
+    return csvRows.join('\n');
   }
 
   /**
    * 按严重性分组问题
    */
   private groupIssuesBySeverity(issues: any[]): { [key: string]: any[] } {
-    const groups = {
-      'Critical': [],
-      'High': [],
-      'Medium': [],
-      'Low': []
+    const grouped: { [key: string]: any[] } = {
+        'Critical': [],
+        'High': [],
+        'Medium': [],
+        'Low': [],
+        'Info': []
     };
-    
-    issues.forEach(issue => {
-      const severity = issue.severity || 'Low';
-      if (groups[severity]) {
-        groups[severity].push(issue);
-      }
-    });
-    
-    return groups;
+    for (const issue of issues) {
+        if (grouped[issue.severity]) {
+            grouped[issue.severity].push(issue);
+        }
+    }
+    return grouped;
   }
 
   /**
    * 更新测试索引
    */
   private async updateTestIndex(testResult: TestResult): Promise<void> {
+    const fs = require('fs').promises;
+    const path = require('path');
+    
+    const indexFile = path.join(this.config.outputDir, 'index.json');
+    let indexData: any[] = [];
+    
     try {
-      const fs = require('fs').promises;
-      const path = require('path');
-      
-      const indexPath = path.join(this.config.outputDir, 'index.json');
-      
-      let index = [];
-      try {
-        const indexContent = await fs.readFile(indexPath, 'utf8');
-        index = JSON.parse(indexContent);
-      } catch (error) {
-        // 索引文件不存在，创建新的
-      }
-      
-      // 添加新的测试记录
-      index.push({
-        testId: testResult.testId,
-        description: testResult.description,
-        passed: testResult.passed,
-        startTime: testResult.startTime,
-        endTime: testResult.endTime,
-        duration: testResult.endTime.getTime() - testResult.startTime.getTime(),
-        issueCount: testResult.issues.length,
-        methodCount: testResult.methodResults.length,
-        workflowCount: testResult.workflowResults.length
-      });
-      
-      // 按时间倒序排序
-      index.sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime());
-      
-      // 保持最近的100个测试记录
-      index = index.slice(0, 100);
-      
-      await fs.writeFile(indexPath, JSON.stringify(index, null, 2));
-    } catch (error) {
-      console.error('[ResultLogger] 更新测试索引失败:', error);
+      indexData = JSON.parse(await fs.readFile(indexFile, 'utf8'));
+    } catch (e) {
+      // Index file doesn't exist or is invalid, start with an empty array
     }
+
+    // 添加或更新测试记录
+    const existingIndex = indexData.findIndex(item => item.testId === testResult.testId);
+    const summary = {
+      testId: testResult.testId,
+      description: testResult.description,
+      passed: testResult.passed,
+      startTime: testResult.startTime,
+      duration: testResult.endTime.getTime() - testResult.startTime.getTime(),
+      issues: testResult.issues.length
+    };
+
+    if (existingIndex !== -1) {
+      indexData[existingIndex] = summary;
+    } else {
+      indexData.push(summary);
+    }
+    
+    indexData.sort((a: any, b: any) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime());
+    
+    await fs.writeFile(indexFile, JSON.stringify(indexData, null, 2));
   }
 
   /**

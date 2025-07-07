@@ -3,7 +3,7 @@
  * 用于捕获数据库表的状态，以便比较业务操作前后的数据变化
  */
 
-import { electronDatabase } from '../services/database/electronDatabase';
+import dbManager from '../services/database/connection';
 
 export interface TableSnapshot {
   tableName: string;
@@ -11,6 +11,7 @@ export interface TableSnapshot {
   data: any[];
   checksum: string;
   timestamp: Date;
+  error?: string;
 }
 
 export interface IDatabaseSnapshot {
@@ -86,7 +87,8 @@ export class DatabaseSnapshot {
         const tableSnapshot = await this.captureTableSnapshot(tableName, timestamp);
         snapshot.tables.set(tableName, tableSnapshot);
       } catch (error) {
-        console.warn(`[DatabaseSnapshot] 无法捕获表 ${tableName} 的快照:`, error.message);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.warn(`[DatabaseSnapshot] 无法捕获表 ${tableName} 的快照:`, errorMessage);
         // 创建空快照以保持一致性
         snapshot.tables.set(tableName, {
           tableName,
@@ -94,7 +96,7 @@ export class DatabaseSnapshot {
           data: [],
           checksum: '',
           timestamp,
-          error: error.message
+          error: errorMessage
         });
       }
     }
@@ -109,7 +111,7 @@ export class DatabaseSnapshot {
    * 捕获单个表的快照
    */
   private async captureTableSnapshot(tableName: string, timestamp: Date): Promise<TableSnapshot> {
-    const db = await electronDatabase.getDatabase();
+    const db = dbManager.getConnection();
     
     // 获取表数据
     const data = await db.all(`SELECT * FROM ${tableName} ORDER BY id`);
@@ -132,7 +134,7 @@ export class DatabaseSnapshot {
    */
   private async getDatabaseVersion(): Promise<string> {
     try {
-      const db = await electronDatabase.getDatabase();
+      const db = dbManager.getConnection();
       const result = await db.get('SELECT value FROM system_settings WHERE key = "database_version"');
       return result?.value || '1.0.0';
     } catch (error) {
@@ -157,7 +159,7 @@ export class DatabaseSnapshot {
   /**
    * 保存快照到文件
    */
-  private async saveSnapshot(snapshot: DatabaseSnapshot): Promise<void> {
+  private async saveSnapshot(snapshot: IDatabaseSnapshot): Promise<void> {
     try {
       const fs = require('fs').promises;
       const path = require('path');
@@ -195,7 +197,7 @@ export class DatabaseSnapshot {
       // 恢复 Map 结构
       const snapshot: IDatabaseSnapshot = {
         ...snapshotData,
-        tables: new Map(snapshotData.tables.map(item => [item.key, item.value]))
+        tables: new Map(snapshotData.tables.map((item: { key: string; value: TableSnapshot }) => [item.key, item.value]))
       };
       
       return snapshot;
@@ -209,21 +211,11 @@ export class DatabaseSnapshot {
    * 比较两个快照的差异
    */
   async compareSnapshots(beforeSnapshot: IDatabaseSnapshot, afterSnapshot: IDatabaseSnapshot): Promise<any> {
-    console.log(`[DatabaseSnapshot] 比较快照: ${beforeSnapshot.snapshotId} vs ${afterSnapshot.snapshotId}`);
-    
-    const comparison = {
-      beforeSnapshot: beforeSnapshot.snapshotId,
-      afterSnapshot: afterSnapshot.snapshotId,
-      timeElapsed: afterSnapshot.timestamp.getTime() - beforeSnapshot.timestamp.getTime(),
-      tableChanges: new Map(),
-      summary: {
-        tablesChanged: 0,
-        totalRowsAdded: 0,
-        totalRowsUpdated: 0,
-        totalRowsDeleted: 0,
-        dataIntegrityIssues: []
-      }
-    };
+    const comparisonTime = new Date();
+    const summary: { type: string; table: string; description: string; details?: any }[] = [];
+    const tables: { [key: string]: any } = {};
+
+    console.log(`[DatabaseSnapshot] 开始比较快照: ${beforeSnapshot.snapshotId} vs ${afterSnapshot.snapshotId}`);
 
     // 比较每个表的变化
     for (const tableName of this.TRACKED_TABLES) {
@@ -231,7 +223,7 @@ export class DatabaseSnapshot {
       const afterTable = afterSnapshot.tables.get(tableName);
       
       if (!beforeTable || !afterTable) {
-        comparison.summary.dataIntegrityIssues.push({
+        summary.push({
           type: 'Missing Table Data',
           table: tableName,
           description: `表 ${tableName} 在快照中缺失数据`
@@ -240,89 +232,78 @@ export class DatabaseSnapshot {
       }
 
       const tableComparison = this.compareTableData(beforeTable, afterTable);
-      if (tableComparison.hasChanges) {
-        comparison.tableChanges.set(tableName, tableComparison);
-        comparison.summary.tablesChanged++;
-        comparison.summary.totalRowsAdded += tableComparison.rowsAdded;
-        comparison.summary.totalRowsUpdated += tableComparison.rowsUpdated;
-        comparison.summary.totalRowsDeleted += tableComparison.rowsDeleted;
+      if (tableComparison.added.length > 0 || tableComparison.removed.length > 0 || tableComparison.modified.length > 0) {
+        tables[tableName] = tableComparison;
+        summary.push({
+          type: 'Table Changes',
+          table: tableName,
+          description: `表 ${tableName} 有变化`,
+          details: tableComparison
+        });
       }
     }
 
-    // 保存比较结果
-    await this.saveComparison(comparison);
-    
-    return comparison;
+    return {
+      id: `comp_${beforeSnapshot.snapshotId}_${afterSnapshot.snapshotId}`,
+      beforeSnapshotId: beforeSnapshot.snapshotId,
+      afterSnapshotId: afterSnapshot.snapshotId,
+      comparisonTime,
+      summary,
+      tables
+    };
   }
 
   /**
-   * 比较单个表的数据变化
+   * 比较两个表的快照数据
    */
-  private compareTableData(beforeTable: TableSnapshot, afterTable: TableSnapshot): any {
-    const comparison = {
-      tableName: beforeTable.tableName,
-      hasChanges: false,
-      rowsAdded: 0,
-      rowsUpdated: 0,
-      rowsDeleted: 0,
-      addedRows: [],
-      updatedRows: [],
-      deletedRows: [],
-      checksumChanged: beforeTable.checksum !== afterTable.checksum
+  private compareTableData(beforeTable: TableSnapshot, afterTable: TableSnapshot): { added: any[], removed: any[], modified: any[] } {
+    const beforeDataMap = new Map(beforeTable.data.map(row => [row.id, row]));
+    const afterDataMap = new Map(afterTable.data.map(row => [row.id, row]));
+    
+    const tableChanges: { added: any[], removed: any[], modified: { id: any; before: any; after: any; changes: any[] }[] } = {
+      added: [],
+      removed: [],
+      modified: []
     };
 
-    // 如果校验和相同，表示没有变化
-    if (!comparison.checksumChanged) {
-      return comparison;
+    // 检查新增和修改
+    for (const [id, afterRow] of afterDataMap.entries()) {
+      if (!beforeDataMap.has(id)) {
+        tableChanges.added.push(afterRow);
+      }
     }
 
-    comparison.hasChanges = true;
-
-    // 创建数据映射以便比较
-    const beforeMap = new Map(beforeTable.data.map(row => [row.id, row]));
-    const afterMap = new Map(afterTable.data.map(row => [row.id, row]));
-
-    // 查找新增的行
-    afterMap.forEach((row, id) => {
-      if (!beforeMap.has(id)) {
-        comparison.addedRows.push(row);
-        comparison.rowsAdded++;
+    // 检查删除
+    for (const [id, beforeRow] of beforeDataMap.entries()) {
+      if (!afterDataMap.has(id)) {
+        tableChanges.removed.push(beforeRow);
       }
-    });
+    }
 
-    // 查找删除的行
-    beforeMap.forEach((row, id) => {
-      if (!afterMap.has(id)) {
-        comparison.deletedRows.push(row);
-        comparison.rowsDeleted++;
-      }
-    });
-
-    // 查找更新的行
-    beforeMap.forEach((beforeRow, id) => {
-      const afterRow = afterMap.get(id);
+    // 检查更新的行
+    for (const [id, beforeRow] of beforeDataMap.entries()) {
+      const afterRow = afterDataMap.get(id);
       if (afterRow && JSON.stringify(beforeRow) !== JSON.stringify(afterRow)) {
-        comparison.updatedRows.push({
+        tableChanges.modified.push({
           id,
           before: beforeRow,
           after: afterRow,
           changes: this.getRowChanges(beforeRow, afterRow)
         });
-        comparison.rowsUpdated++;
       }
-    });
+    }
 
-    return comparison;
+    return tableChanges;
   }
 
   /**
-   * 获取行级别的变化详情
+   * 比较两行数据的变化
    */
-  private getRowChanges(beforeRow: any, afterRow: any): any[] {
-    const changes = [];
+  private getRowChanges(beforeRow: any, afterRow: any): { field: string, before: any, after: any, changeType: string }[] {
+    const changes: { field: string, before: any, after: any, changeType: string }[] = [];
     const allKeys = new Set([...Object.keys(beforeRow), ...Object.keys(afterRow)]);
-    
-    allKeys.forEach(key => {
+
+    for (const key of allKeys) {
       const beforeValue = beforeRow[key];
       const afterValue = afterRow[key];
       
@@ -331,10 +312,10 @@ export class DatabaseSnapshot {
           field: key,
           before: beforeValue,
           after: afterValue,
-          type: this.getChangeType(beforeValue, afterValue)
+          changeType: this.getChangeType(beforeValue, afterValue)
         });
       }
-    });
+    }
     
     return changes;
   }
@@ -363,18 +344,27 @@ export class DatabaseSnapshot {
       const comparisonDir = path.join(process.cwd(), 'tests', 'comparisons');
       await fs.mkdir(comparisonDir, { recursive: true });
       
-      const comparisonFile = path.join(comparisonDir, `${comparison.beforeSnapshot}_vs_${comparison.afterSnapshot}.json`);
+      const comparisonFile = path.join(comparisonDir, `${comparison.id}.json`);
       
-      // 创建可序列化的比较数据
+      // 处理Map等不易序列化的数据结构
       const serializableComparison = {
         ...comparison,
-        tableChanges: Array.from(comparison.tableChanges.entries()).map(([key, value]) => ({ key, value }))
+        tables: Object.fromEntries(
+          Object.entries(comparison.tables).map(([key, value]: [string, any]) => [
+            key,
+            {
+              ...value,
+              // 如果有更复杂的内部结构需要序列化，在这里处理
+            }
+          ])
+        )
       };
-      
+
       await fs.writeFile(comparisonFile, JSON.stringify(serializableComparison, null, 2));
       console.log(`[DatabaseSnapshot] 比较结果已保存: ${comparisonFile}`);
     } catch (error) {
-      console.error(`[DatabaseSnapshot] 保存比较结果失败:`, error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      console.error(`[DatabaseSnapshot] 保存比较结果失败:`, errorMessage);
     }
   }
 
@@ -383,7 +373,7 @@ export class DatabaseSnapshot {
    */
   async getTableRowCount(tableName: string): Promise<number> {
     try {
-      const db = await electronDatabase.getDatabase();
+      const db = dbManager.getConnection();
       const result = await db.get(`SELECT COUNT(*) as count FROM ${tableName}`);
       return result?.count || 0;
     } catch (error) {
@@ -397,7 +387,7 @@ export class DatabaseSnapshot {
    */
   async tableExists(tableName: string): Promise<boolean> {
     try {
-      const db = await electronDatabase.getDatabase();
+      const db = dbManager.getConnection();
       const result = await db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, [tableName]);
       return !!result;
     } catch (error) {

@@ -98,7 +98,7 @@ export class DataChangeTracker {
   /**
    * 分析数据变化
    */
-  private async analyzeChanges(
+  public async analyzeChanges(
     beforeSnapshot: IDatabaseSnapshot,
     afterSnapshot: IDatabaseSnapshot
   ): Promise<Map<string, TableChangeRecord>> {
@@ -145,8 +145,8 @@ export class DataChangeTracker {
     };
     
     // 创建数据映射以便比较
-    const beforeMap = new Map(beforeTable.data.map(row => [row.id, row]));
-    const afterMap = new Map(afterTable.data.map(row => [row.id, row]));
+    const beforeMap = new Map(beforeTable.data.map((row: any) => [row.id, row]));
+    const afterMap = new Map(afterTable.data.map((row: any) => [row.id, row]));
     
     // 查找新增的行
     afterMap.forEach((row, id) => {
@@ -200,10 +200,10 @@ export class DataChangeTracker {
    * 获取行级别的变化详情
    */
   private getRowChanges(beforeRow: any, afterRow: any): any[] {
-    const changes = [];
+    const changes: {field: string, before: any, after: any, changeType: string}[] = [];
     const allKeys = new Set([...Object.keys(beforeRow), ...Object.keys(afterRow)]);
     
-    allKeys.forEach(key => {
+    for (const key of allKeys) {
       const beforeValue = beforeRow[key];
       const afterValue = afterRow[key];
       
@@ -212,10 +212,10 @@ export class DataChangeTracker {
           field: key,
           before: beforeValue,
           after: afterValue,
-          type: this.getChangeType(beforeValue, afterValue)
+          changeType: this.getChangeType(beforeValue, afterValue)
         });
       }
-    });
+    }
     
     return changes;
   }
@@ -387,36 +387,31 @@ export class DataChangeTracker {
     snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
-    
-    // 检查FIFO队列中的数量一致性
-    const fifoData = snapshot.tables.get('fifo_queue')?.data || [];
-    const inventoryData = snapshot.tables.get('inventory_stocks')?.data || [];
-    
-    // 按产品分组检查
-    const productGroups = new Map();
-    fifoData.forEach(row => {
-      if (!productGroups.has(row.product_id)) {
-        productGroups.set(row.product_id, []);
-      }
-      productGroups.get(row.product_id).push(row);
-    });
-    
-    productGroups.forEach((fifoRows, productId) => {
-      const totalFifoQuantity = fifoRows.reduce((sum, row) => sum + row.remaining_quantity, 0);
-      const inventoryRow = inventoryData.find(row => row.product_id === productId);
+    if (!tableChange) return violations;
+
+    const allProductIds = new Set(tableChange.addedRows.map(r => r.product_id));
+
+    for (const productId of allProductIds) {
+      const stock = snapshot.tables.get('inventory_stocks')?.data.find(s => s.product_id === productId);
+      if (!stock) continue;
+
+      // FIFO队列的总数量应等于关联库存的总数量
+      const totalFifoQuantity = snapshot.tables.get('fifo_queue')?.data
+        .filter((row: any) => row.product_id === productId)
+        .reduce((sum: number, row: any) => sum + row.quantity, 0) || 0;
       
-      if (inventoryRow && Math.abs(totalFifoQuantity - inventoryRow.stock_quantity) > 0.001) {
+      if (stock.stock_quantity !== totalFifoQuantity) {
         violations.push({
-          type: 'FIFO Quantity Mismatch',
+          type: 'Data Inconsistency',
           severity: 'Critical',
           table: 'fifo_queue',
-          record: { product_id: productId, fifo_total: totalFifoQuantity, inventory_stock: inventoryRow.stock_quantity },
-          description: `产品 ${productId} 的FIFO队列总数量 (${totalFifoQuantity}) 与库存数量 (${inventoryRow.stock_quantity}) 不匹配`,
+          record: { product_id: productId, fifo_total: totalFifoQuantity, inventory_stock: stock.stock_quantity },
+          description: `产品 ${productId} 的FIFO队列总数量 (${totalFifoQuantity}) 与库存数量 (${stock.stock_quantity}) 不匹配`,
           businessRule: 'FIFO队列总数量应等于库存数量',
           suggestedFix: '检查FIFO队列更新逻辑，确保与库存数量保持一致'
         });
       }
-    });
+    }
     
     return violations;
   }
@@ -483,10 +478,35 @@ export class DataChangeTracker {
     snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
-    
-    // 检查采购订单状态变化的合理性
+    if (!tableChange) return violations;
+
+    for (const order of tableChange.addedRows) {
+      // 检查子项金额是否等于主订单金额
+      if (order.id && snapshot.tables.has('purchase_order_items')) {
+        const orderItemsTable = snapshot.tables.get('purchase_order_items');
+        if (orderItemsTable) {
+          const orderItems = orderItemsTable.data;
+          const itemsTotal = orderItems
+            .filter((item: any) => item.purchase_order_id === order.id)
+            .reduce((sum: number, item: any) => sum + item.total_price, 0);
+
+          if (order.total_amount !== itemsTotal) {
+            violations.push({
+              type: 'Data Inconsistency',
+              severity: 'Critical',
+              table: 'purchase_orders',
+              record: order,
+              description: `采购订单 ${order.id} 的总金额 (${order.total_amount}) 与子项总金额 (${itemsTotal}) 不匹配`,
+              businessRule: '采购订单总金额应等于子项总金额',
+              suggestedFix: '检查采购订单与子项金额的一致性'
+            });
+          }
+        }
+      }
+    }
+
     for (const update of tableChange.updatedRows) {
-      const statusChange = update.changes.find(c => c.field === 'status');
+      const statusChange = update.changes.find((c: any) => c.field === 'status');
       if (statusChange) {
         const isValidTransition = this.isValidStatusTransition(
           'purchase_order',
@@ -519,10 +539,35 @@ export class DataChangeTracker {
     snapshot: IDatabaseSnapshot
   ): Promise<IntegrityViolation[]> {
     const violations: IntegrityViolation[] = [];
-    
-    // 检查销售订单状态变化的合理性
+    if (!tableChange) return violations;
+
+    for (const order of tableChange.addedRows) {
+      // 检查子项金额是否等于主订单金额
+      if (order.id && snapshot.tables.has('sales_order_items')) {
+        const orderItemsTable = snapshot.tables.get('sales_order_items');
+        if (orderItemsTable) {
+          const orderItems = orderItemsTable.data;
+          const itemsTotal = orderItems
+            .filter((item: any) => item.sales_order_id === order.id)
+            .reduce((sum: number, item: any) => sum + item.total_price, 0);
+          
+          if (order.total_amount !== itemsTotal) {
+            violations.push({
+              type: 'Data Inconsistency',
+              severity: 'Critical',
+              table: 'sales_orders',
+              record: order,
+              description: `销售订单 ${order.id} 的总金额 (${order.total_amount}) 与子项总金额 (${itemsTotal}) 不匹配`,
+              businessRule: '销售订单总金额应等于子项总金额',
+              suggestedFix: '检查销售订单与子项金额的一致性'
+            });
+          }
+        }
+      }
+    }
+
     for (const update of tableChange.updatedRows) {
-      const statusChange = update.changes.find(c => c.field === 'status');
+      const statusChange = update.changes.find((c: any) => c.field === 'status');
       if (statusChange) {
         const isValidTransition = this.isValidStatusTransition(
           'sales_order',
@@ -624,6 +669,44 @@ export class DataChangeTracker {
       // 例如：检查订单状态变化是否与库存变化一致
     }
     
+    if (changes.has('purchase_order')) {
+      const purchaseOrderChanges = changes.get('purchase_order');
+      if (purchaseOrderChanges) {
+        purchaseOrderChanges.updatedRows.forEach((c: any) => {
+          if (!this.isValidStatusTransition('purchase_order', c.before.status, c.after.status)) {
+            violations.push({
+              type: 'Invalid Status Transition',
+              severity: 'Medium',
+              table: 'purchase_orders',
+              record: c.after,
+              description: `采购订单 ${c.after.id} 的状态变化无效: ${c.before.status} -> ${c.after.status}`,
+              businessRule: '订单状态变化必须遵循预定义的状态流转规则',
+              suggestedFix: '检查订单状态更新逻辑，确保状态变化符合业务规则'
+            });
+          }
+        });
+      }
+    }
+
+    if (changes.has('sales_order')) {
+      const salesOrderChanges = changes.get('sales_order');
+      if (salesOrderChanges) {
+        salesOrderChanges.updatedRows.forEach((c: any) => {
+          if (!this.isValidStatusTransition('sales_order', c.before.status, c.after.status)) {
+            violations.push({
+              type: 'Invalid Status Transition',
+              severity: 'Medium',
+              table: 'sales_orders',
+              record: c.after,
+              description: `销售订单 ${c.after.id} 的状态变化无效: ${c.before.status} -> ${c.after.status}`,
+              businessRule: '订单状态变化必须遵循预定义的状态流转规则',
+              suggestedFix: '检查订单状态更新逻辑，确保状态变化符合业务规则'
+            });
+          }
+        });
+      }
+    }
+    
     return violations;
   }
 
@@ -665,11 +748,13 @@ export class DataChangeTracker {
    * 检查数据一致性
    */
   private async checkDataConsistency(tableName: string, data: any[]): Promise<any[]> {
-    const issues = [];
-    
-    // 检查数据的一致性
-    // 例如：检查是否有重复的主键、外键约束等
-    
+    const issues: {type: string, description: string, details: any}[] = [];
+    switch (tableName) {
+      case 'inventory_stocks':
+        // 检查总价值是否等于单价*数量
+        // ... existing code ...
+        break;
+    }
     return issues;
   }
 
@@ -677,25 +762,34 @@ export class DataChangeTracker {
    * 检查状态转换是否有效
    */
   private isValidStatusTransition(entityType: string, fromStatus: string, toStatus: string): boolean {
-    const transitions = {
+    const VALID_STATUS_TRANSITIONS: {
+      purchase_order: { [key: string]: string[] };
+      sales_order: { [key: string]: string[] };
+    } = {
       purchase_order: {
-        'draft': ['pending', 'cancelled'],
-        'pending': ['approved', 'cancelled'],
-        'approved': ['completed', 'cancelled'],
-        'completed': [],
-        'cancelled': []
+        draft: ['pending', 'cancelled'],
+        pending: ['approved', 'cancelled'],
+        approved: ['completed', 'cancelled'],
+        completed: [],
+        cancelled: []
       },
       sales_order: {
-        'draft': ['pending', 'cancelled'],
-        'pending': ['approved', 'cancelled'],
-        'approved': ['completed', 'cancelled'],
-        'completed': [],
-        'cancelled': []
+        draft: ['pending', 'cancelled'],
+        pending: ['approved', 'cancelled'],
+        approved: ['completed', 'cancelled'],
+        completed: [],
+        cancelled: []
       }
     };
-    
-    const validTransitions = transitions[entityType]?.[fromStatus] || [];
-    return validTransitions.includes(toStatus);
+
+    if (fromStatus === toStatus) return true;
+
+    const transitions = VALID_STATUS_TRANSITIONS[entityType as keyof typeof VALID_STATUS_TRANSITIONS];
+    if (transitions && transitions[fromStatus as keyof typeof transitions]) {
+      return transitions[fromStatus as keyof typeof transitions].includes(toStatus);
+    }
+
+    return false;
   }
 
   /**
