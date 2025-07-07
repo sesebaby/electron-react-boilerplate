@@ -3,6 +3,7 @@ import { customerService } from '../../services/business';
 import { Customer, CustomerType, CustomerLevel, CustomerStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
+import ErrorDisplay from '../ui/ErrorDisplay';
 
 interface CustomerManagementProps {
   className?: string;
@@ -147,10 +148,15 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     setShowForm(false);
     setEditingCustomer(null);
     setFormData(emptyForm);
+    setError(null); // 清除错误信息
   };
 
   const handleInputChange = (field: keyof CustomerForm, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    // 当用户开始输入时清除错误信息
+    if (error) {
+      setError(null);
+    }
   };
 
   const generateCustomerCode = () => {
@@ -501,6 +507,15 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* 错误信息显示 */}
+              {error && (
+                <ErrorDisplay
+                  error={new Error(error)}
+                  variant="inline"
+                  onClear={() => setError(null)}
+                />
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="relative">
                   <GlassInput

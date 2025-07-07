@@ -17,6 +17,20 @@ export class ProductService {
     // No longer directly instantiate InventoryService to avoid circular dependency
   }
 
+  private mapLegacyStatusToProductStatus(legacyStatus: string): ProductStatus {
+    switch (legacyStatus) {
+      case 'in-stock':
+      case 'low-stock':
+        return ProductStatus.ACTIVE;
+      case 'out-of-stock':
+        return ProductStatus.INACTIVE;
+      case 'discontinued':
+        return ProductStatus.DISCONTINUED;
+      default:
+        return ProductStatus.ACTIVE;
+    }
+  }
+
   async initialize(): Promise<void> {
     console.log('Product service initializing...');
     
@@ -38,7 +52,7 @@ export class ProductService {
           salePrice: dbItem.unitPrice || 0,
           minStock: dbItem.reorderLevel || 0,
           maxStock: dbItem.maxStock || 0,
-          status: dbItem.status as ProductStatus || 'active',
+          status: this.mapLegacyStatusToProductStatus(dbItem.status || 'in-stock'),
           createdAt: new Date(dbItem.lastUpdated || Date.now()),
           updatedAt: new Date(dbItem.lastUpdated || Date.now())
         };
