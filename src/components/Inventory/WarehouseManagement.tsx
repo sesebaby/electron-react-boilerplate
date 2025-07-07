@@ -3,6 +3,7 @@ import { warehouseService } from '../../services/business';
 import { Warehouse } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
+import { useAuth } from '../../hooks/useAuth';
 
 interface WarehouseManagementProps {
   className?: string;
@@ -12,7 +13,7 @@ interface WarehouseForm {
   code: string;
   name: string;
   address: string;
-  manager: string;
+  creator: string;
   phone: string;
   isDefault: boolean;
 }
@@ -21,12 +22,13 @@ const emptyForm: WarehouseForm = {
   code: '',
   name: '',
   address: '',
-  manager: '',
+  creator: '',
   phone: '',
   isDefault: false
 };
 
 export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ className }) => {
+  const { user } = useAuth();
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -71,10 +73,15 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     e.preventDefault();
     
     try {
+      const submitData = {
+        ...formData,
+        manager: formData.creator
+      };
+      
       if (editingWarehouse) {
-        await warehouseService.update(editingWarehouse.id, formData);
+        await warehouseService.update(editingWarehouse.id, submitData);
       } else {
-        await warehouseService.create(formData);
+        await warehouseService.create(submitData);
       }
       
       await loadData();
@@ -93,7 +100,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       code: warehouse.code,
       name: warehouse.name,
       address: warehouse.address || '',
-      manager: warehouse.manager || '',
+      creator: warehouse.manager || '',
       phone: warehouse.phone || '',
       isDefault: warehouse.isDefault
     });
@@ -162,6 +169,15 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     setFormData(emptyForm);
   };
 
+  const handleCreateNew = () => {
+    const newFormData = {
+      ...emptyForm,
+      creator: user?.nickname || user?.username || ''
+    };
+    setFormData(newFormData);
+    setShowForm(true);
+  };
+
   const handleInputChange = (field: keyof WarehouseForm, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
@@ -179,6 +195,13 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     const newCode = `WH${String(maxCode + 1).padStart(3, '0')}`;
     setFormData(prev => ({ ...prev, code: newCode }));
   };
+
+  // 初始化时自动生成编码
+  useEffect(() => {
+    if (showForm && !editingWarehouse && !formData.code && warehouses.length >= 0) {
+      setTimeout(() => generateWarehouseCode(), 100);
+    }
+  }, [showForm, editingWarehouse, warehouses.length]);
 
   const filteredWarehouses = warehouses.filter(warehouse => {
     const matchesSearch = !searchTerm || 
@@ -216,7 +239,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
         </div>
         <GlassButton
           variant="primary"
-          onClick={() => setShowForm(true)}
+          onClick={handleCreateNew}
           className="self-start lg:self-auto"
         >
           <span className="mr-2">🏭</span>
@@ -320,7 +343,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
             <div className="text-6xl mb-4">🏭</div>
             <h3 className="text-xl font-semibold text-white mb-2">没有找到仓库</h3>
             <p className="text-white/70 mb-4">请调整搜索条件或创建新的仓库</p>
-            <GlassButton variant="primary" onClick={() => setShowForm(true)}>
+            <GlassButton variant="primary" onClick={handleCreateNew}>
               添加第一个仓库
             </GlassButton>
           </div>
@@ -422,105 +445,175 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       {/* 仓库表单模态框 */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="glass-card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold text-white">
-                {editingWarehouse ? '编辑仓库' : '新建仓库'}
-              </h3>
+          <div className="glass-card max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-2xl">
+                  🏭
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-white">
+                    {editingWarehouse ? '编辑仓库' : '新建仓库'}
+                  </h3>
+                  <p className="text-white/70 text-sm mt-1">
+                    {editingWarehouse ? '修改仓库信息和配置' : '创建新的仓库管理节点'}
+                  </p>
+                </div>
+              </div>
               <button
                 onClick={handleCancel}
-                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white"
+                className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors text-white/70 hover:text-white"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="block text-white/90 text-sm font-medium">仓库编码 *</label>
-                  <div className="flex gap-2">
-                    <GlassInput
-                      type="text"
-                      placeholder="输入仓库编码"
-                      value={formData.code}
-                      onChange={(e) => handleInputChange('code', e.target.value)}
-                      required
-                      className="flex-1"
-                    />
-                    {!editingWarehouse && (
-                      <GlassButton
-                        type="button"
-                        onClick={generateWarehouseCode}
-                        variant="secondary"
-                        className="px-3"
-                        title="自动生成编码"
-                      >
-                        🔄
-                      </GlassButton>
-                    )}
-                  </div>
+            <form onSubmit={handleSubmit} className="space-y-8">
+              {/* 基本信息 */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <h4 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <span className="text-blue-400">📋</span>
+                    基本信息
+                  </h4>
+                  <div className="flex-1 h-px bg-gradient-to-r from-blue-500/30 to-transparent"></div>
                 </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="block text-white/90 text-sm font-medium flex items-center gap-2">
+                      <span>仓库编码</span>
+                      <span className="text-red-400">*</span>
+                    </label>
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <GlassInput
+                          type="text"
+                          placeholder="如: WH001"
+                          value={formData.code}
+                          onChange={(e) => handleInputChange('code', e.target.value)}
+                          required
+                          className="flex-1"
+                        />
+                        {!editingWarehouse && (
+                          <GlassButton
+                            type="button"
+                            onClick={generateWarehouseCode}
+                            variant="secondary"
+                            className="px-4 py-2"
+                            title="自动生成编码"
+                          >
+                            🔄 自动生成
+                          </GlassButton>
+                        )}
+                      </div>
+                      <div className="bg-blue-500/10 border border-blue-400/20 rounded-lg p-3">
+                        <p className="text-blue-300 text-xs flex items-center gap-1">
+                          <span>💡</span>
+                          编码规则：WH + 3位数字序号，如 WH001、WH002...
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
-                <GlassInput
-                  label="仓库名称"
-                  type="text"
-                  placeholder="输入仓库名称"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
-                  required
-                />
+                  <GlassInput
+                    label="仓库名称"
+                    type="text"
+                    placeholder="如: 主仓库、备用仓库"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    required
+                    className=""
+                  />
 
-                <GlassInput
-                  label="管理员"
-                  type="text"
-                  placeholder="输入管理员姓名"
-                  value={formData.manager}
-                  onChange={(e) => handleInputChange('manager', e.target.value)}
-                  required
-                />
+                  <GlassInput
+                    label="创建者"
+                    type="text"
+                    placeholder="创建者姓名"
+                    value={formData.creator}
+                    onChange={(e) => handleInputChange('creator', e.target.value)}
+                    required
+                    disabled={!editingWarehouse}
+                    className=""
+                  />
 
-                <GlassInput
-                  label="联系电话"
-                  type="tel"
-                  placeholder="输入联系电话"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
-                  required
-                />
-
-                <GlassSelect
-                  label="是否默认"
-                  value={formData.isDefault ? 'true' : 'false'}
-                  onChange={(e) => handleInputChange('isDefault', e.target.value === 'true')}
-                >
-                  <option value="false">否</option>
-                  <option value="true">是</option>
-                </GlassSelect>
+                  <GlassInput
+                    label="联系电话"
+                    type="tel"
+                    placeholder="输入联系电话"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    required
+                    className=""
+                  />
+                </div>
               </div>
 
-              <GlassInput
-                label="仓库地址"
-                type="text"
-                placeholder="输入仓库地址"
-                value={formData.address}
-                onChange={(e) => handleInputChange('address', e.target.value)}
-                required
-              />
+              {/* 位置信息 */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <h4 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <span className="text-green-400">📍</span>
+                    位置信息
+                  </h4>
+                  <div className="flex-1 h-px bg-gradient-to-r from-green-500/30 to-transparent"></div>
+                </div>
+                
+                <GlassInput
+                  label="仓库地址"
+                  type="text"
+                  placeholder="请输入详细地址"
+                  value={formData.address}
+                  onChange={(e) => handleInputChange('address', e.target.value)}
+                  required
+                  className=""
+                />
+              </div>
 
-              <div className="flex gap-4 pt-4">
+              {/* 仓库配置 */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <h4 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <span className="text-purple-400">⚙️</span>
+                    仓库配置
+                  </h4>
+                  <div className="flex-1 h-px bg-gradient-to-r from-purple-500/30 to-transparent"></div>
+                </div>
+                
+                <div className="bg-amber-500/10 border border-amber-400/20 rounded-lg p-4">
+                  <GlassSelect
+                    label="是否设为默认仓库"
+                    value={formData.isDefault ? 'true' : 'false'}
+                    onChange={(e) => handleInputChange('isDefault', e.target.value === 'true')}
+                  >
+                    <option value="false">否</option>
+                    <option value="true">是</option>
+                  </GlassSelect>
+                  <p className="text-amber-300 text-xs mt-2 flex items-center gap-1">
+                    <span>⚠️</span>
+                    默认仓库将作为新产品的默认存储位置
+                  </p>
+                </div>
+              </div>
+
+              {/* 操作按钮 */}
+              <div className="flex gap-4 pt-6 border-t border-white/10">
                 <GlassButton
                   type="submit"
                   variant="primary"
-                  disabled={!formData.code || !formData.name || !formData.manager || !formData.phone || !formData.address}
+                  disabled={!formData.code || !formData.name || !formData.creator || !formData.phone || !formData.address}
+                  className="flex-1 py-3"
                 >
+                  <span className="mr-2">{editingWarehouse ? '💾' : '✨'}</span>
                   {editingWarehouse ? '更新仓库' : '创建仓库'}
                 </GlassButton>
                 <GlassButton
                   type="button"
                   variant="secondary"
                   onClick={handleCancel}
+                  className="px-6 py-3"
                 >
+                  <span className="mr-2">❌</span>
                   取消
                 </GlassButton>
               </div>
