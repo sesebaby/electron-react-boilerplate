@@ -412,181 +412,196 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
 
       {/* 商品表单模态框 */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="glass-card max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-white">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center p-2 sm:p-4 z-50 overflow-y-auto">
+          <div className="glass-card w-full max-w-5xl my-2 sm:my-4 max-h-[calc(100vh-1rem)] sm:max-h-[calc(100vh-2rem)] overflow-y-auto">
+            <div className="sticky top-0 bg-white/5 backdrop-blur-sm border-b border-white/10 px-4 sm:px-6 py-4 flex items-center justify-between">
+              <h3 className="text-xl sm:text-2xl font-bold text-white">
                 {editingProduct ? '编辑商品' : '新增商品'}
               </h3>
               <button
                 onClick={handleCancel}
-                className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white"
+                className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-8">
-              {/* 基本信息 */}
-              <GlassCard title="基本信息">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <GlassInput
-                  label="商品名称"
-                  type="text"
-                  placeholder="输入商品名称"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
-                  required
+            <div className="p-4 sm:p-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* 基本信息 */}
+                <GlassCard title="基本信息">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {/* 第一行：商品名称（全宽） */}
+                    <div className="sm:col-span-2 lg:col-span-3">
+                      <GlassInput
+                        label="商品名称"
+                        type="text"
+                        placeholder="输入商品名称"
+                        value={formData.name}
+                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        required
+                      />
+                    </div>
+
+                    {/* 第二行：SKU、分类、单位 */}
+                    <GlassInput
+                      label="SKU编码"
+                      type="text"
+                      placeholder="输入SKU编码"
+                      value={formData.sku}
+                      onChange={(e) => handleInputChange('sku', e.target.value)}
+                      required
+                    />
+
+                    <GlassSelect
+                      label="商品分类"
+                      value={formData.categoryId}
+                      onChange={(e) => handleInputChange('categoryId', e.target.value)}
+                      required
+                    >
+                      <option value="">请选择分类</option>
+                      {categories.map(category => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </GlassSelect>
+
+                    <GlassSelect
+                      label="计量单位"
+                      value={formData.unitId}
+                      onChange={(e) => handleInputChange('unitId', e.target.value)}
+                      required
+                    >
+                      <option value="">请选择单位</option>
+                      {units.map(unit => (
+                        <option key={unit.id} value={unit.id}>
+                          {unit.name}
+                        </option>
+                      ))}
+                    </GlassSelect>
+
+                    {/* 第三行：品牌、型号、状态 */}
+                    <GlassInput
+                      label="品牌"
+                      type="text"
+                      placeholder="输入品牌"
+                      value={formData.brand}
+                      onChange={(e) => handleInputChange('brand', e.target.value)}
+                    />
+
+                    <GlassInput
+                      label="型号规格"
+                      type="text"
+                      placeholder="输入型号规格"
+                      value={formData.model}
+                      onChange={(e) => handleInputChange('model', e.target.value)}
+                    />
+
+                    <GlassSelect
+                      label="商品状态"
+                      value={formData.status}
+                      onChange={(e) => handleInputChange('status', e.target.value as ProductStatus)}
+                    >
+                      <option value={ProductStatus.ACTIVE}>正常</option>
+                      <option value={ProductStatus.INACTIVE}>停用</option>
+                      <option value={ProductStatus.DISCONTINUED}>停产</option>
+                    </GlassSelect>
+
+                    {/* 第四行：价格信息（采购价、销售价占两列，条形码占一列） */}
+                    <GlassInput
+                      label="采购价"
+                      type="number"
+                      placeholder="0.00"
+                      value={formData.purchasePrice}
+                      onChange={(e) => handleInputChange('purchasePrice', parseFloat(e.target.value) || 0)}
+                      min="0"
+                      step="0.01"
+                      required
+                    />
+
+                    <GlassInput
+                      label="销售价"
+                      type="number"
+                      placeholder="0.00"
+                      value={formData.salePrice}
+                      onChange={(e) => handleInputChange('salePrice', parseFloat(e.target.value) || 0)}
+                      min="0"
+                      step="0.01"
+                      required
+                    />
+
+                    <GlassInput
+                      label="条形码"
+                      type="text"
+                      placeholder="输入条形码"
+                      value={formData.barcode}
+                      onChange={(e) => handleInputChange('barcode', e.target.value)}
+                    />
+
+                    {/* 第五行：库存信息（最小、最大库存各占一列，空一列） */}
+                    <GlassInput
+                      label="最小库存"
+                      type="number"
+                      placeholder="0"
+                      value={formData.minStock}
+                      onChange={(e) => handleInputChange('minStock', parseInt(e.target.value) || 0)}
+                      min="0"
+                    />
+
+                    <GlassInput
+                      label="最大库存"
+                      type="number"
+                      placeholder="0"
+                      value={formData.maxStock}
+                      onChange={(e) => handleInputChange('maxStock', parseInt(e.target.value) || 0)}
+                      min="0"
+                    />
+
+                    {/* 第六行：商品描述（全宽） */}
+                    <div className="sm:col-span-2 lg:col-span-3">
+                      <GlassInput
+                        label="商品描述"
+                        placeholder="输入商品描述..."
+                        value={formData.description}
+                        onChange={(e) => handleInputChange('description', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </GlassCard>
+
+                {/* 单位换算设置 */}
+                <UnitConversionSettings
+                  enableConversion={conversionSettings.enableConversion}
+                  conversionType={conversionSettings.conversionType}
+                  globalRuleId={conversionSettings.globalRuleId}
+                  customRule={conversionSettings.customRule}
+                  onSettingsChange={setConversionSettings}
                 />
 
-                <GlassInput
-                  label="SKU编码"
-                  type="text"
-                  placeholder="输入SKU编码"
-                  value={formData.sku}
-                  onChange={(e) => handleInputChange('sku', e.target.value)}
-                  required
-                />
-
-                <GlassSelect
-                  label="商品分类"
-                  value={formData.categoryId}
-                  onChange={(e) => handleInputChange('categoryId', e.target.value)}
-                  required
-                >
-                  <option value="">请选择分类</option>
-                  {categories.map(category => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </GlassSelect>
-
-                <GlassSelect
-                  label="计量单位"
-                  value={formData.unitId}
-                  onChange={(e) => handleInputChange('unitId', e.target.value)}
-                  required
-                >
-                  <option value="">请选择单位</option>
-                  {units.map(unit => (
-                    <option key={unit.id} value={unit.id}>
-                      {unit.name}
-                    </option>
-                  ))}
-                </GlassSelect>
-
-                <GlassInput
-                  label="品牌"
-                  type="text"
-                  placeholder="输入品牌"
-                  value={formData.brand}
-                  onChange={(e) => handleInputChange('brand', e.target.value)}
-                />
-
-                <GlassInput
-                  label="型号规格"
-                  type="text"
-                  placeholder="输入型号规格"
-                  value={formData.model}
-                  onChange={(e) => handleInputChange('model', e.target.value)}
-                />
-
-                <GlassInput
-                  label="采购价"
-                  type="number"
-                  placeholder="0.00"
-                  value={formData.purchasePrice}
-                  onChange={(e) => handleInputChange('purchasePrice', parseFloat(e.target.value) || 0)}
-                  min="0"
-                  step="0.01"
-                  required
-                />
-
-                <GlassInput
-                  label="销售价"
-                  type="number"
-                  placeholder="0.00"
-                  value={formData.salePrice}
-                  onChange={(e) => handleInputChange('salePrice', parseFloat(e.target.value) || 0)}
-                  min="0"
-                  step="0.01"
-                  required
-                />
-
-                <GlassInput
-                  label="最小库存"
-                  type="number"
-                  placeholder="0"
-                  value={formData.minStock}
-                  onChange={(e) => handleInputChange('minStock', parseInt(e.target.value) || 0)}
-                  min="0"
-                />
-
-                <GlassInput
-                  label="最大库存"
-                  type="number"
-                  placeholder="0"
-                  value={formData.maxStock}
-                  onChange={(e) => handleInputChange('maxStock', parseInt(e.target.value) || 0)}
-                  min="0"
-                />
-
-                <GlassSelect
-                  label="商品状态"
-                  value={formData.status}
-                  onChange={(e) => handleInputChange('status', e.target.value as ProductStatus)}
-                >
-                  <option value={ProductStatus.ACTIVE}>正常</option>
-                  <option value={ProductStatus.INACTIVE}>停用</option>
-                  <option value={ProductStatus.DISCONTINUED}>停产</option>
-                </GlassSelect>
-
-                  <GlassInput
-                    label="条形码"
-                    type="text"
-                    placeholder="输入条形码"
-                    value={formData.barcode}
-                    onChange={(e) => handleInputChange('barcode', e.target.value)}
-                  />
+                {/* 提交按钮 */}
+                <div className="sticky bottom-0 bg-white/5 backdrop-blur-sm border-t border-white/10 pt-4 mt-6">
+                  <div className="flex gap-3 sm:gap-4">
+                    <GlassButton
+                      type="submit"
+                      variant="primary"
+                      disabled={!formData.name || !formData.sku || !formData.categoryId || !formData.unitId}
+                      className="flex-1"
+                    >
+                      {editingProduct ? '更新商品' : '创建商品'}
+                    </GlassButton>
+                    <GlassButton
+                      type="button"
+                      variant="secondary"
+                      onClick={handleCancel}
+                      className="flex-1"
+                    >
+                      取消
+                    </GlassButton>
+                  </div>
                 </div>
-
-                <GlassInput
-                  label="商品描述"
-                  placeholder="输入商品描述..."
-                  value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
-                />
-              </GlassCard>
-
-              {/* 单位换算设置 */}
-              <UnitConversionSettings
-                enableConversion={conversionSettings.enableConversion}
-                conversionType={conversionSettings.conversionType}
-                globalRuleId={conversionSettings.globalRuleId}
-                customRule={conversionSettings.customRule}
-                onSettingsChange={setConversionSettings}
-              />
-
-              <div className="flex gap-4 pt-6 border-t border-white/10">
-                <GlassButton
-                  type="submit"
-                  variant="primary"
-                  disabled={!formData.name || !formData.sku || !formData.categoryId || !formData.unitId}
-                  className="flex-1"
-                >
-                  {editingProduct ? '更新商品' : '创建商品'}
-                </GlassButton>
-                <GlassButton
-                  type="button"
-                  variant="secondary"
-                  onClick={handleCancel}
-                  className="flex-1"
-                >
-                  取消
-                </GlassButton>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       )}
