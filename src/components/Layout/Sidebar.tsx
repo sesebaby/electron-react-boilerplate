@@ -145,8 +145,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="text-2xl">📦</div>
           {!collapsed && (
             <div className="text-left">
-              <h1 className="text-lg font-bold text-white leading-tight">进销存系统</h1>
-              <p className="text-xs text-white/60">Inventory System</p>
+              <h1 className="text-lg font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>进销存系统</h1>
+              <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>Inventory System</p>
             </div>
           )}
         </div>
@@ -163,9 +163,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left
                   transition-all duration-200 group
                   ${isMenuActive(item)
-                    ? 'bg-white/20 text-white border border-white/30'
-                    : 'text-white/80 hover:bg-white/10 hover:text-white border border-transparent'
+                    ? 'bg-white/20 border border-white/30'
+                    : 'hover:bg-white/10 border border-transparent'
                   }
+                `}
+                style={{
+                  color: isMenuActive(item) ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  '--hover-color': 'var(--text-primary)'
+                } as React.CSSProperties}
                 `}
                 onClick={() => handleMenuClick(item)}
                 title={collapsed ? item.label : undefined}
@@ -175,7 +180,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <>
                     <span className="flex-1 font-medium text-sm">{item.label}</span>
                     {item.badge && (
-                      <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full min-w-[20px] text-center">
+                      <span className="text-xs px-2 py-0.5 rounded-full min-w-[20px] text-center" style={{ backgroundColor: 'var(--error-color)', color: 'var(--text-primary)' }}>
                         {item.badge}
                       </span>
                     )}
@@ -206,16 +211,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left
                             transition-all duration-200 text-sm
                             ${currentPage === child.id
-                              ? 'bg-white/15 text-white border border-white/20'
-                              : 'text-white/70 hover:bg-white/8 hover:text-white border border-transparent'
+                              ? 'bg-white/15 border border-white/20'
+                              : 'hover:bg-white/8 border border-transparent'
                             }
+                          `}
+                          style={{
+                            color: currentPage === child.id ? 'var(--text-primary)' : 'var(--text-secondary)',
+                            '--hover-color': 'var(--text-primary)'
+                          } as React.CSSProperties}
                           `}
                           onClick={() => onPageChange(child.id)}
                         >
                           <span className="text-base flex-shrink-0">{child.icon}</span>
                           <span className="flex-1">{child.label}</span>
                           {child.badge && (
-                            <span className="bg-orange-500 text-white text-xs px-1.5 py-0.5 rounded-full min-w-[16px] text-center">
+                            <span className="text-xs px-1.5 py-0.5 rounded-full min-w-[16px] text-center" style={{ backgroundColor: 'var(--warning-color)', color: 'var(--text-primary)' }}>
                               {child.badge}
                             </span>
                           )}
@@ -240,25 +250,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 👤
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-sm font-medium text-white truncate">系统管理员</div>
-                <div className="text-xs text-white/60 truncate">Administrator</div>
+                <div className="text-sm font-medium truncate" style={{ color: 'var(--text-primary)' }}>系统管理员</div>
+                <div className="text-xs truncate" style={{ color: 'var(--text-tertiary)' }}>Administrator</div>
               </div>
             </div>
             
             <div className="flex items-center justify-between text-xs px-2">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-white/70">系统正常</span>
+                <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'var(--success-color)' }}></div>
+                <span style={{ color: 'var(--text-secondary)' }}>系统正常</span>
               </div>
-              <span className="text-white/50">v1.0.0</span>
+              <span style={{ color: 'var(--text-tertiary)' }}>v1.0.0</span>
             </div>
           </div>
         ) : (
           // 收缩状态的用户头像
           <div className="flex flex-col items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm relative">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center font-semibold text-sm relative" style={{ color: 'var(--text-primary)' }}>
               👤
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
+              <div className="absolute -bottom-1 -right-1 w-3 h-3 border-2 rounded-full" style={{ backgroundColor: 'var(--success-color)', borderColor: 'var(--text-primary)' }}></div>
             </div>
           </div>
         )}

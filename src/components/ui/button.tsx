@@ -4,19 +4,19 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "../../lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 glass-button",
   {
     variants: {
       variant: {
-        default: "bg-white/20 text-white backdrop-blur-sm hover:bg-white/30 border border-white/30",
+        default: "glass-button",
         destructive:
-          "bg-red-500/20 text-red-100 backdrop-blur-sm hover:bg-red-500/30 border border-red-500/30",
+          "glass-button bg-red-500/20 hover:bg-red-500/30 border-red-500/30",
         outline:
-          "border border-white/30 bg-transparent backdrop-blur-sm hover:bg-white/10 text-white",
+          "glass-button border bg-transparent hover:bg-white/10",
         secondary:
-          "bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 border border-white/20",
-        ghost: "hover:bg-white/10 text-white backdrop-blur-sm",
-        link: "text-white underline-offset-4 hover:underline",
+          "glass-button bg-white/10 hover:bg-white/20 border-white/20",
+        ghost: "glass-button hover:bg-white/10",
+        link: "underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4 py-2",
