@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { productService, categoryService, unitService } from '../../services/business';
-import { Product, Category, Unit, ProductStatus } from '../../types/entities';
+import { productService, categoryService, unitService, productConversionService } from '../../services/business';
+import { Product, Category, Unit, ProductStatus, ProductConversionSetting } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
+import UnitConversionSettings from './UnitConversionSettings';
 
 interface ProductManagementProps {
   className?: string;
@@ -24,6 +25,18 @@ interface ProductForm {
   status: ProductStatus;
 }
 
+interface ConversionSettings {
+  enableConversion: boolean;
+  conversionType: 'global' | 'custom';
+  globalRuleId?: string;
+  customRule?: {
+    fromUnitId: string;
+    toUnitId: string;
+    conversionRate: number;
+    description: string;
+  };
+}
+
 const emptyForm: ProductForm = {
   name: '',
   sku: '',
@@ -40,6 +53,13 @@ const emptyForm: ProductForm = {
   status: ProductStatus.ACTIVE
 };
 
+const emptyConversionSettings: ConversionSettings = {
+  enableConversion: false,
+  conversionType: 'global',
+  globalRuleId: undefined,
+  customRule: undefined
+};
+
 export const ProductManagement: React.FC<ProductManagementProps> = ({ className }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -49,6 +69,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [formData, setFormData] = useState<ProductForm>(emptyForm);
+  const [conversionSettings, setConversionSettings] = useState<ConversionSettings>(emptyConversionSettings);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<ProductStatus | ''>('');
@@ -87,23 +108,51 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     e.preventDefault();
     
     try {
+      let productId: string;
+      
       if (editingProduct) {
         await productService.update(editingProduct.id, formData);
+        productId = editingProduct.id;
       } else {
-        await productService.create(formData);
+        const newProduct = await productService.create(formData);
+        productId = newProduct.id;
+      }
+      
+      // 保存或更新单位换算设置
+      if (conversionSettings.enableConversion) {
+        const existingConversionSetting = await productConversionService.findByProductId(productId);
+        
+        const conversionData = {
+          productId,
+          enableConversion: conversionSettings.enableConversion,
+          conversionType: conversionSettings.conversionType,
+          globalRuleId: conversionSettings.globalRuleId,
+          customRule: conversionSettings.customRule,
+          isActive: true
+        };
+        
+        if (existingConversionSetting) {
+          await productConversionService.update(existingConversionSetting.id, conversionData);
+        } else {
+          await productConversionService.create(conversionData);
+        }
+      } else {
+        // 如果禁用换算，删除现有的换算设置
+        await productConversionService.deleteByProductId(productId);
       }
       
       await loadData();
       setShowForm(false);
       setEditingProduct(null);
       setFormData(emptyForm);
+      setConversionSettings(emptyConversionSettings);
     } catch (err) {
       setError(editingProduct ? '更新商品失败' : '创建商品失败');
       console.error('Failed to save product:', err);
     }
   };
 
-  const handleEdit = (product: Product) => {
+  const handleEdit = async (product: Product) => {
     setEditingProduct(product);
     setFormData({
       name: product.name,
@@ -120,6 +169,25 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       maxStock: product.maxStock,
       status: product.status
     });
+    
+    // 加载现有的单位换算设置
+    try {
+      const existingConversionSetting = await productConversionService.findByProductId(product.id);
+      if (existingConversionSetting) {
+        setConversionSettings({
+          enableConversion: existingConversionSetting.enableConversion,
+          conversionType: existingConversionSetting.conversionType,
+          globalRuleId: existingConversionSetting.globalRuleId,
+          customRule: existingConversionSetting.customRule
+        });
+      } else {
+        setConversionSettings(emptyConversionSettings);
+      }
+    } catch (err) {
+      console.error('Failed to load conversion settings:', err);
+      setConversionSettings(emptyConversionSettings);
+    }
+    
     setShowForm(true);
   };
 
@@ -152,6 +220,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     setShowForm(false);
     setEditingProduct(null);
     setFormData(emptyForm);
+    setConversionSettings(emptyConversionSettings);
   };
 
   const handleInputChange = (field: keyof ProductForm, value: any) => {
@@ -344,21 +413,23 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       {/* 商品表单模态框 */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="glass-card max-w-6xl w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold text-white">
+              <h3 className="text-2xl font-bold text-white">
                 {editingProduct ? '编辑商品' : '新增商品'}
               </h3>
               <button
                 onClick={handleCancel}
-                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white"
+                className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              {/* 基本信息 */}
+              <GlassCard title="基本信息">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <GlassInput
                   label="商品名称"
                   type="text"
@@ -471,27 +542,38 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                   <option value={ProductStatus.DISCONTINUED}>停产</option>
                 </GlassSelect>
 
-                <GlassInput
-                  label="条形码"
-                  type="text"
-                  placeholder="输入条形码"
-                  value={formData.barcode}
-                  onChange={(e) => handleInputChange('barcode', e.target.value)}
-                />
-              </div>
+                  <GlassInput
+                    label="条形码"
+                    type="text"
+                    placeholder="输入条形码"
+                    value={formData.barcode}
+                    onChange={(e) => handleInputChange('barcode', e.target.value)}
+                  />
+                </div>
 
-              <GlassInput
-                label="商品描述"
-                placeholder="输入商品描述..."
-                value={formData.description}
-                onChange={(e) => handleInputChange('description', e.target.value)}
+                <GlassInput
+                  label="商品描述"
+                  placeholder="输入商品描述..."
+                  value={formData.description}
+                  onChange={(e) => handleInputChange('description', e.target.value)}
+                />
+              </GlassCard>
+
+              {/* 单位换算设置 */}
+              <UnitConversionSettings
+                enableConversion={conversionSettings.enableConversion}
+                conversionType={conversionSettings.conversionType}
+                globalRuleId={conversionSettings.globalRuleId}
+                customRule={conversionSettings.customRule}
+                onSettingsChange={setConversionSettings}
               />
 
-              <div className="flex gap-4 pt-4">
+              <div className="flex gap-4 pt-6 border-t border-white/10">
                 <GlassButton
                   type="submit"
                   variant="primary"
                   disabled={!formData.name || !formData.sku || !formData.categoryId || !formData.unitId}
+                  className="flex-1"
                 >
                   {editingProduct ? '更新商品' : '创建商品'}
                 </GlassButton>
@@ -499,6 +581,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                   type="button"
                   variant="secondary"
                   onClick={handleCancel}
+                  className="flex-1"
                 >
                   取消
                 </GlassButton>
