@@ -9,8 +9,10 @@ import { StockIn } from './Inventory/StockIn';
 import { StockOut } from './Inventory/StockOut';
 import { StockAdjust } from './Inventory/StockAdjust';
 import { TransactionRecords } from './Inventory/TransactionRecords';
+import { MonthlyBalanceOverview } from './Inventory/MonthlyBalanceOverview';
 import InventoryCardView from '../pages/InventoryCardView';
 import CalendarOverviewPage from './Calendar/CalendarOverviewPage';
+import DailyConsumptionView from './Consumption/DailyConsumptionView';
 import SupplierManagement from './Purchase/SupplierManagement';
 import PurchaseOrderManagement from './Purchase/PurchaseOrderManagement';
 import PurchaseReceiptManagement from './Purchase/PurchaseReceiptManagement';
@@ -45,6 +47,7 @@ const pageComponents: Record<string, React.ComponentType> = {
   'inventory-products': InventoryList,
   'inventory-card-view': InventoryCardView,
   'calendar-overview': CalendarOverviewPage,
+  'daily-consumption': DailyConsumptionView,
   'products': ProductManagement,
   'categories': CategoryManagement,
   'warehouses': WarehouseManagement,
@@ -52,6 +55,7 @@ const pageComponents: Record<string, React.ComponentType> = {
   'stock-out': StockOut,
   'stock-adjust': StockAdjust,
   'transaction-records': TransactionRecords,
+  'monthly-balance': MonthlyBalanceOverview,
   'suppliers': SupplierManagement,
   'purchase-orders': PurchaseOrderManagement,
   'purchase-receipts': PurchaseReceiptManagement,

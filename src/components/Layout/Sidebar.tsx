@@ -30,12 +30,14 @@ const menuItems: MenuItem[] = [
       { id: 'inventory-overview', label: '库存概览', icon: '📋' },
       { id: 'inventory-card-view', label: '卡片视图', icon: '🗂️' },
       { id: 'calendar-overview', label: '日历视图', icon: '📅' },
+      { id: 'daily-consumption', label: '逐日消耗视图', icon: '📈' },
       { id: 'products', label: '商品管理', icon: '🏷️' },
       { id: 'categories', label: '分类管理', icon: '📂' },
       { id: 'warehouses', label: '仓库管理', icon: '🏭' },
       { id: 'stock-in', label: '入库管理', icon: '📥' },
       { id: 'stock-out', label: '出库管理', icon: '📤' },
-      { id: 'stock-adjust', label: '库存调整', icon: '⚖️' }
+      { id: 'stock-adjust', label: '库存调整', icon: '⚖️' },
+      { id: 'monthly-balance', label: '月度结余', icon: '📊' }
     ]
   },
   {

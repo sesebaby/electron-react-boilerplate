@@ -10,5 +10,11 @@ export { default as StockOut } from './StockOut';
 export { default as StockAdjust } from './StockAdjust';
 export { default as TransactionRecords } from './TransactionRecords';
 
+// 月度结余相关组件
+export { default as MonthlyBalanceOverview } from './MonthlyBalanceOverview';
+export { default as MonthlyBalanceGenerator } from './MonthlyBalanceGenerator';
+export { default as MonthlyBalanceList } from './MonthlyBalanceList';
+export { default as MonthlyBalanceStatisticsView } from './MonthlyBalanceStatisticsView';
+
 // 默认导出概览组件
 export { default } from './InventoryOverview';
