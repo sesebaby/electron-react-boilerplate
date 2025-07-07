@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { GlassCard, GlassInput, GlassSelect, GlassButton } from '../ui/FormControls';
+import { unitService, globalConversionService } from '../../services/business';
+import { Unit, GlobalConversionRule, UnitType } from '../../types/entities';
+import UnitManagementTab from './UnitManagementTab';
+import ConversionRulesTab from './ConversionRulesTab';
 
 interface SystemSettingsProps {
   className?: string;
 }
 
-type SettingsTab = 'basic' | 'business';
+type SettingsTab = 'basic' | 'business' | 'units' | 'conversions';
 
 interface BasicSettings {
   systemName: string;
@@ -55,8 +59,36 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     taxRate: 0.13
   });
 
+  // 单位管理状态
+  const [units, setUnits] = useState<Unit[]>([]);
+  const [showUnitForm, setShowUnitForm] = useState(false);
+  const [editingUnit, setEditingUnit] = useState<Unit | null>(null);
+  const [unitForm, setUnitForm] = useState({
+    name: '',
+    symbol: '',
+    type: UnitType.QUANTITY,
+    description: '',
+    isActive: true
+  });
+
+  // 换算规则状态
+  const [conversionRules, setConversionRules] = useState<GlobalConversionRule[]>([]);
+  const [showConversionForm, setShowConversionForm] = useState(false);
+  const [editingConversion, setEditingConversion] = useState<GlobalConversionRule | null>(null);
+  const [conversionForm, setConversionForm] = useState({
+    name: '',
+    fromUnitId: '',
+    toUnitId: '',
+    conversionRate: 1,
+    category: UnitType.QUANTITY,
+    description: '',
+    isActive: true
+  });
+
   useEffect(() => {
     loadSettings();
+    loadUnits();
+    loadConversionRules();
   }, []);
 
   const loadSettings = async () => {
@@ -109,6 +141,145 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     setHasChanges(true);
   };
 
+  // =============== 单位管理 ===============
+
+  const loadUnits = async () => {
+    try {
+      const allUnits = await unitService.findAll();
+      setUnits(allUnits);
+    } catch (error) {
+      console.error('加载单位失败:', error);
+    }
+  };
+
+  const handleUnitSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!unitForm.name.trim() || !unitForm.symbol.trim()) {
+      alert('单位名称和符号不能为空');
+      return;
+    }
+
+    try {
+      if (editingUnit) {
+        await unitService.update(editingUnit.id, unitForm);
+      } else {
+        await unitService.create(unitForm);
+      }
+      await loadUnits();
+      setShowUnitForm(false);
+      setEditingUnit(null);
+      setUnitForm({
+        name: '',
+        symbol: '',
+        type: UnitType.QUANTITY,
+        description: '',
+        isActive: true
+      });
+    } catch (error) {
+      alert(error instanceof Error ? error.message : '保存单位失败');
+    }
+  };
+
+  const handleEditUnit = (unit: Unit) => {
+    setEditingUnit(unit);
+    setUnitForm({
+      name: unit.name,
+      symbol: unit.symbol,
+      type: unit.type,
+      description: unit.description || '',
+      isActive: unit.isActive
+    });
+    setShowUnitForm(true);
+  };
+
+  const handleDeleteUnit = async (unitId: string) => {
+    if (confirm('确定要删除这个单位吗？')) {
+      try {
+        await unitService.delete(unitId);
+        await loadUnits();
+      } catch (error) {
+        alert(error instanceof Error ? error.message : '删除单位失败');
+      }
+    }
+  };
+
+  // =============== 换算规则管理 ===============
+
+  const loadConversionRules = async () => {
+    try {
+      const rules = await globalConversionService.findAll(false);
+      setConversionRules(rules);
+    } catch (error) {
+      console.error('加载换算规则失败:', error);
+    }
+  };
+
+  const handleConversionSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!conversionForm.name.trim() || !conversionForm.fromUnitId || !conversionForm.toUnitId) {
+      alert('规则名称和单位不能为空');
+      return;
+    }
+    if (conversionForm.conversionRate <= 0) {
+      alert('换算比率必须大于0');
+      return;
+    }
+
+    try {
+      const description = `1${units.find(u => u.id === conversionForm.fromUnitId)?.symbol} = ${conversionForm.conversionRate}${units.find(u => u.id === conversionForm.toUnitId)?.symbol}`;
+      
+      const ruleData = {
+        ...conversionForm,
+        description
+      };
+
+      if (editingConversion) {
+        await globalConversionService.update(editingConversion.id, ruleData);
+      } else {
+        await globalConversionService.create(ruleData);
+      }
+      await loadConversionRules();
+      setShowConversionForm(false);
+      setEditingConversion(null);
+      setConversionForm({
+        name: '',
+        fromUnitId: '',
+        toUnitId: '',
+        conversionRate: 1,
+        category: UnitType.QUANTITY,
+        description: '',
+        isActive: true
+      });
+    } catch (error) {
+      alert(error instanceof Error ? error.message : '保存换算规则失败');
+    }
+  };
+
+  const handleEditConversion = (rule: GlobalConversionRule) => {
+    setEditingConversion(rule);
+    setConversionForm({
+      name: rule.name,
+      fromUnitId: rule.fromUnitId,
+      toUnitId: rule.toUnitId,
+      conversionRate: rule.conversionRate,
+      category: rule.category,
+      description: rule.description,
+      isActive: rule.isActive
+    });
+    setShowConversionForm(true);
+  };
+
+  const handleDeleteConversion = async (ruleId: string) => {
+    if (confirm('确定要删除这个换算规则吗？')) {
+      try {
+        await globalConversionService.delete(ruleId);
+        await loadConversionRules();
+      } catch (error) {
+        alert(error instanceof Error ? error.message : '删除换算规则失败');
+      }
+    }
+  };
+
   return (
     <div className={`space-y-6 ${className || ''}`}>
       {/* 页面头部 */}
@@ -149,7 +320,7 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
           <button
             type="button"
             onClick={() => setActiveTab('basic')}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
+            className={`flex-1 px-4 py-4 text-sm font-medium transition-colors ${
               activeTab === 'basic'
                 ? 'text-white bg-white/10 border-b-2 border-blue-400'
                 : 'text-white/70 hover:text-white hover:bg-white/5'
@@ -161,7 +332,7 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
           <button
             type="button"
             onClick={() => setActiveTab('business')}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
+            className={`flex-1 px-4 py-4 text-sm font-medium transition-colors ${
               activeTab === 'business'
                 ? 'text-white bg-white/10 border-b-2 border-blue-400'
                 : 'text-white/70 hover:text-white hover:bg-white/5'
@@ -169,6 +340,30 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
           >
             <span className="mr-2">📊</span>
             业务参数
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('units')}
+            className={`flex-1 px-4 py-4 text-sm font-medium transition-colors ${
+              activeTab === 'units'
+                ? 'text-white bg-white/10 border-b-2 border-blue-400'
+                : 'text-white/70 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span className="mr-2">📏</span>
+            单位管理
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('conversions')}
+            className={`flex-1 px-4 py-4 text-sm font-medium transition-colors ${
+              activeTab === 'conversions'
+                ? 'text-white bg-white/10 border-b-2 border-blue-400'
+                : 'text-white/70 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span className="mr-2">🔄</span>
+            换算规则
           </button>
         </div>
       </GlassCard>
@@ -383,6 +578,35 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
             </div>
           </div>
         </GlassCard>
+      )}
+
+      {activeTab === 'units' && (
+        <UnitManagementTab
+          units={units}
+          showUnitForm={showUnitForm}
+          setShowUnitForm={setShowUnitForm}
+          editingUnit={editingUnit}
+          unitForm={unitForm}
+          setUnitForm={setUnitForm}
+          onUnitSubmit={handleUnitSubmit}
+          onEditUnit={handleEditUnit}
+          onDeleteUnit={handleDeleteUnit}
+        />
+      )}
+
+      {activeTab === 'conversions' && (
+        <ConversionRulesTab
+          conversionRules={conversionRules}
+          units={units}
+          showConversionForm={showConversionForm}
+          setShowConversionForm={setShowConversionForm}
+          editingConversion={editingConversion}
+          conversionForm={conversionForm}
+          setConversionForm={setConversionForm}
+          onConversionSubmit={handleConversionSubmit}
+          onEditConversion={handleEditConversion}
+          onDeleteConversion={handleDeleteConversion}
+        />
       )}
 
       {/* 保存提示 */}

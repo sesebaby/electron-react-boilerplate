@@ -80,7 +80,7 @@ export const ProductSchema = z.object({
 export const CategorySchema = z.object({
   id: idSchema.optional(),
   name: z.string().min(1, '分类名称不能为空').max(50, '分类名称长度不能超过50字符'),
-  parentId: idSchema.optional(),
+  parentId: z.string().min(1, 'ID不能为空').optional().or(z.null()),
   level: z.number().min(1).max(5, '分类层级不能超过5级'),
   sortOrder: z.number().min(0),
   isActive: z.boolean(),

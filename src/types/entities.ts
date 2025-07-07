@@ -6,8 +6,53 @@ export interface BaseEntity {
   updatedAt: Date;
 }
 
-// =============== 单位转换 ===============
+// =============== 三层单位换算架构 ===============
 
+// 第一层：计量单位管理
+export interface Unit extends BaseEntity {
+  name: string;             // 单位名称（如：千克、个、箱）
+  symbol: string;           // 单位符号（如：kg、pcs、box）
+  type: UnitType;           // 单位类型
+  description?: string;     // 单位描述
+  isActive: boolean;        // 是否启用
+}
+
+export enum UnitType {
+  WEIGHT = 'weight',        // 重量
+  LENGTH = 'length',        // 长度
+  VOLUME = 'volume',        // 体积
+  QUANTITY = 'quantity',    // 数量
+  AREA = 'area',           // 面积
+  TIME = 'time'            // 时间
+}
+
+// 第二层：全局换算规则
+export interface GlobalConversionRule extends BaseEntity {
+  name: string;             // 规则名称（如：重量标准换算）
+  fromUnitId: string;       // 源单位ID
+  toUnitId: string;         // 目标单位ID
+  conversionRate: number;   // 换算比率：1源单位 = conversionRate目标单位
+  category: UnitType;       // 换算类别
+  description: string;      // 换算描述（如：1千克 = 1000克）
+  isActive: boolean;        // 是否启用
+}
+
+// 第三层：商品换算设置
+export interface ProductConversionSetting extends BaseEntity {
+  productId: string;        // 关联商品ID
+  enableConversion: boolean; // 是否启用换算
+  conversionType: 'global' | 'custom'; // 换算类型
+  globalRuleId?: string;    // 全局规则ID（当使用全局换算时）
+  customRule?: {            // 自定义换算规则
+    fromUnitId: string;
+    toUnitId: string;
+    conversionRate: number;
+    description: string;
+  };
+  isActive: boolean;        // 是否启用
+}
+
+// 兼容性：保持原有UnitConversion接口
 export interface UnitConversion extends BaseEntity {
   productId: string;        // 关联的商品ID
   baseUnitId: string;       // 基础单位ID（如：个、克、毫升）
@@ -109,12 +154,7 @@ export interface Category extends BaseEntity {
   children?: Category[];          // 子分类
 }
 
-// 计量单位实体
-export interface Unit extends BaseEntity {
-  name: string;                   // 单位名称
-  symbol: string;                 // 单位符号
-  precision: number;              // 精度
-}
+// 计量单位实体（已在上面定义，此处删除重复定义）
 
 // 仓库实体
 export interface Warehouse extends BaseEntity {

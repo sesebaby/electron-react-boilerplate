@@ -16,6 +16,11 @@ import salesDeliveryService from './salesDeliveryService';
 import inventoryCardService from './inventoryCardService';
 import { unitConversionService } from './unitConversionService';
 import { calendarDataService, CalendarDataService } from './calendarDataService';
+import dailyConsumptionService from './dailyConsumptionService';
+import fifoInventoryService from './fifoInventoryService';
+import monthlyBalanceService from './monthlyBalanceService';
+import globalConversionService from './globalConversionService';
+import productConversionService from './productConversionService';
 // 导入完整的财务服务
 import accountsPayableService from './accountsPayableService';
 import accountsReceivableService from './accountsReceivableService';
@@ -40,6 +45,11 @@ export {
   unitConversionService,
   calendarDataService,
   CalendarDataService,
+  dailyConsumptionService,
+  fifoInventoryService,
+  monthlyBalanceService,
+  globalConversionService,
+  productConversionService,
   accountsPayableService,
   accountsReceivableService,
   permissionService
@@ -87,6 +97,13 @@ export class BusinessServiceManager {
 
       // 权限服务
       await permissionService.initialize();
+
+      // 月度结余服务
+      await monthlyBalanceService.initialize();
+
+      // 换算服务
+      await globalConversionService.initialize();
+      await productConversionService.initialize();
 
       console.log('所有业务服务初始化完成');
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { categoryService } from '../../services/business';
 import { Category } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { notificationHelper } from '../../utils/notificationHelper';
 
 interface CategoryManagementProps {
   className?: string;
@@ -51,7 +52,8 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       setCategories(categoriesData);
       setStats(statsData);
     } catch (err) {
-      setError('加载分类数据失败');
+      const errorMessage = err instanceof Error ? err.message : '加载分类数据失败';
+      notificationHelper.showError('数据加载失败', errorMessage);
       console.error('Failed to load category data:', err);
     } finally {
       setLoading(false);
@@ -60,20 +62,27 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
+      // 处理根分类的parentId：将空字符串转换为undefined
+      const submitData = {
+        ...formData,
+        parentId: formData.parentId || undefined
+      };
+
       if (editingCategory) {
-        await categoryService.update(editingCategory.id, formData);
+        await categoryService.update(editingCategory.id, submitData);
       } else {
-        await categoryService.create(formData);
+        await categoryService.create(submitData);
       }
-      
+
       await loadData();
       setShowForm(false);
       setEditingCategory(null);
       setFormData(emptyForm);
     } catch (err) {
-      setError(err instanceof Error ? err.message : '保存分类失败');
+      const errorMessage = err instanceof Error ? err.message : '保存分类失败';
+      notificationHelper.showError('分类保存失败', errorMessage);
       console.error('Failed to save category:', err);
     }
   };
@@ -97,7 +106,8 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       await categoryService.delete(categoryId);
       await loadData();
     } catch (err) {
-      setError(err instanceof Error ? err.message : '删除分类失败');
+      const errorMessage = err instanceof Error ? err.message : '删除分类失败';
+      notificationHelper.showError('分类删除失败', errorMessage);
       console.error('Failed to delete category:', err);
     }
   };
@@ -188,19 +198,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
         </GlassButton>
       </div>
 
-      {/* 错误消息 */}
-      {error && (
-        <div className="p-4 bg-red-500/20 border border-red-400/30 rounded-lg flex items-center gap-3">
-          <span className="text-red-400 text-xl">❌</span>
-          <span className="text-red-300 flex-1">{error}</span>
-          <button 
-            onClick={() => setError(null)} 
-            className="text-red-300 hover:text-red-200 w-6 h-6 flex items-center justify-center"
-          >
-            ✕
-          </button>
-        </div>
-      )}
+
 
       {/* 统计信息 */}
       {stats && (
@@ -361,86 +359,107 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       {/* 分类表单模态框 */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="glass-card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold text-white">
-                {editingCategory ? '编辑分类' : '新建分类'}
-              </h3>
+          <div className="glass-card max-w-3xl w-full max-h-[90vh] overflow-y-auto p-8">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h3 className="text-2xl font-semibold text-white mb-2">
+                  {editingCategory ? '编辑分类' : '新建分类'}
+                </h3>
+                <p className="text-white/70 text-sm">
+                  {editingCategory ? '修改分类信息和层级关系' : '创建新的商品分类，设置层级关系和属性'}
+                </p>
+              </div>
               <button
                 onClick={handleCancel}
-                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white"
+                className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <GlassInput
-                  label="分类名称"
-                  type="text"
-                  placeholder="输入分类名称"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
-                  required
-                />
+            <form onSubmit={handleSubmit} className="space-y-8">
+              {/* 基本信息区域 */}
+              <div className="space-y-6">
+                <h4 className="text-lg font-medium text-white border-b border-white/20 pb-3">基本信息</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="md:col-span-2">
+                    <GlassInput
+                      label="分类名称"
+                      type="text"
+                      placeholder="输入分类名称"
+                      value={formData.name}
+                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      required
+                    />
+                  </div>
 
-                <GlassSelect
-                  label="父分类"
-                  value={formData.parentId}
-                  onChange={(e) => handleInputChange('parentId', e.target.value)}
-                >
-                  <option value="">根分类</option>
-                  {categories
-                    .filter(c => c.id !== editingCategory?.id)
-                    .map(category => (
-                      <option key={category.id} value={category.id}>
-                        {getCategoryPath(category)}
-                      </option>
-                    ))}
-                </GlassSelect>
+                  <GlassSelect
+                    label="父分类"
+                    value={formData.parentId}
+                    onChange={(e) => handleInputChange('parentId', e.target.value)}
+                  >
+                    <option value="">根分类</option>
+                    {categories
+                      .filter(c => c.id !== editingCategory?.id)
+                      .map(category => (
+                        <option key={category.id} value={category.id}>
+                          {getCategoryPath(category)}
+                        </option>
+                      ))}
+                  </GlassSelect>
 
-                <GlassInput
-                  label="级别"
-                  type="number"
-                  value={formData.level}
-                  onChange={(e) => handleInputChange('level', parseInt(e.target.value) || 1)}
-                  min="1"
-                  max="10"
-                  disabled
-                />
-
-                <GlassInput
-                  label="排序"
-                  type="number"
-                  value={formData.sortOrder}
-                  onChange={(e) => handleInputChange('sortOrder', parseInt(e.target.value) || 1)}
-                  min="1"
-                  placeholder="排序号"
-                />
-
-                <GlassSelect
-                  label="状态"
-                  value={formData.isActive ? 'true' : 'false'}
-                  onChange={(e) => handleInputChange('isActive', e.target.value === 'true')}
-                >
-                  <option value="true">启用</option>
-                  <option value="false">禁用</option>
-                </GlassSelect>
+                  <GlassInput
+                    label="级别"
+                    type="number"
+                    value={formData.level}
+                    onChange={(e) => handleInputChange('level', parseInt(e.target.value) || 1)}
+                    min="1"
+                    max="10"
+                    disabled
+                  />
+                </div>
               </div>
 
-              <div className="flex gap-4 pt-4">
+              {/* 属性设置区域 */}
+              <div className="space-y-6">
+                <h4 className="text-lg font-medium text-white border-b border-white/20 pb-3">属性设置</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <GlassInput
+                    label="排序"
+                    type="number"
+                    value={formData.sortOrder}
+                    onChange={(e) => handleInputChange('sortOrder', parseInt(e.target.value) || 1)}
+                    min="1"
+                    placeholder="排序号"
+                  />
+
+                  <GlassSelect
+                    label="状态"
+                    value={formData.isActive ? 'true' : 'false'}
+                    onChange={(e) => handleInputChange('isActive', e.target.value === 'true')}
+                  >
+                    <option value="true">启用</option>
+                    <option value="false">禁用</option>
+                  </GlassSelect>
+                </div>
+              </div>
+
+              {/* 操作按钮区域 */}
+              <div className="flex gap-4 pt-6 border-t border-white/20">
                 <GlassButton
                   type="submit"
                   variant="primary"
                   disabled={!formData.name}
+                  className="flex-1 md:flex-none md:min-w-32"
                 >
+                  <span className="mr-2">{editingCategory ? '💾' : '✨'}</span>
                   {editingCategory ? '更新分类' : '创建分类'}
                 </GlassButton>
                 <GlassButton
                   type="button"
                   variant="secondary"
                   onClick={handleCancel}
+                  className="flex-1 md:flex-none md:min-w-24"
                 >
                   取消
                 </GlassButton>
