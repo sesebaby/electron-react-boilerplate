@@ -1,4 +1,4 @@
-/* 新功能组件主题适配样式 */
+npm/* 新功能组件主题适配样式 */
 
 /* =============== 玻璃未来风主题 (Glass Future) =============== */
 [data-theme="glass-future"] .glass-surface {
@@ -293,6 +293,32 @@
   border-right: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2)) !important;
 }
 
+/* 固定列表头样式 - 完全移除模糊效果确保文字清晰 */
+.table-header-fixed-column {
+  background: var(--popup-header-background, rgba(255, 255, 255, 0.25)) !important;
+  backdrop-filter: none !important; /* 完全移除模糊效果 */
+  border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.3)) !important;
+  color: var(--popup-text-primary, rgba(255, 255, 255, 1)) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important; /* 增强文字阴影提高对比度 */
+  font-weight: 600; /* 与数据列表头保持一致 */
+  font-size: 0.875rem;
+  /* 移除 text-transform: uppercase 保持原始文字格式 */
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 20; /* 提高层级确保在最前面 */
+}
+
+/* 固定列数据单元格样式 - 减少模糊效果提高可读性 */
+.table-fixed-column-clear {
+  position: sticky;
+  left: 0;
+  z-index: 15;
+  background: var(--popup-background, rgba(255, 255, 255, 0.12)) !important;
+  backdrop-filter: blur(12px) !important; /* 适度减少模糊效果 */
+  border-right: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2)) !important;
+}
+
 /* 表格行悬浮效果 */
 .movement-table-row:hover {
   background: var(--hover-background, rgba(255, 255, 255, 0.05)) !important;
@@ -323,6 +349,23 @@
 
 [data-theme="glass-future"] .table-fixed-column {
   background: oklch(0.511 0.262 276.966 / 0.9) !important; /* indigo-600/90% */
+  border-right: 1px solid oklch(0.87 0.065 274.039 / 0.6) !important;
+}
+
+[data-theme="glass-future"] .table-header-fixed-column {
+  background: oklch(0.457 0.24 277.023 / 1) !important; /* indigo-700/100% - 完全不透明 */
+  backdrop-filter: none !important; /* 完全移除模糊效果 */
+  color: oklch(100% 0.00011 271.152 / 1) !important; /* 完全不透明的白色 */
+  text-shadow: 0 1px 2px oklch(0.257 0.09 281.288 / 1) !important; /* 增强阴影对比度 */
+  font-weight: 600; /* 与数据列表头保持一致 */
+  font-size: 0.875rem;
+  /* 移除 text-transform: uppercase 保持原始文字格式 */
+  letter-spacing: 0.5px;
+}
+
+[data-theme="glass-future"] .table-fixed-column-clear {
+  background: oklch(0.511 0.262 276.966 / 0.92) !important; /* indigo-600/92% - 更高不透明度 */
+  backdrop-filter: blur(8px) !important; /* 减少模糊 */
   border-right: 1px solid oklch(0.87 0.065 274.039 / 0.6) !important;
 }
 
@@ -393,4 +436,120 @@
   background: oklch(0.924 0.12 95.746 / 0.6) !important; /* amber-200/60% */
   border-top: 2px solid oklch(0.924 0.12 95.746 / 0.4) !important;
   color: oklch(0.414 0.112 45.904) !important;
+}
+
+/* =============== 出入库登记表格专用样式 =============== */
+
+/* 固定列单元格基础样式 - 增强背景模糊效果 */
+.table-cell-fixed {
+  position: sticky;
+  z-index: 15;
+  background: var(--table-fixed-background, var(--popup-content-background, rgba(255, 255, 255, 0.08)));
+  backdrop-filter: var(--glass-blur, blur(20px)); /* 使用主题变量的模糊效果 */
+  -webkit-backdrop-filter: var(--glass-blur, blur(20px)); /* Safari兼容性 */
+  border-right: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2)) !important;
+  transition: var(--transition-base, all 0.3s ease);
+  /* 增强遮罩效果，防止后面内容透过 */
+  box-shadow: 2px 0 8px var(--glass-shadow-color, rgba(0, 0, 0, 0.1));
+}
+
+/* 锁定列悬浮效果 */
+.table-cell-fixed:hover {
+  background: var(--table-fixed-background-hover, var(--hover-background, rgba(255, 255, 255, 0.12)));
+  box-shadow: 2px 0 12px var(--glass-shadow-color, rgba(0, 0, 0, 0.15));
+}
+
+/* 固定列表头单元格 - 增强视觉效果 */
+thead .table-cell-fixed {
+  z-index: 20;
+  background: var(--table-fixed-background, var(--popup-header-background, rgba(255, 255, 255, 0.12)));
+  backdrop-filter: var(--glass-blur, blur(20px)); /* 使用主题变量的模糊效果 */
+  -webkit-backdrop-filter: var(--glass-blur, blur(20px)); /* Safari兼容性 */
+  color: var(--popup-text-primary, rgba(255, 255, 255, 0.95));
+  text-shadow: var(--popup-text-shadow, 0 1px 3px rgba(0, 0, 0, 0.8));
+  /* 增强表头的视觉分离效果 */
+  box-shadow: 2px 0 12px var(--glass-shadow-color, rgba(0, 0, 0, 0.15));
+}
+
+/* 玻璃未来风主题 - 增强锁定列背景模糊效果 */
+[data-theme="glass-future"] thead .table-cell-fixed {
+  background: oklch(0.457 0.24 277.023 / 0.85) !important; /* 增加不透明度提高遮罩效果 */
+  backdrop-filter: blur(25px) !important; /* 增强模糊效果 */
+  -webkit-backdrop-filter: blur(25px) !important;
+  box-shadow: 2px 0 12px oklch(0.257 0.09 281.288 / 0.2) !important; /* 增强阴影 */
+}
+[data-theme="glass-future"] tbody .table-cell-fixed {
+  background: oklch(0.511 0.262 276.966 / 0.75) !important; /* 增加不透明度提高遮罩效果 */
+  backdrop-filter: blur(25px) !important; /* 增强模糊效果 */
+  -webkit-backdrop-filter: blur(25px) !important;
+  box-shadow: 2px 0 8px oklch(0.257 0.09 281.288 / 0.15) !important; /* 增强阴影 */
+}
+
+/* 深色科技风主题 - 增强锁定列背景模糊效果 */
+[data-theme="dark-tech"] thead .table-cell-fixed {
+  background: oklch(0.372 0.044 257.287 / 0.85) !important; /* 增加不透明度提高遮罩效果 */
+  backdrop-filter: blur(25px) !important; /* 增强模糊效果 */
+  -webkit-backdrop-filter: blur(25px) !important;
+  box-shadow: 2px 0 12px oklch(0.208 0.042 265.755 / 0.2) !important; /* 增强阴影 */
+}
+[data-theme="dark-tech"] tbody .table-cell-fixed {
+  background: oklch(0.279 0.041 260.031 / 0.75) !important; /* 增加不透明度提高遮罩效果 */
+  backdrop-filter: blur(25px) !important; /* 增强模糊效果 */
+  -webkit-backdrop-filter: blur(25px) !important;
+  box-shadow: 2px 0 8px oklch(0.208 0.042 265.755 / 0.15) !important; /* 增强阴影 */
+}
+
+/* 温暖商务风主题 - 增强锁定列背景模糊效果 */
+[data-theme="warm-business"] thead .table-cell-fixed {
+  background: oklch(0.987 0.022 95.277 / 0.9) !important; /* 增加不透明度提高遮罩效果 */
+  backdrop-filter: blur(25px) !important; /* 增强模糊效果 */
+  -webkit-backdrop-filter: blur(25px) !important;
+  box-shadow: 2px 0 12px oklch(0.279 0.077 45.635 / 0.15) !important; /* 增强阴影 */
+  color: var(--text-primary, oklch(0.414 0.112 45.904)) !important; /* 使用主题文字颜色 */
+}
+[data-theme="warm-business"] tbody .table-cell-fixed {
+  background: oklch(0.987 0.022 95.277 / 0.8) !important; /* 增加不透明度提高遮罩效果 */
+  backdrop-filter: blur(25px) !important; /* 增强模糊效果 */
+  -webkit-backdrop-filter: blur(25px) !important;
+  box-shadow: 2px 0 8px oklch(0.279 0.077 45.635 / 0.1) !important; /* 增强阴影 */
+  color: var(--text-secondary, oklch(0.414 0.112 45.904 / 0.9)) !important; /* 使用主题文字颜色 */
+}
+
+/* =============== 激活状态按钮样式 =============== */
+
+[data-theme="glass-future"] .glass-button.btn-active-selection {
+  background-color: oklch(0.673 0.182 276.935 / 0.5) !important; /* indigo-400/50% */
+  border-color: oklch(0.785 0.115 274.713 / 0.7) !important; /* indigo-300/70% */
+  box-shadow: 0 0 12px oklch(0.673 0.182 276.935 / 0.5);
+}
+[data-theme="dark-tech"] .glass-button.btn-active-selection {
+  background-color: oklch(0.446 0.043 257.281 / 0.3) !important; /* slate-600/30% */
+  border-color: oklch(0.556 0.043 256.452 / 0.5) !important; /* slate-500/50% */
+  box-shadow: 0 0 12px oklch(0.556 0.043 256.452 / 0.3);
+}
+[data-theme="warm-business"] .glass-button.btn-active-selection {
+  background-color: oklch(0.924 0.12 95.746 / 0.7) !important; /* amber-200/70% */
+  border-color: oklch(0.887 0.155 93.84 / 0.9) !important; /* amber-300/90% */
+  box-shadow: 0 0 12px oklch(0.924 0.12 95.746 / 0.7);
+}
+
+/* 表格滚动条主题适配 */
+.table-scroll-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+  background-color: var(--glass-border, rgba(255, 255, 255, 0.2));
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--popup-text-secondary, rgba(255, 255, 255, 0.5));
 }

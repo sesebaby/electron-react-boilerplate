@@ -1,5 +1,5 @@
 // 测试通知配置功能
-import { notificationHelper } from './src/utils/notificationHelper.js';
+import { notificationHelper } from '../src/utils/notificationHelper.js';
 
 console.log('=== 通知配置功能测试 ===');
 

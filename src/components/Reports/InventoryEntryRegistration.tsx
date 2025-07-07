@@ -181,7 +181,7 @@ export const InventoryEntryRegistration: React.FC = () => {
               onClick={handleFullMonthSelect}
               className={`glass-button px-3 py-1.5 text-sm font-medium ${
                 selectedWeek === null
-                  ? 'bg-blue-500/30 border-blue-400/50'
+                  ? 'btn-active-selection'
                   : ''
               }`}
             >
@@ -193,7 +193,7 @@ export const InventoryEntryRegistration: React.FC = () => {
                 onClick={() => handleWeekSelect(week)}
                 className={`glass-button px-3 py-1.5 text-sm font-medium ${
                   selectedWeek === week
-                    ? 'bg-blue-500/30 border-blue-400/50'
+                    ? 'btn-active-selection'
                     : ''
                 }`}
               >
@@ -211,7 +211,7 @@ export const InventoryEntryRegistration: React.FC = () => {
                 onClick={() => setDisplayMode(mode.type)}
                 className={`glass-button px-3 py-1.5 text-sm font-medium ${
                   displayMode === mode.type
-                    ? 'bg-green-500/30 border-green-400/50'
+                    ? 'btn-active-selection'
                     : ''
                 }`}
               >
@@ -226,51 +226,51 @@ export const InventoryEntryRegistration: React.FC = () => {
       <Card className="overflow-hidden">
         <div className="relative">
           {/* 表格容器 - 支持横向和纵向滚动 */}
-          <div className="overflow-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent max-h-[600px]">
+          <div className="overflow-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent max-h-[600px] table-scroll-container">
             <table className="w-full min-w-max relative">
               {/* 固定表头 */}
               <thead className="sticky top-0 z-20 table-header-fixed">
                 {/* 第一层表头 - 日期 */}
-                <tr className="border-b border-white/20">
-                  <th rowSpan={2} className="sticky left-0 z-30 px-4 py-3 text-left text-sm font-semibold border-r border-white/20 table-cell-fixed min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
+                <tr className="border-b" style={{ borderColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))' }}>
+                  <th rowSpan={2} className="sticky left-0 z-30 px-4 py-3 text-left text-sm font-semibold border-r table-cell-fixed min-w-[60px]" style={{ color: 'var(--popup-text-primary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))' }}>
                     序号
                   </th>
-                  <th rowSpan={2} className="sticky left-[60px] z-30 px-4 py-3 text-left text-sm font-semibold border-r border-white/20 table-cell-fixed min-w-[120px]" style={{ color: 'var(--text-primary)' }}>
+                  <th rowSpan={2} className="sticky left-[60px] z-30 px-4 py-3 text-left text-sm font-semibold border-r table-cell-fixed min-w-[120px]" style={{ color: 'var(--popup-text-primary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))' }}>
                     一级分类
                   </th>
-                  <th rowSpan={2} className="sticky left-[180px] z-30 px-4 py-3 text-left text-sm font-semibold border-r border-white/20 table-cell-fixed min-w-[120px]" style={{ color: 'var(--text-primary)' }}>
+                  <th rowSpan={2} className="sticky left-[180px] z-30 px-4 py-3 text-left text-sm font-semibold border-r table-cell-fixed min-w-[120px]" style={{ color: 'var(--popup-text-primary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))' }}>
                     二级分类
                   </th>
-                  <th rowSpan={2} className="sticky left-[300px] z-30 px-4 py-3 text-left text-sm font-semibold border-r border-white/20 table-cell-fixed min-w-[150px]" style={{ color: 'var(--text-primary)' }}>
+                  <th rowSpan={2} className="sticky left-[300px] z-30 px-4 py-3 text-left text-sm font-semibold border-r table-cell-fixed min-w-[150px]" style={{ color: 'var(--popup-text-primary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))' }}>
                     物品名称
                   </th>
-                  <th rowSpan={2} className="sticky left-[450px] z-30 px-4 py-3 text-center text-sm font-semibold border-r border-white/20 table-cell-fixed min-w-[100px]" style={{ color: 'var(--text-primary)' }}>
+                  <th rowSpan={2} className="sticky left-[450px] z-30 px-4 py-3 text-center text-sm font-semibold border-r table-cell-fixed min-w-[100px]" style={{ color: 'var(--popup-text-primary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))' }}>
                     总出库
                   </th>
                   {filteredDates.map(date => (
-                    <th key={date} colSpan={5} className="px-2 py-3 text-center text-xs font-semibold border-r border-white/20 min-w-[300px]" style={{ color: 'var(--text-primary)' }}>
+                    <th key={date} colSpan={5} className="px-2 py-3 text-center text-xs font-semibold border-r min-w-[300px]" style={{ color: 'var(--popup-text-primary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))' }}>
                       {new Date(date).getDate()}日
                     </th>
                   ))}
                 </tr>
-                
+
                 {/* 第二层表头 - 入库/时段/库存 */}
-                <tr className="border-b border-white/20">
+                <tr className="border-b" style={{ borderColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))' }}>
                   {filteredDates.map(date => (
                     <React.Fragment key={date}>
-                      <th className="px-1 py-2 text-center text-xs font-medium border-r border-white/10 min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
+                      <th className="px-1 py-2 text-center text-xs font-medium border-r min-w-[60px]" style={{ color: 'var(--popup-text-primary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                         入库
                       </th>
-                      <th className="px-1 py-2 text-center text-xs font-medium border-r border-white/10 min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
+                      <th className="px-1 py-2 text-center text-xs font-medium border-r min-w-[60px]" style={{ color: 'var(--popup-text-primary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                         早
                       </th>
-                      <th className="px-1 py-2 text-center text-xs font-medium border-r border-white/10 min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
+                      <th className="px-1 py-2 text-center text-xs font-medium border-r min-w-[60px]" style={{ color: 'var(--popup-text-primary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                         中
                       </th>
-                      <th className="px-1 py-2 text-center text-xs font-medium border-r border-white/10 min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
+                      <th className="px-1 py-2 text-center text-xs font-medium border-r min-w-[60px]" style={{ color: 'var(--popup-text-primary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                         晚
                       </th>
-                      <th className="px-1 py-2 text-center text-xs font-medium border-r border-white/20 min-w-[60px]" style={{ color: 'var(--text-primary)' }}>
+                      <th className="px-1 py-2 text-center text-xs font-medium border-r min-w-[60px]" style={{ color: 'var(--popup-text-primary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))' }}>
                         库存
                       </th>
                     </React.Fragment>
@@ -294,20 +294,30 @@ export const InventoryEntryRegistration: React.FC = () => {
                   </tr>
                 ) : (
                   data.map((item, index) => (
-                  <tr key={item.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
-                    <td className="sticky left-0 z-10 px-4 py-3 text-sm border-r border-white/10 table-cell-fixed" style={{ color: 'var(--text-secondary)' }}>
+                  <tr key={item.id} className="border-b transition-colors hover:bg-opacity-50" style={{
+                    borderColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))',
+                    backgroundColor: 'transparent',
+                    '--hover-bg': 'var(--hover-background, rgba(255, 255, 255, 0.05))'
+                  } as React.CSSProperties}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--hover-background, rgba(255, 255, 255, 0.05))';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}>
+                    <td className="sticky left-0 z-10 px-4 py-3 text-sm border-r table-cell-fixed" style={{ color: 'var(--popup-text-secondary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                       {index + 1}
                     </td>
-                    <td className="sticky left-[60px] z-10 px-4 py-3 text-sm border-r border-white/10 table-cell-fixed" style={{ color: 'var(--text-secondary)' }}>
+                    <td className="sticky left-[60px] z-10 px-4 py-3 text-sm border-r table-cell-fixed" style={{ color: 'var(--popup-text-secondary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                       {item.primaryCategory}
                     </td>
-                    <td className="sticky left-[180px] z-10 px-4 py-3 text-sm border-r border-white/10 table-cell-fixed" style={{ color: 'var(--text-secondary)' }}>
+                    <td className="sticky left-[180px] z-10 px-4 py-3 text-sm border-r table-cell-fixed" style={{ color: 'var(--popup-text-secondary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                       {item.secondaryCategory}
                     </td>
-                    <td className="sticky left-[300px] z-10 px-4 py-3 text-sm border-r border-white/10 table-cell-fixed" style={{ color: 'var(--text-secondary)' }}>
+                    <td className="sticky left-[300px] z-10 px-4 py-3 text-sm border-r table-cell-fixed" style={{ color: 'var(--popup-text-secondary)', borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                       {item.name}
                     </td>
-                    <td className="sticky left-[450px] z-10 px-4 py-3 text-sm text-center border-r border-white/10 table-cell-fixed">
+                    <td className="sticky left-[450px] z-10 px-4 py-3 text-sm text-center border-r table-cell-fixed" style={{ borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                       <span className="financial-value-accent">
                         {item.totalOut}
                       </span>
@@ -316,27 +326,27 @@ export const InventoryEntryRegistration: React.FC = () => {
                       const dayData = item.dailyData[date];
                       return (
                         <React.Fragment key={date}>
-                          <td className="px-1 py-3 text-xs text-center border-r border-white/10">
+                          <td className="px-1 py-3 text-xs text-center border-r" style={{ borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                             <span className="financial-value-positive font-medium">
                               {dayData?.stockIn || 0}
                             </span>
                           </td>
-                          <td className="px-1 py-3 text-xs text-center border-r border-white/10">
+                          <td className="px-1 py-3 text-xs text-center border-r" style={{ borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                             <span className="financial-value-warning">
                               {dayData?.morning || 0}
                             </span>
                           </td>
-                          <td className="px-1 py-3 text-xs text-center border-r border-white/10">
+                          <td className="px-1 py-3 text-xs text-center border-r" style={{ borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                             <span className="financial-value-warning">
                               {dayData?.noon || 0}
                             </span>
                           </td>
-                          <td className="px-1 py-3 text-xs text-center border-r border-white/10">
+                          <td className="px-1 py-3 text-xs text-center border-r" style={{ borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.1))' }}>
                             <span className="financial-value-warning">
                               {dayData?.evening || 0}
                             </span>
                           </td>
-                          <td className="px-1 py-3 text-xs text-center border-r border-white/20">
+                          <td className="px-1 py-3 text-xs text-center border-r" style={{ borderRightColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))' }}>
                             <span className="financial-value-neutral font-medium">
                               {dayData?.stock || 0}
                             </span>

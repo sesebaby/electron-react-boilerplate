@@ -76,31 +76,31 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
     return (
       <thead className="sticky top-0 z-10">
         {/* 第一层表头 */}
-        <tr className="table-header-fixed">
+        <tr>
           {/* 固定列区域 */}
-          <th 
-            className="sticky left-0 z-20 px-3 py-3 text-center border-r border-white/20 table-header-fixed"
+          <th
+            className="sticky left-0 z-20 px-3 py-3 text-center border-r border-white/20 table-header-fixed-column"
             style={{ minWidth: '60px' }}
             rowSpan={2}
           >
             序号
           </th>
-          <th 
-            className="sticky left-[60px] z-20 px-4 py-3 text-left border-r border-white/20 table-header-fixed"
+          <th
+            className="sticky left-[60px] z-20 px-4 py-3 text-left border-r border-white/20 table-header-fixed-column"
             style={{ minWidth: '200px' }}
             rowSpan={2}
           >
             物品名称
           </th>
-          <th 
-            className="sticky left-[260px] z-20 px-3 py-3 text-center border-r border-white/20 table-header-fixed"
+          <th
+            className="sticky left-[260px] z-20 px-3 py-3 text-center border-r border-white/20 table-header-fixed-column"
             style={{ minWidth: '100px' }}
             rowSpan={2}
           >
             一级分类
           </th>
-          <th 
-            className="sticky left-[360px] z-20 px-3 py-3 text-center border-r-2 border-white/30 table-header-fixed"
+          <th
+            className="sticky left-[360px] z-20 px-3 py-3 text-center border-r-2 border-white/30 table-header-fixed-column"
             style={{ minWidth: '100px' }}
             rowSpan={2}
           >
@@ -123,7 +123,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
         </tr>
 
         {/* 第二层表头 */}
-        <tr className="table-header-fixed">
+        <tr>
           {/* 期初库存子列 */}
           {renderSubHeaders('openingStock')}
           {/* 入库合计子列 */}
@@ -196,19 +196,19 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
         onClick={() => onRowClick?.(row)}
       >
         {/* 固定列 */}
-        <td className="sticky left-0 z-10 px-3 py-3 text-center border-r border-white/10 table-fixed-column">
+        <td className="sticky left-0 z-10 px-3 py-3 text-center border-r border-white/10 table-fixed-column-clear">
           {row.sequence}
         </td>
-        <td className="sticky left-[60px] z-10 px-4 py-3 border-r border-white/10 table-fixed-column">
+        <td className="sticky left-[60px] z-10 px-4 py-3 border-r border-white/10 table-fixed-column-clear">
           <div>
             <div className="font-medium text-white/90">{row.productName}</div>
             <div className="text-xs text-white/60">{row.productSku}</div>
           </div>
         </td>
-        <td className="sticky left-[260px] z-10 px-3 py-3 text-center border-r border-white/10 table-fixed-column">
+        <td className="sticky left-[260px] z-10 px-3 py-3 text-center border-r border-white/10 table-fixed-column-clear">
           <span className="text-sm text-white/80">{row.primaryCategory}</span>
         </td>
-        <td className="sticky left-[360px] z-10 px-3 py-3 text-center border-r-2 border-white/20 table-fixed-column">
+        <td className="sticky left-[360px] z-10 px-3 py-3 text-center border-r-2 border-white/20 table-fixed-column-clear">
           <span className="text-sm text-white/80">{row.secondaryCategory}</span>
         </td>
 
@@ -310,14 +310,14 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
     return (
       <tr className="movement-table-total font-semibold">
         {/* 固定列 */}
-        <td className="sticky left-0 z-10 px-3 py-3 text-center border-r border-white/20 table-fixed-column">
+        <td className="sticky left-0 z-10 px-3 py-3 text-center border-r border-white/20 table-fixed-column-clear">
           合计
         </td>
-        <td className="sticky left-[60px] z-10 px-4 py-3 border-r border-white/20 table-fixed-column">
+        <td className="sticky left-[60px] z-10 px-4 py-3 border-r border-white/20 table-fixed-column-clear">
           <span className="font-bold financial-title">总计 ({data.length} 项)</span>
         </td>
-        <td className="sticky left-[260px] z-10 px-3 py-3 border-r border-white/20 table-fixed-column"></td>
-        <td className="sticky left-[360px] z-10 px-3 py-3 border-r-2 border-white/30 table-fixed-column"></td>
+        <td className="sticky left-[260px] z-10 px-3 py-3 border-r border-white/20 table-fixed-column-clear"></td>
+        <td className="sticky left-[360px] z-10 px-3 py-3 border-r-2 border-white/30 table-fixed-column-clear"></td>
 
         {/* 合计数据 */}
         {renderTotalCells(totals, 'openingStock')}

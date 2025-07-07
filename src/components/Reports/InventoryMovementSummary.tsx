@@ -19,7 +19,12 @@ import {
   ExportOptions
 } from '../../types/inventoryMovement';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
-import { MovementSummaryTable, TimeControl, ExportOptions, ColumnDisplayConfig } from './components';
+import { 
+  MovementSummaryTable, 
+  TimeControl,
+  ExportOptions as ExportOptionsComponent,
+  ColumnDisplayConfig as ColumnDisplayConfigComponent
+} from './components';
 import {
   saveColumnDisplayConfig,
   loadColumnDisplayConfig,
@@ -343,6 +348,11 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
     setSortConfig({ field, direction });
   };
 
+  const handleExport = (options: ExportOptions) => {
+    // 导出逻辑
+    console.log('Exporting with options:', options);
+  };
+
   // =============== 初始化 ===============
   useEffect(() => {
     loadBasicData();
@@ -446,7 +456,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
 
         {/* 导出选项 */}
         {showExportOptions && (
-          <ExportOptions
+          <ExportOptionsComponent
             data={data}
             onClose={() => setShowExportOptions(false)}
           />
@@ -454,7 +464,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
 
         {/* 列显示配置 */}
         {showColumnConfig && (
-          <ColumnDisplayConfig
+          <ColumnDisplayConfigComponent
             columnDisplay={columnDisplay}
             onChange={handleColumnDisplayChange}
             onClose={() => setShowColumnConfig(false)}

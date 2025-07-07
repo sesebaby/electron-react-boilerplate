@@ -128,10 +128,7 @@ function App() {
 
       {/* 组件实例 */}
       {showComponent && (
-        <InventoryMovementSummary
-          onDataChange={handleDataChange}
-          onError={handleError}
-        />
+        <InventoryMovementSummary />
       )}
 
       {/* 开发说明 */}
