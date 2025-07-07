@@ -111,9 +111,16 @@ export const InventoryEntryRegistration: React.FC = () => {
     setSelectedWeek(null);
   };
 
-  const filteredDates = monthDates.filter(date => {
-    return date >= timeRange.startDate && date <= timeRange.endDate;
-  });
+  const filteredDates = useMemo(() => {
+    // 如果选择了全月（selectedWeek为null），显示整个月的所有日期
+    if (selectedWeek === null) {
+      return monthDates;
+    }
+    // 如果选择了具体的周，则根据时间范围过滤
+    return monthDates.filter(date => {
+      return date >= timeRange.startDate && date <= timeRange.endDate;
+    });
+  }, [monthDates, timeRange, selectedWeek]);
 
   return (
     <div className="space-y-6">
