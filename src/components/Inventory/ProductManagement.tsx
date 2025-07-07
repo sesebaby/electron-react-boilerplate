@@ -4,6 +4,7 @@ import { Product, Category, Unit, ProductStatus, ProductConversionSetting } from
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import UnitConversionSettings from './UnitConversionSettings';
+import { userActionLogger, UserActionType, ActionContext } from '../../utils/userActionLogger';
 
 interface ProductManagementProps {
   className?: string;
@@ -107,15 +108,57 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // 记录操作开始
+    const actionId = `product-${editingProduct ? 'update' : 'create'}-${Date.now()}`;
+    userActionLogger.startAction(actionId, {
+      type: editingProduct ? UserActionType.UPDATE : UserActionType.CREATE,
+      context: ActionContext.INVENTORY,
+      description: `${editingProduct ? 'Update' : 'Create'} product: ${formData.name}`,
+      target: 'product',
+      details: {
+        productId: editingProduct?.id,
+        productName: formData.name,
+        sku: formData.sku
+      }
+    });
+    
     try {
       let productId: string;
       
       if (editingProduct) {
         await productService.update(editingProduct.id, formData);
         productId = editingProduct.id;
+        
+        // 记录更新成功
+        userActionLogger.logBusinessAction({
+          type: UserActionType.UPDATE,
+          entity: 'product',
+          entityId: productId,
+          context: ActionContext.INVENTORY,
+          description: `Updated product: ${formData.name}`,
+          details: {
+            changes: formData,
+            sku: formData.sku
+          },
+          success: true
+        });
       } else {
         const newProduct = await productService.create(formData);
         productId = newProduct.id;
+        
+        // 记录创建成功
+        userActionLogger.logBusinessAction({
+          type: UserActionType.CREATE,
+          entity: 'product',
+          entityId: productId,
+          context: ActionContext.INVENTORY,
+          description: `Created new product: ${formData.name}`,
+          details: {
+            product: formData,
+            sku: formData.sku
+          },
+          success: true
+        });
       }
       
       // 保存或更新单位换算设置
@@ -146,13 +189,54 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       setEditingProduct(null);
       setFormData(emptyForm);
       setConversionSettings(emptyConversionSettings);
+      
+      // 完成操作追踪
+      userActionLogger.completeAction(actionId, {
+        success: true
+      });
     } catch (err) {
-      setError(editingProduct ? '更新商品失败' : '创建商品失败');
+      const errorMessage = editingProduct ? '更新商品失败' : '创建商品失败';
+      setError(errorMessage);
       console.error('Failed to save product:', err);
+      
+      // 记录操作失败
+      userActionLogger.completeAction(actionId, {
+        success: false,
+        errorMessage: err instanceof Error ? err.message : 'Unknown error'
+      });
+      
+      // 记录业务操作失败
+      userActionLogger.logBusinessAction({
+        type: editingProduct ? UserActionType.UPDATE : UserActionType.CREATE,
+        entity: 'product',
+        entityId: editingProduct?.id,
+        context: ActionContext.INVENTORY,
+        description: `Failed to ${editingProduct ? 'update' : 'create'} product: ${formData.name}`,
+        details: {
+          error: err instanceof Error ? err.message : 'Unknown error',
+          formData: formData
+        },
+        success: false,
+        errorMessage: errorMessage
+      });
     }
   };
 
   const handleEdit = async (product: Product) => {
+    // 记录查看/编辑操作
+    userActionLogger.logBusinessAction({
+      type: UserActionType.VIEW,
+      entity: 'product',
+      entityId: product.id,
+      context: ActionContext.INVENTORY,
+      description: `Opened product for editing: ${product.name}`,
+      details: {
+        sku: product.sku,
+        action: 'edit'
+      },
+      success: true
+    });
+    
     setEditingProduct(product);
     setFormData({
       name: product.name,
@@ -199,12 +283,47 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
   const confirmDelete = async () => {
     if (!deleteTargetId) return;
 
+    // 找到要删除的产品信息
+    const productToDelete = products.find(p => p.id === deleteTargetId);
+    
     try {
       await productService.delete(deleteTargetId);
+      
+      // 记录删除成功
+      userActionLogger.logBusinessAction({
+        type: UserActionType.DELETE,
+        entity: 'product',
+        entityId: deleteTargetId,
+        context: ActionContext.INVENTORY,
+        description: `Deleted product: ${productToDelete?.name || 'Unknown'}`,
+        details: {
+          productName: productToDelete?.name,
+          sku: productToDelete?.sku,
+          deletedAt: new Date().toISOString()
+        },
+        success: true
+      });
+      
       await loadData();
     } catch (err) {
       setError('删除商品失败');
       console.error('Failed to delete product:', err);
+      
+      // 记录删除失败
+      userActionLogger.logBusinessAction({
+        type: UserActionType.DELETE,
+        entity: 'product',
+        entityId: deleteTargetId,
+        context: ActionContext.INVENTORY,
+        description: `Failed to delete product: ${productToDelete?.name || 'Unknown'}`,
+        details: {
+          productName: productToDelete?.name,
+          sku: productToDelete?.sku,
+          error: err instanceof Error ? err.message : 'Unknown error'
+        },
+        success: false,
+        errorMessage: '删除商品失败'
+      });
     } finally {
       setShowConfirmDialog(false);
       setDeleteTargetId(null);

@@ -5,6 +5,9 @@ import App from './App';
 // 导入全局错误处理器以初始化
 import './utils/globalErrorHandler';
 
+// 导入用户操作追踪器以初始化
+import './utils/userActionLogger';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
