@@ -173,10 +173,8 @@ export class InventoryEntryRegistrationService {
    * @returns 周范围数组
    */
   public getMonthlyWeekRanges(date: string): Array<{ week: number; startDate: string; endDate: string; label: string }> {
-    const currentDate = new Date(date);
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const [year, month] = date.split('-').map(Number);
+    const daysInMonth = new Date(year, month, 0).getDate();
     
     const weeks = [];
     
@@ -187,8 +185,8 @@ export class InventoryEntryRegistrationService {
       if (startDay <= daysInMonth) {
         weeks.push({
           week,
-          startDate: new Date(year, month, startDay).toISOString().split('T')[0],
-          endDate: new Date(year, month, endDay).toISOString().split('T')[0],
+          startDate: `${year}-${String(month).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`,
+          endDate: `${year}-${String(month).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`,
           label: `第${week}周`
         });
       }

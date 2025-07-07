@@ -54,7 +54,10 @@ export const InventoryEntryRegistration: React.FC = () => {
   // 生成周快捷选择 - 基于当前月份
   const weekRanges = useMemo(() => {
     const now = new Date();
-    const currentMonthFirstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    // 直接构建日期字符串，避免时区问题
+    const currentMonthFirstDay = `${year}-${String(month + 1).padStart(2, '0')}-01`;
     return inventoryEntryRegistrationService.getMonthlyWeekRanges(currentMonthFirstDay);
   }, []); // 移除依赖，只基于当前月份
 

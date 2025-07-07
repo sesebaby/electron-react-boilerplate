@@ -645,14 +645,15 @@
 
 /* ===== 表格锁定样式 ===== */
 .table-header-fixed {
-  background: var(--topbar-background);
+  background: var(--surface-background);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
+  border-bottom: 2px solid var(--glass-border);
   transition: var(--transition-base);
 }
 
 .table-cell-fixed {
-  background: var(--topbar-background);
+  background: var(--surface-background);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
   transition: var(--transition-base);
