@@ -643,6 +643,21 @@
   transition: var(--transition-base);
 }
 
+/* ===== 表格锁定样式 ===== */
+.table-header-fixed {
+  background: var(--topbar-background);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  transition: var(--transition-base);
+}
+
+.table-cell-fixed {
+  background: var(--topbar-background);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  transition: var(--transition-base);
+}
+
 /* ===== 基础玻璃感组件类 ===== */
 .glass-surface {
   background: var(--surface-background);

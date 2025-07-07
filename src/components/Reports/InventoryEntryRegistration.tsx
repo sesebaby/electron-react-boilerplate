@@ -212,22 +212,22 @@ export const InventoryEntryRegistration: React.FC = () => {
           <div className="overflow-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent max-h-[600px]">
             <table className="w-full min-w-max relative">
               {/* 固定表头 */}
-              <thead className="sticky top-0 z-20 bg-white/10 backdrop-blur-md">
+              <thead className="sticky top-0 z-20 table-header-fixed">
                 {/* 第一层表头 - 日期 */}
                 <tr className="border-b border-white/20">
-                  <th rowSpan={2} className="sticky left-0 z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 bg-white/10 backdrop-blur-md min-w-[60px]">
+                  <th rowSpan={2} className="sticky left-0 z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 table-cell-fixed min-w-[60px]">
                     序号
                   </th>
-                  <th rowSpan={2} className="sticky left-[60px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 bg-white/10 backdrop-blur-md min-w-[120px]">
+                  <th rowSpan={2} className="sticky left-[60px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 table-cell-fixed min-w-[120px]">
                     一级分类
                   </th>
-                  <th rowSpan={2} className="sticky left-[180px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 bg-white/10 backdrop-blur-md min-w-[120px]">
+                  <th rowSpan={2} className="sticky left-[180px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 table-cell-fixed min-w-[120px]">
                     二级分类
                   </th>
-                  <th rowSpan={2} className="sticky left-[300px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 bg-white/10 backdrop-blur-md min-w-[150px]">
+                  <th rowSpan={2} className="sticky left-[300px] z-30 px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20 table-cell-fixed min-w-[150px]">
                     物品名称
                   </th>
-                  <th rowSpan={2} className="sticky left-[450px] z-30 px-4 py-3 text-center text-sm font-semibold text-white border-r border-white/20 bg-white/10 backdrop-blur-md min-w-[100px]">
+                  <th rowSpan={2} className="sticky left-[450px] z-30 px-4 py-3 text-center text-sm font-semibold text-white border-r border-white/20 table-cell-fixed min-w-[100px]">
                     总出库
                   </th>
                   {filteredDates.map(date => (
@@ -278,19 +278,19 @@ export const InventoryEntryRegistration: React.FC = () => {
                 ) : (
                   data.map((item, index) => (
                   <tr key={item.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
-                    <td className="sticky left-0 z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 bg-white/5 backdrop-blur-sm">
+                    <td className="sticky left-0 z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 table-cell-fixed">
                       {index + 1}
                     </td>
-                    <td className="sticky left-[60px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 bg-white/5 backdrop-blur-sm">
+                    <td className="sticky left-[60px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 table-cell-fixed">
                       {item.primaryCategory}
                     </td>
-                    <td className="sticky left-[180px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 bg-white/5 backdrop-blur-sm">
+                    <td className="sticky left-[180px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 table-cell-fixed">
                       {item.secondaryCategory}
                     </td>
-                    <td className="sticky left-[300px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 bg-white/5 backdrop-blur-sm">
+                    <td className="sticky left-[300px] z-10 px-4 py-3 text-sm text-white/90 border-r border-white/10 table-cell-fixed">
                       {item.name}
                     </td>
-                    <td className="sticky left-[450px] z-10 px-4 py-3 text-sm text-white/90 text-center border-r border-white/10 bg-white/5 backdrop-blur-sm">
+                    <td className="sticky left-[450px] z-10 px-4 py-3 text-sm text-white/90 text-center border-r border-white/10 table-cell-fixed">
                       <span className="financial-value-accent">
                         {item.totalOut}
                       </span>
