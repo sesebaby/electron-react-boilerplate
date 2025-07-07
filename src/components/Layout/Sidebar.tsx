@@ -171,7 +171,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   color: isMenuActive(item) ? 'var(--text-primary)' : 'var(--text-secondary)',
                   '--hover-color': 'var(--text-primary)'
                 } as React.CSSProperties}
-                `}
                 onClick={() => handleMenuClick(item)}
                 title={collapsed ? item.label : undefined}
               >
@@ -219,7 +218,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             color: currentPage === child.id ? 'var(--text-primary)' : 'var(--text-secondary)',
                             '--hover-color': 'var(--text-primary)'
                           } as React.CSSProperties}
-                          `}
                           onClick={() => onPageChange(child.id)}
                         >
                           <span className="text-base flex-shrink-0">{child.icon}</span>
