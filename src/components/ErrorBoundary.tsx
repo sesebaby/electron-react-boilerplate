@@ -1,6 +1,7 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AppError, ErrorUtils } from '../utils/errors';
-import { logger } from '../utils/secureLogger';
+import { logger } from '../utils/logger';
+import { globalErrorHandler } from '../utils/globalErrorHandler';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -56,8 +57,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       userId: 'current-user-id' // TODO: 从用户上下文获取
     };
 
-    // 记录到安全日志
-    logger.error('React Error Boundary caught an error', errorReport);
+    // 记录到日志系统
+    logger.error('React Error Boundary caught an error', errorReport, 'ErrorBoundary');
+
+    // 同时通过全局错误处理器报告
+    globalErrorHandler.reportError(error, `ErrorBoundary:${this.constructor.name}`);
 
     // 调用外部错误处理函数
     if (this.props.onError) {
