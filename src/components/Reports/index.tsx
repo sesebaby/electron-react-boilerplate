@@ -5,3 +5,4 @@ export { default as SalesReports } from './SalesReports';
 export { default as PurchaseReports } from './PurchaseReports';
 export { default as FinancialReports } from './FinancialReports';
 export { default as InventoryEntryRegistration } from './InventoryEntryRegistration';
+export { default as InventoryMovementSummary } from './InventoryMovementSummary';

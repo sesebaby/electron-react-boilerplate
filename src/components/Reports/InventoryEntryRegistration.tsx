@@ -343,7 +343,7 @@ export const InventoryEntryRegistration: React.FC = () => {
                           </td>
                         </React.Fragment>
                       );
-                    })
+                    })}
                   </tr>
                   ))
                 )}

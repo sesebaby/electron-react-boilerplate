@@ -15,9 +15,9 @@
   --hover-background: oklch(0.87 0.065 274.039 / 0.3);
   --active-background: oklch(0.785 0.115 274.713 / 0.35);
 
-  /* TopBar专用背景 - 更高不透明度确保可见性 */
-  --topbar-background: rgba(0, 0, 0, 0.6);
-  --topbar-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  /* TopBar专用背景 - 根据UI设计系统调整为与弹出窗体一致的深色背景 */
+  --topbar-background: oklch(0.511 0.262 276.966 / 0.85);  /* indigo-600/85% */
+  --topbar-shadow: 0 4px 16px oklch(0.257 0.09 281.288 / 0.3);
 
   /* 表格锁定专用背景 - 平衡透明度和可读性 */
   --table-fixed-background: oklch(0.93 0.034 272.788 / 0.65);
@@ -97,9 +97,9 @@
   --hover-background: oklch(0.87 0.065 274.039 / 0.28);
   --active-background: oklch(0.785 0.115 274.713 / 0.32);
 
-  /* TopBar专用背景 - 深色半透明确保可见性 */
-  --topbar-background: rgba(0, 0, 0, 0.6);
-  --topbar-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  /* TopBar专用背景 - 与弹出窗体保持一致的深色背景 */
+  --topbar-background: oklch(0.511 0.262 276.966 / 0.85);  /* indigo-600/85% */
+  --topbar-shadow: 0 4px 16px oklch(0.257 0.09 281.288 / 0.3);
 
   /* 表格锁定专用背景 - 平衡透明度和可读性 */
   --table-fixed-background: oklch(0.93 0.034 272.788 / 0.65);
@@ -225,9 +225,9 @@
   --hover-background: oklch(0.372 0.044 257.287 / 0.18);
   --active-background: oklch(0.446 0.043 257.281 / 0.22);
 
-  /* TopBar专用背景 - 深色主题使用更深的背景 */
-  --topbar-background: rgba(0, 0, 0, 0.7);
-  --topbar-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  /* TopBar专用背景 - 深色科技风主题，与弹出窗体保持一致 */
+  --topbar-background: oklch(0.279 0.041 260.031 / 0.85);  /* slate-800/85% */
+  --topbar-shadow: 0 4px 16px oklch(0.129 0.042 264.695 / 0.4);
 
   /* 表格锁定专用背景 - 深色主题版本 */
   --table-fixed-background: oklch(0.231 0.084 274.153 / 0.7);
@@ -331,9 +331,9 @@
   --hover-background: oklch(0.962 0.059 95.617 / 0.6);
   --active-background: oklch(0.924 0.12 95.746 / 0.7);
 
-  /* TopBar专用背景 - 温暖主题使用半透明浅色背景 */
-  --topbar-background: rgba(255, 255, 255, 0.8);
-  --topbar-shadow: 0 4px 16px rgba(146, 64, 14, 0.2);
+  /* TopBar专用背景 - 温暖商务风主题，与弹出窗体保持一致 */
+  --topbar-background: oklch(0.987 0.022 95.277 / 0.85);  /* amber-50/85% */
+  --topbar-shadow: 0 4px 16px oklch(0.279 0.077 45.635 / 0.3);
 
   /* 表格锁定专用背景 - 温暖主题版本 */
   --table-fixed-background: oklch(0.987 0.022 95.277 / 0.8);
@@ -652,11 +652,13 @@
 /* ===== TopBar专用样式 ===== */
 .topbar-surface {
   background: var(--topbar-background);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border: var(--glass-border);
+  -webkit-backdrop-filter: var(--popup-blur, var(--glass-blur));
+  backdrop-filter: var(--popup-blur, var(--glass-blur));
+  border: var(--popup-border, var(--glass-border));
   box-shadow: var(--topbar-shadow);
   transition: var(--transition-base);
+  color: var(--text-primary);
+  text-shadow: var(--popup-text-shadow);
 }
 
 /* ===== 表格锁定样式 ===== */

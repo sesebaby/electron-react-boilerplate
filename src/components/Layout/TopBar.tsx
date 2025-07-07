@@ -256,8 +256,12 @@ export const TopBar: React.FC<TopBarProps> = ({
     <header className={`
       fixed top-0 right-0 z-50 h-20 transition-all duration-300
       ${sidebarCollapsed ? 'left-16' : 'left-64'}
-      topbar-surface border-b border-white/20
-    `}>
+      topbar-surface
+    `}
+      style={{ 
+        borderBottom: '1px solid var(--glass-border)',
+        color: 'var(--text-primary)' 
+      }}>
       <div className="h-full px-4 flex items-center justify-between">
         
         {/* 左侧区域 */}
@@ -265,8 +269,13 @@ export const TopBar: React.FC<TopBarProps> = ({
           {/* 移动端菜单按钮 */}
           <button
             type="button"
-            className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
-            style={{ color: 'var(--text-secondary)' }}
+            className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg transition-colors"
+            style={{ 
+              color: 'var(--text-primary)',
+              background: 'var(--hover-background)' 
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--active-background)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'var(--hover-background)'}
             onClick={onToggleSidebar}
           >
             ☰
@@ -274,7 +283,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 
           {/* 面包屑导航和标题 */}
           <div className="flex flex-col justify-center min-h-0">
-            <nav className="flex items-center text-sm mb-1" style={{ color: 'var(--text-tertiary)' }}>
+            <nav className="flex items-center text-sm mb-1">
               {currentPageInfo.breadcrumb.map((crumb, index) => (
                 <span key={index} className="flex items-center">
                   {index > 0 && <span className="mx-2" style={{ color: 'var(--text-accent)' }}>/</span>}
@@ -286,14 +295,18 @@ export const TopBar: React.FC<TopBarProps> = ({
                     style={{ 
                       color: index === currentPageInfo.breadcrumb.length - 1 
                         ? 'var(--text-primary)' 
-                        : 'var(--text-secondary)' 
+                        : 'var(--text-secondary)',
+                      textShadow: 'var(--popup-text-shadow)'
                     }}>
                     {crumb}
                   </span>
                 </span>
               ))}
             </nav>
-            <h1 className="text-xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>{currentPageInfo.title}</h1>
+            <h1 className="text-xl font-bold leading-tight" style={{ 
+              color: 'var(--text-primary)',
+              textShadow: 'var(--popup-text-shadow)'
+            }}>{currentPageInfo.title}</h1>
           </div>
         </div>
 
@@ -302,7 +315,10 @@ export const TopBar: React.FC<TopBarProps> = ({
           <div className="relative" ref={searchResultsRef}>
             <form onSubmit={handleSearch}>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2" style={{ color: 'var(--text-tertiary)' }}>
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2" style={{ 
+                  color: 'var(--text-tertiary)',
+                  textShadow: 'var(--popup-text-shadow)'
+                }}>
                   {isSearching ? '⏳' : '🔍'}
                 </span>
                 <input
@@ -311,12 +327,21 @@ export const TopBar: React.FC<TopBarProps> = ({
                   placeholder="搜索商品、订单、客户..."
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
+                  style={{
+                    color: 'var(--text-primary)',
+                    background: 'var(--card-background)',
+                    border: 'var(--glass-border)',
+                    textShadow: 'var(--popup-text-shadow)'
+                  }}
                 />
                 {searchValue && (
                   <button 
                     type="button"
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors"
-                    style={{ color: 'var(--text-tertiary)' }}
+                    style={{ 
+                      color: 'var(--text-tertiary)',
+                      textShadow: 'var(--popup-text-shadow)'
+                    }}
                     onClick={() => {
                       setSearchValue('');
                       setShowSearchResults(false);
@@ -401,6 +426,12 @@ export const TopBar: React.FC<TopBarProps> = ({
               type="button"
               className="glass-button relative w-9 h-9 flex items-center justify-center rounded-lg transition-all"
               onClick={() => setShowNotifications(!showNotifications)}
+              style={{
+                color: 'var(--text-primary)',
+                background: 'var(--card-background)',
+                border: 'var(--glass-border)',
+                textShadow: 'var(--popup-text-shadow)'
+              }}
             >
               🔔
               {unreadCount > 0 && (
@@ -486,12 +517,24 @@ export const TopBar: React.FC<TopBarProps> = ({
               type="button"
               className="glass-button flex items-center gap-2 px-3 py-2 rounded-lg transition-all"
               onClick={() => setShowUserMenu(!showUserMenu)}
+              style={{
+                color: 'var(--text-primary)',
+                background: 'var(--card-background)',
+                border: 'var(--glass-border)',
+                textShadow: 'var(--popup-text-shadow)'
+              }}
             >
               <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>
                 👤
               </div>
-              <span className="text-sm font-medium hidden sm:block" style={{ color: 'var(--text-primary)' }}>管理员</span>
-              <span className="text-xs hidden sm:block" style={{ color: 'var(--text-tertiary)' }}>⏷</span>
+              <span className="text-sm font-medium hidden sm:block" style={{ 
+                color: 'var(--text-primary)',
+                textShadow: 'var(--popup-text-shadow)'
+              }}>管理员</span>
+              <span className="text-xs hidden sm:block" style={{ 
+                color: 'var(--text-tertiary)',
+                textShadow: 'var(--popup-text-shadow)'
+              }}>⏷</span>
             </button>
 
             {showUserMenu && (
@@ -542,9 +585,15 @@ export const TopBar: React.FC<TopBarProps> = ({
           <ThemeSwitcher />
 
           {/* 系统状态 */}
-          <div className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg glass-surface">
+          <div className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg glass-surface" style={{
+            background: 'var(--card-background)',
+            border: 'var(--glass-border)'
+          }}>
             <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'var(--success-color)' }}></span>
-            <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>在线</span>
+            <span className="text-sm" style={{ 
+              color: 'var(--text-secondary)',
+              textShadow: 'var(--popup-text-shadow)'
+            }}>在线</span>
           </div>
         </div>
       </div>
