@@ -5,6 +5,7 @@ import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormContr
 import ConfirmDialog from '../ui/ConfirmDialog';
 import UnitConversionSettings from './UnitConversionSettings';
 import { userActionLogger, UserActionType, ActionContext } from '../../utils/userActionLogger';
+import { usePerformanceLogger } from '../../hooks/usePerformanceLogger';
 
 interface ProductManagementProps {
   className?: string;
@@ -78,6 +79,12 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+
+  // 性能监控
+  const { stats } = usePerformanceLogger('ProductManagement', {
+    enableInProduction: true,
+    trackRerenders: true
+  });
 
   useEffect(() => {
     loadData();

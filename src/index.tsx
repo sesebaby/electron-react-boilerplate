@@ -8,6 +8,9 @@ import './utils/globalErrorHandler';
 // 导入用户操作追踪器以初始化
 import './utils/userActionLogger';
 
+// 导入性能监控器以初始化
+import './utils/performanceMonitor';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

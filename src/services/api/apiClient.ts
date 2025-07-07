@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { logger } from '../../utils/logger';
+import { performanceMonitor } from '../../utils/performanceMonitor';
 
 // 扩展Axios配置类型以支持metadata
 declare module 'axios' {
@@ -205,6 +206,13 @@ class ApiClient {
     const logEntry = config.metadata?.logEntry;
     if (!logEntry) return;
 
+    // 开始性能监控
+    performanceMonitor.startApiCall(
+      logEntry.requestId,
+      logEntry.fullUrl,
+      logEntry.method
+    );
+
     logger.info(`API Request Started: ${logEntry.method} ${logEntry.fullUrl}`, {
       requestId: logEntry.requestId,
       method: logEntry.method,
@@ -256,6 +264,17 @@ class ApiClient {
       userId: this.currentUserId
     };
 
+    // 结束性能监控
+    if (requestId && duration !== undefined) {
+      performanceMonitor.endApiCall(
+        requestId,
+        logEntry.fullUrl,
+        logEntry.method,
+        response.status,
+        this.getResponseSize(response)
+      );
+    }
+
     logger.info(`API Request Success: ${logEntry.method} ${logEntry.fullUrl} (${duration}ms)`, logEntry, 'ApiClient');
   }
 
@@ -290,6 +309,17 @@ class ApiClient {
       userAgent: navigator.userAgent,
       userId: this.currentUserId
     };
+
+    // 结束性能监控
+    if (requestId && duration !== undefined) {
+      performanceMonitor.endApiCall(
+        requestId,
+        logEntry.fullUrl,
+        logEntry.method,
+        response?.status || 0,
+        response ? this.getResponseSize({ data: response.data, headers: response.headers } as any) : 0
+      );
+    }
 
     logger.error(`API Request Failed: ${logEntry.method} ${logEntry.fullUrl} (${duration}ms)`, logEntry, 'ApiClient');
   }
@@ -495,6 +525,32 @@ class ApiClient {
     localStorage.removeItem('_auth_data');
     localStorage.removeItem('auth_token'); // Remove old tokens if they exist
     logger.info('Auth token cleared', { userId: this.currentUserId }, 'ApiClient');
+  }
+
+  /**
+   * 获取响应大小（字节）
+   */
+  private getResponseSize(response: AxiosResponse): number {
+    try {
+      // 尝试从Content-Length头获取
+      const contentLength = response.headers?.['content-length'];
+      if (contentLength) {
+        return parseInt(contentLength, 10);
+      }
+      
+      // 估算响应数据大小
+      if (response.data) {
+        if (typeof response.data === 'string') {
+          return new Blob([response.data]).size;
+        } else if (typeof response.data === 'object') {
+          return new Blob([JSON.stringify(response.data)]).size;
+        }
+      }
+      
+      return 0;
+    } catch (error) {
+      return 0;
+    }
   }
 
   /**
