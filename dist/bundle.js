@@ -3696,6 +3696,9 @@ video {
 .mb-8 {
   margin-bottom: 2rem;
 }
+.ml-0\\.5 {
+  margin-left: 0.125rem;
+}
 .ml-1 {
   margin-left: 0.25rem;
 }
@@ -3719,6 +3722,9 @@ video {
 }
 .mr-2 {
   margin-right: 0.5rem;
+}
+.mt-0\\.5 {
+  margin-top: 0.125rem;
 }
 .mt-1 {
   margin-top: 0.25rem;
@@ -3897,6 +3903,9 @@ video {
 .w-10 {
   width: 2.5rem;
 }
+.w-11 {
+  width: 2.75rem;
+}
 .w-12 {
   width: 3rem;
 }
@@ -4005,6 +4014,9 @@ video {
 .min-w-\\[300px\\] {
   min-width: 300px;
 }
+.min-w-\\[60px\\] {
+  min-width: 60px;
+}
 .min-w-\\[800px\\] {
   min-width: 800px;
 }
@@ -4020,8 +4032,9 @@ video {
 .min-w-full {
   min-width: 100%;
 }
-.min-w-\\[60px\\] {
-  min-width: 60px;
+.min-w-max {
+  min-width: -moz-max-content;
+  min-width: max-content;
 }
 .max-w-2xl {
   max-width: 42rem;
@@ -4069,6 +4082,10 @@ video {
 }
 .translate-x-0 {
   --tw-translate-x: 0px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.translate-x-5 {
+  --tw-translate-x: 1.25rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .translate-x-full {
@@ -4417,6 +4434,9 @@ video {
 .border-green-400\\/30 {
   border-color: rgb(74 222 128 / 0.3);
 }
+.border-green-400\\/50 {
+  border-color: rgb(74 222 128 / 0.5);
+}
 .border-orange-200 {
   --tw-border-opacity: 1;
   border-color: rgb(254 215 170 / var(--tw-border-opacity, 1));
@@ -4433,6 +4453,9 @@ video {
 }
 .border-purple-400\\/30 {
   border-color: rgb(192 132 252 / 0.3);
+}
+.border-purple-400\\/50 {
+  border-color: rgb(192 132 252 / 0.5);
 }
 .border-red-200 {
   --tw-border-opacity: 1;
@@ -4507,9 +4530,6 @@ video {
 }
 .border-yellow-500\\/20 {
   border-color: rgb(234 179 8 / 0.2);
-}
-.border-green-400\\/50 {
-  border-color: rgb(74 222 128 / 0.5);
 }
 .border-b-white {
   --tw-border-opacity: 1;
@@ -4656,6 +4676,9 @@ video {
 .bg-green-500\\/20 {
   background-color: rgb(34 197 94 / 0.2);
 }
+.bg-green-500\\/30 {
+  background-color: rgb(34 197 94 / 0.3);
+}
 .bg-indigo-500\\/20 {
   background-color: rgb(99 102 241 / 0.2);
 }
@@ -4776,9 +4799,6 @@ video {
 }
 .bg-yellow-500\\/20 {
   background-color: rgb(234 179 8 / 0.2);
-}
-.bg-green-500\\/30 {
-  background-color: rgb(34 197 94 / 0.3);
 }
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
@@ -5434,10 +5454,6 @@ video {
   --tw-text-opacity: 1;
   color: rgb(133 77 14 / var(--tw-text-opacity, 1));
 }
-.text-orange-400 {
-  --tw-text-opacity: 1;
-  color: rgb(251 146 60 / var(--tw-text-opacity, 1));
-}
 .underline-offset-4 {
   text-underline-offset: 4px;
 }
@@ -5472,6 +5488,9 @@ video {
 }
 .opacity-75 {
   opacity: 0.75;
+}
+.opacity-80 {
+  opacity: 0.8;
 }
 .opacity-90 {
   opacity: 0.9;
@@ -6693,7 +6712,7 @@ video {
 
 .\\[\\&_tr\\]\\:border-b tr {
   border-bottom-width: 1px;
-}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"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AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA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AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,0EAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,0EAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,qEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,yEAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,0EAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,oEAAmB;EAAnB;AAAmB;AAAnB;EAAA,4DAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,yEAAmB;EAAnB,mEAAmB;EAAnB;AAAmB;AAAnB;EAAA,sEAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,qBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,2BAAmB;EAAnB;AAAmB;AAAnB;EAAA,2BAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAA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","sourcesContent":["@tailwind base;\r\n@tailwind components;\r\n@tailwind utilities;\r\n\r\n/* 导入主题样式 */\r\n@import './styles/themes.css';\r\n\r\n@layer base {\r\n  :root {\r\n    --background: 220 20% 14%;\r\n    --foreground: 220 8% 95%;\r\n    --card: 220 20% 10%;\r\n    --card-foreground: 220 8% 95%;\r\n    --popover: 220 20% 10%;\r\n    --popover-foreground: 220 8% 95%;\r\n    --primary: 220 8% 95%;\r\n    --primary-foreground: 220 20% 14%;\r\n    --secondary: 220 20% 14%;\r\n    --secondary-foreground: 220 8% 95%;\r\n    --muted: 220 20% 14%;\r\n    --muted-foreground: 220 8% 65%;\r\n    --accent: 220 20% 14%;\r\n    --accent-foreground: 220 8% 95%;\r\n    --destructive: 0 84% 60%;\r\n    --destructive-foreground: 0 0% 98%;\r\n    --border: 220 13% 18%;\r\n    --input: 220 13% 18%;\r\n    --ring: 220 8% 95%;\r\n    --radius: 0.5rem;\r\n    \r\n    /* Theme System Variables */\r\n    --spacing-xs: 0.25rem;\r\n    --spacing-sm: 0.5rem;\r\n    --spacing-md: 1rem;\r\n    --spacing-lg: 1.5rem;\r\n    --spacing-xl: 2rem;\r\n    \r\n    --border-radius-sm: 0.375rem;\r\n    --border-radius-md: 0.5rem;\r\n    --border-radius-lg: 0.75rem;\r\n    \r\n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\r\n    --glass-blur: blur(20px);\r\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\r\n  }\r\n  \r\n  /* Animation utilities */\r\n  @keyframes slide-in-right {\r\n    from {\r\n      transform: translateX(100%);\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      transform: translateX(0);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes fade-in {\r\n    from {\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes bounce-in {\r\n    0% {\r\n      transform: scale(0.3);\r\n      opacity: 0;\r\n    }\r\n    50% {\r\n      transform: scale(1.05);\r\n    }\r\n    70% {\r\n      transform: scale(0.9);\r\n    }\r\n    100% {\r\n      transform: scale(1);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  .animate-slide-in-right {\r\n    animation: slide-in-right 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-fade-in {\r\n    animation: fade-in 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-bounce-in {\r\n    animation: bounce-in 0.5s ease-out;\r\n  }\r\n  \r\n  /* Glass Future Theme - 基于Indigo色块系列 */\r\n  [data-theme=\"glass-future\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\r\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\r\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\r\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\r\n    \r\n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\r\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\r\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\r\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\r\n    \r\n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\r\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\r\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\r\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\r\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\r\n    --text-secondary: oklch(92.369% 0.00263 230.33);\r\n    --text-accent: oklch(0.968 0.007 247.896);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\r\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\r\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\r\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\r\n  }\r\n  \r\n  /* Dark Tech Theme - 基于Slate色块系列 */\r\n  [data-theme=\"dark-tech\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\r\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\r\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\r\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\r\n    \r\n    /* 弹出窗体背景 - Slate深色系列 */\r\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\r\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\r\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\r\n    \r\n    /* 文字颜色 - Slate浅色系，适合深色背景 */\r\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\r\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\r\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\r\n    --text-primary: oklch(0.968 0.007 247.896);\r\n    --text-secondary: oklch(0.929 0.013 255.508);\r\n    --text-accent: oklch(0.869 0.022 252.894);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\r\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\r\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\r\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\r\n  }\r\n  \r\n  /* Warm Business Theme - 基于Amber色块系列 */\r\n  [data-theme=\"warm-business\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\r\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\r\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\r\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\r\n    \r\n    /* 弹出窗体背景 - Amber浅色系列 */\r\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\r\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\r\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\r\n    \r\n    /* 文字颜色 - Amber深色系，适合浅色背景 */\r\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\r\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\r\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\r\n    --text-primary: oklch(0.414 0.112 45.904);\r\n    --text-secondary: oklch(0.473 0.137 46.201);\r\n    --text-accent: oklch(0.555 0.163 48.998);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\r\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\r\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\r\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\r\n  }\r\n}\r\n\r\n@layer base {\r\n  * {\r\n    border-color: hsl(var(--border));\r\n  }\r\n  body {\r\n    background-color: hsl(var(--background));\r\n    color: hsl(var(--foreground));\r\n    margin: 0;\r\n    padding: 0;\r\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\r\n    min-height: 100vh;\r\n    overflow-x: hidden;\r\n  }\r\n}\r\n\r\n/* Custom glassmorphism styles matching current design */\r\n.app-bg {\r\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\r\n  min-height: 100vh;\r\n  position: relative;\r\n}\r\n\r\n.app-bg::before {\r\n  content: '';\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background: \r\n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\r\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\r\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\r\n  pointer-events: none;\r\n  z-index: 1;\r\n}\r\n\r\n@layer utilities {\r\n  .glass-card {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(12px);\r\n    border: 1px solid rgba(255, 255, 255, 0.2);\r\n    border-radius: 16px;\r\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\r\n  }\r\n  \r\n  /* Popup/Dropdown Styles */\r\n  .popup-dropdown {\r\n    position: absolute;\r\n    z-index: 1000;\r\n    border-radius: 16px;\r\n    backdrop-filter: blur(20px);\r\n    -webkit-backdrop-filter: blur(20px);\r\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\r\n    overflow: hidden;\r\n  }\r\n  \r\n  .popup-header {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(10px);\r\n    -webkit-backdrop-filter: blur(10px);\r\n  }\r\n  \r\n  .popup-content {\r\n    background: transparent;\r\n  }\r\n  \r\n  .glass-card-hover {\r\n    transition: all 0.3s ease;\r\n  }\r\n  \r\n  .glass-card-hover:hover {\r\n    background: rgba(255, 255, 255, 0.15);\r\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\r\n    transform: translateY(-2px);\r\n  }\r\n  \r\n  .glass-input {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(8px);\r\n    border: 1px solid rgba(255, 255, 255, 0.2);\r\n    color: white;\r\n  }\r\n  \r\n  .glass-input::placeholder {\r\n    color: rgba(255, 255, 255, 0.5);\r\n  }\r\n  \r\n  .glass-input:focus {\r\n    outline: none;\r\n    ring: 2px;\r\n    ring-color: rgba(255, 255, 255, 0.3);\r\n    ring-offset: 2px;\r\n  }\r\n  \r\n  .text-gradient {\r\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\r\n    -webkit-background-clip: text;\r\n    -webkit-text-fill-color: transparent;\r\n    background-clip: text;\r\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\r\n  }\r\n  \r\n  .animate-fade-in-up {\r\n    animation: fadeInUp 0.6s ease-out;\r\n  }\r\n}\r\n\r\n@keyframes fadeInUp {\r\n  from {\r\n    opacity: 0;\r\n    transform: translateY(30px);\r\n  }\r\n  to {\r\n    opacity: 1;\r\n    transform: translateY(0);\r\n  }\r\n}\r\n\r\n/* ===== App加载动画样式 ===== */\r\n.app-loading,\r\n.app-error {\r\n  width: 100vw;\r\n  height: 100vh;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\r\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  z-index: 9999;\r\n}\r\n\r\n.loading-container,\r\n.error-container {\r\n  background: rgba(255, 255, 255, 0.1);\r\n  backdrop-filter: blur(20px);\r\n  border-radius: 24px;\r\n  padding: 48px;\r\n  text-align: center;\r\n  max-width: 420px;\r\n  border: 1px solid rgba(255, 255, 255, 0.2);\r\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\r\n}\r\n\r\n/* 加载动画 */\r\n.loading-animation {\r\n  position: relative;\r\n  margin-bottom: 32px;\r\n}\r\n\r\n.loading-spinner {\r\n  width: 60px;\r\n  height: 60px;\r\n  border: 4px solid rgba(255, 255, 255, 0.3);\r\n  border-top: 4px solid white;\r\n  border-radius: 50%;\r\n  animation: spin 1s linear infinite;\r\n  margin: 0 auto 20px;\r\n}\r\n\r\n.loading-dots {\r\n  display: flex;\r\n  justify-content: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-dots span {\r\n  width: 8px;\r\n  height: 8px;\r\n  background: white;\r\n  border-radius: 50%;\r\n  animation: bounce 1.4s ease-in-out infinite both;\r\n}\r\n\r\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\r\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\r\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\r\n\r\n.loading-title {\r\n  color: white;\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 8px;\r\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\r\n}\r\n\r\n.loading-text {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 1.1rem;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.loading-progress {\r\n  width: 100%;\r\n  height: 4px;\r\n  background: rgba(255, 255, 255, 0.2);\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.progress-bar {\r\n  height: 100%;\r\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\r\n  border-radius: 2px;\r\n  animation: progress 2s ease-in-out infinite;\r\n}\r\n\r\n.loading-tips {\r\n  text-align: left;\r\n  background: rgba(255, 255, 255, 0.1);\r\n  border-radius: 12px;\r\n  padding: 16px;\r\n  border: 1px solid rgba(255, 255, 255, 0.2);\r\n}\r\n\r\n.loading-tips p {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 0.9rem;\r\n  margin-bottom: 6px;\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-tips p:last-child {\r\n  margin-bottom: 0;\r\n}\r\n\r\n/* 错误状态样式 */\r\n.error-icon {\r\n  font-size: 4rem;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.error-title {\r\n  color: white;\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 12px;\r\n}\r\n\r\n.error-message {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 1rem;\r\n  margin-bottom: 24px;\r\n  background: rgba(255, 77, 79, 0.2);\r\n  padding: 12px 16px;\r\n  border-radius: 8px;\r\n  border: 1px solid rgba(255, 77, 79, 0.3);\r\n}\r\n\r\n.error-retry {\r\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\r\n  color: white;\r\n  border: none;\r\n  padding: 12px 24px;\r\n  border-radius: 8px;\r\n  font-size: 1rem;\r\n  font-weight: 600;\r\n  cursor: pointer;\r\n  transition: all 0.3s ease;\r\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\r\n}\r\n\r\n.error-retry:hover {\r\n  transform: translateY(-2px);\r\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\r\n}\r\n\r\n/* 主App容器 */\r\n.app {\r\n  width: 100%;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n}\r\n\r\n/* 新增动画定义 */\r\n@keyframes spin {\r\n  0% { transform: rotate(0deg); }\r\n  100% { transform: rotate(360deg); }\r\n}\r\n\r\n@keyframes bounce {\r\n  0%, 80%, 100% {\r\n    transform: scale(0);\r\n  }\r\n  40% {\r\n    transform: scale(1);\r\n  }\r\n}\r\n\r\n@keyframes progress {\r\n  0% {\r\n    width: 0%;\r\n    opacity: 1;\r\n  }\r\n  50% {\r\n    width: 70%;\r\n    opacity: 1;\r\n  }\r\n  100% {\r\n    width: 100%;\r\n    opacity: 0;\r\n  }\r\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"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AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA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AAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;E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B;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB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","sourcesContent":["@tailwind base;\r\n@tailwind components;\r\n@tailwind utilities;\r\n\r\n/* 导入主题样式 */\r\n@import './styles/themes.css';\r\n\r\n@layer base {\r\n  :root {\r\n    --background: 220 20% 14%;\r\n    --foreground: 220 8% 95%;\r\n    --card: 220 20% 10%;\r\n    --card-foreground: 220 8% 95%;\r\n    --popover: 220 20% 10%;\r\n    --popover-foreground: 220 8% 95%;\r\n    --primary: 220 8% 95%;\r\n    --primary-foreground: 220 20% 14%;\r\n    --secondary: 220 20% 14%;\r\n    --secondary-foreground: 220 8% 95%;\r\n    --muted: 220 20% 14%;\r\n    --muted-foreground: 220 8% 65%;\r\n    --accent: 220 20% 14%;\r\n    --accent-foreground: 220 8% 95%;\r\n    --destructive: 0 84% 60%;\r\n    --destructive-foreground: 0 0% 98%;\r\n    --border: 220 13% 18%;\r\n    --input: 220 13% 18%;\r\n    --ring: 220 8% 95%;\r\n    --radius: 0.5rem;\r\n    \r\n    /* Theme System Variables */\r\n    --spacing-xs: 0.25rem;\r\n    --spacing-sm: 0.5rem;\r\n    --spacing-md: 1rem;\r\n    --spacing-lg: 1.5rem;\r\n    --spacing-xl: 2rem;\r\n    \r\n    --border-radius-sm: 0.375rem;\r\n    --border-radius-md: 0.5rem;\r\n    --border-radius-lg: 0.75rem;\r\n    \r\n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\r\n    --glass-blur: blur(20px);\r\n    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);\r\n  }\r\n  \r\n  /* Animation utilities */\r\n  @keyframes slide-in-right {\r\n    from {\r\n      transform: translateX(100%);\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      transform: translateX(0);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes fade-in {\r\n    from {\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes bounce-in {\r\n    0% {\r\n      transform: scale(0.3);\r\n      opacity: 0;\r\n    }\r\n    50% {\r\n      transform: scale(1.05);\r\n    }\r\n    70% {\r\n      transform: scale(0.9);\r\n    }\r\n    100% {\r\n      transform: scale(1);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  .animate-slide-in-right {\r\n    animation: slide-in-right 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-fade-in {\r\n    animation: fade-in 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-bounce-in {\r\n    animation: bounce-in 0.5s ease-out;\r\n  }\r\n  \r\n  /* Glass Future Theme - 基于Indigo色块系列 */\r\n  [data-theme=\"glass-future\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */\r\n    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */\r\n    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */\r\n    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */\r\n    \r\n    /* 弹出窗体背景 - 深色确保白色文字可读性 */\r\n    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */\r\n    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */\r\n    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */\r\n    \r\n    /* 文字颜色 - 白色系，增强阴影确保可读性 */\r\n    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */\r\n    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */\r\n    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */\r\n    --text-primary: oklch(100% 0.00011 271.152 / 0.945);\r\n    --text-secondary: oklch(92.369% 0.00263 230.33);\r\n    --text-accent: oklch(0.968 0.007 247.896);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */\r\n    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */\r\n    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);\r\n    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);\r\n  }\r\n  \r\n  /* Dark Tech Theme - 基于Slate色块系列 */\r\n  [data-theme=\"dark-tech\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */\r\n    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */\r\n    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */\r\n    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */\r\n    \r\n    /* 弹出窗体背景 - Slate深色系列 */\r\n    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */\r\n    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */\r\n    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */\r\n    \r\n    /* 文字颜色 - Slate浅色系，适合深色背景 */\r\n    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */\r\n    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */\r\n    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */\r\n    --text-primary: oklch(0.968 0.007 247.896);\r\n    --text-secondary: oklch(0.929 0.013 255.508);\r\n    --text-accent: oklch(0.869 0.022 252.894);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\r\n    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);\r\n    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);\r\n    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);\r\n  }\r\n  \r\n  /* Warm Business Theme - 基于Amber色块系列 */\r\n  [data-theme=\"warm-business\"] {\r\n    /* 应用背景 */\r\n    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);\r\n    \r\n    /* 表面背景 */\r\n    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */\r\n    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */\r\n    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */\r\n    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */\r\n    \r\n    /* 弹出窗体背景 - Amber浅色系列 */\r\n    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */\r\n    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */\r\n    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */\r\n    \r\n    /* 文字颜色 - Amber深色系，适合浅色背景 */\r\n    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */\r\n    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */\r\n    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */\r\n    --text-primary: oklch(0.414 0.112 45.904);\r\n    --text-secondary: oklch(0.473 0.137 46.201);\r\n    --text-accent: oklch(0.555 0.163 48.998);\r\n    \r\n    /* 效果增强 */\r\n    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */\r\n    --popup-blur: blur(35px);\r\n    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\r\n    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);\r\n    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);\r\n    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);\r\n  }\r\n}\r\n\r\n@layer base {\r\n  * {\r\n    border-color: hsl(var(--border));\r\n  }\r\n  body {\r\n    background-color: hsl(var(--background));\r\n    color: hsl(var(--foreground));\r\n    margin: 0;\r\n    padding: 0;\r\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\r\n    min-height: 100vh;\r\n    overflow-x: hidden;\r\n  }\r\n}\r\n\r\n/* Custom glassmorphism styles matching current design */\r\n.app-bg {\r\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\r\n  min-height: 100vh;\r\n  position: relative;\r\n}\r\n\r\n.app-bg::before {\r\n  content: '';\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background: \r\n    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),\r\n    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),\r\n    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);\r\n  pointer-events: none;\r\n  z-index: 1;\r\n}\r\n\r\n@layer utilities {\r\n  .glass-card {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(12px);\r\n    border: 1px solid rgba(255, 255, 255, 0.2);\r\n    border-radius: 16px;\r\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\r\n  }\r\n  \r\n  /* Popup/Dropdown Styles */\r\n  .popup-dropdown {\r\n    position: absolute;\r\n    z-index: 1000;\r\n    border-radius: 16px;\r\n    backdrop-filter: blur(20px);\r\n    -webkit-backdrop-filter: blur(20px);\r\n    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\r\n    overflow: hidden;\r\n  }\r\n  \r\n  .popup-header {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(10px);\r\n    -webkit-backdrop-filter: blur(10px);\r\n  }\r\n  \r\n  .popup-content {\r\n    background: transparent;\r\n  }\r\n  \r\n  .glass-card-hover {\r\n    transition: all 0.3s ease;\r\n  }\r\n  \r\n  .glass-card-hover:hover {\r\n    background: rgba(255, 255, 255, 0.15);\r\n    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);\r\n    transform: translateY(-2px);\r\n  }\r\n  \r\n  .glass-input {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(8px);\r\n    border: 1px solid rgba(255, 255, 255, 0.2);\r\n    color: white;\r\n  }\r\n  \r\n  .glass-input::placeholder {\r\n    color: rgba(255, 255, 255, 0.5);\r\n  }\r\n  \r\n  .glass-input:focus {\r\n    outline: none;\r\n    ring: 2px;\r\n    ring-color: rgba(255, 255, 255, 0.3);\r\n    ring-offset: 2px;\r\n  }\r\n  \r\n  .text-gradient {\r\n    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);\r\n    -webkit-background-clip: text;\r\n    -webkit-text-fill-color: transparent;\r\n    background-clip: text;\r\n    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);\r\n  }\r\n  \r\n  .animate-fade-in-up {\r\n    animation: fadeInUp 0.6s ease-out;\r\n  }\r\n}\r\n\r\n@keyframes fadeInUp {\r\n  from {\r\n    opacity: 0;\r\n    transform: translateY(30px);\r\n  }\r\n  to {\r\n    opacity: 1;\r\n    transform: translateY(0);\r\n  }\r\n}\r\n\r\n/* ===== App加载动画样式 ===== */\r\n.app-loading,\r\n.app-error {\r\n  width: 100vw;\r\n  height: 100vh;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\r\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  z-index: 9999;\r\n}\r\n\r\n.loading-container,\r\n.error-container {\r\n  background: rgba(255, 255, 255, 0.1);\r\n  backdrop-filter: blur(20px);\r\n  border-radius: 24px;\r\n  padding: 48px;\r\n  text-align: center;\r\n  max-width: 420px;\r\n  border: 1px solid rgba(255, 255, 255, 0.2);\r\n  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);\r\n}\r\n\r\n/* 加载动画 */\r\n.loading-animation {\r\n  position: relative;\r\n  margin-bottom: 32px;\r\n}\r\n\r\n.loading-spinner {\r\n  width: 60px;\r\n  height: 60px;\r\n  border: 4px solid rgba(255, 255, 255, 0.3);\r\n  border-top: 4px solid white;\r\n  border-radius: 50%;\r\n  animation: spin 1s linear infinite;\r\n  margin: 0 auto 20px;\r\n}\r\n\r\n.loading-dots {\r\n  display: flex;\r\n  justify-content: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-dots span {\r\n  width: 8px;\r\n  height: 8px;\r\n  background: white;\r\n  border-radius: 50%;\r\n  animation: bounce 1.4s ease-in-out infinite both;\r\n}\r\n\r\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\r\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\r\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\r\n\r\n.loading-title {\r\n  color: white;\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 8px;\r\n  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\r\n}\r\n\r\n.loading-text {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 1.1rem;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.loading-progress {\r\n  width: 100%;\r\n  height: 4px;\r\n  background: rgba(255, 255, 255, 0.2);\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.progress-bar {\r\n  height: 100%;\r\n  background: linear-gradient(90deg, #4facfe, #00f2fe);\r\n  border-radius: 2px;\r\n  animation: progress 2s ease-in-out infinite;\r\n}\r\n\r\n.loading-tips {\r\n  text-align: left;\r\n  background: rgba(255, 255, 255, 0.1);\r\n  border-radius: 12px;\r\n  padding: 16px;\r\n  border: 1px solid rgba(255, 255, 255, 0.2);\r\n}\r\n\r\n.loading-tips p {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 0.9rem;\r\n  margin-bottom: 6px;\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-tips p:last-child {\r\n  margin-bottom: 0;\r\n}\r\n\r\n/* 错误状态样式 */\r\n.error-icon {\r\n  font-size: 4rem;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.error-title {\r\n  color: white;\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 12px;\r\n}\r\n\r\n.error-message {\r\n  color: rgba(255, 255, 255, 0.9);\r\n  font-size: 1rem;\r\n  margin-bottom: 24px;\r\n  background: rgba(255, 77, 79, 0.2);\r\n  padding: 12px 16px;\r\n  border-radius: 8px;\r\n  border: 1px solid rgba(255, 77, 79, 0.3);\r\n}\r\n\r\n.error-retry {\r\n  background: linear-gradient(45deg, #ff6b6b, #ee5a52);\r\n  color: white;\r\n  border: none;\r\n  padding: 12px 24px;\r\n  border-radius: 8px;\r\n  font-size: 1rem;\r\n  font-weight: 600;\r\n  cursor: pointer;\r\n  transition: all 0.3s ease;\r\n  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);\r\n}\r\n\r\n.error-retry:hover {\r\n  transform: translateY(-2px);\r\n  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);\r\n}\r\n\r\n/* 主App容器 */\r\n.app {\r\n  width: 100%;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n}\r\n\r\n/* 新增动画定义 */\r\n@keyframes spin {\r\n  0% { transform: rotate(0deg); }\r\n  100% { transform: rotate(360deg); }\r\n}\r\n\r\n@keyframes bounce {\r\n  0%, 80%, 100% {\r\n    transform: scale(0);\r\n  }\r\n  40% {\r\n    transform: scale(1);\r\n  }\r\n}\r\n\r\n@keyframes progress {\r\n  0% {\r\n    width: 0%;\r\n    opacity: 1;\r\n  }\r\n  50% {\r\n    width: 70%;\r\n    opacity: 1;\r\n  }\r\n  100% {\r\n    width: 100%;\r\n    opacity: 0;\r\n  }\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -51510,8 +51529,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/business */ "./src/services/business/index.ts");
 /* harmony import */ var _services_dataInitializer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/dataInitializer */ "./src/services/dataInitializer.ts");
 /* harmony import */ var _components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/ErrorBoundary */ "./src/components/ErrorBoundary.tsx");
-/* harmony import */ var _globals_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./globals.css */ "./src/globals.css");
-/* harmony import */ var _styles_theme_adaptations_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./styles/theme-adaptations.css */ "./src/styles/theme-adaptations.css");
+/* harmony import */ var _components_providers_GlobalDialogProvider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/providers/GlobalDialogProvider */ "./src/components/providers/GlobalDialogProvider.tsx");
+/* harmony import */ var _globals_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./globals.css */ "./src/globals.css");
+/* harmony import */ var _styles_theme_adaptations_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./styles/theme-adaptations.css */ "./src/styles/theme-adaptations.css");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -51526,6 +51546,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
+// testDataInitializer removed - using database mock data instead
 
 
 
@@ -51598,7 +51620,7 @@ const App = () => {
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_6__.ErrorBoundary, { onError: (error, errorInfo) => {
             console.error('Application Error:', error, errorInfo);
             // 这里可以发送错误报告到监控服务
-        }, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "min-h-screen", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Layout_AppLayout__WEBPACK_IMPORTED_MODULE_2__.AppLayout, { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_PageContainer__WEBPACK_IMPORTED_MODULE_3__["default"], { currentPage: currentPage }) }) }) }));
+        }, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_providers_GlobalDialogProvider__WEBPACK_IMPORTED_MODULE_7__["default"], { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "min-h-screen", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Layout_AppLayout__WEBPACK_IMPORTED_MODULE_2__.AppLayout, { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_PageContainer__WEBPACK_IMPORTED_MODULE_3__["default"], { currentPage: currentPage }) }) }) }) }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
 
@@ -52809,6 +52831,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _services_dashboard_dashboardService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/dashboard/dashboardService */ "./src/services/dashboard/dashboardService.ts");
 /* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+/* harmony import */ var _ui_ConfirmDialog__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ui/ConfirmDialog */ "./src/components/ui/ConfirmDialog.tsx");
+/* harmony import */ var _ui_AlertDialog__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ui/AlertDialog */ "./src/components/ui/AlertDialog.tsx");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -52822,10 +52846,30 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
+
 const DashboardQuickActions = ({ className }) => {
     const [quickActions, setQuickActions] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
     const [recentActivities, setRecentActivities] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
     const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+    // 弹出框状态
+    const [showConfirmDialog, setShowConfirmDialog] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [showAlertDialog, setShowAlertDialog] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [alertMessage, setAlertMessage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('');
+    const [alertTitle, setAlertTitle] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('');
+    const [alertVariant, setAlertVariant] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('info');
+    // 弹出框辅助函数
+    const showAlert = (title, message, variant = 'info') => {
+        setAlertTitle(title);
+        setAlertMessage(message);
+        setAlertVariant(variant);
+        setShowAlertDialog(true);
+    };
+    const handleBackupConfirm = () => {
+        setShowConfirmDialog(false);
+        showAlert('备份开始', '数据备份已开始，请稍候...', 'info');
+        // 这里可以调用实际的备份API
+    };
     (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
         loadQuickActionsData();
     }, []);
@@ -52951,17 +52995,13 @@ const DashboardQuickActions = ({ className }) => {
                                         // 触发浏览器的hashchange事件以确保页面更新
                                         window.dispatchEvent(new HashChangeEvent('hashchange'));
                                     }, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl mb-2 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200", children: "\uD83C\uDFE5" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-medium text-sm group-hover:text-white transition-colors", children: "\u5065\u5EB7\u68C0\u67E5" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "p-3 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-lg border border-white/10 hover:border-white/30 transition-all duration-200 group cursor-pointer transform hover:scale-105", onClick: () => {
-                                        // 显示确认对话框并提供用户反馈
-                                        if (confirm('确定要执行数据备份吗？这可能需要几分钟时间。')) {
-                                            alert('数据备份已开始，请稍候...');
-                                            // 这里可以调用实际的备份API
-                                        }
+                                        setShowConfirmDialog(true);
                                     }, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl mb-2 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200", children: "\uD83D\uDCBE" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-medium text-sm group-hover:text-white transition-colors", children: "\u6570\u636E\u5907\u4EFD" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "p-3 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-lg border border-white/10 hover:border-white/30 transition-all duration-200 group cursor-pointer transform hover:scale-105", onClick: loadQuickActionsData, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl mb-2 group-hover:scale-110 group-hover:rotate-12 transition-all duration-200", children: "\uD83D\uDD04" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-medium text-sm group-hover:text-white transition-colors", children: "\u5237\u65B0\u6570\u636E" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", className: "p-3 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-lg border border-white/10 hover:border-white/30 transition-all duration-200 group cursor-pointer transform hover:scale-105", onClick: () => {
                                         // 跳转到库存报表页面
                                         window.location.hash = 'inventory-reports';
                                         // 触发浏览器的hashchange事件以确保页面更新
                                         window.dispatchEvent(new HashChangeEvent('hashchange'));
-                                    }, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl mb-2 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200", children: "\uD83D\uDCCB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-medium text-sm group-hover:text-white transition-colors", children: "\u5BFC\u51FA\u62A5\u8868" })] })] }) })] })] }));
+                                    }, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl mb-2 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200", children: "\uD83D\uDCCB" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-medium text-sm group-hover:text-white transition-colors", children: "\u5BFC\u51FA\u62A5\u8868" })] })] }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_ConfirmDialog__WEBPACK_IMPORTED_MODULE_4__["default"], { isOpen: showConfirmDialog, title: "\u6570\u636E\u5907\u4EFD", message: "\u786E\u5B9A\u8981\u6267\u884C\u6570\u636E\u5907\u4EFD\u5417\uFF1F\u8FD9\u53EF\u80FD\u9700\u8981\u51E0\u5206\u949F\u65F6\u95F4\u3002", confirmText: "\u5F00\u59CB\u5907\u4EFD", cancelText: "\u53D6\u6D88", variant: "warning", onConfirm: handleBackupConfirm, onCancel: () => setShowConfirmDialog(false) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_AlertDialog__WEBPACK_IMPORTED_MODULE_5__["default"], { isOpen: showAlertDialog, title: alertTitle, message: alertMessage, variant: alertVariant, onConfirm: () => setShowAlertDialog(false) })] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DashboardQuickActions);
 
@@ -55274,6 +55314,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 /* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
 /* harmony import */ var _ui_ConfirmDialog__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ui/ConfirmDialog */ "./src/components/ui/ConfirmDialog.tsx");
+/* harmony import */ var _UnitConversionSettings__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./UnitConversionSettings */ "./src/components/Inventory/UnitConversionSettings.tsx");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -55283,6 +55324,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -55304,6 +55346,12 @@ const emptyForm = {
     maxStock: 0,
     status: _types_entities__WEBPACK_IMPORTED_MODULE_3__.ProductStatus.ACTIVE
 };
+const emptyConversionSettings = {
+    enableConversion: false,
+    conversionType: 'global',
+    globalRuleId: undefined,
+    customRule: undefined
+};
 const ProductManagement = ({ className }) => {
     const [products, setProducts] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
     const [categories, setCategories] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
@@ -55313,6 +55361,7 @@ const ProductManagement = ({ className }) => {
     const [showForm, setShowForm] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
     const [editingProduct, setEditingProduct] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
     const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(emptyForm);
+    const [conversionSettings, setConversionSettings] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(emptyConversionSettings);
     const [searchTerm, setSearchTerm] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('');
     const [selectedCategory, setSelectedCategory] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('');
     const [selectedStatus, setSelectedStatus] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('');
@@ -55346,23 +55395,49 @@ const ProductManagement = ({ className }) => {
     const handleSubmit = (e) => __awaiter(void 0, void 0, void 0, function* () {
         e.preventDefault();
         try {
+            let productId;
             if (editingProduct) {
                 yield _services_business__WEBPACK_IMPORTED_MODULE_2__.productService.update(editingProduct.id, formData);
+                productId = editingProduct.id;
             }
             else {
-                yield _services_business__WEBPACK_IMPORTED_MODULE_2__.productService.create(formData);
+                const newProduct = yield _services_business__WEBPACK_IMPORTED_MODULE_2__.productService.create(formData);
+                productId = newProduct.id;
+            }
+            // 保存或更新单位换算设置
+            if (conversionSettings.enableConversion) {
+                const existingConversionSetting = yield _services_business__WEBPACK_IMPORTED_MODULE_2__.productConversionService.findByProductId(productId);
+                const conversionData = {
+                    productId,
+                    enableConversion: conversionSettings.enableConversion,
+                    conversionType: conversionSettings.conversionType,
+                    globalRuleId: conversionSettings.globalRuleId,
+                    customRule: conversionSettings.customRule,
+                    isActive: true
+                };
+                if (existingConversionSetting) {
+                    yield _services_business__WEBPACK_IMPORTED_MODULE_2__.productConversionService.update(existingConversionSetting.id, conversionData);
+                }
+                else {
+                    yield _services_business__WEBPACK_IMPORTED_MODULE_2__.productConversionService.create(conversionData);
+                }
+            }
+            else {
+                // 如果禁用换算，删除现有的换算设置
+                yield _services_business__WEBPACK_IMPORTED_MODULE_2__.productConversionService.deleteByProductId(productId);
             }
             yield loadData();
             setShowForm(false);
             setEditingProduct(null);
             setFormData(emptyForm);
+            setConversionSettings(emptyConversionSettings);
         }
         catch (err) {
             setError(editingProduct ? '更新商品失败' : '创建商品失败');
             console.error('Failed to save product:', err);
         }
     });
-    const handleEdit = (product) => {
+    const handleEdit = (product) => __awaiter(void 0, void 0, void 0, function* () {
         setEditingProduct(product);
         setFormData({
             name: product.name,
@@ -55379,8 +55454,27 @@ const ProductManagement = ({ className }) => {
             maxStock: product.maxStock,
             status: product.status
         });
+        // 加载现有的单位换算设置
+        try {
+            const existingConversionSetting = yield _services_business__WEBPACK_IMPORTED_MODULE_2__.productConversionService.findByProductId(product.id);
+            if (existingConversionSetting) {
+                setConversionSettings({
+                    enableConversion: existingConversionSetting.enableConversion,
+                    conversionType: existingConversionSetting.conversionType,
+                    globalRuleId: existingConversionSetting.globalRuleId,
+                    customRule: existingConversionSetting.customRule
+                });
+            }
+            else {
+                setConversionSettings(emptyConversionSettings);
+            }
+        }
+        catch (err) {
+            console.error('Failed to load conversion settings:', err);
+            setConversionSettings(emptyConversionSettings);
+        }
         setShowForm(true);
-    };
+    });
     const handleDelete = (id) => {
         setDeleteTargetId(id);
         setShowConfirmDialog(true);
@@ -55409,6 +55503,7 @@ const ProductManagement = ({ className }) => {
         setShowForm(false);
         setEditingProduct(null);
         setFormData(emptyForm);
+        setConversionSettings(emptyConversionSettings);
     };
     const handleInputChange = (field, value) => {
         setFormData(prev => (Object.assign(Object.assign({}, prev), { [field]: value })));
@@ -55448,7 +55543,7 @@ const ProductManagement = ({ className }) => {
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white mb-2", children: "\u5546\u54C1\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u7BA1\u7406\u5546\u54C1\u4FE1\u606F\uFF0C\u5305\u62EC\u57FA\u672C\u4FE1\u606F\u3001\u5B9A\u4EF7\u548C\u5E93\u5B58\u8BBE\u7F6E" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassButton, { variant: "primary", onClick: () => setShowForm(true), className: "self-start lg:self-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\u2795" }), "\u65B0\u589E\u5546\u54C1"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassCard, { title: "\u641C\u7D22\u548C\u7B5B\u9009", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u641C\u7D22\u5546\u54C1", type: "text", placeholder: "\u641C\u7D22\u5546\u54C1\u540D\u79F0\u3001SKU\u6216\u54C1\u724C...", value: searchTerm, onChange: (e) => setSearchTerm(e.target.value) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassSelect, { label: "\u5546\u54C1\u5206\u7C7B", value: selectedCategory, onChange: (e) => setSelectedCategory(e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u5168\u90E8\u5206\u7C7B" }), categories.map(category => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: category.id, children: category.name }, category.id)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassSelect, { label: "\u5546\u54C1\u72B6\u6001", value: selectedStatus, onChange: (e) => setSelectedStatus(e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u5168\u90E8\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.ProductStatus.ACTIVE, children: "\u6B63\u5E38" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.ProductStatus.INACTIVE, children: "\u505C\u7528" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.ProductStatus.DISCONTINUED, children: "\u505C\u4EA7" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassCard, { title: `商品列表 (${filteredProducts.length})`, children: filteredProducts.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center py-12", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl mb-4", children: "\uD83D\uDCE6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white mb-2", children: "\u6CA1\u6709\u627E\u5230\u5546\u54C1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70 mb-4", children: "\u8BF7\u8C03\u6574\u641C\u7D22\u6761\u4EF6\u6216\u6DFB\u52A0\u65B0\u5546\u54C1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassButton, { variant: "primary", onClick: () => setShowForm(true), children: "\u6DFB\u52A0\u7B2C\u4E00\u4E2A\u5546\u54C1" })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "overflow-x-auto", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", { className: "w-full", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u5546\u54C1\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "SKU" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u4EF7\u683C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u5E93\u5B58\u8303\u56F4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "text-left py-3 px-4 font-semibold text-white/90", children: "\u64CD\u4F5C" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", { children: filteredProducts.map((product) => {
                                     const category = categories.find(c => c.id === product.categoryId);
                                     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/5 hover:bg-white/5 transition-colors", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-semibold text-white", children: product.name }), product.brand && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-sm text-white/70", children: [product.brand, " ", product.model] }))] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/80 font-mono", children: product.sku }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4 text-white/80", children: (category === null || category === void 0 ? void 0 : category.name) || '未分类' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", { className: "py-3 px-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white", children: ["\u00A5", product.salePrice.toFixed(2)] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-sm text-white/70", children: ["\u6210\u672C: \u00A5", product.purchasePrice.toFixed(2)] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", { className: "py-3 px-4 text-white/80", children: [product.minStock, " - ", product.maxStock] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(product.status)}`, children: getStatusText(product.status) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "py-3 px-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleEdit(product), className: "px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors", children: "\u7F16\u8F91" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleDelete(product.id), className: "px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors", children: "\u5220\u9664" })] }) })] }, product.id));
-                                }) })] }) })) }), showForm && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white", children: editingProduct ? '编辑商品' : '新增商品' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleCancel, className: "w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white", children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", { onSubmit: handleSubmit, className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u5546\u54C1\u540D\u79F0", type: "text", placeholder: "\u8F93\u5165\u5546\u54C1\u540D\u79F0", value: formData.name, onChange: (e) => handleInputChange('name', e.target.value), required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "SKU\u7F16\u7801", type: "text", placeholder: "\u8F93\u5165SKU\u7F16\u7801", value: formData.sku, onChange: (e) => handleInputChange('sku', e.target.value), required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassSelect, { label: "\u5546\u54C1\u5206\u7C7B", value: formData.categoryId, onChange: (e) => handleInputChange('categoryId', e.target.value), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u5206\u7C7B" }), categories.map(category => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: category.id, children: category.name }, category.id)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassSelect, { label: "\u8BA1\u91CF\u5355\u4F4D", value: formData.unitId, onChange: (e) => handleInputChange('unitId', e.target.value), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u5355\u4F4D" }), units.map(unit => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: unit.id, children: unit.name }, unit.id)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u54C1\u724C", type: "text", placeholder: "\u8F93\u5165\u54C1\u724C", value: formData.brand, onChange: (e) => handleInputChange('brand', e.target.value) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u578B\u53F7\u89C4\u683C", type: "text", placeholder: "\u8F93\u5165\u578B\u53F7\u89C4\u683C", value: formData.model, onChange: (e) => handleInputChange('model', e.target.value) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u91C7\u8D2D\u4EF7", type: "number", placeholder: "0.00", value: formData.purchasePrice, onChange: (e) => handleInputChange('purchasePrice', parseFloat(e.target.value) || 0), min: "0", step: "0.01", required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u9500\u552E\u4EF7", type: "number", placeholder: "0.00", value: formData.salePrice, onChange: (e) => handleInputChange('salePrice', parseFloat(e.target.value) || 0), min: "0", step: "0.01", required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u6700\u5C0F\u5E93\u5B58", type: "number", placeholder: "0", value: formData.minStock, onChange: (e) => handleInputChange('minStock', parseInt(e.target.value) || 0), min: "0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u6700\u5927\u5E93\u5B58", type: "number", placeholder: "0", value: formData.maxStock, onChange: (e) => handleInputChange('maxStock', parseInt(e.target.value) || 0), min: "0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassSelect, { label: "\u5546\u54C1\u72B6\u6001", value: formData.status, onChange: (e) => handleInputChange('status', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.ProductStatus.ACTIVE, children: "\u6B63\u5E38" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.ProductStatus.INACTIVE, children: "\u505C\u7528" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.ProductStatus.DISCONTINUED, children: "\u505C\u4EA7" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u6761\u5F62\u7801", type: "text", placeholder: "\u8F93\u5165\u6761\u5F62\u7801", value: formData.barcode, onChange: (e) => handleInputChange('barcode', e.target.value) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u5546\u54C1\u63CF\u8FF0", placeholder: "\u8F93\u5165\u5546\u54C1\u63CF\u8FF0...", value: formData.description, onChange: (e) => handleInputChange('description', e.target.value) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-4 pt-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassButton, { type: "submit", variant: "primary", disabled: !formData.name || !formData.sku || !formData.categoryId || !formData.unitId, children: editingProduct ? '更新商品' : '创建商品' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassButton, { type: "button", variant: "secondary", onClick: handleCancel, children: "\u53D6\u6D88" })] })] })] }) })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_ConfirmDialog__WEBPACK_IMPORTED_MODULE_5__["default"], { isOpen: showConfirmDialog, title: "\u5220\u9664\u5546\u54C1", message: "\u786E\u5B9A\u8981\u5220\u9664\u8FD9\u4E2A\u5546\u54C1\u5417\uFF1F\u5220\u9664\u540E\u65E0\u6CD5\u6062\u590D\uFF01", confirmText: "\u5220\u9664", cancelText: "\u53D6\u6D88", variant: "danger", onConfirm: confirmDelete, onCancel: cancelDelete })] }));
+                                }) })] }) })) }), showForm && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card max-w-6xl w-full max-h-[90vh] overflow-y-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-2xl font-bold text-white", children: editingProduct ? '编辑商品' : '新增商品' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleCancel, className: "w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white", children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", { onSubmit: handleSubmit, className: "space-y-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassCard, { title: "\u57FA\u672C\u4FE1\u606F", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u5546\u54C1\u540D\u79F0", type: "text", placeholder: "\u8F93\u5165\u5546\u54C1\u540D\u79F0", value: formData.name, onChange: (e) => handleInputChange('name', e.target.value), required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "SKU\u7F16\u7801", type: "text", placeholder: "\u8F93\u5165SKU\u7F16\u7801", value: formData.sku, onChange: (e) => handleInputChange('sku', e.target.value), required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassSelect, { label: "\u5546\u54C1\u5206\u7C7B", value: formData.categoryId, onChange: (e) => handleInputChange('categoryId', e.target.value), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u5206\u7C7B" }), categories.map(category => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: category.id, children: category.name }, category.id)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassSelect, { label: "\u8BA1\u91CF\u5355\u4F4D", value: formData.unitId, onChange: (e) => handleInputChange('unitId', e.target.value), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u5355\u4F4D" }), units.map(unit => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: unit.id, children: unit.name }, unit.id)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u54C1\u724C", type: "text", placeholder: "\u8F93\u5165\u54C1\u724C", value: formData.brand, onChange: (e) => handleInputChange('brand', e.target.value) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u578B\u53F7\u89C4\u683C", type: "text", placeholder: "\u8F93\u5165\u578B\u53F7\u89C4\u683C", value: formData.model, onChange: (e) => handleInputChange('model', e.target.value) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u91C7\u8D2D\u4EF7", type: "number", placeholder: "0.00", value: formData.purchasePrice, onChange: (e) => handleInputChange('purchasePrice', parseFloat(e.target.value) || 0), min: "0", step: "0.01", required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u9500\u552E\u4EF7", type: "number", placeholder: "0.00", value: formData.salePrice, onChange: (e) => handleInputChange('salePrice', parseFloat(e.target.value) || 0), min: "0", step: "0.01", required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u6700\u5C0F\u5E93\u5B58", type: "number", placeholder: "0", value: formData.minStock, onChange: (e) => handleInputChange('minStock', parseInt(e.target.value) || 0), min: "0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u6700\u5927\u5E93\u5B58", type: "number", placeholder: "0", value: formData.maxStock, onChange: (e) => handleInputChange('maxStock', parseInt(e.target.value) || 0), min: "0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassSelect, { label: "\u5546\u54C1\u72B6\u6001", value: formData.status, onChange: (e) => handleInputChange('status', e.target.value), children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.ProductStatus.ACTIVE, children: "\u6B63\u5E38" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.ProductStatus.INACTIVE, children: "\u505C\u7528" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: _types_entities__WEBPACK_IMPORTED_MODULE_3__.ProductStatus.DISCONTINUED, children: "\u505C\u4EA7" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u6761\u5F62\u7801", type: "text", placeholder: "\u8F93\u5165\u6761\u5F62\u7801", value: formData.barcode, onChange: (e) => handleInputChange('barcode', e.target.value) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassInput, { label: "\u5546\u54C1\u63CF\u8FF0", placeholder: "\u8F93\u5165\u5546\u54C1\u63CF\u8FF0...", value: formData.description, onChange: (e) => handleInputChange('description', e.target.value) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_UnitConversionSettings__WEBPACK_IMPORTED_MODULE_6__["default"], { enableConversion: conversionSettings.enableConversion, conversionType: conversionSettings.conversionType, globalRuleId: conversionSettings.globalRuleId, customRule: conversionSettings.customRule, onSettingsChange: setConversionSettings }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-4 pt-6 border-t border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassButton, { type: "submit", variant: "primary", disabled: !formData.name || !formData.sku || !formData.categoryId || !formData.unitId, className: "flex-1", children: editingProduct ? '更新商品' : '创建商品' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassButton, { type: "button", variant: "secondary", onClick: handleCancel, className: "flex-1", children: "\u53D6\u6D88" })] })] })] }) })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_ConfirmDialog__WEBPACK_IMPORTED_MODULE_5__["default"], { isOpen: showConfirmDialog, title: "\u5220\u9664\u5546\u54C1", message: "\u786E\u5B9A\u8981\u5220\u9664\u8FD9\u4E2A\u5546\u54C1\u5417\uFF1F\u5220\u9664\u540E\u65E0\u6CD5\u6062\u590D\uFF01", confirmText: "\u5220\u9664", cancelText: "\u53D6\u6D88", variant: "danger", onConfirm: confirmDelete, onCancel: cancelDelete })] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductManagement);
 
@@ -56354,6 +56449,159 @@ const TransactionRecords = ({ className }) => {
 
 /***/ }),
 
+/***/ "./src/components/Inventory/UnitConversionSettings.tsx":
+/*!*************************************************************!*\
+  !*** ./src/components/Inventory/UnitConversionSettings.tsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   UnitConversionSettings: () => (/* binding */ UnitConversionSettings),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ui_FormControls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/FormControls */ "./src/components/ui/FormControls.tsx");
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/business */ "./src/services/business/index.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+const UnitConversionSettings = ({ enableConversion, conversionType, globalRuleId, customRule, onSettingsChange, className }) => {
+    const [globalRules, setGlobalRules] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [units, setUnits] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    // 本地状态管理
+    const [localSettings, setLocalSettings] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+        enableConversion,
+        conversionType,
+        globalRuleId: globalRuleId || '',
+        customRule: customRule || {
+            fromUnitId: '',
+            toUnitId: '',
+            conversionRate: 1,
+            description: ''
+        }
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        loadData();
+    }, []);
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        // 同步props到本地状态
+        setLocalSettings({
+            enableConversion,
+            conversionType,
+            globalRuleId: globalRuleId || '',
+            customRule: customRule || {
+                fromUnitId: '',
+                toUnitId: '',
+                conversionRate: 1,
+                description: ''
+            }
+        });
+    }, [enableConversion, conversionType, globalRuleId, customRule]);
+    const loadData = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            setLoading(true);
+            setError(null);
+            const [rulesData, unitsData] = yield Promise.all([
+                _services_business__WEBPACK_IMPORTED_MODULE_3__.globalConversionService.findAll(true),
+                _services_business__WEBPACK_IMPORTED_MODULE_3__.unitService.findAll()
+            ]);
+            setGlobalRules(rulesData);
+            setUnits(unitsData);
+        }
+        catch (err) {
+            setError('加载数据失败');
+            console.error('Failed to load conversion data:', err);
+        }
+        finally {
+            setLoading(false);
+        }
+    });
+    const handleSettingsChange = (newSettings) => {
+        const updatedSettings = Object.assign(Object.assign({}, localSettings), newSettings);
+        setLocalSettings(updatedSettings);
+        // 构建回调参数
+        const callbackData = {
+            enableConversion: updatedSettings.enableConversion,
+            conversionType: updatedSettings.conversionType,
+            globalRuleId: updatedSettings.conversionType === 'global' ? updatedSettings.globalRuleId : undefined,
+            customRule: updatedSettings.conversionType === 'custom' ? updatedSettings.customRule : undefined
+        };
+        onSettingsChange(callbackData);
+    };
+    const handleEnableToggle = (enabled) => {
+        handleSettingsChange({ enableConversion: enabled });
+    };
+    const handleTypeChange = (type) => {
+        handleSettingsChange({ conversionType: type });
+    };
+    const handleGlobalRuleChange = (ruleId) => {
+        handleSettingsChange({ globalRuleId: ruleId });
+    };
+    const handleCustomRuleChange = (field, value) => {
+        const updatedCustomRule = Object.assign(Object.assign({}, localSettings.customRule), { [field]: value });
+        // 自动生成描述
+        if (field === 'fromUnitId' || field === 'toUnitId' || field === 'conversionRate') {
+            const fromUnit = units.find(u => u.id === updatedCustomRule.fromUnitId);
+            const toUnit = units.find(u => u.id === updatedCustomRule.toUnitId);
+            if (fromUnit && toUnit && updatedCustomRule.conversionRate) {
+                updatedCustomRule.description = `1${fromUnit.symbol} = ${updatedCustomRule.conversionRate}${toUnit.symbol}`;
+            }
+        }
+        handleSettingsChange({ customRule: updatedCustomRule });
+    };
+    const getPreviewText = () => {
+        if (!localSettings.enableConversion) {
+            return '换算已禁用';
+        }
+        if (localSettings.conversionType === 'global') {
+            const rule = globalRules.find(r => r.id === localSettings.globalRuleId);
+            return rule ? rule.description : '请选择全局规则';
+        }
+        else {
+            const { customRule } = localSettings;
+            const fromUnit = units.find(u => u.id === customRule.fromUnitId);
+            const toUnit = units.find(u => u.id === customRule.toUnitId);
+            if (fromUnit && toUnit && customRule.conversionRate) {
+                return `1${fromUnit.symbol} = ${customRule.conversionRate}${toUnit.symbol}`;
+            }
+            return '请完成自定义规则设置';
+        }
+    };
+    if (loading) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { title: "\u5355\u4F4D\u6362\u7B97\u8BBE\u7F6E", className: className, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center py-8", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/80", children: "\u6B63\u5728\u52A0\u8F7D..." })] }) }) }));
+    }
+    if (error) {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { title: "\u5355\u4F4D\u6362\u7B97\u8BBE\u7F6E", className: className, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center py-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-red-400 mb-2", children: ["\u26A0\uFE0F ", error] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: loadData, className: "px-4 py-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors", children: "\u91CD\u65B0\u52A0\u8F7D" })] }) }));
+    }
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { title: "\u5355\u4F4D\u6362\u7B97\u8BBE\u7F6E", className: className, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-white font-medium", children: "\u542F\u7528\u5355\u4F4D\u6362\u7B97" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-sm text-white/70", children: "\u4E3A\u8BE5\u5546\u54C1\u542F\u7528\u5355\u4F4D\u6362\u7B97\u529F\u80FD" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", { className: "relative inline-flex items-center cursor-pointer", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", checked: localSettings.enableConversion, onChange: (e) => handleEnableToggle(e.target.checked), className: "sr-only" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `w-11 h-6 rounded-full transition-colors ${localSettings.enableConversion
+                                        ? 'bg-gradient-to-r from-blue-500 to-purple-500'
+                                        : 'bg-white/20'}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `w-5 h-5 bg-white rounded-full shadow-lg transform transition-transform ${localSettings.enableConversion ? 'translate-x-5' : 'translate-x-0'} mt-0.5 ml-0.5` }) })] })] }), localSettings.enableConversion && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4 pt-4 border-t border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => handleTypeChange('global'), className: `p-3 rounded-lg border transition-all ${localSettings.conversionType === 'global'
+                                        ? 'bg-blue-500/20 border-blue-400/50 text-blue-300'
+                                        : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium", children: "\u5168\u5C40\u6362\u7B97" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs opacity-80", children: "\u4F7F\u7528\u7CFB\u7EDF\u9884\u8BBE\u89C4\u5219" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => handleTypeChange('custom'), className: `p-3 rounded-lg border transition-all ${localSettings.conversionType === 'custom'
+                                        ? 'bg-purple-500/20 border-purple-400/50 text-purple-300'
+                                        : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium", children: "\u81EA\u5B9A\u4E49\u6362\u7B97" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs opacity-80", children: "\u8BBE\u7F6E\u4E13\u5C5E\u6362\u7B97\u89C4\u5219" })] })] }), localSettings.conversionType === 'global' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { label: "\u9009\u62E9\u5168\u5C40\u89C4\u5219", value: localSettings.globalRuleId, onChange: (e) => handleGlobalRuleChange(e.target.value), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u5168\u5C40\u6362\u7B97\u89C4\u5219" }), globalRules.map((rule) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: rule.id, children: [rule.name, " - ", rule.description] }, rule.id)))] })), localSettings.conversionType === 'custom' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { label: "\u6E90\u5355\u4F4D", value: localSettings.customRule.fromUnitId, onChange: (e) => handleCustomRuleChange('fromUnitId', e.target.value), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u6E90\u5355\u4F4D" }), units.map((unit) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: unit.id, children: [unit.name, " (", unit.symbol, ")"] }, unit.id)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassSelect, { label: "\u76EE\u6807\u5355\u4F4D", value: localSettings.customRule.toUnitId, onChange: (e) => handleCustomRuleChange('toUnitId', e.target.value), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u76EE\u6807\u5355\u4F4D" }), units.map((unit) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: unit.id, children: [unit.name, " (", unit.symbol, ")"] }, unit.id)))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassInput, { label: "\u6362\u7B97\u6BD4\u7387", type: "number", placeholder: "1.0", value: localSettings.customRule.conversionRate, onChange: (e) => handleCustomRuleChange('conversionRate', parseFloat(e.target.value) || 1), min: "0", step: "0.01", required: true })] })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mt-4 p-3 bg-white/5 rounded-lg border border-white/10", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/70 mb-1", children: "\u6362\u7B97\u9884\u89C8" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white font-medium", children: getPreviewText() })] })] }))] }) }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UnitConversionSettings);
+
+
+/***/ }),
+
 /***/ "./src/components/Inventory/WarehouseCard.tsx":
 /*!****************************************************!*\
   !*** ./src/components/Inventory/WarehouseCard.tsx ***!
@@ -56487,10 +56735,10 @@ const WarehouseDetailModal = ({ warehouse, isOpen, onClose }) => {
             return '库存正常';
         }
     };
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "fixed inset-0 z-50 overflow-y-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black bg-opacity-50 transition-opacity", onClick: onClose }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex min-h-full items-center justify-center p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-6 border-b border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-2xl font-bold text-gray-900", children: warehouse.warehouseName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-600", children: warehouse.warehouseCode })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `px-3 py-1 rounded-full text-sm font-medium ${getStockStatusStyle()}`, children: getStatusText() })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: onClose, className: "text-gray-400 hover:text-gray-600 transition-colors", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-6 h-6", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6 overflow-y-auto max-h-[calc(90vh-120px)]", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-gray-900 mb-3", children: "\u4ED3\u5E93\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600 mb-1", children: "\u4ED3\u5E93\u540D\u79F0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-gray-900", children: warehouse.warehouseName })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600 mb-1", children: "\u4ED3\u5E93\u7F16\u7801" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-gray-900", children: warehouse.warehouseCode })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600 mb-1", children: "\u63CF\u8FF0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-gray-900", children: warehouse.description || '暂无描述' })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-gray-900 mb-3", children: "\u5E93\u5B58\u7EDF\u8BA1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-blue-600 mb-1", children: warehouse.totalProducts }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u5546\u54C1\u79CD\u7C7B" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-green-600 mb-1", children: formatCurrency(warehouse.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u603B\u4EF7\u503C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-yellow-600 mb-1", children: warehouse.lowStockCount }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u9884\u8B66\u5546\u54C1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-red-600 mb-1", children: warehouse.outOfStockCount }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-gray-600", children: "\u7F3A\u8D27\u5546\u54C1" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-gray-900", children: "\u5546\u54C1\u5217\u8868" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-sm text-gray-600", children: ["\u5171 ", warehouse.products.length, " \u4E2A\u5546\u54C1"] })] }), warehouse.products.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-8 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-gray-400 text-4xl mb-4", children: "\uD83D\uDCE6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-gray-900 mb-2", children: "\u6682\u65E0\u5546\u54C1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-gray-600", children: "\u8BE5\u4ED3\u5E93\u6682\u672A\u5B58\u653E\u4EFB\u4F55\u5546\u54C1" })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-1 lg:grid-cols-2 gap-4", children: warehouse.products.map(product => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ProductItem__WEBPACK_IMPORTED_MODULE_1__["default"], { product: product, compact: false, onClick: () => {
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "fixed inset-0 z-50 overflow-y-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black bg-opacity-50 transition-opacity", onClick: onClose }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex min-h-full items-center justify-center p-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between p-6 border-b border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-2xl font-bold text-white", children: warehouse.warehouseName }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: warehouse.warehouseCode })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `px-3 py-1 rounded-full text-sm font-medium ${getStockStatusStyle()}`, children: getStatusText() })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: onClose, className: "text-white/60 hover:text-white/80 transition-colors", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-6 h-6", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) }) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-6 overflow-y-auto max-h-[calc(90vh-120px)]", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white mb-3", children: "\u4ED3\u5E93\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/60 mb-1", children: "\u4ED3\u5E93\u540D\u79F0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-white", children: warehouse.warehouseName })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/60 mb-1", children: "\u4ED3\u5E93\u7F16\u7801" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-white", children: warehouse.warehouseCode })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 md:col-span-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/60 mb-1", children: "\u63CF\u8FF0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "font-medium text-white", children: warehouse.description || '暂无描述' })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white mb-3", children: "\u5E93\u5B58\u7EDF\u8BA1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-blue-600 mb-1", children: warehouse.totalProducts }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/60", children: "\u5546\u54C1\u79CD\u7C7B" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-green-400 mb-1", children: formatCurrency(warehouse.totalValue) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/60", children: "\u603B\u4EF7\u503C" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-yellow-400 mb-1", children: warehouse.lowStockCount }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/60", children: "\u9884\u8B66\u5546\u54C1" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-red-400 mb-1", children: warehouse.outOfStockCount }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/60", children: "\u7F3A\u8D27\u5546\u54C1" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-lg font-semibold text-white", children: "\u5546\u54C1\u5217\u8868" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", { className: "text-sm text-white/60", children: ["\u5171 ", warehouse.products.length, " \u4E2A\u5546\u54C1"] })] }), warehouse.products.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-8 text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/40 text-4xl mb-4", children: "\uD83D\uDCE6" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-medium text-white mb-2", children: "\u6682\u65E0\u5546\u54C1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/60", children: "\u8BE5\u4ED3\u5E93\u6682\u672A\u5B58\u653E\u4EFB\u4F55\u5546\u54C1" })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "grid grid-cols-1 lg:grid-cols-2 gap-4", children: warehouse.products.map(product => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ProductItem__WEBPACK_IMPORTED_MODULE_1__["default"], { product: product, compact: false, onClick: () => {
                                                     // TODO: 可以添加商品详情查看逻辑
                                                     console.log('查看商品详情:', product.productName);
-                                                } }, product.productId))) }))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-end gap-3 p-6 border-t border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: onClose, className: "px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors", children: "\u5173\u95ED" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors", onClick: () => {
+                                                } }, product.productId))) }))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-end gap-3 p-6 border-t border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: onClose, className: "px-4 py-2 text-white/80 bg-white/10 rounded-lg hover:bg-white/20 transition-colors border border-white/20", children: "\u5173\u95ED" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors", onClick: () => {
                                         // TODO: 可以添加编辑仓库信息的逻辑
                                         console.log('编辑仓库:', warehouse.warehouseName);
                                     }, children: "\u7F16\u8F91\u4ED3\u5E93" })] })] }) })] }));
@@ -57464,8 +57712,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _System_PermissionManagement__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./System/PermissionManagement */ "./src/components/System/PermissionManagement.tsx");
 /* harmony import */ var _System_SystemSettings__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./System/SystemSettings */ "./src/components/System/SystemSettings.tsx");
 /* harmony import */ var _System_OperationLogs__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./System/OperationLogs */ "./src/components/System/OperationLogs.tsx");
-Object(function webpackMissingModule() { var e = new Error("Cannot find module './test/ConfirmDialogTest'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-
 
 
 
@@ -57529,7 +57775,7 @@ const pageComponents = {
     'financial-reports': _Reports_FinancialReports__WEBPACK_IMPORTED_MODULE_23__["default"],
     'financial': _Financial_Financial__WEBPACK_IMPORTED_MODULE_25__["default"],
     // 'system-management': SystemManagement
-    'test-confirm-dialog': Object(function webpackMissingModule() { var e = new Error("Cannot find module './test/ConfirmDialogTest'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+    // 'test-confirm-dialog': ConfirmDialogTest - removed test component
 };
 // 开发中的页面组件
 const DevelopmentPage = ({ title, description }) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "development-page", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "development-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "development-icon", children: "\uD83D\uDEA7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "development-title", children: title }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "development-description", children: description }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "development-info", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "info-item", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-label", children: "\u5F00\u53D1\u72B6\u6001:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-value", children: "\u89C4\u5212\u4E2D" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "info-item", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-label", children: "\u9884\u8BA1\u5B8C\u6210:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "info-value", children: "2024\u5E741\u6708" })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", className: "back-to-dashboard", onClick: () => window.location.hash = 'dashboard', children: "\u8FD4\u56DE\u4EEA\u8868\u76D8" })] }) }));
@@ -58635,21 +58881,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ui_card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/card */ "./src/components/ui/card.tsx");
+/* harmony import */ var _services_business_inventoryEntryRegistrationService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/business/inventoryEntryRegistrationService */ "./src/services/business/inventoryEntryRegistrationService.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 
 
+
+// InventoryItem 接口已从服务中导入为 InventoryEntryItem
 const displayModes = [
     { type: 'amount', label: '金额' },
     { type: 'quantity', label: '数量' },
     { type: 'converted', label: '换算数量' }
 ];
 const InventoryEntryRegistration = () => {
-    const [timeRange, setTimeRange] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
-        startDate: new Date().toISOString().split('T')[0],
-        endDate: new Date().toISOString().split('T')[0]
-    });
+    // 获取当前月份的开始和结束日期
+    const getCurrentMonthRange = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const startDate = new Date(year, month, 1).toISOString().split('T')[0];
+        const endDate = new Date(year, month + 1, 0).toISOString().split('T')[0];
+        return { startDate, endDate };
+    };
+    const [timeRange, setTimeRange] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(getCurrentMonthRange());
     const [displayMode, setDisplayMode] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('quantity');
     const [selectedWeek, setSelectedWeek] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [data, setData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
     // 获取当前月份的所有日期
     const monthDates = (0,react__WEBPACK_IMPORTED_MODULE_1__.useMemo)(() => {
         const currentDate = new Date(timeRange.startDate);
@@ -58663,79 +58929,48 @@ const InventoryEntryRegistration = () => {
     }, [timeRange.startDate]);
     // 生成周快捷选择
     const weekRanges = (0,react__WEBPACK_IMPORTED_MODULE_1__.useMemo)(() => {
-        const weeks = [];
-        const currentDate = new Date(timeRange.startDate);
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth();
-        const firstDay = new Date(year, month, 1);
-        for (let week = 1; week <= 5; week++) {
-            const startDay = (week - 1) * 7 + 1;
-            const endDay = Math.min(week * 7, new Date(year, month + 1, 0).getDate());
-            if (startDay <= new Date(year, month + 1, 0).getDate()) {
-                weeks.push({
-                    week,
-                    startDate: new Date(year, month, startDay).toISOString().split('T')[0],
-                    endDate: new Date(year, month, endDay).toISOString().split('T')[0],
-                    label: `第${week}周`
-                });
-            }
-        }
-        return weeks;
+        return _services_business_inventoryEntryRegistrationService__WEBPACK_IMPORTED_MODULE_3__.inventoryEntryRegistrationService.getMonthlyWeekRanges(timeRange.startDate);
     }, [timeRange.startDate]);
-    // 模拟数据
-    const mockData = [
-        {
-            id: '1',
-            primaryCategory: '食品',
-            secondaryCategory: '蔬菜',
-            name: '白菜',
-            totalOut: 120,
-            dailyData: Object.fromEntries(monthDates.map(date => [
-                date,
-                {
-                    stockIn: Math.floor(Math.random() * 20),
-                    morning: Math.floor(Math.random() * 10),
-                    noon: Math.floor(Math.random() * 15),
-                    evening: Math.floor(Math.random() * 8),
-                    stock: Math.floor(Math.random() * 50)
-                }
-            ]))
-        },
-        {
-            id: '2',
-            primaryCategory: '食品',
-            secondaryCategory: '水果',
-            name: '苹果',
-            totalOut: 85,
-            dailyData: Object.fromEntries(monthDates.map(date => [
-                date,
-                {
-                    stockIn: Math.floor(Math.random() * 25),
-                    morning: Math.floor(Math.random() * 12),
-                    noon: Math.floor(Math.random() * 18),
-                    evening: Math.floor(Math.random() * 10),
-                    stock: Math.floor(Math.random() * 60)
-                }
-            ]))
-        },
-        {
-            id: '3',
-            primaryCategory: '用品',
-            secondaryCategory: '清洁用品',
-            name: '洗涤剂',
-            totalOut: 30,
-            dailyData: Object.fromEntries(monthDates.map(date => [
-                date,
-                {
-                    stockIn: Math.floor(Math.random() * 5),
-                    morning: Math.floor(Math.random() * 3),
-                    noon: Math.floor(Math.random() * 5),
-                    evening: Math.floor(Math.random() * 2),
-                    stock: Math.floor(Math.random() * 20)
-                }
-            ]))
+    // 获取数据
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        const fetchData = () => __awaiter(void 0, void 0, void 0, function* () {
+            setLoading(true);
+            try {
+                const result = yield _services_business_inventoryEntryRegistrationService__WEBPACK_IMPORTED_MODULE_3__.inventoryEntryRegistrationService.getInventoryEntryData({
+                    startDate: timeRange.startDate,
+                    endDate: timeRange.endDate,
+                    displayMode
+                });
+                setData(result);
+            }
+            catch (error) {
+                console.error('获取出入库登记数据失败:', error);
+                // 可以在这里添加错误提示
+            }
+            finally {
+                setLoading(false);
+            }
+        });
+        fetchData();
+    }, [timeRange, displayMode]);
+    // 导出数据功能
+    const handleExportData = () => {
+        try {
+            const csvData = _services_business_inventoryEntryRegistrationService__WEBPACK_IMPORTED_MODULE_3__.inventoryEntryRegistrationService.exportToCSV(data, filteredDates);
+            const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `出入库登记_${timeRange.startDate}_${timeRange.endDate}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
-    ];
+        catch (error) {
+            console.error('导出数据失败:', error);
+        }
+    };
     const handleWeekSelect = (week) => {
         const weekRange = weekRanges.find(w => w.week === week);
         if (weekRange) {
@@ -58746,17 +58981,23 @@ const InventoryEntryRegistration = () => {
             setSelectedWeek(week);
         }
     };
+    const handleFullMonthSelect = () => {
+        setTimeRange(getCurrentMonthRange());
+        setSelectedWeek(null);
+    };
     const filteredDates = monthDates.filter(date => {
         return date >= timeRange.startDate && date <= timeRange.endDate;
     });
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-2xl font-bold text-white", children: "\u51FA\u5165\u5E93\u767B\u8BB0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/70", children: "\u6570\u636E\u7EDF\u8BA1\u548C\u8DDF\u8E2A\u7BA1\u7406" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_card__WEBPACK_IMPORTED_MODULE_2__.Card, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex flex-wrap items-center gap-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-sm font-medium text-white", children: "\u65F6\u95F4\u8303\u56F4:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "date", value: timeRange.startDate, onChange: (e) => setTimeRange(prev => (Object.assign(Object.assign({}, prev), { startDate: e.target.value }))), className: "glass-input px-3 py-1.5 text-sm" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/60", children: "\u81F3" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "date", value: timeRange.endDate, onChange: (e) => setTimeRange(prev => (Object.assign(Object.assign({}, prev), { endDate: e.target.value }))), className: "glass-input px-3 py-1.5 text-sm" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-wrap items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm font-medium text-white mr-2", children: "\u5FEB\u6377\u9009\u62E9:" }), weekRanges.map(({ week, label }) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleWeekSelect(week), className: `glass-button px-3 py-1.5 text-sm font-medium ${selectedWeek === week
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-2xl font-bold text-white", children: "\u51FA\u5165\u5E93\u767B\u8BB0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm text-white/70", children: "\u6570\u636E\u7EDF\u8BA1\u548C\u8DDF\u8E2A\u7BA1\u7406" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_card__WEBPACK_IMPORTED_MODULE_2__.Card, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex flex-wrap items-center gap-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-sm font-medium text-white", children: "\u65F6\u95F4\u8303\u56F4:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "date", value: timeRange.startDate, onChange: (e) => setTimeRange(prev => (Object.assign(Object.assign({}, prev), { startDate: e.target.value }))), className: "glass-input px-3 py-1.5 text-sm" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-white/60", children: "\u81F3" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "date", value: timeRange.endDate, onChange: (e) => setTimeRange(prev => (Object.assign(Object.assign({}, prev), { endDate: e.target.value }))), className: "glass-input px-3 py-1.5 text-sm" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-wrap items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm font-medium text-white mr-2", children: "\u5FEB\u6377\u9009\u62E9:" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: handleFullMonthSelect, className: `glass-button px-3 py-1.5 text-sm font-medium ${selectedWeek === null
+                                        ? 'bg-blue-500/30 border-blue-400/50'
+                                        : ''}`, children: "\u5168\u6708" }), weekRanges.map(({ week, label }) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleWeekSelect(week), className: `glass-button px-3 py-1.5 text-sm font-medium ${selectedWeek === week
                                         ? 'bg-blue-500/30 border-blue-400/50'
                                         : ''}`, children: label }, week)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-wrap items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm font-medium text-white mr-2", children: "\u663E\u793A\u6A21\u5F0F:" }), displayModes.map(mode => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => setDisplayMode(mode.type), className: `glass-button px-3 py-1.5 text-sm font-medium ${displayMode === mode.type
                                         ? 'bg-green-500/30 border-green-400/50'
-                                        : ''}`, children: mode.label }, mode.type)))] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_card__WEBPACK_IMPORTED_MODULE_2__.Card, { className: "overflow-hidden", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "overflow-x-auto", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", { className: "w-full", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("thead", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "bg-white/10 border-b border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { rowSpan: 2, className: "px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20", children: "\u5E8F\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { rowSpan: 2, className: "px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20", children: "\u4E00\u7EA7\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { rowSpan: 2, className: "px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20", children: "\u4E8C\u7EA7\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { rowSpan: 2, className: "px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20", children: "\u7269\u54C1\u540D\u79F0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { rowSpan: 2, className: "px-4 py-3 text-center text-sm font-semibold text-white border-r border-white/20", children: "\u603B\u51FA\u5E93" }), filteredDates.map(date => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("th", { colSpan: 5, className: "px-2 py-3 text-center text-xs font-semibold text-white border-r border-white/20", children: [new Date(date).getDate(), "\u65E5"] }, date)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", { className: "bg-white/15 border-b border-white/20", children: filteredDates.map(date => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]", children: "\u5165\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]", children: "\u65E9" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]", children: "\u4E2D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]", children: "\u665A" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-1 py-2 text-center text-xs font-medium text-white border-r border-white/20 min-w-[60px]", children: "\u5E93\u5B58" })] }, date))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", { children: mockData.map((item, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/10 hover:bg-white/5 transition-colors", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-sm text-white/90 border-r border-white/10", children: index + 1 }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-sm text-white/90 border-r border-white/10", children: item.primaryCategory }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-sm text-white/90 border-r border-white/10", children: item.secondaryCategory }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-sm text-white/90 border-r border-white/10", children: item.name }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-sm text-white/90 text-center border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-accent", children: item.totalOut }) }), filteredDates.map(date => {
+                                        : ''}`, children: mode.label }, mode.type)))] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_card__WEBPACK_IMPORTED_MODULE_2__.Card, { className: "overflow-hidden", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "overflow-x-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", { className: "w-full min-w-max", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("thead", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "bg-white/10 border-b border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { rowSpan: 2, className: "px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20", children: "\u5E8F\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { rowSpan: 2, className: "px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20", children: "\u4E00\u7EA7\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { rowSpan: 2, className: "px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20", children: "\u4E8C\u7EA7\u5206\u7C7B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { rowSpan: 2, className: "px-4 py-3 text-left text-sm font-semibold text-white border-r border-white/20", children: "\u7269\u54C1\u540D\u79F0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { rowSpan: 2, className: "px-4 py-3 text-center text-sm font-semibold text-white border-r border-white/20", children: "\u603B\u51FA\u5E93" }), filteredDates.map(date => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("th", { colSpan: 5, className: "px-2 py-3 text-center text-xs font-semibold text-white border-r border-white/20", children: [new Date(date).getDate(), "\u65E5"] }, date)))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", { className: "bg-white/15 border-b border-white/20", children: filteredDates.map(date => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]", children: "\u5165\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]", children: "\u65E9" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]", children: "\u4E2D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-1 py-2 text-center text-xs font-medium text-white border-r border-white/10 min-w-[60px]", children: "\u665A" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", { className: "px-1 py-2 text-center text-xs font-medium text-white border-r border-white/20 min-w-[60px]", children: "\u5E93\u5B58" })] }, date))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", { children: loading ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { colSpan: 5 + filteredDates.length * 5, className: "px-4 py-8 text-center text-white/60", children: "\u52A0\u8F7D\u4E2D..." }) })) : data.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { colSpan: 5 + filteredDates.length * 5, className: "px-4 py-8 text-center text-white/60", children: "\u6682\u65E0\u6570\u636E" }) })) : (data.map((item, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", { className: "border-b border-white/10 hover:bg-white/5 transition-colors", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-sm text-white/90 border-r border-white/10", children: index + 1 }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-sm text-white/90 border-r border-white/10", children: item.primaryCategory }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-sm text-white/90 border-r border-white/10", children: item.secondaryCategory }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-sm text-white/90 border-r border-white/10", children: item.name }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-4 py-3 text-sm text-white/90 text-center border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-accent", children: item.totalOut }) }), filteredDates.map(date => {
                                             const dayData = item.dailyData[date];
-                                            return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-1 py-3 text-xs text-white/80 text-center border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-positive font-medium", children: (dayData === null || dayData === void 0 ? void 0 : dayData.stockIn) || 0 }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-1 py-3 text-xs text-white/80 text-center border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-negative", children: (dayData === null || dayData === void 0 ? void 0 : dayData.morning) || 0 }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-1 py-3 text-xs text-white/80 text-center border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-negative", children: (dayData === null || dayData === void 0 ? void 0 : dayData.noon) || 0 }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-1 py-3 text-xs text-white/80 text-center border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-negative", children: (dayData === null || dayData === void 0 ? void 0 : dayData.evening) || 0 }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-1 py-3 text-xs text-white/80 text-center border-r border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-neutral font-medium", children: (dayData === null || dayData === void 0 ? void 0 : dayData.stock) || 0 }) })] }, date));
-                                        })] }, item.id))) })] }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-sm text-white/60", children: ["\u663E\u793A ", mockData.length, " \u6761\u8BB0\u5F55\uFF0C\u65F6\u95F4\u8303\u56F4\uFF1A", timeRange.startDate, " \u81F3 ", timeRange.endDate] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "glass-button px-4 py-2 text-sm", children: "\u5BFC\u51FA\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "glass-button px-4 py-2 text-sm bg-blue-500/20 border-blue-400/30 hover:bg-blue-500/30", children: "\u6253\u5370\u62A5\u8868" })] })] })] }));
+                                            return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-1 py-3 text-xs text-white/80 text-center border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-positive font-medium", children: (dayData === null || dayData === void 0 ? void 0 : dayData.stockIn) || 0 }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-1 py-3 text-xs text-white/80 text-center border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-warning", children: (dayData === null || dayData === void 0 ? void 0 : dayData.morning) || 0 }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-1 py-3 text-xs text-white/80 text-center border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-warning", children: (dayData === null || dayData === void 0 ? void 0 : dayData.noon) || 0 }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-1 py-3 text-xs text-white/80 text-center border-r border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-warning", children: (dayData === null || dayData === void 0 ? void 0 : dayData.evening) || 0 }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", { className: "px-1 py-3 text-xs text-white/80 text-center border-r border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "financial-value-neutral font-medium", children: (dayData === null || dayData === void 0 ? void 0 : dayData.stock) || 0 }) })] }, date));
+                                        })] }, item.id)))) })] }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex justify-between items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-sm text-white/60", children: ["\u663E\u793A ", data.length, " \u6761\u8BB0\u5F55\uFF0C\u65F6\u95F4\u8303\u56F4\uFF1A", timeRange.startDate, " \u81F3 ", timeRange.endDate] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "glass-button px-4 py-2 text-sm", onClick: handleExportData, disabled: loading || data.length === 0, children: "\u5BFC\u51FA\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "glass-button px-4 py-2 text-sm bg-blue-500/20 border-blue-400/30 hover:bg-blue-500/30", onClick: () => window.print(), children: "\u6253\u5370\u62A5\u8868" })] })] })] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InventoryEntryRegistration);
 
@@ -60986,17 +61227,21 @@ const SystemSettings = ({ className }) => {
         });
         setShowUnitForm(true);
     };
-    const handleDeleteUnit = (unitId) => {
-        showConfirm('确定要删除这个单位吗？', () => __awaiter(void 0, void 0, void 0, function* () {
-            try {
-                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.unitService.delete(unitId);
-                yield loadUnits();
-            }
-            catch (error) {
-                showAlert('删除失败', error instanceof Error ? error.message : '删除单位失败', 'error');
-            }
-        }));
-    };
+    const handleDeleteUnit = (unitId) => __awaiter(void 0, void 0, void 0, function* () {
+        return new Promise((resolve) => {
+            showConfirm('确定要删除这个单位吗？', () => __awaiter(void 0, void 0, void 0, function* () {
+                try {
+                    yield _services_business__WEBPACK_IMPORTED_MODULE_3__.unitService.delete(unitId);
+                    yield loadUnits();
+                    resolve();
+                }
+                catch (error) {
+                    showAlert('删除失败', error instanceof Error ? error.message : '删除单位失败', 'error');
+                    resolve();
+                }
+            }));
+        });
+    });
     // =============== 换算规则管理 ===============
     const loadConversionRules = () => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -61057,17 +61302,21 @@ const SystemSettings = ({ className }) => {
         });
         setShowConversionForm(true);
     };
-    const handleDeleteConversion = (ruleId) => {
-        showConfirm('确定要删除这个换算规则吗？', () => __awaiter(void 0, void 0, void 0, function* () {
-            try {
-                yield _services_business__WEBPACK_IMPORTED_MODULE_3__.globalConversionService.delete(ruleId);
-                yield loadConversionRules();
-            }
-            catch (error) {
-                showAlert('删除失败', error instanceof Error ? error.message : '删除换算规则失败', 'error');
-            }
-        }));
-    };
+    const handleDeleteConversion = (ruleId) => __awaiter(void 0, void 0, void 0, function* () {
+        return new Promise((resolve) => {
+            showConfirm('确定要删除这个换算规则吗？', () => __awaiter(void 0, void 0, void 0, function* () {
+                try {
+                    yield _services_business__WEBPACK_IMPORTED_MODULE_3__.globalConversionService.delete(ruleId);
+                    yield loadConversionRules();
+                    resolve();
+                }
+                catch (error) {
+                    showAlert('删除失败', error instanceof Error ? error.message : '删除换算规则失败', 'error');
+                    resolve();
+                }
+            }));
+        });
+    });
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white", children: "\u7CFB\u7EDF\u8BBE\u7F6E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "mt-1 text-white/80", children: "\u914D\u7F6E\u7CFB\u7EDF\u53C2\u6570\u548C\u4E1A\u52A1\u89C4\u5219" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassButton, { onClick: resetSettings, variant: "secondary", disabled: loading, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDD04" }), "\u91CD\u7F6E"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassButton, { onClick: saveSettings, variant: "primary", disabled: loading || !hasChanges, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83D\uDCBE" }), loading ? '保存中...' : '保存设置'] })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_2__.GlassCard, { className: "p-0", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex border-b border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('basic'), className: `flex-1 px-4 py-4 text-sm font-medium transition-colors ${activeTab === 'basic'
                                 ? 'text-white bg-white/10 border-b-2 border-blue-400'
                                 : 'text-white/70 hover:text-white hover:bg-white/5'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83C\uDFE2" }), "\u57FA\u672C\u914D\u7F6E"] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { type: "button", onClick: () => setActiveTab('business'), className: `flex-1 px-4 py-4 text-sm font-medium transition-colors ${activeTab === 'business'
@@ -61456,6 +61705,75 @@ const ThemeSwitcher = ({ className }) => {
                                 : 'text-white/80 hover:text-white'}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "w-4 h-4 rounded-full border border-white/30", style: { background: theme.preview } }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "flex-1", children: theme.displayName }), currentTheme === theme.name && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-xs opacity-70", children: "\u2713" }))] }, theme.name))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mt-3 pt-2 border-t border-white/10", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs text-white/50 px-3 py-1", children: "\u4E3B\u9898\u8BBE\u7F6E\u5DF2\u81EA\u52A8\u4FDD\u5B58" }) })] }))] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ThemeSwitcher);
+
+
+/***/ }),
+
+/***/ "./src/components/providers/GlobalDialogProvider.tsx":
+/*!***********************************************************!*\
+  !*** ./src/components/providers/GlobalDialogProvider.tsx ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   GlobalDialogProvider: () => (/* binding */ GlobalDialogProvider),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _services_dialogService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/dialogService */ "./src/services/dialogService.ts");
+/* harmony import */ var _ui_ConfirmDialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/ConfirmDialog */ "./src/components/ui/ConfirmDialog.tsx");
+/* harmony import */ var _ui_AlertDialog__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ui/AlertDialog */ "./src/components/ui/AlertDialog.tsx");
+
+
+
+
+
+const GlobalDialogProvider = ({ children }) => {
+    const [confirmState, setConfirmState] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+        isOpen: false,
+        message: '',
+        onConfirm: () => { },
+        onCancel: () => { }
+    });
+    const [alertState, setAlertState] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+        isOpen: false,
+        title: '',
+        message: '',
+        variant: 'info'
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        // 注册确认对话框回调
+        _services_dialogService__WEBPACK_IMPORTED_MODULE_2__.dialogService.registerConfirm((message, onConfirm, onCancel) => {
+            setConfirmState({
+                isOpen: true,
+                message,
+                onConfirm: () => {
+                    onConfirm();
+                    setConfirmState(prev => (Object.assign(Object.assign({}, prev), { isOpen: false })));
+                },
+                onCancel: () => {
+                    onCancel === null || onCancel === void 0 ? void 0 : onCancel();
+                    setConfirmState(prev => (Object.assign(Object.assign({}, prev), { isOpen: false })));
+                }
+            });
+        });
+        // 注册警告对话框回调
+        _services_dialogService__WEBPACK_IMPORTED_MODULE_2__.dialogService.registerAlert((title, message, variant = 'info') => {
+            setAlertState({
+                isOpen: true,
+                title,
+                message,
+                variant
+            });
+        });
+    }, []);
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [children, (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_ConfirmDialog__WEBPACK_IMPORTED_MODULE_3__["default"], { isOpen: confirmState.isOpen, title: "\u786E\u8BA4\u64CD\u4F5C", message: confirmState.message, confirmText: "\u786E\u5B9A", cancelText: "\u53D6\u6D88", variant: "warning", onConfirm: confirmState.onConfirm, onCancel: confirmState.onCancel }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_AlertDialog__WEBPACK_IMPORTED_MODULE_4__["default"], { isOpen: alertState.isOpen, title: alertState.title, message: alertState.message, variant: alertState.variant, onConfirm: () => setAlertState(prev => (Object.assign(Object.assign({}, prev), { isOpen: false }))) })] }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GlobalDialogProvider);
 
 
 /***/ }),
@@ -66295,6 +66613,240 @@ const inventoryCardService = new InventoryCardService();
 
 /***/ }),
 
+/***/ "./src/services/business/inventoryEntryRegistrationService.ts":
+/*!********************************************************************!*\
+  !*** ./src/services/business/inventoryEntryRegistrationService.ts ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   InventoryEntryRegistrationService: () => (/* binding */ InventoryEntryRegistrationService),
+/* harmony export */   inventoryEntryRegistrationService: () => (/* binding */ inventoryEntryRegistrationService)
+/* harmony export */ });
+// 出入库登记数据服务
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+class InventoryEntryRegistrationService {
+    constructor() { }
+    static getInstance() {
+        if (!InventoryEntryRegistrationService.instance) {
+            InventoryEntryRegistrationService.instance = new InventoryEntryRegistrationService();
+        }
+        return InventoryEntryRegistrationService.instance;
+    }
+    /**
+     * 获取出入库登记数据
+     * @param filter 筛选条件
+     * @returns 出入库登记数据列表
+     */
+    getInventoryEntryData(filter) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 生成指定时间范围内的日期列表
+                const dateRange = this.generateDateRange(filter.startDate, filter.endDate);
+                // 模拟数据 - 在实际应用中，这里应该从数据库或API获取数据
+                const mockData = this.generateMockData(dateRange, filter);
+                return mockData;
+            }
+            catch (error) {
+                console.error('获取出入库登记数据失败:', error);
+                throw new Error('获取出入库登记数据失败');
+            }
+        });
+    }
+    /**
+     * 生成日期范围
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @returns 日期字符串数组
+     */
+    generateDateRange(startDate, endDate) {
+        const dates = [];
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const current = new Date(start);
+        while (current <= end) {
+            dates.push(current.toISOString().split('T')[0]);
+            current.setDate(current.getDate() + 1);
+        }
+        return dates;
+    }
+    /**
+     * 生成模拟数据
+     * @param dateRange 日期范围
+     * @param filter 筛选条件
+     * @returns 模拟的出入库登记数据
+     */
+    generateMockData(dateRange, filter) {
+        const categories = [
+            { primary: '食品', secondary: ['蔬菜', '水果', '肉类', '调料'] },
+            { primary: '用品', secondary: ['清洁用品', '办公用品', '日用品'] },
+            { primary: '原料', secondary: ['调料', '包装材料', '添加剂'] },
+            { primary: '设备', secondary: ['厨具', '餐具', '电器'] }
+        ];
+        const products = [
+            { primary: '食品', secondary: '蔬菜', names: ['白菜', '萝卜', '土豆', '洋葱', '胡萝卜'] },
+            { primary: '食品', secondary: '水果', names: ['苹果', '香蕉', '橙子', '葡萄', '梨'] },
+            { primary: '食品', secondary: '肉类', names: ['猪肉', '牛肉', '鸡肉', '鱼肉'] },
+            { primary: '用品', secondary: '清洁用品', names: ['洗涤剂', '消毒液', '抹布', '垃圾袋'] },
+            { primary: '用品', secondary: '办公用品', names: ['纸张', '笔', '订书机', '文件夹'] },
+            { primary: '原料', secondary: '调料', names: ['盐', '糖', '醋', '生抽', '老抽'] },
+            { primary: '设备', secondary: '厨具', names: ['刀具', '锅具', '砧板', '勺子'] }
+        ];
+        const mockItems = [];
+        // 生成15-20个产品的数据
+        const numProducts = 15 + Math.floor(Math.random() * 6);
+        for (let i = 0; i < numProducts; i++) {
+            const productCategory = products[Math.floor(Math.random() * products.length)];
+            const productName = productCategory.names[Math.floor(Math.random() * productCategory.names.length)];
+            // 生成每日数据
+            const dailyData = {};
+            let totalOut = 0;
+            dateRange.forEach(date => {
+                const stockIn = Math.floor(Math.random() * 30) + 5; // 5-35
+                const morning = Math.floor(Math.random() * 15) + 2; // 2-17
+                const noon = Math.floor(Math.random() * 20) + 5; // 5-25
+                const evening = Math.floor(Math.random() * 12) + 3; // 3-15
+                const dailyOut = morning + noon + evening;
+                const stock = Math.floor(Math.random() * 80) + 20; // 20-100
+                totalOut += dailyOut;
+                // 根据显示模式调整数值
+                const multiplier = this.getDisplayModeMultiplier(filter.displayMode);
+                dailyData[date] = {
+                    stockIn: Math.round(stockIn * multiplier),
+                    morning: Math.round(morning * multiplier),
+                    noon: Math.round(noon * multiplier),
+                    evening: Math.round(evening * multiplier),
+                    stock: Math.round(stock * multiplier)
+                };
+            });
+            mockItems.push({
+                id: `item-${i + 1}`,
+                primaryCategory: productCategory.primary,
+                secondaryCategory: productCategory.secondary,
+                name: productName,
+                totalOut: Math.round(totalOut * this.getDisplayModeMultiplier(filter.displayMode)),
+                dailyData
+            });
+        }
+        return mockItems;
+    }
+    /**
+     * 获取显示模式的倍数
+     * @param displayMode 显示模式
+     * @returns 倍数
+     */
+    getDisplayModeMultiplier(displayMode) {
+        switch (displayMode) {
+            case 'amount':
+                return 12.5; // 假设平均单价为12.5元
+            case 'quantity':
+                return 1; // 数量本身
+            case 'converted':
+                return 0.8; // 换算数量（如公斤转斤等）
+            default:
+                return 1;
+        }
+    }
+    /**
+     * 获取月度周范围
+     * @param date 日期
+     * @returns 周范围数组
+     */
+    getMonthlyWeekRanges(date) {
+        const currentDate = new Date(date);
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const weeks = [];
+        for (let week = 1; week <= 5; week++) {
+            const startDay = (week - 1) * 7 + 1;
+            const endDay = Math.min(week * 7, daysInMonth);
+            if (startDay <= daysInMonth) {
+                weeks.push({
+                    week,
+                    startDate: new Date(year, month, startDay).toISOString().split('T')[0],
+                    endDate: new Date(year, month, endDay).toISOString().split('T')[0],
+                    label: `第${week}周`
+                });
+            }
+        }
+        return weeks;
+    }
+    /**
+     * 导出数据为CSV格式
+     * @param data 出入库登记数据
+     * @param dateRange 日期范围
+     * @returns CSV字符串
+     */
+    exportToCSV(data, dateRange) {
+        const headers = ['序号', '一级分类', '二级分类', '物品名称', '总出库'];
+        // 添加日期相关的列头
+        dateRange.forEach(date => {
+            const day = new Date(date).getDate();
+            headers.push(`${day}日-入库`, `${day}日-早`, `${day}日-中`, `${day}日-晚`, `${day}日-库存`);
+        });
+        const csvRows = [headers.join(',')];
+        data.forEach((item, index) => {
+            const row = [
+                index + 1,
+                item.primaryCategory,
+                item.secondaryCategory,
+                item.name,
+                item.totalOut
+            ];
+            // 添加每日数据
+            dateRange.forEach(date => {
+                const dayData = item.dailyData[date];
+                row.push((dayData === null || dayData === void 0 ? void 0 : dayData.stockIn) || 0, (dayData === null || dayData === void 0 ? void 0 : dayData.morning) || 0, (dayData === null || dayData === void 0 ? void 0 : dayData.noon) || 0, (dayData === null || dayData === void 0 ? void 0 : dayData.evening) || 0, (dayData === null || dayData === void 0 ? void 0 : dayData.stock) || 0);
+            });
+            csvRows.push(row.join(','));
+        });
+        return csvRows.join('\n');
+    }
+    /**
+     * 获取统计汇总信息
+     * @param data 出入库登记数据
+     * @returns 统计汇总
+     */
+    getStatisticsSummary(data) {
+        const totalItems = data.length;
+        const totalOut = data.reduce((sum, item) => sum + item.totalOut, 0);
+        const totalStock = data.reduce((sum, item) => {
+            const latestStock = Object.values(item.dailyData).reduce((latest, current) => latest + current.stock, 0) / Object.keys(item.dailyData).length;
+            return sum + latestStock;
+        }, 0);
+        const categoryStats = data.reduce((stats, item) => {
+            if (!stats[item.primaryCategory]) {
+                stats[item.primaryCategory] = { count: 0, totalOut: 0 };
+            }
+            stats[item.primaryCategory].count++;
+            stats[item.primaryCategory].totalOut += item.totalOut;
+            return stats;
+        }, {});
+        return {
+            totalItems,
+            totalOut,
+            totalStock: Math.round(totalStock),
+            categoryStats
+        };
+    }
+}
+// 导出单例实例
+const inventoryEntryRegistrationService = InventoryEntryRegistrationService.getInstance();
+
+
+/***/ }),
+
 /***/ "./src/services/business/inventoryStockService.ts":
 /*!********************************************************!*\
   !*** ./src/services/business/inventoryStockService.ts ***!
@@ -70963,8 +71515,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 /* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../database/seedData'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -70977,7 +71528,6 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-
 class SupplierService {
     constructor() {
         this.suppliers = new Map();
@@ -70986,12 +71536,8 @@ class SupplierService {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Supplier service initialized');
-            // 初始化供应商数据
-            for (const supplier of Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../database/seedData'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())) {
-                this.suppliers.set(supplier.id, supplier);
-                this.codeIndex.set(supplier.code, supplier.id);
-            }
-            console.log(`Initialized ${Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../database/seedData'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()).length} suppliers`);
+            // 供应商数据现在从数据库加载，而不是从seed数据
+            console.log('Supplier service ready');
         });
     }
     findAll() {
@@ -71047,7 +71593,7 @@ class SupplierService {
             if (this.codeIndex.has(data.code)) {
                 throw new Error(`供应商编码已存在: ${data.code}`);
             }
-            const supplier = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(), createdAt: new Date(), updatedAt: new Date() });
+            const supplier = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_2__["default"])(), createdAt: new Date(), updatedAt: new Date() });
             // 验证数据
             const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_1__.SupplierSchema, supplier);
             if (!validation.success) {
@@ -72729,8 +73275,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   DataInitializer: () => (/* binding */ DataInitializer),
 /* harmony export */   dataInitializer: () => (/* binding */ dataInitializer)
 /* harmony export */ });
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '../database/seedData'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-/* harmony import */ var _business__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./business */ "./src/services/business/index.ts");
+/* harmony import */ var _business__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./business */ "./src/services/business/index.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -72740,18 +73285,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
-
+// Note: Seed data has been replaced with mock-data.sql
 
 class DataInitializer {
     constructor() {
@@ -72771,80 +73305,16 @@ class DataInitializer {
             }
             try {
                 console.log('Starting data initialization...');
-                // 1. 初始化单位数据
-                console.log('Initializing units...');
-                for (const unit of Object(function webpackMissingModule() { var e = new Error("Cannot find module '../database/seedData'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())) {
-                    const existing = yield _business__WEBPACK_IMPORTED_MODULE_1__.unitService.findById(unit.id);
-                    if (!existing) {
-                        yield _business__WEBPACK_IMPORTED_MODULE_1__.unitService.create(unit);
-                    }
-                }
-                // 2. 初始化分类数据（按层级顺序）
-                console.log('Initializing categories...');
-                // 先创建一级分类（没有父分类的）
-                const level1Categories = Object(function webpackMissingModule() { var e = new Error("Cannot find module '../database/seedData'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()).filter(cat => !cat.parentId);
-                for (const category of level1Categories) {
-                    const existing = yield _business__WEBPACK_IMPORTED_MODULE_1__.categoryService.findById(category.id);
-                    if (!existing) {
-                        yield _business__WEBPACK_IMPORTED_MODULE_1__.categoryService.create(category);
-                    }
-                }
-                // 再创建二级分类（有父分类的）
-                const level2Categories = Object(function webpackMissingModule() { var e = new Error("Cannot find module '../database/seedData'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()).filter(cat => cat.parentId);
-                for (const category of level2Categories) {
-                    const existing = yield _business__WEBPACK_IMPORTED_MODULE_1__.categoryService.findById(category.id);
-                    if (!existing) {
-                        yield _business__WEBPACK_IMPORTED_MODULE_1__.categoryService.create(category);
-                    }
-                }
-                // 3. 初始化仓库数据并记录ID映射
-                console.log('Initializing warehouses...');
-                const warehouseIdMap = new Map(); // 原ID -> 新ID的映射
-                for (const warehouse of Object(function webpackMissingModule() { var e = new Error("Cannot find module '../database/seedData'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())) {
-                    const existing = yield _business__WEBPACK_IMPORTED_MODULE_1__.warehouseService.findByCode(warehouse.code);
-                    if (!existing) {
-                        const { id: originalId, createdAt, updatedAt } = warehouse, warehouseData = __rest(warehouse, ["id", "createdAt", "updatedAt"]);
-                        const createdWarehouse = yield _business__WEBPACK_IMPORTED_MODULE_1__.warehouseService.create(warehouseData);
-                        warehouseIdMap.set(originalId, createdWarehouse.id);
-                    }
-                    else {
-                        warehouseIdMap.set(warehouse.id, existing.id);
-                    }
-                }
-                // 4. 初始化商品数据并记录ID映射
-                console.log('Initializing products...');
-                const productIdMap = new Map(); // 原ID -> 新ID的映射
-                for (const product of Object(function webpackMissingModule() { var e = new Error("Cannot find module '../database/seedData'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())) {
-                    const existing = yield _business__WEBPACK_IMPORTED_MODULE_1__.productService.findBySku(product.sku);
-                    if (!existing) {
-                        const { id: originalId, createdAt, updatedAt } = product, productData = __rest(product, ["id", "createdAt", "updatedAt"]);
-                        const createdProduct = yield _business__WEBPACK_IMPORTED_MODULE_1__.productService.create(productData);
-                        productIdMap.set(originalId, createdProduct.id);
-                    }
-                    else {
-                        productIdMap.set(product.id, existing.id);
-                    }
-                }
-                // 5. 初始化库存数据（使用实际的商品ID和仓库ID）
-                console.log('Initializing inventory stocks...');
-                for (const stock of Object(function webpackMissingModule() { var e = new Error("Cannot find module '../database/seedData'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())) {
-                    const actualProductId = productIdMap.get(stock.productId);
-                    const actualWarehouseId = warehouseIdMap.get(stock.warehouseId);
-                    if (!actualProductId) {
-                        console.warn(`Skipping stock for unknown product: ${stock.productId}`);
-                        continue;
-                    }
-                    if (!actualWarehouseId) {
-                        console.warn(`Skipping stock for unknown warehouse: ${stock.warehouseId}`);
-                        continue;
-                    }
-                    const existing = yield _business__WEBPACK_IMPORTED_MODULE_1__.inventoryStockService.findStockByProductAndWarehouse(actualProductId, actualWarehouseId);
-                    if (!existing) {
-                        // 使用实际的商品ID和仓库ID创建库存
-                        const { id, createdAt, updatedAt, productId, warehouseId } = stock, stockData = __rest(stock, ["id", "createdAt", "updatedAt", "productId", "warehouseId"]);
-                        yield _business__WEBPACK_IMPORTED_MODULE_1__.inventoryStockService.createOrUpdateStock(Object.assign(Object.assign({}, stockData), { productId: actualProductId, warehouseId: actualWarehouseId }));
-                    }
-                }
+                // 数据现在从数据库加载（通过 mock-data.sql），
+                // 不再需要从 seedData 初始化
+                console.log('Data is loaded from database (mock-data.sql)');
+                // 初始化各个服务
+                yield _business__WEBPACK_IMPORTED_MODULE_0__.unitService.initialize();
+                yield _business__WEBPACK_IMPORTED_MODULE_0__.categoryService.initialize();
+                yield _business__WEBPACK_IMPORTED_MODULE_0__.warehouseService.initialize();
+                yield _business__WEBPACK_IMPORTED_MODULE_0__.productService.initialize();
+                yield _business__WEBPACK_IMPORTED_MODULE_0__.inventoryStockService.initialize();
+                yield _business__WEBPACK_IMPORTED_MODULE_0__.permissionService.initialize();
                 this.initialized = true;
                 console.log('Data initialization completed successfully');
             }
@@ -72859,10 +73329,10 @@ class DataInitializer {
             try {
                 console.log('Resetting all data...');
                 // 清空所有数据（按依赖关系倒序）
-                // 注意：这里需要根据实际的服务实现来调用清空方法
-                // 由于当前服务使用内存存储，重启应用即可清空
+                // 注意：数据重置现在通过数据库操作完成
+                // 可以使用 DataCleanupManager 进行数据清理
                 this.initialized = false;
-                console.log('Data reset completed');
+                console.log('Data reset completed - please use database reset tools');
             }
             catch (error) {
                 console.error('Failed to reset data:', error);
@@ -72998,6 +73468,73 @@ class MemoryDatabase {
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new MemoryDatabase());
+
+
+/***/ }),
+
+/***/ "./src/services/dialogService.ts":
+/*!***************************************!*\
+  !*** ./src/services/dialogService.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   dialogService: () => (/* binding */ dialogService)
+/* harmony export */ });
+// 全局弹出框服务
+class DialogService {
+    constructor() {
+        this.confirmCallback = null;
+        this.alertCallback = null;
+    }
+    // 注册确认对话框回调
+    registerConfirm(callback) {
+        this.confirmCallback = callback;
+    }
+    // 注册警告对话框回调
+    registerAlert(callback) {
+        this.alertCallback = callback;
+    }
+    // 显示确认对话框
+    confirm(message, onConfirm, onCancel) {
+        if (this.confirmCallback) {
+            this.confirmCallback(message, onConfirm, onCancel);
+            return true;
+        }
+        else {
+            // 降级到原生对话框
+            return window.confirm(message);
+        }
+    }
+    // 显示警告对话框
+    alert(title, message, variant = 'info') {
+        if (this.alertCallback) {
+            this.alertCallback(title, message, variant);
+        }
+        else {
+            // 降级到原生对话框
+            window.alert(`${title}: ${message}`);
+        }
+    }
+    // 便捷方法
+    showSuccess(message) {
+        this.alert('成功', message, 'success');
+    }
+    showError(message) {
+        this.alert('错误', message, 'error');
+    }
+    showWarning(message) {
+        this.alert('警告', message, 'warning');
+    }
+    showInfo(message) {
+        this.alert('信息', message, 'info');
+    }
+}
+const dialogService = new DialogService();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (dialogService);
 
 
 /***/ }),

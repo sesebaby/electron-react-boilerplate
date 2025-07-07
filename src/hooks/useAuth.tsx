@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext, createContext } from 'react';
 import { User, UserRole } from '../types/entities';
 import { apiClient } from '../services/api/apiClient';
+import { dialogService } from '../services/dialogService';
 
 interface AuthContextType {
   user: User | null;
@@ -185,10 +186,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const remainingMinutes = Math.ceil(sessionTimeRemaining / 60000);
         console.warn(`Session expires in ${remainingMinutes} minutes`);
         
-        // In a real app, you might show a modal here
-        if (window.confirm(`Your session will expire in ${remainingMinutes} minutes. Extend session?`)) {
-          updateActivity();
-        }
+        // 使用全局弹出框服务
+        dialogService.confirm(
+          `您的会话将在 ${remainingMinutes} 分钟后过期。是否延长会话？`,
+          () => {
+            updateActivity();
+          }
+        );
       }, 1000);
 
       return () => clearTimeout(warningId);

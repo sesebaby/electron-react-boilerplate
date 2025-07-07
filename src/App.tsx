@@ -3,8 +3,9 @@ import { AppLayout } from './components/Layout/AppLayout';
 import PageContainer from './components/PageContainer';
 import { businessServiceManager } from './services/business';
 import { dataInitializer } from './services/dataInitializer';
-import { testDataInitializer } from './utils/testDataInitializer';
+// testDataInitializer removed - using database mock data instead
 import { ErrorBoundary } from './components/ErrorBoundary';
+import GlobalDialogProvider from './components/providers/GlobalDialogProvider';
 import './globals.css';
 import './styles/theme-adaptations.css';
 
@@ -134,11 +135,13 @@ const App: React.FC = () => {
         // 这里可以发送错误报告到监控服务
       }}
     >
-      <div className="min-h-screen">
-        <AppLayout>
-          <PageContainer currentPage={currentPage} />
-        </AppLayout>
-      </div>
+      <GlobalDialogProvider>
+        <div className="min-h-screen">
+          <AppLayout>
+            <PageContainer currentPage={currentPage} />
+          </AppLayout>
+        </div>
+      </GlobalDialogProvider>
     </ErrorBoundary>
   );
 };

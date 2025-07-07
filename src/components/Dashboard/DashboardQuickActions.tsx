@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import dashboardService, { RecentActivity } from '../../services/dashboard/dashboardService';
 import { GlassCard, GlassButton } from '../ui/FormControls';
+import ConfirmDialog from '../ui/ConfirmDialog';
+import AlertDialog from '../ui/AlertDialog';
 
 interface DashboardQuickActionsProps {
   className?: string;
@@ -27,6 +29,27 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
   const [quickActions, setQuickActions] = useState<QuickActionsData | null>(null);
   const [recentActivities, setRecentActivities] = useState<RecentActivity[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // 弹出框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertTitle, setAlertTitle] = useState('');
+  const [alertVariant, setAlertVariant] = useState<'success' | 'error' | 'warning' | 'info'>('info');
+
+  // 弹出框辅助函数
+  const showAlert = (title: string, message: string, variant: 'success' | 'error' | 'warning' | 'info' = 'info') => {
+    setAlertTitle(title);
+    setAlertMessage(message);
+    setAlertVariant(variant);
+    setShowAlertDialog(true);
+  };
+
+  const handleBackupConfirm = () => {
+    setShowConfirmDialog(false);
+    showAlert('备份开始', '数据备份已开始，请稍候...', 'info');
+    // 这里可以调用实际的备份API
+  };
 
   useEffect(() => {
     loadQuickActionsData();
@@ -292,11 +315,7 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
               type="button"
               className="p-3 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-lg border border-white/10 hover:border-white/30 transition-all duration-200 group cursor-pointer transform hover:scale-105"
               onClick={() => {
-                // 显示确认对话框并提供用户反馈
-                if (confirm('确定要执行数据备份吗？这可能需要几分钟时间。')) {
-                  alert('数据备份已开始，请稍候...');
-                  // 这里可以调用实际的备份API
-                }
+                setShowConfirmDialog(true);
               }}
             >
               <div className="text-2xl mb-2 group-hover:scale-110 group-hover:rotate-3 transition-all duration-200">💾</div>
@@ -328,6 +347,26 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
           </div>
         </GlassCard>
       </div>
+      {/* 数据备份确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="数据备份"
+        message="确定要执行数据备份吗？这可能需要几分钟时间。"
+        confirmText="开始备份"
+        cancelText="取消"
+        variant="warning"
+        onConfirm={handleBackupConfirm}
+        onCancel={() => setShowConfirmDialog(false)}
+      />
+
+      {/* 警告对话框 */}
+      <AlertDialog
+        isOpen={showAlertDialog}
+        title={alertTitle}
+        message={alertMessage}
+        variant={alertVariant}
+        onConfirm={() => setShowAlertDialog(false)}
+      />
     </div>
   );
 };

@@ -62,10 +62,10 @@ const WarehouseDetailModal: React.FC<WarehouseDetailModalProps> = ({
           <div className="flex items-center justify-between p-6 border-b border-white/20">
             <div className="flex items-center gap-4">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold text-white">
                   {warehouse.warehouseName}
                 </h2>
-                <p className="text-gray-600">{warehouse.warehouseCode}</p>
+                <p className="text-white/70">{warehouse.warehouseCode}</p>
               </div>
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStockStatusStyle()}`}>
                 {getStatusText()}
@@ -74,7 +74,7 @@ const WarehouseDetailModal: React.FC<WarehouseDetailModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
+              className="text-white/60 hover:text-white/80 transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -86,19 +86,19 @@ const WarehouseDetailModal: React.FC<WarehouseDetailModalProps> = ({
           <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
             {/* 仓库基本信息 */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">仓库信息</h3>
+              <h3 className="text-lg font-semibold text-white mb-3">仓库信息</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="glass-surface rounded-lg p-4">
-                  <div className="text-sm text-gray-600 mb-1">仓库名称</div>
-                  <div className="font-medium text-gray-900">{warehouse.warehouseName}</div>
+                  <div className="text-sm text-white/60 mb-1">仓库名称</div>
+                  <div className="font-medium text-white">{warehouse.warehouseName}</div>
                 </div>
                 <div className="glass-surface rounded-lg p-4">
-                  <div className="text-sm text-gray-600 mb-1">仓库编码</div>
-                  <div className="font-medium text-gray-900">{warehouse.warehouseCode}</div>
+                  <div className="text-sm text-white/60 mb-1">仓库编码</div>
+                  <div className="font-medium text-white">{warehouse.warehouseCode}</div>
                 </div>
                 <div className="glass-surface rounded-lg p-4 md:col-span-2">
-                  <div className="text-sm text-gray-600 mb-1">描述</div>
-                  <div className="font-medium text-gray-900">
+                  <div className="text-sm text-white/60 mb-1">描述</div>
+                  <div className="font-medium text-white">
                     {warehouse.description || '暂无描述'}
                   </div>
                 </div>
@@ -107,31 +107,31 @@ const WarehouseDetailModal: React.FC<WarehouseDetailModalProps> = ({
 
             {/* 库存统计 */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">库存统计</h3>
+              <h3 className="text-lg font-semibold text-white mb-3">库存统计</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="glass-surface rounded-lg p-4 text-center">
                   <div className="text-2xl font-bold text-blue-600 mb-1">
                     {warehouse.totalProducts}
                   </div>
-                  <div className="text-sm text-gray-600">商品种类</div>
+                  <div className="text-sm text-white/60">商品种类</div>
                 </div>
                 <div className="glass-surface rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-green-600 mb-1">
+                  <div className="text-2xl font-bold text-green-400 mb-1">
                     {formatCurrency(warehouse.totalValue)}
                   </div>
-                  <div className="text-sm text-gray-600">总价值</div>
+                  <div className="text-sm text-white/60">总价值</div>
                 </div>
                 <div className="glass-surface rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-yellow-600 mb-1">
+                  <div className="text-2xl font-bold text-yellow-400 mb-1">
                     {warehouse.lowStockCount}
                   </div>
-                  <div className="text-sm text-gray-600">预警商品</div>
+                  <div className="text-sm text-white/60">预警商品</div>
                 </div>
                 <div className="glass-surface rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-red-600 mb-1">
+                  <div className="text-2xl font-bold text-red-400 mb-1">
                     {warehouse.outOfStockCount}
                   </div>
-                  <div className="text-sm text-gray-600">缺货商品</div>
+                  <div className="text-sm text-white/60">缺货商品</div>
                 </div>
               </div>
             </div>
@@ -139,17 +139,17 @@ const WarehouseDetailModal: React.FC<WarehouseDetailModalProps> = ({
             {/* 商品列表 */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-semibold text-gray-900">商品列表</h3>
-                <span className="text-sm text-gray-600">
+                <h3 className="text-lg font-semibold text-white">商品列表</h3>
+                <span className="text-sm text-white/60">
                   共 {warehouse.products.length} 个商品
                 </span>
               </div>
               
               {warehouse.products.length === 0 ? (
                 <div className="glass-surface rounded-lg p-8 text-center">
-                  <div className="text-gray-400 text-4xl mb-4">📦</div>
-                  <h4 className="text-lg font-medium text-gray-900 mb-2">暂无商品</h4>
-                  <p className="text-gray-600">该仓库暂未存放任何商品</p>
+                  <div className="text-white/40 text-4xl mb-4">📦</div>
+                  <h4 className="text-lg font-medium text-white mb-2">暂无商品</h4>
+                  <p className="text-white/60">该仓库暂未存放任何商品</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -174,7 +174,7 @@ const WarehouseDetailModal: React.FC<WarehouseDetailModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
+              className="px-4 py-2 text-white/80 bg-white/10 rounded-lg hover:bg-white/20 transition-colors border border-white/20"
             >
               关闭
             </button>

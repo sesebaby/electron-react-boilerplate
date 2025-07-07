@@ -21,11 +21,17 @@ const displayModes: DisplayMode[] = [
 ];
 
 export const InventoryEntryRegistration: React.FC = () => {
-  const [timeRange, setTimeRange] = useState<TimeRange>({
-    startDate: new Date().toISOString().split('T')[0],
-    endDate: new Date().toISOString().split('T')[0]
-  });
-  
+  // 获取当前月份的开始和结束日期
+  const getCurrentMonthRange = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const startDate = new Date(year, month, 1).toISOString().split('T')[0];
+    const endDate = new Date(year, month + 1, 0).toISOString().split('T')[0];
+    return { startDate, endDate };
+  };
+
+  const [timeRange, setTimeRange] = useState<TimeRange>(getCurrentMonthRange());
   const [displayMode, setDisplayMode] = useState<DisplayMode['type']>('quantity');
   const [selectedWeek, setSelectedWeek] = useState<number | null>(null);
   const [data, setData] = useState<InventoryEntryItem[]>([]);
@@ -100,6 +106,11 @@ export const InventoryEntryRegistration: React.FC = () => {
     }
   };
 
+  const handleFullMonthSelect = () => {
+    setTimeRange(getCurrentMonthRange());
+    setSelectedWeek(null);
+  };
+
   const filteredDates = monthDates.filter(date => {
     return date >= timeRange.startDate && date <= timeRange.endDate;
   });
@@ -140,6 +151,16 @@ export const InventoryEntryRegistration: React.FC = () => {
           {/* 快捷周选择 */}
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-sm font-medium text-white mr-2">快捷选择:</span>
+            <button
+              onClick={handleFullMonthSelect}
+              className={`glass-button px-3 py-1.5 text-sm font-medium ${
+                selectedWeek === null
+                  ? 'bg-blue-500/30 border-blue-400/50'
+                  : ''
+              }`}
+            >
+              全月
+            </button>
             {weekRanges.map(({ week, label }) => (
               <button
                 key={week}
@@ -177,8 +198,8 @@ export const InventoryEntryRegistration: React.FC = () => {
 
       {/* 数据表格 */}
       <Card className="overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+          <table className="w-full min-w-max">
             {/* 嵌套表头 */}
             <thead>
               {/* 第一层表头 - 日期 */}
@@ -273,17 +294,17 @@ export const InventoryEntryRegistration: React.FC = () => {
                           </span>
                         </td>
                         <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
-                          <span className="financial-value-negative">
+                          <span className="financial-value-warning">
                             {dayData?.morning || 0}
                           </span>
                         </td>
                         <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
-                          <span className="financial-value-negative">
+                          <span className="financial-value-warning">
                             {dayData?.noon || 0}
                           </span>
                         </td>
                         <td className="px-1 py-3 text-xs text-white/80 text-center border-r border-white/10">
-                          <span className="financial-value-negative">
+                          <span className="financial-value-warning">
                             {dayData?.evening || 0}
                           </span>
                         </td>

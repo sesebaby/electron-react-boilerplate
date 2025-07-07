@@ -218,14 +218,18 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     setShowUnitForm(true);
   };
 
-  const handleDeleteUnit = (unitId: string) => {
-    showConfirm('确定要删除这个单位吗？', async () => {
-      try {
-        await unitService.delete(unitId);
-        await loadUnits();
-      } catch (error) {
-        showAlert('删除失败', error instanceof Error ? error.message : '删除单位失败', 'error');
-      }
+  const handleDeleteUnit = async (unitId: string): Promise<void> => {
+    return new Promise((resolve) => {
+      showConfirm('确定要删除这个单位吗？', async () => {
+        try {
+          await unitService.delete(unitId);
+          await loadUnits();
+          resolve();
+        } catch (error) {
+          showAlert('删除失败', error instanceof Error ? error.message : '删除单位失败', 'error');
+          resolve();
+        }
+      });
     });
   };
 
@@ -295,14 +299,18 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     setShowConversionForm(true);
   };
 
-  const handleDeleteConversion = (ruleId: string) => {
-    showConfirm('确定要删除这个换算规则吗？', async () => {
-      try {
-        await globalConversionService.delete(ruleId);
-        await loadConversionRules();
-      } catch (error) {
-        showAlert('删除失败', error instanceof Error ? error.message : '删除换算规则失败', 'error');
-      }
+  const handleDeleteConversion = async (ruleId: string): Promise<void> => {
+    return new Promise((resolve) => {
+      showConfirm('确定要删除这个换算规则吗？', async () => {
+        try {
+          await globalConversionService.delete(ruleId);
+          await loadConversionRules();
+          resolve();
+        } catch (error) {
+          showAlert('删除失败', error instanceof Error ? error.message : '删除换算规则失败', 'error');
+          resolve();
+        }
+      });
     });
   };
 

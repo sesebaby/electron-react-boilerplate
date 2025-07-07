@@ -27,6 +27,9 @@ export const SecurityMonitor: React.FC<SecurityMonitorProps> = ({ className }) =
   const [selectedLogLevel, setSelectedLogLevel] = useState<string>('all');
   const [autoRefresh, setAutoRefresh] = useState<boolean>(true);
 
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
   // Load audit logs and security events
   const loadLogs = () => {
     const hours = parseInt(selectedTimeRange);
@@ -66,11 +69,18 @@ export const SecurityMonitor: React.FC<SecurityMonitorProps> = ({ className }) =
   }, [selectedTimeRange, autoRefresh]);
 
   const handleClearLogs = () => {
-    if (window.confirm('确定要清空审计日志吗？此操作不可逆转。')) {
-      logger.clearAuditTrail();
-      logger.security('Audit logs cleared by admin', { adminId: user?.id });
-      loadLogs();
-    }
+    setShowConfirmDialog(true);
+  };
+
+  const confirmClearLogs = () => {
+    logger.clearAuditTrail();
+    logger.security('Audit logs cleared by admin', { adminId: user?.id });
+    loadLogs();
+    setShowConfirmDialog(false);
+  };
+
+  const cancelClearLogs = () => {
+    setShowConfirmDialog(false);
   };
 
   const getLogLevelColor = (level: string): string => {
@@ -292,6 +302,17 @@ export const SecurityMonitor: React.FC<SecurityMonitorProps> = ({ className }) =
           </div>
         </GlassCard>
       </div>
+      {/* 清空日志确认对话框 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="清空审计日志"
+        message="确定要清空审计日志吗？此操作不可逆转！"
+        confirmText="清空"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmClearLogs}
+        onCancel={cancelClearLogs}
+      />
     </PermissionGate>
   );
 };
