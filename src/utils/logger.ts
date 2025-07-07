@@ -34,6 +34,13 @@ class Logger {
   private logs: LogEntry[] = [];
   private fileLoggerService: any = null;
   private autoFlushTimer: NodeJS.Timeout | null = null;
+  // 保存原始的console方法，避免与其他模块的console重写产生冲突
+  private originalConsole: {
+    debug: typeof console.debug;
+    info: typeof console.info;
+    warn: typeof console.warn;
+    error: typeof console.error;
+  };
 
   constructor(config?: Partial<LoggerConfig>) {
     this.config = {
@@ -43,6 +50,14 @@ class Logger {
       enableConsoleOutput: true,
       autoFlushInterval: 30, // 30秒
       ...config
+    };
+
+    // 在初始化时保存原始的console方法
+    this.originalConsole = {
+      debug: console.debug.bind(console),
+      info: console.info.bind(console),
+      warn: console.warn.bind(console),
+      error: console.error.bind(console)
     };
 
     this.initializeFileLogging();
@@ -144,19 +159,20 @@ class Logger {
     const timestamp = entry.timestamp.toISOString();
     const levelName = LogLevel[entry.level];
     const prefix = `[${timestamp}] [${levelName}]`;
-    
+
+    // 使用原始的console方法，避免与其他模块的console重写产生循环调用
     switch (entry.level) {
       case LogLevel.DEBUG:
-        console.debug(prefix, entry.message, entry.data || '');
+        this.originalConsole.debug(prefix, entry.message, entry.data || '');
         break;
       case LogLevel.INFO:
-        console.info(prefix, entry.message, entry.data || '');
+        this.originalConsole.info(prefix, entry.message, entry.data || '');
         break;
       case LogLevel.WARN:
-        console.warn(prefix, entry.message, entry.data || '');
+        this.originalConsole.warn(prefix, entry.message, entry.data || '');
         break;
       case LogLevel.ERROR:
-        console.error(prefix, entry.message, entry.data || '');
+        this.originalConsole.error(prefix, entry.message, entry.data || '');
         break;
     }
   }

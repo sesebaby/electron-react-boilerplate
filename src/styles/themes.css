@@ -186,6 +186,67 @@
   box-shadow: var(--popup-shadow-hover);
 }
 
+/* 玻璃未来风主题下拉框选项样式 */
+[data-theme="glass-future"] .glass-select option {
+  background: oklch(0.511 0.262 276.966 / 0.95) !important;
+  color: oklch(100% 0.00011 271.152 / 0.945) !important;
+  padding: 8px 12px;
+  border: none;
+  font-weight: 500;
+}
+
+[data-theme="glass-future"] .glass-select option:checked,
+[data-theme="glass-future"] .glass-select option:hover {
+  background: oklch(0.457 0.24 277.023 / 0.98) !important;
+  color: oklch(100% 0.00011 271.152) !important;
+}
+
+/* 玻璃未来风主题弹出下拉框样式 */
+[data-theme="glass-future"] .popup-dropdown {
+  background: oklch(0.511 0.262 276.966 / 0.9) !important;
+  backdrop-filter: blur(35px) !important;
+  border: 1px solid oklch(0.87 0.065 274.039 / 0.6) !important;
+  box-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4) !important;
+}
+
+[data-theme="glass-future"] .theme-dropdown-header h3 {
+  color: oklch(100% 0.00011 271.152 / 0.945) !important;
+  text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8) !important;
+}
+
+[data-theme="glass-future"] .theme-option {
+  background: oklch(0.585 0.233 277.117 / 0.3) !important;
+  color: oklch(100% 0.00011 271.152 / 0.945) !important;
+  border: 1px solid oklch(0.87 0.065 274.039 / 0.5) !important;
+}
+
+[data-theme="glass-future"] .theme-option h4 {
+  color: oklch(100% 0.00011 271.152 / 0.945) !important;
+  text-shadow: 0 2px 6px oklch(0.257 0.09 281.288 / 0.8);
+}
+
+[data-theme="glass-future"] .theme-option p {
+  color: oklch(92.369% 0.00263 230.33) !important;
+  text-shadow: 0 2px 6px oklch(0.257 0.09 281.288 / 0.6);
+}
+
+[data-theme="glass-future"] .theme-option:hover {
+  background: oklch(0.511 0.262 276.966 / 0.4) !important;
+  border: 1px solid oklch(0.785 0.115 274.713 / 0.6) !important;
+}
+
+[data-theme="glass-future"] .theme-option.active {
+  background: oklch(0.457 0.24 277.023 / 0.5) !important;
+  border: 1px solid oklch(0.673 0.182 276.935 / 0.7) !important;
+}
+
+[data-theme="glass-future"] .close-button {
+  color: oklch(92.369% 0.00263 230.33) !important;
+  background: oklch(0.585 0.233 277.117 / 0.4);
+  border: 1px solid oklch(0.87 0.065 274.039 / 0.6);
+  text-shadow: 0 2px 6px oklch(0.257 0.09 281.288 / 0.8);
+}
+
 [data-theme="glass-future"] .glass-textarea {
   background: var(--popup-background);
   backdrop-filter: var(--popup-blur);
@@ -300,6 +361,67 @@
   border-color: oklch(0.554 0.046 257.417 / 0.5);
 }
 
+/* 深色科技风主题下拉框选项样式 */
+[data-theme="dark-tech"] .glass-select option {
+  background: oklch(0.279 0.041 260.031 / 0.95) !important;
+  color: oklch(0.968 0.007 247.896) !important;
+  padding: 8px 12px;
+  border: none;
+  font-weight: 500;
+}
+
+[data-theme="dark-tech"] .glass-select option:checked,
+[data-theme="dark-tech"] .glass-select option:hover {
+  background: oklch(0.372 0.044 257.287 / 0.98) !important;
+  color: oklch(0.968 0.007 247.896) !important;
+}
+
+/* 深色科技风主题弹出下拉框样式 */
+[data-theme="dark-tech"] .popup-dropdown {
+  background: oklch(0.279 0.041 260.031 / 0.85) !important;
+  backdrop-filter: blur(35px) !important;
+  border: 1px solid oklch(0.446 0.043 257.281 / 0.3) !important;
+  box-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3) !important;
+}
+
+[data-theme="dark-tech"] .theme-dropdown-header h3 {
+  color: oklch(0.968 0.007 247.896) !important;
+  text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8) !important;
+}
+
+[data-theme="dark-tech"] .theme-option {
+  background: oklch(0.279 0.041 260.031 / 0.15) !important;
+  color: oklch(0.968 0.007 247.896) !important;
+  border: 1px solid oklch(0.446 0.043 257.281 / 0.3) !important;
+}
+
+[data-theme="dark-tech"] .theme-option h4 {
+  color: oklch(0.968 0.007 247.896) !important;
+  text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8);
+}
+
+[data-theme="dark-tech"] .theme-option p {
+  color: oklch(0.929 0.013 255.508) !important;
+  text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.6);
+}
+
+[data-theme="dark-tech"] .theme-option:hover {
+  background: oklch(0.372 0.044 257.287 / 0.2) !important;
+  border: 1px solid oklch(0.554 0.046 257.417 / 0.5) !important;
+}
+
+[data-theme="dark-tech"] .theme-option.active {
+  background: oklch(0.446 0.043 257.281 / 0.3) !important;
+  border: 1px solid oklch(0.554 0.046 257.417 / 0.7) !important;
+}
+
+[data-theme="dark-tech"] .close-button {
+  color: oklch(0.929 0.013 255.508) !important;
+  background: oklch(0.279 0.041 260.031 / 0.4);
+  border: 1px solid oklch(0.446 0.043 257.281 / 0.6);
+  text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8);
+}
+
 [data-theme="dark-tech"] .glass-textarea {
   background: var(--popup-background);
   border: 1px solid oklch(0.446 0.043 257.281 / 0.3);
@@ -406,6 +528,67 @@
 [data-theme="warm-business"] .glass-select:hover {
   background: var(--popup-item-hover-bg);
   border-color: oklch(0.879 0.169 91.605 / 0.6);
+}
+
+/* 温暖商务风主题下拉框选项样式 */
+[data-theme="warm-business"] .glass-select option {
+  background: oklch(0.987 0.022 95.277 / 0.95) !important;
+  color: oklch(0.414 0.112 45.904) !important;
+  padding: 8px 12px;
+  border: none;
+  font-weight: 500;
+}
+
+[data-theme="warm-business"] .glass-select option:checked,
+[data-theme="warm-business"] .glass-select option:hover {
+  background: oklch(0.962 0.059 95.617 / 0.98) !important;
+  color: oklch(0.414 0.112 45.904) !important;
+}
+
+/* 温暖商务风主题弹出下拉框样式 */
+[data-theme="warm-business"] .popup-dropdown {
+  background: oklch(0.987 0.022 95.277 / 0.85) !important;
+  backdrop-filter: blur(35px) !important;
+  border: 1px solid oklch(0.924 0.12 95.746 / 0.4) !important;
+  box-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2) !important;
+}
+
+[data-theme="warm-business"] .theme-dropdown-header h3 {
+  color: oklch(0.414 0.112 45.904) !important;
+  text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9) !important;
+}
+
+[data-theme="warm-business"] .theme-option {
+  background: oklch(0.962 0.059 95.617 / 0.15) !important;
+  color: oklch(0.414 0.112 45.904) !important;
+  border: 1px solid oklch(0.924 0.12 95.746 / 0.4) !important;
+}
+
+[data-theme="warm-business"] .theme-option h4 {
+  color: oklch(0.414 0.112 45.904) !important;
+  text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9);
+}
+
+[data-theme="warm-business"] .theme-option p {
+  color: oklch(0.473 0.137 46.201) !important;
+  text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.7);
+}
+
+[data-theme="warm-business"] .theme-option:hover {
+  background: oklch(0.924 0.12 95.746 / 0.3) !important;
+  border: 1px solid oklch(0.879 0.169 91.605 / 0.6) !important;
+}
+
+[data-theme="warm-business"] .theme-option.active {
+  background: oklch(0.879 0.169 91.605 / 0.4) !important;
+  border: 1px solid oklch(0.828 0.189 84.429 / 0.7) !important;
+}
+
+[data-theme="warm-business"] .close-button {
+  color: oklch(0.473 0.137 46.201) !important;
+  background: oklch(0.962 0.059 95.617 / 0.4);
+  border: 1px solid oklch(0.924 0.12 95.746 / 0.6);
+  text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9);
 }
 
 [data-theme="warm-business"] .glass-textarea {

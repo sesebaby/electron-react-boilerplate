@@ -14,6 +14,7 @@ export interface FileLoggerConfig {
   separateByLevel: boolean;
   dateFormat: string;
   enableCompression: boolean;
+  enableFileLogging: boolean;
 }
 
 export interface FileLogEntry extends LogEntry {
@@ -40,6 +41,7 @@ class FileLoggerService {
       separateByLevel: true,
       dateFormat: 'YYYY-MM-DD',
       enableCompression: false,
+      enableFileLogging: true,
       ...config
     };
 
@@ -52,8 +54,13 @@ class FileLoggerService {
    * 检查是否运行在Electron环境
    */
   private checkElectronEnvironment(): boolean {
-    return typeof window !== 'undefined' && 
-           typeof window.electronAPI !== 'undefined';
+    if (typeof window === 'undefined' || typeof window.electronAPI === 'undefined') {
+      return false;
+    }
+
+    // 检查文件日志服务需要的具体API是否可用
+    const requiredAPIs = ['writeFile', 'mkdir', 'stat'];
+    return requiredAPIs.every(api => typeof (window.electronAPI as any)[api] === 'function');
   }
 
   /**
@@ -62,19 +69,29 @@ class FileLoggerService {
   private initializeFileSystem(): void {
     if (this.isElectron) {
       // 在Electron渲染进程中，通过IPC调用主进程
-      this.initializeElectronFileSystem();
+      try {
+        this.initializeElectronFileSystem();
+        console.log('文件日志服务: Electron文件系统初始化成功');
+      } catch (error) {
+        console.warn('文件日志服务: Electron文件系统初始化失败，使用降级方案', error);
+        this.initializeBrowserFallback();
+        this.config.enableFileLogging = false; // 禁用文件日志
+      }
     } else if (typeof require !== 'undefined') {
       // Node.js环境
       try {
         this.fs = require('fs');
         this.path = require('path');
         this.os = require('os');
+        console.log('文件日志服务: Node.js文件系统初始化成功');
       } catch (error) {
         console.warn('文件日志服务: 无法加载Node.js模块，将使用降级方案');
         this.initializeBrowserFallback();
+        this.config.enableFileLogging = false; // 禁用文件日志
       }
     } else {
       // 浏览器环境降级方案
+      console.log('文件日志服务: 使用浏览器降级方案 (localStorage)');
       this.initializeBrowserFallback();
     }
   }
@@ -83,52 +100,48 @@ class FileLoggerService {
    * 初始化Electron文件系统
    */
   private initializeElectronFileSystem(): void {
+    // 验证所有需要的API是否可用
+    if (!window.electronAPI ||
+        !window.electronAPI.writeFile ||
+        !window.electronAPI.mkdir ||
+        !window.electronAPI.stat) {
+      throw new Error('Required Electron APIs not available');
+    }
+
     // 通过IPC与主进程通信
     this.fs = {
       writeFile: (path: string, data: string, callback: (err?: any) => void) => {
-        if (window.electronAPI && window.electronAPI.writeFile) {
-          window.electronAPI.writeFile(path, data)
-            .then((result) => {
-              if (result.success) {
-                callback();
-              } else {
-                callback(new Error(result.error || 'Write failed'));
-              }
-            })
-            .catch(callback);
-        } else {
-          callback(new Error('Electron API not available'));
-        }
+        window.electronAPI.writeFile(path, data)
+          .then((result) => {
+            if (result.success) {
+              callback();
+            } else {
+              callback(new Error(result.error || 'Write failed'));
+            }
+          })
+          .catch(callback);
       },
       mkdir: (path: string, options: any, callback: (err?: any) => void) => {
-        if (window.electronAPI && window.electronAPI.mkdir) {
-          window.electronAPI.mkdir(path, options)
-            .then((result) => {
-              if (result.success) {
-                callback();
-              } else {
-                callback(new Error(result.error || 'Mkdir failed'));
-              }
-            })
-            .catch(callback);
-        } else {
-          callback(new Error('Electron API not available'));
-        }
+        window.electronAPI.mkdir(path, options)
+          .then((result) => {
+            if (result.success) {
+              callback();
+            } else {
+              callback(new Error(result.error || 'Mkdir failed'));
+            }
+          })
+          .catch(callback);
       },
       stat: (path: string, callback: (err?: any, stats?: any) => void) => {
-        if (window.electronAPI && window.electronAPI.stat) {
-          window.electronAPI.stat(path)
-            .then((result) => {
-              if (result.success) {
-                callback(null, result.data);
-              } else {
-                callback(new Error(result.error || 'Stat failed'));
-              }
-            })
-            .catch(callback);
-        } else {
-          callback(new Error('Electron API not available'));
-        }
+        window.electronAPI.stat(path)
+          .then((result) => {
+            if (result.success) {
+              callback(null, result.data);
+            } else {
+              callback(new Error(result.error || 'Stat failed'));
+            }
+          })
+          .catch(callback);
       }
     };
 
@@ -200,9 +213,12 @@ class FileLoggerService {
    * 开始定时刷新队列
    */
   private startFlushInterval(): void {
-    this.flushInterval = setInterval(() => {
-      this.flushQueue();
-    }, 5000); // 每5秒刷新一次
+    // 只有在文件日志启用时才启动定时器
+    if (this.config.enableFileLogging) {
+      this.flushInterval = setInterval(() => {
+        this.flushQueue();
+      }, 5000); // 每5秒刷新一次
+    }
   }
 
   /**
@@ -219,6 +235,11 @@ class FileLoggerService {
    * 写入日志
    */
   public async writeLog(entry: LogEntry): Promise<void> {
+    // 如果文件日志被禁用，直接返回
+    if (!this.config.enableFileLogging) {
+      return;
+    }
+
     const fileLogEntry: FileLogEntry = {
       ...entry,
       category: this.getCategoryFromSource(entry.source)
@@ -237,13 +258,18 @@ class FileLoggerService {
    * 批量写入日志
    */
   public async writeLogBatch(entries: LogEntry[]): Promise<void> {
+    // 如果文件日志被禁用，直接返回
+    if (!this.config.enableFileLogging) {
+      return;
+    }
+
     const fileLogEntries: FileLogEntry[] = entries.map(entry => ({
       ...entry,
       category: this.getCategoryFromSource(entry.source)
     }));
 
     this.writeQueue.push(...fileLogEntries);
-    
+
     // 立即处理大批量数据
     if (this.writeQueue.length > 50) {
       this.flushQueue();
@@ -254,7 +280,7 @@ class FileLoggerService {
    * 刷新队列到文件
    */
   private async flushQueue(): Promise<void> {
-    if (this.isProcessing || this.writeQueue.length === 0) {
+    if (this.isProcessing || this.writeQueue.length === 0 || !this.config.enableFileLogging) {
       return;
     }
 
@@ -280,9 +306,17 @@ class FileLoggerService {
       }
 
     } catch (error) {
-      console.error('文件日志服务: 刷新队列失败', error);
-      // 将失败的日志重新加入队列
-      this.writeQueue.unshift(...entries);
+      // 如果文件日志被禁用，不输出错误信息
+      if (this.config.enableFileLogging) {
+        console.error('文件日志服务: 刷新队列失败', error);
+        // 将失败的日志重新加入队列
+        this.writeQueue.unshift(...entries);
+      }
+      // 如果是API不可用错误，禁用文件日志功能
+      if (error instanceof Error && error.message && error.message.includes('API not available')) {
+        this.config.enableFileLogging = false;
+        console.warn('文件日志服务: 检测到API不可用，已禁用文件日志功能');
+      }
     } finally {
       this.isProcessing = false;
     }
@@ -444,6 +478,10 @@ class FileLoggerService {
    * 清理过期日志
    */
   public async cleanupOldLogs(maxAgeInDays: number): Promise<void> {
+    if (!this.config.enableFileLogging) {
+      return;
+    }
+
     try {
       await logRotation.cleanupOldLogs(this.config.logDirectory, maxAgeInDays);
     } catch (error) {
@@ -452,11 +490,30 @@ class FileLoggerService {
   }
 
   /**
+   * 禁用文件日志功能
+   */
+  public disableFileLogging(): void {
+    this.config.enableFileLogging = false;
+    this.stopFlushInterval();
+    this.writeQueue = []; // 清空队列
+    console.log('文件日志服务: 文件日志功能已禁用');
+  }
+
+  /**
+   * 获取文件日志状态
+   */
+  public isFileLoggingEnabled(): boolean {
+    return this.config.enableFileLogging;
+  }
+
+  /**
    * 销毁服务
    */
   public destroy(): void {
     this.stopFlushInterval();
-    this.flush().catch(console.error);
+    if (this.config.enableFileLogging) {
+      this.flush().catch(console.error);
+    }
   }
 }
 

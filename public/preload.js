@@ -10,6 +10,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   readFile: (filePath) => ipcRenderer.invoke('read-file', filePath),
   writeFile: (filePath, data) => ipcRenderer.invoke('write-file', filePath, data),
   checkFileExists: (filePath) => ipcRenderer.invoke('check-file-exists', filePath),
+
+  // Directory operations for logging service
+  mkdir: (dirPath, options) => ipcRenderer.invoke('mkdir', dirPath, options),
+  stat: (filePath) => ipcRenderer.invoke('stat', filePath),
   
   // System paths
   getAppPath: (name) => ipcRenderer.invoke('get-app-path', name),

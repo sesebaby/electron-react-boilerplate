@@ -160,6 +160,35 @@ ipcMain.handle('get-app-path', async (event, name = 'userData') => {
   }
 });
 
+// Directory operations for logging service
+ipcMain.handle('mkdir', async (event, dirPath, options = { recursive: true }) => {
+  try {
+    await fs.mkdir(dirPath, options);
+    return { success: true };
+  } catch (error) {
+    console.error('Mkdir error:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('stat', async (event, filePath) => {
+  try {
+    const stats = await fs.stat(filePath);
+    return {
+      success: true,
+      data: {
+        size: stats.size,
+        isFile: stats.isFile(),
+        isDirectory: stats.isDirectory(),
+        mtime: stats.mtime
+      }
+    };
+  } catch (error) {
+    console.error('Stat error:', error);
+    return { success: false, error: error.message };
+  }
+});
+
 // Database initialization
 async function initializeDatabase() {
   try {

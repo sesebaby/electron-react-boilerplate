@@ -135,7 +135,7 @@ class GlobalErrorHandler {
   private setupConsoleErrorCapture(): void {
     // 重写console.error
     console.error = (...args: any[]) => {
-      const message = args.map(arg => 
+      const message = args.map(arg =>
         typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
       ).join(' ');
 
@@ -157,26 +157,19 @@ class GlobalErrorHandler {
       }
 
       this.handleError(errorReport);
-      
+
       // 调用原始console.error
       this.originalConsoleError.apply(console, args);
     };
 
-    // 重写console.warn（可选）
+    // 重写console.warn（优化：完全避免与logger产生循环调用）
     console.warn = (...args: any[]) => {
-      const message = args.map(arg => 
-        typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
-      ).join(' ');
-
-      // 记录警告到日志（级别较低）
-      logger.warn(`Console Warning: ${message}`, {
-        url: window.location.href,
-        sessionId: this.sessionId,
-        userId: this.userId
-      });
-      
-      // 调用原始console.warn
+      // 直接调用原始console.warn，不再通过logger记录
+      // 这样可以完全避免循环调用的问题
       this.originalConsoleWarn.apply(console, args);
+
+      // 可选：如果需要记录console.warn到错误报告系统，可以在这里添加
+      // 但不要使用logger系统，而是直接处理
     };
   }
 
