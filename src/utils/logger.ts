@@ -29,7 +29,7 @@ export interface LoggerConfig {
 /**
  * 增强的日志记录器
  */
-class Logger {
+export class Logger {
   private config: LoggerConfig;
   private logs: LogEntry[] = [];
   private fileLoggerService: any = null;

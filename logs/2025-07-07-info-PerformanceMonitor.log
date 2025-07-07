@@ -1,0 +1,2 @@
+2025-07-07T15:39:37.318Z INFO  [PerformanceMonitor][PerformanceMonitor] Performance: 请求响应时间 | {"metric":"请求响应时间","value":14.799999999813735,"unit":"ms","category":"navigation","details":{"phase":"request"}}
+2025-07-07T15:39:37.318Z INFO  [PerformanceMonitor][PerformanceMonitor] Performance: 资源加载时间 | {"metric":"资源加载时间","value":54.09999999962747,"unit":"ms","category":"navigation","details":{"phase":"resources"}}

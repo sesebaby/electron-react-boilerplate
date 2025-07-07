@@ -189,6 +189,36 @@ ipcMain.handle('stat', async (event, filePath) => {
   }
 });
 
+ipcMain.handle('readdir', async (event, dirPath) => {
+  try {
+    const files = await fs.readdir(dirPath);
+    return { success: true, data: files };
+  } catch (error) {
+    console.error('Readdir error:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('rename', async (event, oldPath, newPath) => {
+  try {
+    await fs.rename(oldPath, newPath);
+    return { success: true };
+  } catch (error) {
+    console.error('Rename error:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('unlink', async (event, filePath) => {
+  try {
+    await fs.unlink(filePath);
+    return { success: true };
+  } catch (error) {
+    console.error('Unlink error:', error);
+    return { success: false, error: error.message };
+  }
+});
+
 // Database initialization
 async function initializeDatabase() {
   try {

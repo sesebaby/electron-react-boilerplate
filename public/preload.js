@@ -14,6 +14,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Directory operations for logging service
   mkdir: (dirPath, options) => ipcRenderer.invoke('mkdir', dirPath, options),
   stat: (filePath) => ipcRenderer.invoke('stat', filePath),
+  readdir: (dirPath) => ipcRenderer.invoke('readdir', dirPath),
+  rename: (oldPath, newPath) => ipcRenderer.invoke('rename', oldPath, newPath),
+  unlink: (filePath) => ipcRenderer.invoke('unlink', filePath),
   
   // System paths
   getAppPath: (name) => ipcRenderer.invoke('get-app-path', name),

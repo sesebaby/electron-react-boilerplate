@@ -110,16 +110,26 @@ class FileLoggerService {
 
     // 通过IPC与主进程通信
     this.fs = {
-      writeFile: (path: string, data: string, callback: (err?: any) => void) => {
+      writeFile: (path: string, data: string, optionsOrCallback: any, callback?: (err?: any) => void) => {
+        // 处理参数重载：writeFile(path, data, callback) 或 writeFile(path, data, options, callback)
+        let actualCallback: (err?: any) => void;
+        if (typeof optionsOrCallback === 'function') {
+          actualCallback = optionsOrCallback;
+        } else if (typeof callback === 'function') {
+          actualCallback = callback;
+        } else {
+          throw new Error('Callback function is required');
+        }
+
         window.electronAPI.writeFile(path, data)
           .then((result) => {
             if (result.success) {
-              callback();
+              actualCallback();
             } else {
-              callback(new Error(result.error || 'Write failed'));
+              actualCallback(new Error(result.error || 'Write failed'));
             }
           })
-          .catch(callback);
+          .catch(actualCallback);
       },
       mkdir: (path: string, options: any, callback: (err?: any) => void) => {
         window.electronAPI.mkdir(path, options)
@@ -158,14 +168,24 @@ class FileLoggerService {
   private initializeBrowserFallback(): void {
     // 在浏览器环境中使用localStorage作为降级方案
     this.fs = {
-      writeFile: (path: string, data: string, callback: (err?: any) => void) => {
+      writeFile: (path: string, data: string, optionsOrCallback: any, callback?: (err?: any) => void) => {
+        // 处理参数重载：writeFile(path, data, callback) 或 writeFile(path, data, options, callback)
+        let actualCallback: (err?: any) => void;
+        if (typeof optionsOrCallback === 'function') {
+          actualCallback = optionsOrCallback;
+        } else if (typeof callback === 'function') {
+          actualCallback = callback;
+        } else {
+          throw new Error('Callback function is required');
+        }
+
         try {
           const key = `log_${path.replace(/[^a-zA-Z0-9]/g, '_')}`;
           const existingData = localStorage.getItem(key) || '';
           localStorage.setItem(key, existingData + data);
-          callback();
+          actualCallback();
         } catch (error) {
-          callback(error);
+          actualCallback(error);
         }
       },
       mkdir: (path: string, options: any, callback: (err?: any) => void) => {

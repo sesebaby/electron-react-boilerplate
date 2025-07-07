@@ -35,7 +35,8 @@ module.exports = {
       "buffer": require.resolve("buffer/"),
       "process": require.resolve("process/browser"),
       "vm": false,
-      "os": false
+      "os": false,
+      "zlib": false
     },
     alias: {
       // 修复 bcryptjs 的 process 依赖问题
