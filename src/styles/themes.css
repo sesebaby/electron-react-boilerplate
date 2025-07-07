@@ -19,6 +19,10 @@
   --topbar-background: rgba(0, 0, 0, 0.6);
   --topbar-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 
+  /* 表格锁定专用背景 - 平衡透明度和可读性 */
+  --table-fixed-background: oklch(0.93 0.034 272.788 / 0.65);
+  --table-fixed-background-hover: oklch(0.87 0.065 274.039 / 0.7);
+
   /* 弹出窗体背景系统 - indigo-50 系列 */
   --popup-background: oklch(0.962 0.018 272.314 / 0.85);
   --popup-header-background: oklch(0.962 0.018 272.314 / 0.95);
@@ -96,6 +100,10 @@
   /* TopBar专用背景 - 深色半透明确保可见性 */
   --topbar-background: rgba(0, 0, 0, 0.6);
   --topbar-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+  /* 表格锁定专用背景 - 平衡透明度和可读性 */
+  --table-fixed-background: oklch(0.93 0.034 272.788 / 0.65);
+  --table-fixed-background-hover: oklch(0.87 0.065 274.039 / 0.7);
 
   /* 弹出窗体背景系统 - 调整为更深的indigo色调，确保白色文字可读性 */
   --popup-background: oklch(0.511 0.262 276.966 / 0.9);
@@ -221,6 +229,10 @@
   --topbar-background: rgba(0, 0, 0, 0.7);
   --topbar-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 
+  /* 表格锁定专用背景 - 深色主题版本 */
+  --table-fixed-background: oklch(0.231 0.084 274.153 / 0.7);
+  --table-fixed-background-hover: oklch(0.278 0.118 274.395 / 0.75);
+
   /* 主题文字颜色 - slate-100/200 浅色文字，适合深色背景 */
   --text-primary: oklch(0.968 0.007 247.896);
   --text-secondary: oklch(0.929 0.013 255.508);
@@ -322,6 +334,10 @@
   /* TopBar专用背景 - 温暖主题使用半透明浅色背景 */
   --topbar-background: rgba(255, 255, 255, 0.8);
   --topbar-shadow: 0 4px 16px rgba(146, 64, 14, 0.2);
+
+  /* 表格锁定专用背景 - 温暖主题版本 */
+  --table-fixed-background: oklch(0.987 0.022 95.277 / 0.8);
+  --table-fixed-background-hover: oklch(0.962 0.059 95.617 / 0.85);
 
   /* 主题文字颜色 - amber-900/800 深色文字，适合浅色背景 */
   --text-primary: oklch(0.414 0.112 45.904);
@@ -645,7 +661,7 @@
 
 /* ===== 表格锁定样式 ===== */
 .table-header-fixed {
-  background: var(--surface-background);
+  background: var(--table-fixed-background);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
   border-bottom: 2px solid var(--glass-border);
@@ -653,10 +669,14 @@
 }
 
 .table-cell-fixed {
-  background: var(--surface-background);
+  background: var(--table-fixed-background);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
   transition: var(--transition-base);
+}
+
+.table-cell-fixed:hover {
+  background: var(--table-fixed-background-hover);
 }
 
 /* ===== 基础玻璃感组件类 ===== */
