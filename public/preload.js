@@ -27,6 +27,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbGetLowStockItems: () => ipcRenderer.invoke('db-get-low-stock-items'),
   dbGetCategories: () => ipcRenderer.invoke('db-get-categories'),
   dbGetSuppliers: () => ipcRenderer.invoke('db-get-suppliers'),
+  dbGetAllCategories: () => ipcRenderer.invoke('db-get-all-categories'),
+  dbGetAllSuppliers: () => ipcRenderer.invoke('db-get-all-suppliers'),
+  dbGetAllTransactions: () => ipcRenderer.invoke('db-get-all-transactions'),
   
   // Platform info
   platform: process.platform,

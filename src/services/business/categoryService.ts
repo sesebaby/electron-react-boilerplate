@@ -1,13 +1,40 @@
 import { Category } from '../../types/entities';
 import { CategorySchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
+import electronDatabase from '../database/electronDatabase';
 
 export class CategoryService {
   private categories: Map<string, Category> = new Map();
 
   async initialize(): Promise<void> {
-    console.log('Category service initialized');
-    // 系统启动时不创建任何默认分类数据
+    console.log('Category service initializing...');
+    try {
+      // 从数据库加载分类数据
+      const dbCategories = await electronDatabase.getAllCategories();
+      console.log('Loaded categories from database:', dbCategories.length);
+      
+      // 转换数据库数据到内存存储
+      for (const dbCategory of dbCategories) {
+        const category: Category = {
+          id: dbCategory.id,
+          name: dbCategory.name,
+          description: dbCategory.description || '',
+          parentId: dbCategory.parent_id || undefined,
+          isActive: true,
+          order: 0,
+          createdAt: new Date(dbCategory.created_at || Date.now()),
+          updatedAt: new Date(Date.now())
+        };
+        
+        this.categories.set(category.id, category);
+      }
+      
+      console.log(`Category service initialized with ${this.categories.size} categories`);
+    } catch (error) {
+      console.error('Failed to load categories from database:', error);
+      // 继续初始化，即使数据库加载失败
+      console.log('Category service initialized with empty data');
+    }
   }
 
   async findAll(): Promise<Category[]> {

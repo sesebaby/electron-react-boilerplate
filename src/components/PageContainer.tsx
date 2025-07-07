@@ -34,7 +34,6 @@ import UserManagement from './System/UserManagement';
 import PermissionManagement from './System/PermissionManagement';
 import SystemSettings from './System/SystemSettings';
 import OperationLogs from './System/OperationLogs';
-// ConfirmDialogTest removed - test component no longer needed
 
 interface PageContainerProps {
   currentPage: string;
@@ -67,9 +66,8 @@ const pageComponents: Record<string, React.ComponentType> = {
   'sales-reports': SalesReports,
   'purchase-reports': PurchaseReports,
   'financial-reports': FinancialReports,
-  'financial': Financial,
+  'financial': Financial
   // 'system-management': SystemManagement
-  // 'test-confirm-dialog': ConfirmDialogTest - removed test component
 };
 
 // 开发中的页面组件

@@ -366,6 +366,54 @@ function setupDatabaseHandlers(ipcMain, db) {
       return { success: false, error: error.message };
     }
   });
+
+  // Get all categories from categories table
+  ipcMain.handle('db-get-all-categories', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const stmt = db.prepare('SELECT * FROM categories ORDER BY name');
+      const rows = stmt.all();
+      
+      return { success: true, data: rows };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Get all suppliers from suppliers table
+  ipcMain.handle('db-get-all-suppliers', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const stmt = db.prepare('SELECT * FROM suppliers ORDER BY name');
+      const rows = stmt.all();
+      
+      return { success: true, data: rows };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Get all inventory transactions
+  ipcMain.handle('db-get-all-transactions', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const stmt = db.prepare('SELECT * FROM inventory_transactions ORDER BY created_at DESC');
+      const rows = stmt.all();
+      
+      return { success: true, data: rows };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
 }
 
 module.exports = { setupDatabaseHandlers };

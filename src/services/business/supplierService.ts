@@ -1,15 +1,48 @@
 import { Supplier, SupplierStatus, SupplierRating } from '../../types/entities';
 import { SupplierSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
+import electronDatabase from '../database/electronDatabase';
 
 export class SupplierService {
   private suppliers: Map<string, Supplier> = new Map();
   private codeIndex: Map<string, string> = new Map(); // Code -> ID mapping
 
   async initialize(): Promise<void> {
-    console.log('Supplier service initialized');
-    // 供应商数据现在从数据库加载，而不是从seed数据
-    console.log('Supplier service ready');
+    console.log('Supplier service initializing...');
+    try {
+      // 从数据库加载供应商数据
+      const dbSuppliers = await electronDatabase.getAllSuppliers();
+      console.log('Loaded suppliers from database:', dbSuppliers.length);
+      
+      // 转换数据库数据到内存存储
+      for (const dbSupplier of dbSuppliers) {
+        const supplier: Supplier = {
+          id: dbSupplier.id,
+          name: dbSupplier.name,
+          code: dbSupplier.id, // 使用ID作为code，如果数据库没有code字段
+          contactPerson: dbSupplier.contact_person || '',
+          phone: dbSupplier.phone || '',
+          email: dbSupplier.email || '',
+          address: dbSupplier.address || '',
+          status: 'active' as SupplierStatus,
+          rating: 'good' as SupplierRating,
+          paymentTerms: '',
+          deliveryTerms: '',
+          notes: '',
+          createdAt: new Date(dbSupplier.created_at || Date.now()),
+          updatedAt: new Date(dbSupplier.updated_at || Date.now())
+        };
+        
+        this.suppliers.set(supplier.id, supplier);
+        this.codeIndex.set(supplier.code, supplier.id);
+      }
+      
+      console.log(`Supplier service initialized with ${this.suppliers.size} suppliers`);
+    } catch (error) {
+      console.error('Failed to load suppliers from database:', error);
+      // 继续初始化，即使数据库加载失败
+      console.log('Supplier service initialized with empty data');
+    }
   }
 
   async findAll(): Promise<Supplier[]> {

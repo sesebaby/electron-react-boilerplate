@@ -108,6 +108,33 @@ export class ElectronDatabase {
     }
     return result.data || [];
   }
+
+  // Get all categories from categories table
+  async getAllCategories(): Promise<any[]> {
+    const result = await window.electronAPI.dbGetAllCategories();
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to get all categories');
+    }
+    return result.data || [];
+  }
+
+  // Get all suppliers from suppliers table
+  async getAllSuppliers(): Promise<any[]> {
+    const result = await window.electronAPI.dbGetAllSuppliers();
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to get all suppliers');
+    }
+    return result.data || [];
+  }
+
+  // Get all inventory transactions
+  async getAllTransactions(): Promise<any[]> {
+    const result = await window.electronAPI.dbGetAllTransactions();
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to get all transactions');
+    }
+    return result.data || [];
+  }
 }
 
 export default new ElectronDatabase();

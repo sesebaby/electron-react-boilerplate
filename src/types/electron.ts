@@ -26,6 +26,9 @@ export interface ElectronAPI {
   dbGetLowStockItems: () => Promise<{ success: boolean; data?: InventoryItem[]; error?: string }>;
   dbGetCategories: () => Promise<{ success: boolean; data?: string[]; error?: string }>;
   dbGetSuppliers: () => Promise<{ success: boolean; data?: string[]; error?: string }>;
+  dbGetAllCategories: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
+  dbGetAllSuppliers: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
+  dbGetAllTransactions: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
   
   // Platform info
   platform: string;

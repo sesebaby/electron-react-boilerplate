@@ -7,6 +7,7 @@ import { notificationHelper } from '../../utils/notificationHelper';
 import { logger } from '../../utils/secureLogger';
 import { ConcurrencyManager } from '../../utils/concurrency';
 import { ValidationError, BusinessError } from '../../utils/errors';
+import electronDatabase from '../database/electronDatabase';
 
 export class ProductService {
   private products: Map<string, Product> = new Map();
@@ -19,7 +20,39 @@ export class ProductService {
 
   async initialize(): Promise<void> {
     await this.inventoryService.initialize();
-    console.log('Product service initialized');
+    console.log('Product service initializing...');
+    
+    try {
+      // 从数据库加载库存商品数据
+      const dbItems = await electronDatabase.getAllItems();
+      console.log('Loaded inventory items from database:', dbItems.length);
+      
+      // 转换数据库数据到产品实体
+      for (const dbItem of dbItems) {
+        const product: Product = {
+          id: dbItem.id,
+          name: dbItem.name,
+          description: dbItem.description || '',
+          sku: dbItem.sku,
+          categoryId: dbItem.category || 'default',
+          unitId: 'default', // 默认单位，因为数据库没有单位字段
+          status: dbItem.status as ProductStatus || 'active',
+          attributes: {},
+          tags: [],
+          createdAt: new Date(dbItem.lastUpdated || Date.now()),
+          updatedAt: new Date(dbItem.lastUpdated || Date.now())
+        };
+        
+        this.products.set(product.id, product);
+        this.skuIndex.set(product.sku, product.id);
+      }
+      
+      console.log(`Product service initialized with ${this.products.size} products`);
+    } catch (error) {
+      console.error('Failed to load products from database:', error);
+      // 继续初始化，即使数据库加载失败
+      console.log('Product service initialized with empty data');
+    }
   }
 
   async findAll(): Promise<Product[]> {
