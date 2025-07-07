@@ -37,23 +37,25 @@ export const InventoryEntryRegistration: React.FC = () => {
   const [data, setData] = useState<InventoryEntryItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // 获取当前月份的所有日期
+  // 获取当前月份的所有日期 - 基于当前实际月份，不依赖timeRange
   const monthDates = useMemo(() => {
-    const currentDate = new Date(timeRange.startDate);
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     
     return Array.from({ length: daysInMonth }, (_, i) => {
       const date = new Date(year, month, i + 1);
       return date.toISOString().split('T')[0];
     });
-  }, [timeRange.startDate]);
+  }, []); // 移除依赖，只在组件首次加载时计算
 
-  // 生成周快捷选择
+  // 生成周快捷选择 - 基于当前月份
   const weekRanges = useMemo(() => {
-    return inventoryEntryRegistrationService.getMonthlyWeekRanges(timeRange.startDate);
-  }, [timeRange.startDate]);
+    const now = new Date();
+    const currentMonthFirstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+    return inventoryEntryRegistrationService.getMonthlyWeekRanges(currentMonthFirstDay);
+  }, []); // 移除依赖，只基于当前月份
 
   // 获取数据
   useEffect(() => {
