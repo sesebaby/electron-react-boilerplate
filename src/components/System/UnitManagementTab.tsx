@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { GlassCard, GlassInput, GlassSelect, GlassButton } from '../ui/FormControls';
 import { Unit, UnitType } from '../../types/entities';
 
@@ -128,9 +129,9 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
       </div>
 
       {/* 单位表单弹出框 */}
-      {showUnitForm && (
+      {showUnitForm && createPortal(
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]">
-          <div className="glass-card w-full max-w-md mx-4 p-6">
+          <div className="glass-card w-full max-w-md mx-4 p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h4 className="text-lg font-semibold text-white">
                 {editingUnit ? '编辑单位' : '添加单位'}
@@ -152,7 +153,7 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
                 <GlassInput
                   type="text"
                   value={unitForm.name}
-                  onChange={(e) => setUnitForm(prev => ({ ...prev, name: e.target.value }))}
+                  onChange={(e) => setUnitForm((prev: typeof unitForm) => ({ ...prev, name: e.target.value }))}
                   placeholder="如：千克、个、箱"
                   required
                 />
@@ -165,7 +166,7 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
                 <GlassInput
                   type="text"
                   value={unitForm.symbol}
-                  onChange={(e) => setUnitForm(prev => ({ ...prev, symbol: e.target.value }))}
+                  onChange={(e) => setUnitForm((prev: typeof unitForm) => ({ ...prev, symbol: e.target.value }))}
                   placeholder="如：kg、pcs、box"
                   required
                 />
@@ -177,7 +178,7 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
                 </label>
                 <GlassSelect
                   value={unitForm.type}
-                  onChange={(e) => setUnitForm(prev => ({ ...prev, type: e.target.value as UnitType }))}
+                  onChange={(e) => setUnitForm((prev: typeof unitForm) => ({ ...prev, type: e.target.value as UnitType }))}
                   required
                 >
                   {unitTypeOptions.map(option => (
@@ -195,7 +196,7 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
                 <GlassInput
                   type="text"
                   value={unitForm.description}
-                  onChange={(e) => setUnitForm(prev => ({ ...prev, description: e.target.value }))}
+                  onChange={(e) => setUnitForm((prev: typeof unitForm) => ({ ...prev, description: e.target.value }))}
                   placeholder="单位的详细描述"
                 />
               </div>
@@ -205,7 +206,7 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
                   type="checkbox"
                   id="unitActive"
                   checked={unitForm.isActive}
-                  onChange={(e) => setUnitForm(prev => ({ ...prev, isActive: e.target.checked }))}
+                  onChange={(e) => setUnitForm((prev: typeof unitForm) => ({ ...prev, isActive: e.target.checked }))}
                   className="w-4 h-4 rounded border-white/20 bg-white/10"
                 />
                 <label htmlFor="unitActive" className="text-sm text-white/80">
@@ -232,7 +233,8 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </GlassCard>
   );

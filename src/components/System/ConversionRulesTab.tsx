@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { GlassCard, GlassInput, GlassSelect, GlassButton } from '../ui/FormControls';
 import { GlobalConversionRule, Unit, UnitType } from '../../types/entities';
 
@@ -146,9 +147,9 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
       </div>
 
       {/* 换算规则表单弹出框 */}
-      {showConversionForm && (
+      {showConversionForm && createPortal(
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]">
-          <div className="glass-card w-full max-w-md mx-4 p-6">
+          <div className="glass-card w-full max-w-md mx-4 p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h4 className="text-lg font-semibold text-white">
                 {editingConversion ? '编辑换算规则' : '添加换算规则'}
@@ -301,7 +302,8 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </GlassCard>
   );
