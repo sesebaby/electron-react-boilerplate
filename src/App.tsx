@@ -48,8 +48,10 @@ const App: React.FC = () => {
       try {
         // 首先初始化数据库
         console.log('Initializing database...');
-        if (window.electronAPI?.dbInitialize) {
-          await window.electronAPI.dbInitialize();
+        if (window.electronAPI) {
+          // 使用 electronDatabase 服务进行初始化
+          const { default: electronDatabase } = await import('./services/database/electronDatabase');
+          await electronDatabase.initialize();
           console.log('Database initialized successfully');
         }
 

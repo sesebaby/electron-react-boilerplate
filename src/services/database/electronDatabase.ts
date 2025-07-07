@@ -4,6 +4,8 @@ import { InventoryItem } from '../../types/inventory';
 // Uses IPC to communicate with main process for database operations
 
 export class ElectronDatabase {
+  private isInitialized = false;
+
   async initialize(): Promise<void> {
     if (!window.electronAPI?.dbInitialize) {
       throw new Error('Electron API not available');
@@ -13,9 +15,18 @@ export class ElectronDatabase {
     if (!result.success) {
       throw new Error(result.error || 'Failed to initialize database');
     }
+    
+    this.isInitialized = true;
+  }
+
+  private checkInitialized(): void {
+    if (!this.isInitialized) {
+      throw new Error('Database not initialized');
+    }
   }
 
   async getAllItems(): Promise<InventoryItem[]> {
+    this.checkInitialized();
     const result = await window.electronAPI.dbGetAllItems();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get items');
@@ -24,6 +35,7 @@ export class ElectronDatabase {
   }
 
   async getItemById(id: string): Promise<InventoryItem | null> {
+    this.checkInitialized();
     const result = await window.electronAPI.dbGetItemById(id);
     if (!result.success) {
       throw new Error(result.error || 'Failed to get item');
@@ -111,6 +123,7 @@ export class ElectronDatabase {
 
   // Get all categories from categories table
   async getAllCategories(): Promise<any[]> {
+    this.checkInitialized();
     const result = await window.electronAPI.dbGetAllCategories();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get all categories');
@@ -120,6 +133,7 @@ export class ElectronDatabase {
 
   // Get all suppliers from suppliers table
   async getAllSuppliers(): Promise<any[]> {
+    this.checkInitialized();
     const result = await window.electronAPI.dbGetAllSuppliers();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get all suppliers');
@@ -129,6 +143,7 @@ export class ElectronDatabase {
 
   // Get all inventory transactions
   async getAllTransactions(): Promise<any[]> {
+    this.checkInitialized();
     const result = await window.electronAPI.dbGetAllTransactions();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get all transactions');
