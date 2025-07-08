@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { userService } from '../../services/business';
 import { User, UserRole, UserStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
@@ -8,7 +11,50 @@ interface UserManagementProps {
   className?: string;
 }
 
-interface UserForm {
+// 定义用户表单验证模式
+const userSchema = z.object({
+  username: z.string()
+    .min(1, '用户名不能为空')
+    .min(3, '用户名至少3个字符')
+    .max(20, '用户名最多20个字符')
+    .regex(/^[a-zA-Z0-9_-]+$/, '用户名只能包含字母、数字、下划线和连字符'),
+  nickname: z.string().min(1, '显示名称不能为空').max(50, '显示名称最多50个字符'),
+  email: z.string()
+    .email('请输入有效的邮箱地址')
+    .optional()
+    .or(z.literal('')),
+  phone: z.string()
+    .regex(/^[0-9\-\s\+\(\)]{0,20}$/, '请输入有效的电话号码')
+    .optional()
+    .or(z.literal('')),
+  role: z.nativeEnum(UserRole),
+  status: z.nativeEnum(UserStatus),
+  password: z.string()
+    .min(6, '密码至少6个字符')
+    .max(50, '密码最多50个字符')
+    .optional()
+    .or(z.literal(''))
+}).refine((data) => {
+  // 创建时密码是必须的，但由于我们不能在schema中判断模式，所以在组件中处理
+  return true;
+}, {
+  message: '表单验证失败'
+});
+
+// 密码修改表单验证模式
+const passwordSchema = z.object({
+  oldPassword: z.string().min(1, '请输入当前密码'),
+  newPassword: z.string().min(6, '新密码至少6个字符').max(50, '密码最多50个字符'),
+  confirmPassword: z.string().min(1, '请确认新密码')
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: '两次输入的密码不一致',
+  path: ['confirmPassword']
+});
+
+type UserForm = z.infer<typeof userSchema>;
+type PasswordForm = z.infer<typeof passwordSchema>;
+
+interface UserFormLegacy {
   username: string;
   nickname: string;
   email: string;
@@ -53,22 +99,47 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
   const [modalMode, setModalMode] = useState<'create' | 'edit' | 'view' | 'password'>('create');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   
-  // Form state
-  const [formData, setFormData] = useState<UserForm>({
-    username: '',
-    nickname: '',
-    email: '',
-    phone: '',
-    role: UserRole.OPERATOR,
-    status: UserStatus.ACTIVE
+  // React Hook Form setup for user form
+  const {
+    register: registerUser,
+    handleSubmit: handleUserSubmit,
+    formState: { errors: userErrors, isSubmitting: isUserSubmitting },
+    reset: resetUser,
+    setValue: setUserValue,
+    watch: watchUser,
+    clearErrors: clearUserErrors
+  } = useForm<UserForm>({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      username: '',
+      nickname: '',
+      email: '',
+      phone: '',
+      role: UserRole.OPERATOR,
+      status: UserStatus.ACTIVE,
+      password: ''
+    },
+    mode: 'onBlur'
   });
-  
-  // Password change state
-  const [passwordData, setPasswordData] = useState({
-    oldPassword: '',
-    newPassword: '',
-    confirmPassword: ''
+
+  // React Hook Form setup for password form
+  const {
+    register: registerPassword,
+    handleSubmit: handlePasswordSubmit,
+    formState: { errors: passwordErrors, isSubmitting: isPasswordSubmitting },
+    reset: resetPassword,
+    clearErrors: clearPasswordErrors
+  } = useForm<PasswordForm>({
+    resolver: zodResolver(passwordSchema),
+    defaultValues: {
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: ''
+    },
+    mode: 'onBlur'
   });
+
+  const formData = watchUser(); // 监听表单数据变化
 
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
@@ -103,7 +174,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
 
   const handleCreate = () => {
     setModalMode('create');
-    setFormData({
+    resetUser({
       username: '',
       nickname: '',
       email: '',
@@ -112,20 +183,23 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
       status: UserStatus.ACTIVE,
       password: ''
     });
+    clearUserErrors();
     setShowModal(true);
   };
 
   const handleEdit = (user: User) => {
     setModalMode('edit');
     setSelectedUser(user);
-    setFormData({
+    resetUser({
       username: user.username,
       nickname: user.nickname,
       email: user.email || '',
       phone: user.phone || '',
       role: user.role,
-      status: user.status
+      status: user.status,
+      password: '' // 编辑时不显示密码
     });
+    clearUserErrors();
     setShowModal(true);
   };
 
@@ -138,47 +212,42 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
   const handleChangePassword = (user: User) => {
     setModalMode('password');
     setSelectedUser(user);
-    setPasswordData({
+    resetPassword({
       oldPassword: '',
       newPassword: '',
       confirmPassword: ''
     });
+    clearPasswordErrors();
     setShowModal(true);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.username.trim() || !formData.nickname.trim()) {
-      setError('请填写必填字段');
-      return;
-    }
-
+  const onUserSubmit = async (data: UserForm) => {
     try {
       setError(null);
       
       if (modalMode === 'create') {
-        if (!formData.password) {
+        if (!data.password) {
           setError('请设置密码');
           return;
         }
         
         await userService.create({
-          username: formData.username.trim(),
-          nickname: formData.nickname.trim(),
-          email: formData.email.trim() || undefined,
-          phone: formData.phone.trim() || undefined,
-          role: formData.role,
-          status: formData.status,
-          password: formData.password
+          username: data.username.trim(),
+          nickname: data.nickname.trim(),
+          email: data.email?.trim() || undefined,
+          phone: data.phone?.trim() || undefined,
+          role: data.role,
+          status: data.status,
+          password: data.password
         });
       } else if (modalMode === 'edit' && selectedUser) {
         await userService.update(selectedUser.id, {
-          username: formData.username.trim(),
-          nickname: formData.nickname.trim(),
-          email: formData.email.trim() || undefined,
-          phone: formData.phone.trim() || undefined,
-          role: formData.role,
-          status: formData.status
+          username: data.username.trim(),
+          nickname: data.nickname.trim(),
+          email: data.email?.trim() || undefined,
+          phone: data.phone?.trim() || undefined,
+          role: data.role,
+          status: data.status
         });
       }
       
@@ -189,33 +258,22 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const handlePasswordSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onPasswordSubmit = async (data: PasswordForm) => {
     if (!selectedUser) return;
-
-    if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setError('两次输入的密码不一致');
-      return;
-    }
-
-    if (passwordData.newPassword.length < 6) {
-      setError('新密码至少6个字符');
-      return;
-    }
 
     try {
       setError(null);
       
       if (currentUser?.role === UserRole.ADMIN && currentUser.id !== selectedUser.id) {
         // Admin can reset password without old password
-        await userService.resetPassword(selectedUser.id, passwordData.newPassword);
+        await userService.resetPassword(selectedUser.id, data.newPassword);
       } else {
         // User changing own password needs old password
-        await userService.changePassword(selectedUser.id, passwordData.oldPassword, passwordData.newPassword);
+        await userService.changePassword(selectedUser.id, data.oldPassword, data.newPassword);
       }
       
       setShowModal(false);
-      setPasswordData({ oldPassword: '', newPassword: '', confirmPassword: '' });
+      resetPassword({ oldPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
       setError(err instanceof Error ? err.message : '密码修改失败');
     }
@@ -561,7 +619,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
             
             <div className="p-6">
               {modalMode === 'password' ? (
-                <form onSubmit={handlePasswordSubmit} className="space-y-4">
+                <form onSubmit={handlePasswordSubmit(onPasswordSubmit)} className="space-y-4">
                   {currentUser?.id === selectedUser?.id && (
                     <div>
                       <label className="block text-sm font-medium text-white mb-2">
@@ -569,8 +627,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                       </label>
                       <GlassInput
                         type="password"
-                        value={passwordData.oldPassword}
-                        onChange={(e) => setPasswordData(prev => ({ ...prev, oldPassword: e.target.value }))}
+                        register={registerPassword('oldPassword')}
+                        error={passwordErrors.oldPassword?.message}
                         placeholder="请输入当前密码"
                         required
                       />
@@ -583,8 +641,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                     </label>
                     <GlassInput
                       type="password"
-                      value={passwordData.newPassword}
-                      onChange={(e) => setPasswordData(prev => ({ ...prev, newPassword: e.target.value }))}
+                      register={registerPassword('newPassword')}
+                      error={passwordErrors.newPassword?.message}
                       placeholder="请输入新密码"
                       required
                       minLength={6}
@@ -597,8 +655,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                     </label>
                     <GlassInput
                       type="password"
-                      value={passwordData.confirmPassword}
-                      onChange={(e) => setPasswordData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                      register={registerPassword('confirmPassword')}
+                      error={passwordErrors.confirmPassword?.message}
                       placeholder="请再次输入新密码"
                       required
                       minLength={6}
@@ -615,6 +673,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                     </GlassButton>
                     <GlassButton 
                       type="submit"
+                      loading={isPasswordSubmitting}
                       className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700"
                     >
                       确认修改
@@ -665,7 +724,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                   </div>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleUserSubmit(onUserSubmit)} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-white mb-2">
@@ -673,8 +732,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                       </label>
                       <GlassInput
                         type="text"
-                        value={formData.username}
-                        onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
+                        register={registerUser('username')}
+                        error={userErrors.username?.message}
                         placeholder="请输入用户名"
                         required
                         disabled={modalMode === 'view'}
@@ -687,8 +746,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                       </label>
                       <GlassInput
                         type="text"
-                        value={formData.nickname}
-                        onChange={(e) => setFormData(prev => ({ ...prev, nickname: e.target.value }))}
+                        register={registerUser('nickname')}
+                        error={userErrors.nickname?.message}
                         placeholder="请输入昵称"
                         required
                         disabled={modalMode === 'view'}
@@ -701,8 +760,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                       <label className="block text-sm font-medium text-white mb-2">邮箱</label>
                       <GlassInput
                         type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                        register={registerUser('email')}
+                        error={userErrors.email?.message}
                         placeholder="请输入邮箱地址"
                         disabled={modalMode === 'view'}
                       />
@@ -712,8 +771,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                       <label className="block text-sm font-medium text-white mb-2">手机号</label>
                       <GlassInput
                         type="tel"
-                        value={formData.phone}
-                        onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                        register={registerUser('phone')}
+                        error={userErrors.phone?.message}
                         placeholder="请输入手机号"
                         disabled={modalMode === 'view'}
                       />
@@ -727,8 +786,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                       </label>
                       <GlassInput
                         type="password"
-                        value={formData.password || ''}
-                        onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                        register={registerUser('password')}
+                        error={userErrors.password?.message}
                         placeholder="请输入密码"
                         required
                         minLength={6}
@@ -742,8 +801,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                         角色 <span className="text-red-400">*</span>
                       </label>
                       <GlassSelect
-                        value={formData.role}
-                        onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value as UserRole }))}
+                        register={registerUser('role')}
+                        error={userErrors.role?.message}
                         required
                         disabled={modalMode === 'view'}
                       >
@@ -758,8 +817,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                         状态 <span className="text-red-400">*</span>
                       </label>
                       <GlassSelect
-                        value={formData.status}
-                        onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as UserStatus }))}
+                        register={registerUser('status')}
+                        error={userErrors.status?.message}
                         required
                         disabled={modalMode === 'view'}
                       >
@@ -781,6 +840,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                       </GlassButton>
                       <GlassButton 
                         type="submit"
+                        loading={isUserSubmitting}
                         className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700"
                       >
                         {modalMode === 'create' ? '创建用户' : '保存修改'}

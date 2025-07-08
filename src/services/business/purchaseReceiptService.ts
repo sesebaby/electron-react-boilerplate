@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { logger } from '../../utils/secureLogger';
 import purchaseOrderService from './purchaseOrderService';
 import supplierService from './supplierService';
-import warehouseService from './warehouseService';
+import { warehouseService } from './warehouseService';
 import productService from './productService';
 import inventoryStockService from './inventoryStockService';
 

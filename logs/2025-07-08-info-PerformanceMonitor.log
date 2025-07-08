@@ -1,1 +1,2 @@
-2025-07-07T21:47:01.835Z INFO  [PerformanceMonitor][PerformanceMonitor] Performance: 内存使用 | {"metric":"内存使用","value":19300000,"unit":"bytes","category":"memory","details":{"usedJSHeapSize":19300000,"totalJSHeapSize":21700000,"jsHeapSizeLimit":3760000000,"usagePercent":0.5132978723404256}}
+2025-07-08T03:31:05.301Z INFO  [PerformanceMonitor][PerformanceMonitor] Performance: 请求响应时间 | {"metric":"请求响应时间","value":1.7999999523162842,"unit":"ms","category":"navigation","details":{"phase":"request"}}
+2025-07-08T03:31:05.301Z INFO  [PerformanceMonitor][PerformanceMonitor] Performance: 资源加载时间 | {"metric":"资源加载时间","value":12.299999952316284,"unit":"ms","category":"navigation","details":{"phase":"resources"}}

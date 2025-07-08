@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { warehouseService } from '../../services/business';
 import { Warehouse } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
@@ -32,7 +33,6 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editingWarehouse, setEditingWarehouse] = useState<Warehouse | null>(null);
-  const [formData, setFormData] = useState<WarehouseForm>(emptyForm);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [stats, setStats] = useState<any>(null);
@@ -42,6 +42,23 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
   const [showDefaultDialog, setShowDefaultDialog] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const [defaultTargetId, setDefaultTargetId] = useState<string | null>(null);
+
+  // React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    setValue,
+    watch,
+    trigger,
+    clearErrors
+  } = useForm<WarehouseForm>({
+    defaultValues: emptyForm,
+    mode: 'onBlur'
+  });
+
+  const formData = watch(); // 监听表单数据变化
 
   useEffect(() => {
     loadData();
@@ -67,13 +84,11 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const onSubmit = async (data: WarehouseForm) => {
     try {
       const submitData = {
-        ...formData,
-        manager: formData.creator
+        ...data,
+        manager: data.creator
       };
       
       if (editingWarehouse) {
@@ -85,7 +100,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       await loadData();
       setShowForm(false);
       setEditingWarehouse(null);
-      setFormData(emptyForm);
+      reset(emptyForm);
     } catch (err) {
       setError(err instanceof Error ? err.message : '保存仓库失败');
       console.error('Failed to save warehouse:', err);
@@ -94,13 +109,14 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
 
   const handleEdit = (warehouse: Warehouse) => {
     setEditingWarehouse(warehouse);
-    setFormData({
+    reset({
       code: warehouse.code,
       name: warehouse.name,
       address: warehouse.address || '',
       creator: warehouse.manager || '',
       isDefault: warehouse.isDefault
     });
+    clearErrors();
     setShowForm(true);
   };
 
@@ -163,7 +179,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
   const handleCancel = () => {
     setShowForm(false);
     setEditingWarehouse(null);
-    setFormData(emptyForm);
+    reset(emptyForm);
+    clearErrors();
   };
 
   const handleCreateNew = () => {
@@ -171,12 +188,9 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       ...emptyForm,
       creator: user?.nickname || user?.username || ''
     };
-    setFormData(newFormData);
+    reset(newFormData);
+    clearErrors();
     setShowForm(true);
-  };
-
-  const handleInputChange = (field: keyof WarehouseForm, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const generateWarehouseCode = () => {
@@ -190,7 +204,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }, 0);
     
     const newCode = `WH${String(maxCode + 1).padStart(3, '0')}`;
-    setFormData(prev => ({ ...prev, code: newCode }));
+    setValue('code', newCode);
+    clearErrors('code');
   };
 
   // 初始化时自动生成编码
@@ -442,7 +457,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-10">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
               {/* 基本信息 */}
               <div className="space-y-6">
                 <div className="flex items-center gap-3 mb-6">
@@ -461,9 +476,11 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                           label="仓库编码"
                           type="text"
                           placeholder="如: WH001"
-                          value={formData.code}
-                          onChange={(e) => handleInputChange('code', e.target.value)}
+                          register={register('code', { 
+                            required: '仓库编码不能为空' 
+                          })}
                           required
+                          error={errors.code?.message}
                           className="flex-1"
                         />
                         {!editingWarehouse && (
@@ -471,7 +488,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                             type="button"
                             onClick={generateWarehouseCode}
                             variant="secondary"
-                            className="px-4 py-2"
+                            className="px-3 py-2"
                             title="自动生成编码"
                           >
                             🔄 自动生成
@@ -491,9 +508,11 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                     label="仓库名称"
                     type="text"
                     placeholder="如: 主仓库、备用仓库"
-                    value={formData.name}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    register={register('name', { 
+                      required: '仓库名称不能为空' 
+                    })}
                     required
+                    error={errors.name?.message}
                     className=""
                   />
 
@@ -501,9 +520,11 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                     label="负责人"
                     type="text"
                     placeholder="负责人姓名"
-                    value={formData.creator}
-                    onChange={(e) => handleInputChange('creator', e.target.value)}
+                    register={register('creator', { 
+                      required: '负责人不能为空' 
+                    })}
                     required
+                    error={errors.creator?.message}
                     disabled={!editingWarehouse}
                   />
                 </div>
@@ -523,9 +544,11 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                   label="仓库地址"
                   type="text"
                   placeholder="请输入详细地址"
-                  value={formData.address}
-                  onChange={(e) => handleInputChange('address', e.target.value)}
+                  register={register('address', { 
+                    required: '仓库地址不能为空' 
+                  })}
                   required
+                  error={errors.address?.message}
                 />
               </div>
 
@@ -542,8 +565,9 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 <div className="bg-amber-500/10 border border-amber-400/20 rounded-lg p-6">
                   <GlassSelect
                     label="是否设为默认仓库"
-                    value={formData.isDefault ? 'true' : 'false'}
-                    onChange={(e) => handleInputChange('isDefault', e.target.value === 'true')}
+                    register={register('isDefault', {
+                      setValueAs: (value) => value === 'true'
+                    })}
                   >
                     <option value="false">否</option>
                     <option value="true">是</option>
@@ -560,7 +584,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 <GlassButton
                   type="submit"
                   variant="primary"
-                  disabled={!formData.code || !formData.name || !formData.creator || !formData.address}
+                  loading={isSubmitting}
                   className="flex-1 py-4"
                 >
                   <span className="mr-2">{editingWarehouse ? '💾' : '✨'}</span>
@@ -604,6 +628,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
         onConfirm={confirmSetDefault}
         onCancel={cancelSetDefault}
       />
+
     </div>
   );
 };

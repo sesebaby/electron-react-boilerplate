@@ -471,7 +471,7 @@ export class SalesOrderService {
 
     // 检查库存是否足够（使用默认仓库，实际应从产品或订单配置中获取）
     // 使用延迟导入避免循环依赖
-    const { default: warehouseService } = await import('./warehouseService');
+    const { warehouseService } = await import('./warehouseService');
     const defaultWarehouse = await warehouseService.findDefault();
     if (!defaultWarehouse) {
       throw new Error('系统未配置默认仓库，无法检查库存');

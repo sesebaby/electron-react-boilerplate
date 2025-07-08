@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { categoryService } from '../../services/business';
 import { Category } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
@@ -10,13 +13,16 @@ interface CategoryManagementProps {
   className?: string;
 }
 
-interface CategoryForm {
-  name: string;
-  parentId: string;
-  level: number;
-  sortOrder: number;
-  isActive: boolean;
-}
+// 定义验证模式
+const categorySchema = z.object({
+  name: z.string().min(1, '分类名称不能为空').max(50, '分类名称最多50个字符'),
+  parentId: z.string().optional(),
+  level: z.number().min(1, '级别不能小于1').max(10, '级别不能超过10'),
+  sortOrder: z.number().min(1, '排序号不能小于1'),
+  isActive: z.boolean()
+});
+
+type CategoryForm = z.infer<typeof categorySchema>;
 
 const emptyForm: CategoryForm = {
   name: '',
@@ -32,10 +38,26 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
-  const [formData, setFormData] = useState<CategoryForm>(emptyForm);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedParent, setSelectedParent] = useState('');
   const [stats, setStats] = useState<any>(null);
+
+  // React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    setValue,
+    watch,
+    clearErrors
+  } = useForm<CategoryForm>({
+    resolver: zodResolver(categorySchema),
+    defaultValues: emptyForm,
+    mode: 'onBlur'
+  });
+
+  const formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -66,14 +88,12 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: CategoryForm) => {
     try {
       // 处理根分类的parentId：将空字符串转换为undefined
       const submitData = {
-        ...formData,
-        parentId: formData.parentId || undefined
+        ...data,
+        parentId: data.parentId || undefined
       };
 
       if (editingCategory) {
@@ -85,7 +105,8 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       await loadData();
       setShowForm(false);
       setEditingCategory(null);
-      setFormData(emptyForm);
+      reset(emptyForm);
+      clearErrors();
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '保存分类失败';
       setError(errorMessage);
@@ -96,13 +117,14 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
 
   const handleEdit = (category: Category) => {
     setEditingCategory(category);
-    setFormData({
+    reset({
       name: category.name,
       parentId: category.parentId || '',
       level: category.level,
       sortOrder: category.sortOrder,
       isActive: category.isActive
     });
+    clearErrors();
     setShowForm(true);
   };
 
@@ -136,33 +158,34 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
   const handleCancel = () => {
     setShowForm(false);
     setEditingCategory(null);
-    setFormData(emptyForm);
+    reset(emptyForm);
+    clearErrors();
     setError(null); // 清除错误信息
   };
 
-  const handleInputChange = (field: keyof CategoryForm, value: any) => {
-    setFormData(prev => {
-      const newData = { ...prev, [field]: value };
-      
-      // 自动调整级别
-      if (field === 'parentId') {
-        if (value) {
-          const parentCategory = categories.find(c => c.id === value);
-          if (parentCategory) {
-            newData.level = parentCategory.level + 1;
-          }
-        } else {
-          newData.level = 1;
-        }
+  // 处理父分类变更时自动调整级别
+  const handleParentChange = (parentId: string) => {
+    setValue('parentId', parentId);
+    
+    if (parentId) {
+      const parentCategory = categories.find(c => c.id === parentId);
+      if (parentCategory) {
+        setValue('level', parentCategory.level + 1);
       }
-      
-      return newData;
-    });
+    } else {
+      setValue('level', 1);
+    }
     
     // 当用户开始输入时清除错误信息
     if (error) {
       setError(null);
     }
+  };
+
+  const handleCreateNew = () => {
+    reset(emptyForm);
+    clearErrors();
+    setShowForm(true);
   };
 
   const getCategoryPath = (category: Category): string => {
@@ -217,7 +240,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
         </div>
         <GlassButton
           variant="primary"
-          onClick={() => setShowForm(true)}
+          onClick={handleCreateNew}
           className="self-start lg:self-auto"
         >
           <span className="mr-2">📂</span>
@@ -314,7 +337,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
             <div className="text-6xl mb-4">📂</div>
             <h3 className="text-xl font-semibold text-white mb-2">没有找到分类</h3>
             <p className="text-white/70 mb-4">请调整搜索条件或创建新的分类</p>
-            <GlassButton variant="primary" onClick={() => setShowForm(true)}>
+            <GlassButton variant="primary" onClick={handleCreateNew}>
               添加第一个分类
             </GlassButton>
           </div>
@@ -404,7 +427,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
               {/* 错误信息显示 */}
               {error && (
                 <ErrorDisplay
@@ -423,16 +446,18 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
                       label="分类名称"
                       type="text"
                       placeholder="输入分类名称"
-                      value={formData.name}
-                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      register={register('name')}
+                      error={errors.name?.message}
                       required
                     />
                   </div>
 
                   <GlassSelect
                     label="父分类"
-                    value={formData.parentId}
-                    onChange={(e) => handleInputChange('parentId', e.target.value)}
+                    register={register('parentId', {
+                      onChange: (e) => handleParentChange(e.target.value)
+                    })}
+                    error={errors.parentId?.message}
                   >
                     <option value="">根分类</option>
                     {categories
@@ -447,8 +472,10 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
                   <GlassInput
                     label="级别"
                     type="number"
-                    value={formData.level}
-                    onChange={(e) => handleInputChange('level', parseInt(e.target.value) || 1)}
+                    register={register('level', {
+                      setValueAs: (value) => parseInt(value) || 1
+                    })}
+                    error={errors.level?.message}
                     min="1"
                     max="10"
                     disabled
@@ -463,16 +490,20 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
                   <GlassInput
                     label="排序"
                     type="number"
-                    value={formData.sortOrder}
-                    onChange={(e) => handleInputChange('sortOrder', parseInt(e.target.value) || 1)}
+                    register={register('sortOrder', {
+                      setValueAs: (value) => parseInt(value) || 1
+                    })}
+                    error={errors.sortOrder?.message}
                     min="1"
                     placeholder="排序号"
                   />
 
                   <GlassSelect
                     label="状态"
-                    value={formData.isActive ? 'true' : 'false'}
-                    onChange={(e) => handleInputChange('isActive', e.target.value === 'true')}
+                    register={register('isActive', {
+                      setValueAs: (value) => value === 'true'
+                    })}
+                    error={errors.isActive?.message}
                   >
                     <option value="true">启用</option>
                     <option value="false">禁用</option>
@@ -485,7 +516,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
                 <GlassButton
                   type="submit"
                   variant="primary"
-                  disabled={!formData.name}
+                  loading={isSubmitting}
                   className="flex-1 md:flex-none md:min-w-32"
                 >
                   <span className="mr-2">{editingCategory ? '💾' : '✨'}</span>

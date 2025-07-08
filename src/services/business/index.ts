@@ -3,7 +3,7 @@
 // 临时注释掉可能有循环依赖的服务，逐步启用
 import categoryService from './categoryService';
 import unitService from './unitService';
-import warehouseService from './warehouseService';
+import { warehouseService } from './warehouseService';
 import supplierService from './supplierService';
 import customerService from './customerService';
 import userService from './userService';

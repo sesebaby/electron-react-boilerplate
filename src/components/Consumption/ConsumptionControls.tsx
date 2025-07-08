@@ -9,8 +9,11 @@ import {
   DisplayMode 
 } from '../../types/consumption';
 
-// 基准日期配置 - 第1天的起始日期
-const BASE_DATE = new Date('2024-01-01');
+// 基准日期配置 - 当前月份第1天的起始日期
+const getBaseDate = () => {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), 1);
+};
 
 const ConsumptionControls: React.FC<ConsumptionControlsProps> = ({
   config,
@@ -71,8 +74,9 @@ const ConsumptionControls: React.FC<ConsumptionControlsProps> = ({
    */
   const handleWeekSelect = (weekNumber: number) => {
     // 计算该周的开始日期和结束日期
-    const startDate = new Date(BASE_DATE);
-    startDate.setDate(BASE_DATE.getDate() + (weekNumber - 1) * 7);
+    const baseDate = getBaseDate();
+    const startDate = new Date(baseDate);
+    startDate.setDate(baseDate.getDate() + (weekNumber - 1) * 7);
     
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 6);

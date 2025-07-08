@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { salesOrderService, customerService, productService } from '../../services/business';
 import { SalesOrder, SalesOrderItem, SalesOrderStatus, PaymentStatus, Customer, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
@@ -9,7 +12,40 @@ interface SalesOrderManagementProps {
   className?: string;
 }
 
-interface OrderForm {
+// 定义订单项验证模式
+const orderItemSchema = z.object({
+  id: z.string().optional(),
+  productId: z.string().min(1, '请选择商品'),
+  quantity: z.number().min(1, '数量必须大于0').max(999999, '数量过大'),
+  unitPrice: z.number().min(0.01, '单价必须大于0').max(999999.99, '单价过大'),
+  discountRate: z.number().min(0, '折扣率不能为负数').max(1, '折扣率不能超过1')
+});
+
+// 定义订单表单验证模式
+const salesOrderSchema = z.object({
+  customerId: z.string().min(1, '请选择客户'),
+  orderDate: z.string().min(1, '请选择订单日期'),
+  deliveryDate: z.string().min(1, '请选择交货日期'),
+  status: z.nativeEnum(SalesOrderStatus),
+  paymentStatus: z.nativeEnum(PaymentStatus),
+  discountAmount: z.number().min(0, '折扣金额不能为负数').max(999999.99, '折扣金额过大'),
+  taxAmount: z.number().min(0, '税额不能为负数').max(999999.99, '税额过大'),
+  remark: z.string().max(500, '备注最多500个字符').optional().or(z.literal('')),
+  creator: z.string().min(1, '创建人不能为空'),
+  items: z.array(orderItemSchema).min(1, '请至少添加一个订单项')
+}).refine((data) => {
+  const orderDate = new Date(data.orderDate);
+  const deliveryDate = new Date(data.deliveryDate);
+  return deliveryDate >= orderDate;
+}, {
+  message: '交货日期不能早于订单日期',
+  path: ['deliveryDate']
+});
+
+type SalesOrderForm = z.infer<typeof salesOrderSchema>;
+type OrderItemForm = z.infer<typeof orderItemSchema>;
+
+interface OrderFormLegacy {
   customerId: string;
   orderDate: string;
   deliveryDate: string;
@@ -21,7 +57,7 @@ interface OrderForm {
   creator: string;
 }
 
-interface OrderItemForm {
+interface OrderItemFormLegacy {
   id: string;
   productId: string;
   quantity: number;
@@ -29,7 +65,7 @@ interface OrderItemForm {
   discountRate: number;
 }
 
-const emptyForm: OrderForm = {
+const emptyForm: SalesOrderForm = {
   customerId: '',
   orderDate: new Date().toISOString().split('T')[0],
   deliveryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 7天后
@@ -38,12 +74,13 @@ const emptyForm: OrderForm = {
   discountAmount: 0,
   taxAmount: 0,
   remark: '',
-  creator: '销售员'
+  creator: '销售员',
+  items: []
 };
 
-const emptyItem: Omit<OrderItemForm, 'id'> = {
+const emptyItem: OrderItemForm = {
   productId: '',
-  quantity: 0,
+  quantity: 1,
   unitPrice: 0,
   discountRate: 0
 };
@@ -56,13 +93,35 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editingOrder, setEditingOrder] = useState<SalesOrder | null>(null);
-  const [formData, setFormData] = useState<OrderForm>(emptyForm);
-  const [formItems, setFormItems] = useState<OrderItemForm[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<SalesOrderStatus | ''>('');
   const [selectedPaymentStatus, setSelectedPaymentStatus] = useState<PaymentStatus | ''>('');
   const [selectedCustomer, setSelectedCustomer] = useState('');
   const [stats, setStats] = useState<any>(null);
+
+  // React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    setValue,
+    watch,
+    clearErrors,
+    control
+  } = useForm<SalesOrderForm>({
+    resolver: zodResolver(salesOrderSchema),
+    defaultValues: emptyForm,
+    mode: 'onBlur'
+  });
+
+  // 使用useFieldArray管理动态订单项
+  const { fields, append, remove, update } = useFieldArray({
+    control,
+    name: 'items'
+  });
+
+  const formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -96,32 +155,24 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (formItems.length === 0) {
-      setError('请至少添加一个销售项目');
-      return;
-    }
-
-    // 验证所有项目
-    for (const item of formItems) {
-      if (!item.productId || item.quantity <= 0 || item.unitPrice <= 0) {
-        setError('请完整填写所有销售项目信息');
-        return;
-      }
-    }
-    
+  const onSubmit = async (data: SalesOrderForm) => {
     try {
+      // 处理订单数据
+      const orderData = {
+        ...data,
+        orderDate: new Date(data.orderDate),
+        deliveryDate: data.deliveryDate ? new Date(data.deliveryDate) : undefined,
+        remark: data.remark || undefined
+      };
+      
+      // 从 orderData 中移除 items 字段，因为 API 不需要这个字段
+      const { items, ...orderFields } = orderData;
+      
       let order: SalesOrder;
       
       if (editingOrder) {
         // 更新订单
-        order = await salesOrderService.update(editingOrder.id, {
-          ...formData,
-          orderDate: new Date(formData.orderDate),
-          deliveryDate: formData.deliveryDate ? new Date(formData.deliveryDate) : undefined
-        });
+        order = await salesOrderService.update(editingOrder.id, orderFields);
         
         // 更新订单项目（简化：删除所有重新添加）
         const existingItems = await salesOrderService.getOrderItems(editingOrder.id);
@@ -130,15 +181,11 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
         }
       } else {
         // 创建新订单
-        order = await salesOrderService.create({
-          ...formData,
-          orderDate: new Date(formData.orderDate),
-          deliveryDate: formData.deliveryDate ? new Date(formData.deliveryDate) : undefined
-        });
+        order = await salesOrderService.create(orderFields);
       }
       
       // 添加订单项目
-      for (const itemData of formItems) {
+      for (const itemData of data.items) {
         await salesOrderService.addOrderItem(order.id, {
           productId: itemData.productId,
           quantity: itemData.quantity,
@@ -151,8 +198,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
       await loadData();
       setShowForm(false);
       setEditingOrder(null);
-      setFormData(emptyForm);
-      setFormItems([]);
+      reset(emptyForm);
+      clearErrors();
     } catch (err) {
       setError(err instanceof Error ? err.message : '保存销售订单失败');
       console.error('Failed to save sales order:', err);
@@ -161,7 +208,11 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
 
   const handleEdit = async (order: SalesOrder) => {
     setEditingOrder(order);
-    setFormData({
+    
+    // 加载订单项目
+    const items = await salesOrderService.getOrderItems(order.id);
+    
+    reset({
       customerId: order.customerId,
       orderDate: order.orderDate.toISOString().split('T')[0],
       deliveryDate: order.deliveryDate?.toISOString().split('T')[0] || '',
@@ -170,19 +221,17 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
       discountAmount: order.discountAmount,
       taxAmount: order.taxAmount,
       remark: order.remark || '',
-      creator: order.creator
+      creator: order.creator,
+      items: items.map(item => ({
+        id: item.id,
+        productId: item.productId,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+        discountRate: item.discountRate
+      }))
     });
     
-    // 加载订单项目
-    const items = await salesOrderService.getOrderItems(order.id);
-    setFormItems(items.map(item => ({
-      id: item.id,
-      productId: item.productId,
-      quantity: item.quantity,
-      unitPrice: item.unitPrice,
-      discountRate: item.discountRate
-    })));
-    
+    clearErrors();
     setShowForm(true);
   };
 
@@ -234,36 +283,36 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
   const handleCancel = () => {
     setShowForm(false);
     setEditingOrder(null);
-    setFormData(emptyForm);
-    setFormItems([]);
+    reset(emptyForm);
+    clearErrors();
     setError(null); // 清除错误信息
   };
 
-  const handleInputChange = (field: keyof OrderForm, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    // 当用户开始输入时清除错误信息
-    if (error) {
-      setError(null);
+  const handleCreateNew = () => {
+    reset(emptyForm);
+    clearErrors();
+    setShowForm(true);
+  };
+
+  // 添加订单项
+  const addOrderItem = () => {
+    append(emptyItem);
+  };
+
+  // 删除订单项
+  const removeOrderItem = (index: number) => {
+    remove(index);
+  };
+
+  // 获取商品信息并更新价格
+  const handleProductChange = (index: number, productId: string) => {
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      setValue(`items.${index}.productId`, productId);
+      setValue(`items.${index}.unitPrice`, product.salePrice);
     }
   };
 
-  const addItem = () => {
-    const newItem: OrderItemForm = {
-      ...emptyItem,
-      id: Date.now().toString()
-    };
-    setFormItems(prev => [...prev, newItem]);
-  };
-
-  const removeItem = (itemId: string) => {
-    setFormItems(prev => prev.filter(item => item.id !== itemId));
-  };
-
-  const updateItem = (itemId: string, field: keyof OrderItemForm, value: any) => {
-    setFormItems(prev => prev.map(item =>
-      item.id === itemId ? { ...item, [field]: value } : item
-    ));
-  };
 
   const getStatusText = (status: SalesOrderStatus): string => {
     switch (status) {
@@ -316,7 +365,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
   };
 
   const getTotalItemAmount = (): number => {
-    return formItems.reduce((sum, item) => {
+    return formData.items.reduce((sum, item) => {
       const amount = item.quantity * item.unitPrice * (1 - item.discountRate);
       return sum + amount;
     }, 0);
@@ -661,7 +710,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* 错误信息显示 */}
               {error && (
                 <ErrorDisplay
@@ -676,8 +725,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <GlassSelect
                     label="客户"
-                    value={formData.customerId}
-                    onChange={(e) => handleInputChange('customerId', e.target.value)}
+                    register={register('customerId')}
+                    error={errors.customerId?.message}
                     required
                   >
                     <option value="">请选择客户</option>
@@ -691,22 +740,22 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                   <GlassInput
                     label="订单日期"
                     type="date"
-                    value={formData.orderDate}
-                    onChange={(e) => handleInputChange('orderDate', e.target.value)}
+                    register={register('orderDate')}
+                    error={errors.orderDate?.message}
                     required
                   />
 
                   <GlassInput
                     label="交货日期"
                     type="date"
-                    value={formData.deliveryDate}
-                    onChange={(e) => handleInputChange('deliveryDate', e.target.value)}
+                    register={register('deliveryDate')}
+                    error={errors.deliveryDate?.message}
                   />
 
                   <GlassSelect
                     label="订单状态"
-                    value={formData.status}
-                    onChange={(e) => handleInputChange('status', e.target.value as SalesOrderStatus)}
+                    register={register('status')}
+                    error={errors.status?.message}
                   >
                     <option value={SalesOrderStatus.DRAFT}>草稿</option>
                     <option value={SalesOrderStatus.CONFIRMED}>已确认</option>
@@ -715,8 +764,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
 
                   <GlassSelect
                     label="付款状态"
-                    value={formData.paymentStatus}
-                    onChange={(e) => handleInputChange('paymentStatus', e.target.value as PaymentStatus)}
+                    register={register('paymentStatus')}
+                    error={errors.paymentStatus?.message}
                   >
                     <option value={PaymentStatus.UNPAID}>未付款</option>
                     <option value={PaymentStatus.PARTIAL}>部分付款</option>
@@ -728,8 +777,10 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                     type="number"
                     min="0"
                     step="0.01"
-                    value={formData.discountAmount}
-                    onChange={(e) => handleInputChange('discountAmount', parseFloat(e.target.value) || 0)}
+                    register={register('discountAmount', {
+                      setValueAs: (value) => parseFloat(value) || 0
+                    })}
+                    error={errors.discountAmount?.message}
                     placeholder="0.00"
                   />
 
@@ -738,29 +789,34 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                     type="number"
                     min="0"
                     step="0.01"
-                    value={formData.taxAmount}
-                    onChange={(e) => handleInputChange('taxAmount', parseFloat(e.target.value) || 0)}
+                    register={register('taxAmount', {
+                      setValueAs: (value) => parseFloat(value) || 0
+                    })}
+                    error={errors.taxAmount?.message}
                     placeholder="0.00"
                   />
 
                   <GlassInput
                     label="创建人"
                     type="text"
-                    value={formData.creator}
-                    onChange={(e) => handleInputChange('creator', e.target.value)}
+                    register={register('creator')}
+                    error={errors.creator?.message}
                     placeholder="创建人姓名"
+                    required
                   />
                 </div>
 
                 <div className="mt-4">
                   <label className="block text-white/90 text-sm font-medium mb-2">备注说明</label>
                   <textarea
-                    value={formData.remark}
-                    onChange={(e) => handleInputChange('remark', e.target.value)}
+                    {...register('remark')}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all resize-none"
                     placeholder="订单备注说明"
                     rows={3}
                   />
+                  {errors.remark && (
+                    <p className="text-sm text-red-400 mt-1">{errors.remark.message}</p>
+                  )}
                 </div>
               </GlassCard>
 
@@ -771,14 +827,14 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                   <GlassButton
                     type="button"
                     variant="primary"
-                    onClick={addItem}
+                    onClick={addOrderItem}
                   >
                     <span className="mr-2">➕</span>
                     添加项目
                   </GlassButton>
                 </div>
 
-                {formItems.length === 0 ? (
+                {fields.length === 0 ? (
                   <div className="text-center py-12">
                     <div className="text-6xl mb-4">📦</div>
                     <h3 className="text-xl font-semibold text-white mb-2">暂无订单项目</h3>
@@ -798,14 +854,15 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                         </tr>
                       </thead>
                       <tbody>
-                        {formItems.map(item => {
-                          const amount = item.quantity * item.unitPrice * (1 - item.discountRate);
+                        {fields.map((field, index) => {
+                          const item = formData.items[index];
+                          const amount = item ? item.quantity * item.unitPrice * (1 - item.discountRate) : 0;
                           return (
-                            <tr key={item.id} className="border-b border-white/5">
+                            <tr key={field.id} className="border-b border-white/5">
                               <td className="py-3 px-4">
                                 <select
-                                  value={item.productId}
-                                  onChange={(e) => updateItem(item.id, 'productId', e.target.value)}
+                                  {...register(`items.${index}.productId`)}
+                                  onChange={(e) => handleProductChange(index, e.target.value)}
                                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
                                   required
                                 >
@@ -816,30 +873,41 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                                     </option>
                                   ))}
                                 </select>
+                                {errors.items?.[index]?.productId && (
+                                  <p className="text-sm text-red-400 mt-1">{errors.items[index]?.productId?.message}</p>
+                                )}
                               </td>
                               <td className="py-3 px-4">
                                 <input
                                   type="number"
-                                  min="0.01"
-                                  step="0.01"
-                                  value={item.quantity}
-                                  onChange={(e) => updateItem(item.id, 'quantity', parseFloat(e.target.value) || 0)}
+                                  min="1"
+                                  step="1"
+                                  {...register(`items.${index}.quantity`, {
+                                    setValueAs: (value) => parseInt(value) || 1
+                                  })}
                                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
                                   placeholder="数量"
                                   required
                                 />
+                                {errors.items?.[index]?.quantity && (
+                                  <p className="text-sm text-red-400 mt-1">{errors.items[index]?.quantity?.message}</p>
+                                )}
                               </td>
                               <td className="py-3 px-4">
                                 <input
                                   type="number"
                                   min="0.01"
                                   step="0.01"
-                                  value={item.unitPrice}
-                                  onChange={(e) => updateItem(item.id, 'unitPrice', parseFloat(e.target.value) || 0)}
+                                  {...register(`items.${index}.unitPrice`, {
+                                    setValueAs: (value) => parseFloat(value) || 0
+                                  })}
                                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
                                   placeholder="单价"
                                   required
                                 />
+                                {errors.items?.[index]?.unitPrice && (
+                                  <p className="text-sm text-red-400 mt-1">{errors.items[index]?.unitPrice?.message}</p>
+                                )}
                               </td>
                               <td className="py-3 px-4">
                                 <input
@@ -847,11 +915,15 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                                   min="0"
                                   max="1"
                                   step="0.01"
-                                  value={item.discountRate}
-                                  onChange={(e) => updateItem(item.id, 'discountRate', parseFloat(e.target.value) || 0)}
+                                  {...register(`items.${index}.discountRate`, {
+                                    setValueAs: (value) => parseFloat(value) || 0
+                                  })}
                                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
                                   placeholder="0.00"
                                 />
+                                {errors.items?.[index]?.discountRate && (
+                                  <p className="text-sm text-red-400 mt-1">{errors.items[index]?.discountRate?.message}</p>
+                                )}
                               </td>
                               <td className="py-3 px-4">
                                 <span className="font-semibold text-white">¥{amount.toFixed(2)}</span>
@@ -860,7 +932,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                                 <button
                                   type="button"
                                   className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
-                                  onClick={() => removeItem(item.id)}
+                                  onClick={() => removeOrderItem(index)}
                                   title="删除"
                                 >
                                   🗑️
@@ -876,7 +948,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
               </GlassCard>
 
               {/* 订单汇总 */}
-              {formItems.length > 0 && (
+              {fields.length > 0 && (
                 <GlassCard title="订单汇总">
                   <div className="space-y-3">
                     <div className="flex justify-between text-white/80">
@@ -910,6 +982,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                 <GlassButton
                   type="submit"
                   variant="primary"
+                  loading={isSubmitting}
                 >
                   {editingOrder ? '更新订单' : '创建订单'}
                 </GlassButton>

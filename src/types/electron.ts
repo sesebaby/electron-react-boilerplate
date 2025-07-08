@@ -36,7 +36,17 @@ export interface ElectronAPI {
   dbGetAllCategories: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
   dbGetAllSuppliers: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
   dbGetAllTransactions: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
-  
+
+  // Warehouse operations
+  dbGetAllWarehouses: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
+  dbGetWarehouseById: (id: string) => Promise<{ success: boolean; data?: any; error?: string }>;
+  dbGetWarehouseByCode: (code: string) => Promise<{ success: boolean; data?: any; error?: string }>;
+  dbGetDefaultWarehouse: () => Promise<{ success: boolean; data?: any; error?: string }>;
+  dbCreateWarehouse: (warehouse: any) => Promise<{ success: boolean; data?: any; error?: string }>;
+  dbUpdateWarehouse: (id: string, updates: any) => Promise<{ success: boolean; data?: any; error?: string }>;
+  dbDeleteWarehouse: (id: string) => Promise<{ success: boolean; error?: string }>;
+  dbSearchWarehouses: (searchTerm: string) => Promise<{ success: boolean; data?: any[]; error?: string }>;
+
   // Platform info
   platform: string;
   

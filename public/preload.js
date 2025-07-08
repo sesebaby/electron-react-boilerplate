@@ -38,6 +38,16 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbGetAllSuppliers: () => ipcRenderer.invoke('db-get-all-suppliers'),
   dbGetAllTransactions: () => ipcRenderer.invoke('db-get-all-transactions'),
   
+  // Warehouse operations
+  dbGetAllWarehouses: () => ipcRenderer.invoke('db-get-all-warehouses'),
+  dbGetWarehouseById: (id) => ipcRenderer.invoke('db-get-warehouse-by-id', id),
+  dbGetWarehouseByCode: (code) => ipcRenderer.invoke('db-get-warehouse-by-code', code),
+  dbGetDefaultWarehouse: () => ipcRenderer.invoke('db-get-default-warehouse'),
+  dbCreateWarehouse: (warehouse) => ipcRenderer.invoke('db-create-warehouse', warehouse),
+  dbUpdateWarehouse: (id, updates) => ipcRenderer.invoke('db-update-warehouse', id, updates),
+  dbDeleteWarehouse: (id) => ipcRenderer.invoke('db-delete-warehouse', id),
+  dbSearchWarehouses: (searchTerm) => ipcRenderer.invoke('db-search-warehouses', searchTerm),
+  
   // Platform info
   platform: process.platform,
   

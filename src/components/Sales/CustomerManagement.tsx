@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { customerService } from '../../services/business';
 import { Customer, CustomerType, CustomerLevel, CustomerStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
@@ -9,20 +12,29 @@ interface CustomerManagementProps {
   className?: string;
 }
 
-interface CustomerForm {
-  code: string;
-  name: string;
-  contactPerson: string;
-  phone: string;
-  email: string;
-  address: string;
-  customerType: CustomerType;
-  creditLimit: number;
-  paymentTerms: string;
-  discountRate: number;
-  level: CustomerLevel;
-  status: CustomerStatus;
-}
+// 定义验证模式
+const customerSchema = z.object({
+  code: z.string().min(1, '客户编码不能为空').max(20, '客户编码最多20个字符'),
+  name: z.string().min(1, '客户名称不能为空').max(100, '客户名称最多100个字符'),
+  contactPerson: z.string().max(50, '联系人名称最多50个字符').optional().or(z.literal('')),
+  phone: z.string()
+    .regex(/^[0-9\-\s\+\(\)]{0,20}$/, '请输入有效的电话号码')
+    .optional()
+    .or(z.literal('')),
+  email: z.string()
+    .email('请输入有效的邮箱地址')
+    .optional()
+    .or(z.literal('')),
+  address: z.string().max(200, '地址最多200个字符').optional().or(z.literal('')),
+  customerType: z.nativeEnum(CustomerType),
+  creditLimit: z.number().min(0, '信用额度不能为负数').max(999999999, '信用额度过大'),
+  paymentTerms: z.string().max(100, '付款条件最多100个字符').optional().or(z.literal('')),
+  discountRate: z.number().min(0, '折扣率不能为负数').max(1, '折扣率不能超过1'),
+  level: z.nativeEnum(CustomerLevel),
+  status: z.nativeEnum(CustomerStatus)
+});
+
+type CustomerForm = z.infer<typeof customerSchema>;
 
 const emptyForm: CustomerForm = {
   code: '',
@@ -45,12 +57,28 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
-  const [formData, setFormData] = useState<CustomerForm>(emptyForm);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<CustomerType | ''>('');
   const [selectedLevel, setSelectedLevel] = useState<CustomerLevel | ''>('');
   const [selectedStatus, setSelectedStatus] = useState<CustomerStatus | ''>('');
   const [stats, setStats] = useState<any>(null);
+
+  // React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    setValue,
+    watch,
+    clearErrors
+  } = useForm<CustomerForm>({
+    resolver: zodResolver(customerSchema),
+    defaultValues: emptyForm,
+    mode: 'onBlur'
+  });
+
+  const formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -80,20 +108,29 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const onSubmit = async (data: CustomerForm) => {
     try {
+      const submitData = {
+        ...data,
+        // 处理空字符串为undefined
+        contactPerson: data.contactPerson || undefined,
+        phone: data.phone || undefined,
+        email: data.email || undefined,
+        address: data.address || undefined,
+        paymentTerms: data.paymentTerms || undefined
+      };
+      
       if (editingCustomer) {
-        await customerService.update(editingCustomer.id, formData);
+        await customerService.update(editingCustomer.id, submitData);
       } else {
-        await customerService.create(formData);
+        await customerService.create(submitData);
       }
       
       await loadData();
       setShowForm(false);
       setEditingCustomer(null);
-      setFormData(emptyForm);
+      reset(emptyForm);
+      clearErrors();
     } catch (err) {
       setError(err instanceof Error ? err.message : '保存客户失败');
       console.error('Failed to save customer:', err);
@@ -102,7 +139,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
 
   const handleEdit = (customer: Customer) => {
     setEditingCustomer(customer);
-    setFormData({
+    reset({
       code: customer.code,
       name: customer.name,
       contactPerson: customer.contactPerson || '',
@@ -116,6 +153,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
       level: customer.level,
       status: customer.status
     });
+    clearErrors();
     setShowForm(true);
   };
 
@@ -147,16 +185,15 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
   const handleCancel = () => {
     setShowForm(false);
     setEditingCustomer(null);
-    setFormData(emptyForm);
+    reset(emptyForm);
+    clearErrors();
     setError(null); // 清除错误信息
   };
 
-  const handleInputChange = (field: keyof CustomerForm, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    // 当用户开始输入时清除错误信息
-    if (error) {
-      setError(null);
-    }
+  const handleCreateNew = () => {
+    reset(emptyForm);
+    clearErrors();
+    setShowForm(true);
   };
 
   const generateCustomerCode = () => {
@@ -170,7 +207,8 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }, 0);
     
     const newCode = `CUS${String(maxCode + 1).padStart(3, '0')}`;
-    setFormData(prev => ({ ...prev, code: newCode }));
+    setValue('code', newCode);
+    clearErrors('code');
   };
 
   const getTypeText = (type: CustomerType): string => {
@@ -255,7 +293,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
         </div>
         <GlassButton
           variant="primary"
-          onClick={() => setShowForm(true)}
+          onClick={handleCreateNew}
           className="self-start lg:self-auto"
         >
           <span className="mr-2">👤</span>
@@ -388,7 +426,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
             <div className="text-6xl mb-4">👥</div>
             <h3 className="text-xl font-semibold text-white mb-2">没有找到客户</h3>
             <p className="text-white/70 mb-4">请调整搜索条件或创建新的客户</p>
-            <GlassButton variant="primary" onClick={() => setShowForm(true)}>
+            <GlassButton variant="primary" onClick={handleCreateNew}>
               创建第一个客户
             </GlassButton>
           </div>
@@ -506,7 +544,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* 错误信息显示 */}
               {error && (
                 <ErrorDisplay
@@ -521,8 +559,8 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                   <GlassInput
                     label="客户编码"
                     type="text"
-                    value={formData.code}
-                    onChange={(e) => handleInputChange('code', e.target.value)}
+                    register={register('code')}
+                    error={errors.code?.message}
                     placeholder="输入客户编码"
                     required
                   />
@@ -541,8 +579,8 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                 <GlassInput
                   label="客户名称"
                   type="text"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  register={register('name')}
+                  error={errors.name?.message}
                   placeholder="输入客户名称"
                   required
                 />
@@ -550,31 +588,31 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                 <GlassInput
                   label="联系人"
                   type="text"
-                  value={formData.contactPerson}
-                  onChange={(e) => handleInputChange('contactPerson', e.target.value)}
+                  register={register('contactPerson')}
+                  error={errors.contactPerson?.message}
                   placeholder="输入联系人姓名"
                 />
 
                 <GlassInput
                   label="联系电话"
                   type="tel"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  register={register('phone')}
+                  error={errors.phone?.message}
                   placeholder="输入联系电话"
                 />
 
                 <GlassInput
                   label="邮箱"
                   type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  register={register('email')}
+                  error={errors.email?.message}
                   placeholder="输入邮箱地址"
                 />
 
                 <GlassSelect
                   label="客户类型"
-                  value={formData.customerType}
-                  onChange={(e) => handleInputChange('customerType', e.target.value as CustomerType)}
+                  register={register('customerType')}
+                  error={errors.customerType?.message}
                 >
                   <option value={CustomerType.COMPANY}>企业客户</option>
                   <option value={CustomerType.INDIVIDUAL}>个人客户</option>
@@ -582,8 +620,8 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
 
                 <GlassSelect
                   label="客户等级"
-                  value={formData.level}
-                  onChange={(e) => handleInputChange('level', e.target.value as CustomerLevel)}
+                  register={register('level')}
+                  error={errors.level?.message}
                 >
                   <option value={CustomerLevel.BRONZE}>铜牌</option>
                   <option value={CustomerLevel.SILVER}>银牌</option>
@@ -593,8 +631,8 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
 
                 <GlassSelect
                   label="客户状态"
-                  value={formData.status}
-                  onChange={(e) => handleInputChange('status', e.target.value as CustomerStatus)}
+                  register={register('status')}
+                  error={errors.status?.message}
                 >
                   <option value={CustomerStatus.ACTIVE}>活跃</option>
                   <option value={CustomerStatus.INACTIVE}>非活跃</option>
@@ -605,8 +643,10 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                   type="number"
                   min="0"
                   step="0.01"
-                  value={formData.creditLimit}
-                  onChange={(e) => handleInputChange('creditLimit', parseFloat(e.target.value) || 0)}
+                  register={register('creditLimit', {
+                    setValueAs: (value) => parseFloat(value) || 0
+                  })}
+                  error={errors.creditLimit?.message}
                   placeholder="0.00"
                 />
 
@@ -616,29 +656,35 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                   min="0"
                   max="1"
                   step="0.01"
-                  value={formData.discountRate}
-                  onChange={(e) => handleInputChange('discountRate', parseFloat(e.target.value) || 0)}
+                  register={register('discountRate', {
+                    setValueAs: (value) => parseFloat(value) || 0
+                  })}
+                  error={errors.discountRate?.message}
                   placeholder="0.00"
                 />
 
                 <GlassInput
                   label="付款条件"
                   type="text"
-                  value={formData.paymentTerms}
-                  onChange={(e) => handleInputChange('paymentTerms', e.target.value)}
+                  register={register('paymentTerms')}
+                  error={errors.paymentTerms?.message}
                   placeholder="如：月结30天"
                 />
               </div>
 
               <div>
-                <label className="block text-white/90 text-sm font-medium mb-2">客户地址</label>
+                <label className="block text-white/90 text-sm font-medium mb-2 flex items-center gap-1">
+                  客户地址
+                </label>
                 <textarea
-                  value={formData.address}
-                  onChange={(e) => handleInputChange('address', e.target.value)}
+                  {...register('address')}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all resize-none"
                   placeholder="输入客户地址"
                   rows={3}
                 />
+                {errors.address && (
+                  <p className="text-sm text-red-400 mt-1">{errors.address.message}</p>
+                )}
               </div>
 
               <div className="flex gap-4 pt-4">
@@ -652,6 +698,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                 <GlassButton
                   type="submit"
                   variant="primary"
+                  loading={isSubmitting}
                 >
                   {editingCustomer ? '更新客户' : '创建客户'}
                 </GlassButton>

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { supplierService } from '../../services/business';
 import { Supplier, SupplierStatus, SupplierRating } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
@@ -9,18 +12,27 @@ interface SupplierManagementProps {
   className?: string;
 }
 
-interface SupplierForm {
-  code: string;
-  name: string;
-  contactPerson: string;
-  phone: string;
-  email: string;
-  address: string;
-  paymentTerms: string;
-  creditLimit: number;
-  rating: SupplierRating;
-  status: SupplierStatus;
-}
+// 定义验证模式
+const supplierSchema = z.object({
+  code: z.string().min(1, '供应商编码不能为空').max(20, '供应商编码最多20个字符'),
+  name: z.string().min(1, '供应商名称不能为空').max(100, '供应商名称最多100个字符'),
+  contactPerson: z.string().max(50, '联系人名称最多50个字符').optional().or(z.literal('')),
+  phone: z.string()
+    .regex(/^[0-9\-\s\+\(\)]{0,20}$/, '请输入有效的电话号码')
+    .optional()
+    .or(z.literal('')),
+  email: z.string()
+    .email('请输入有效的邮箱地址')
+    .optional()
+    .or(z.literal('')),
+  address: z.string().max(200, '地址最多200个字符').optional().or(z.literal('')),
+  paymentTerms: z.string().max(100, '付款条件最多100个字符').optional().or(z.literal('')),
+  creditLimit: z.number().min(0, '信用额度不能为负数').max(999999999, '信用额度过大'),
+  rating: z.nativeEnum(SupplierRating),
+  status: z.nativeEnum(SupplierStatus)
+});
+
+type SupplierForm = z.infer<typeof supplierSchema>;
 
 const emptyForm: SupplierForm = {
   code: '',
@@ -41,11 +53,27 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
-  const [formData, setFormData] = useState<SupplierForm>(emptyForm);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<SupplierStatus | ''>('');
   const [selectedRating, setSelectedRating] = useState<SupplierRating | ''>('');
   const [stats, setStats] = useState<any>(null);
+
+  // React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    setValue,
+    watch,
+    clearErrors
+  } = useForm<SupplierForm>({
+    resolver: zodResolver(supplierSchema),
+    defaultValues: emptyForm,
+    mode: 'onBlur'
+  });
+
+  const formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -75,24 +103,33 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const onSubmit = async (data: SupplierForm) => {
     try {
+      const submitData = {
+        ...data,
+        // 处理空字符串为undefined
+        contactPerson: data.contactPerson || undefined,
+        phone: data.phone || undefined,
+        email: data.email || undefined,
+        address: data.address || undefined,
+        paymentTerms: data.paymentTerms || undefined
+      };
+      
       if (editingSupplier) {
-        await supplierService.update(editingSupplier.id, formData);
+        await supplierService.update(editingSupplier.id, submitData);
       } else {
         // 如果code为空，自动生成
-        if (!formData.code) {
-          formData.code = await supplierService.generateSupplierCode();
+        if (!submitData.code) {
+          submitData.code = await supplierService.generateSupplierCode();
         }
-        await supplierService.create(formData);
+        await supplierService.create(submitData);
       }
       
       await loadData();
       setShowForm(false);
       setEditingSupplier(null);
-      setFormData(emptyForm);
+      reset(emptyForm);
+      clearErrors();
     } catch (err) {
       setError(err instanceof Error ? err.message : '保存供应商失败');
       console.error('Failed to save supplier:', err);
@@ -101,7 +138,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
 
   const handleEdit = (supplier: Supplier) => {
     setEditingSupplier(supplier);
-    setFormData({
+    reset({
       code: supplier.code,
       name: supplier.name,
       contactPerson: supplier.contactPerson || '',
@@ -113,6 +150,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
       rating: supplier.rating,
       status: supplier.status
     });
+    clearErrors();
     setShowForm(true);
   };
 
@@ -144,17 +182,27 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
   const handleCancel = () => {
     setShowForm(false);
     setEditingSupplier(null);
-    setFormData(emptyForm);
+    reset(emptyForm);
+    clearErrors();
     setError(null); // 清除错误信息
   };
 
-  const handleInputChange = (field: keyof SupplierForm, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    // 当用户开始输入时清除错误信息
-    if (error) {
-      setError(null);
+  const handleCreateNew = () => {
+    reset(emptyForm);
+    clearErrors();
+    setShowForm(true);
+  };
+
+  const generateSupplierCode = async () => {
+    try {
+      const newCode = await supplierService.generateSupplierCode();
+      setValue('code', newCode);
+      clearErrors('code');
+    } catch (err) {
+      console.error('Failed to generate supplier code:', err);
     }
   };
+
 
   const getStatusText = (status: SupplierStatus): string => {
     switch (status) {
@@ -228,7 +276,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
         </div>
         <GlassButton
           variant="primary"
-          onClick={() => setShowForm(true)}
+          onClick={handleCreateNew}
           className="self-start lg:self-auto"
         >
           <span className="mr-2">➕</span>
@@ -351,7 +399,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
             <div className="text-6xl mb-4">🏢</div>
             <h3 className="text-xl font-semibold text-white mb-2">没有找到供应商</h3>
             <p className="text-white/70 mb-4">请调整搜索条件或添加新供应商</p>
-            <GlassButton variant="primary" onClick={() => setShowForm(true)}>
+            <GlassButton variant="primary" onClick={handleCreateNew}>
               添加第一个供应商
             </GlassButton>
           </div>
@@ -466,7 +514,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* 错误信息显示 */}
               {error && (
                 <ErrorDisplay
@@ -477,19 +525,31 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
               )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <GlassInput
-                  label="供应商编码"
-                  type="text"
-                  value={formData.code}
-                  onChange={(e) => handleInputChange('code', e.target.value)}
-                  placeholder="留空自动生成"
-                />
+                <div className="relative">
+                  <GlassInput
+                    label="供应商编码"
+                    type="text"
+                    register={register('code')}
+                    error={errors.code?.message}
+                    placeholder="留空自动生成"
+                  />
+                  {!editingSupplier && (
+                    <button
+                      type="button"
+                      onClick={generateSupplierCode}
+                      className="absolute right-3 top-8 w-8 h-8 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 rounded transition-colors"
+                      title="自动生成编码"
+                    >
+                      🔄
+                    </button>
+                  )}
+                </div>
 
                 <GlassInput
                   label="供应商名称"
                   type="text"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  register={register('name')}
+                  error={errors.name?.message}
                   placeholder="输入供应商名称"
                   required
                 />
@@ -497,32 +557,32 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                 <GlassInput
                   label="联系人"
                   type="text"
-                  value={formData.contactPerson}
-                  onChange={(e) => handleInputChange('contactPerson', e.target.value)}
+                  register={register('contactPerson')}
+                  error={errors.contactPerson?.message}
                   placeholder="联系人姓名"
                 />
 
                 <GlassInput
                   label="联系电话"
                   type="tel"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  register={register('phone')}
+                  error={errors.phone?.message}
                   placeholder="联系电话"
                 />
 
                 <GlassInput
                   label="电子邮箱"
                   type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  register={register('email')}
+                  error={errors.email?.message}
                   placeholder="电子邮箱"
                 />
 
                 <GlassInput
                   label="付款条件"
                   type="text"
-                  value={formData.paymentTerms}
-                  onChange={(e) => handleInputChange('paymentTerms', e.target.value)}
+                  register={register('paymentTerms')}
+                  error={errors.paymentTerms?.message}
                   placeholder="如：30天付款"
                 />
 
@@ -531,16 +591,18 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                   type="number"
                   min="0"
                   step="1000"
-                  value={formData.creditLimit}
-                  onChange={(e) => handleInputChange('creditLimit', parseFloat(e.target.value) || 0)}
+                  register={register('creditLimit', {
+                    setValueAs: (value) => parseFloat(value) || 0
+                  })}
+                  error={errors.creditLimit?.message}
                   placeholder="0"
                   required
                 />
 
                 <GlassSelect
                   label="供应商评级"
-                  value={formData.rating}
-                  onChange={(e) => handleInputChange('rating', e.target.value as SupplierRating)}
+                  register={register('rating')}
+                  error={errors.rating?.message}
                 >
                   <option value={SupplierRating.A}>A级 - 优秀</option>
                   <option value={SupplierRating.B}>B级 - 良好</option>
@@ -550,8 +612,8 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
 
                 <GlassSelect
                   label="供应商状态"
-                  value={formData.status}
-                  onChange={(e) => handleInputChange('status', e.target.value as SupplierStatus)}
+                  register={register('status')}
+                  error={errors.status?.message}
                 >
                   <option value={SupplierStatus.ACTIVE}>正常</option>
                   <option value={SupplierStatus.INACTIVE}>停用</option>
@@ -561,12 +623,14 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
               <div>
                 <label className="block text-white/90 text-sm font-medium mb-2">供应商地址</label>
                 <textarea
-                  value={formData.address}
-                  onChange={(e) => handleInputChange('address', e.target.value)}
+                  {...register('address')}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all resize-none"
                   placeholder="供应商详细地址"
                   rows={3}
                 />
+                {errors.address && (
+                  <p className="text-sm text-red-400 mt-1">{errors.address.message}</p>
+                )}
               </div>
 
               <div className="flex gap-4 pt-4">
@@ -580,6 +644,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                 <GlassButton
                   type="submit"
                   variant="primary"
+                  loading={isSubmitting}
                 >
                   {editingSupplier ? '更新供应商' : '创建供应商'}
                 </GlassButton>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 // Security utility functions
 const sanitizeText = (text: string): string => {
@@ -20,12 +21,14 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   required?: boolean;
+  register?: UseFormRegisterReturn;
 }
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   error?: string;
   required?: boolean;
+  register?: UseFormRegisterReturn;
   children: React.ReactNode;
 }
 
@@ -40,14 +43,21 @@ export const GlassInput: React.FC<InputProps> = ({
   className = '', 
   value,
   required = false,
+  register,
   ...props 
 }) => {
   // Sanitize potentially dangerous props
   const sanitizedProps = { ...props };
   delete sanitizedProps.dangerouslySetInnerHTML;
   
-  // Sanitize value if it's a string
-  const sanitizedValue = typeof value === 'string' ? sanitizeText(value) : value;
+  // If register is provided, use it instead of manual value handling
+  const inputProps = register ? {
+    ...sanitizedProps,
+    ...register
+  } : {
+    ...sanitizedProps,
+    value: typeof value === 'string' ? sanitizeText(value) : value
+  };
   
   return (
     <div className="space-y-2">
@@ -58,8 +68,7 @@ export const GlassInput: React.FC<InputProps> = ({
         </label>
       )}
       <input
-        {...sanitizedProps}
-        value={sanitizedValue}
+        {...inputProps}
         className={`glass-input w-full px-4 py-3 rounded-lg ${sanitizeText(className)}`}
       />
       {error && (
@@ -75,11 +84,18 @@ export const GlassSelect: React.FC<SelectProps> = ({
   children, 
   className = '', 
   required = false,
+  register,
   ...props 
 }) => {
   // Sanitize potentially dangerous props
   const sanitizedProps = { ...props };
   delete sanitizedProps.dangerouslySetInnerHTML;
+  
+  // If register is provided, use it
+  const selectProps = register ? {
+    ...sanitizedProps,
+    ...register
+  } : sanitizedProps;
   
   return (
     <div className="space-y-2">
@@ -90,7 +106,7 @@ export const GlassSelect: React.FC<SelectProps> = ({
         </label>
       )}
       <select
-        {...sanitizedProps}
+        {...selectProps}
         className={`glass-input glass-select w-full px-4 py-3 rounded-lg ${sanitizeText(className)}`}
       >
         {children}

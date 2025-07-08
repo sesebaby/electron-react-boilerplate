@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import monthlyBalanceService from '../../services/business/monthlyBalanceService';
-import warehouseService from '../../services/business/warehouseService';
+import { warehouseService } from '../../services/business/warehouseService';
 import categoryService from '../../services/business/categoryService';
 import { MonthlyBalanceGenerateParams, MonthlyBalanceGenerateResult } from '../../types/monthlyBalance';
 import { Warehouse, Category } from '../../types/entities';

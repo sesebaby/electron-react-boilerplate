@@ -1,5 +1,5 @@
 import { WarehouseCardData, ProductStockInfo } from '../../types/inventoryCard';
-import warehouseService from './warehouseService';
+import { warehouseService } from './warehouseService';
 import productService from './productService';
 import inventoryStockService from './inventoryStockService';
 import categoryService from './categoryService';

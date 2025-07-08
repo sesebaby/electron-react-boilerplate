@@ -105,7 +105,6 @@ export const WarehouseSchema = z.object({
   name: z.string().min(1, '仓库名称不能为空').max(50, '仓库名称长度不能超过50字符'),
   address: z.string().max(200, '地址长度不能超过200字符').optional(),
   manager: z.string().max(20, '负责人姓名长度不能超过20字符').optional(),
-  phone: phoneSchema,
   isDefault: z.boolean(),
   createdAt: dateSchema.optional(),
   updatedAt: dateSchema.optional()

@@ -5,7 +5,18 @@ import {
   ColumnDisplayConfig,
   MovementDimension
 } from '../../../types/inventoryMovement';
-import { GlassCard } from '../../ui/FormControls';
+import { Card, CardContent } from '../../ui/card';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../../ui/table';
 
 interface MovementSummaryTableProps {
   data: InventoryMovementSummaryData[];
@@ -74,56 +85,64 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
    */
   const renderTableHeader = () => {
     return (
-      <thead className="sticky top-0 z-10">
+      <TableHeader sticky>
         {/* 第一层表头 */}
-        <tr>
+        <TableRow>
           {/* 固定列区域 */}
-          <th
-            className="sticky left-0 z-20 px-3 py-3 text-center border-r border-white/20 table-header-fixed-column"
-            style={{ minWidth: '60px' }}
+          <TableHead
+            fixed 
+            fixedPosition="left" 
+            fixedOffset={0}
+            className="min-w-[60px] text-center border-r border-white/20 bg-white/10 backdrop-blur-lg"
             rowSpan={2}
           >
             序号
-          </th>
-          <th
-            className="sticky left-[60px] z-20 px-4 py-3 text-left border-r border-white/20 table-header-fixed-column"
-            style={{ minWidth: '200px' }}
+          </TableHead>
+          <TableHead
+            fixed 
+            fixedPosition="left" 
+            fixedOffset="60px"
+            className="min-w-[200px] text-left border-r border-white/20 bg-white/10 backdrop-blur-lg"
             rowSpan={2}
           >
             物品名称
-          </th>
-          <th
-            className="sticky left-[260px] z-20 px-3 py-3 text-center border-r border-white/20 table-header-fixed-column"
-            style={{ minWidth: '100px' }}
+          </TableHead>
+          <TableHead
+            fixed 
+            fixedPosition="left" 
+            fixedOffset="260px"
+            className="min-w-[100px] text-center border-r border-white/20 bg-white/10 backdrop-blur-lg"
             rowSpan={2}
           >
             一级分类
-          </th>
-          <th
-            className="sticky left-[360px] z-20 px-3 py-3 text-center border-r-2 border-white/30 table-header-fixed-column"
-            style={{ minWidth: '100px' }}
+          </TableHead>
+          <TableHead
+            fixed 
+            fixedPosition="left" 
+            fixedOffset="360px"
+            className="min-w-[100px] text-center border-r-2 border-white/30 bg-white/10 backdrop-blur-lg"
             rowSpan={2}
           >
             二级分类
-          </th>
+          </TableHead>
 
           {/* 数据列区域 */}
-          <th className="px-4 py-3 text-center border-r border-white/20 table-header-fixed" colSpan={getColumnSpan('openingStock')}>
+          <TableHead className="text-center border-r border-white/20" colSpan={getColumnSpan('openingStock')}>
             期初库存
-          </th>
-          <th className="px-4 py-3 text-center border-r border-white/20 table-header-fixed" colSpan={getColumnSpan('inboundTotal')}>
+          </TableHead>
+          <TableHead className="text-center border-r border-white/20" colSpan={getColumnSpan('inboundTotal')}>
             入库合计
-          </th>
-          <th className="px-4 py-3 text-center border-r border-white/20 table-header-fixed" colSpan={getColumnSpan('outboundTotal')}>
+          </TableHead>
+          <TableHead className="text-center border-r border-white/20" colSpan={getColumnSpan('outboundTotal')}>
             出库合计
-          </th>
-          <th className="px-4 py-3 text-center table-header-fixed" colSpan={getColumnSpan('closingStock')}>
+          </TableHead>
+          <TableHead className="text-center" colSpan={getColumnSpan('closingStock')}>
             期末库存
-          </th>
-        </tr>
+          </TableHead>
+        </TableRow>
 
         {/* 第二层表头 */}
-        <tr>
+        <TableRow>
           {/* 期初库存子列 */}
           {renderSubHeaders('openingStock')}
           {/* 入库合计子列 */}
@@ -132,8 +151,8 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
           {renderSubHeaders('outboundTotal')}
           {/* 期末库存子列 */}
           {renderSubHeaders('closingStock')}
-        </tr>
-      </thead>
+        </TableRow>
+      </TableHeader>
     );
   };
 
@@ -160,25 +179,25 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
 
     if (columnConfig.quantity) {
       headers.push(
-        <th key={`${columnKey}-quantity`} className="px-3 py-2 text-center border-r border-white/10 table-header-fixed" style={{ minWidth: '80px' }}>
+        <TableHead key={`${columnKey}-quantity`} className="min-w-[80px] text-center border-r border-white/10">
           数量
-        </th>
+        </TableHead>
       );
     }
 
     if (columnConfig.convertedQuantity && config.showConvertedQuantity) {
       headers.push(
-        <th key={`${columnKey}-converted`} className="px-3 py-2 text-center border-r border-white/10 table-header-fixed" style={{ minWidth: '80px' }}>
+        <TableHead key={`${columnKey}-converted`} className="min-w-[80px] text-center border-r border-white/10">
           换算数量
-        </th>
+        </TableHead>
       );
     }
 
     if (columnConfig.amount) {
       headers.push(
-        <th key={`${columnKey}-amount`} className="px-3 py-2 text-center border-r border-white/10 table-header-fixed" style={{ minWidth: '100px' }}>
+        <TableHead key={`${columnKey}-amount`} className="min-w-[100px] text-center border-r border-white/10">
           金额
-        </th>
+        </TableHead>
       );
     }
 
@@ -190,34 +209,54 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
    */
   const renderDataRow = (row: InventoryMovementSummaryData, index: number) => {
     return (
-      <tr
+      <TableRow
         key={row.id}
-        className="border-b border-white/5 movement-table-row transition-colors cursor-pointer"
+        className="cursor-pointer"
         onClick={() => onRowClick?.(row)}
       >
         {/* 固定列 */}
-        <td className="sticky left-0 z-10 px-3 py-3 text-center border-r border-white/10 table-fixed-column-clear">
+        <TableCell 
+          fixed 
+          fixedPosition="left" 
+          fixedOffset={0}
+          className="min-w-[60px] text-center border-r border-white/10"
+        >
           {row.sequence}
-        </td>
-        <td className="sticky left-[60px] z-10 px-4 py-3 border-r border-white/10 table-fixed-column-clear">
+        </TableCell>
+        <TableCell 
+          fixed 
+          fixedPosition="left" 
+          fixedOffset="60px"
+          className="min-w-[200px] border-r border-white/10"
+        >
           <div>
             <div className="font-medium text-white/90">{row.productName}</div>
             <div className="text-xs text-white/60">{row.productSku}</div>
           </div>
-        </td>
-        <td className="sticky left-[260px] z-10 px-3 py-3 text-center border-r border-white/10 table-fixed-column-clear">
+        </TableCell>
+        <TableCell 
+          fixed 
+          fixedPosition="left" 
+          fixedOffset="260px"
+          className="min-w-[100px] text-center border-r border-white/10"
+        >
           <span className="text-sm text-white/80">{row.primaryCategory}</span>
-        </td>
-        <td className="sticky left-[360px] z-10 px-3 py-3 text-center border-r-2 border-white/20 table-fixed-column-clear">
+        </TableCell>
+        <TableCell 
+          fixed 
+          fixedPosition="left" 
+          fixedOffset="360px"
+          className="min-w-[100px] text-center border-r-2 border-white/20"
+        >
           <span className="text-sm text-white/80">{row.secondaryCategory}</span>
-        </td>
+        </TableCell>
 
         {/* 数据列 */}
         {renderDataCells(row, 'openingStock')}
         {renderDataCells(row, 'inboundTotal')}
         {renderDataCells(row, 'outboundTotal')}
         {renderDataCells(row, 'closingStock')}
-      </tr>
+      </TableRow>
     );
   };
 
@@ -231,28 +270,28 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
 
     if (columnConfig.quantity) {
       cells.push(
-        <td key={`${columnKey}-quantity`} className="px-3 py-3 text-right border-r border-white/5 movement-table-cell">
+        <TableCell key={`${columnKey}-quantity`} className="text-right border-r border-white/5">
           <span className="text-white/90">{formatNumber(stockData.quantity, 0)}</span>
           {row.unit && <span className="text-xs text-white/60 ml-1">{row.unit}</span>}
-        </td>
+        </TableCell>
       );
     }
 
     if (columnConfig.convertedQuantity && config.showConvertedQuantity) {
       cells.push(
-        <td key={`${columnKey}-converted`} className="px-3 py-3 text-right border-r border-white/5 movement-table-cell">
+        <TableCell key={`${columnKey}-converted`} className="text-right border-r border-white/5">
           <span className="text-white/90">{formatNumber(stockData.convertedQuantity, 2)}</span>
           {row.convertedUnit && <span className="text-xs text-white/60 ml-1">{row.convertedUnit}</span>}
-        </td>
+        </TableCell>
       );
     }
 
     if (columnConfig.amount) {
       const amountClass = getAmountColorClass(stockData.amount, columnKey);
       cells.push(
-        <td key={`${columnKey}-amount`} className="px-3 py-3 text-right border-r border-white/5 movement-table-cell">
+        <TableCell key={`${columnKey}-amount`} className="text-right border-r border-white/5">
           <span className={amountClass}>{formatAmount(stockData.amount)}</span>
-        </td>
+        </TableCell>
       );
     }
 
@@ -308,23 +347,45 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
     });
 
     return (
-      <tr className="movement-table-total font-semibold">
+      <TableRow className="font-semibold bg-white/5">
         {/* 固定列 */}
-        <td className="sticky left-0 z-10 px-3 py-3 text-center border-r border-white/20 table-fixed-column-clear">
+        <TableCell 
+          fixed 
+          fixedPosition="left" 
+          fixedOffset={0}
+          className="min-w-[60px] text-center border-r border-white/20 font-bold"
+        >
           合计
-        </td>
-        <td className="sticky left-[60px] z-10 px-4 py-3 border-r border-white/20 table-fixed-column-clear">
-          <span className="font-bold financial-title">总计 ({data.length} 项)</span>
-        </td>
-        <td className="sticky left-[260px] z-10 px-3 py-3 border-r border-white/20 table-fixed-column-clear"></td>
-        <td className="sticky left-[360px] z-10 px-3 py-3 border-r-2 border-white/30 table-fixed-column-clear"></td>
+        </TableCell>
+        <TableCell 
+          fixed 
+          fixedPosition="left" 
+          fixedOffset="60px"
+          className="min-w-[200px] border-r border-white/20"
+        >
+          <span className="font-bold text-white/90">总计 ({data.length} 项)</span>
+        </TableCell>
+        <TableCell 
+          fixed 
+          fixedPosition="left" 
+          fixedOffset="260px"
+          className="min-w-[100px] border-r border-white/20"
+        >
+        </TableCell>
+        <TableCell 
+          fixed 
+          fixedPosition="left" 
+          fixedOffset="360px"
+          className="min-w-[100px] border-r-2 border-white/30"
+        >
+        </TableCell>
 
         {/* 合计数据 */}
         {renderTotalCells(totals, 'openingStock')}
         {renderTotalCells(totals, 'inboundTotal')}
         {renderTotalCells(totals, 'outboundTotal')}
         {renderTotalCells(totals, 'closingStock')}
-      </tr>
+      </TableRow>
     );
   };
 
@@ -338,26 +399,26 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
 
     if (columnConfig.quantity) {
       cells.push(
-        <td key={`total-${columnKey}-quantity`} className="px-3 py-3 text-right border-r border-white/10 font-bold movement-table-cell">
-          <span className="financial-text">{formatNumber(stockData.quantity, 0)}</span>
-        </td>
+        <TableCell key={`total-${columnKey}-quantity`} className="text-right border-r border-white/10 font-bold">
+          <span className="text-white/90">{formatNumber(stockData.quantity, 0)}</span>
+        </TableCell>
       );
     }
 
     if (columnConfig.convertedQuantity && config.showConvertedQuantity) {
       cells.push(
-        <td key={`total-${columnKey}-converted`} className="px-3 py-3 text-right border-r border-white/10 font-bold movement-table-cell">
-          <span className="financial-text">{formatNumber(stockData.convertedQuantity, 2)}</span>
-        </td>
+        <TableCell key={`total-${columnKey}-converted`} className="text-right border-r border-white/10 font-bold">
+          <span className="text-white/90">{formatNumber(stockData.convertedQuantity, 2)}</span>
+        </TableCell>
       );
     }
 
     if (columnConfig.amount) {
       const amountClass = getAmountColorClass(stockData.amount, columnKey);
       cells.push(
-        <td key={`total-${columnKey}-amount`} className="px-3 py-3 text-right border-r border-white/10 font-bold movement-table-cell">
+        <TableCell key={`total-${columnKey}-amount`} className="text-right border-r border-white/10 font-bold">
           <span className={amountClass}>{formatAmount(stockData.amount)}</span>
-        </td>
+        </TableCell>
       );
     }
 
@@ -366,59 +427,56 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
 
   if (loading) {
     return (
-      <GlassCard className={className}>
-        <div className="p-8 text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-current financial-value-neutral mx-auto mb-4"></div>
-          <p className="financial-subtitle">加载表格数据中...</p>
-        </div>
-      </GlassCard>
+      <Card className={`glass-card h-full ${className}`}>
+        <CardContent className="p-0 h-full">
+          <TableLoading message="加载汇总表格数据中..." />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // 空状态检查
+  if (data.length === 0) {
+    return (
+      <Card className={`glass-card h-full ${className}`}>
+        <CardContent className="p-0 h-full">
+          <TableEmpty
+            icon={<div className="text-6xl">📊</div>}
+            message="暂无汇总数据"
+            description="请调整筛选条件或时间范围"
+          />
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <GlassCard className={className}>
-      <div className="overflow-hidden">
+    <Card className={`glass-card h-full max-h-full flex flex-col overflow-hidden ${className}`}>
+      <CardContent className="p-0 flex-1 flex flex-col min-h-0 max-h-full">
         {/* 表格标题 */}
-        <div className="p-4 border-b border-white/20">
+        <div className="flex-shrink-0 p-4 border-b border-white/20 bg-white/5">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold financial-title">
+            <h3 className="text-lg font-semibold text-white/90">
               出入库汇总明细表
             </h3>
-            <span className="text-sm financial-subtitle">
+            <span className="text-sm text-white/70">
               共 {data.length} 条记录
             </span>
           </div>
         </div>
 
-        {/* 表格容器 */}
-        <div className="overflow-x-auto overflow-y-auto max-h-[600px]">
-          <table 
-            className="w-full border-collapse"
-            style={{ minWidth: `${tableMinWidth}px` }}
-          >
+        {/* 单一表格结构 - 使用 TableContainer */}
+        <TableContainer height="600px" className="flex-1">
+          <Table stickyHeader minWidth={`${tableMinWidth}px`}>
             {renderTableHeader()}
             
-            <tbody>
-              {data.length > 0 ? (
-                <>
-                  {data.map((row, index) => renderDataRow(row, index))}
-                  {renderTotalRow()}
-                </>
-              ) : (
-                <tr>
-                  <td colSpan={20} className="p-8 text-center">
-                    <div className="text-white/60">
-                      <div className="text-4xl mb-4">📊</div>
-                      <p>暂无数据</p>
-                      <p className="text-sm mt-2">请调整筛选条件或时间范围</p>
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </GlassCard>
+            <TableBody>
+              {data.map((row, index) => renderDataRow(row, index))}
+              {renderTotalRow()}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </CardContent>
+    </Card>
   );
 };

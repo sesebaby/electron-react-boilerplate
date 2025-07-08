@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useContext, createContext } from 'react';
 import { User, UserRole } from '../types/entities';
-import { apiClient } from '../services/api/apiClient';
+import { userService } from '../services/business';
 import { dialogService } from '../services/dialogService';
 
 interface AuthContextType {
@@ -76,22 +76,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
       
-      // Simulate API login call
-      const response = await apiClient.post('/auth/login', {
-        username: username.trim(),
-        password
-      });
+      // Use UserService for authentication
+      const authenticatedUser = await userService.authenticate(username.trim(), password);
 
-      if (response.success && response.data.token && response.data.user) {
-        // Store token securely
-        apiClient.setAuthToken(response.data.token);
+      if (authenticatedUser) {
+        // Store user data in localStorage for session persistence
+        localStorage.setItem('_auth_user', JSON.stringify(authenticatedUser));
         
-        setUser(response.data.user);
+        setUser(authenticatedUser);
         setSessionStartTime(Date.now());
         setLastActivity(Date.now());
         
         // Log successful login (without sensitive data)
-        console.log(`User logged in: ${response.data.user.id}`);
+        console.log(`User logged in: ${authenticatedUser.id}`);
         
         return true;
       }
@@ -109,13 +106,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
       
-      // Call logout API to invalidate token on server
-      await apiClient.post('/auth/logout').catch(() => {
-        // Ignore logout API errors - still clear local session
-      });
+      // Use UserService for logout
+      userService.logout();
       
       // Clear local session data
-      apiClient.clearAuthToken();
+      localStorage.removeItem('_auth_user');
       setUser(null);
       setSessionStartTime(0);
       setLastActivity(0);
@@ -130,24 +125,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const refreshToken = useCallback(async (): Promise<boolean> => {
     try {
-      const response = await apiClient.post('/auth/refresh');
-      
-      if (response.success && response.data.token) {
-        apiClient.setAuthToken(response.data.token);
+      // Since we're not using API tokens, just update activity time
+      if (user) {
         setLastActivity(Date.now());
-        console.log('Token refreshed successfully');
+        console.log('Session refreshed successfully');
         return true;
       }
       
-      // Token refresh failed - logout user
+      // No user - logout
       await logout();
       return false;
     } catch (error) {
-      console.error('Token refresh failed:', error);
+      console.error('Session refresh failed:', error);
       await logout();
       return false;
     }
-  }, [logout]);
+  }, [logout, user]);
 
   // Auto-refresh token
   useEffect(() => {
@@ -220,23 +213,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        // Check for existing token
-        const token = localStorage.getItem('_auth_data');
-        if (token) {
-          // Verify token with API
-          const response = await apiClient.get('/auth/verify');
-          if (response.success && response.data.user) {
-            setUser(response.data.user);
-            setSessionStartTime(Date.now());
-            setLastActivity(Date.now());
-          } else {
-            // Invalid token - clear it
-            apiClient.clearAuthToken();
+        // Check for existing user data
+        const userData = localStorage.getItem('_auth_user');
+        if (userData) {
+          try {
+            const parsedUser = JSON.parse(userData);
+            // Verify user still exists in the system
+            const currentUser = await userService.findById(parsedUser.id);
+            
+            if (currentUser && currentUser.status === 'active') {
+              setUser(currentUser);
+              setSessionStartTime(Date.now());
+              setLastActivity(Date.now());
+            } else {
+              // User no longer exists or is inactive - clear local data
+              localStorage.removeItem('_auth_user');
+            }
+          } catch (parseError) {
+            // Invalid user data - clear it
+            localStorage.removeItem('_auth_user');
           }
         }
       } catch (error) {
         console.error('Auth initialization failed:', error);
-        apiClient.clearAuthToken();
+        localStorage.removeItem('_auth_user');
       } finally {
         setIsLoading(false);
       }

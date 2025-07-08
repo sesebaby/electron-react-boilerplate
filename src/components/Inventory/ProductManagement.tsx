@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { productService, categoryService, unitService, productConversionService } from '../../services/business';
 import { Product, Category, Unit, ProductStatus, ProductConversionSetting } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
@@ -12,21 +15,30 @@ interface ProductManagementProps {
   className?: string;
 }
 
-interface ProductForm {
-  name: string;
-  sku: string;
-  description: string;
-  categoryId: string;
-  unitId: string;
-  brand: string;
-  model: string;
-  barcode: string;
-  purchasePrice: number;
-  salePrice: number;
-  minStock: number;
-  maxStock: number;
-  status: ProductStatus;
-}
+// 定义验证模式
+const productSchema = z.object({
+  name: z.string().min(1, '商品名称不能为空').max(100, '商品名称最多100个字符'),
+  sku: z.string().min(1, 'SKU编码不能为空').max(50, 'SKU编码最多50个字符'),
+  description: z.string().max(500, '商品描述最多500个字符').optional().or(z.literal('')),
+  categoryId: z.string().min(1, '请选择商品分类'),
+  unitId: z.string().min(1, '请选择计量单位'),
+  brand: z.string().max(100, '品牌最多100个字符').optional().or(z.literal('')),
+  model: z.string().max(100, '型号规格最多100个字符').optional().or(z.literal('')),
+  barcode: z.string().max(50, '条形码最多50个字符').optional().or(z.literal('')),
+  purchasePrice: z.number().min(0, '采购价不能为负数').max(999999.99, '采购价过大'),
+  salePrice: z.number().min(0, '销售价不能为负数').max(999999.99, '销售价过大'),
+  minStock: z.number().min(0, '最小库存不能为负数').max(999999, '最小库存过大'),
+  maxStock: z.number().min(0, '最大库存不能为负数').max(999999, '最大库存过大'),
+  status: z.nativeEnum(ProductStatus)
+}).refine((data) => data.salePrice >= data.purchasePrice, {
+  message: '销售价不能低于采购价',
+  path: ['salePrice']
+}).refine((data) => data.maxStock >= data.minStock, {
+  message: '最大库存不能低于最小库存',
+  path: ['maxStock']
+});
+
+type ProductForm = z.infer<typeof productSchema>;
 
 interface ConversionSettings {
   enableConversion: boolean;
@@ -71,11 +83,27 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [formData, setFormData] = useState<ProductForm>(emptyForm);
   const [conversionSettings, setConversionSettings] = useState<ConversionSettings>(emptyConversionSettings);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<ProductStatus | ''>('');
+
+  // React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    setValue,
+    watch,
+    clearErrors
+  } = useForm<ProductForm>({
+    resolver: zodResolver(productSchema),
+    defaultValues: emptyForm,
+    mode: 'onBlur'
+  });
+
+  const formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -113,28 +141,35 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const onSubmit = async (data: ProductForm) => {
     // 记录操作开始
     const actionId = `product-${editingProduct ? 'update' : 'create'}-${Date.now()}`;
     userActionLogger.startAction(actionId, {
       type: editingProduct ? UserActionType.UPDATE : UserActionType.CREATE,
       context: ActionContext.INVENTORY,
-      description: `${editingProduct ? 'Update' : 'Create'} product: ${formData.name}`,
+      description: `${editingProduct ? 'Update' : 'Create'} product: ${data.name}`,
       target: 'product',
       details: {
         productId: editingProduct?.id,
-        productName: formData.name,
-        sku: formData.sku
+        productName: data.name,
+        sku: data.sku
       }
     });
     
     try {
+      // 处理空字符串为undefined
+      const submitData = {
+        ...data,
+        description: data.description || undefined,
+        brand: data.brand || undefined,
+        model: data.model || undefined,
+        barcode: data.barcode || undefined
+      };
+      
       let productId: string;
       
       if (editingProduct) {
-        await productService.update(editingProduct.id, formData);
+        await productService.update(editingProduct.id, submitData);
         productId = editingProduct.id;
         
         // 记录更新成功
@@ -143,15 +178,15 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
           entity: 'product',
           entityId: productId,
           context: ActionContext.INVENTORY,
-          description: `Updated product: ${formData.name}`,
+          description: `Updated product: ${data.name}`,
           details: {
-            changes: formData,
-            sku: formData.sku
+            changes: submitData,
+            sku: data.sku
           },
           success: true
         });
       } else {
-        const newProduct = await productService.create(formData);
+        const newProduct = await productService.create(submitData);
         productId = newProduct.id;
         
         // 记录创建成功
@@ -160,10 +195,10 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
           entity: 'product',
           entityId: productId,
           context: ActionContext.INVENTORY,
-          description: `Created new product: ${formData.name}`,
+          description: `Created new product: ${data.name}`,
           details: {
-            product: formData,
-            sku: formData.sku
+            product: submitData,
+            sku: data.sku
           },
           success: true
         });
@@ -195,8 +230,9 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       await loadData();
       setShowForm(false);
       setEditingProduct(null);
-      setFormData(emptyForm);
+      reset(emptyForm);
       setConversionSettings(emptyConversionSettings);
+      clearErrors();
       
       // 完成操作追踪
       userActionLogger.completeAction(actionId, {
@@ -219,10 +255,10 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
         entity: 'product',
         entityId: editingProduct?.id,
         context: ActionContext.INVENTORY,
-        description: `Failed to ${editingProduct ? 'update' : 'create'} product: ${formData.name}`,
+        description: `Failed to ${editingProduct ? 'update' : 'create'} product: ${data.name}`,
         details: {
           error: err instanceof Error ? err.message : 'Unknown error',
-          formData: formData
+          formData: data
         },
         success: false,
         errorMessage: errorMessage
@@ -246,7 +282,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     });
     
     setEditingProduct(product);
-    setFormData({
+    reset({
       name: product.name,
       sku: product.sku,
       description: product.description || '',
@@ -261,6 +297,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       maxStock: product.maxStock,
       status: product.status
     });
+    clearErrors();
     
     // 加载现有的单位换算设置
     try {
@@ -346,16 +383,28 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
   const handleCancel = () => {
     setShowForm(false);
     setEditingProduct(null);
-    setFormData(emptyForm);
+    reset(emptyForm);
     setConversionSettings(emptyConversionSettings);
+    clearErrors();
     setError(null); // 清除错误信息
   };
 
-  const handleInputChange = (field: keyof ProductForm, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    // 当用户开始输入时清除错误信息
-    if (error) {
-      setError(null);
+  const handleCreateNew = () => {
+    reset(emptyForm);
+    clearErrors();
+    setShowForm(true);
+  };
+
+  const generateSKU = () => {
+    try {
+      // 生成基于时间戳和随机数的SKU
+      const timestamp = Date.now().toString().slice(-6);
+      const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+      const newSKU = `SKU${timestamp}${randomNum}`;
+      setValue('sku', newSKU);
+      clearErrors('sku');
+    } catch (err) {
+      console.error('Failed to generate SKU:', err);
     }
   };
 
@@ -420,7 +469,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
         </div>
         <GlassButton
           variant="primary"
-          onClick={() => setShowForm(true)}
+          onClick={handleCreateNew}
           className="self-start lg:self-auto"
         >
           <span className="mr-2">➕</span>
@@ -561,7 +610,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                 </div>
 
                 <div className="p-3 sm:p-6 max-h-[calc(100vh-8rem)] overflow-y-auto">
-                  <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
                     {/* 错误信息显示 */}
                     {error && (
                       <ErrorDisplay
@@ -580,26 +629,38 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                             label="商品名称"
                             type="text"
                             placeholder="输入商品名称"
-                            value={formData.name}
-                            onChange={(e) => handleInputChange('name', e.target.value)}
+                            register={register('name')}
+                            error={errors.name?.message}
                             required
                           />
                         </div>
 
                         {/* 第二行：SKU、分类、单位 */}
-                        <GlassInput
-                          label="SKU编码"
-                          type="text"
-                          placeholder="输入SKU编码"
-                          value={formData.sku}
-                          onChange={(e) => handleInputChange('sku', e.target.value)}
-                          required
-                        />
+                        <div className="relative">
+                          <GlassInput
+                            label="SKU编码"
+                            type="text"
+                            placeholder="输入SKU编码"
+                            register={register('sku')}
+                            error={errors.sku?.message}
+                            required
+                          />
+                          {!editingProduct && (
+                            <button
+                              type="button"
+                              onClick={generateSKU}
+                              className="absolute right-3 top-8 w-8 h-8 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 rounded transition-colors"
+                              title="自动生成SKU"
+                            >
+                              🔄
+                            </button>
+                          )}
+                        </div>
 
                         <GlassSelect
                           label="商品分类"
-                          value={formData.categoryId}
-                          onChange={(e) => handleInputChange('categoryId', e.target.value)}
+                          register={register('categoryId')}
+                          error={errors.categoryId?.message}
                           required
                         >
                           <option value="">请选择分类</option>
@@ -612,8 +673,8 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
 
                         <GlassSelect
                           label="计量单位"
-                          value={formData.unitId}
-                          onChange={(e) => handleInputChange('unitId', e.target.value)}
+                          register={register('unitId')}
+                          error={errors.unitId?.message}
                           required
                         >
                           <option value="">请选择单位</option>
@@ -629,22 +690,22 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                           label="品牌"
                           type="text"
                           placeholder="输入品牌"
-                          value={formData.brand}
-                          onChange={(e) => handleInputChange('brand', e.target.value)}
+                          register={register('brand')}
+                          error={errors.brand?.message}
                         />
 
                         <GlassInput
                           label="型号规格"
                           type="text"
                           placeholder="输入型号规格"
-                          value={formData.model}
-                          onChange={(e) => handleInputChange('model', e.target.value)}
+                          register={register('model')}
+                          error={errors.model?.message}
                         />
 
                         <GlassSelect
                           label="商品状态"
-                          value={formData.status}
-                          onChange={(e) => handleInputChange('status', e.target.value as ProductStatus)}
+                          register={register('status')}
+                          error={errors.status?.message}
                         >
                           <option value={ProductStatus.ACTIVE}>正常</option>
                           <option value={ProductStatus.INACTIVE}>停用</option>
@@ -656,8 +717,10 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                           label="采购价"
                           type="number"
                           placeholder="0.00"
-                          value={formData.purchasePrice}
-                          onChange={(e) => handleInputChange('purchasePrice', parseFloat(e.target.value) || 0)}
+                          register={register('purchasePrice', {
+                            setValueAs: (value) => parseFloat(value) || 0
+                          })}
+                          error={errors.purchasePrice?.message}
                           min="0"
                           step="0.01"
                           required
@@ -667,8 +730,10 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                           label="销售价"
                           type="number"
                           placeholder="0.00"
-                          value={formData.salePrice}
-                          onChange={(e) => handleInputChange('salePrice', parseFloat(e.target.value) || 0)}
+                          register={register('salePrice', {
+                            setValueAs: (value) => parseFloat(value) || 0
+                          })}
+                          error={errors.salePrice?.message}
                           min="0"
                           step="0.01"
                           required
@@ -678,8 +743,8 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                           label="条形码"
                           type="text"
                           placeholder="输入条形码"
-                          value={formData.barcode}
-                          onChange={(e) => handleInputChange('barcode', e.target.value)}
+                          register={register('barcode')}
+                          error={errors.barcode?.message}
                         />
 
                         {/* 第五行：库存信息（最小、最大库存各占一列，空一列） */}
@@ -687,8 +752,10 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                           label="最小库存"
                           type="number"
                           placeholder="0"
-                          value={formData.minStock}
-                          onChange={(e) => handleInputChange('minStock', parseInt(e.target.value) || 0)}
+                          register={register('minStock', {
+                            setValueAs: (value) => parseInt(value) || 0
+                          })}
+                          error={errors.minStock?.message}
                           min="0"
                         />
 
@@ -696,8 +763,10 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                           label="最大库存"
                           type="number"
                           placeholder="0"
-                          value={formData.maxStock}
-                          onChange={(e) => handleInputChange('maxStock', parseInt(e.target.value) || 0)}
+                          register={register('maxStock', {
+                            setValueAs: (value) => parseInt(value) || 0
+                          })}
+                          error={errors.maxStock?.message}
                           min="0"
                         />
 
@@ -706,12 +775,18 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
 
                         {/* 第六行：商品描述（全宽） */}
                         <div className="sm:col-span-2 lg:col-span-3">
-                          <GlassInput
-                            label="商品描述"
-                            placeholder="输入商品描述..."
-                            value={formData.description}
-                            onChange={(e) => handleInputChange('description', e.target.value)}
-                          />
+                          <div>
+                            <label className="block text-white/90 text-sm font-medium mb-2">商品描述</label>
+                            <textarea
+                              {...register('description')}
+                              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all resize-none"
+                              placeholder="输入商品描述..."
+                              rows={3}
+                            />
+                            {errors.description && (
+                              <p className="text-sm text-red-400 mt-1">{errors.description.message}</p>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </GlassCard>
@@ -733,9 +808,8 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                     <GlassButton
                       type="submit"
                       variant="primary"
-                      disabled={!formData.name || !formData.sku || !formData.categoryId || !formData.unitId}
+                      loading={isSubmitting}
                       className="flex-1"
-                      onClick={handleSubmit}
                     >
                       {editingProduct ? '更新商品' : '创建商品'}
                     </GlassButton>

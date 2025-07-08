@@ -21,7 +21,7 @@ import fifoInventoryService from './fifoInventoryService';
 import productService from './productService';
 import categoryService from './categoryService';
 import unitService from './unitService';
-import warehouseService from './warehouseService';
+import { warehouseService } from './warehouseService';
 import { logger } from '../../utils/logger';
 import { ConcurrencyManager } from '../../utils/concurrency';
 

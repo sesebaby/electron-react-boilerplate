@@ -163,7 +163,6 @@ export interface Warehouse extends BaseEntity {
   name: string;                   // 仓库名称
   address?: string;               // 仓库地址
   manager?: string;               // 负责人
-  phone?: string;                 // 联系电话
   isDefault: boolean;             // 是否默认仓库
 }
 

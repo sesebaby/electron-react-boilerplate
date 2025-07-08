@@ -2,7 +2,7 @@ import { SalesDelivery, SalesDeliveryItem, DeliveryStatus } from '../../types/en
 import { v4 as uuidv4 } from 'uuid';
 import salesOrderService from './salesOrderService';
 import customerService from './customerService';
-import warehouseService from './warehouseService';
+import { warehouseService } from './warehouseService';
 import productService from './productService';
 import inventoryStockService from './inventoryStockService';
 

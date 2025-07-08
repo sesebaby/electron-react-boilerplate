@@ -1,8 +1,8 @@
 import { Warehouse } from '../../types/entities';
 import { WarehouseSchema, validateEntity } from '../../schemas/validation';
 
-// Electron IPC for database operations
-const { ipcRenderer } = window.require('electron');
+// Electron API for database operations
+const electronAPI = window.electronAPI;
 
 export class WarehouseService {
   private initialized = false;
@@ -47,7 +47,7 @@ export class WarehouseService {
 
   async findAll(): Promise<Warehouse[]> {
     try {
-      const result = await ipcRenderer.invoke('db-get-all-warehouses');
+      const result = await electronAPI.dbGetAllWarehouses();
       if (result.success) {
         return result.data || [];
       } else {
@@ -61,7 +61,7 @@ export class WarehouseService {
 
   async findById(id: string): Promise<Warehouse | null> {
     try {
-      const result = await ipcRenderer.invoke('db-get-warehouse-by-id', id);
+      const result = await electronAPI.dbGetWarehouseById(id);
       if (result.success) {
         return result.data;
       } else {
@@ -75,7 +75,7 @@ export class WarehouseService {
 
   async findByCode(code: string): Promise<Warehouse | null> {
     try {
-      const result = await ipcRenderer.invoke('db-get-warehouse-by-code', code);
+      const result = await electronAPI.dbGetWarehouseByCode(code);
       if (result.success) {
         return result.data;
       } else {
@@ -89,7 +89,7 @@ export class WarehouseService {
 
   async findDefault(): Promise<Warehouse | null> {
     try {
-      const result = await ipcRenderer.invoke('db-get-default-warehouse');
+      const result = await electronAPI.dbGetDefaultWarehouse();
       if (result.success) {
         return result.data;
       } else {
@@ -106,7 +106,7 @@ export class WarehouseService {
     if (!term) return this.findAll();
 
     try {
-      const result = await ipcRenderer.invoke('db-search-warehouses', term);
+      const result = await electronAPI.dbSearchWarehouses(term);
       if (result.success) {
         return result.data || [];
       } else {
@@ -140,7 +140,7 @@ export class WarehouseService {
     }
 
     try {
-      const result = await ipcRenderer.invoke('db-create-warehouse', data);
+      const result = await electronAPI.dbCreateWarehouse(data);
       if (result.success) {
         return result.data;
       } else {
@@ -180,7 +180,7 @@ export class WarehouseService {
     }
 
     try {
-      const result = await ipcRenderer.invoke('db-update-warehouse', id, data);
+      const result = await electronAPI.dbUpdateWarehouse(id, data);
       if (result.success) {
         return result.data;
       } else {
@@ -208,7 +208,7 @@ export class WarehouseService {
     // 这里需要与InventoryService配合检查
 
     try {
-      const result = await ipcRenderer.invoke('db-delete-warehouse', id);
+      const result = await electronAPI.dbDeleteWarehouse(id);
       return result.success;
     } catch (error) {
       console.error('Failed to delete warehouse:', error);

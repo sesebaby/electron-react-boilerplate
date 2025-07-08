@@ -7,6 +7,8 @@ import { dataInitializer } from './services/dataInitializer';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import GlobalDialogProvider from './components/providers/GlobalDialogProvider';
 import { AuthProvider } from './hooks/useAuth';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import GlobalPasswordChangeModal from './components/GlobalPasswordChangeModal';
 import './globals.css';
 import './styles/theme-adaptations.css';
 
@@ -149,11 +151,14 @@ const App: React.FC = () => {
     >
       <AuthProvider>
         <GlobalDialogProvider>
-          <div className="min-h-screen">
-            <AppLayout>
-              <PageContainer currentPage={currentPage} />
-            </AppLayout>
-          </div>
+          <ProtectedRoute>
+            <div className="min-h-screen">
+              <AppLayout>
+                <PageContainer currentPage={currentPage} />
+              </AppLayout>
+              <GlobalPasswordChangeModal />
+            </div>
+          </ProtectedRoute>
         </GlobalDialogProvider>
       </AuthProvider>
     </ErrorBoundary>

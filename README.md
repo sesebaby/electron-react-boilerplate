@@ -76,6 +76,7 @@
 - **语言**: TypeScript 5.4.5 (类型安全)
 - **构建工具**: Webpack 5.91.0 (模块打包)
 - **样式框架**: Tailwind CSS 3.3.7 (实用优先CSS)
+- **表单管理**: React Hook Form 7.60.0 (高性能表单库)
 - **UI组件库**: Radix UI + 自定义组件
   - `@radix-ui/react-dropdown-menu`
   - `@radix-ui/react-scroll-area`
@@ -121,9 +122,37 @@
 - **视觉风格**: Glassmorphism (玻璃态设计)
 - **组件管理**: 无头组件 (Radix UI) + 自定义样式层
 
-### 推荐技术方案
-考虑到项目的现代化需求，建议后期采用以下技术方案：
+## 📐 **开发原则**
+
+### 技术选型原则
+**优先使用成熟的流行解决方案，避免重复造轮子**
+
+项目遵循"**成熟技术优先**"的原则，在选择技术方案时优先考虑：
+
+1. **表单处理**: 使用 **React Hook Form** 而非自建表单验证
+   - ✅ 高性能、声明式表单管理
+   - ✅ 内置验证、错误处理、类型安全
+   - ✅ 生态丰富、社区支持完善
+
+2. **UI组件**: 使用 **Radix UI** 无头组件 + **shadcn/ui** 设计系统
+   - ✅ 可访问性完善、符合WAI-ARIA标准
+   - ✅ 高度可定制、主题系统完整
+   - ✅ TypeScript友好、开发体验优秀
+
+3. **状态管理**: React内置方案优先，复杂场景考虑成熟状态库
+   - ✅ React Hooks + Context API (轻量场景)
+   - 🔄 考虑引入 Zustand/Redux Toolkit (复杂状态)
+
+4. **数据验证**: 使用 **Zod** 进行模式验证
+   - ✅ TypeScript原生支持
+   - ✅ 运行时类型安全
+   - ✅ 与表单库深度集成
+
+### 推荐技术升级路径
+考虑到项目的现代化需求，建议采用以下成熟方案：
+
 - **shadcn/ui**: 基于Radix UI的现代组件库，提供更好的开发体验
+- **React Hook Form + Zod**: 完整的表单解决方案
 - **组件架构**: 继续使用Radix UI作为无头组件基础
 - **样式方案**: 保持Tailwind CSS + 自定义主题的方式
 
@@ -252,6 +281,7 @@ inventory-management/
 │   │   │   ├── Sidebar.tsx
 │   │   │   └── TopBar.tsx
 │   │   ├── ui/                      # 基础UI组件
+│   │   │   ├── FormControls.tsx     # React Hook Form集成组件
 │   │   │   ├── button.tsx
 │   │   │   ├── card.tsx
 │   │   │   ├── table.tsx
@@ -380,6 +410,87 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 2. 在 `src/types/` 定义相关类型
 3. 使用玻璃感设计系统保持视觉一致性
 4. 添加响应式断点适配移动设备
+
+### 表单开发规范
+
+#### 🔥 **使用 React Hook Form（推荐）**
+新开发的表单组件应使用 React Hook Form + Zod 进行管理：
+
+```tsx
+// 新表单组件示例
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+// 1. 定义验证模式
+const warehouseSchema = z.object({
+  code: z.string().min(1, '仓库编码不能为空'),
+  name: z.string().min(1, '仓库名称不能为空'),
+  address: z.string().min(1, '地址不能为空'),
+  creator: z.string().min(1, '负责人不能为空'),
+  isDefault: z.boolean()
+});
+
+type WarehouseForm = z.infer<typeof warehouseSchema>;
+
+// 2. 使用 Hook Form
+const Component = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset
+  } = useForm<WarehouseForm>({
+    resolver: zodResolver(warehouseSchema)
+  });
+
+  const onSubmit = async (data: WarehouseForm) => {
+    // 处理表单提交
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <GlassInput
+        label="仓库编码"
+        register={register('code')}
+        error={errors.code?.message}
+        required
+      />
+      <GlassButton type="submit" loading={isSubmitting}>
+        提交
+      </GlassButton>
+    </form>
+  );
+};
+```
+
+#### 📦 **表单组件使用**
+使用增强的 FormControls 组件，支持 React Hook Form 集成：
+
+```tsx
+// 使用 register 属性进行集成
+<GlassInput
+  label="字段名称"
+  register={register('fieldName', { required: '必填' })}
+  error={errors.fieldName?.message}
+  required
+/>
+
+<GlassSelect
+  label="选择项"
+  register={register('selectField')}
+  error={errors.selectField?.message}
+>
+  <option value="">请选择</option>
+  <option value="option1">选项1</option>
+</GlassSelect>
+```
+
+#### ✅ **表单最佳实践**
+1. **验证优先**: 使用 Zod 进行类型安全的数据验证
+2. **性能优化**: 利用 React Hook Form 的非受控特性
+3. **用户体验**: 实时验证反馈，清晰的错误提示
+4. **一致性**: 统一使用 GlassInput/GlassSelect 组件
 
 ### TopBar组件设计模式
 项目采用固定顶栏设计，关键实现要点：

@@ -12,8 +12,28 @@ export class UserService {
   private currentUser: User | null = null;
 
   async initialize(): Promise<void> {
-    // 系统启动时不创建任何默认用户
+    // 检查是否已存在管理员账户，如果没有则创建默认管理员
+    const adminUsers = await this.findByRole(UserRole.ADMIN);
+    if (adminUsers.length === 0) {
+      await this.createDefaultAdmin();
+    }
     logger.info('User service initialized');
+  }
+
+  private async createDefaultAdmin(): Promise<void> {
+    try {
+      await this.create({
+        username: 'admin',
+        password: '123456',
+        nickname: '系统管理员',
+        email: 'admin@system.com',
+        role: UserRole.ADMIN,
+        status: UserStatus.ACTIVE
+      });
+      logger.info('Default admin account created successfully');
+    } catch (error) {
+      logger.error('Failed to create default admin account:', error);
+    }
   }
 
   async findAll(): Promise<User[]> {

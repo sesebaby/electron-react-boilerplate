@@ -74,7 +74,7 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
       
       // 创建库存数据映射 (productId:warehouseId -> stock)
       const stockMap = new Map<string, InventoryStock>();
-      stocksData.forEach(stock => {
+      stocksData.forEach((stock: InventoryStock) => {
         const key = `${stock.productId}:${stock.warehouseId}`;
         stockMap.set(key, stock);
       });

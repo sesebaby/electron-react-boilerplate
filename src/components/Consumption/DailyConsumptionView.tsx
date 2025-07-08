@@ -16,8 +16,11 @@ import ConsumptionControls from './ConsumptionControls';
 import ConsumptionTable from './ConsumptionTable';
 import ConsumptionSummary from './ConsumptionSummary';
 
-// 基准日期配置 - 第1天的起始日期
-const BASE_DATE = new Date('2024-01-01');
+// 基准日期配置 - 当前月份第1天的起始日期
+const getBaseDate = () => {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), 1);
+};
 
 const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   className = '',
@@ -28,10 +31,11 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   
   // 默认配置
   const getDefaultConfig = (): DailyConsumptionViewConfig => {
-    // 默认显示第1周 (第1天到第7天)
-    const startDate = new Date(BASE_DATE);
-    const endDate = new Date(BASE_DATE);
-    endDate.setDate(BASE_DATE.getDate() + 6);
+    // 默认显示当前月份第1周 (第1天到第7天)
+    const baseDate = getBaseDate();
+    const startDate = new Date(baseDate);
+    const endDate = new Date(baseDate);
+    endDate.setDate(baseDate.getDate() + 6);
     
     return {
       dateRange: {
@@ -51,6 +55,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   const [data, setData] = useState<ConsumptionTableData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showSummary, setShowSummary] = useState(false);
 
   /**
    * 加载消耗数据
@@ -163,7 +168,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   return (
     <div className={`space-y-6 ${className}`}>
       {/* 页面标题 */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <span className="text-3xl">📈</span>
           <div>
@@ -173,6 +178,20 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
             </p>
           </div>
         </div>
+        
+        {/* 汇总信息切换按钮 */}
+        {data && !loading && (
+          <button
+            onClick={() => setShowSummary(!showSummary)}
+            className="px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 hover:from-blue-500/30 hover:to-purple-500/30 border border-white/20 rounded-lg text-white/90 font-medium transition-all duration-300 flex items-center gap-2 backdrop-blur-sm shadow-lg hover:shadow-xl transform hover:scale-105"
+          >
+            <span className="text-lg">📊</span>
+            <span className="text-sm">{showSummary ? '隐藏汇总' : '显示汇总'}</span>
+            <span className={`transform transition-transform duration-200 text-xs ${showSummary ? 'rotate-180' : ''}`}>
+              ▼
+            </span>
+          </button>
+        )}
       </div>
 
       {/* 控制面板 */}
@@ -191,12 +210,14 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
       {!error && (
         <>
           {/* 汇总信息 */}
-          {data && !loading && (
-            <ConsumptionSummary
-              totals={data.totals}
-              displayMode={config.displayMode}
-              dateRange={config.dateRange}
-            />
+          {data && !loading && showSummary && (
+            <div className="animate-fadeIn">
+              <ConsumptionSummary
+                totals={data.totals}
+                displayMode={config.displayMode}
+                dateRange={config.dateRange}
+              />
+            </div>
           )}
 
           {/* 数据表格 */}

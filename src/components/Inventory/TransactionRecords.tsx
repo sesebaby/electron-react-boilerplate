@@ -58,7 +58,7 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
       ]);
 
       // 按创建时间降序排序
-      const sortedTransactions = transactionsData.sort((a, b) =>
+      const sortedTransactions = transactionsData.sort((a: any, b: any) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
 
