@@ -526,81 +526,102 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       </GlassCard>
 
       {/* 商品列表 */}
-      <GlassCard title={`商品列表 (${filteredProducts.length})`}>
-        {filteredProducts.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">📦</div>
-            <h3 className="text-xl font-semibold text-white mb-2">没有找到商品</h3>
-            <p className="text-white/70 mb-4">请调整搜索条件或添加新商品</p>
-            <GlassButton variant="primary" onClick={() => setShowForm(true)}>
-              添加第一个商品
-            </GlassButton>
+      <Card className="glass-card h-full flex flex-col overflow-hidden">
+        <CardContent className="p-0 flex-1 flex flex-col">
+          {/* 表格标题 */}
+          <div className="flex-shrink-0 p-4 border-b border-white/20 bg-white/5">
+            <h3 className="text-lg font-semibold text-white/90">
+              商品列表 ({filteredProducts.length})
+            </h3>
           </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">商品信息</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">SKU</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">分类</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">价格</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">库存范围</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">状态</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredProducts.map((product) => {
-                  const category = categories.find(c => c.id === product.categoryId);
-                  return (
-                    <tr key={product.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                      <td className="py-3 px-4">
-                        <div>
-                          <div className="font-semibold text-white">{product.name}</div>
-                          {product.brand && (
-                            <div className="text-sm text-white/70">{product.brand} {product.model}</div>
-                          )}
-                        </div>
-                      </td>
-                      <td className="py-3 px-4 text-white/80 font-mono">{product.sku}</td>
-                      <td className="py-3 px-4 text-white/80">{category?.name || '未分类'}</td>
-                      <td className="py-3 px-4">
-                        <div className="text-white">¥{product.salePrice.toFixed(2)}</div>
-                        <div className="text-sm text-white/70">成本: ¥{product.purchasePrice.toFixed(2)}</div>
-                      </td>
-                      <td className="py-3 px-4 text-white/80">
-                        {product.minStock} - {product.maxStock}
-                      </td>
-                      <td className="py-3 px-4">
-                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(product.status)}`}>
-                          {getStatusText(product.status)}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4">
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => handleEdit(product)}
-                            className="px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors"
-                          >
-                            编辑
-                          </button>
-                          <button
-                            onClick={() => handleDelete(product.id)}
-                            className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
-                          >
-                            删除
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </GlassCard>
+
+          {/* 空状态检查 */}
+          {filteredProducts.length === 0 ? (
+            <TableEmpty
+              icon={<div className="text-6xl">📦</div>}
+              message="没有找到商品"
+              description="请调整搜索条件或添加新商品"
+            />
+          ) : (
+            /* 表格内容 */
+            <TableContainer height="600px" className="flex-1">
+              <Table stickyHeader minWidth="800px">
+                <TableHeader sticky>
+                  <TableRow>
+                    <TableHead 
+                      fixed 
+                      fixedPosition="left" 
+                      fixedOffset={0}
+                      className="min-w-[200px] bg-white/10 backdrop-blur-lg"
+                    >
+                      商品信息
+                    </TableHead>
+                    <TableHead className="min-w-[120px]">SKU</TableHead>
+                    <TableHead className="min-w-[100px]">分类</TableHead>
+                    <TableHead className="min-w-[120px]">价格</TableHead>
+                    <TableHead className="min-w-[100px]">库存范围</TableHead>
+                    <TableHead className="min-w-[80px]">状态</TableHead>
+                    <TableHead className="min-w-[120px]">操作</TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  {filteredProducts.map((product) => {
+                    const category = categories.find(c => c.id === product.categoryId);
+                    return (
+                      <TableRow key={product.id}>
+                        <TableCell 
+                          fixed 
+                          fixedPosition="left" 
+                          fixedOffset={0}
+                          className="min-w-[200px]"
+                        >
+                          <div>
+                            <div className="font-semibold text-white">{product.name}</div>
+                            {product.brand && (
+                              <div className="text-sm text-white/70">{product.brand} {product.model}</div>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-white/80 font-mono">{product.sku}</TableCell>
+                        <TableCell className="text-white/80">{category?.name || '未分类'}</TableCell>
+                        <TableCell>
+                          <div className="text-white">¥{product.salePrice.toFixed(2)}</div>
+                          <div className="text-sm text-white/70">成本: ¥{product.purchasePrice.toFixed(2)}</div>
+                        </TableCell>
+                        <TableCell className="text-white/80">
+                          {product.minStock} - {product.maxStock}
+                        </TableCell>
+                        <TableCell>
+                          <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(product.status)}`}>
+                            {getStatusText(product.status)}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleEdit(product)}
+                              className="px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors"
+                            >
+                              编辑
+                            </button>
+                            <button
+                              onClick={() => handleDelete(product.id)}
+                              className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
+                            >
+                              删除
+                            </button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </CardContent>
+      </Card>
 
       {/* 商品表单模态框 */}
       {showForm && (
