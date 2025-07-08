@@ -19,11 +19,13 @@ const sanitizeHtml = (html: string): string => {
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  required?: boolean;
 }
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   error?: string;
+  required?: boolean;
   children: React.ReactNode;
 }
 
@@ -37,6 +39,7 @@ export const GlassInput: React.FC<InputProps> = ({
   error, 
   className = '', 
   value,
+  required = false,
   ...props 
 }) => {
   // Sanitize potentially dangerous props
@@ -49,8 +52,9 @@ export const GlassInput: React.FC<InputProps> = ({
   return (
     <div className="space-y-2">
       {label && (
-        <label className="block text-sm font-medium text-white">
+        <label className="block text-sm font-medium text-white flex items-center gap-1">
           {sanitizeText(label)}
+          {required && <span className="text-red-400">*</span>}
         </label>
       )}
       <input
@@ -70,6 +74,7 @@ export const GlassSelect: React.FC<SelectProps> = ({
   error, 
   children, 
   className = '', 
+  required = false,
   ...props 
 }) => {
   // Sanitize potentially dangerous props
@@ -79,8 +84,9 @@ export const GlassSelect: React.FC<SelectProps> = ({
   return (
     <div className="space-y-2">
       {label && (
-        <label className="block text-sm font-medium text-white">
+        <label className="block text-sm font-medium text-white flex items-center gap-1">
           {sanitizeText(label)}
+          {required && <span className="text-red-400">*</span>}
         </label>
       )}
       <select

@@ -14,7 +14,6 @@ interface WarehouseForm {
   name: string;
   address: string;
   creator: string;
-  phone: string;
   isDefault: boolean;
 }
 
@@ -23,7 +22,6 @@ const emptyForm: WarehouseForm = {
   name: '',
   address: '',
   creator: '',
-  phone: '',
   isDefault: false
 };
 
@@ -101,7 +99,6 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       name: warehouse.name,
       address: warehouse.address || '',
       creator: warehouse.manager || '',
-      phone: warehouse.phone || '',
       isDefault: warehouse.isDefault
     });
     setShowForm(true);
@@ -230,7 +227,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
   }
 
   return (
-    <div className={`space-y-6 ${className || ''}`}>
+    <div className={`space-y-8 p-6 ${className || ''}`}>
       {/* 页面头部 */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
@@ -263,7 +260,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
 
       {/* 统计信息 */}
       {stats && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <GlassCard className="p-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-2xl">
@@ -300,17 +297,6 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
             </div>
           </GlassCard>
 
-          <GlassCard className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center text-2xl">
-                📊
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-white">{(stats.totalCapacity / 10000).toFixed(1)}万</div>
-                <div className="text-white/70 text-sm">总容量</div>
-              </div>
-            </div>
-          </GlassCard>
         </div>
       )}
 
@@ -351,9 +337,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
               <thead>
                 <tr className="border-b border-white/10">
                   <th className="text-left py-3 px-4 font-semibold text-white/90">仓库信息</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">联系方式</th>
+                  <th className="text-left py-3 px-4 font-semibold text-white/90">负责人</th>
                   <th className="text-left py-3 px-4 font-semibold text-white/90">地址</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">容量</th>
                   <th className="text-left py-3 px-4 font-semibold text-white/90">状态</th>
                   <th className="text-left py-3 px-4 font-semibold text-white/90">操作</th>
                 </tr>
@@ -375,24 +360,15 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                       </div>
                     </td>
                     <td className="py-3 px-4">
-                      <div className="space-y-1">
-                        <div className="text-white/80 text-sm flex items-center gap-1">
-                          <span>👤</span>
-                          <span>{warehouse.manager || '-'}</span>
-                        </div>
-                        <div className="text-white/80 text-sm flex items-center gap-1">
-                          <span>📞</span>
-                          <span>{warehouse.phone || '-'}</span>
-                        </div>
+                      <div className="text-white/80 text-sm flex items-center gap-1">
+                        <span>👤</span>
+                        <span>{warehouse.manager || '-'}</span>
                       </div>
                     </td>
                     <td className="py-3 px-4">
                       <div className="text-white/80 text-sm max-w-xs truncate">
                         {warehouse.address || '-'}
                       </div>
-                    </td>
-                    <td className="py-3 px-4 text-white/80">
-                      -
                     </td>
                     <td className="py-3 px-4">
                       {warehouse.isDefault && (
@@ -443,7 +419,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       {/* 仓库表单模态框 */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="glass-card max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-2xl">
@@ -466,26 +442,23 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-10">
               {/* 基本信息 */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <h4 className="text-lg font-semibold text-white flex items-center gap-2">
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <h4 className="text-xl font-semibold text-white flex items-center gap-2">
                     <span className="text-blue-400">📋</span>
                     基本信息
                   </h4>
                   <div className="flex-1 h-px bg-gradient-to-r from-blue-500/30 to-transparent"></div>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="block text-white/90 text-sm font-medium flex items-center gap-2">
-                      <span>仓库编码</span>
-                      <span className="text-red-400">*</span>
-                    </label>
-                    <div className="space-y-2">
-                      <div className="flex gap-2">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                    <div className="space-y-3">
+                      <div className="flex gap-3">
                         <GlassInput
+                          label="仓库编码"
                           type="text"
                           placeholder="如: WH001"
                           value={formData.code}
@@ -525,32 +498,21 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                   />
 
                   <GlassInput
-                    label="创建者"
+                    label="负责人"
                     type="text"
-                    placeholder="创建者姓名"
+                    placeholder="负责人姓名"
                     value={formData.creator}
                     onChange={(e) => handleInputChange('creator', e.target.value)}
                     required
                     disabled={!editingWarehouse}
-                    className=""
-                  />
-
-                  <GlassInput
-                    label="联系电话"
-                    type="tel"
-                    placeholder="输入联系电话"
-                    value={formData.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
-                    required
-                    className=""
                   />
                 </div>
               </div>
 
               {/* 位置信息 */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <h4 className="text-lg font-semibold text-white flex items-center gap-2">
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <h4 className="text-xl font-semibold text-white flex items-center gap-2">
                     <span className="text-green-400">📍</span>
                     位置信息
                   </h4>
@@ -564,21 +526,20 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                   value={formData.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
                   required
-                  className=""
                 />
               </div>
 
               {/* 仓库配置 */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <h4 className="text-lg font-semibold text-white flex items-center gap-2">
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <h4 className="text-xl font-semibold text-white flex items-center gap-2">
                     <span className="text-purple-400">⚙️</span>
                     仓库配置
                   </h4>
                   <div className="flex-1 h-px bg-gradient-to-r from-purple-500/30 to-transparent"></div>
                 </div>
                 
-                <div className="bg-amber-500/10 border border-amber-400/20 rounded-lg p-4">
+                <div className="bg-amber-500/10 border border-amber-400/20 rounded-lg p-6">
                   <GlassSelect
                     label="是否设为默认仓库"
                     value={formData.isDefault ? 'true' : 'false'}
@@ -587,7 +548,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                     <option value="false">否</option>
                     <option value="true">是</option>
                   </GlassSelect>
-                  <p className="text-amber-300 text-xs mt-2 flex items-center gap-1">
+                  <p className="text-amber-300 text-xs mt-3 flex items-center gap-1">
                     <span>⚠️</span>
                     默认仓库将作为新产品的默认存储位置
                   </p>
@@ -595,12 +556,12 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
               </div>
 
               {/* 操作按钮 */}
-              <div className="flex gap-4 pt-6 border-t border-white/10">
+              <div className="flex gap-4 pt-8 border-t border-white/10">
                 <GlassButton
                   type="submit"
                   variant="primary"
-                  disabled={!formData.code || !formData.name || !formData.creator || !formData.phone || !formData.address}
-                  className="flex-1 py-3"
+                  disabled={!formData.code || !formData.name || !formData.creator || !formData.address}
+                  className="flex-1 py-4"
                 >
                   <span className="mr-2">{editingWarehouse ? '💾' : '✨'}</span>
                   {editingWarehouse ? '更新仓库' : '创建仓库'}
@@ -609,7 +570,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                   type="button"
                   variant="secondary"
                   onClick={handleCancel}
-                  className="px-6 py-3"
+                  className="px-8 py-4"
                 >
                   <span className="mr-2">❌</span>
                   取消
