@@ -24,7 +24,16 @@ function setupDatabaseHandlers(ipcMain, db) {
     'db-update-stock',
     'db-add-transaction',
     'db-get-transactions',
-    'db-get-transactions-by-item'
+    'db-get-transactions-by-item',
+    // Warehouse handlers
+    'db-get-all-warehouses',
+    'db-get-warehouse-by-id',
+    'db-get-warehouse-by-code',
+    'db-create-warehouse',
+    'db-update-warehouse',
+    'db-delete-warehouse',
+    'db-search-warehouses',
+    'db-get-default-warehouse'
   ];
 
   handlersToRemove.forEach(handler => {
@@ -461,6 +470,352 @@ function setupDatabaseHandlers(ipcMain, db) {
   });
 
   // db-get-all-items 处理器已在 main.js 中注册，此处移除重复定义
+
+  // ========== WAREHOUSE HANDLERS ==========
+
+  // Get all warehouses
+  ipcMain.handle('db-get-all-warehouses', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const query = `
+        SELECT 
+          id, code, name, address, manager, phone,
+          is_default as isDefault,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM warehouses 
+        ORDER BY name ASC
+      `;
+      
+      const stmt = db.prepare(query);
+      const rows = stmt.all();
+      
+      const warehouses = rows.map(row => ({
+        ...row,
+        isDefault: Boolean(row.isDefault),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      }));
+      
+      return { success: true, data: warehouses };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Get warehouse by ID
+  ipcMain.handle('db-get-warehouse-by-id', async (event, id) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const query = `
+        SELECT 
+          id, code, name, address, manager, phone,
+          is_default as isDefault,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM warehouses 
+        WHERE id = ?
+      `;
+      
+      const stmt = db.prepare(query);
+      const row = stmt.get(id);
+      
+      if (row) {
+        const warehouse = {
+          ...row,
+          isDefault: Boolean(row.isDefault),
+          createdAt: new Date(row.createdAt),
+          updatedAt: new Date(row.updatedAt)
+        };
+        return { success: true, data: warehouse };
+      } else {
+        return { success: true, data: null };
+      }
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Get warehouse by code
+  ipcMain.handle('db-get-warehouse-by-code', async (event, code) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const query = `
+        SELECT 
+          id, code, name, address, manager, phone,
+          is_default as isDefault,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM warehouses 
+        WHERE code = ?
+      `;
+      
+      const stmt = db.prepare(query);
+      const row = stmt.get(code);
+      
+      if (row) {
+        const warehouse = {
+          ...row,
+          isDefault: Boolean(row.isDefault),
+          createdAt: new Date(row.createdAt),
+          updatedAt: new Date(row.updatedAt)
+        };
+        return { success: true, data: warehouse };
+      } else {
+        return { success: true, data: null };
+      }
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Get default warehouse
+  ipcMain.handle('db-get-default-warehouse', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const query = `
+        SELECT 
+          id, code, name, address, manager, phone,
+          is_default as isDefault,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM warehouses 
+        WHERE is_default = 1
+        LIMIT 1
+      `;
+      
+      const stmt = db.prepare(query);
+      const row = stmt.get();
+      
+      if (row) {
+        const warehouse = {
+          ...row,
+          isDefault: Boolean(row.isDefault),
+          createdAt: new Date(row.createdAt),
+          updatedAt: new Date(row.updatedAt)
+        };
+        return { success: true, data: warehouse };
+      } else {
+        return { success: true, data: null };
+      }
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Create warehouse
+  ipcMain.handle('db-create-warehouse', async (event, warehouse) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const id = uuidv4();
+      const now = new Date().toISOString();
+      
+      // If this warehouse is set as default, clear other default warehouses first
+      if (warehouse.isDefault) {
+        const clearDefaultStmt = db.prepare('UPDATE warehouses SET is_default = 0 WHERE is_default = 1');
+        clearDefaultStmt.run();
+      }
+      
+      const query = `
+        INSERT INTO warehouses (
+          id, code, name, address, manager, phone, is_default, created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `;
+      
+      const stmt = db.prepare(query);
+      stmt.run(
+        id, 
+        warehouse.code, 
+        warehouse.name, 
+        warehouse.address || '', 
+        warehouse.manager || '', 
+        warehouse.phone || '',
+        warehouse.isDefault ? 1 : 0, 
+        now, 
+        now
+      );
+      
+      // Get the created warehouse
+      const getQuery = `
+        SELECT 
+          id, code, name, address, manager, phone,
+          is_default as isDefault,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM warehouses 
+        WHERE id = ?
+      `;
+      
+      const getStmt = db.prepare(getQuery);
+      const row = getStmt.get(id);
+      
+      const createdWarehouse = {
+        ...row,
+        isDefault: Boolean(row.isDefault),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      };
+      
+      return { success: true, data: createdWarehouse };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Update warehouse
+  ipcMain.handle('db-update-warehouse', async (event, id, updates) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      // If this warehouse is being set as default, clear other default warehouses first
+      if (updates.isDefault === true) {
+        const clearDefaultStmt = db.prepare('UPDATE warehouses SET is_default = 0 WHERE is_default = 1 AND id != ?');
+        clearDefaultStmt.run(id);
+      }
+      
+      const updateFields = [];
+      const params = [];
+      
+      const fieldMap = {
+        code: 'code',
+        name: 'name',
+        address: 'address',
+        manager: 'manager',
+        phone: 'phone',
+        isDefault: 'is_default'
+      };
+      
+      Object.entries(updates).forEach(([key, value]) => {
+        if (key in fieldMap && value !== undefined) {
+          updateFields.push(`${fieldMap[key]} = ?`);
+          // Convert boolean isDefault to integer for SQLite
+          params.push(key === 'isDefault' ? (value ? 1 : 0) : value);
+        }
+      });
+      
+      if (updateFields.length === 0) {
+        return { success: false, error: 'No valid fields to update' };
+      }
+      
+      updateFields.push('updated_at = ?');
+      params.push(new Date().toISOString());
+      params.push(id);
+      
+      const query = `UPDATE warehouses SET ${updateFields.join(', ')} WHERE id = ?`;
+      const stmt = db.prepare(query);
+      const result = stmt.run(...params);
+      
+      if (result.changes === 0) {
+        return { success: false, error: 'Warehouse not found' };
+      }
+      
+      // Get the updated warehouse
+      const getQuery = `
+        SELECT 
+          id, code, name, address, manager, phone,
+          is_default as isDefault,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM warehouses 
+        WHERE id = ?
+      `;
+      
+      const getStmt = db.prepare(getQuery);
+      const row = getStmt.get(id);
+      
+      const updatedWarehouse = {
+        ...row,
+        isDefault: Boolean(row.isDefault),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      };
+      
+      return { success: true, data: updatedWarehouse };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Delete warehouse
+  ipcMain.handle('db-delete-warehouse', async (event, id) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      // Check if this is a default warehouse
+      const checkQuery = 'SELECT is_default FROM warehouses WHERE id = ?';
+      const checkStmt = db.prepare(checkQuery);
+      const warehouse = checkStmt.get(id);
+      
+      if (!warehouse) {
+        return { success: false, error: 'Warehouse not found' };
+      }
+      
+      if (warehouse.is_default) {
+        return { success: false, error: 'Cannot delete default warehouse' };
+      }
+      
+      const stmt = db.prepare('DELETE FROM warehouses WHERE id = ?');
+      const result = stmt.run(id);
+      
+      return { success: result.changes > 0 };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Search warehouses
+  ipcMain.handle('db-search-warehouses', async (event, searchTerm) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const query = `
+        SELECT 
+          id, code, name, address, manager, phone,
+          is_default as isDefault,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM warehouses 
+        WHERE name LIKE ? OR code LIKE ? OR address LIKE ? OR manager LIKE ?
+        ORDER BY name ASC
+      `;
+      
+      const searchPattern = `%${searchTerm}%`;
+      const stmt = db.prepare(query);
+      const rows = stmt.all(searchPattern, searchPattern, searchPattern, searchPattern);
+      
+      const warehouses = rows.map(row => ({
+        ...row,
+        isDefault: Boolean(row.isDefault),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      }));
+      
+      return { success: true, data: warehouses };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
 }
 
 module.exports = { setupDatabaseHandlers };
