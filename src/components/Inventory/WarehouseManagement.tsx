@@ -315,10 +315,9 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       )}
 
       {/* 搜索和过滤 */}
-      <GlassCard title="搜索和筛选">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <GlassCard title="搜索和筛选" className="py-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <GlassInput
-            label="搜索仓库"
             type="text"
             placeholder="搜索仓库编码、名称、地址、管理员..."
             value={searchTerm}
@@ -326,7 +325,6 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
           />
           
           <GlassSelect
-            label="仓库状态"
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
           >
