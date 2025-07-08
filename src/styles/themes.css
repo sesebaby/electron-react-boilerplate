@@ -20,11 +20,11 @@
   --topbar-shadow: 0 4px 16px oklch(0.257 0.09 281.288 / 0.3);
 
   /* 表格锁定专用背景 - 平衡透明度和可读性 */
-  --table-fixed-background: oklch(0.93 0.034 272.788 / 0.65);
+  --table-fixed-background: oklch(55.4% 0.046 257.417);
   --table-fixed-background-hover: oklch(0.87 0.065 274.039 / 0.7);
 
   /* 表格固定表头专用变量 - 基于玻璃未来风主题 */
-  --table-header-fixed-bg: oklch(0.93 0.034 272.788 / 0.25);
+  --table-header-fixed-bg: oklch(55.4% 0.046 257.417);
   --table-header-fixed-bg-blur: oklch(0.93 0.034 272.788 / 0.15);
   --table-header-fixed-border: oklch(0.87 0.065 274.039 / 0.3);
   --table-header-fixed-shadow: 0 4px 16px oklch(0.257 0.09 281.288 / 0.2);
@@ -35,8 +35,8 @@
   --table-header-text-secondary: oklch(100% 0.00011 271.152 / 0.7);
 
   /* 弹出窗体背景系统 - indigo-50 系列 */
-  --popup-background: oklch(0.962 0.018 272.314 / 0.85);
-  --popup-header-background: oklch(0.962 0.018 272.314 / 0.95);
+  --popup-background: oklch(55.4% 0.046 257.417);
+  --popup-header-background: oklch(55.4% 0.046 257.417);
   --popup-content-background: oklch(0.962 0.018 272.314 / 0.8);
 
   /* 玻璃感效果 */
@@ -136,7 +136,7 @@
   --topbar-shadow: 0 4px 16px oklch(0.257 0.09 281.288 / 0.3);
 
   /* 表格锁定专用背景 - 平衡透明度和可读性 */
-  --table-fixed-background: oklch(0.93 0.034 272.788 / 0.65);
+  --table-fixed-background: oklch(55.4% 0.046 257.417);
   --table-fixed-background-hover: oklch(0.87 0.065 274.039 / 0.7);
 
   /* 弹出窗体背景系统 - 调整为更深的indigo色调，确保白色文字可读性 */
