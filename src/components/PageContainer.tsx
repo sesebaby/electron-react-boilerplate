@@ -36,6 +36,7 @@ import PermissionManagement from './System/PermissionManagement';
 import SystemSettings from './System/SystemSettings';
 import OperationLogs from './System/OperationLogs';
 import NotificationsPage from './Notifications/NotificationsPage';
+import ConversionRulesManagement from './Settings/ConversionRulesManagement';
 
 interface PageContainerProps {
   currentPage: string;
@@ -131,7 +132,10 @@ const allPageComponents: Record<string, React.ComponentType> = {
   'logs': OperationLogs,
   
   // 通知中心
-  'notifications': NotificationsPage
+  'notifications': NotificationsPage,
+  
+  // 通用设置
+  'conversion-rules': ConversionRulesManagement
 };
 
 export const PageContainer: React.FC<PageContainerProps> = ({ currentPage }) => {

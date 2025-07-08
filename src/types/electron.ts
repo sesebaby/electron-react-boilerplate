@@ -37,6 +37,9 @@ export interface ElectronAPI {
   dbGetAllSuppliers: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
   dbGetAllTransactions: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
 
+  // Unit operations
+  dbReimportUnits: () => Promise<{ success: boolean; message?: string; error?: string }>;
+
   // Warehouse operations
   dbGetAllWarehouses: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
   dbGetWarehouseById: (id: string) => Promise<{ success: boolean; data?: any; error?: string }>;
