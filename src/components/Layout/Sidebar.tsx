@@ -36,6 +36,17 @@ const menuItems: MenuItem[] = [
     ]
   },
   {
+    id: 'general-settings',
+    label: '通用设置',
+    icon: '⚙️',
+    children: [
+      { id: 'warehouses', label: '仓库管理', icon: '🏭' },
+      { id: 'products', label: '商品管理', icon: '🏷️' },
+      { id: 'categories', label: '分类管理', icon: '📂' },
+      { id: 'customers', label: '客户管理', icon: '👥' }
+    ]
+  },
+  {
     id: 'inventory',
     label: '库存管理',
     icon: '📦',
@@ -44,9 +55,6 @@ const menuItems: MenuItem[] = [
       { id: 'calendar-overview', label: '日历视图', icon: '📅' },
       { id: 'daily-consumption', label: '逐日消耗', icon: '📈' },
       { id: 'monthly-balance', label: '月度结余', icon: '📊' }, // 月度结余功能 - 第5个位置
-      { id: 'products', label: '商品管理', icon: '🏷️' },
-      { id: 'categories', label: '分类管理', icon: '📂' },
-      { id: 'warehouses', label: '仓库管理', icon: '🏭' },
       { id: 'stock-in', label: '入库管理', icon: '📥' },
       { id: 'stock-out', label: '出库管理', icon: '📤' },
       { id: 'stock-adjust', label: '库存调整', icon: '⚖️' }
@@ -67,7 +75,6 @@ const menuItems: MenuItem[] = [
     label: '销售管理',
     icon: '💰',
     children: [
-      { id: 'customers', label: '客户管理', icon: '👥' },
       { id: 'sales-orders', label: '销售订单', icon: '📝' },
       { id: 'sales-delivery', label: '销售出库', icon: '🚚' }
     ]
