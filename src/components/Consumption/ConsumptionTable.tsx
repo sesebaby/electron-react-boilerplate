@@ -109,7 +109,7 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
     return (
       <tr className="border-t-2 border-white/30 bg-white/10 font-semibold">
         {/* 合计标签 */}
-        <td className="sticky left-0 z-10 bg-white/15 backdrop-blur-lg px-4 py-3 border-r border-white/30">
+        <td className="sticky left-0 z-10 px-4 py-3 border-r border-white/30" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.12)', boxShadow: '2px 0 12px rgba(0, 0, 0, 0.15)'}}>
           <div className="flex items-center text-white/95 drop-shadow-lg">
             <span className="mr-2 text-yellow-300">📊</span>
             <div className="flex flex-col">
