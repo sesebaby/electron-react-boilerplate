@@ -2009,7 +2009,7 @@
   --topbar-shadow: 0 2px 8px oklch(0.208 0.042 265.755 / 0.3);  /* 深黑色阴影 */
 
   /* 表格锁定专用背景 - 灰色为主，与其他列保持一致 */
-  --table-fixed-background: oklch(0.85 0.01 258.065 / 1);
+  --table-fixed-background: oklch(0.85 0.01 258.065 / 0.98);
   --table-fixed-background-hover: oklch(44.6% 0.03 256.802 / 1);
 
   /* 弹出窗体背景系统 - 浅灰色系，indigo装饰边框 */
@@ -2067,7 +2067,7 @@
   --financial-indigo: oklch(0.511 0.262 276.966);  /* indigo-600 - 靛蓝色 */
 
   /* 表格固定表头系统变量 - 纯白背景+indigo装饰 */
-  --table-header-fixed-bg: oklch(0.85 0.01 258.065 / 1);  /* 与数据行背景一致 */
+  --table-header-fixed-bg: oklch(0.85 0.01 258.065 / 0.98);  /* 与表格内容区域一致 */
   --table-header-blur: blur(10px);
   --table-header-fixed-border: oklch(0.585 0.233 277.117 / 0.4);  /* indigo-500边框 */
   --table-header-fixed-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.2);
