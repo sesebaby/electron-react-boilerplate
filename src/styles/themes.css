@@ -1963,8 +1963,8 @@
   /* 表面和卡片背景 - 纯白色系，高对比度设计 */
   --surface-background: oklch(1 0 0 / 0.98);  /* 纯白色/98% - 高对比度 */
   --card-background: oklch(1 0 0 / 1);  /* 纯白色/100% - 最高对比度 */
-  --hover-background: oklch(0.984 0.003 247.858 / 0.9);  /* gray-50/90% */
-  --active-background: oklch(0.968 0.007 247.896 / 0.85);  /* gray-100/85% */
+  --hover-background: oklch(0.928 0.013 248.055 / 0.85);  /* gray-200/85% - 柔和灰色hover */
+  --active-background: oklch(0.886 0.023 248.207 / 0.8);  /* gray-300/80% - 适中灰色active */
 
   /* TopBar专用背景 - 纯白色背景，indigo装饰 */
   --topbar-background: oklch(1 0 0 / 0.98);  /* 纯白色/98% */
@@ -2006,9 +2006,9 @@
 
   /* 弹出窗体交互状态颜色 - indigo装饰系统 */
   --popup-divider-color: oklch(0.585 0.233 277.117 / 0.15);  /* indigo-500分割线 */
-  --popup-item-hover-bg: oklch(0.984 0.003 247.858 / 0.8);  /* gray-50/80% */
-  --popup-item-active-bg: oklch(0.585 0.233 277.117 / 0.1);  /* indigo-500/10% 激活背景 */
-  --popup-item-active-hover-bg: oklch(0.585 0.233 277.117 / 0.15);  /* indigo-500/15% */
+  --popup-item-hover-bg: oklch(0.928 0.013 248.055 / 0.6);  /* gray-200/60% - 柔和灰色hover */
+  --popup-item-active-bg: oklch(0.585 0.233 277.117 / 0.08);  /* indigo-500/8% 激活背景 */
+  --popup-item-active-hover-bg: oklch(0.585 0.233 277.117 / 0.12);  /* indigo-500/12% */
   --popup-item-danger-hover-bg: oklch(0.637 0.237 25.331 / 0.1);  /* red danger */
   --accent-color: oklch(0.585 0.233 277.117);  /* indigo-500 主装饰色 */
   --danger-color: oklch(0.637 0.237 25.331);  /* red-600 */
@@ -2053,7 +2053,7 @@
 
 [data-theme="minimal-monochrome"] .glass-select:focus,
 [data-theme="minimal-monochrome"] .glass-select:hover {
-  background: oklch(1 0 0 / 1);  /* 保持纯白背景 */
+  background: oklch(0.928 0.013 248.055 / 0.7);  /* 柔和灰色hover背景 */
   border-color: oklch(0.585 0.233 277.117 / 0.7);  /* 加强indigo边框 */
   box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1);  /* indigo焦点环 */
 }
@@ -2069,13 +2069,13 @@
 
 [data-theme="minimal-monochrome"] .glass-select option:checked,
 [data-theme="minimal-monochrome"] .glass-select option:hover {
-  background: oklch(0.585 0.233 277.117 / 0.1) !important;  /* indigo-500/10% hover */
+  background: oklch(0.585 0.233 277.117 / 0.08) !important;  /* indigo-500/8% hover */
   color: oklch(0.208 0.042 265.755) !important;  /* 保持黑色文字 */
 }
 
 /* 黑白精简风主题弹出下拉框样式 - 专业indigo装饰 */
 [data-theme="minimal-monochrome"] .popup-dropdown {
-  background: oklch(1 0 0 / 1) !important;  /* 纯白色背景 */
+  background: oklch(0.984 0.003 247.858 / 0.98) !important;  /* 柔和灰白背景 */
   backdrop-filter: blur(10px) !important;
   border: 1px solid oklch(0.585 0.233 277.117 / 0.4) !important;  /* indigo-500边框 */
   box-shadow: 0 20px 60px oklch(0.583 0.024 252.894 / 0.3) !important;
@@ -2087,7 +2087,7 @@
 }
 
 [data-theme="minimal-monochrome"] .theme-option {
-  background: oklch(1 0 0 / 1) !important;  /* 纯白色背景 */
+  background: oklch(0.984 0.003 247.858 / 0.9) !important;  /* 柔和灰白背景 */
   color: oklch(0.208 0.042 265.755) !important;  /* 纯黑色文字 */
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3) !important;  /* indigo-500边框 */
 }
@@ -2103,29 +2103,29 @@
 }
 
 [data-theme="minimal-monochrome"] .theme-option:hover {
-  background: oklch(0.585 0.233 277.117 / 0.05) !important;  /* indigo-500/5% hover */
+  background: oklch(0.928 0.013 248.055 / 0.6) !important;  /* 柔和灰色hover */
   border: 1px solid oklch(0.585 0.233 277.117 / 0.6) !important;  /* indigo-500边框 */
 }
 
 [data-theme="minimal-monochrome"] .theme-option.active {
-  background: oklch(0.585 0.233 277.117 / 0.1) !important;  /* indigo-500/10% active */
+  background: oklch(0.585 0.233 277.117 / 0.08) !important;  /* indigo-500/8% active */
   border: 1px solid oklch(0.585 0.233 277.117 / 0.8) !important;  /* 加强indigo边框 */
 }
 
 [data-theme="minimal-monochrome"] .close-button {
   color: oklch(0.372 0.044 257.287) !important;  /* 深灰色文字 */
-  background: oklch(1 0 0 / 1);  /* 纯白色背景 */
+  background: oklch(0.984 0.003 247.858 / 0.9);  /* 柔和灰白背景 */
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo边框 */
   text-shadow: none;  /* 移除阴影 */
 }
 
 [data-theme="minimal-monochrome"] .close-button:hover {
-  background: oklch(0.585 0.233 277.117 / 0.05);  /* 轻微indigo hover */
+  background: oklch(0.928 0.013 248.055 / 0.7);  /* 柔和灰色hover */
   border-color: oklch(0.585 0.233 277.117 / 0.6);
 }
 
 [data-theme="minimal-monochrome"] .glass-textarea {
-  background: oklch(1 0 0 / 1);  /* 纯白色背景 */
+  background: oklch(0.984 0.003 247.858 / 0.95);  /* 柔和灰白背景 */
   backdrop-filter: blur(8px);
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo-500边框 */
   color: oklch(0.208 0.042 265.755);  /* 纯黑色文字 */
@@ -2133,7 +2133,51 @@
   box-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.1);
 }
 
-[data-theme="minimal-monochrome"] .glass-textarea:focus {
+[data-theme="minimal-monochrome"] .glass-textarea:focus,
+[data-theme="minimal-monochrome"] .glass-textarea:hover {
+  background: oklch(0.928 0.013 248.055 / 0.8);  /* 柔和灰色hover */
   border-color: oklch(0.585 0.233 277.117 / 0.7);  /* 聚焦时加强indigo边框 */
   box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1);
+}
+
+/* 黑白精简风主题侧边栏专用样式 */
+[data-theme="minimal-monochrome"] .glass-surface {
+  background: oklch(0.984 0.003 247.858 / 0.95) !important;  /* 柔和灰白背景 */
+  backdrop-filter: blur(12px) !important;
+  border-right: 1px solid oklch(0.585 0.233 277.117 / 0.3) !important;  /* indigo边框 */
+  box-shadow: 4px 0 20px oklch(0.583 0.024 252.894 / 0.1) !important;
+}
+
+/* 侧边栏菜单项背景调整 */
+[data-theme="minimal-monochrome"] .glass-surface .bg-white\/20 {
+  background: oklch(0.585 0.233 277.117 / 0.15) !important;  /* indigo激活背景 */
+}
+
+[data-theme="minimal-monochrome"] .glass-surface .hover\:bg-white\/10:hover {
+  background: oklch(0.928 0.013 248.055 / 0.6) !important;  /* 柔和灰色hover */
+}
+
+[data-theme="minimal-monochrome"] .glass-surface .bg-white\/15 {
+  background: oklch(0.585 0.233 277.117 / 0.1) !important;  /* indigo子菜单激活 */
+}
+
+[data-theme="minimal-monochrome"] .glass-surface .hover\:bg-white\/8:hover {
+  background: oklch(0.928 0.013 248.055 / 0.4) !important;  /* 柔和灰色hover */
+}
+
+[data-theme="minimal-monochrome"] .glass-surface .bg-white\/5 {
+  background: oklch(0.928 0.013 248.055 / 0.5) !important;  /* 柔和灰色背景 */
+}
+
+/* 侧边栏边框调整 */
+[data-theme="minimal-monochrome"] .glass-surface .border-white\/10 {
+  border-color: oklch(0.585 0.233 277.117 / 0.25) !important;  /* indigo边框 */
+}
+
+[data-theme="minimal-monochrome"] .glass-surface .border-white\/30 {
+  border-color: oklch(0.585 0.233 277.117 / 0.6) !important;  /* indigo激活边框 */
+}
+
+[data-theme="minimal-monochrome"] .glass-surface .border-white\/20 {
+  border-color: oklch(0.585 0.233 277.117 / 0.4) !important;  /* indigo子菜单边框 */
 }
