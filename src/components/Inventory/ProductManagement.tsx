@@ -5,6 +5,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { productService, categoryService, unitService, productConversionService } from '../../services/business';
 import { Product, Category, Unit, ProductStatus, ProductConversionSetting } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { Card, CardContent } from '../ui/card';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import UnitConversionSettings from './UnitConversionSettings';
 import { userActionLogger, UserActionType, ActionContext } from '../../utils/userActionLogger';
@@ -439,12 +451,11 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-96">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-          <p className="text-white/80">正在加载商品数据...</p>
-        </div>
-      </div>
+      <Card className="glass-card h-full">
+        <CardContent className="p-0 h-full">
+          <TableLoading message="正在加载商品数据..." />
+        </CardContent>
+      </Card>
     );
   }
 
