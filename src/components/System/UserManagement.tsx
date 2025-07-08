@@ -346,15 +346,18 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
       {/* 搜索和筛选 */}
       <GlassCard>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-          <div className="relative">
-            <GlassInput
-              type="text"
-              placeholder="搜索用户名、昵称、邮箱或手机号..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60">🔍</span>
+          <div>
+            <label className="block text-sm font-medium text-white/80 mb-2">搜索用户</label>
+            <div className="relative">
+              <GlassInput
+                type="text"
+                placeholder="搜索用户名、昵称、邮箱或手机号..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60">🔍</span>
+            </div>
           </div>
 
           <div>
