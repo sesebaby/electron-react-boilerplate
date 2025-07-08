@@ -2000,17 +2000,17 @@
 
   /* 表面和卡片背景 - 浅灰色系，统一配色设计 */
   --surface-background: oklch(0.85 0.01 258.065 / 0.98);  /* 浅灰色/98% - 高对比度 */
-  --card-background: oklch(0.85 0.01 258.065 / 1);  /* 浅灰色/100% - 最高对比度 */
-  --hover-background: oklch(0.554 0.02 258.065 / 0.8);  /* gray-500/80% - 深色hover背景 */
-  --active-background: oklch(0.446 0.043 257.281 / 0.85);  /* gray-600/85% - 深色active背景 */
+  --card-background: oklch(0.85 0.01 258.065 / 1);  /* 浅灰色/100% - 最高对比度，与输入框一致 */
+  --hover-background: oklch(0.85 0.01 258.065 / 1);  /* 保持浅灰色背景，与输入框一致 */
+  --active-background: oklch(0.85 0.01 258.065 / 1);  /* 保持浅灰色背景，与输入框一致 */
 
   /* TopBar专用背景 - 灰色主题背景 */
   --topbar-background: oklch(0.583 0.024 252.894 / 0.95);  /* gray-700/95% - 深灰色背景 */
   --topbar-shadow: 0 2px 8px oklch(0.208 0.042 265.755 / 0.3);  /* 深黑色阴影 */
 
-  /* 表格锁定专用背景 - 白色为主，蓝色装饰 */
-  --table-fixed-background: oklch(1 0 0 / 0.98);
-  --table-fixed-background-hover: oklch(1 0 0 / 1);
+  /* 表格锁定专用背景 - 灰色为主，与其他列保持一致 */
+  --table-fixed-background: oklch(0.85 0.01 258.065 / 0.98);
+  --table-fixed-background-hover: oklch(0.85 0.01 258.065 / 1);
 
   /* 弹出窗体背景系统 - 浅灰色系，indigo装饰边框 */
   --popup-background: oklch(0.85 0.01 258.065 / 0.98);  /* 浅灰色/98% */
@@ -2043,7 +2043,7 @@
   --sidebar-text-tertiary: oklch(1 0 0 / 0.6);  /* 白色第三级文字 */
 
   /* 玻璃感效果 - indigo装饰边框设计 */
-  --glass-border: 1px solid oklch(0.585 0.233 277.117 / 0.25);  /* indigo-500装饰边框 */
+  --glass-border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo-500装饰边框，与输入框一致 */
   --glass-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15);  /* 深灰色阴影 */
   --glass-blur: blur(8px);  /* 轻微模糊保持清晰 */
 
@@ -2096,7 +2096,7 @@
 
 [data-theme="minimal-monochrome"] .glass-select:focus,
 [data-theme="minimal-monochrome"] .glass-select:hover {
-  background: oklch(0.554 0.02 258.065 / 0.7);  /* 深灰色hover背景 */
+  background: oklch(0.85 0.01 258.065 / 1);  /* 保持浅灰色背景，与input一致 */
   border-color: oklch(0.585 0.233 277.117 / 0.7);  /* 加强indigo边框 */
   box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1);  /* indigo焦点环 */
 }
@@ -2114,6 +2114,27 @@
 [data-theme="minimal-monochrome"] .glass-select option:hover {
   background: oklch(0.554 0.02 258.065 / 0.8) !important;  /* 深灰色hover */
   color: oklch(1 0 0) !important;  /* 白色文字保证对比度 */
+}
+
+/* 黑白精简风主题输入框样式 - 统一浅灰色背景+indigo装饰 */
+[data-theme="minimal-monochrome"] .glass-input {
+  background: oklch(0.85 0.01 258.065 / 1);  /* 浅灰色背景，与其他输入框一致 */
+  backdrop-filter: var(--popup-blur);
+  border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo-500边框 */
+  color: oklch(0.208 0.042 265.755);  /* 纯黑色文字 */
+  text-shadow: none;  /* 移除阴影保持纯净 */
+  box-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.1);  /* 轻微灰色阴影 */
+}
+
+[data-theme="minimal-monochrome"] .glass-input:focus,
+[data-theme="minimal-monochrome"] .glass-input:hover {
+  background: oklch(0.85 0.01 258.065 / 1);  /* 保持浅灰色背景 */
+  border-color: oklch(0.585 0.233 277.117 / 0.7);  /* 加强indigo边框 */
+  box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1);  /* indigo焦点环 */
+}
+
+[data-theme="minimal-monochrome"] .glass-input::placeholder {
+  color: oklch(0.446 0.043 257.281);  /* 中灰色占位符 */
 }
 
 /* 黑白精简风主题弹出下拉框样式 - 专业indigo装饰 */
