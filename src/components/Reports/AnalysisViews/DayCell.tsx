@@ -1,5 +1,5 @@
 import React from 'react';
-import { DailyBusinessSummary } from '../../types/entities';
+import { DailyBusinessSummary } from '../../../types/entities';
 
 interface DayCellProps {
   data: DailyBusinessSummary;

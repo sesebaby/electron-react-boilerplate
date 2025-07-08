@@ -7,9 +7,9 @@ import {
   ConsumptionSummaryProps, 
   DisplayMode,
   TimeSlot 
-} from '../../types/consumption';
-import ConsumptionCalculator from '../../utils/consumptionCalculator';
-import TimeSlotHelper from '../../utils/timeSlotHelper';
+} from '../../../types/consumption';
+import ConsumptionCalculator from '../../../utils/consumptionCalculator';
+import TimeSlotHelper from '../../../utils/timeSlotHelper';
 
 const ConsumptionSummary: React.FC<ConsumptionSummaryProps> = ({
   totals,

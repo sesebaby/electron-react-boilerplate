@@ -27,6 +27,9 @@ const menuItems: MenuItem[] = [
     label: '报表分析',
     icon: '📈',
     children: [
+      { id: 'inventory-card-view', label: '卡片视图', icon: '🗂️' },
+      { id: 'calendar-overview', label: '日历视图', icon: '📅' },
+      { id: 'daily-consumption', label: '逐日消耗', icon: '📈' },
       { id: 'inventory-entry-registration', label: '出入库登记', icon: '📋' },
       { id: 'inventory-reports', label: '库存报表', icon: '📊' },
       { id: 'inventory-movement-summary', label: '出入库汇总', icon: '📋' },
@@ -51,10 +54,7 @@ const menuItems: MenuItem[] = [
     label: '库存管理',
     icon: '📦',
     children: [
-      { id: 'inventory-card-view', label: '卡片视图', icon: '🗂️' },
-      { id: 'calendar-overview', label: '日历视图', icon: '📅' },
-      { id: 'daily-consumption', label: '逐日消耗', icon: '📈' },
-      { id: 'monthly-balance', label: '月度结余', icon: '📊' }, // 月度结余功能 - 第5个位置
+      { id: 'monthly-balance', label: '月度结余', icon: '📊' },
       { id: 'stock-in', label: '入库管理', icon: '📥' },
       { id: 'stock-out', label: '出库管理', icon: '📤' },
       { id: 'stock-adjust', label: '库存调整', icon: '⚖️' }

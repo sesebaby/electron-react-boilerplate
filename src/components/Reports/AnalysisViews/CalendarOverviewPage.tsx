@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { WeeklyCalendarData, DailyBusinessSummary } from '../../types/entities';
-import { calendarDataService, CalendarDataService } from '../../services/business';
+import { WeeklyCalendarData, DailyBusinessSummary } from '../../../types/entities';
+import { calendarDataService, CalendarDataService } from '../../../services/business';
 import WeeklyCalendarView from './WeeklyCalendarView';
 import DayDetailModal from './DayDetailModal';
 

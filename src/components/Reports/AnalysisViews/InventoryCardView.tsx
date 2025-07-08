@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { WarehouseCardData, InventoryFilterOptions, InventoryCardViewState } from '../types/inventoryCard';
-import WarehouseCard from '../components/Inventory/WarehouseCard';
-import InventoryFilter from '../components/Inventory/InventoryFilter';
-import InventorySearch from '../components/Inventory/InventorySearch';
-import WarehouseSelector from '../components/Inventory/WarehouseSelector';
-import WarehouseDetailModal from '../components/Inventory/WarehouseDetailModal';
-import WarehouseCardSkeleton from '../components/Inventory/WarehouseCardSkeleton';
-import { notificationHelper } from '../utils/notificationHelper';
-import { inventoryCardService } from '../services/business';
+import { WarehouseCardData, InventoryFilterOptions, InventoryCardViewState } from '../../../types/inventoryCard';
+import WarehouseCard from './WarehouseCard';
+import InventoryFilter from '../../Inventory/InventoryFilter';
+import InventorySearch from '../../Inventory/InventorySearch';
+import WarehouseSelector from '../../Inventory/WarehouseSelector';
+import WarehouseDetailModal from '../../Inventory/WarehouseDetailModal';
+import WarehouseCardSkeleton from './WarehouseCardSkeleton';
+import { notificationHelper } from '../../../utils/notificationHelper';
+import { inventoryCardService } from '../../../services/business';
 
 const InventoryCardView: React.FC = () => {
   const [state, setState] = useState<InventoryCardViewState>({

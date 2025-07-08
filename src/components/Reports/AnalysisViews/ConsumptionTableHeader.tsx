@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { ConsumptionTableHeaderProps, DisplayMode } from '../../types/consumption';
+import { ConsumptionTableHeaderProps, DisplayMode } from '../../../types/consumption';
 
 const ConsumptionTableHeader: React.FC<ConsumptionTableHeaderProps> = ({
   dateColumns,

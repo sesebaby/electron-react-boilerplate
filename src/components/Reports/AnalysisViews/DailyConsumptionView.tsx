@@ -9,9 +9,9 @@ import {
   ConsumptionTableData,
   DisplayMode,
   TimeSlot
-} from '../../types/consumption';
-import { DEFAULT_TIME_SLOT_CONFIG } from '../../utils/timeSlotHelper';
-import { dailyConsumptionService } from '../../services/business';
+} from '../../../types/consumption';
+import { DEFAULT_TIME_SLOT_CONFIG } from '../../../utils/timeSlotHelper';
+import { dailyConsumptionService } from '../../../services/business';
 import ConsumptionControls from './ConsumptionControls';
 import ConsumptionTable from './ConsumptionTable';
 import ConsumptionSummary from './ConsumptionSummary';

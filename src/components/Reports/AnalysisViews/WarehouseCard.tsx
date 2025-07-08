@@ -1,6 +1,6 @@
 import React from 'react';
-import { WarehouseCardData, ProductStockInfo } from '../../types/inventoryCard';
-import ProductItem from './ProductItem';
+import { WarehouseCardData, ProductStockInfo } from '../../../types/inventoryCard';
+import ProductItem from '../../Inventory/ProductItem';
 
 interface WarehouseCardProps {
   warehouse: WarehouseCardData;

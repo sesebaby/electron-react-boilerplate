@@ -8,9 +8,9 @@ import {
   CategoryRowData, 
   ProductRowData, 
   TimeSlot 
-} from '../../types/consumption';
-import ConsumptionCalculator from '../../utils/consumptionCalculator';
-import TimeSlotHelper from '../../utils/timeSlotHelper';
+} from '../../../types/consumption';
+import ConsumptionCalculator from '../../../utils/consumptionCalculator';
+import TimeSlotHelper from '../../../utils/timeSlotHelper';
 
 const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
   rowData,

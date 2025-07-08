@@ -8,10 +8,10 @@ import {
   ConsumptionTableProps,
   CategoryRowData,
   TimeSlot
-} from '../../types/consumption';
+} from '../../../types/consumption';
 import ConsumptionTableHeader from './ConsumptionTableHeader';
 import ConsumptionTableRow from './ConsumptionTableRow';
-import ConsumptionCalculator from '../../utils/consumptionCalculator';
+import ConsumptionCalculator from '../../../utils/consumptionCalculator';
 
 const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
   data,

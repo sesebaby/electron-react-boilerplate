@@ -1,5 +1,5 @@
 import React from 'react';
-import { WeeklyCalendarData, DailyBusinessSummary } from '../../types/entities';
+import { WeeklyCalendarData, DailyBusinessSummary } from '../../../types/entities';
 import DayCell from './DayCell';
 
 interface WeeklyCalendarViewProps {

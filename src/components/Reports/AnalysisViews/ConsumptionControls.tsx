@@ -7,7 +7,7 @@ import {
   ConsumptionControlsProps, 
   DailyConsumptionViewConfig,
   DisplayMode 
-} from '../../types/consumption';
+} from '../../../types/consumption';
 
 // 基准日期配置 - 当前月份第1天的起始日期
 const getBaseDate = () => {
