@@ -471,7 +471,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <div className="space-y-4">
                     <div className="space-y-3">
-                      <div className="flex gap-3">
+                      <div className="flex gap-3 items-end">
                         <GlassInput
                           label="仓库编码"
                           type="text"
@@ -488,7 +488,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                             type="button"
                             onClick={generateWarehouseCode}
                             variant="secondary"
-                            className="px-3 py-2"
+                            className="h-12 px-3"
                             title="自动生成编码"
                           >
                             🔄 自动生成
