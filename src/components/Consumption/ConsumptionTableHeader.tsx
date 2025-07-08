@@ -56,12 +56,12 @@ const ConsumptionTableHeader: React.FC<ConsumptionTableHeaderProps> = ({
   };
 
   return (
-    <thead className={`glass-surface ${className}`} style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.8)', borderBottom: '2px solid rgba(255, 255, 255, 0.5)'}}>
+    <thead className={`glass-surface ${className}`} style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.25)', borderBottom: '2px solid rgba(255, 255, 255, 0.5)'}}>
       {/* 第一层表头：分类列 + 日期分组 + 合计列 */}
       <tr className="border-b border-white/20">
         <th 
           className="sticky left-0 z-40 px-4 py-3 text-left font-semibold text-white/90 border-r border-white/20"
-          style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.8)', boxShadow: '2px 0 12px rgba(0, 0, 0, 0.15)'}}
+          style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.12)', boxShadow: '2px 0 12px rgba(0, 0, 0, 0.15)'}}
           rowSpan={2}
         >
           <div className="flex flex-col">
@@ -75,7 +75,7 @@ const ConsumptionTableHeader: React.FC<ConsumptionTableHeaderProps> = ({
           <th
             key={date}
             className="px-2 py-3 text-center font-medium text-white/90 border-r border-white/20"
-            style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.8)'}}
+            style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.2)'}}
             colSpan={3}
           >
             <div className="flex flex-col items-center">
@@ -88,7 +88,7 @@ const ConsumptionTableHeader: React.FC<ConsumptionTableHeaderProps> = ({
         {/* 合计列 */}
         <th 
           className="px-4 py-3 text-center font-semibold text-white/90 border-l border-white/30"
-          style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.8)'}}
+          style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.25)'}}
           rowSpan={2}
         >
           <div className="flex flex-col items-center">
@@ -105,7 +105,7 @@ const ConsumptionTableHeader: React.FC<ConsumptionTableHeaderProps> = ({
         {dateColumns.map((date) => (
           <React.Fragment key={`${date}-slots`}>
             {/* 早 */}
-            <th className="px-3 py-2 text-center text-sm font-medium text-yellow-300 border-r border-white/10" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(234, 179, 8, 0.8)'}}>
+            <th className="px-3 py-2 text-center text-sm font-medium text-yellow-300 border-r border-white/10" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(234, 179, 8, 0.25)'}}>
               <div className="flex flex-col items-center">
                 <span className="drop-shadow-md">早</span>
                 <span className="text-xs text-yellow-200/80">06-12</span>
@@ -113,7 +113,7 @@ const ConsumptionTableHeader: React.FC<ConsumptionTableHeaderProps> = ({
             </th>
             
             {/* 中 */}
-            <th className="px-3 py-2 text-center text-sm font-medium text-blue-300 border-r border-white/10" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(59, 130, 246, 0.8)'}}>
+            <th className="px-3 py-2 text-center text-sm font-medium text-blue-300 border-r border-white/10" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(59, 130, 246, 0.25)'}}>
               <div className="flex flex-col items-center">
                 <span className="drop-shadow-md">中</span>
                 <span className="text-xs text-blue-200/80">12-18</span>
@@ -121,7 +121,7 @@ const ConsumptionTableHeader: React.FC<ConsumptionTableHeaderProps> = ({
             </th>
             
             {/* 晚 */}
-            <th className="px-3 py-2 text-center text-sm font-medium text-purple-300 border-r border-white/20" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(147, 51, 234, 0.8)'}}>
+            <th className="px-3 py-2 text-center text-sm font-medium text-purple-300 border-r border-white/20" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(147, 51, 234, 0.25)'}}>
               <div className="flex flex-col items-center">
                 <span className="drop-shadow-md">晚</span>
                 <span className="text-xs text-purple-200/80">18-06</span>
