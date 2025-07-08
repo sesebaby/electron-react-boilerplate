@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表单验证测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .required::after {
+            content: " *";
+            color: rgb(248, 113, 113);
+        }
+        .glass-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .glass-input::placeholder {
+            color: rgba(255, 255, 255, 0.65);
+        }
+        .glass-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+        .glass-input.error {
+            border-color: rgb(248, 113, 113) !important;
+            box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.2) !important;
+        }
+        .error-text {
+            color: rgb(248, 113, 113);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        .submit-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+        .success {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: rgb(34, 197, 94);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>表单验证测试</h1>
+        <p>这个页面用于测试表单验证功能是否正常工作。</p>
+        
+        <div id="success-message" class="success" style="display: none;">
+            ✅ 表单验证功能正常工作！必填字段现在会显示红色边框和错误提示。
+        </div>
+
+        <form id="test-form">
+            <div class="form-group">
+                <label for="name" class="label required">商品名称</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    class="glass-input" 
+                    placeholder="输入商品名称"
+                    required
+                >
+                <div class="error-text" id="name-error" style="display: none;"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="sku" class="label required">SKU编码</label>
+                <input 
+                    type="text" 
+                    id="sku" 
+                    class="glass-input" 
+                    placeholder="输入SKU编码"
+                    required
+                >
+                <div class="error-text" id="sku-error" style="display: none;"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="category" class="label required">商品分类</label>
+                <select id="category" class="glass-input" required>
+                    <option value="">请选择分类</option>
+                    <option value="electronics">电子产品</option>
+                    <option value="clothing">服装</option>
+                    <option value="food">食品</option>
+                </select>
+                <div class="error-text" id="category-error" style="display: none;"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="price" class="label required">销售价格</label>
+                <input 
+                    type="number" 
+                    id="price" 
+                    class="glass-input" 
+                    placeholder="0.00"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+                <div class="error-text" id="price-error" style="display: none;"></div>
+            </div>
+
+            <button type="submit" class="submit-btn">提交表单</button>
+        </form>
+
+        <div style="margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+            <h3>测试说明：</h3>
+            <ul>
+                <li>尝试提交空表单，应该看到红色边框和错误提示</li>
+                <li>逐个填写字段，错误状态应该消失</li>
+                <li>所有必填字段填写完毕后，表单应该可以成功提交</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('test-form');
+        const successMessage = document.getElementById('success-message');
+        
+        // 验证规则
+        const validators = {
+            name: {
+                required: true,
+                message: '商品名称不能为空'
+            },
+            sku: {
+                required: true,
+                message: 'SKU编码不能为空'
+            },
+            category: {
+                required: true,
+                message: '请选择商品分类'
+            },
+            price: {
+                required: true,
+                message: '销售价格不能为空'
+            }
+        };
+
+        // 显示错误
+        function showError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.getElementById(fieldId + '-error');
+            
+            field.classList.add('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        // 清除错误
+        function clearError(fieldId) {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.getElementById(fieldId + '-error');
+            
+            field.classList.remove('error');
+            errorDiv.style.display = 'none';
+        }
+
+        // 验证字段
+        function validateField(fieldId) {
+            const field = document.getElementById(fieldId);
+            const validator = validators[fieldId];
+            
+            if (validator.required && !field.value.trim()) {
+                showError(fieldId, validator.message);
+                return false;
+            }
+            
+            clearError(fieldId);
+            return true;
+        }
+
+        // 为每个字段添加实时验证
+        Object.keys(validators).forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            field.addEventListener('blur', () => validateField(fieldId));
+            field.addEventListener('input', () => {
+                if (field.value.trim()) {
+                    clearError(fieldId);
+                }
+            });
+        });
+
+        // 表单提交验证
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            let isValid = true;
+            Object.keys(validators).forEach(fieldId => {
+                if (!validateField(fieldId)) {
+                    isValid = false;
+                }
+            });
+            
+            if (isValid) {
+                successMessage.style.display = 'block';
+                form.reset();
+                // 清除所有错误状态
+                Object.keys(validators).forEach(fieldId => {
+                    clearError(fieldId);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

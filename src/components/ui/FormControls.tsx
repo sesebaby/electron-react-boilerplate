@@ -69,7 +69,7 @@ export const GlassInput: React.FC<InputProps> = ({
       )}
       <input
         {...inputProps}
-        className={`glass-input w-full px-4 py-3 rounded-lg ${sanitizeText(className)}`}
+        className={`glass-input w-full px-4 py-3 rounded-lg ${error ? 'border-red-400 ring-red-400/20 ring-2' : ''} ${sanitizeText(className)}`}
       />
       {error && (
         <p className="text-sm text-red-400">{sanitizeText(error)}</p>
@@ -107,7 +107,7 @@ export const GlassSelect: React.FC<SelectProps> = ({
       )}
       <select
         {...selectProps}
-        className={`glass-input glass-select w-full px-4 py-3 rounded-lg ${sanitizeText(className)}`}
+        className={`glass-input glass-select w-full px-4 py-3 rounded-lg ${error ? 'border-red-400 ring-red-400/20 ring-2' : ''} ${sanitizeText(className)}`}
       >
         {children}
       </select>
