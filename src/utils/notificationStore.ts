@@ -111,6 +111,13 @@ class NotificationStore {
     return filteredNotifications.filter(n => !n.isRead).length;
   }
 
+  // 获取未读通知（根据配置过滤）
+  getUnreadNotifications(count?: number): SimpleNotification[] {
+    const filteredNotifications = this.getFilteredNotifications();
+    const unreadNotifications = filteredNotifications.filter(n => !n.isRead);
+    return count ? unreadNotifications.slice(0, count) : unreadNotifications;
+  }
+
   // 标记为已读
   markAsRead(id: string): boolean {
     const notification = this.notifications.find(n => n.id === id);

@@ -109,10 +109,10 @@ export const TopBar: React.FC<TopBarProps> = ({
   const loadNotifications = () => {
     setIsLoadingNotifications(true);
     try {
-      const recentNotifications = notificationHelper.getRecentNotifications();
+      const unreadNotifications = notificationHelper.getUnreadNotifications();
       const unreadCount = notificationHelper.getUnreadCount();
 
-      setNotifications(recentNotifications);
+      setNotifications(unreadNotifications);
       setUnreadCount(unreadCount);
     } catch (error) {
       console.error('加载通知失败:', error);
@@ -150,6 +150,13 @@ export const TopBar: React.FC<TopBarProps> = ({
     } catch (error) {
       console.error('标记所有通知已读失败:', error);
     }
+  };
+
+  // 跳转到通知页面
+  const handleShowMoreNotifications = () => {
+    setShowNotifications(false);
+    window.location.hash = 'notifications';
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
   };
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -463,7 +470,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                       </div>
                     ) : notifications.length === 0 ? (
                       <div className="p-4 text-center" style={{ color: 'var(--popup-text-tertiary)' }}>
-                        暂无通知消息
+                        暂无未读通知
                       </div>
                     ) : (
                       notifications.map(notification => (
@@ -484,17 +491,15 @@ export const TopBar: React.FC<TopBarProps> = ({
                                   minute: '2-digit'
                                 })}
                               </span>
-                              {!notification.isRead && (
-                                <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-                              )}
+                              <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
                             </div>
                           </div>
                         </div>
                       ))
                     )}
                   </div>
-                  {notifications.length > 0 && (
-                    <div className="p-3 border-t border-white/10">
+                  <div className="p-3 border-t border-white/10 space-y-2">
+                    {notifications.length > 0 && (
                       <button
                         type="button"
                         className="w-full text-center text-sm font-medium py-2 rounded-lg hover:bg-white/10 transition-colors"
@@ -503,8 +508,16 @@ export const TopBar: React.FC<TopBarProps> = ({
                       >
                         标记全部已读
                       </button>
-                    </div>
-                  )}
+                    )}
+                    <button
+                      type="button"
+                      className="w-full text-center text-sm font-medium py-2 rounded-lg hover:bg-white/10 transition-colors"
+                      style={{ color: 'var(--popup-text-secondary)' }}
+                      onClick={handleShowMoreNotifications}
+                    >
+                      查看更多
+                    </button>
+                  </div>
                 </div>
                 <div className="popup-overlay" onClick={() => setShowNotifications(false)}></div>
               </>
