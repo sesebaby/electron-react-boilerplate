@@ -405,6 +405,8 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
+    // 自动生成SKU编码
+    generateSKU();
   };
 
   const generateSKU = () => {
