@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { salesOrderService, salesDeliveryService, customerService, productService } from '../../services/business';
 import { SalesOrder, SalesDelivery, Customer, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface SalesReportsProps {
   className?: string;
@@ -600,88 +611,88 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="financial-table-header">
-                <tr>
+          <TableContainer height="500px">
+            <Table stickyHeader minWidth="1000px">
+              <TableHeader sticky>
+                <TableRow>
                   {filters.reportType === 'trend' && (
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">时期</th>
+                    <TableHead className="min-w-[120px] text-left">时期</TableHead>
                   )}
                   {filters.reportType !== 'product' && (
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">客户</th>
+                    <TableHead className="min-w-[150px] text-left">客户</TableHead>
                   )}
                   {filters.reportType !== 'customer' && (
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">产品</th>
+                    <TableHead className="min-w-[150px] text-left">产品</TableHead>
                   )}
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">订单数</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">总金额</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">平均订单值</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">发货数</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">发货金额</th>
+                  <TableHead className="min-w-[100px] text-left">订单数</TableHead>
+                  <TableHead className="min-w-[120px] text-left">总金额</TableHead>
+                  <TableHead className="min-w-[120px] text-left">平均订单值</TableHead>
+                  <TableHead className="min-w-[100px] text-left">发货数</TableHead>
+                  <TableHead className="min-w-[120px] text-left">发货金额</TableHead>
                   {filters.reportType === 'customer' && (
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">客户类型</th>
+                    <TableHead className="min-w-[100px] text-left">客户类型</TableHead>
                   )}
                   {filters.reportType === 'customer' && (
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">地区</th>
+                    <TableHead className="min-w-[120px] text-left">地区</TableHead>
                   )}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200/50">
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {reportData.map((item, index) => (
-                  <tr key={index} className="hover:bg-white/50 transition-colors">
+                  <TableRow key={index}>
                     {filters.reportType === 'trend' && (
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <TableCell className="min-w-[120px]">
                         <span className="font-semibold financial-table-cell">{item.period}</span>
-                      </td>
+                      </TableCell>
                     )}
                     {filters.reportType !== 'product' && (
-                      <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
+                      <TableCell className="min-w-[150px] financial-table-cell">
                         {item.customerName}
-                      </td>
+                      </TableCell>
                     )}
                     {filters.reportType !== 'customer' && (
-                      <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
+                      <TableCell className="min-w-[150px] financial-table-cell">
                         {item.productName}
-                      </td>
+                      </TableCell>
                     )}
-                    <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
+                    <TableCell className="min-w-[100px] financial-table-cell">
                       {item.orderCount}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[120px]">
                       <div className="font-semibold financial-table-cell">¥{item.totalAmount.toLocaleString()}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
+                    </TableCell>
+                    <TableCell className="min-w-[120px] financial-table-cell">
                       ¥{item.avgOrderValue.toLocaleString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
+                    </TableCell>
+                    <TableCell className="min-w-[100px] financial-table-cell">
                       {item.deliveryCount}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[120px]">
                       <div className="font-semibold financial-table-cell">¥{item.deliveredAmount.toLocaleString()}</div>
-                    </td>
+                    </TableCell>
                     {filters.reportType === 'customer' && (
-                      <td className="px-6 py-4 whitespace-nowrap financial-subtitle">
+                      <TableCell className="min-w-[100px] financial-subtitle">
                         {item.customerType}
-                      </td>
+                      </TableCell>
                     )}
                     {filters.reportType === 'customer' && (
-                      <td className="px-6 py-4 whitespace-nowrap financial-subtitle">
+                      <TableCell className="min-w-[120px] financial-subtitle">
                         {item.region}
-                      </td>
+                      </TableCell>
                     )}
-                  </tr>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-            {reportData.length === 0 && (
-              <div className="text-center py-12">
-                <div className="text-4xl mb-4">📊</div>
-                <h3 className="text-lg font-medium financial-title mb-2">没有找到销售数据</h3>
-                <p className="financial-subtitle">请调整筛选条件或检查销售数据</p>
-              </div>
-            )}
-          </div>
+          {reportData.length === 0 && (
+            <div className="text-center py-12">
+              <div className="text-4xl mb-4">📊</div>
+              <h3 className="text-lg font-medium financial-title mb-2">没有找到销售数据</h3>
+              <p className="financial-subtitle">请调整筛选条件或检查销售数据</p>
+            </div>
+          )}
         </GlassCard>
       </div>
     </div>

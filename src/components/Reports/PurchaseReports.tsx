@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { purchaseOrderService, purchaseReceiptService, supplierService, productService } from '../../services/business';
 import { PurchaseOrder, PurchaseReceipt, Supplier, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface PurchaseReportsProps {
   className?: string;
@@ -222,47 +233,47 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
         <div className="p-4 border-b border-white/20">
           <h3 className="text-lg font-semibold text-gray-800">供应商分析 (TOP 10)</h3>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50/50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">供应商</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">订单数量</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">采购金额</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">平均订单金额</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">占比</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200/50">
+        <TableContainer height="400px">
+          <Table stickyHeader minWidth="800px">
+            <TableHeader sticky>
+              <TableRow>
+                <TableHead className="min-w-[200px] text-left">供应商</TableHead>
+                <TableHead className="min-w-[120px] text-left">订单数量</TableHead>
+                <TableHead className="min-w-[140px] text-left">采购金额</TableHead>
+                <TableHead className="min-w-[140px] text-left">平均订单金额</TableHead>
+                <TableHead className="min-w-[100px] text-left">占比</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {supplierData.map((data, index) => {
                 const totalValue = supplierData.reduce((sum, d) => sum + d.totalValue, 0);
                 const percentage = totalValue > 0 ? (data.totalValue / totalValue * 100).toFixed(1) : '0.0';
                 const avgOrder = data.orderCount > 0 ? data.totalValue / data.orderCount : 0;
                 
                 return (
-                  <tr key={data.supplier.id} className="hover:bg-white/50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
+                  <TableRow key={data.supplier.id}>
+                    <TableCell className="min-w-[200px]">
                       <div>
                         <div className="font-medium text-gray-900">{data.supplier.name}</div>
                         <div className="text-sm text-gray-500">{data.supplier.code}</div>
                       </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">{data.orderCount}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[120px] text-gray-900">{data.orderCount}</TableCell>
+                    <TableCell className="min-w-[140px]">
                       <div className="font-semibold text-gray-900">¥{data.totalValue.toLocaleString()}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">¥{avgOrder.toLocaleString()}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[140px] text-gray-900">¥{avgOrder.toLocaleString()}</TableCell>
+                    <TableCell className="min-w-[100px]">
                       <span className="px-2 py-1 text-xs font-medium rounded-full purchase-status-processing">
                         {percentage}%
                       </span>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 );
               })}
-            </tbody>
-          </table>
-        </div>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </GlassCard>
     );
   };
@@ -275,41 +286,41 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
         <div className="p-4 border-b border-white/20">
           <h3 className="text-lg font-semibold text-gray-800">商品采购分析 (TOP 10)</h3>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50/50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">商品</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">采购次数</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">采购数量</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">采购金额</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">平均单价</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200/50">
+        <TableContainer height="400px">
+          <Table stickyHeader minWidth="800px">
+            <TableHeader sticky>
+              <TableRow>
+                <TableHead className="min-w-[200px] text-left">商品</TableHead>
+                <TableHead className="min-w-[120px] text-left">采购次数</TableHead>
+                <TableHead className="min-w-[120px] text-left">采购数量</TableHead>
+                <TableHead className="min-w-[140px] text-left">采购金额</TableHead>
+                <TableHead className="min-w-[120px] text-left">平均单价</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {productData.map((data) => {
                 const avgPrice = data.totalQuantity > 0 ? data.totalValue / data.totalQuantity : 0;
                 
                 return (
-                  <tr key={data.product.id} className="hover:bg-white/50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
+                  <TableRow key={data.product.id}>
+                    <TableCell className="min-w-[200px]">
                       <div>
                         <div className="font-medium text-gray-900">{data.product.name}</div>
                         <div className="text-sm text-gray-500">{data.product.sku}</div>
                       </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">{data.orderCount}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">{data.totalQuantity}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[120px] text-gray-900">{data.orderCount}</TableCell>
+                    <TableCell className="min-w-[120px] text-gray-900">{data.totalQuantity}</TableCell>
+                    <TableCell className="min-w-[140px]">
                       <div className="font-semibold text-gray-900">¥{data.totalValue.toLocaleString()}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">¥{avgPrice.toFixed(2)}</td>
-                  </tr>
+                    </TableCell>
+                    <TableCell className="min-w-[120px] text-gray-900">¥{avgPrice.toFixed(2)}</TableCell>
+                  </TableRow>
                 );
               })}
-            </tbody>
-          </table>
-        </div>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </GlassCard>
     );
   };
@@ -322,17 +333,17 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
         <div className="p-4 border-b border-white/20">
           <h3 className="text-lg font-semibold text-gray-800">采购趋势分析</h3>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50/50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">月份</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">订单数量</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">采购金额</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">平均订单金额</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200/50">
+        <TableContainer height="400px">
+          <Table stickyHeader minWidth="600px">
+            <TableHeader sticky>
+              <TableRow>
+                <TableHead className="min-w-[150px] text-left">月份</TableHead>
+                <TableHead className="min-w-[120px] text-left">订单数量</TableHead>
+                <TableHead className="min-w-[140px] text-left">采购金额</TableHead>
+                <TableHead className="min-w-[140px] text-left">平均订单金额</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {trendData.map((data) => {
                 const avgOrder = data.orderCount > 0 ? data.totalValue / data.orderCount : 0;
                 const monthName = new Date(data.month + '-01').toLocaleDateString('zh-CN', {
@@ -341,19 +352,19 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
                 });
                 
                 return (
-                  <tr key={data.month} className="hover:bg-white/50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{monthName}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">{data.orderCount}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                  <TableRow key={data.month}>
+                    <TableCell className="min-w-[150px] font-medium text-gray-900">{monthName}</TableCell>
+                    <TableCell className="min-w-[120px] text-gray-900">{data.orderCount}</TableCell>
+                    <TableCell className="min-w-[140px]">
                       <div className="font-semibold text-gray-900">¥{data.totalValue.toLocaleString()}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">¥{avgOrder.toLocaleString()}</td>
-                  </tr>
+                    </TableCell>
+                    <TableCell className="min-w-[140px] text-gray-900">¥{avgOrder.toLocaleString()}</TableCell>
+                  </TableRow>
                 );
               })}
-            </tbody>
-          </table>
-        </div>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </GlassCard>
     );
   };

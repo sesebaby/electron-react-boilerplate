@@ -16,6 +16,17 @@ import {
   PurchaseOrder 
 } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface FinancialReportsProps {
   className?: string;
@@ -277,17 +288,17 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
         <div className="p-4 border-b border-white/20">
           <h3 className="text-lg font-semibold financial-title">现金流量分析</h3>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="financial-table-header">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">月份</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">现金流入</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">现金流出</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">净现金流</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200/50">
+        <TableContainer height="400px">
+          <Table stickyHeader minWidth="600px">
+            <TableHeader sticky>
+              <TableRow>
+                <TableHead className="min-w-[120px] text-left">月份</TableHead>
+                <TableHead className="min-w-[120px] text-left">现金流入</TableHead>
+                <TableHead className="min-w-[120px] text-left">现金流出</TableHead>
+                <TableHead className="min-w-[120px] text-left">净现金流</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {cashFlowData.map((data) => {
                 const monthName = new Date(data.month + '-01').toLocaleDateString('zh-CN', {
                   year: 'numeric',
@@ -295,25 +306,25 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
                 });
 
                 return (
-                  <tr key={data.month} className="hover:bg-white/50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap font-medium financial-table-cell">{monthName}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                  <TableRow key={data.month}>
+                    <TableCell className="min-w-[120px] font-medium financial-table-cell">{monthName}</TableCell>
+                    <TableCell className="min-w-[120px]">
                       <span className="financial-value-positive font-semibold">¥{data.inflow.toLocaleString()}</span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[120px]">
                       <span className="financial-value-negative font-semibold">¥{data.outflow.toLocaleString()}</span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[120px]">
                       <span className={`font-semibold ${data.net >= 0 ? 'financial-value-positive' : 'financial-value-negative'}`}>
                         ¥{data.net.toLocaleString()}
                       </span>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 );
               })}
-            </tbody>
-          </table>
-        </div>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </GlassCard>
     );
   };

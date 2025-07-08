@@ -2,6 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { productService, warehouseService, inventoryStockService } from '../../services/business';
 import { Product, Warehouse, InventoryTransaction, TransactionType } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { Card, CardContent } from '../ui/card';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface TransactionRecordsProps {
   className?: string;
@@ -269,12 +281,18 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
   if (loading) {
     return (
       <div className={`space-y-6 ${className || ''}`}>
-        <div className="flex items-center justify-center min-h-96">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-            <p className="text-white/80">加载交易记录中...</p>
+        {/* 页面头部 */}
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2">库存交易记录</h1>
+            <p className="text-white/70">查看和分析所有库存变动的详细记录</p>
           </div>
         </div>
+        <Card className="glass-card h-full">
+          <CardContent className="p-0 h-full">
+            <TableLoading message="正在加载交易记录数据..." />
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -457,31 +475,44 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
         </div>
 
         {filteredTransactions.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">📋</div>
-            <h3 className="text-xl font-semibold text-white mb-2">没有找到交易记录</h3>
-            <p className="text-white/70">请调整筛选条件或检查时间范围</p>
-          </div>
+          <TableEmpty
+            icon={<div className="text-6xl">📋</div>}
+            message="没有找到交易记录"
+            description="请调整筛选条件或检查时间范围"
+          />
         ) : (
           <>
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[1200px]">
-                <thead>
-                  <tr className="border-b border-white/10">
-                    <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">交易信息</th>
-                    <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[150px]">商品</th>
-                    <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">仓库</th>
-                    <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">数量变动</th>
-                    <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">金额</th>
-                    <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[150px]">参考信息</th>
-                    <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">操作员</th>
-                    <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[150px]">交易时间</th>
-                  </tr>
-                </thead>
-                <tbody>
+            <TableContainer height="600px">
+              <Table stickyHeader minWidth="1200px">
+                <TableHeader sticky>
+                  <TableRow>
+                    <TableHead 
+                      fixed 
+                      fixedPosition="left" 
+                      fixedOffset={0}
+                      className="min-w-[200px] bg-white/10 backdrop-blur-lg"
+                    >
+                      交易信息
+                    </TableHead>
+                    <TableHead className="min-w-[150px]">商品</TableHead>
+                    <TableHead className="min-w-[120px]">仓库</TableHead>
+                    <TableHead className="min-w-[120px] text-center">数量变动</TableHead>
+                    <TableHead className="min-w-[100px] text-right">金额</TableHead>
+                    <TableHead className="min-w-[150px]">参考信息</TableHead>
+                    <TableHead className="min-w-[100px]">操作员</TableHead>
+                    <TableHead className="min-w-[150px]">交易时间</TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
                   {currentTransactions.map(transaction => (
-                    <tr key={transaction.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                      <td className="py-3 px-4">
+                    <TableRow key={transaction.id}>
+                      <TableCell 
+                        fixed 
+                        fixedPosition="left" 
+                        fixedOffset={0}
+                        className="min-w-[200px]"
+                      >
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
                             <span className="text-lg">
@@ -493,14 +524,14 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
                             {getTransactionTypeText(transaction.transactionType)}
                           </div>
                         </div>
-                      </td>
-                      <td className="py-3 px-4">
+                      </TableCell>
+                      <TableCell className="min-w-[150px]">
                         <div className="text-white">{getProductName(transaction.productId)}</div>
-                      </td>
-                      <td className="py-3 px-4">
+                      </TableCell>
+                      <TableCell className="min-w-[120px]">
                         <div className="text-white/80">{getWarehouseName(transaction.warehouseId)}</div>
-                      </td>
-                      <td className="py-3 px-4">
+                      </TableCell>
+                      <TableCell className="min-w-[120px] text-center">
                         <div className="space-y-1">
                           <div className={`font-mono font-semibold ${getAmountStyles(transaction.transactionType)}`}>
                             {transaction.transactionType === TransactionType.OUT ? '-' : '+'}
@@ -510,13 +541,13 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
                             单价: ¥{transaction.unitPrice.toFixed(2)}
                           </div>
                         </div>
-                      </td>
-                      <td className="py-3 px-4">
+                      </TableCell>
+                      <TableCell className="min-w-[100px] text-right">
                         <div className={`font-mono font-semibold ${getAmountStyles(transaction.transactionType)}`}>
                           {formatAmount(transaction.totalAmount)}
                         </div>
-                      </td>
-                      <td className="py-3 px-4">
+                      </TableCell>
+                      <TableCell className="min-w-[150px]">
                         <div className="space-y-1">
                           {transaction.referenceType && (
                             <div className="text-white/80 text-sm">{transaction.referenceType}</div>
@@ -533,20 +564,20 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
                             </div>
                           )}
                         </div>
-                      </td>
-                      <td className="py-3 px-4">
+                      </TableCell>
+                      <TableCell className="min-w-[100px]">
                         <div className="text-white/80">{transaction.operator}</div>
-                      </td>
-                      <td className="py-3 px-4">
+                      </TableCell>
+                      <TableCell className="min-w-[150px]">
                         <div className="text-white/70 text-sm">
                           {formatDateTime(transaction.createdAt)}
                         </div>
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
-              </table>
-            </div>
+                </TableBody>
+              </Table>
+            </TableContainer>
 
             {/* 分页控件 */}
             {totalPages > 1 && (

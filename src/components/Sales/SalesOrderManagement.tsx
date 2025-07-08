@@ -7,6 +7,7 @@ import { SalesOrder, SalesOrderItem, SalesOrderStatus, PaymentStatus, Customer, 
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import ErrorDisplay from '../ui/ErrorDisplay';
+import { TableContainer, Table, TableHeader, TableBody, TableCell, TableHead, TableRow, TableEmpty } from '../ui/table';
 
 interface SalesOrderManagementProps {
   className?: string;
@@ -565,24 +566,24 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
             </GlassButton>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[1200px]">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">订单信息</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[150px]">客户</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">订单日期</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">交货日期</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">订单金额</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">状态</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">付款状态</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[180px]">操作</th>
-                </tr>
-              </thead>
-              <tbody>
+          <TableContainer className="min-w-[1200px]">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="min-w-[200px]">订单信息</TableHead>
+                  <TableHead className="min-w-[150px]">客户</TableHead>
+                  <TableHead className="min-w-[100px]">订单日期</TableHead>
+                  <TableHead className="min-w-[100px]">交货日期</TableHead>
+                  <TableHead className="min-w-[120px]">订单金额</TableHead>
+                  <TableHead className="min-w-[100px]">状态</TableHead>
+                  <TableHead className="min-w-[100px]">付款状态</TableHead>
+                  <TableHead className="min-w-[180px]">操作</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {filteredOrders.map(order => (
-                  <tr key={order.id} className={`border-b border-white/5 hover:bg-white/5 transition-colors ${isOverdue(order) ? 'bg-red-500/10' : ''}`}>
-                    <td className="py-3 px-4">
+                  <TableRow key={order.id} className={`${isOverdue(order) ? 'bg-red-500/10' : ''}`}>
+                    <TableCell className="py-3 px-4">
                       <div>
                         <div className="font-semibold text-white mb-1">{order.orderNo}</div>
                         <div className="text-white/70 text-sm">创建人: {order.creator}</div>
@@ -592,40 +593,40 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                           </div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white">{getCustomerName(order.customerId)}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white/80">{formatDate(order.orderDate)}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       {order.deliveryDate ? (
                         <div className={`text-white/80 ${isOverdue(order) ? 'text-red-300' : ''}`}>
                           {formatDate(order.deliveryDate)}
                           {isOverdue(order) && <span className="ml-1">⚠️</span>}
                         </div>
                       ) : '-'}
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div>
                         <div className="font-semibold text-white">¥{order.finalAmount.toLocaleString()}</div>
                         {order.items && order.items.length > 0 && (
                           <div className="text-white/70 text-sm">{order.items.length} 个项目</div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStatusStyles(order.status)}`}>
                         {getStatusText(order.status)}
                       </span>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getPaymentStatusStyles(order.paymentStatus)}`}>
                         {getPaymentStatusText(order.paymentStatus)}
                       </span>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="flex gap-1 flex-wrap">
                         <button
                           onClick={() => handleEdit(order)}
@@ -685,12 +686,12 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                           🗑️
                         </button>
                       </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
       </GlassCard>
 
@@ -841,25 +842,25 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                     <p className="text-white/70 mb-4">请点击"添加项目"按钮添加</p>
                   </div>
                 ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full min-w-[800px]">
-                      <thead>
-                        <tr className="border-b border-white/10">
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">商品</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">数量</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">单价</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">折扣率</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">金额</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[80px]">操作</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                  <TableContainer className="min-w-[800px]">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="min-w-[200px]">商品</TableHead>
+                          <TableHead className="min-w-[100px]">数量</TableHead>
+                          <TableHead className="min-w-[100px]">单价</TableHead>
+                          <TableHead className="min-w-[100px]">折扣率</TableHead>
+                          <TableHead className="min-w-[100px]">金额</TableHead>
+                          <TableHead className="min-w-[80px]">操作</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
                         {fields.map((field, index) => {
                           const item = formData.items[index];
                           const amount = item ? item.quantity * item.unitPrice * (1 - item.discountRate) : 0;
                           return (
-                            <tr key={field.id} className="border-b border-white/5">
-                              <td className="py-3 px-4">
+                            <TableRow key={field.id}>
+                              <TableCell className="py-3 px-4">
                                 <select
                                   {...register(`items.${index}.productId`)}
                                   onChange={(e) => handleProductChange(index, e.target.value)}
@@ -876,8 +877,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                                 {errors.items?.[index]?.productId && (
                                   <p className="text-sm text-red-400 mt-1">{errors.items[index]?.productId?.message}</p>
                                 )}
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <input
                                   type="number"
                                   min="1"
@@ -892,8 +893,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                                 {errors.items?.[index]?.quantity && (
                                   <p className="text-sm text-red-400 mt-1">{errors.items[index]?.quantity?.message}</p>
                                 )}
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <input
                                   type="number"
                                   min="0.01"
@@ -908,8 +909,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                                 {errors.items?.[index]?.unitPrice && (
                                   <p className="text-sm text-red-400 mt-1">{errors.items[index]?.unitPrice?.message}</p>
                                 )}
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <input
                                   type="number"
                                   min="0"
@@ -924,11 +925,11 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                                 {errors.items?.[index]?.discountRate && (
                                   <p className="text-sm text-red-400 mt-1">{errors.items[index]?.discountRate?.message}</p>
                                 )}
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <span className="font-semibold text-white">¥{amount.toFixed(2)}</span>
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <button
                                   type="button"
                                   className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
@@ -937,13 +938,13 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                                 >
                                   🗑️
                                 </button>
-                              </td>
-                            </tr>
+                              </TableCell>
+                            </TableRow>
                           );
                         })}
-                      </tbody>
-                    </table>
-                  </div>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                 )}
               </GlassCard>
 

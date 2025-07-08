@@ -3,6 +3,7 @@ import { salesDeliveryService, salesOrderService, customerService, warehouseServ
 import { SalesDelivery, SalesDeliveryItem, DeliveryStatus, SalesOrder, SalesOrderStatus, Customer, Warehouse, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
+import { TableContainer, Table, TableHeader, TableBody, TableCell, TableHead, TableRow, TableEmpty } from '../ui/table';
 
 interface SalesDeliveryManagementProps {
   className?: string;
@@ -510,24 +511,24 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
             </GlassButton>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[1200px]">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">出库信息</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[150px]">关联订单</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">客户</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">仓库</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">出库日期</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">出库金额</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">状态</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[150px]">操作</th>
-                </tr>
-              </thead>
-              <tbody>
+          <TableContainer className="min-w-[1200px]">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="min-w-[200px]">出库信息</TableHead>
+                  <TableHead className="min-w-[150px]">关联订单</TableHead>
+                  <TableHead className="min-w-[120px]">客户</TableHead>
+                  <TableHead className="min-w-[100px]">仓库</TableHead>
+                  <TableHead className="min-w-[100px]">出库日期</TableHead>
+                  <TableHead className="min-w-[120px]">出库金额</TableHead>
+                  <TableHead className="min-w-[100px]">状态</TableHead>
+                  <TableHead className="min-w-[150px]">操作</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {filteredDeliveries.map(delivery => (
-                  <tr key={delivery.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-3 px-4">
+                  <TableRow key={delivery.id}>
+                    <TableCell className="py-3 px-4">
                       <div>
                         <div className="font-semibold text-white mb-1">{delivery.deliveryNo}</div>
                         <div className="text-white/70 text-sm">配送员: {delivery.deliveryPerson}</div>
@@ -537,31 +538,31 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
                           </div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white">{getOrderNo(delivery.orderId)}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white">{getCustomerName(delivery.customerId)}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white/80">{getWarehouseName(delivery.warehouseId)}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white/80">{formatDate(delivery.deliveryDate)}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div>
                         <div className="font-semibold text-white">¥{delivery.totalAmount.toLocaleString()}</div>
                         <div className="text-white/70 text-sm">{delivery.totalQuantity} 件</div>
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStatusStyles(delivery.status)}`}>
                         {getStatusText(delivery.status)}
                       </span>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEdit(delivery)}
@@ -599,12 +600,12 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
                           🗑️
                         </button>
                       </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
       </GlassCard>
 
@@ -726,24 +727,24 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
                     <p className="text-white/70 mb-4">请先选择订单并点击"添加项目"按钮添加</p>
                   </div>
                 ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full min-w-[800px]">
-                      <thead>
-                        <tr className="border-b border-white/10">
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">商品</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">订单项</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">出库数量</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">单价</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">金额</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[80px]">操作</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                  <TableContainer className="min-w-[800px]">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="min-w-[200px]">商品</TableHead>
+                          <TableHead className="min-w-[200px]">订单项</TableHead>
+                          <TableHead className="min-w-[100px]">出库数量</TableHead>
+                          <TableHead className="min-w-[100px]">单价</TableHead>
+                          <TableHead className="min-w-[100px]">金额</TableHead>
+                          <TableHead className="min-w-[80px]">操作</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
                         {formItems.map(item => {
                           const amount = item.quantity * item.unitPrice;
                           return (
-                            <tr key={item.id} className="border-b border-white/5">
-                              <td className="py-3 px-4">
+                            <TableRow key={item.id}>
+                              <TableCell className="py-3 px-4">
                                 <select
                                   value={item.productId}
                                   onChange={(e) => updateItem(item.id, 'productId', e.target.value)}
@@ -757,8 +758,8 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
                                     </option>
                                   ))}
                                 </select>
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <select
                                   value={item.orderItemId}
                                   onChange={(e) => {
@@ -780,8 +781,8 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
                                     </option>
                                   ))}
                                 </select>
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <input
                                   type="number"
                                   min="0.01"
@@ -792,8 +793,8 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
                                   placeholder="数量"
                                   required
                                 />
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <input
                                   type="number"
                                   min="0.01"
@@ -804,11 +805,11 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
                                   placeholder="单价"
                                   required
                                 />
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <span className="font-semibold text-white">¥{amount.toFixed(2)}</span>
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <button
                                   type="button"
                                   className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
@@ -817,13 +818,13 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
                                 >
                                   🗑️
                                 </button>
-                              </td>
-                            </tr>
+                              </TableCell>
+                            </TableRow>
                           );
                         })}
-                      </tbody>
-                    </table>
-                  </div>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                 )}
               </GlassCard>
 

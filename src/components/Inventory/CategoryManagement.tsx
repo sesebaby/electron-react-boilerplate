@@ -5,6 +5,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { categoryService } from '../../services/business';
 import { Category } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { Card, CardContent } from '../ui/card';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 import { notificationHelper } from '../../utils/notificationHelper';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import ErrorDisplay from '../ui/ErrorDisplay';
@@ -220,12 +232,18 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
   if (loading) {
     return (
       <div className={`space-y-6 ${className || ''}`}>
-        <div className="flex items-center justify-center min-h-96">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-            <p className="text-white/80">加载分类数据中...</p>
+        {/* 页面头部 */}
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2">分类管理</h1>
+            <p className="text-white/70">管理商品分类、层级关系和分类属性</p>
           </div>
         </div>
+        <Card className="glass-card h-full">
+          <CardContent className="p-0 h-full">
+            <TableLoading message="正在加载分类数据..." />
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -331,80 +349,101 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       </GlassCard>
 
       {/* 分类列表 */}
-      <GlassCard title={`分类列表 (${filteredCategories.length})`}>
-        {filteredCategories.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">📂</div>
-            <h3 className="text-xl font-semibold text-white mb-2">没有找到分类</h3>
-            <p className="text-white/70 mb-4">请调整搜索条件或创建新的分类</p>
-            <GlassButton variant="primary" onClick={handleCreateNew}>
-              添加第一个分类
-            </GlassButton>
+      <Card className="glass-card h-full flex flex-col overflow-hidden">
+        <CardContent className="p-0 flex-1 flex flex-col">
+          {/* 表格标题 */}
+          <div className="flex-shrink-0 p-4 border-b border-white/20 bg-white/5">
+            <h3 className="text-lg font-semibold text-white/90">
+              分类列表 (${filteredCategories.length})
+            </h3>
           </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">分类信息</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">分类路径</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">级别</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">排序</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">状态</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredCategories.map(category => (
-                  <tr key={category.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-3 px-4">
-                      <div className="font-semibold text-white">{category.name}</div>
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="text-white/80 text-sm">{getCategoryPath(category)}</div>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-300 border border-blue-400/30">
-                        L{category.level}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-white/80">
-                      {category.sortOrder}
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${
-                        category.isActive 
-                          ? 'bg-green-500/20 text-green-300 border-green-400/30' 
-                          : 'bg-gray-500/20 text-gray-300 border-gray-400/30'
-                      }`}>
-                        {category.isActive ? '启用' : '禁用'}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => handleEdit(category)}
-                          className="px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors"
-                          title="编辑"
-                        >
-                          ✏️
-                        </button>
-                        <button
-                          onClick={() => handleDelete(category.id)}
-                          className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
-                          title="删除"
-                        >
-                          🗑️
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </GlassCard>
+
+          {/* 空状态检查 */}
+          {filteredCategories.length === 0 ? (
+            <TableEmpty
+              icon={<div className="text-6xl">📂</div>}
+              message="没有找到分类"
+              description="请调整搜索条件或创建新的分类"
+            />
+          ) : (
+            /* 表格内容 */
+            <TableContainer height="600px" className="flex-1">
+              <Table stickyHeader minWidth="800px">
+                <TableHeader sticky>
+                  <TableRow>
+                    <TableHead 
+                      fixed 
+                      fixedPosition="left" 
+                      fixedOffset={0}
+                      className="min-w-[200px] bg-white/10 backdrop-blur-lg"
+                    >
+                      分类信息
+                    </TableHead>
+                    <TableHead className="min-w-[250px]">分类路径</TableHead>
+                    <TableHead className="min-w-[80px] text-center">级别</TableHead>
+                    <TableHead className="min-w-[80px] text-center">排序</TableHead>
+                    <TableHead className="min-w-[100px] text-center">状态</TableHead>
+                    <TableHead className="min-w-[120px] text-center">操作</TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  {filteredCategories.map(category => (
+                    <TableRow key={category.id}>
+                      <TableCell 
+                        fixed 
+                        fixedPosition="left" 
+                        fixedOffset={0}
+                        className="min-w-[200px]"
+                      >
+                        <div className="font-semibold text-white">{category.name}</div>
+                      </TableCell>
+                      <TableCell className="min-w-[250px]">
+                        <div className="text-white/80 text-sm">{getCategoryPath(category)}</div>
+                      </TableCell>
+                      <TableCell className="min-w-[80px] text-center">
+                        <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-300 border border-blue-400/30">
+                          L{category.level}
+                        </span>
+                      </TableCell>
+                      <TableCell className="min-w-[80px] text-center text-white/80">
+                        {category.sortOrder}
+                      </TableCell>
+                      <TableCell className="min-w-[100px] text-center">
+                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${
+                          category.isActive 
+                            ? 'bg-green-500/20 text-green-300 border-green-400/30' 
+                            : 'bg-gray-500/20 text-gray-300 border-gray-400/30'
+                        }`}>
+                          {category.isActive ? '启用' : '禁用'}
+                        </span>
+                      </TableCell>
+                      <TableCell className="min-w-[120px] text-center">
+                        <div className="flex gap-2 justify-center">
+                          <button
+                            onClick={() => handleEdit(category)}
+                            className="px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors"
+                            title="编辑"
+                          >
+                            ✏️
+                          </button>
+                          <button
+                            onClick={() => handleDelete(category.id)}
+                            className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
+                            title="删除"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </CardContent>
+      </Card>
 
       {/* 分类表单模态框 */}
       {showForm && (

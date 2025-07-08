@@ -7,6 +7,17 @@ import { Supplier, SupplierStatus, SupplierRating } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import ErrorDisplay from '../ui/ErrorDisplay';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface SupplierManagementProps {
   className?: string;
@@ -404,23 +415,23 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
             </GlassButton>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">供应商信息</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">编码</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">联系方式</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">信用额度</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">评级</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">状态</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">操作</th>
-                </tr>
-              </thead>
-              <tbody>
+          <TableContainer height="500px">
+            <Table stickyHeader minWidth="1200px">
+              <TableHeader sticky>
+                <TableRow>
+                  <TableHead className="min-w-[200px] text-left">供应商信息</TableHead>
+                  <TableHead className="min-w-[120px] text-left">编码</TableHead>
+                  <TableHead className="min-w-[180px] text-left">联系方式</TableHead>
+                  <TableHead className="min-w-[150px] text-left">信用额度</TableHead>
+                  <TableHead className="min-w-[100px] text-left">评级</TableHead>
+                  <TableHead className="min-w-[100px] text-left">状态</TableHead>
+                  <TableHead className="min-w-[120px] text-left">操作</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {filteredSuppliers.map(supplier => (
-                  <tr key={supplier.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-3 px-4">
+                  <TableRow key={supplier.id}>
+                    <TableCell className="min-w-[200px]">
                       <div>
                         <div className="font-semibold text-white mb-1">{supplier.name}</div>
                         {supplier.contactPerson && (
@@ -432,13 +443,13 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                           </div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="min-w-[120px]">
                       <code className="px-2 py-1 bg-white/10 text-white font-mono text-sm rounded">
                         {supplier.code}
                       </code>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="min-w-[180px]">
                       <div className="space-y-1">
                         {supplier.phone && (
                           <div className="flex items-center gap-2 text-white/80 text-sm">
@@ -453,26 +464,26 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                           </div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="min-w-[150px]">
                       <div>
                         <div className="font-semibold text-white">¥{supplier.creditLimit.toLocaleString()}</div>
                         {supplier.paymentTerms && (
                           <div className="text-white/70 text-sm">{supplier.paymentTerms}</div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="min-w-[100px]">
                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getRatingStyles(supplier.rating)}`}>
                         {supplier.rating}级
                       </span>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="min-w-[100px]">
                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStatusStyles(supplier.status)}`}>
                         {getStatusText(supplier.status)}
                       </span>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="min-w-[120px]">
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEdit(supplier)}
@@ -489,12 +500,12 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                           🗑️
                         </button>
                       </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
       </GlassCard>
 

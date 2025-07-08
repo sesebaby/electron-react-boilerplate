@@ -7,6 +7,7 @@ import { PurchaseOrder, PurchaseOrderItem, PurchaseOrderStatus, Supplier, Produc
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import ErrorDisplay from '../ui/ErrorDisplay';
+import { TableContainer, Table, TableHeader, TableBody, TableCell, TableHead, TableRow, TableEmpty } from '../ui/table';
 
 interface PurchaseOrderManagementProps {
   className?: string;
@@ -535,23 +536,23 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
             </GlassButton>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[1000px]">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">订单信息</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[150px]">供应商</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">订单日期</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">预计到货</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">订单金额</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">状态</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[150px]">操作</th>
-                </tr>
-              </thead>
-              <tbody>
+          <TableContainer className="min-w-[1000px]">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="min-w-[200px]">订单信息</TableHead>
+                  <TableHead className="min-w-[150px]">供应商</TableHead>
+                  <TableHead className="min-w-[100px]">订单日期</TableHead>
+                  <TableHead className="min-w-[100px]">预计到货</TableHead>
+                  <TableHead className="min-w-[120px]">订单金额</TableHead>
+                  <TableHead className="min-w-[100px]">状态</TableHead>
+                  <TableHead className="min-w-[150px]">操作</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {filteredOrders.map(order => (
-                  <tr key={order.id} className={`border-b border-white/5 hover:bg-white/5 transition-colors ${isOverdue(order) ? 'bg-red-500/10' : ''}`}>
-                    <td className="py-3 px-4">
+                  <TableRow key={order.id} className={`${isOverdue(order) ? 'bg-red-500/10' : ''}`}>
+                    <TableCell className="py-3 px-4">
                       <div>
                         <div className="font-semibold text-white mb-1">{order.orderNo}</div>
                         <div className="text-white/70 text-sm">创建人: {order.creator}</div>
@@ -561,35 +562,35 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
                           </div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white">{getSupplierName(order.supplierId)}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white/80">{formatDate(order.orderDate)}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       {order.expectedDate ? (
                         <div className={`text-white/80 ${isOverdue(order) ? 'text-red-300' : ''}`}>
                           {formatDate(order.expectedDate)}
                           {isOverdue(order) && <span className="ml-1">⚠️</span>}
                         </div>
                       ) : '-'}
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div>
                         <div className="font-semibold text-white">¥{order.finalAmount.toLocaleString()}</div>
                         {order.items && order.items.length > 0 && (
                           <div className="text-white/70 text-sm">{order.items.length} 个项目</div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStatusStyles(order.status)}`}>
                         {getStatusText(order.status)}
                       </span>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEdit(order)}
@@ -627,12 +628,12 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
                           🗑️
                         </button>
                       </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
       </GlassCard>
 
@@ -774,25 +775,25 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
                     <p className="text-white/70 mb-4">请点击"添加项目"按钮添加</p>
                   </div>
                 ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full min-w-[800px]">
-                      <thead>
-                        <tr className="border-b border-white/10">
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">商品</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">数量</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">单价</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">折扣率</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">金额</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[80px]">操作</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                  <TableContainer className="min-w-[800px]">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="min-w-[200px]">商品</TableHead>
+                          <TableHead className="min-w-[100px]">数量</TableHead>
+                          <TableHead className="min-w-[100px]">单价</TableHead>
+                          <TableHead className="min-w-[100px]">折扣率</TableHead>
+                          <TableHead className="min-w-[100px]">金额</TableHead>
+                          <TableHead className="min-w-[80px]">操作</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
                         {fields.map((field, index) => {
                           const itemData = formData.items[index];
                           const amount = itemData ? itemData.quantity * itemData.unitPrice * (1 - itemData.discountRate) : 0;
                           return (
-                            <tr key={field.id} className="border-b border-white/5">
-                              <td className="py-3 px-4">
+                            <TableRow key={field.id}>
+                              <TableCell className="py-3 px-4">
                                 <select
                                   {...register(`items.${index}.productId` as const)}
                                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
@@ -808,8 +809,8 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
                                 {errors.items?.[index]?.productId && (
                                   <p className="text-sm text-red-400 mt-1">{errors.items[index]?.productId?.message}</p>
                                 )}
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <input
                                   type="number"
                                   min="0.01"
@@ -824,8 +825,8 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
                                 {errors.items?.[index]?.quantity && (
                                   <p className="text-sm text-red-400 mt-1">{errors.items[index]?.quantity?.message}</p>
                                 )}
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <input
                                   type="number"
                                   min="0.01"
@@ -840,8 +841,8 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
                                 {errors.items?.[index]?.unitPrice && (
                                   <p className="text-sm text-red-400 mt-1">{errors.items[index]?.unitPrice?.message}</p>
                                 )}
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <input
                                   type="number"
                                   min="0"
@@ -856,11 +857,11 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
                                 {errors.items?.[index]?.discountRate && (
                                   <p className="text-sm text-red-400 mt-1">{errors.items[index]?.discountRate?.message}</p>
                                 )}
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <span className="font-semibold text-white">¥{amount.toFixed(2)}</span>
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <button
                                   type="button"
                                   className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
@@ -869,13 +870,13 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
                                 >
                                   🗑️
                                 </button>
-                              </td>
-                            </tr>
+                              </TableCell>
+                            </TableRow>
                           );
                         })}
-                      </tbody>
-                    </table>
-                  </div>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                 )}
               </GlassCard>
 

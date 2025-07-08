@@ -2,6 +2,17 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { GlassCard, GlassInput, GlassSelect, GlassButton } from '../ui/FormControls';
 import { GlobalConversionRule, Unit, UnitType } from '../../types/entities';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface ConversionRulesTabProps {
   conversionRules: GlobalConversionRule[];
@@ -77,39 +88,39 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
 
       {/* 换算规则表格 */}
       <div className="glass-surface rounded-lg overflow-hidden mb-6">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-white/10">
-                <th className="text-left py-3 px-4 text-white/80 font-medium">规则名称</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">类别</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">源单位</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">目标单位</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">比率</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">描述</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">状态</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">操作</th>
-              </tr>
-            </thead>
-            <tbody>
+        <TableContainer height="400px">
+          <Table stickyHeader minWidth="1000px">
+            <TableHeader sticky>
+              <TableRow>
+                <TableHead className="min-w-[150px] text-left">规则名称</TableHead>
+                <TableHead className="min-w-[100px] text-left">类别</TableHead>
+                <TableHead className="min-w-[120px] text-left">源单位</TableHead>
+                <TableHead className="min-w-[120px] text-left">目标单位</TableHead>
+                <TableHead className="min-w-[100px] text-left">比率</TableHead>
+                <TableHead className="min-w-[200px] text-left">描述</TableHead>
+                <TableHead className="min-w-[80px] text-left">状态</TableHead>
+                <TableHead className="min-w-[120px] text-left">操作</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {conversionRules.length === 0 ? (
-                <tr>
-                  <td colSpan={8} className="text-center py-8 text-white/60">
+                <TableRow>
+                  <TableCell colSpan={8} className="text-center py-8 text-white/60">
                     暂无换算规则，请添加规则
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ) : (
                 conversionRules.map(rule => (
-                  <tr key={rule.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-3 px-4 text-white font-medium">{rule.name}</td>
-                    <td className="py-3 px-4 text-white/80">{getUnitTypeLabel(rule.category)}</td>
-                    <td className="py-3 px-4 text-white/80">{getUnitName(rule.fromUnitId)}</td>
-                    <td className="py-3 px-4 text-white/80">{getUnitName(rule.toUnitId)}</td>
-                    <td className="py-3 px-4 text-white/80">{rule.conversionRate}</td>
-                    <td className="py-3 px-4 text-white/70 max-w-xs truncate">
+                  <TableRow key={rule.id}>
+                    <TableCell className="min-w-[150px] text-white font-medium">{rule.name}</TableCell>
+                    <TableCell className="min-w-[100px] text-white/80">{getUnitTypeLabel(rule.category)}</TableCell>
+                    <TableCell className="min-w-[120px] text-white/80">{getUnitName(rule.fromUnitId)}</TableCell>
+                    <TableCell className="min-w-[120px] text-white/80">{getUnitName(rule.toUnitId)}</TableCell>
+                    <TableCell className="min-w-[100px] text-white/80">{rule.conversionRate}</TableCell>
+                    <TableCell className="min-w-[200px] text-white/70 max-w-xs truncate">
                       {rule.description || '-'}
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="min-w-[80px]">
                       <span className={`px-2 py-1 rounded text-xs font-medium ${
                         rule.isActive 
                           ? 'bg-green-500/20 text-green-300' 
@@ -117,8 +128,8 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
                       }`}>
                         {rule.isActive ? '启用' : '禁用'}
                       </span>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="min-w-[120px]">
                       <div className="flex gap-2">
                         <button
                           type="button"
@@ -137,13 +148,13 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
                           🗑️
                         </button>
                       </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))
               )}
-            </tbody>
-          </table>
-        </div>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
 
       {/* 换算规则表单弹出框 */}

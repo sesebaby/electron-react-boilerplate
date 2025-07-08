@@ -5,6 +5,18 @@ import { Warehouse } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import { useAuth } from '../../hooks/useAuth';
+import { Card, CardContent } from '../ui/card';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface WarehouseManagementProps {
   className?: string;
@@ -336,64 +348,83 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       </GlassCard>
 
       {/* 仓库列表 */}
-      <GlassCard title={`仓库列表 (${filteredWarehouses.length})`}>
-        {filteredWarehouses.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">🏭</div>
-            <h3 className="text-xl font-semibold text-white mb-2">没有找到仓库</h3>
-            <p className="text-white/70 mb-4">请调整搜索条件或创建新的仓库</p>
-            <GlassButton variant="primary" onClick={handleCreateNew}>
-              添加第一个仓库
-            </GlassButton>
+      <Card className="glass-card h-full flex flex-col overflow-hidden">
+        <CardContent className="p-0 flex-1 flex flex-col">
+          {/* 表格标题 */}
+          <div className="flex-shrink-0 p-4 border-b border-white/20 bg-white/5">
+            <h3 className="text-lg font-semibold text-white/90">
+              仓库列表 ({filteredWarehouses.length})
+            </h3>
           </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">仓库信息</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">负责人</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">地址</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">状态</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredWarehouses.map(warehouse => (
-                  <tr key={warehouse.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-3 px-4">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-semibold text-white">{warehouse.name}</span>
-                          {warehouse.isDefault && (
-                            <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30">
-                              默认
-                            </span>
-                          )}
+          {/* 空状态检查 */}
+          {filteredWarehouses.length === 0 ? (
+            <TableEmpty
+              icon={<div className="text-6xl">🏭</div>}
+              message="没有找到仓库"
+              description="请调整搜索条件或创建新的仓库"
+            />
+          ) : (
+            /* 表格内容 */
+            <TableContainer height="600px" className="flex-1">
+              <Table stickyHeader minWidth="800px">
+                <TableHeader sticky>
+                  <TableRow>
+                    <TableHead 
+                      fixed 
+                      fixedPosition="left" 
+                      fixedOffset={0}
+                      className="min-w-[200px] bg-white/10 backdrop-blur-lg"
+                    >
+                      仓库信息
+                    </TableHead>
+                    <TableHead className="min-w-[120px]">负责人</TableHead>
+                    <TableHead className="min-w-[200px]">地址</TableHead>
+                    <TableHead className="min-w-[100px] text-center">状态</TableHead>
+                    <TableHead className="min-w-[150px] text-center">操作</TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  {filteredWarehouses.map(warehouse => (
+                    <TableRow key={warehouse.id}>
+                      <TableCell 
+                        fixed 
+                        fixedPosition="left" 
+                        fixedOffset={0}
+                        className="min-w-[200px]"
+                      >
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-semibold text-white">{warehouse.name}</span>
+                            {warehouse.isDefault && (
+                              <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30">
+                                默认
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-white/70 text-sm font-mono">{warehouse.code}</div>
                         </div>
-                        <div className="text-white/70 text-sm font-mono">{warehouse.code}</div>
-                      </div>
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="text-white/80 text-sm flex items-center gap-1">
-                        <span>👤</span>
-                        <span>{warehouse.manager || '-'}</span>
-                      </div>
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="text-white/80 text-sm max-w-xs truncate">
-                        {warehouse.address || '-'}
-                      </div>
-                    </td>
-                    <td className="py-3 px-4">
-                      {warehouse.isDefault && (
-                        <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30">
-                          默认
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="flex gap-2">
+                      </TableCell>
+                      <TableCell className="min-w-[120px]">
+                        <div className="text-white/80 text-sm flex items-center gap-1">
+                          <span>👤</span>
+                          <span>{warehouse.manager || '-'}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="min-w-[200px]">
+                        <div className="text-white/80 text-sm max-w-xs truncate">
+                          {warehouse.address || '-'}
+                        </div>
+                      </TableCell>
+                      <TableCell className="min-w-[100px] text-center">
+                        {warehouse.isDefault && (
+                          <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30">
+                            默认
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell className="min-w-[150px] text-center">
+                        <div className="flex gap-2 justify-center">
                         <button
                           onClick={() => handleEdit(warehouse)}
                           className="px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors"
@@ -421,15 +452,16 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                             🗑️
                           </button>
                         )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </GlassCard>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </CardContent>
+      </Card>
 
       {/* 仓库表单模态框 */}
       {showForm && (

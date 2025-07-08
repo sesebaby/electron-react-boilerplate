@@ -4,6 +4,17 @@ import AlertDialog from '../ui/AlertDialog';
 import { logger, LogLevel, LogEntry } from '../../utils/logger';
 import { globalErrorHandler } from '../../utils/globalErrorHandler';
 import { userActionLogger, UserActionType, ActionContext } from '../../utils/userActionLogger';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface OperationLogsProps {
   className?: string;
@@ -649,26 +660,26 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
         </div>
 
         {/* 日志表格 */}
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-white/20">
-                <th className="text-left py-3 px-4 text-white/80 font-medium">时间</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">级别</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">用户</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">操作</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">模块</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">详情</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">状态</th>
-              </tr>
-            </thead>
-            <tbody>
+        <TableContainer height="500px">
+          <Table stickyHeader minWidth="1200px">
+            <TableHeader sticky>
+              <TableRow>
+                <TableHead className="min-w-[150px] text-left">时间</TableHead>
+                <TableHead className="min-w-[80px] text-left">级别</TableHead>
+                <TableHead className="min-w-[100px] text-left">用户</TableHead>
+                <TableHead className="min-w-[120px] text-left">操作</TableHead>
+                <TableHead className="min-w-[100px] text-left">模块</TableHead>
+                <TableHead className="min-w-[300px] text-left">详情</TableHead>
+                <TableHead className="min-w-[100px] text-left">状态</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {currentLogs.map((log) => (
-                <tr key={log.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
-                  <td className="py-3 px-4 text-white/90 text-sm">
+                <TableRow key={log.id}>
+                  <TableCell className="min-w-[150px] text-white/90 text-sm">
                     {new Date(log.timestamp).toLocaleString('zh-CN')}
-                  </td>
-                  <td className="py-3 px-4">
+                  </TableCell>
+                  <TableCell className="min-w-[80px]">
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                       log.level === 'ERROR' ? 'bg-red-500/20 text-red-400' :
                       log.level === 'WARN' ? 'bg-yellow-500/20 text-yellow-400' :
@@ -677,14 +688,14 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
                     }`}>
                       {log.level}
                     </span>
-                  </td>
-                  <td className="py-3 px-4 text-white/90">{log.user}</td>
-                  <td className="py-3 px-4 text-white/90">{log.action}</td>
-                  <td className="py-3 px-4 text-white/90">{log.module}</td>
-                  <td className="py-3 px-4 text-white/80 text-sm" title={log.details}>
+                  </TableCell>
+                  <TableCell className="min-w-[100px] text-white/90">{log.user}</TableCell>
+                  <TableCell className="min-w-[120px] text-white/90">{log.action}</TableCell>
+                  <TableCell className="min-w-[100px] text-white/90">{log.module}</TableCell>
+                  <TableCell className="min-w-[300px] text-white/80 text-sm" title={log.details}>
                     {log.details.length > 50 ? `${log.details.substring(0, 50)}...` : log.details}
-                  </td>
-                  <td className="py-3 px-4">
+                  </TableCell>
+                  <TableCell className="min-w-[100px]">
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                       log.status === 'success' ? 'bg-green-500/20 text-green-400' :
                       log.status === 'warning' ? 'bg-yellow-500/20 text-yellow-400' :
@@ -696,12 +707,12 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
                     {log.duration && (
                       <div className="text-xs text-white/60 mt-1">{log.duration}ms</div>
                     )}
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
-        </div>
+            </TableBody>
+          </Table>
+        </TableContainer>
 
         {/* 分页 */}
         {totalPages > 1 && (

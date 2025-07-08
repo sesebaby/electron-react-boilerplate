@@ -4,6 +4,17 @@ import { supplierService } from '../../services/business';
 import { AccountsPayable, Payment, PayableStatus, PaymentMethod, Supplier } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface AccountsPayableManagementProps {
   className?: string;
@@ -475,110 +486,105 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50/50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">账单信息</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">供应商</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">账单日期</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">到期日期</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">总金额</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">已付金额</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">余额</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">状态</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200/50">
-                {filteredPayables.map(payable => (
-                  <tr key={payable.id} className={`hover:bg-white/50 transition-colors ${isOverdue(payable) ? 'bg-red-50/30' : ''}`}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div>
-                        <div className="font-medium text-gray-900">{payable.billNo}</div>
-                        {payable.orderId && (
-                          <div className="text-sm text-gray-500">采购订单: {payable.orderId}</div>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-gray-900">{getSupplierName(payable.supplierId)}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
-                      {formatDate(payable.billDate)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className={isOverdue(payable) ? 'text-red-600' : 'text-gray-900'}>
-                        {formatDate(payable.dueDate)}
-                        {isOverdue(payable) && <span className="ml-1">⚠️</span>}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
-                      ¥{payable.totalAmount.toLocaleString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
-                      ¥{payable.paidAmount.toLocaleString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">¥{payable.balanceAmount.toLocaleString()}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span 
-                        className={`px-2 py-1 text-xs font-medium rounded-full border ${getStatusClass(payable.status)}`}
-                      >
-                        {getStatusText(payable.status)}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <div className="flex space-x-2">
-                        <button 
-                          onClick={() => handleEditPayable(payable)}
-                          className="text-blue-600 hover:text-blue-800 transition-colors"
-                          title="编辑"
-                        >
-                          ✏️
-                        </button>
-                        
-                        {payable.status !== PayableStatus.PAID && (
+          {filteredPayables.length === 0 ? (
+            <TableEmpty
+              icon={<div className="text-6xl">💰</div>}
+              message="没有找到应付账款"
+              description="请调整搜索条件或创建新的应付账款"
+            />
+          ) : (
+            <TableContainer className="min-w-[1200px]">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="min-w-[200px]">账单信息</TableHead>
+                    <TableHead className="min-w-[150px]">供应商</TableHead>
+                    <TableHead className="min-w-[120px]">账单日期</TableHead>
+                    <TableHead className="min-w-[120px]">到期日期</TableHead>
+                    <TableHead className="min-w-[120px]">总金额</TableHead>
+                    <TableHead className="min-w-[120px]">已付金额</TableHead>
+                    <TableHead className="min-w-[120px]">余额</TableHead>
+                    <TableHead className="min-w-[100px]">状态</TableHead>
+                    <TableHead className="min-w-[200px]">操作</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredPayables.map(payable => (
+                    <TableRow key={payable.id} className={`${isOverdue(payable) ? 'bg-red-500/10' : ''}`}>
+                      <TableCell className="py-3 px-4">
+                        <div>
+                          <div className="font-medium text-white">{payable.billNo}</div>
+                          {payable.orderId && (
+                            <div className="text-sm text-white/70">采购订单: {payable.orderId}</div>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell className="py-3 px-4">
+                        <div className="text-white">{getSupplierName(payable.supplierId)}</div>
+                      </TableCell>
+                      <TableCell className="py-3 px-4 text-white/80">
+                        {formatDate(payable.billDate)}
+                      </TableCell>
+                      <TableCell className="py-3 px-4">
+                        <div className={isOverdue(payable) ? 'text-red-300' : 'text-white/80'}>
+                          {formatDate(payable.dueDate)}
+                          {isOverdue(payable) && <span className="ml-1">⚠️</span>}
+                        </div>
+                      </TableCell>
+                      <TableCell className="py-3 px-4 text-white font-semibold">
+                        ¥{payable.totalAmount.toLocaleString()}
+                      </TableCell>
+                      <TableCell className="py-3 px-4 text-white">
+                        ¥{payable.paidAmount.toLocaleString()}
+                      </TableCell>
+                      <TableCell className="py-3 px-4">
+                        <div className="font-medium text-white">¥{payable.balanceAmount.toLocaleString()}</div>
+                      </TableCell>
+                      <TableCell className="py-3 px-4">
+                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStatusClass(payable.status)}`}>
+                          {getStatusText(payable.status)}
+                        </span>
+                      </TableCell>
+                      <TableCell className="py-3 px-4">
+                        <div className="flex gap-2">
                           <button 
-                            onClick={() => handleAddPayment(payable)}
-                            className="text-green-600 hover:text-green-800 transition-colors"
-                            title="添加付款"
+                            onClick={() => handleEditPayable(payable)}
+                            className="px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors"
+                            title="编辑"
                           >
-                            💰
+                            ✏️
                           </button>
-                        )}
-                        
-                        <button 
-                          onClick={() => handleViewPayments(payable)}
-                          className="text-purple-600 hover:text-purple-800 transition-colors"
-                          title="付款记录"
-                        >
-                          📋
-                        </button>
-                        
-                        <button 
-                          onClick={() => handleDeletePayable(payable.id)}
-                          className="text-red-600 hover:text-red-800 transition-colors"
-                          title="删除"
-                        >
-                          🗑️
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                          {payable.status !== PayableStatus.PAID && (
+                            <button 
+                              onClick={() => handleAddPayment(payable)}
+                              className="px-3 py-1 text-xs bg-green-500/20 text-green-300 border border-green-400/30 rounded hover:bg-green-500/30 transition-colors"
+                              title="付款"
+                            >
+                              💰
+                            </button>
+                          )}
+                          <button 
+                            onClick={() => handleViewPayments(payable)}
+                            className="px-3 py-1 text-xs bg-purple-500/20 text-purple-300 border border-purple-400/30 rounded hover:bg-purple-500/30 transition-colors"
+                            title="查看付款记录"
+                          >
+                            📋
+                          </button>
+                          <button 
+                            onClick={() => handleDeletePayable(payable.id)}
+                            className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
+                            title="删除"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
                 ))}
-              </tbody>
-            </table>
-
-            {filteredPayables.length === 0 && (
-              <div className="text-center py-12">
-                <div className="text-4xl mb-4">💰</div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">没有找到应付账款</h3>
-                <p className="text-gray-500">请调整搜索条件或创建新的应付账款</p>
-              </div>
-            )}
-          </div>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
         </GlassCard>
 
         {/* 应付账款表单模态框 */}

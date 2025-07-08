@@ -2,6 +2,17 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { GlassCard, GlassInput, GlassSelect, GlassButton } from '../ui/FormControls';
 import { Unit, UnitType } from '../../types/entities';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface UnitManagementTabProps {
   units: Unit[];
@@ -64,35 +75,35 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
 
       {/* 单位表格 */}
       <div className="glass-surface rounded-lg overflow-hidden mb-6">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-white/10">
-                <th className="text-left py-3 px-4 text-white/80 font-medium">名称</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">符号</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">类型</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">描述</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">状态</th>
-                <th className="text-left py-3 px-4 text-white/80 font-medium">操作</th>
-              </tr>
-            </thead>
-            <tbody>
+        <TableContainer height="400px">
+          <Table stickyHeader minWidth="800px">
+            <TableHeader sticky>
+              <TableRow>
+                <TableHead className="min-w-[120px] text-left">名称</TableHead>
+                <TableHead className="min-w-[100px] text-left">符号</TableHead>
+                <TableHead className="min-w-[100px] text-left">类型</TableHead>
+                <TableHead className="min-w-[200px] text-left">描述</TableHead>
+                <TableHead className="min-w-[80px] text-left">状态</TableHead>
+                <TableHead className="min-w-[120px] text-left">操作</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {units.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="text-center py-8 text-white/60">
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-8 text-white/60">
                     暂无单位数据，请添加单位
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ) : (
                 units.map(unit => (
-                  <tr key={unit.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-3 px-4 text-white">{unit.name}</td>
-                    <td className="py-3 px-4 text-white/80">{unit.symbol}</td>
-                    <td className="py-3 px-4 text-white/80">{getUnitTypeLabel(unit.type)}</td>
-                    <td className="py-3 px-4 text-white/70 max-w-xs truncate">
+                  <TableRow key={unit.id}>
+                    <TableCell className="min-w-[120px] text-white">{unit.name}</TableCell>
+                    <TableCell className="min-w-[100px] text-white/80">{unit.symbol}</TableCell>
+                    <TableCell className="min-w-[100px] text-white/80">{getUnitTypeLabel(unit.type)}</TableCell>
+                    <TableCell className="min-w-[200px] text-white/70 max-w-xs truncate">
                       {unit.description || '-'}
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="min-w-[80px]">
                       <span className={`px-2 py-1 rounded text-xs font-medium ${
                         unit.isActive 
                           ? 'bg-green-500/20 text-green-300' 
@@ -100,8 +111,8 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
                       }`}>
                         {unit.isActive ? '启用' : '禁用'}
                       </span>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="min-w-[120px]">
                       <div className="flex gap-2">
                         <button
                           type="button"
@@ -120,13 +131,13 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
                           🗑️
                         </button>
                       </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))
               )}
-            </tbody>
-          </table>
-        </div>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
 
       {/* 单位表单弹出框 */}

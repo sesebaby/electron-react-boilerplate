@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { inventoryStockService, productService, categoryService, warehouseService } from '../../services/business';
 import { Product, Category, Warehouse } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface InventoryReportsProps {
   className?: string;
@@ -448,82 +459,82 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="financial-table-header">
-                <tr>
-                  <th
+          <TableContainer height="600px">
+            <Table stickyHeader minWidth="1200px">
+              <TableHeader sticky>
+                <TableRow>
+                  <TableHead
                     onClick={() => handleSort('productSku')}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
+                    className="min-w-[120px] text-left cursor-pointer hover:bg-white/50"
                   >
                     商品编码 {sortField === 'productSku' && (sortDirection === 'asc' ? '↑' : '↓')}
-                  </th>
-                  <th
+                  </TableHead>
+                  <TableHead
                     onClick={() => handleSort('productName')}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
+                    className="min-w-[150px] text-left cursor-pointer hover:bg-white/50"
                   >
                     商品名称 {sortField === 'productName' && (sortDirection === 'asc' ? '↑' : '↓')}
-                  </th>
-                  <th
+                  </TableHead>
+                  <TableHead
                     onClick={() => handleSort('categoryName')}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
+                    className="min-w-[100px] text-left cursor-pointer hover:bg-white/50"
                   >
                     分类 {sortField === 'categoryName' && (sortDirection === 'asc' ? '↑' : '↓')}
-                  </th>
-                  <th
+                  </TableHead>
+                  <TableHead
                     onClick={() => handleSort('warehouseName')}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
+                    className="min-w-[100px] text-left cursor-pointer hover:bg-white/50"
                   >
                     仓库 {sortField === 'warehouseName' && (sortDirection === 'asc' ? '↑' : '↓')}
-                  </th>
-                  <th
+                  </TableHead>
+                  <TableHead
                     onClick={() => handleSort('currentStock')}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
+                    className="min-w-[140px] text-left cursor-pointer hover:bg-white/50"
                   >
                     当前库存 {sortField === 'currentStock' && (sortDirection === 'asc' ? '↑' : '↓')}
-                  </th>
-                  <th
+                  </TableHead>
+                  <TableHead
                     onClick={() => handleSort('avgCost')}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
+                    className="min-w-[100px] text-right cursor-pointer hover:bg-white/50"
                   >
                     平均成本 {sortField === 'avgCost' && (sortDirection === 'asc' ? '↑' : '↓')}
-                  </th>
-                  <th
+                  </TableHead>
+                  <TableHead
                     onClick={() => handleSort('totalValue')}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
+                    className="min-w-[120px] text-right cursor-pointer hover:bg-white/50"
                   >
                     库存价值 {sortField === 'totalValue' && (sortDirection === 'asc' ? '↑' : '↓')}
-                  </th>
-                  <th
+                  </TableHead>
+                  <TableHead
                     onClick={() => handleSort('turnoverRate')}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
+                    className="min-w-[100px] text-center cursor-pointer hover:bg-white/50"
                   >
                     周转率 {sortField === 'turnoverRate' && (sortDirection === 'asc' ? '↑' : '↓')}
-                  </th>
-                  <th
+                  </TableHead>
+                  <TableHead
                     onClick={() => handleSort('stockStatus')}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:bg-white/50"
+                    className="min-w-[100px] text-center cursor-pointer hover:bg-white/50"
                   >
                     状态 {sortField === 'stockStatus' && (sortDirection === 'asc' ? '↑' : '↓')}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200/50">
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {sortedData.map((item, index) => (
-                  <tr key={`${item.productId}-${item.warehouseName}`} className="hover:bg-white/50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
+                  <TableRow key={`${item.productId}-${item.warehouseName}`}>
+                    <TableCell className="min-w-[120px]">
                       <span className="font-mono text-sm financial-table-cell">{item.productSku}</span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[150px]">
                       <div className="font-medium financial-table-cell">{item.productName}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap financial-subtitle">
+                    </TableCell>
+                    <TableCell className="min-w-[100px] financial-subtitle">
                       {item.categoryName}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap financial-subtitle">
+                    </TableCell>
+                    <TableCell className="min-w-[100px] financial-subtitle">
                       {item.warehouseName}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[140px]">
                       <div className="financial-table-cell">
                         <div className="font-semibold">{item.currentStock}</div>
                         <div className="text-xs financial-description">
@@ -533,37 +544,37 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
                           范围: {item.minStock} - {item.maxStock}
                         </div>
                       </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap financial-table-cell">
+                    </TableCell>
+                    <TableCell className="min-w-[100px] text-right financial-table-cell">
                       ¥{item.avgCost.toFixed(2)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[120px] text-right">
                       <div className="font-semibold financial-table-cell">¥{item.totalValue.toLocaleString()}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[100px] text-center">
                       <div className="financial-table-cell">
                         <div className="font-medium">{item.turnoverRate?.toFixed(1)}次/年</div>
                         <div className="text-xs financial-description">{item.daysInStock}天</div>
                       </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    </TableCell>
+                    <TableCell className="min-w-[100px] text-center">
                       <span className={`px-2 py-1 text-xs font-medium rounded-full border ${getStatusClass(item.stockStatus)}`}>
                         {getStatusText(item.stockStatus)}
                       </span>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-            {sortedData.length === 0 && (
-              <div className="text-center py-12">
-                <div className="text-4xl mb-4">📊</div>
-                <h3 className="text-lg font-medium financial-title mb-2">没有找到库存数据</h3>
-                <p className="financial-subtitle">请调整筛选条件或检查库存数据</p>
-              </div>
-            )}
-          </div>
+          {sortedData.length === 0 && (
+            <div className="text-center py-12">
+              <div className="text-4xl mb-4">📊</div>
+              <h3 className="text-lg font-medium financial-title mb-2">没有找到库存数据</h3>
+              <p className="financial-subtitle">请调整筛选条件或检查库存数据</p>
+            </div>
+          )}
         </GlassCard>
       </div>
     </div>

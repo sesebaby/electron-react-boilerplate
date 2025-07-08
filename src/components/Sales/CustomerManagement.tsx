@@ -7,6 +7,7 @@ import { Customer, CustomerType, CustomerLevel, CustomerStatus } from '../../typ
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import ErrorDisplay from '../ui/ErrorDisplay';
+import { TableContainer, Table, TableHeader, TableBody, TableCell, TableHead, TableRow, TableEmpty } from '../ui/table';
 
 interface CustomerManagementProps {
   className?: string;
@@ -431,23 +432,23 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
             </GlassButton>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[1000px]">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">客户信息</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">联系方式</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">类型/等级</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">信用额度</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">折扣率</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">状态</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">操作</th>
-                </tr>
-              </thead>
-              <tbody>
+          <TableContainer className="min-w-[1000px]">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="min-w-[200px]">客户信息</TableHead>
+                  <TableHead className="min-w-[200px]">联系方式</TableHead>
+                  <TableHead className="min-w-[120px]">类型/等级</TableHead>
+                  <TableHead className="min-w-[120px]">信用额度</TableHead>
+                  <TableHead className="min-w-[100px]">折扣率</TableHead>
+                  <TableHead className="min-w-[100px]">状态</TableHead>
+                  <TableHead className="min-w-[120px]">操作</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {filteredCustomers.map(customer => (
-                  <tr key={customer.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-3 px-4">
+                  <TableRow key={customer.id}>
+                    <TableCell className="py-3 px-4">
                       <div>
                         <div className="font-semibold text-white mb-1">{customer.name}</div>
                         <div className="text-white/70 text-sm">编码: {customer.code}</div>
@@ -455,8 +456,8 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                           <div className="text-white/60 text-sm">联系人: {customer.contactPerson}</div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="space-y-1">
                         {customer.phone && (
                           <div className="flex items-center gap-2 text-white/80 text-sm">
@@ -477,32 +478,32 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                           </div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="space-y-1">
                         <div className="text-white/80 text-sm">{getTypeText(customer.customerType)}</div>
                         <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getLevelStyles(customer.level)}`}>
                           {getLevelText(customer.level)}
                         </span>
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div>
                         <div className="font-semibold text-white">¥{customer.creditLimit.toLocaleString()}</div>
                         {customer.paymentTerms && (
                           <div className="text-white/70 text-sm">{customer.paymentTerms}</div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white">{(customer.discountRate * 100).toFixed(1)}%</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStatusStyles(customer.status)}`}>
                         {getStatusText(customer.status)}
                       </span>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEdit(customer)}
@@ -519,12 +520,12 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                           🗑️
                         </button>
                       </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
       </GlassCard>
 

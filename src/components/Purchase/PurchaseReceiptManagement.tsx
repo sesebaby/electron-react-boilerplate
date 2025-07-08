@@ -3,6 +3,7 @@ import { purchaseReceiptService, purchaseOrderService, warehouseService, product
 import { PurchaseReceipt, PurchaseReceiptItem, ReceiptStatus, PurchaseOrder, Warehouse, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
+import { TableContainer, Table, TableHeader, TableBody, TableCell, TableHead, TableRow, TableEmpty } from '../ui/table';
 
 interface PurchaseReceiptManagementProps {
   className?: string;
@@ -490,24 +491,24 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
             </GlassButton>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[1200px]">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">收货单信息</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">采购订单</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">收货仓库</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">收货日期</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">收货数量</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">收货金额</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">状态</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">操作</th>
-                </tr>
-              </thead>
-              <tbody>
+          <TableContainer className="min-w-[1200px]">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="min-w-[200px]">收货单信息</TableHead>
+                  <TableHead className="min-w-[200px]">采购订单</TableHead>
+                  <TableHead className="min-w-[120px]">收货仓库</TableHead>
+                  <TableHead className="min-w-[100px]">收货日期</TableHead>
+                  <TableHead className="min-w-[120px]">收货数量</TableHead>
+                  <TableHead className="min-w-[120px]">收货金额</TableHead>
+                  <TableHead className="min-w-[100px]">状态</TableHead>
+                  <TableHead className="min-w-[120px]">操作</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {filteredReceipts.map(receipt => (
-                  <tr key={receipt.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-3 px-4">
+                  <TableRow key={receipt.id}>
+                    <TableCell className="py-3 px-4">
                       <div>
                         <div className="font-semibold text-white mb-1">{receipt.receiptNo}</div>
                         <div className="text-white/70 text-sm">收货人: {receipt.receiver}</div>
@@ -517,33 +518,33 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
                           </div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white">{getOrderInfo(receipt.orderId)}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white/80">{getWarehouseName(receipt.warehouseId)}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="text-white/80">{formatDate(receipt.receiptDate)}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div>
                         <div className="font-semibold text-white">{receipt.totalQuantity}</div>
                         {receipt.items && receipt.items.length > 0 && (
                           <div className="text-white/70 text-sm">{receipt.items.length} 个项目</div>
                         )}
                       </div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="font-semibold text-white">¥{receipt.totalAmount.toLocaleString()}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStatusStyles(receipt.status)}`}>
                         {getStatusText(receipt.status)}
                       </span>
-                    </td>
-                    <td className="py-3 px-4">
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEdit(receipt)}
@@ -571,12 +572,12 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
                           🗑️
                         </button>
                       </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
       </GlassCard>
 
@@ -677,29 +678,29 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
                     <p className="text-white/70 mb-4">请先选择采购订单，系统将自动加载可收货的项目</p>
                   </div>
                 ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full min-w-[800px]">
-                      <thead>
-                        <tr className="border-b border-white/10">
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[200px]">商品</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">收货数量</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">单价</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">金额</th>
-                          <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[80px]">操作</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                  <TableContainer className="min-w-[800px]">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="min-w-[200px]">商品</TableHead>
+                          <TableHead className="min-w-[120px]">收货数量</TableHead>
+                          <TableHead className="min-w-[100px]">单价</TableHead>
+                          <TableHead className="min-w-[100px]">金额</TableHead>
+                          <TableHead className="min-w-[80px]">操作</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
                         {formItems.map(item => {
                           const amount = item.quantity * item.unitPrice;
                           return (
-                            <tr key={item.id} className="border-b border-white/5">
-                              <td className="py-3 px-4">
+                            <TableRow key={item.id}>
+                              <TableCell className="py-3 px-4">
                                 <div>
                                   <div className="text-white font-medium">{getProductName(item.productId)}</div>
                                   <div className="text-white/60 text-sm">最大可收: {item.maxQuantity}</div>
                                 </div>
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <input
                                   type="number"
                                   min="0.01"
@@ -711,8 +712,8 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
                                   placeholder="收货数量"
                                   required
                                 />
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <input
                                   type="number"
                                   min="0.01"
@@ -723,11 +724,11 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
                                   placeholder="单价"
                                   required
                                 />
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <span className="font-semibold text-white">¥{amount.toFixed(2)}</span>
-                              </td>
-                              <td className="py-3 px-4">
+                              </TableCell>
+                              <TableCell className="py-3 px-4">
                                 <button
                                   type="button"
                                   className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
@@ -736,13 +737,13 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
                                 >
                                   🗑️
                                 </button>
-                              </td>
-                            </tr>
+                              </TableCell>
+                            </TableRow>
                           );
                         })}
-                      </tbody>
-                    </table>
-                  </div>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                 )}
               </GlassCard>
 

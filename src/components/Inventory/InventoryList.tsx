@@ -2,7 +2,18 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { inventoryStockService } from '../../services/business';
 import { InventoryStock } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
-import { InventoryListSkeleton, ErrorState } from '../ui/SkeletonLoader';
+import { Card, CardContent } from '../ui/card';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 import { formatCurrency, formatNumber, debounce } from '../../utils/formatters';
 
 interface InventoryListProps {
@@ -125,23 +136,43 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
     setFilters(prev => ({ ...prev, [key]: value }));
   }, []);
 
+  // 加载状态
   if (loading) {
     return (
       <div className={`space-y-6 ${className || ''}`}>
-        <InventoryListSkeleton />
+        {/* 页面头部 */}
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2">库存列表</h1>
+            <p className="text-white/70">查看和管理所有库存信息</p>
+          </div>
+        </div>
+        <Card className="glass-card h-full">
+          <CardContent className="p-0 h-full">
+            <TableLoading message="正在加载库存数据..." />
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
+  // 错误状态
   if (error) {
     return (
       <div className={`space-y-6 ${className || ''}`}>
-        <ErrorState
-          title="加载失败"
-          message={error}
-          onRetry={loadInventories}
-          retryLabel="重新加载"
-        />
+        {/* 页面头部 */}
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2">库存列表</h1>
+            <p className="text-white/70">查看和管理所有库存信息</p>
+          </div>
+        </div>
+        <GlassCard className="text-center">
+          <div className="text-red-400 text-6xl mb-4">⚠️</div>
+          <h3 className="text-xl font-semibold text-white mb-2">加载失败</h3>
+          <p className="text-red-400 mb-4">{error}</p>
+          <GlassButton onClick={loadInventories}>重新加载</GlassButton>
+        </GlassCard>
       </div>
     );
   }
@@ -211,112 +242,127 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
       </GlassCard>
 
       {/* 库存表格 */}
-      <GlassCard>
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-white">
-            库存列表 (显示 {filteredInventories.length} 条，共 {inventories.length} 条)
-          </h3>
-        </div>
+      <Card className="glass-card h-full flex flex-col overflow-hidden">
+        <CardContent className="p-0 flex-1 flex flex-col">
+          {/* 表格标题 */}
+          <div className="flex-shrink-0 p-4 border-b border-white/20 bg-white/5">
+            <h3 className="text-lg font-semibold text-white/90">
+              库存列表 (显示 {filteredInventories.length} 条，共 {inventories.length} 条)
+            </h3>
+          </div>
 
-        {filteredInventories.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">📦</div>
-            <h3 className="text-xl font-semibold text-white mb-2">没有找到库存数据</h3>
-            <p className="text-white/70 mb-4">请调整搜索条件或创建新的库存记录</p>
-            <GlassButton variant="primary">
-              新建库存
-            </GlassButton>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[1200px]">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">商品ID</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">仓库ID</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">当前库存</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">最小库存</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">最大库存</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">单价</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">总价值</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[80px]">状态</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[100px]">最后更新</th>
-                  <th className="text-left py-3 px-4 font-semibold text-white/90 min-w-[120px]">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredInventories.map((item) => (
-                  <tr key={item.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-3 px-4">
-                      <div className="font-mono text-white">{item.productId}</div>
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="font-mono text-white/80">{item.warehouseId}</div>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className="font-mono text-white font-semibold">
-                        {formatNumber(item.currentStock)}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className="font-mono text-white/80">
-                        {formatNumber(item.minStock)}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className="font-mono text-white/80">
-                        {formatNumber(item.maxStock)}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className="font-mono text-white/80">
-                        {formatCurrency(item.unitPrice)}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className="font-mono text-white font-semibold">
-                        {formatCurrency(item.currentStock * item.unitPrice)}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStockStatusStyles(item)}`}>
-                        {getStockStatusText(item)}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className="text-white/70 text-sm">
-                        {item.lastMovementDate?.toLocaleDateString('zh-CN') || '-'}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="flex gap-2">
-                        <button
-                          className="px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors"
-                          title="编辑"
-                        >
-                          ✏️
-                        </button>
-                        <button
-                          className="px-3 py-1 text-xs bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 rounded hover:bg-yellow-500/30 transition-colors"
-                          title="调整"
-                        >
-                          📝
-                        </button>
-                        <button
-                          className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
-                          title="删除"
-                        >
-                          🗑️
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </GlassCard>
+          {/* 空状态检查 */}
+          {filteredInventories.length === 0 ? (
+            <TableEmpty
+              icon={<div className="text-6xl">📦</div>}
+              message="没有找到库存数据"
+              description="请调整搜索条件或创建新的库存记录"
+            />
+          ) : (
+            /* 表格内容 */
+            <TableContainer height="600px" className="flex-1">
+              <Table stickyHeader minWidth="1200px">
+                <TableHeader sticky>
+                  <TableRow>
+                    <TableHead 
+                      fixed 
+                      fixedPosition="left" 
+                      fixedOffset={0}
+                      className="min-w-[120px] bg-white/10 backdrop-blur-lg"
+                    >
+                      商品ID
+                    </TableHead>
+                    <TableHead className="min-w-[120px]">仓库ID</TableHead>
+                    <TableHead className="min-w-[100px] text-center">当前库存</TableHead>
+                    <TableHead className="min-w-[100px] text-center">最小库存</TableHead>
+                    <TableHead className="min-w-[100px] text-center">最大库存</TableHead>
+                    <TableHead className="min-w-[100px] text-right">单价</TableHead>
+                    <TableHead className="min-w-[100px] text-right">总价值</TableHead>
+                    <TableHead className="min-w-[80px] text-center">状态</TableHead>
+                    <TableHead className="min-w-[100px]">最后更新</TableHead>
+                    <TableHead className="min-w-[120px] text-center">操作</TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  {filteredInventories.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell 
+                        fixed 
+                        fixedPosition="left" 
+                        fixedOffset={0}
+                        className="min-w-[120px]"
+                      >
+                        <div className="font-mono text-white">{item.productId}</div>
+                      </TableCell>
+                      <TableCell className="min-w-[120px]">
+                        <div className="font-mono text-white/80">{item.warehouseId}</div>
+                      </TableCell>
+                      <TableCell className="min-w-[100px] text-center">
+                        <span className="font-mono text-white font-semibold">
+                          {formatNumber(item.currentStock)}
+                        </span>
+                      </TableCell>
+                      <TableCell className="min-w-[100px] text-center">
+                        <span className="font-mono text-white/80">
+                          {formatNumber(item.minStock)}
+                        </span>
+                      </TableCell>
+                      <TableCell className="min-w-[100px] text-center">
+                        <span className="font-mono text-white/80">
+                          {formatNumber(item.maxStock)}
+                        </span>
+                      </TableCell>
+                      <TableCell className="min-w-[100px] text-right">
+                        <span className="font-mono text-white/80">
+                          {formatCurrency(item.unitPrice)}
+                        </span>
+                      </TableCell>
+                      <TableCell className="min-w-[100px] text-right">
+                        <span className="font-mono text-white font-semibold">
+                          {formatCurrency(item.currentStock * item.unitPrice)}
+                        </span>
+                      </TableCell>
+                      <TableCell className="min-w-[80px] text-center">
+                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getStockStatusStyles(item)}`}>
+                          {getStockStatusText(item)}
+                        </span>
+                      </TableCell>
+                      <TableCell className="min-w-[100px]">
+                        <span className="text-white/70 text-sm">
+                          {item.lastMovementDate?.toLocaleDateString('zh-CN') || '-'}
+                        </span>
+                      </TableCell>
+                      <TableCell className="min-w-[120px] text-center">
+                        <div className="flex gap-2 justify-center">
+                          <button
+                            className="px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors"
+                            title="编辑"
+                          >
+                            ✏️
+                          </button>
+                          <button
+                            className="px-3 py-1 text-xs bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 rounded hover:bg-yellow-500/30 transition-colors"
+                            title="调整"
+                          >
+                            📝
+                          </button>
+                          <button
+                            className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
+                            title="删除"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 });

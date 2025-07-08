@@ -6,6 +6,17 @@ import { userService } from '../../services/business';
 import { User, UserRole, UserStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from '../ui/table';
 
 interface UserManagementProps {
   className?: string;
@@ -448,22 +459,22 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
 
       {/* 用户列表 */}
       <GlassCard>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-white/10">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">用户信息</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">角色</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">状态</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">最后登录</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">注册时间</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">操作</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/20">
+        <TableContainer height="500px">
+          <Table stickyHeader minWidth="1000px">
+            <TableHeader sticky>
+              <TableRow>
+                <TableHead className="min-w-[200px] text-left">用户信息</TableHead>
+                <TableHead className="min-w-[100px] text-left">角色</TableHead>
+                <TableHead className="min-w-[100px] text-left">状态</TableHead>
+                <TableHead className="min-w-[150px] text-left">最后登录</TableHead>
+                <TableHead className="min-w-[120px] text-left">注册时间</TableHead>
+                <TableHead className="min-w-[200px] text-left">操作</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-white/10 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap">
+                <TableRow key={user.id}>
+                  <TableCell className="min-w-[200px]">
                     <div>
                       <div className="flex items-center space-x-2">
                         <span className="font-medium text-white">{user.nickname}</span>
@@ -474,24 +485,24 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                         {user.phone && <span>{user.phone}</span>}
                       </div>
                     </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  </TableCell>
+                  <TableCell className="min-w-[100px]">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${roleColors[user.role]}`}>
                       {roleLabels[user.role]}
                     </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  </TableCell>
+                  <TableCell className="min-w-[100px]">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${statusColors[user.status]}`}>
                       {statusLabels[user.status]}
                     </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-white/70">
+                  </TableCell>
+                  <TableCell className="min-w-[150px] text-sm text-white/70">
                     {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleString('zh-CN') : '从未登录'}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-white/70">
+                  </TableCell>
+                  <TableCell className="min-w-[120px] text-sm text-white/70">
                     {new Date(user.createdAt).toLocaleDateString('zh-CN')}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  </TableCell>
+                  <TableCell className="min-w-[200px]">
                     <div className="flex items-center space-x-2">
                       <button
                         type="button"
@@ -549,20 +560,20 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                         </>
                       )}
                     </div>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
-          
-          {filteredUsers.length === 0 && (
-            <div className="text-center py-12">
-              <div className="text-4xl mb-4">👥</div>
-              <h3 className="text-lg font-medium text-white mb-2">暂无用户数据</h3>
-              <p className="text-white/70">请调整筛选条件或添加新用户</p>
-            </div>
-          )}
-        </div>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        
+        {filteredUsers.length === 0 && (
+          <div className="text-center py-12">
+            <div className="text-4xl mb-4">👥</div>
+            <h3 className="text-lg font-medium text-white mb-2">暂无用户数据</h3>
+            <p className="text-white/70">请调整筛选条件或添加新用户</p>
+          </div>
+        )}
       </GlassCard>
 
       {/* 统计信息 */}
