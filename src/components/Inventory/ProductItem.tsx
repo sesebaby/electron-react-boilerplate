@@ -89,24 +89,24 @@ const ProductItem: React.FC<ProductItemProps> = ({
     if (product.isOutOfStock) {
       return {
         status: 'out',
-        color: 'text-red-300',
-        bgColor: 'bg-red-500/20',
+        color: 'var(--error-color)',
+        bgColor: 'var(--error-color)',
         icon: '❌',
         label: '缺货'
       };
     } else if (product.isLowStock) {
       return {
         status: 'low',
-        color: 'text-yellow-300',
-        bgColor: 'bg-yellow-500/20',
+        color: 'var(--warning-color)',
+        bgColor: 'var(--warning-color)',
         icon: '⚠️',
         label: '预警'
       };
     } else {
       return {
         status: 'normal',
-        color: 'text-green-300',
-        bgColor: 'bg-green-500/20',
+        color: 'var(--success-color)',
+        bgColor: 'var(--success-color)',
         icon: '✅',
         label: '正常'
       };
@@ -148,31 +148,32 @@ const ProductItem: React.FC<ProductItemProps> = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="text-xs drop-shadow-md">{stockStatus.icon}</span>
-            <span className="font-medium text-sm text-white truncate drop-shadow-lg">
+            <span className="font-medium text-sm truncate drop-shadow-lg" style={{color: 'var(--text-primary)'}}>
               {product.productName}
             </span>
           </div>
-          <div className="text-xs text-white/80 truncate drop-shadow-md">
+          <div className="text-xs truncate drop-shadow-md" style={{color: 'var(--text-secondary)'}}>
             SKU: {product.sku}
           </div>
         </div>
         <div className="text-right flex-shrink-0 ml-2">
           <div className="flex items-center gap-1">
-            <div className={`text-sm font-medium ${stockStatus.color} drop-shadow-lg`}>
+            <div className="text-sm font-medium drop-shadow-lg" style={{color: stockStatus.color}}>
               {quantityDisplay.current}
             </div>
             {hasConversion && (
               <button
                 type="button"
                 onClick={toggleDisplayMode}
-                className="text-xs text-blue-300 hover:text-blue-200 transition-colors drop-shadow-md"
+                className="text-xs transition-colors drop-shadow-md"
+                style={{color: 'var(--text-accent)'}}
                 title={displayMode === 'base' ? '切换到包装单位' : '切换到基础单位'}
               >
                 📦
               </button>
             )}
           </div>
-          <div className="text-xs text-white/70 drop-shadow-md">
+          <div className="text-xs drop-shadow-md" style={{color: 'var(--text-tertiary)'}}>
             最低: {quantityDisplay.min}
           </div>
         </div>
@@ -193,16 +194,16 @@ const ProductItem: React.FC<ProductItemProps> = ({
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="font-semibold text-gray-900 truncate">
+            <h3 className="font-semibold truncate" style={{color: 'var(--text-primary)'}}>
               {product.productName}
             </h3>
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${stockStatus.bgColor} ${stockStatus.color}`}>
+            <span className="px-2 py-1 rounded-full text-xs font-medium" style={{backgroundColor: `${stockStatus.bgColor}20`, color: stockStatus.color}}>
               {stockStatus.label}
             </span>
           </div>
-          <p className="text-sm text-gray-600">SKU: {product.sku}</p>
+          <p className="text-sm" style={{color: 'var(--text-secondary)'}}>SKU: {product.sku}</p>
           {product.category && (
-            <p className="text-xs text-gray-500 mt-1">分类: {product.category}</p>
+            <p className="text-xs mt-1" style={{color: 'var(--text-tertiary)'}}>分类: {product.category}</p>
           )}
         </div>
       </div>
@@ -211,25 +212,26 @@ const ProductItem: React.FC<ProductItemProps> = ({
       <div className="grid grid-cols-2 gap-4 mb-3">
         <div>
           <div className="flex items-center justify-between mb-1">
-            <div className="text-xs text-gray-500">当前库存</div>
+            <div className="text-xs" style={{color: 'var(--text-tertiary)'}}>当前库存</div>
             {hasConversion && (
               <button
                 type="button"
                 onClick={toggleDisplayMode}
-                className="text-xs text-blue-500 hover:text-blue-700 transition-colors px-1 py-0.5 rounded"
+                className="text-xs transition-colors px-1 py-0.5 rounded"
+                style={{color: 'var(--text-accent)'}}
                 title={displayMode === 'base' ? '切换到包装单位' : '切换到基础单位'}
               >
                 📦
               </button>
             )}
           </div>
-          <div className={`text-lg font-bold ${stockStatus.color}`}>
+          <div className="text-lg font-bold" style={{color: stockStatus.color}}>
             {quantityDisplay.current}
           </div>
         </div>
         <div>
-          <div className="text-xs text-gray-500 mb-1">库存价值</div>
-          <div className="text-lg font-bold text-green-600">
+          <div className="text-xs mb-1" style={{color: 'var(--text-tertiary)'}}>库存价值</div>
+          <div className="text-lg font-bold" style={{color: 'var(--financial-positive)'}}>
             {formatCurrency(product.totalValue)}
           </div>
         </div>
@@ -238,7 +240,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
       {/* 库存阈值 */}
       <div className="flex justify-between items-center mb-3 text-sm">
         <div className="flex items-center gap-4">
-          <span className="text-gray-600">
+          <span style={{color: 'var(--text-secondary)'}}>
             最低: <span className="font-medium">{quantityDisplay.min}</span>
           </span>
           {quantityDisplay.max && (
@@ -255,21 +257,20 @@ const ProductItem: React.FC<ProductItemProps> = ({
       {/* 库存进度条 */}
       <div className="mb-3">
         <div className="flex justify-between items-center mb-1">
-          <span className="text-xs text-gray-500">库存水平</span>
-          <span className="text-xs text-gray-500">
+          <span className="text-xs" style={{color: 'var(--text-tertiary)'}}>库存水平</span>
+          <span className="text-xs" style={{color: 'var(--text-tertiary)'}}>
             {Math.round((product.currentStock / (product.maxStock || product.minStock * 2)) * 100)}%
           </span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full rounded-full h-2" style={{backgroundColor: 'var(--surface-background)'}}>
           <div
-            className={`h-2 rounded-full transition-all duration-300 ${
-              product.isOutOfStock
-                ? 'bg-red-500'
-                : product.isLowStock
-                ? 'bg-yellow-500'
-                : 'bg-green-500'
-            }`}
+            className="h-2 rounded-full transition-all duration-300"
             style={{
+              backgroundColor: product.isOutOfStock
+                ? 'var(--error-color)'
+                : product.isLowStock
+                ? 'var(--warning-color)'
+                : 'var(--success-color)',
               width: `${Math.min(
                 100,
                 Math.max(
@@ -283,7 +284,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
       </div>
 
       {/* 最后更新时间 */}
-      <div className="flex justify-between items-center text-xs text-gray-500">
+      <div className="flex justify-between items-center text-xs" style={{color: 'var(--text-tertiary)'}}>
         <span>最后更新: {formatDate(product.lastUpdated)}</span>
         {onClick && <span>点击查看详情 →</span>}
       </div>

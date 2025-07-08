@@ -17,7 +17,7 @@ const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { getCurrentTheme } = useTheme();
+  useTheme();
 
   // 简单的哈希路由处理
   useEffect(() => {
@@ -25,17 +25,10 @@ const App: React.FC = () => {
     const savedTheme = localStorage.getItem('inventory-system-theme') || 'glass-future';
     document.documentElement.setAttribute('data-theme', savedTheme);
     
-    // 应用Tailwind主题背景
-    const themeColors = {
-      'glass-future': 'linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%)',
-      'dark-tech': 'linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%)',
-      'warm-business': 'linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%)',
-      'minimal-monochrome': 'linear-gradient(135deg, oklch(0.646 0.026 252.894) 0%, oklch(0.583 0.024 252.894) 100%)'
-    };
-    document.body.style.background = themeColors[savedTheme as keyof typeof themeColors] || themeColors['glass-future'];
+    // 应用主题背景和文字颜色
+    document.body.style.background = 'var(--app-background)';
     document.body.style.minHeight = '100vh';
-    // 设置文字颜色，黑白精简风主题使用深色文字，其他主题使用白色文字
-    document.body.style.color = savedTheme === 'minimal-monochrome' ? 'oklch(0.208 0.042 265.755)' : 'white';
+    document.body.style.color = 'var(--text-primary)';
     
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
@@ -90,7 +83,7 @@ const App: React.FC = () => {
   }, []);
 
   // 页面变化处理
-  const handlePageChange = (page: string) => {
+  const _handlePageChange = (page: string) => {
     setCurrentPage(page);
     window.location.hash = page;
   };
@@ -98,7 +91,7 @@ const App: React.FC = () => {
   // 加载状态
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 relative overflow-hidden">
+      <div className="min-h-screen relative overflow-hidden" style={{background: 'var(--app-background)'}}>
         {/* 现代化背景效果 */}
         <div className="absolute inset-0">
           <div className="absolute w-72 h-72 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-1/4 top-1/3"></div>
@@ -125,13 +118,13 @@ const App: React.FC = () => {
               {/* 公司品牌 */}
               <div className="mb-12">
                 <div className="mb-8">
-                  <h1 className="text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight">
+                  <h1 className="text-3xl lg:text-4xl font-bold mb-3 leading-tight" style={{color: 'var(--text-primary)'}}>
                     唐山市无踪信息科技
                   </h1>
-                  <p className="text-indigo-200 text-lg font-medium mb-2">
+                  <p className="text-lg font-medium mb-2" style={{color: 'var(--text-secondary)'}}>
                     专业软件开发 · 技术创新领航
                   </p>
-                  <p className="text-slate-400 text-sm">
+                  <p className="text-sm" style={{color: 'var(--text-tertiary)'}}>
                     为企业提供高质量的数字化解决方案
                   </p>
                 </div>
@@ -152,7 +145,7 @@ const App: React.FC = () => {
 
               {/* 开发者信息卡片 */}
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-2xl mb-6">
-                <h3 className="text-white text-base font-semibold mb-4 flex items-center">
+                <h3 className="text-base font-semibold mb-4 flex items-center" style={{color: 'var(--text-primary)'}}>
                   <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></div>
                   开发团队
                 </h3>
@@ -165,8 +158,8 @@ const App: React.FC = () => {
                       </svg>
                     </div>
                     <div className="flex-1">
-                      <p className="text-white font-medium">远古牛哥</p>
-                      <p className="text-slate-400 text-sm">首席开发工程师</p>
+                      <p className="font-medium" style={{color: 'var(--text-primary)'}}>远古牛哥</p>
+                      <p className="text-sm" style={{color: 'var(--text-secondary)'}}>首席开发工程师</p>
                     </div>
                   </div>
                   
@@ -177,8 +170,8 @@ const App: React.FC = () => {
                       </svg>
                     </div>
                     <div className="flex-1">
-                      <p className="text-white font-medium">18833305508</p>
-                      <p className="text-slate-400 text-sm">技术支持热线</p>
+                      <p className="font-medium" style={{color: 'var(--text-primary)'}}>18833305508</p>
+                      <p className="text-sm" style={{color: 'var(--text-secondary)'}}>技术支持热线</p>
                     </div>
                   </div>
                 </div>
@@ -193,11 +186,11 @@ const App: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="text-emerald-300 font-semibold text-base mb-2">免费使用承诺</h4>
-                    <p className="text-slate-300 text-sm leading-relaxed mb-3">
+                    <h4 className="font-semibold text-base mb-2" style={{color: 'var(--success-color)'}}>免费使用承诺</h4>
+                    <p className="text-sm leading-relaxed mb-3" style={{color: 'var(--text-secondary)'}}>
                       本软件完全免费使用，无隐藏费用。如需定制开发、功能扩展或界面美化，欢迎联系我们的专业团队。
                     </p>
-                    <p className="text-slate-400 text-xs">
+                    <p className="text-xs" style={{color: 'var(--text-tertiary)'}}>
                       技术咨询 · 定制开发 · 系统集成 · 主题设计
                     </p>
                   </div>
@@ -230,9 +223,9 @@ const App: React.FC = () => {
 
                 {/* 系统标题 */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-white mb-2">进销存管理系统</h2>
-                  <p className="text-slate-300 mb-4">系统正在初始化...</p>
-                  <p className="text-slate-400 text-sm">正在加载核心业务服务和数据库连接</p>
+                  <h2 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>进销存管理系统</h2>
+                  <p className="mb-4" style={{color: 'var(--text-secondary)'}}>系统正在初始化...</p>
+                  <p className="text-sm" style={{color: 'var(--text-tertiary)'}}>正在加载核心业务服务和数据库连接</p>
                 </div>
                 
                 {/* 进度条 */}
@@ -242,23 +235,23 @@ const App: React.FC = () => {
 
                 {/* 功能特性 */}
                 <div className="space-y-2 text-left mb-8">
-                  <p className="text-slate-300 text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 bg-white rounded-full"></span>
+                  <p className="text-sm flex items-center gap-2" style={{color: 'var(--text-secondary)'}}>
+                    <span className="w-2 h-2 rounded-full" style={{backgroundColor: 'var(--text-primary)'}}></span>
                     全新UI界面设计
                   </p>
-                  <p className="text-slate-300 text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 bg-white rounded-full"></span>
+                  <p className="text-sm flex items-center gap-2" style={{color: 'var(--text-secondary)'}}>
+                    <span className="w-2 h-2 rounded-full" style={{backgroundColor: 'var(--text-primary)'}}></span>
                     左侧导航栏可收缩
                   </p>
-                  <p className="text-slate-300 text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 bg-white rounded-full"></span>
+                  <p className="text-sm flex items-center gap-2" style={{color: 'var(--text-secondary)'}}>
+                    <span className="w-2 h-2 rounded-full" style={{backgroundColor: 'var(--text-primary)'}}></span>
                     丰富的Dashboard功能
                   </p>
                 </div>
 
                 {/* 底部提示 */}
                 <div className="pt-4 border-t border-white/10 text-center">
-                  <p className="text-slate-400 text-xs">
+                  <p className="text-xs" style={{color: 'var(--text-tertiary)'}}>
                     如遇问题，请联系技术支持 · 免费使用 · 专业服务
                   </p>
                 </div>
@@ -276,9 +269,9 @@ const App: React.FC = () => {
       <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-red-500 to-red-600">
         <div className="glass-card p-12 text-center max-w-md w-full mx-4">
           <div className="text-6xl mb-6">❌</div>
-          <h2 className="text-2xl font-bold text-white mb-4">系统初始化失败</h2>
+          <h2 className="text-2xl font-bold mb-4" style={{color: 'var(--text-primary)'}}>系统初始化失败</h2>
           <div className="bg-red-500/20 border border-red-400/30 rounded-lg p-4 mb-6">
-            <p className="text-white/90">{error}</p>
+            <p style={{color: 'var(--text-primary)'}}>{error}</p>
           </div>
           <button
             type="button"

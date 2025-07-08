@@ -226,13 +226,13 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                     className="min-w-[300px]"
                   >
                     <div>
-                      <div className="font-semibold text-white mb-1">{item.name}</div>
-                      <div className="text-sm text-white/80 mb-1 leading-relaxed">{item.description}</div>
-                      <div className="text-xs text-white/60 italic">供应商: {item.supplier}</div>
+                      <div className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>{item.name}</div>
+                      <div className="text-sm mb-1 leading-relaxed" style={{color: 'var(--text-secondary)'}}>{item.description}</div>
+                      <div className="text-xs italic" style={{color: 'var(--text-tertiary)'}}>供应商: {item.supplier}</div>
                     </div>
                   </TableCell>
                   <TableCell className="min-w-[140px]">
-                    <code className="text-sm text-white/90 bg-white/10 px-2 py-1 rounded">
+                    <code className="text-sm bg-white/10 px-2 py-1 rounded" style={{color: 'var(--text-primary)'}}>
                       {item.sku}
                     </code>
                   </TableCell>
