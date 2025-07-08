@@ -69,6 +69,64 @@
 - **数据导入导出**：Excel 导入导出 + 数据备份
 - **实时监控**：系统状态监控 + 错误边界处理
 
+## 🛠️ **技术栈详情**
+
+### 前端技术栈
+- **框架**: React 18.3.1 (现代化前端框架)
+- **语言**: TypeScript 5.4.5 (类型安全)
+- **构建工具**: Webpack 5.91.0 (模块打包)
+- **样式框架**: Tailwind CSS 3.3.7 (实用优先CSS)
+- **UI组件库**: Radix UI + 自定义组件
+  - `@radix-ui/react-dropdown-menu`
+  - `@radix-ui/react-scroll-area`
+  - `@radix-ui/react-select`
+  - `@radix-ui/react-separator`
+  - `@radix-ui/react-slot`
+- **图标库**: Lucide React 0.525.0
+- **样式工具**: 
+  - `class-variance-authority` (组件变体管理)
+  - `clsx` (条件性CSS类名)
+  - `tailwind-merge` (类名合并)
+
+### 后端技术栈
+- **桌面框架**: Electron 30.0.0 (跨平台桌面应用)
+- **数据库**: 
+  - SQLite 3 (轻量级关系型数据库)
+  - Better-SQLite3 12.2.0 (高性能SQLite绑定)
+- **数据验证**: Zod 3.25.71 (TypeScript优先的模式验证)
+- **加密**: bcryptjs 3.0.2 (密码哈希)
+- **HTTP客户端**: Axios 1.10.0
+
+### 数据处理
+- **Excel处理**: xlsx 0.18.5 (Excel文件读写)
+- **UUID生成**: uuid 11.1.0 (唯一标识符)
+
+### 开发工具
+- **代码规范**: ESLint 9.30.1 + TypeScript ESLint 8.35.1
+- **测试框架**: 
+  - Jest 30.0.0 (单元测试)
+  - Testing Library (React组件测试)
+  - Playwright 1.53.2 (端到端测试)
+- **并发执行**: concurrently 8.2.2
+- **脚本执行**: ts-node 10.9.2
+
+### 构建和部署
+- **构建系统**: Webpack 5 + TypeScript
+- **CSS后处理**: PostCSS 8.5.6 + Autoprefixer 10.4.21
+- **兼容性**: Node.js Polyfills (buffer, crypto, process, stream, util)
+
+### 设计系统
+- **设计模式**: shadcn/ui 架构风格
+- **主题系统**: CSS变量 + Tailwind CSS自定义主题
+- **视觉风格**: Glassmorphism (玻璃态设计)
+- **组件管理**: 无头组件 (Radix UI) + 自定义样式层
+
+### 推荐技术方案
+考虑到项目的现代化需求，建议后期采用以下技术方案：
+- **shadcn/ui**: 基于Radix UI的现代组件库，提供更好的开发体验
+- **组件架构**: 继续使用Radix UI作为无头组件基础
+- **样式方案**: 保持Tailwind CSS + 自定义主题的方式
+
 ## 🚀 快速开始
 
 ### 📋 环境要求
@@ -524,6 +582,29 @@ A:
 🌟 **如果这个项目对您有帮助，请给我们一个 Star！**
 
 ## 🔄 版本更新日志
+
+### v1.0.1 (2025-07-08)
+#### 🔧 **表格组件重构**
+- **修复逐日消耗视图表格header-body对齐问题**
+  - 重构ConsumptionTable组件，采用单表格架构替代双表格结构
+  - 实现CSS sticky positioning实现固定表头，消除表头与内容脱节
+  - 优化table-cell-fixed类，增强固定列的背景模糊和z-index层级
+  - 添加table-header-sticky类，确保表头在滚动时保持正确位置
+  - 修复表格中分类数据格式显示错误，确保数据正确对齐
+  - 支持所有主题（玻璃未来风、科技暗黑风、温暖商务风）的表格样式适配
+
+#### 📐 **CSS架构改进**
+- **新增consumption-table专用样式系统**
+  - `.consumption-table-container`: 单一表格容器
+  - `.table-header-sticky`: 粘性表头样式
+  - `.table-header-row-primary/.table-header-row-secondary`: 双层表头结构
+  - 增强`.table-cell-fixed`对表头固定列的支持，提高z-index层级
+  - 确保所有表格样式使用CSS变量，支持主题动态切换
+
+#### 🎨 **主题兼容性增强**
+- 表格组件完全支持三种主题的动态切换
+- 优化backdrop-filter和背景色在不同主题下的表现
+- 确保固定表头在主题切换时样式正确渲染
 
 ### v1.0.0 (当前版本)
 - ✅ 完整的进销存业务流程

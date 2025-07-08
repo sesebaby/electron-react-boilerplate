@@ -293,20 +293,291 @@ npm/* 新功能组件主题适配样式 */
   border-right: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2)) !important;
 }
 
-/* 固定列表头样式 - 完全移除模糊效果确保文字清晰 */
+/* ===== 新版表格固定表头系统 ===== */
+
+/* 表头容器包装器 */
+.consumption-table-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--table-header-fixed-bg);
+  backdrop-filter: var(--table-header-blur);
+  border-bottom: 2px solid var(--table-header-fixed-border);
+  box-shadow: var(--table-header-fixed-shadow);
+}
+
+/* ScrollArea 根容器 */
+.consumption-table-scroll-root {
+  width: 100%;
+  height: 500px; /* 固定高度，避免空白区域 */
+  overflow: hidden;
+}
+
+/* 单一表格容器 */
+.consumption-table-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* 消耗表格主体 */
+.consumption-table {
+  width: 100%;
+  border-collapse: collapse;
+  position: relative;
+}
+
+/* 粘性表头 */
+.table-header-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--table-header-fixed-bg, rgba(255, 255, 255, 0.1));
+  backdrop-filter: var(--table-header-blur, blur(20px));
+  -webkit-backdrop-filter: var(--table-header-blur, blur(20px));
+  border-bottom: 2px solid var(--table-header-fixed-border, rgba(255, 255, 255, 0.2));
+  box-shadow: var(--table-header-fixed-shadow, 0 2px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* 表头行主层 */
+.table-header-row-primary {
+  position: sticky;
+  top: 0;
+  z-index: 31;
+  background: var(--table-header-fixed-bg, rgba(255, 255, 255, 0.1));
+  backdrop-filter: var(--table-header-blur, blur(20px));
+  -webkit-backdrop-filter: var(--table-header-blur, blur(20px));
+}
+
+/* 表头行次层 */
+.table-header-row-secondary {
+  position: sticky;
+  top: 0;
+  z-index: 31;
+  background: var(--table-header-fixed-bg, rgba(255, 255, 255, 0.1));
+  backdrop-filter: var(--table-header-blur, blur(20px));
+  -webkit-backdrop-filter: var(--table-header-blur, blur(20px));
+}
+
+/* 响应式高度调整 */
+@media (max-height: 800px) {
+  .consumption-table-scroll-root {
+    height: 400px;
+  }
+}
+
+@media (max-height: 600px) {
+  .consumption-table-scroll-root {
+    height: 300px;
+  }
+}
+
+/* ScrollArea 视口 */
+.consumption-table-viewport {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+/* 滚动条基础样式 */
+.consumption-scrollbar {
+  display: flex;
+  user-select: none;
+  touch-action: none;
+  padding: 2px;
+  background: var(--scrollbar-track-bg, rgba(255, 255, 255, 0.1));
+  transition: background-color 150ms ease-out;
+}
+
+.consumption-scrollbar:hover {
+  background: var(--scrollbar-track-hover-bg, rgba(255, 255, 255, 0.15));
+}
+
+/* 垂直滚动条 */
+.consumption-scrollbar-vertical {
+  width: 12px;
+  flex-direction: column;
+}
+
+/* 水平滚动条 */
+.consumption-scrollbar-horizontal {
+  height: 12px;
+  flex-direction: row;
+}
+
+/* 滚动条滑块 */
+.consumption-scrollbar-thumb {
+  flex: 1;
+  background: var(--scrollbar-thumb-color, rgba(255, 255, 255, 0.4));
+  border-radius: 6px;
+  position: relative;
+  transition: background-color 150ms ease-out;
+}
+
+.consumption-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover-color, rgba(255, 255, 255, 0.6));
+}
+
+/* 滚动条角落 */
+.consumption-scrollbar-corner {
+  background: var(--scrollbar-track-bg, rgba(255, 255, 255, 0.1));
+}
+
+/* 确保滚动条在内容溢出时显示 */
+.consumption-table-scroll-root[data-state="visible"] .consumption-scrollbar {
+  opacity: 1;
+}
+
+.consumption-table-scroll-root[data-state="hidden"] .consumption-scrollbar {
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+/* 强制显示滚动条（用于调试） */
+.consumption-scrollbar[data-orientation="vertical"] {
+  opacity: 1 !important;
+}
+
+.consumption-scrollbar[data-orientation="horizontal"] {
+  opacity: 1 !important;
+}
+
+/* 表格网格布局 */
+.consumption-table-grid {
+  display: grid;
+  grid-template-columns:
+    200px /* 固定左侧分类列 */
+    repeat(var(--date-columns, 7), 80px 80px 80px) /* 每个日期3个时间段列 */
+    120px; /* 固定右侧合计列 */
+  min-width: fit-content;
+  grid-auto-rows: auto;
+}
+
+/* 固定表头区域 */
+.consumption-table-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--table-header-fixed-bg);
+  backdrop-filter: var(--table-header-blur);
+  border-bottom: 2px solid var(--table-header-fixed-border);
+  box-shadow: var(--table-header-fixed-shadow);
+}
+
+/* 表头日期分组样式 */
+.table-header-date-group {
+  background: var(--table-header-fixed-bg);
+  backdrop-filter: var(--table-header-blur);
+  -webkit-backdrop-filter: var(--table-header-blur);
+}
+
+/* 表头时间段样式 */
+.table-header-time-slot {
+  backdrop-filter: var(--table-header-blur);
+  -webkit-backdrop-filter: var(--table-header-blur);
+}
+
+/* 时间段特定背景色 */
+.table-header-time-morning {
+  background: var(--time-slot-morning-bg, rgba(234, 179, 8, 0.25));
+}
+
+.table-header-time-afternoon {
+  background: var(--time-slot-afternoon-bg, rgba(59, 130, 246, 0.25));
+}
+
+.table-header-time-evening {
+  background: var(--time-slot-evening-bg, rgba(147, 51, 234, 0.25));
+}
+
+/* 固定左侧列 */
+.consumption-table-fixed-left {
+  position: sticky;
+  left: 0;
+  z-index: 20;
+  background: var(--table-header-fixed-bg-blur);
+  backdrop-filter: var(--table-header-blur);
+  border-right: 2px solid var(--table-header-fixed-border);
+  box-shadow: 2px 0 8px var(--table-header-fixed-shadow);
+}
+
+/* 左上角交叉固定区域 */
+.consumption-table-fixed-corner {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  background: var(--table-header-fixed-bg);
+  backdrop-filter: var(--table-header-blur);
+  border-right: 2px solid var(--table-header-fixed-border);
+  border-bottom: 2px solid var(--table-header-fixed-border);
+  box-shadow: 2px 2px 8px var(--table-header-fixed-shadow);
+}
+
+/* 表格单元格基础样式 */
+.consumption-table-cell {
+  padding: 12px 8px;
+  border-right: 1px solid var(--table-cell-border);
+  border-bottom: 1px solid var(--table-cell-border);
+  color: var(--table-header-text);
+  font-size: 0.875rem;
+  transition: background-color 0.2s ease;
+}
+
+.consumption-table-cell:hover {
+  background: var(--table-cell-hover);
+}
+
+/* 表头单元格样式 */
+.consumption-table-header-cell {
+  padding: 12px 8px;
+  border-right: 1px solid var(--table-header-fixed-border);
+  border-bottom: 1px solid var(--table-header-fixed-border);
+  color: var(--table-header-text);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-align: center;
+  background: transparent;
+}
+
+/* 滚动内容区域 */
+.consumption-table-body {
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb-color) transparent;
+}
+
+.consumption-table-body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.consumption-table-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.consumption-table-body::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  border-radius: 4px;
+}
+
+.consumption-table-body::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover-color);
+}
+
+/* 旧版样式保持兼容性 */
 .table-header-fixed-column {
   background: var(--popup-header-background, rgba(255, 255, 255, 0.25)) !important;
-  backdrop-filter: none !important; /* 完全移除模糊效果 */
+  backdrop-filter: none !important;
   border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.3)) !important;
   color: var(--popup-text-primary, rgba(255, 255, 255, 1)) !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important; /* 增强文字阴影提高对比度 */
-  font-weight: 600; /* 与数据列表头保持一致 */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+  font-weight: 600;
   font-size: 0.875rem;
-  /* 移除 text-transform: uppercase 保持原始文字格式 */
   letter-spacing: 0.5px;
   position: sticky;
   top: 0;
-  z-index: 20; /* 提高层级确保在最前面 */
+  z-index: 20;
 }
 
 /* 固定列数据单元格样式 - 减少模糊效果提高可读性 */
@@ -451,6 +722,17 @@ npm/* 新功能组件主题适配样式 */
   transition: var(--transition-base, all 0.3s ease);
   /* 增强遮罩效果，防止后面内容透过 */
   box-shadow: 2px 0 8px var(--glass-shadow-color, rgba(0, 0, 0, 0.1));
+}
+
+/* 表头中的固定列单元格 - 提高z-index层级 */
+.table-header-sticky .table-cell-fixed {
+  z-index: 50;
+  background: var(--table-fixed-background, var(--popup-header-background, rgba(255, 255, 255, 0.12)));
+  backdrop-filter: var(--glass-blur, blur(25px));
+  -webkit-backdrop-filter: var(--glass-blur, blur(25px));
+  color: var(--popup-text-primary, rgba(255, 255, 255, 0.95));
+  text-shadow: var(--popup-text-shadow, 0 1px 3px rgba(0, 0, 0, 0.8));
+  box-shadow: 2px 0 12px var(--glass-shadow-color, rgba(0, 0, 0, 0.15));
 }
 
 /* 锁定列悬浮效果 */

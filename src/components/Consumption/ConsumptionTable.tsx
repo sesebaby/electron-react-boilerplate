@@ -3,11 +3,11 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import { 
-  ConsumptionTableProps, 
-  CategoryRowData, 
-  ProductRowData,
-  TimeSlot 
+import * as ScrollArea from '@radix-ui/react-scroll-area';
+import {
+  ConsumptionTableProps,
+  CategoryRowData,
+  TimeSlot
 } from '../../types/consumption';
 import ConsumptionTableHeader from './ConsumptionTableHeader';
 import ConsumptionTableRow from './ConsumptionTableRow';
@@ -109,7 +109,7 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
     return (
       <tr className="border-t-2 border-white/30 bg-white/10 font-semibold">
         {/* 合计标签 */}
-        <td className="sticky left-0 z-10 px-4 py-3 border-r border-white/30" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.25)', boxShadow: '2px 0 12px rgba(0, 0, 0, 0.15)'}}>
+        <td className="table-cell-fixed left-0 z-20 px-4 py-3 border-r border-white/30">
           <div className="flex items-center text-white/95 drop-shadow-lg">
             <span className="mr-2 text-yellow-300">📊</span>
             <div className="flex flex-col">
@@ -207,44 +207,51 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
 
   return (
     <div className={`glass-surface backdrop-blur-lg rounded-xl border border-white/20 overflow-hidden ${className}`}>
-      {/* 固定表头 - 在ScrollArea外部 */}
-      <div className="flex-shrink-0 relative z-30">
-        <table 
-          className="w-full border-collapse"
-          style={{ minWidth: `${tableMinWidth}px` }}
-        >
-          <ConsumptionTableHeader
-            dateColumns={data.dateColumns}
-            displayMode={data.config.displayMode}
-          />
-        </table>
-      </div>
+      {/* 单一表格结构 - 使用 Radix UI ScrollArea */}
+      <ScrollArea.Root className="consumption-table-scroll-root h-full">
+        <ScrollArea.Viewport className="consumption-table-viewport">
+          <div className="consumption-table-container">
+            <table
+              className="consumption-table w-full border-collapse"
+              style={{ minWidth: `${tableMinWidth}px` }}
+            >
+              {/* 固定表头 */}
+              <ConsumptionTableHeader
+                dateColumns={data.dateColumns}
+                displayMode={data.config.displayMode}
+              />
 
-      {/* 滚动表体 */}
-      <div className="overflow-x-auto overflow-y-auto max-h-[500px] flex-1">
-        <table 
-          className="w-full border-collapse"
-          style={{ minWidth: `${tableMinWidth}px` }}
-        >
-          {/* 隐藏的表头（用于对齐列宽） */}
-          <thead className="invisible">
-            <ConsumptionTableHeader
-              dateColumns={data.dateColumns}
-              displayMode={data.config.displayMode}
-            />
-          </thead>
+              {/* 表体 */}
+              <tbody>
+                {data.categories.map(category =>
+                  renderCategoryWithChildren(category)
+                )}
 
-          {/* 表体 */}
-          <tbody>
-            {data.categories.map(category => 
-              renderCategoryWithChildren(category)
-            )}
-            
-            {/* 合计行 */}
-            {renderTotalRow()}
-          </tbody>
-        </table>
-      </div>
+                {/* 合计行 */}
+                {renderTotalRow()}
+              </tbody>
+            </table>
+          </div>
+        </ScrollArea.Viewport>
+
+        {/* 垂直滚动条 */}
+        <ScrollArea.Scrollbar
+          className="consumption-scrollbar consumption-scrollbar-vertical"
+          orientation="vertical"
+        >
+          <ScrollArea.Thumb className="consumption-scrollbar-thumb" />
+        </ScrollArea.Scrollbar>
+
+        {/* 水平滚动条 */}
+        <ScrollArea.Scrollbar
+          className="consumption-scrollbar consumption-scrollbar-horizontal"
+          orientation="horizontal"
+        >
+          <ScrollArea.Thumb className="consumption-scrollbar-thumb" />
+        </ScrollArea.Scrollbar>
+
+        <ScrollArea.Corner className="consumption-scrollbar-corner" />
+      </ScrollArea.Root>
 
       {/* 表格信息 */}
       <div className="px-4 py-3 border-t border-white/20 bg-white/5">

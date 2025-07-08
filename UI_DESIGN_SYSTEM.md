@@ -827,6 +827,192 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
 
 ---
 
+## 📊 表格组件设计规范
+
+### 表格架构最佳实践
+
+#### **单表格架构原则**
+基于项目中逐日消耗视图(Daily Consumption View)的重构经验，建立如下表格设计规范：
+
+**❌ 避免的反模式：**
+- 双表格结构（分离的header表格和body表格）
+- 内联样式硬编码颜色值
+- 复杂的对齐逻辑和手动列宽计算
+
+**✅ 推荐的设计模式：**
+```tsx
+// 推荐：单表格 + CSS sticky positioning
+<ScrollArea.Root className="consumption-table-scroll-root">
+  <ScrollArea.Viewport className="consumption-table-viewport">
+    <div className="consumption-table-container">
+      <table className="consumption-table w-full border-collapse">
+        {/* 粘性表头 */}
+        <thead className="table-header-sticky">
+          {/* 双层表头结构 */}
+          <tr className="table-header-row-primary">
+            <th className="table-cell-fixed left-0 z-50">分类/产品</th>
+            {/* 日期分组表头 */}
+          </tr>
+          <tr className="table-header-row-secondary">
+            {/* 时间段细分表头 */}
+          </tr>
+        </thead>
+        <tbody>
+          {/* 数据行 */}
+        </tbody>
+      </table>
+    </div>
+  </ScrollArea.Viewport>
+</ScrollArea.Root>
+```
+
+#### **CSS类设计规范**
+
+```css
+/* 表格容器 */
+.consumption-table-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* 主表格 */
+.consumption-table {
+  width: 100%;
+  border-collapse: collapse;
+  position: relative;
+}
+
+/* 粘性表头 */
+.table-header-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--table-header-fixed-bg, rgba(255, 255, 255, 0.1));
+  backdrop-filter: var(--table-header-blur, blur(20px));
+  -webkit-backdrop-filter: var(--table-header-blur, blur(20px));
+  border-bottom: 2px solid var(--table-header-fixed-border, rgba(255, 255, 255, 0.2));
+  box-shadow: var(--table-header-fixed-shadow, 0 2px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* 双层表头行 */
+.table-header-row-primary,
+.table-header-row-secondary {
+  position: sticky;
+  top: 0;
+  z-index: 31;
+  background: var(--table-header-fixed-bg, rgba(255, 255, 255, 0.1));
+  backdrop-filter: var(--table-header-blur, blur(20px));
+  -webkit-backdrop-filter: var(--table-header-blur, blur(20px));
+}
+
+/* 固定列单元格 */
+.table-cell-fixed {
+  position: sticky;
+  z-index: 15;
+  background: var(--table-fixed-background, var(--popup-content-background, rgba(255, 255, 255, 0.08)));
+  backdrop-filter: var(--glass-blur, blur(20px));
+  -webkit-backdrop-filter: var(--glass-blur, blur(20px));
+  border-right: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2)) !important;
+  transition: var(--transition-base, all 0.3s ease);
+  box-shadow: 2px 0 8px var(--glass-shadow-color, rgba(0, 0, 0, 0.1));
+}
+
+/* 表头中的固定列单元格 - 提高z-index层级 */
+.table-header-sticky .table-cell-fixed {
+  z-index: 50;
+  background: var(--table-fixed-background, var(--popup-header-background, rgba(255, 255, 255, 0.12)));
+  backdrop-filter: var(--glass-blur, blur(25px));
+  -webkit-backdrop-filter: var(--glass-blur, blur(25px));
+  color: var(--popup-text-primary, rgba(255, 255, 255, 0.95));
+  text-shadow: var(--popup-text-shadow, 0 1px 3px rgba(0, 0, 0, 0.8));
+  box-shadow: 2px 0 12px var(--glass-shadow-color, rgba(0, 0, 0, 0.15));
+}
+```
+
+#### **主题适配要求**
+
+1. **禁止硬编码颜色值**
+   - ❌ `background: rgba(255, 255, 255, 0.1)`
+   - ✅ `background: var(--table-header-fixed-bg, rgba(255, 255, 255, 0.1))`
+
+2. **使用主题变量系统**
+   ```css
+   /* 每个主题都应定义这些表格相关变量 */
+   --table-header-fixed-bg: /* 表头背景 */
+   --table-header-blur: /* 表头模糊效果 */
+   --table-header-fixed-border: /* 表头边框 */
+   --table-header-fixed-shadow: /* 表头阴影 */
+   --table-fixed-background: /* 固定列背景 */
+   --table-fixed-background-hover: /* 固定列悬浮背景 */
+   ```
+
+3. **Z-Index层级管理**
+   ```css
+   /* 建议的z-index层级 */
+   .table-header-sticky: z-index: 30;
+   .table-header-row-primary/secondary: z-index: 31;
+   .table-header-sticky .table-cell-fixed: z-index: 50;
+   .table-cell-fixed: z-index: 15;
+   ```
+
+#### **组件集成指南**
+
+**与Radix UI ScrollArea集成：**
+```tsx
+// 正确的ScrollArea配置
+<ScrollArea.Root className="consumption-table-scroll-root h-full">
+  <ScrollArea.Viewport className="consumption-table-viewport">
+    {/* 单表格内容 */}
+  </ScrollArea.Viewport>
+  
+  {/* 自定义滚动条 */}
+  <ScrollArea.Scrollbar orientation="vertical" className="consumption-scrollbar">
+    <ScrollArea.Thumb className="consumption-scrollbar-thumb" />
+  </ScrollArea.Scrollbar>
+  
+  <ScrollArea.Scrollbar orientation="horizontal" className="consumption-scrollbar">
+    <ScrollArea.Thumb className="consumption-scrollbar-thumb" />
+  </ScrollArea.Scrollbar>
+  
+  <ScrollArea.Corner className="consumption-scrollbar-corner" />
+</ScrollArea.Root>
+```
+
+**响应式设计要求：**
+```css
+/* 根据屏幕高度调整表格容器高度 */
+.consumption-table-scroll-root {
+  height: 500px; /* 默认高度 */
+}
+
+@media (max-height: 800px) {
+  .consumption-table-scroll-root {
+    height: 400px;
+  }
+}
+
+@media (max-height: 600px) {
+  .consumption-table-scroll-root {
+    height: 300px;
+  }
+}
+```
+
+#### **开发检查清单**
+
+**表格组件开发完成后，请确认：**
+- [ ] 使用单表格架构，避免双表格结构
+- [ ] 表头使用CSS sticky positioning，不用JavaScript计算
+- [ ] 所有样式使用CSS变量，支持主题切换
+- [ ] 固定列z-index层级正确设置
+- [ ] 在所有三种主题下测试显示效果
+- [ ] 表头在滚动时保持对齐，无空白区域
+- [ ] 响应式布局在不同屏幕尺寸下正常工作
+- [ ] ScrollArea组件正确集成，滚动条样式一致
+
+---
+
 ## 🚀 使用示例和最佳实践
 
 ### 主题开发完整示例
