@@ -88,7 +88,57 @@ INSERT INTO suppliers (id, name, contact_person, phone, email, address, created_
 ('sup-015', '3M办公用品', '李经理', '028-66778899', 'li@3m-office.com', '成都市高新区天府大道900号', '2024-01-01 10:00:00', '2024-01-01 10:00:00');
 
 -- ===============================================
--- 6. 库存物品数据 (inventory_items) - 扩展商品数据
+-- 6. 计量单位数据 (units) - 常用计量单位
+-- ===============================================
+INSERT INTO units (id, name, symbol, type, precision, description, is_active, created_at, updated_at) VALUES
+-- 数量单位
+('unit-001', '个', 'pcs', 'quantity', 0, '个数单位，用于计数商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-002', '件', 'piece', 'quantity', 0, '件数单位，用于计数商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-003', '套', 'set', 'quantity', 0, '套装单位，用于成套商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-004', '包', 'pack', 'quantity', 0, '包装单位，用于包装商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-005', '箱', 'box', 'quantity', 0, '箱装单位，用于大包装商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-006', '盒', 'case', 'quantity', 0, '盒装单位，用于盒装商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-007', '瓶', 'bottle', 'quantity', 0, '瓶装单位，用于瓶装商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-008', '罐', 'can', 'quantity', 0, '罐装单位，用于罐装商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-009', '袋', 'bag', 'quantity', 0, '袋装单位，用于袋装商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-010', '支', 'stick', 'quantity', 0, '支装单位，用于细长商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+
+-- 重量单位
+('unit-011', '克', 'g', 'weight', 2, '克重单位，用于轻量商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-012', '千克', 'kg', 'weight', 3, '千克重量单位，用于重量商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-013', '吨', 't', 'weight', 3, '吨重量单位，用于大重量商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-014', '磅', 'lb', 'weight', 2, '磅重量单位，英制重量单位', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+
+-- 长度单位
+('unit-015', '厘米', 'cm', 'length', 2, '厘米长度单位，用于测量长度', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-016', '米', 'm', 'length', 2, '米长度单位，用于测量长度', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-017', '毫米', 'mm', 'length', 2, '毫米长度单位，用于精确测量', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-018', '英寸', 'in', 'length', 2, '英寸长度单位，英制长度单位', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-019', '英尺', 'ft', 'length', 2, '英尺长度单位，英制长度单位', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+
+-- 体积单位
+('unit-020', '毫升', 'ml', 'volume', 2, '毫升体积单位，用于液体商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-021', '升', 'L', 'volume', 3, '升体积单位，用于液体商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-022', '立方厘米', 'cm³', 'volume', 2, '立方厘米体积单位，用于小体积商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-023', '立方米', 'm³', 'volume', 3, '立方米体积单位，用于大体积商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-024', '加仑', 'gal', 'volume', 3, '加仑体积单位，英制体积单位', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+
+-- 面积单位
+('unit-025', '平方厘米', 'cm²', 'area', 2, '平方厘米面积单位，用于小面积商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-026', '平方米', 'm²', 'area', 2, '平方米面积单位，用于面积商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-027', '平方英寸', 'in²', 'area', 2, '平方英寸面积单位，英制面积单位', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-028', '平方英尺', 'ft²', 'area', 2, '平方英尺面积单位，英制面积单位', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+
+-- 时间单位
+('unit-029', '秒', 's', 'time', 0, '秒时间单位，用于时间商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-030', '分钟', 'min', 'time', 0, '分钟时间单位，用于时间商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-031', '小时', 'h', 'time', 0, '小时时间单位，用于时间商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-032', '天', 'day', 'time', 0, '天时间单位，用于时间商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-033', '月', 'month', 'time', 0, '月时间单位，用于时间商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('unit-034', '年', 'year', 'time', 0, '年时间单位，用于时间商品', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00');
+
+-- ===============================================
+-- 7. 库存物品数据 (inventory_items) - 扩展商品数据
 -- ===============================================
 INSERT INTO inventory_items (id, name, description, sku, category, supplier, stock_quantity, reserved_quantity, unit_price, total_value, status, location, reorder_level, max_stock, created_at, updated_at) VALUES
 -- 电子产品类 (正常库存)
@@ -127,7 +177,7 @@ INSERT INTO inventory_items (id, name, description, sku, category, supplier, sto
 ('item-025', '罗技键盘 MX Keys', '罗技MX Keys无线键盘，背光版', 'LOGI-MXKEYS', '电子产品', '联想设备供应链', 65, 5, 799.00, 51935.00, 'in-stock', 'A04-002', 25, 250, '2024-01-01 10:00:00', '2024-12-05 13:15:00');
 
 -- ===============================================
--- 7. 库存变动记录数据 (inventory_transactions) - 扩展交易记录
+-- 8. 库存变动记录数据 (inventory_transactions) - 扩展交易记录
 -- ===============================================
 INSERT INTO inventory_transactions (id, item_id, transaction_type, quantity, unit_price, total_amount, reference_number, notes, created_at, created_by) VALUES
 -- 2024年1月交易记录
@@ -193,7 +243,7 @@ INSERT INTO inventory_transactions (id, item_id, transaction_type, quantity, uni
 ('trans-050', 'item-025', 'out', 15, 799.00, 11985.00, 'SO-2024-025', '办公设备采购', '2024-12-15 15:45:00', 'user-004');
 
 -- ===============================================
--- 8. 验证数据插入和统计信息
+-- 9. 验证数据插入和统计信息
 -- ===============================================
 SELECT '=== 完整数据插入统计 ===' as message;
 SELECT 'users' as table_name, COUNT(*) as record_count FROM users
@@ -205,6 +255,8 @@ UNION ALL
 SELECT 'categories' as table_name, COUNT(*) as record_count FROM categories
 UNION ALL
 SELECT 'suppliers' as table_name, COUNT(*) as record_count FROM suppliers
+UNION ALL
+SELECT 'units' as table_name, COUNT(*) as record_count FROM units
 UNION ALL
 SELECT 'inventory_items' as table_name, COUNT(*) as record_count FROM inventory_items
 UNION ALL
@@ -244,7 +296,13 @@ SELECT
     '仓库数量' as metric,
     COUNT(*) as value,
     '个仓库' as unit
-FROM warehouses;
+FROM warehouses
+UNION ALL
+SELECT
+    '计量单位数量' as metric,
+    COUNT(*) as value,
+    '个计量单位' as unit
+FROM units;
 
 -- ===============================================
 -- 库存状态分析
@@ -283,6 +341,36 @@ SELECT
 FROM inventory_items
 GROUP BY category
 ORDER BY total_value DESC;
+
+-- ===============================================
+-- 计量单位类型分析
+-- ===============================================
+SELECT '=== 计量单位类型分析 ===' as message;
+SELECT
+    CASE
+        WHEN type = 'quantity' THEN '数量单位'
+        WHEN type = 'weight' THEN '重量单位'
+        WHEN type = 'length' THEN '长度单位'
+        WHEN type = 'volume' THEN '体积单位'
+        WHEN type = 'area' THEN '面积单位'
+        WHEN type = 'time' THEN '时间单位'
+        ELSE type
+    END as unit_type_name,
+    COUNT(*) as count,
+    GROUP_CONCAT(symbol, ', ') as symbols
+FROM units
+WHERE is_active = 1
+GROUP BY type
+ORDER BY
+    CASE type
+        WHEN 'quantity' THEN 1
+        WHEN 'weight' THEN 2
+        WHEN 'length' THEN 3
+        WHEN 'volume' THEN 4
+        WHEN 'area' THEN 5
+        WHEN 'time' THEN 6
+        ELSE 7
+    END;
 
 -- ===============================================
 -- 供应商业绩统计
@@ -396,13 +484,15 @@ UNION ALL SELECT '2. 已插入4个仓库（主仓库+3个分仓库）' as info
 UNION ALL SELECT '3. 已插入10个客户（企业客户+个人客户）' as info
 UNION ALL SELECT '4. 已插入15个商品分类（含二级分类）' as info
 UNION ALL SELECT '5. 已插入15个供应商' as info
-UNION ALL SELECT '6. 已插入25个库存商品（含正常、低库存、缺货状态）' as info
-UNION ALL SELECT '7. 已插入50条库存交易记录（覆盖全年）' as info
-UNION ALL SELECT '8. 数据涵盖电子产品、家居用品、办公用品等多个分类' as info
-UNION ALL SELECT '9. 包含不同库存状态：正常库存、库存预警、缺货商品' as info
-UNION ALL SELECT '10. 交易记录包含入库、出库等操作类型' as info
-UNION ALL SELECT '11. 所有数据都有完整的时间戳和关联关系' as info
-UNION ALL SELECT '12. 支持完整的业务流程测试' as info;
+UNION ALL SELECT '6. 已插入34个常用计量单位（数量、重量、长度、体积、面积、时间）' as info
+UNION ALL SELECT '7. 已插入25个库存商品（含正常、低库存、缺货状态）' as info
+UNION ALL SELECT '8. 已插入50条库存交易记录（覆盖全年）' as info
+UNION ALL SELECT '9. 数据涵盖电子产品、家居用品、办公用品等多个分类' as info
+UNION ALL SELECT '10. 包含不同库存状态：正常库存、库存预警、缺货商品' as info
+UNION ALL SELECT '11. 交易记录包含入库、出库等操作类型' as info
+UNION ALL SELECT '12. 所有数据都有完整的时间戳和关联关系' as info
+UNION ALL SELECT '13. 计量单位支持精度设置和类型分类' as info
+UNION ALL SELECT '14. 支持完整的业务流程测试' as info;
 
 -- ===============================================
 -- 脚本执行完成

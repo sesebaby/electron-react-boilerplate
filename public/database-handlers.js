@@ -33,7 +33,15 @@ function setupDatabaseHandlers(ipcMain, db) {
     'db-update-warehouse',
     'db-delete-warehouse',
     'db-search-warehouses',
-    'db-get-default-warehouse'
+    'db-get-default-warehouse',
+    // Unit handlers
+    'db-get-all-units',
+    'db-get-unit-by-id',
+    'db-get-unit-by-symbol',
+    'db-create-unit',
+    'db-update-unit',
+    'db-delete-unit',
+    'db-search-units'
   ];
 
   handlersToRemove.forEach(handler => {
@@ -812,6 +820,293 @@ function setupDatabaseHandlers(ipcMain, db) {
       }));
       
       return { success: true, data: warehouses };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // ========== UNIT HANDLERS ==========
+
+  // Get all units
+  ipcMain.handle('db-get-all-units', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const query = `
+        SELECT 
+          id, name, symbol, type, precision, description,
+          is_active as isActive,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM units 
+        WHERE is_active = 1
+        ORDER BY type, name ASC
+      `;
+      
+      const stmt = db.prepare(query);
+      const rows = stmt.all();
+      
+      const units = rows.map(row => ({
+        ...row,
+        isActive: Boolean(row.isActive),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      }));
+      
+      return { success: true, data: units };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Get unit by ID
+  ipcMain.handle('db-get-unit-by-id', async (event, id) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const query = `
+        SELECT 
+          id, name, symbol, type, precision, description,
+          is_active as isActive,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM units 
+        WHERE id = ?
+      `;
+      
+      const stmt = db.prepare(query);
+      const row = stmt.get(id);
+      
+      if (row) {
+        const unit = {
+          ...row,
+          isActive: Boolean(row.isActive),
+          createdAt: new Date(row.createdAt),
+          updatedAt: new Date(row.updatedAt)
+        };
+        return { success: true, data: unit };
+      } else {
+        return { success: true, data: null };
+      }
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Get unit by symbol
+  ipcMain.handle('db-get-unit-by-symbol', async (event, symbol) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const query = `
+        SELECT 
+          id, name, symbol, type, precision, description,
+          is_active as isActive,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM units 
+        WHERE symbol = ? AND is_active = 1
+      `;
+      
+      const stmt = db.prepare(query);
+      const row = stmt.get(symbol);
+      
+      if (row) {
+        const unit = {
+          ...row,
+          isActive: Boolean(row.isActive),
+          createdAt: new Date(row.createdAt),
+          updatedAt: new Date(row.updatedAt)
+        };
+        return { success: true, data: unit };
+      } else {
+        return { success: true, data: null };
+      }
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Create unit
+  ipcMain.handle('db-create-unit', async (event, unit) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const id = uuidv4();
+      const now = new Date().toISOString();
+      
+      const query = `
+        INSERT INTO units (
+          id, name, symbol, type, precision, description, is_active, created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `;
+      
+      const stmt = db.prepare(query);
+      stmt.run(
+        id, 
+        unit.name, 
+        unit.symbol, 
+        unit.type, 
+        unit.precision || 2,
+        unit.description || '', 
+        unit.isActive !== false ? 1 : 0, 
+        now, 
+        now
+      );
+      
+      // Get the created unit
+      const getQuery = `
+        SELECT 
+          id, name, symbol, type, precision, description,
+          is_active as isActive,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM units 
+        WHERE id = ?
+      `;
+      
+      const getStmt = db.prepare(getQuery);
+      const row = getStmt.get(id);
+      
+      const createdUnit = {
+        ...row,
+        isActive: Boolean(row.isActive),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      };
+      
+      return { success: true, data: createdUnit };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Update unit
+  ipcMain.handle('db-update-unit', async (event, id, updates) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const updateFields = [];
+      const params = [];
+      
+      const fieldMap = {
+        name: 'name',
+        symbol: 'symbol',
+        type: 'type',
+        precision: 'precision',
+        description: 'description',
+        isActive: 'is_active'
+      };
+      
+      Object.entries(updates).forEach(([key, value]) => {
+        if (key in fieldMap && value !== undefined) {
+          updateFields.push(`${fieldMap[key]} = ?`);
+          // Convert boolean isActive to integer for SQLite
+          params.push(key === 'isActive' ? (value ? 1 : 0) : value);
+        }
+      });
+      
+      if (updateFields.length === 0) {
+        return { success: false, error: 'No valid fields to update' };
+      }
+      
+      updateFields.push('updated_at = ?');
+      params.push(new Date().toISOString());
+      params.push(id);
+      
+      const query = `UPDATE units SET ${updateFields.join(', ')} WHERE id = ?`;
+      const stmt = db.prepare(query);
+      const result = stmt.run(...params);
+      
+      if (result.changes === 0) {
+        return { success: false, error: 'Unit not found' };
+      }
+      
+      // Get the updated unit
+      const getQuery = `
+        SELECT 
+          id, name, symbol, type, precision, description,
+          is_active as isActive,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM units 
+        WHERE id = ?
+      `;
+      
+      const getStmt = db.prepare(getQuery);
+      const row = getStmt.get(id);
+      
+      const updatedUnit = {
+        ...row,
+        isActive: Boolean(row.isActive),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      };
+      
+      return { success: true, data: updatedUnit };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Delete unit
+  ipcMain.handle('db-delete-unit', async (event, id) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      // TODO: Check if unit is used by any products before deletion
+      
+      const stmt = db.prepare('DELETE FROM units WHERE id = ?');
+      const result = stmt.run(id);
+      
+      return { success: result.changes > 0 };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Search units
+  ipcMain.handle('db-search-units', async (event, searchTerm) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+      
+      const query = `
+        SELECT 
+          id, name, symbol, type, precision, description,
+          is_active as isActive,
+          created_at as createdAt,
+          updated_at as updatedAt
+        FROM units 
+        WHERE (name LIKE ? OR symbol LIKE ? OR description LIKE ?) AND is_active = 1
+        ORDER BY type, name ASC
+      `;
+      
+      const searchPattern = `%${searchTerm}%`;
+      const stmt = db.prepare(query);
+      const rows = stmt.all(searchPattern, searchPattern, searchPattern);
+      
+      const units = rows.map(row => ({
+        ...row,
+        isActive: Boolean(row.isActive),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      }));
+      
+      return { success: true, data: units };
     } catch (error) {
       return { success: false, error: error.message };
     }

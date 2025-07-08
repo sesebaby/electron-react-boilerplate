@@ -48,6 +48,15 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbDeleteWarehouse: (id) => ipcRenderer.invoke('db-delete-warehouse', id),
   dbSearchWarehouses: (searchTerm) => ipcRenderer.invoke('db-search-warehouses', searchTerm),
   
+  // Unit operations
+  dbGetAllUnits: () => ipcRenderer.invoke('db-get-all-units'),
+  dbGetUnitById: (id) => ipcRenderer.invoke('db-get-unit-by-id', id),
+  dbGetUnitBySymbol: (symbol) => ipcRenderer.invoke('db-get-unit-by-symbol', symbol),
+  dbCreateUnit: (unit) => ipcRenderer.invoke('db-create-unit', unit),
+  dbUpdateUnit: (id, updates) => ipcRenderer.invoke('db-update-unit', id, updates),
+  dbDeleteUnit: (id) => ipcRenderer.invoke('db-delete-unit', id),
+  dbSearchUnits: (searchTerm) => ipcRenderer.invoke('db-search-units', searchTerm),
+  
   // Platform info
   platform: process.platform,
   

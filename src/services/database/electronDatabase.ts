@@ -1,4 +1,5 @@
 import { InventoryItem } from '../../types/inventory';
+import { Unit } from '../../types/entities';
 
 // Electron renderer process database service
 // Uses IPC to communicate with main process for database operations
@@ -147,6 +148,84 @@ export class ElectronDatabase {
     const result = await window.electronAPI.dbGetAllTransactions();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get all transactions');
+    }
+    return result.data || [];
+  }
+
+  // ========== UNIT METHODS ==========
+
+  // Get all units
+  async getAllUnits(): Promise<Unit[]> {
+    this.checkInitialized();
+    const result = await (window.electronAPI as any).dbGetAllUnits();
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to get all units');
+    }
+    return result.data || [];
+  }
+
+  // Get unit by ID
+  async getUnitById(id: string): Promise<Unit | null> {
+    this.checkInitialized();
+    const result = await (window.electronAPI as any).dbGetUnitById(id);
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to get unit');
+    }
+    return result.data || null;
+  }
+
+  // Get unit by symbol
+  async getUnitBySymbol(symbol: string): Promise<Unit | null> {
+    this.checkInitialized();
+    const result = await (window.electronAPI as any).dbGetUnitBySymbol(symbol);
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to get unit by symbol');
+    }
+    return result.data || null;
+  }
+
+  // Create unit
+  async createUnit(unit: Omit<Unit, 'id' | 'createdAt' | 'updatedAt'>): Promise<Unit> {
+    this.checkInitialized();
+    const result = await (window.electronAPI as any).dbCreateUnit(unit);
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to create unit');
+    }
+    if (!result.data) {
+      throw new Error('No data returned from create operation');
+    }
+    return result.data;
+  }
+
+  // Update unit
+  async updateUnit(id: string, updates: Partial<Unit>): Promise<Unit> {
+    this.checkInitialized();
+    const result = await (window.electronAPI as any).dbUpdateUnit(id, updates);
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to update unit');
+    }
+    if (!result.data) {
+      throw new Error('No data returned from update operation');
+    }
+    return result.data;
+  }
+
+  // Delete unit
+  async deleteUnit(id: string): Promise<boolean> {
+    this.checkInitialized();
+    const result = await (window.electronAPI as any).dbDeleteUnit(id);
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to delete unit');
+    }
+    return true;
+  }
+
+  // Search units
+  async searchUnits(searchTerm: string): Promise<Unit[]> {
+    this.checkInitialized();
+    const result = await (window.electronAPI as any).dbSearchUnits(searchTerm);
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to search units');
     }
     return result.data || [];
   }

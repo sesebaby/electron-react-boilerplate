@@ -305,6 +305,19 @@ async function initializeDatabase() {
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
 
+      -- 计量单位表
+      CREATE TABLE IF NOT EXISTS units (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        symbol TEXT UNIQUE NOT NULL,
+        type TEXT NOT NULL CHECK(type IN ('weight', 'length', 'volume', 'quantity', 'area', 'time')),
+        precision INTEGER NOT NULL DEFAULT 2 CHECK(precision >= 0 AND precision <= 6),
+        description TEXT,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
       -- 库存交易记录表
       CREATE TABLE IF NOT EXISTS inventory_transactions (
         id TEXT PRIMARY KEY,
@@ -351,6 +364,8 @@ async function initializeDatabase() {
       CREATE INDEX IF NOT EXISTS idx_inventory_status ON inventory_items(status);
       CREATE INDEX IF NOT EXISTS idx_categories_parent ON categories(parent_id);
       CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
+      CREATE INDEX IF NOT EXISTS idx_units_symbol ON units(symbol);
+      CREATE INDEX IF NOT EXISTS idx_units_type ON units(type);
       CREATE INDEX IF NOT EXISTS idx_transactions_item ON inventory_transactions(item_id);
       CREATE INDEX IF NOT EXISTS idx_transactions_type ON inventory_transactions(transaction_type);
     `;
@@ -399,7 +414,7 @@ async function importMockDataIfEmpty() {
     console.log(`Mock data import completed: ${finalCount.count} items imported`);
     
     // 显示统计信息
-    const tables = ['categories', 'suppliers', 'inventory_items', 'inventory_transactions'];
+    const tables = ['categories', 'suppliers', 'units', 'inventory_items', 'inventory_transactions'];
     console.log('Import statistics:');
     for (const table of tables) {
       try {

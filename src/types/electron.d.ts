@@ -48,6 +48,15 @@ declare global {
       dbDeleteWarehouse: (id: string) => Promise<{ success: boolean; error?: string }>;
       dbSearchWarehouses: (searchTerm: string) => Promise<{ success: boolean; data?: any[]; error?: string }>;
       
+      // Unit operations
+      dbGetAllUnits: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
+      dbGetUnitById: (id: string) => Promise<{ success: boolean; data?: any; error?: string }>;
+      dbGetUnitBySymbol: (symbol: string) => Promise<{ success: boolean; data?: any; error?: string }>;
+      dbCreateUnit: (unit: any) => Promise<{ success: boolean; data?: any; error?: string }>;
+      dbUpdateUnit: (id: string, updates: any) => Promise<{ success: boolean; data?: any; error?: string }>;
+      dbDeleteUnit: (id: string) => Promise<{ success: boolean; error?: string }>;
+      dbSearchUnits: (searchTerm: string) => Promise<{ success: boolean; data?: any[]; error?: string }>;
+      
       // Platform info
       platform: string;
       

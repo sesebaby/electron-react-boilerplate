@@ -1,6 +1,7 @@
 import { Unit } from '../../types/entities';
 import { UnitSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
+import electronDatabase from '../database/electronDatabase';
 
 export class UnitService {
   private units: Map<string, Unit> = new Map();
@@ -8,8 +9,30 @@ export class UnitService {
   private nameIndex: Map<string, string> = new Map(); // Name -> ID mapping
 
   async initialize(): Promise<void> {
-    console.log('Unit service initialized');
-    // 系统启动时不创建任何默认计量单位数据
+    console.log('Unit service initializing...');
+    try {
+      await this.loadUnitsFromDatabase();
+      console.log(`Unit service initialized with ${this.units.size} units`);
+    } catch (error) {
+      console.error('Failed to load units from database:', error);
+      console.log('Unit service initialized with empty units (database not available)');
+    }
+  }
+
+  private async loadUnitsFromDatabase(): Promise<void> {
+    try {
+      const units = await electronDatabase.getAllUnits();
+      
+      for (const unit of units) {
+        this.units.set(unit.id, unit);
+        this.nameIndex.set(unit.name, unit.id);
+        this.symbolIndex.set(unit.symbol, unit.id);
+      }
+      console.log(`Loaded ${units.length} units from database`);
+    } catch (error) {
+      console.error('Error loading units from database:', error);
+      throw error;
+    }
   }
 
   async findAll(): Promise<Unit[]> {
@@ -63,6 +86,22 @@ export class UnitService {
       throw new Error(`单位数据验证失败: ${validation.errors?.join(', ')}`);
     }
 
+    // 持久化到数据库
+    try {
+      await electronDatabase.createUnit({
+        name: unit.name,
+        symbol: unit.symbol,
+        type: unit.type,
+        precision: unit.precision,
+        description: unit.description,
+        isActive: unit.isActive
+      });
+    } catch (error) {
+      console.error('Failed to save unit to database:', error);
+      throw new Error(`保存单位到数据库失败: ${error instanceof Error ? error.message : '未知错误'}`);
+    }
+
+    // 更新内存索引
     this.units.set(unit.id, unit);
     this.nameIndex.set(unit.name, unit.id);
     this.symbolIndex.set(unit.symbol, unit.id);
@@ -102,7 +141,22 @@ export class UnitService {
       throw new Error(`单位数据验证失败: ${validation.errors?.join(', ')}`);
     }
 
-    // 更新索引
+    // 持久化到数据库
+    try {
+      await electronDatabase.updateUnit(id, {
+        name: updatedUnit.name,
+        symbol: updatedUnit.symbol,
+        type: updatedUnit.type,
+        precision: updatedUnit.precision,
+        description: updatedUnit.description,
+        isActive: updatedUnit.isActive
+      });
+    } catch (error) {
+      console.error('Failed to update unit in database:', error);
+      throw new Error(`更新单位数据库失败: ${error instanceof Error ? error.message : '未知错误'}`);
+    }
+
+    // 更新内存索引
     if (data.name && data.name !== existingUnit.name) {
       this.nameIndex.delete(existingUnit.name);
       this.nameIndex.set(data.name, id);
@@ -127,6 +181,15 @@ export class UnitService {
     // TODO: 实现产品关联检查
     // 这里需要与ProductService配合检查
 
+    // 从数据库删除
+    try {
+      await electronDatabase.deleteUnit(id);
+    } catch (error) {
+      console.error('Failed to delete unit from database:', error);
+      throw new Error(`删除单位数据库失败: ${error instanceof Error ? error.message : '未知错误'}`);
+    }
+
+    // 从内存删除
     this.units.delete(id);
     this.nameIndex.delete(unit.name);
     this.symbolIndex.delete(unit.symbol);
