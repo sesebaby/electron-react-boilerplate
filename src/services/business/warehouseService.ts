@@ -8,7 +8,29 @@ export class WarehouseService {
 
   async initialize(): Promise<void> {
     console.log('Warehouse service initialized');
-    // 系统启动时不创建任何默认仓库数据
+    
+    // 检查是否存在仓库，如果没有则创建默认的"1号库"
+    const existingWarehouses = await this.findAll();
+    if (existingWarehouses.length === 0) {
+      await this.createDefaultWarehouse();
+    }
+  }
+
+  private async createDefaultWarehouse(): Promise<void> {
+    try {
+      const defaultWarehouse = await this.create({
+        code: 'WH001',
+        name: '1号库',
+        address: '默认仓库地址',
+        manager: '管理员',
+        isDefault: true
+      });
+      
+      console.log('Default warehouse "1号库" created:', defaultWarehouse.id);
+    } catch (error) {
+      console.error('Failed to create default warehouse:', error);
+      throw error;
+    }
   }
 
   async findAll(): Promise<Warehouse[]> {
@@ -183,18 +205,18 @@ export class WarehouseService {
 
   async getWarehouseStats(): Promise<{
     total: number;
+    active: number;
     hasDefault: boolean;
     withManager: number;
-    withPhone: number;
     withAddress: number;
   }> {
     const warehouses = await this.findAll();
     
     return {
       total: warehouses.length,
+      active: warehouses.length, // All warehouses are considered active
       hasDefault: warehouses.some(w => w.isDefault),
       withManager: warehouses.filter(w => w.manager).length,
-      withPhone: warehouses.filter(w => w.phone).length,
       withAddress: warehouses.filter(w => w.address).length
     };
   }
