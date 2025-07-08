@@ -5,6 +5,8 @@ import { InventoryService } from '../../services/inventory/inventoryService';
 import { InventoryItem } from '../../types/inventory';
 import { notificationHelper } from '../../utils/notificationHelper';
 import { SimpleNotification, NotificationType } from '../../types/simpleNotification';
+import { useAuth } from '../../hooks/useAuth';
+import { UserRole } from '../../types/entities';
 
 interface TopBarProps {
   currentPage: string;
@@ -75,6 +77,9 @@ export const TopBar: React.FC<TopBarProps> = ({
   const [notifications, setNotifications] = useState<SimpleNotification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isLoadingNotifications, setIsLoadingNotifications] = useState(false);
+
+  // 用户认证状态
+  const { user, logout, isAuthenticated } = useAuth();
 
   const notificationRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -260,6 +265,71 @@ export const TopBar: React.FC<TopBarProps> = ({
     
     // 显示导出提示
     notificationHelper.showInfo('数据导出', '正在导出当前页面数据...');
+  };
+
+  // 用户管理相关函数
+  const handleUserProfile = () => {
+    setShowUserMenu(false);
+    window.location.hash = 'users';
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  };
+
+  const handleSystemSettings = () => {
+    setShowUserMenu(false);
+    window.location.hash = 'settings';
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  };
+
+  const handleChangePassword = () => {
+    setShowUserMenu(false);
+    // 可以触发密码修改弹窗或导航到密码修改页面
+    window.dispatchEvent(new CustomEvent('change-password'));
+  };
+
+  const handleOperationLogs = () => {
+    setShowUserMenu(false);
+    window.location.hash = 'logs';
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  };
+
+  const handleLogout = async () => {
+    try {
+      setShowUserMenu(false);
+      await logout();
+      notificationHelper.showSuccess('退出登录', '您已成功退出登录');
+      // 导航到登录页面
+      window.location.hash = 'login';
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+    } catch (error) {
+      console.error('退出登录失败:', error);
+      notificationHelper.showError('退出登录', '退出登录失败，请重试');
+    }
+  };
+
+  // 获取用户角色显示名称
+  const getUserRoleName = (role: UserRole): string => {
+    switch (role) {
+      case UserRole.ADMIN:
+        return '系统管理员';
+      case UserRole.OPERATOR:
+        return '操作员';
+      default:
+        return '未知角色';
+    }
+  };
+
+  // 获取用户状态显示
+  const getUserStatusDisplay = (status: string): { text: string; color: string } => {
+    switch (status) {
+      case 'active':
+        return { text: '正常', color: 'var(--success-color)' };
+      case 'inactive':
+        return { text: '停用', color: 'var(--warning-color)' };
+      case 'locked':
+        return { text: '锁定', color: 'var(--error-color)' };
+      default:
+        return { text: '未知', color: 'var(--text-tertiary)' };
+    }
   };
 
   return (
@@ -533,11 +603,13 @@ export const TopBar: React.FC<TopBarProps> = ({
               type="button"
               className="glass-button flex items-center gap-2 px-3 py-2 rounded-lg transition-all"
               onClick={() => setShowUserMenu(!showUserMenu)}
+              disabled={!isAuthenticated}
               style={{
                 color: 'var(--text-primary)',
                 background: 'var(--card-background)',
                 border: 'var(--glass-border)',
-                textShadow: 'var(--popup-text-shadow)'
+                textShadow: 'var(--popup-text-shadow)',
+                opacity: isAuthenticated ? 1 : 0.5
               }}
             >
               <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>
@@ -546,14 +618,14 @@ export const TopBar: React.FC<TopBarProps> = ({
               <span className="text-sm font-medium hidden sm:block" style={{ 
                 color: 'var(--text-primary)',
                 textShadow: 'var(--popup-text-shadow)'
-              }}>管理员</span>
+              }}>{user?.nickname || '未登录'}</span>
               <span className="text-xs hidden sm:block" style={{ 
                 color: 'var(--text-tertiary)',
                 textShadow: 'var(--popup-text-shadow)'
               }}>⏷</span>
             </button>
 
-            {showUserMenu && (
+            {showUserMenu && isAuthenticated && user && (
               <>
                 <div className="absolute top-12 right-0 w-64 popup-dropdown z-50">
                   <div className="p-4 border-b border-white/10">
@@ -562,31 +634,42 @@ export const TopBar: React.FC<TopBarProps> = ({
                         👤
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="font-semibold truncate" style={{ color: 'var(--popup-text-primary)' }}>系统管理员</div>
-                        <div className="text-sm truncate" style={{ color: 'var(--popup-text-secondary)' }}>Administrator</div>
-                        <div className="text-xs truncate" style={{ color: 'var(--popup-text-tertiary)' }}>admin@system.com</div>
+                        <div className="font-semibold truncate" style={{ color: 'var(--popup-text-primary)' }}>
+                          {user?.nickname || '未登录用户'}
+                        </div>
+                        <div className="text-sm truncate" style={{ color: 'var(--popup-text-secondary)' }}>
+                          {user ? getUserRoleName(user.role) : ''}
+                        </div>
+                        <div className="text-xs truncate" style={{ color: 'var(--popup-text-tertiary)' }}>
+                          {user?.email || user?.username || ''}
+                        </div>
+                        {user && (
+                          <div className="text-xs truncate flex items-center gap-1" style={{ color: getUserStatusDisplay(user.status).color }}>
+                            状态: {getUserStatusDisplay(user.status).text}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
                   <div className="py-2">
-                    <button type="button" className="user-menu-item">
+                    <button type="button" className="user-menu-item" onClick={handleUserProfile}>
                       <span className="menu-icon">👤</span>
                       <span className="text-sm">个人资料</span>
                     </button>
-                    <button type="button" className="user-menu-item">
+                    <button type="button" className="user-menu-item" onClick={handleSystemSettings}>
                       <span className="menu-icon">⚙️</span>
                       <span className="text-sm">系统设置</span>
                     </button>
-                    <button type="button" className="user-menu-item">
+                    <button type="button" className="user-menu-item" onClick={handleChangePassword}>
                       <span className="menu-icon">🔐</span>
                       <span className="text-sm">修改密码</span>
                     </button>
-                    <button type="button" className="user-menu-item">
+                    <button type="button" className="user-menu-item" onClick={handleOperationLogs}>
                       <span className="menu-icon">📋</span>
                       <span className="text-sm">操作日志</span>
                     </button>
                     <div className="user-menu-divider"></div>
-                    <button type="button" className="user-menu-item logout">
+                    <button type="button" className="user-menu-item logout" onClick={handleLogout}>
                       <span className="menu-icon">🚪</span>
                       <span className="text-sm">退出登录</span>
                     </button>
