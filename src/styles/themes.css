@@ -2001,7 +2001,7 @@
   /* 表面和卡片背景 - 浅灰色系，统一配色设计 */
   --surface-background: oklch(0.85 0.01 258.065 / 0.98);  /* 浅灰色/98% - 高对比度 */
   --card-background: oklch(0.85 0.01 258.065 / 1);  /* 浅灰色/100% - 最高对比度，与输入框一致 */
-  --hover-background: oklch(0.85 0.01 258.065 / 1);  /* 保持浅灰色背景，与输入框一致 */
+  --hover-background: oklch(0.65 0.01 258.065 / 1);  /* 更深灰色背景 - hover时向黑色靠近 */
   --active-background: oklch(0.85 0.01 258.065 / 1);  /* 保持浅灰色背景，与输入框一致 */
 
   /* TopBar专用背景 - 灰色主题背景 */
@@ -2009,8 +2009,8 @@
   --topbar-shadow: 0 2px 8px oklch(0.208 0.042 265.755 / 0.3);  /* 深黑色阴影 */
 
   /* 表格锁定专用背景 - 灰色为主，与其他列保持一致 */
-  --table-fixed-background: oklch(0.85 0.01 258.065 / 0.98);
-  --table-fixed-background-hover: oklch(0.85 0.01 258.065 / 1);
+  --table-fixed-background: oklch(0.78 0.01 258.065 / 0.98);
+  --table-fixed-background-hover: oklch(0.72 0.01 258.065 / 1);
 
   /* 弹出窗体背景系统 - 浅灰色系，indigo装饰边框 */
   --popup-background: oklch(0.85 0.01 258.065 / 0.98);  /* 浅灰色/98% */
@@ -2067,10 +2067,12 @@
   --financial-indigo: oklch(0.511 0.262 276.966);  /* indigo-600 - 靛蓝色 */
 
   /* 表格固定表头系统变量 - 纯白背景+indigo装饰 */
-  --table-header-fixed-bg: oklch(0.92 0.008 258.065 / 0.95);  /* 浅灰色/95% - 减少刺眼感 */
+  --table-header-fixed-bg: oklch(0.78 0.01 258.065 / 1);  /* 更深灰色/100% - 与数据行一致且略深 */
   --table-header-blur: blur(10px);
   --table-header-fixed-border: oklch(0.585 0.233 277.117 / 0.4);  /* indigo-500边框 */
   --table-header-fixed-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.2);
+  --table-header-text: oklch(0.208 0.042 265.755);  /* gray-900 - 纯黑色表头文字 */
+  --table-header-text-secondary: oklch(0.372 0.044 257.287);  /* gray-700 - 深灰色次要文字 */
 
   /* 时间段背景色 - 保持功能性色彩 */
   --time-slot-morning-bg: oklch(0.769 0.188 70.08 / 0.15);  /* amber-500/15% - 早上 */
@@ -2096,7 +2098,7 @@
 
 [data-theme="minimal-monochrome"] .glass-select:focus,
 [data-theme="minimal-monochrome"] .glass-select:hover {
-  background: oklch(0.85 0.01 258.065 / 1);  /* 保持浅灰色背景，与input一致 */
+  background: oklch(0.65 0.01 258.065 / 1);  /* 更深灰色背景 - hover时向黑色靠近 */
   border-color: oklch(0.585 0.233 277.117 / 0.7);  /* 加强indigo边框 */
   box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1);  /* indigo焦点环 */
 }
@@ -2128,7 +2130,7 @@
 
 [data-theme="minimal-monochrome"] .glass-input:focus,
 [data-theme="minimal-monochrome"] .glass-input:hover {
-  background: oklch(0.85 0.01 258.065 / 1);  /* 保持浅灰色背景 */
+  background: oklch(0.65 0.01 258.065 / 1);  /* 更深灰色背景 - hover时向黑色靠近 */
   border-color: oklch(0.585 0.233 277.117 / 0.7);  /* 加强indigo边框 */
   box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1);  /* indigo焦点环 */
 }
@@ -2199,7 +2201,7 @@
 
 [data-theme="minimal-monochrome"] .glass-textarea:focus,
 [data-theme="minimal-monochrome"] .glass-textarea:hover {
-  background: oklch(0.554 0.02 258.065 / 0.8);  /* 深灰色hover */
+  background: oklch(0.65 0.01 258.065 / 1);  /* 更深灰色背景 - hover时向黑色靠近 */
   border-color: oklch(0.585 0.233 277.117 / 0.7);  /* 聚焦时加强indigo边框 */
   box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1);
 }
@@ -2268,4 +2270,46 @@
 [data-theme="minimal-monochrome"] .topbar-surface * {
   color: oklch(1 0 0 / 0.9) !important;  /* 白色文字适合深色背景 */
   text-shadow: none !important;
+}
+
+/* 黑白精简风主题通用表单控件统一样式 */
+[data-theme="minimal-monochrome"] .glass-button,
+[data-theme="minimal-monochrome"] .btn,
+[data-theme="minimal-monochrome"] button[class*="glass"] {
+  background: oklch(0.85 0.01 258.065 / 1) !important;  /* 与输入框一致的浅灰色背景 */
+  border: 1px solid oklch(0.585 0.233 277.117 / 0.3) !important;  /* indigo边框 */
+  color: oklch(0.208 0.042 265.755) !important;  /* 纯黑色文字 */
+  box-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.1) !important;
+}
+
+[data-theme="minimal-monochrome"] .glass-button:hover,
+[data-theme="minimal-monochrome"] .btn:hover,
+[data-theme="minimal-monochrome"] button[class*="glass"]:hover {
+  background: oklch(0.65 0.01 258.065 / 1) !important;  /* 更深灰色背景 - hover时向黑色靠近 */
+  border-color: oklch(0.585 0.233 277.117 / 0.7) !important;  /* 加强indigo边框 */
+}
+
+/* 确保所有通用的输入类组件都使用统一样式 */
+[data-theme="minimal-monochrome"] input[type="text"],
+[data-theme="minimal-monochrome"] input[type="email"],
+[data-theme="minimal-monochrome"] input[type="number"],
+[data-theme="minimal-monochrome"] input[type="password"],
+[data-theme="minimal-monochrome"] input[type="search"],
+[data-theme="minimal-monochrome"] select,
+[data-theme="minimal-monochrome"] textarea {
+  background: oklch(0.85 0.01 258.065 / 1) !important;  /* 与输入框一致的浅灰色背景 */
+  border: 1px solid oklch(0.585 0.233 277.117 / 0.3) !important;  /* indigo边框 */
+  color: oklch(0.208 0.042 265.755) !important;  /* 纯黑色文字 */
+  box-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.1) !important;
+}
+
+[data-theme="minimal-monochrome"] input[type="text"]:focus,
+[data-theme="minimal-monochrome"] input[type="email"]:focus,
+[data-theme="minimal-monochrome"] input[type="number"]:focus,
+[data-theme="minimal-monochrome"] input[type="password"]:focus,
+[data-theme="minimal-monochrome"] input[type="search"]:focus,
+[data-theme="minimal-monochrome"] select:focus,
+[data-theme="minimal-monochrome"] textarea:focus {
+  border-color: oklch(0.585 0.233 277.117 / 0.7) !important;  /* 加强indigo边框 */
+  box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1) !important;
 }

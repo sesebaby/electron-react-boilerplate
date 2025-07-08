@@ -373,7 +373,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                       fixed 
                       fixedPosition="left" 
                       fixedOffset={0}
-                      className="min-w-[200px] bg-white/10 backdrop-blur-lg"
+                      className="min-w-[200px]"
                     >
                       仓库信息
                     </TableHead>
