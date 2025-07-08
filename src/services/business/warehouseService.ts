@@ -1,18 +1,30 @@
 import { Warehouse } from '../../types/entities';
 import { WarehouseSchema, validateEntity } from '../../schemas/validation';
-import { v4 as uuidv4 } from 'uuid';
+
+// Electron IPC for database operations
+const { ipcRenderer } = window.require('electron');
 
 export class WarehouseService {
-  private warehouses: Map<string, Warehouse> = new Map();
-  private codeIndex: Map<string, string> = new Map(); // Code -> ID mapping
+  private initialized = false;
 
   async initialize(): Promise<void> {
+    if (this.initialized) {
+      return;
+    }
+    
     console.log('Warehouse service initialized');
     
-    // 检查是否存在仓库，如果没有则创建默认的"1号库"
-    const existingWarehouses = await this.findAll();
-    if (existingWarehouses.length === 0) {
-      await this.createDefaultWarehouse();
+    try {
+      // 检查是否存在仓库，如果没有则创建默认的"1号库"
+      const existingWarehouses = await this.findAll();
+      if (existingWarehouses.length === 0) {
+        await this.createDefaultWarehouse();
+      }
+      
+      this.initialized = true;
+    } catch (error) {
+      console.error('Failed to initialize warehouse service:', error);
+      throw error;
     }
   }
 
@@ -34,83 +46,127 @@ export class WarehouseService {
   }
 
   async findAll(): Promise<Warehouse[]> {
-    return Array.from(this.warehouses.values());
+    try {
+      const result = await ipcRenderer.invoke('db-get-all-warehouses');
+      if (result.success) {
+        return result.data || [];
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Failed to get all warehouses:', error);
+      return [];
+    }
   }
 
   async findById(id: string): Promise<Warehouse | null> {
-    return this.warehouses.get(id) || null;
+    try {
+      const result = await ipcRenderer.invoke('db-get-warehouse-by-id', id);
+      if (result.success) {
+        return result.data;
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Failed to get warehouse by id:', error);
+      return null;
+    }
   }
 
   async findByCode(code: string): Promise<Warehouse | null> {
-    const id = this.codeIndex.get(code);
-    return id ? this.warehouses.get(id) || null : null;
+    try {
+      const result = await ipcRenderer.invoke('db-get-warehouse-by-code', code);
+      if (result.success) {
+        return result.data;
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Failed to get warehouse by code:', error);
+      return null;
+    }
   }
 
   async findDefault(): Promise<Warehouse | null> {
-    const warehouses = Array.from(this.warehouses.values());
-    return warehouses.find(warehouse => warehouse.isDefault) || null;
+    try {
+      const result = await ipcRenderer.invoke('db-get-default-warehouse');
+      if (result.success) {
+        return result.data;
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Failed to get default warehouse:', error);
+      return null;
+    }
   }
 
   async search(searchTerm: string): Promise<Warehouse[]> {
-    const term = searchTerm.toLowerCase().trim();
+    const term = searchTerm.trim();
     if (!term) return this.findAll();
 
-    return Array.from(this.warehouses.values()).filter(warehouse =>
-      warehouse.name.toLowerCase().includes(term) ||
-      warehouse.code.toLowerCase().includes(term) ||
-      warehouse.address?.toLowerCase().includes(term) ||
-      warehouse.manager?.toLowerCase().includes(term)
-    );
+    try {
+      const result = await ipcRenderer.invoke('db-search-warehouses', term);
+      if (result.success) {
+        return result.data || [];
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Failed to search warehouses:', error);
+      return [];
+    }
   }
 
   async create(data: Omit<Warehouse, 'id' | 'createdAt' | 'updatedAt'>): Promise<Warehouse> {
     // 检查编码唯一性
-    if (this.codeIndex.has(data.code)) {
+    const existingWarehouse = await this.findByCode(data.code);
+    if (existingWarehouse) {
       throw new Error(`仓库编码已存在: ${data.code}`);
     }
 
-    // 如果设置为默认仓库，需要取消其他仓库的默认状态
-    if (data.isDefault) {
-      await this.clearDefaultStatus();
-    }
-
-    const warehouse: Warehouse = {
+    // 创建临时warehouse对象用于验证
+    const tempWarehouse: Warehouse = {
       ...data,
-      id: uuidv4(),
+      id: 'temp-id',
       createdAt: new Date(),
       updatedAt: new Date()
     };
 
     // 验证数据
-    const validation = validateEntity(WarehouseSchema, warehouse);
+    const validation = validateEntity(WarehouseSchema, tempWarehouse);
     if (!validation.success) {
       throw new Error(`仓库数据验证失败: ${validation.errors?.join(', ')}`);
     }
 
-    this.warehouses.set(warehouse.id, warehouse);
-    this.codeIndex.set(warehouse.code, warehouse.id);
-
-    return warehouse;
+    try {
+      const result = await ipcRenderer.invoke('db-create-warehouse', data);
+      if (result.success) {
+        return result.data;
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Failed to create warehouse:', error);
+      throw error;
+    }
   }
 
   async update(id: string, data: Partial<Omit<Warehouse, 'id' | 'createdAt' | 'updatedAt'>>): Promise<Warehouse> {
-    const existingWarehouse = this.warehouses.get(id);
+    const existingWarehouse = await this.findById(id);
     if (!existingWarehouse) {
       throw new Error(`仓库不存在: ${id}`);
     }
 
     // 检查编码唯一性（如果更新了编码）
     if (data.code && data.code !== existingWarehouse.code) {
-      if (this.codeIndex.has(data.code)) {
+      const warehouseWithSameCode = await this.findByCode(data.code);
+      if (warehouseWithSameCode) {
         throw new Error(`仓库编码已存在: ${data.code}`);
       }
     }
 
-    // 如果设置为默认仓库，需要取消其他仓库的默认状态
-    if (data.isDefault === true) {
-      await this.clearDefaultStatus(id);
-    }
-
+    // 创建完整的warehouse对象用于验证
     const updatedWarehouse: Warehouse = {
       ...existingWarehouse,
       ...data,
@@ -123,18 +179,21 @@ export class WarehouseService {
       throw new Error(`仓库数据验证失败: ${validation.errors?.join(', ')}`);
     }
 
-    // 更新编码索引
-    if (data.code && data.code !== existingWarehouse.code) {
-      this.codeIndex.delete(existingWarehouse.code);
-      this.codeIndex.set(data.code, id);
+    try {
+      const result = await ipcRenderer.invoke('db-update-warehouse', id, data);
+      if (result.success) {
+        return result.data;
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Failed to update warehouse:', error);
+      throw error;
     }
-
-    this.warehouses.set(id, updatedWarehouse);
-    return updatedWarehouse;
   }
 
   async delete(id: string): Promise<boolean> {
-    const warehouse = this.warehouses.get(id);
+    const warehouse = await this.findById(id);
     if (!warehouse) {
       return false;
     }
@@ -148,19 +207,16 @@ export class WarehouseService {
     // TODO: 实现库存关联检查
     // 这里需要与InventoryService配合检查
 
-    this.warehouses.delete(id);
-    this.codeIndex.delete(warehouse.code);
-    return true;
-  }
-
-  private async clearDefaultStatus(excludeId?: string): Promise<void> {
-    for (const [id, warehouse] of this.warehouses) {
-      if (id !== excludeId && warehouse.isDefault) {
-        const updated = { ...warehouse, isDefault: false, updatedAt: new Date() };
-        this.warehouses.set(id, updated);
-      }
+    try {
+      const result = await ipcRenderer.invoke('db-delete-warehouse', id);
+      return result.success;
+    } catch (error) {
+      console.error('Failed to delete warehouse:', error);
+      throw error;
     }
   }
+
+  // Note: clearDefaultStatus is now handled automatically by the database handlers
 
   async setDefault(id: string): Promise<Warehouse> {
     const warehouse = await this.findById(id);
@@ -172,8 +228,8 @@ export class WarehouseService {
   }
 
   async validateCode(code: string, excludeId?: string): Promise<boolean> {
-    const existingId = this.codeIndex.get(code);
-    return !existingId || existingId === excludeId;
+    const existingWarehouse = await this.findByCode(code);
+    return !existingWarehouse || existingWarehouse.id === excludeId;
   }
 
   async getActiveWarehouses(): Promise<Warehouse[]> {
@@ -220,71 +276,6 @@ export class WarehouseService {
       withAddress: warehouses.filter(w => w.address).length
     };
   }
-
-  async getWarehouseCapacityInfo(warehouseId: string): Promise<{
-    warehouse: Warehouse;
-    totalProducts: number;
-    totalValue: number;
-    // 这些数据需要与库存服务配合获取
-  } | null> {
-    const warehouse = await this.findById(warehouseId);
-    if (!warehouse) {
-      return null;
-    }
-
-    // TODO: 实现与库存服务的集成
-    // 目前返回基础信息
-    return {
-      warehouse,
-      totalProducts: 0,
-      totalValue: 0
-    };
-  }
-
-  async transferWarehouseManager(fromWarehouseId: string, toWarehouseId: string): Promise<{
-    from: Warehouse;
-    to: Warehouse;
-  }> {
-    const fromWarehouse = await this.findById(fromWarehouseId);
-    const toWarehouse = await this.findById(toWarehouseId);
-
-    if (!fromWarehouse || !toWarehouse) {
-      throw new Error('仓库不存在');
-    }
-
-    const fromManager = fromWarehouse.manager;
-    const toManager = toWarehouse.manager;
-
-    const updatedFrom = await this.update(fromWarehouseId, { manager: toManager });
-    const updatedTo = await this.update(toWarehouseId, { manager: fromManager });
-
-    return {
-      from: updatedFrom,
-      to: updatedTo
-    };
-  }
-
-  async getWarehousesByManager(manager: string): Promise<Warehouse[]> {
-    return Array.from(this.warehouses.values()).filter(
-      warehouse => warehouse.manager === manager
-    );
-  }
-
-  async ensureDefaultWarehouse(): Promise<Warehouse | null> {
-    const defaultWarehouse = await this.findDefault();
-    if (defaultWarehouse) {
-      return defaultWarehouse;
-    }
-
-    // 如果没有默认仓库，将第一个仓库设为默认
-    const warehouses = await this.findAll();
-    if (warehouses.length > 0) {
-      return this.setDefault(warehouses[0].id);
-    }
-
-    // 如果没有任何仓库，返回null而不是自动创建
-    return null;
-  }
 }
 
-export default new WarehouseService();
+export const warehouseService = new WarehouseService();
