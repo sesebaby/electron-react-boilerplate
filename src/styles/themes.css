@@ -2067,7 +2067,7 @@
   --financial-indigo: oklch(0.511 0.262 276.966);  /* indigo-600 - 靛蓝色 */
 
   /* 表格固定表头系统变量 - 纯白背景+indigo装饰 */
-  --table-header-fixed-bg: oklch(1 0 0 / 0.98);  /* 纯白色/98% */
+  --table-header-fixed-bg: oklch(0.92 0.008 258.065 / 0.95);  /* 浅灰色/95% - 减少刺眼感 */
   --table-header-blur: blur(10px);
   --table-header-fixed-border: oklch(0.585 0.233 277.117 / 0.4);  /* indigo-500边框 */
   --table-header-fixed-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.2);
