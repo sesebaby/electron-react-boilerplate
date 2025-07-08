@@ -56,6 +56,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbUpdateUnit: (id, updates) => ipcRenderer.invoke('db-update-unit', id, updates),
   dbDeleteUnit: (id) => ipcRenderer.invoke('db-delete-unit', id),
   dbSearchUnits: (searchTerm) => ipcRenderer.invoke('db-search-units', searchTerm),
+  dbReimportUnits: () => ipcRenderer.invoke('db-reimport-units'),
   
   // Platform info
   platform: process.platform,

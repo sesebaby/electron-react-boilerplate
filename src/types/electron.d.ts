@@ -56,6 +56,7 @@ declare global {
       dbUpdateUnit: (id: string, updates: any) => Promise<{ success: boolean; data?: any; error?: string }>;
       dbDeleteUnit: (id: string) => Promise<{ success: boolean; error?: string }>;
       dbSearchUnits: (searchTerm: string) => Promise<{ success: boolean; data?: any[]; error?: string }>;
+      dbReimportUnits: () => Promise<{ success: boolean; message?: string; count?: number; error?: string }>;
       
       // Platform info
       platform: string;

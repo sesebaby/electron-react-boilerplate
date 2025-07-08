@@ -216,6 +216,28 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     }
   };
 
+  const handleReimportUnits = async () => {
+    setLoading(true);
+    try {
+      if (window.electronAPI && window.electronAPI.dbReimportUnits) {
+        const result = await window.electronAPI.dbReimportUnits();
+        if (result.success) {
+          await loadUnits(); // 重新加载单位数据
+          showAlert('重新导入成功', result.message || '单位数据已重新导入', 'success');
+        } else {
+          showAlert('重新导入失败', result.error || '重新导入单位数据失败', 'error');
+        }
+      } else {
+        showAlert('功能不可用', '此功能仅在Electron环境中可用', 'warning');
+      }
+    } catch (error) {
+      console.error('重新导入单位失败:', error);
+      showAlert('重新导入失败', error instanceof Error ? error.message : '重新导入单位数据失败', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleUnitSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!unitForm.name.trim() || !unitForm.symbol.trim()) {
@@ -677,6 +699,7 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
           onUnitSubmit={handleUnitSubmit}
           onEditUnit={handleEditUnit}
           onDeleteUnit={handleDeleteUnit}
+          onReimportUnits={handleReimportUnits}
         />
       )}
 

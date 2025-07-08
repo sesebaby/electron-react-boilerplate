@@ -31,6 +31,7 @@ interface UnitManagementTabProps {
   onUnitSubmit: (e: React.FormEvent) => Promise<void>;
   onEditUnit: (unit: Unit) => void;
   onDeleteUnit: (unitId: string) => Promise<void>;
+  onReimportUnits?: () => Promise<void>;
 }
 
 const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
@@ -42,7 +43,8 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
   setUnitForm,
   onUnitSubmit,
   onEditUnit,
-  onDeleteUnit
+  onDeleteUnit,
+  onReimportUnits
 }) => {
   const unitTypeOptions = [
     { value: UnitType.WEIGHT, label: '重量' },
@@ -64,13 +66,24 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
           <h3 className="text-xl font-semibold text-white">单位管理</h3>
           <p className="text-white/70 text-sm mt-1">管理系统中的计量单位</p>
         </div>
-        <GlassButton
-          onClick={() => setShowUnitForm(true)}
-          variant="primary"
-        >
-          <span className="mr-2">➕</span>
-          添加单位
-        </GlassButton>
+        <div className="flex gap-3">
+          {onReimportUnits && (
+            <GlassButton
+              onClick={onReimportUnits}
+              variant="secondary"
+            >
+              <span className="mr-2">🔄</span>
+              重新导入单位
+            </GlassButton>
+          )}
+          <GlassButton
+            onClick={() => setShowUnitForm(true)}
+            variant="primary"
+          >
+            <span className="mr-2">➕</span>
+            添加单位
+          </GlassButton>
+        </div>
       </div>
 
       {/* 单位表格 */}
