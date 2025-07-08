@@ -994,6 +994,44 @@
   box-shadow: 2px 0 12px var(--glass-shadow-color, rgba(0, 0, 0, 0.15));
 }
 
+/* ===== 表格其他元素主题适配类 ===== */
+.table-code-background {
+  background: var(--surface-background);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+}
+
+.table-footer-background {
+  background: var(--card-background);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+.table-total-background {
+  background: var(--surface-background);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+.table-header-section {
+  background: var(--card-background);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+.table-summary-background {
+  background: var(--active-background);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+.table-cell-fixed-background {
+  background: var(--surface-background);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
 /* ===== 基础玻璃感组件类 ===== */
 .glass-surface {
   background: var(--surface-background);
@@ -1960,9 +1998,9 @@
   /* 应用背景 - gray-600 到 gray-700 深灰色渐变，专业商务感 */
   --app-background: linear-gradient(135deg, oklch(0.646 0.026 252.894) 0%, oklch(0.583 0.024 252.894) 100%);
 
-  /* 表面和卡片背景 - 纯白色系，高对比度设计 */
-  --surface-background: oklch(1 0 0 / 0.98);  /* 纯白色/98% - 高对比度 */
-  --card-background: oklch(1 0 0 / 1);  /* 纯白色/100% - 最高对比度 */
+  /* 表面和卡片背景 - 浅灰色系，高对比度设计 */
+  --surface-background: oklch(0.85 0.01 258.065 / 0.98);  /* 浅灰色/98% - 高对比度 */
+  --card-background: oklch(0.85 0.01 258.065 / 1);  /* 浅灰色/100% - 最高对比度 */
   --hover-background: oklch(0.554 0.02 258.065 / 0.8);  /* gray-500/80% - 深色hover背景 */
   --active-background: oklch(0.446 0.043 257.281 / 0.85);  /* gray-600/85% - 深色active背景 */
 
@@ -1974,10 +2012,10 @@
   --table-fixed-background: oklch(1 0 0 / 0.98);
   --table-fixed-background-hover: oklch(1 0 0 / 1);
 
-  /* 弹出窗体背景系统 - 纯白色系，indigo装饰边框 */
-  --popup-background: oklch(1 0 0 / 0.98);  /* 纯白色/98% */
-  --popup-header-background: oklch(1 0 0 / 1);  /* 纯白色/100% */
-  --popup-content-background: oklch(1 0 0 / 0.98);  /* 纯白色/98% */
+  /* 弹出窗体背景系统 - 浅灰色系，indigo装饰边框 */
+  --popup-background: oklch(0.85 0.01 258.065 / 0.98);  /* 浅灰色/98% */
+  --popup-header-background: oklch(0.85 0.01 258.065 / 1);  /* 浅灰色/100% */
+  --popup-content-background: oklch(0.85 0.01 258.065 / 0.98);  /* 浅灰色/98% */
   --popup-blur: blur(10px);  /* 轻微模糊 */
   --popup-border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo-500边框装饰 */
   --popup-shadow: 0 20px 60px oklch(0.583 0.024 252.894 / 0.3);  /* 深灰色阴影 */
@@ -2048,7 +2086,7 @@
 
 /* 黑白精简风主题专用控件样式 - 纯白背景+黑色文字+indigo装饰 */
 [data-theme="minimal-monochrome"] .glass-select {
-  background: oklch(1 0 0 / 1);  /* 纯白色背景 */
+  background: oklch(0.85 0.01 258.065 / 1);  /* 浅灰色背景，与输入框一致 */
   backdrop-filter: var(--popup-blur);
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo-500边框 */
   color: oklch(0.208 0.042 265.755);  /* 纯黑色文字 */
@@ -2065,7 +2103,7 @@
 
 /* 黑白精简风主题下拉框选项样式 - 纯白+黑字 */
 [data-theme="minimal-monochrome"] .glass-select option {
-  background: oklch(1 0 0 / 1) !important;  /* 纯白色背景 */
+  background: oklch(0.85 0.01 258.065 / 1) !important;  /* 浅灰色背景，与输入框一致 */
   color: oklch(0.208 0.042 265.755) !important;  /* 纯黑色文字 */
   padding: 8px 12px;
   border: none;
@@ -2080,7 +2118,7 @@
 
 /* 黑白精简风主题弹出下拉框样式 - 专业indigo装饰 */
 [data-theme="minimal-monochrome"] .popup-dropdown {
-  background: oklch(0.984 0.003 247.858 / 0.98) !important;  /* 保持浅色弹窗背景 */
+  background: oklch(0.85 0.01 258.065 / 0.98) !important;  /* 浅灰色弹窗背景，与输入框一致 */
   backdrop-filter: blur(10px) !important;
   border: 1px solid oklch(0.585 0.233 277.117 / 0.4) !important;  /* indigo-500边框 */
   box-shadow: 0 20px 60px oklch(0.583 0.024 252.894 / 0.3) !important;
@@ -2092,7 +2130,7 @@
 }
 
 [data-theme="minimal-monochrome"] .theme-option {
-  background: oklch(0.984 0.003 247.858 / 0.9) !important;  /* 柔和灰白背景 */
+  background: oklch(0.85 0.01 258.065 / 0.9) !important;  /* 浅灰色背景，与输入框一致 */
   color: oklch(0.208 0.042 265.755) !important;  /* 纯黑色文字 */
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3) !important;  /* indigo-500边框 */
 }
@@ -2119,7 +2157,7 @@
 
 [data-theme="minimal-monochrome"] .close-button {
   color: oklch(0.372 0.044 257.287) !important;  /* 深灰色文字 */
-  background: oklch(0.984 0.003 247.858 / 0.9);  /* 柔和灰白背景 */
+  background: oklch(0.85 0.01 258.065 / 0.9);  /* 浅灰色背景，与输入框一致 */
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo边框 */
   text-shadow: none;  /* 移除阴影 */
 }
@@ -2130,7 +2168,7 @@
 }
 
 [data-theme="minimal-monochrome"] .glass-textarea {
-  background: oklch(0.984 0.003 247.858 / 0.95);  /* 柔和灰白背景 */
+  background: oklch(0.85 0.01 258.065 / 0.95);  /* 浅灰色背景，与输入框一致 */
   backdrop-filter: blur(8px);
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo-500边框 */
   color: oklch(0.208 0.042 265.755);  /* 纯黑色文字 */

@@ -93,7 +93,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
             fixed 
             fixedPosition="left" 
             fixedOffset={0}
-            className="min-w-[60px] text-center border-r border-white/20 bg-white/10 backdrop-blur-lg"
+            className="min-w-[60px] text-center border-r border-white/20 table-header-fixed"
             rowSpan={2}
           >
             序号
@@ -102,7 +102,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
             fixed 
             fixedPosition="left" 
             fixedOffset="60px"
-            className="min-w-[200px] text-left border-r border-white/20 bg-white/10 backdrop-blur-lg"
+            className="min-w-[200px] text-left border-r border-white/20 table-header-fixed"
             rowSpan={2}
           >
             物品名称
@@ -111,7 +111,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
             fixed 
             fixedPosition="left" 
             fixedOffset="260px"
-            className="min-w-[100px] text-center border-r border-white/20 bg-white/10 backdrop-blur-lg"
+            className="min-w-[100px] text-center border-r border-white/20 table-header-fixed"
             rowSpan={2}
           >
             一级分类
@@ -120,7 +120,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
             fixed 
             fixedPosition="left" 
             fixedOffset="360px"
-            className="min-w-[100px] text-center border-r-2 border-white/30 bg-white/10 backdrop-blur-lg"
+            className="min-w-[100px] text-center border-r-2 border-white/30 table-header-fixed"
             rowSpan={2}
           >
             二级分类
@@ -347,7 +347,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
     });
 
     return (
-      <TableRow className="font-semibold bg-white/5">
+      <TableRow className="font-semibold table-total-background">
         {/* 固定列 */}
         <TableCell 
           fixed 
@@ -454,12 +454,12 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
     <Card className={`glass-card h-full max-h-full flex flex-col overflow-hidden ${className}`}>
       <CardContent className="p-0 flex-1 flex flex-col min-h-0 max-h-full">
         {/* 表格标题 */}
-        <div className="flex-shrink-0 p-4 border-b border-white/20 bg-white/5">
+        <div className="flex-shrink-0 p-4 border-b border-white/20 table-header-section">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white/90">
+            <h3 className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>
               出入库汇总明细表
             </h3>
-            <span className="text-sm text-white/70">
+            <span className="text-sm" style={{color: 'var(--text-secondary)'}}>
               共 {data.length} 条记录
             </span>
           </div>

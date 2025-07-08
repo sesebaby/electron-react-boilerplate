@@ -107,14 +107,14 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
     const { totals, config, dateColumns } = data;
     
     return (
-      <tr className="border-t-2 border-white/30 bg-white/10 font-semibold">
+      <tr className="border-t-2 border-white/30 table-total-background font-semibold">
         {/* 合计标签 */}
         <td className="table-cell-fixed left-0 z-20 px-4 py-3 border-r border-white/30">
-          <div className="flex items-center text-white/95 drop-shadow-lg">
+          <div className="flex items-center drop-shadow-lg" style={{color: 'var(--text-primary)'}}>
             <span className="mr-2 text-yellow-300">📊</span>
             <div className="flex flex-col">
               <span className="font-bold">总计</span>
-              <span className="text-xs text-white/70">
+              <span className="text-xs" style={{color: 'var(--text-secondary)'}}>
                 {ConsumptionCalculator.getDisplayUnit(
                   config.displayMode, 
                   '个', 
@@ -159,7 +159,7 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
         })}
 
         {/* 总计列 */}
-        <td className="px-4 py-3 text-center font-bold text-white/95 bg-white/20 border-l border-white/40 drop-shadow-lg">
+        <td className="px-4 py-3 text-center font-bold border-l border-white/40 drop-shadow-lg table-summary-background" style={{color: 'var(--text-primary)'}}>
           {ConsumptionCalculator.formatDisplayValue(
             ConsumptionCalculator.getDisplayValue(totals.grandTotal, config.displayMode),
             config.displayMode
@@ -254,8 +254,8 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
       </ScrollArea.Root>
 
       {/* 表格信息 */}
-      <div className="px-4 py-3 border-t border-white/20 bg-white/5">
-        <div className="flex justify-between items-center text-sm text-white/70">
+      <div className="px-4 py-3 border-t border-white/20 table-footer-background">
+        <div className="flex justify-between items-center text-sm" style={{color: 'var(--text-secondary)'}}>
           <span>
             共 {data.categories.length} 个分类，
             {data.categories.reduce((sum, cat) => sum + cat.products.length, 0)} 个产品

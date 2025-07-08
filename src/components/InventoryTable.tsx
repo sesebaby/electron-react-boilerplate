@@ -199,7 +199,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                   fixed 
                   fixedPosition="left" 
                   fixedOffset={0}
-                  className="min-w-[300px] bg-white/10 backdrop-blur-lg"
+                  className="min-w-[300px] table-header-fixed"
                 >
                   商品详情
                 </TableHead>
@@ -232,7 +232,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                     </div>
                   </TableCell>
                   <TableCell className="min-w-[140px]">
-                    <code className="text-sm bg-white/10 px-2 py-1 rounded" style={{color: 'var(--text-primary)'}}>
+                    <code className="text-sm px-2 py-1 rounded table-code-background" style={{color: 'var(--text-primary)'}}>
                       {item.sku}
                     </code>
                   </TableCell>
@@ -276,7 +276,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
         </TableContainer>
         
         {/* 分页部分 */}
-        <div className="flex-shrink-0 border-t border-white/20 bg-white/5 backdrop-blur-sm">
+        <div className="flex-shrink-0 border-t border-white/20 table-footer-background">
           <div className="flex flex-col md:flex-row items-center justify-between px-2 md:px-4 py-2 md:py-3 gap-2">
             <div className="text-xs md:text-sm text-white/70 text-center md:text-left">
               显示第 {((currentPage - 1) * itemsPerPage) + 1} 到 {Math.min(currentPage * itemsPerPage, totalItems)} 条，共 {totalItems} 条记录

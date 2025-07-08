@@ -64,7 +64,8 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
       return `${baseStyle} text-white/40 hover:bg-white/5`;
     }
     
-    return `${baseStyle} text-white/90 hover:bg-white/10 ${timeSlotStyle}`;
+    // 文字颜色通过CSS变量控制
+    return `${baseStyle} hover:bg-white/10 ${timeSlotStyle}`;
   };
 
   /**
@@ -167,7 +168,7 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
         })}
 
         {/* 合计列 */}
-        <td className="px-4 py-3 text-center font-semibold text-white/90 bg-white/10 border-l border-white/30">
+        <td className="px-4 py-3 text-center font-semibold border-l border-white/30 table-cell-fixed" style={{color: 'var(--text-primary)'}}>
           {formatValue(ConsumptionCalculator.getDisplayValue(categoryData.rowTotal, displayMode))}
         </td>
       </tr>
@@ -245,7 +246,7 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
         })}
 
         {/* 合计列 */}
-        <td className="px-4 py-3 text-center font-medium text-white/80 bg-white/5 border-l border-white/30">
+        <td className="px-4 py-3 text-center font-medium border-l border-white/30 table-cell-fixed-background" style={{color: 'var(--text-primary)'}}>
           {formatValue(ConsumptionCalculator.getDisplayValue(productData.rowTotal, displayMode))}
         </td>
       </tr>
