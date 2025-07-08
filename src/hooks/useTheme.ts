@@ -31,8 +31,8 @@ export const AVAILABLE_THEMES: Theme[] = [
   {
     name: 'minimal-monochrome',
     displayName: '黑白精简风',
-    description: '黑白灰极简设计，蓝色点缀',
-    preview: 'linear-gradient(135deg, oklch(0.98 0.005 247.858) 0%, oklch(0.929 0.013 255.508) 100%)'
+    description: '灰色背景，白色输入框，黑色文字',
+    preview: 'linear-gradient(135deg, oklch(0.869 0.022 252.894) 0%, oklch(0.797 0.026 252.894) 100%)'
   }
 ];
 
@@ -74,7 +74,7 @@ export const useTheme = () => {
       color: 'oklch(0.414 0.112 45.904)'
     },
     'minimal-monochrome': {
-      background: 'linear-gradient(135deg, oklch(0.98 0.005 247.858) 0%, oklch(0.929 0.013 255.508) 100%)',
+      background: 'linear-gradient(135deg, oklch(0.869 0.022 252.894) 0%, oklch(0.797 0.026 252.894) 100%)',
       color: 'oklch(0.208 0.042 265.755)'
     }
   }), []);
