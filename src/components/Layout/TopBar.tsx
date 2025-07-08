@@ -53,7 +53,10 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
   'users': { title: '用户管理', breadcrumb: ['系统管理', '用户管理'] },
   'permissions': { title: '权限管理', breadcrumb: ['系统管理', '权限管理'] },
   'settings': { title: '系统设置', breadcrumb: ['系统管理', '系统设置'] },
-  'logs': { title: '操作日志', breadcrumb: ['系统管理', '操作日志'] }
+  'logs': { title: '操作日志', breadcrumb: ['系统管理', '操作日志'] },
+  
+  // 通知中心
+  'notifications': { title: '通知中心', breadcrumb: ['通知中心'] }
 };
 
 export const TopBar: React.FC<TopBarProps> = ({
@@ -109,7 +112,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   const loadNotifications = () => {
     setIsLoadingNotifications(true);
     try {
-      const unreadNotifications = notificationHelper.getUnreadNotifications();
+      const unreadNotifications = notificationHelper.getUnreadNotifications(10);
       const unreadCount = notificationHelper.getUnreadCount();
 
       setNotifications(unreadNotifications);

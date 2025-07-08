@@ -35,6 +35,7 @@ import UserManagement from './System/UserManagement';
 import PermissionManagement from './System/PermissionManagement';
 import SystemSettings from './System/SystemSettings';
 import OperationLogs from './System/OperationLogs';
+import NotificationsPage from './Notifications/NotificationsPage';
 
 interface PageContainerProps {
   currentPage: string;
@@ -127,7 +128,10 @@ const allPageComponents: Record<string, React.ComponentType> = {
   'users': UserManagement,
   'permissions': PermissionManagement,
   'settings': SystemSettings,
-  'logs': OperationLogs
+  'logs': OperationLogs,
+  
+  // 通知中心
+  'notifications': NotificationsPage
 };
 
 export const PageContainer: React.FC<PageContainerProps> = ({ currentPage }) => {

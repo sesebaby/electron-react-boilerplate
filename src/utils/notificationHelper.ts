@@ -96,6 +96,11 @@ class NotificationHelper {
     return notificationStore.getUnreadNotifications(count);
   }
 
+  // 获取所有通知（不过滤）
+  getAllUnfiltered(): SimpleNotification[] {
+    return notificationStore.getAllUnfiltered();
+  }
+
   // 标记通知为已读
   markAsRead(id: string): boolean {
     return notificationStore.markAsRead(id);
