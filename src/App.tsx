@@ -29,11 +29,13 @@ const App: React.FC = () => {
     const themeColors = {
       'glass-future': 'linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%)',
       'dark-tech': 'linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%)',
-      'warm-business': 'linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%)'
+      'warm-business': 'linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%)',
+      'minimal-monochrome': 'linear-gradient(135deg, oklch(0.98 0.005 247.858) 0%, oklch(0.929 0.013 255.508) 100%)'
     };
     document.body.style.background = themeColors[savedTheme as keyof typeof themeColors] || themeColors['glass-future'];
     document.body.style.minHeight = '100vh';
-    document.body.style.color = 'white';
+    // 设置文字颜色，黑白精简风主题使用深色文字，其他主题使用白色文字
+    document.body.style.color = savedTheme === 'minimal-monochrome' ? 'oklch(0.208 0.042 265.755)' : 'white';
     
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');

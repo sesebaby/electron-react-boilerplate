@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
-export type ThemeName = 'glass-future' | 'dark-tech' | 'warm-business';
+export type ThemeName = 'glass-future' | 'dark-tech' | 'warm-business' | 'minimal-monochrome';
 
 export interface Theme {
   name: ThemeName;
@@ -27,6 +27,12 @@ export const AVAILABLE_THEMES: Theme[] = [
     displayName: '温暖商务风',
     description: '温暖色调，商务专业风格',
     preview: 'linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%)'
+  },
+  {
+    name: 'minimal-monochrome',
+    displayName: '黑白精简风',
+    description: '黑白灰极简设计，蓝色点缀',
+    preview: 'linear-gradient(135deg, oklch(0.98 0.005 247.858) 0%, oklch(0.929 0.013 255.508) 100%)'
   }
 ];
 
@@ -66,6 +72,10 @@ export const useTheme = () => {
     'warm-business': {
       background: 'linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%)',
       color: 'oklch(0.414 0.112 45.904)'
+    },
+    'minimal-monochrome': {
+      background: 'linear-gradient(135deg, oklch(0.98 0.005 247.858) 0%, oklch(0.929 0.013 255.508) 100%)',
+      color: 'oklch(0.208 0.042 265.755)'
     }
   }), []);
 

@@ -1952,3 +1952,178 @@
   color: var(--financial-neutral) !important;
   text-shadow: var(--popup-text-shadow);
 }
+
+/* ===== 黑白精简风主题 - 基于 Gray 色块系列 ===== */
+[data-theme="minimal-monochrome"] {
+  --theme-name: 'minimal-monochrome';
+
+  /* 应用背景 - gray-50 到 gray-100 渐变，极简浅色 */
+  --app-background: linear-gradient(135deg, oklch(0.98 0.005 247.858) 0%, oklch(0.929 0.013 255.508) 100%);
+
+  /* 表面和卡片背景 - 白色和浅灰色系，极简设计 */
+  --surface-background: oklch(1 0 0 / 0.8);  /* 纯白色/80% */
+  --card-background: oklch(0.984 0.003 247.858 / 0.6);  /* gray-50/60% */
+  --hover-background: oklch(0.968 0.007 247.896 / 0.4);  /* gray-100/40% */
+  --active-background: oklch(0.929 0.013 255.508 / 0.5);  /* gray-200/50% */
+
+  /* TopBar专用背景 - 纯白色背景，极简设计 */
+  --topbar-background: oklch(1 0 0 / 0.95);  /* 纯白色/95% */
+  --topbar-shadow: 0 2px 8px oklch(0.208 0.042 265.755 / 0.1);  /* 轻微阴影 */
+
+  /* 表格锁定专用背景 - 白色为主 */
+  --table-fixed-background: oklch(1 0 0 / 0.9);
+  --table-fixed-background-hover: oklch(0.984 0.003 247.858 / 0.8);
+
+  /* 弹出窗体背景系统 - 纯白色系 */
+  --popup-background: oklch(1 0 0 / 0.95);  /* 纯白色/95% */
+  --popup-header-background: oklch(0.984 0.003 247.858 / 0.98);  /* gray-50/98% */
+  --popup-content-background: oklch(1 0 0 / 0.9);  /* 纯白色/90% */
+  --popup-blur: blur(20px);  /* 适度模糊 */
+  --popup-border: 1px solid oklch(0.869 0.022 252.894 / 0.3);  /* gray-300/30% */
+  --popup-shadow: 0 20px 60px oklch(0.208 0.042 265.755 / 0.15);  /* 柔和阴影 */
+  --popup-shadow-hover: 0 25px 80px oklch(0.208 0.042 265.755 / 0.2);
+
+  /* 弹出窗体文字颜色 - 深色文字，确保在白色背景上可读 */
+  --popup-text-primary: oklch(0.208 0.042 265.755);  /* gray-900 */
+  --popup-text-secondary: oklch(0.372 0.044 257.287);  /* gray-700 */
+  --popup-text-tertiary: oklch(0.446 0.043 257.281);  /* gray-600 */
+  --popup-text-shadow: 0 1px 2px oklch(0.984 0.003 247.858 / 0.8);  /* 轻微阴影 */
+
+  /* 滚动条颜色 - 灰色系，低调设计 */
+  --scrollbar-thumb-color: oklch(0.797 0.026 252.894 / 0.4);  /* gray-400/40% */
+  --scrollbar-thumb-hover-color: oklch(0.797 0.026 252.894 / 0.6);  /* gray-400/60% */
+
+  /* 主题文字颜色 - 黑白灰层级 */
+  --text-primary: oklch(0.208 0.042 265.755);  /* gray-900 - 主要文字 */
+  --text-secondary: oklch(0.372 0.044 257.287);  /* gray-700 - 次要文字 */
+  --text-tertiary: oklch(0.446 0.043 257.281);  /* gray-600 - 第三级文字 */
+  --text-accent: oklch(0.584 0.148 259.552);  /* sky-600 - 蓝色强调 */
+
+  /* 玻璃感效果 - 最小化设计 */
+  --glass-border: 1px solid oklch(0.869 0.022 252.894 / 0.2);  /* gray-300/20% */
+  --glass-shadow: 0 4px 16px oklch(0.208 0.042 265.755 / 0.08);  /* 轻微阴影 */
+  --glass-blur: blur(15px);  /* 适度模糊 */
+
+  /* 弹出窗体交互状态颜色 */
+  --popup-divider-color: oklch(0.869 0.022 252.894 / 0.2);  /* gray-300/20% */
+  --popup-item-hover-bg: oklch(0.968 0.007 247.896 / 0.3);  /* gray-100/30% */
+  --popup-item-active-bg: oklch(0.929 0.013 255.508 / 0.4);  /* gray-200/40% */
+  --popup-item-active-hover-bg: oklch(0.929 0.013 255.508 / 0.5);  /* gray-200/50% */
+  --popup-item-danger-hover-bg: oklch(0.637 0.237 25.331 / 0.1);  /* red danger */
+  --accent-color: oklch(0.584 0.148 259.552);  /* sky-600 蓝色强调 */
+  --danger-color: oklch(0.637 0.237 25.331);  /* red-600 */
+
+  /* 财务状态颜色 - 黑白精简风主题 */
+  --financial-positive: oklch(0.525 0.162 145.77);  /* emerald-600 - 绿色收入 */
+  --financial-negative: oklch(0.637 0.237 25.331);  /* red-600 - 红色支出 */
+  --financial-neutral: oklch(0.584 0.148 259.552);  /* sky-600 - 蓝色中性 */
+  --financial-warning: oklch(0.769 0.188 70.08);  /* amber-500 - 黄色警告 */
+  --financial-accent: oklch(0.756 0.181 50.75);  /* orange-500 - 橙色强调 */
+  --financial-purple: oklch(0.627 0.205 292.851);  /* violet-600 - 紫色 */
+  --financial-teal: oklch(0.525 0.162 183.109);  /* teal-600 - 青色 */
+  --financial-indigo: oklch(0.511 0.262 276.966);  /* indigo-600 - 靛蓝色 */
+
+  /* 表格固定表头系统变量 - 黑白精简风主题 */
+  --table-header-fixed-bg: oklch(1 0 0 / 0.95);  /* 纯白色/95% */
+  --table-header-blur: blur(20px);
+  --table-header-fixed-border: oklch(0.869 0.022 252.894 / 0.3);  /* gray-300/30% */
+  --table-header-fixed-shadow: 0 2px 8px oklch(0.208 0.042 265.755 / 0.1);
+
+  /* 时间段背景色 - 基于主题色调整 */
+  --time-slot-morning-bg: oklch(0.769 0.188 70.08 / 0.15);  /* amber-500/15% - 早上 */
+  --time-slot-afternoon-bg: oklch(0.584 0.148 259.552 / 0.15);  /* sky-600/15% - 下午 */
+  --time-slot-evening-bg: oklch(0.627 0.205 292.851 / 0.15);  /* violet-600/15% - 晚上 */
+
+  /* 滚动条颜色系统 - 黑白精简风主题 */
+  --scrollbar-track-bg: oklch(0.984 0.003 247.858 / 0.5);  /* gray-50/50% */
+  --scrollbar-track-hover-bg: oklch(0.968 0.007 247.896 / 0.6);  /* gray-100/60% */
+  --scrollbar-thumb-color: oklch(0.797 0.026 252.894 / 0.4);  /* gray-400/40% */
+  --scrollbar-thumb-hover-color: oklch(0.797 0.026 252.894 / 0.6);  /* gray-400/60% */
+}
+
+/* 黑白精简风主题专用控件样式 */
+[data-theme="minimal-monochrome"] .glass-select {
+  background: var(--popup-background);
+  backdrop-filter: var(--popup-blur);
+  border: var(--popup-border);
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+  box-shadow: var(--popup-shadow);
+}
+
+[data-theme="minimal-monochrome"] .glass-select:focus,
+[data-theme="minimal-monochrome"] .glass-select:hover {
+  background: oklch(0.984 0.003 247.858 / 0.95);  /* gray-50/95% */
+  border-color: oklch(0.584 0.148 259.552 / 0.6);  /* sky-600/60% */
+  box-shadow: var(--popup-shadow-hover);
+}
+
+/* 黑白精简风主题下拉框选项样式 */
+[data-theme="minimal-monochrome"] .glass-select option {
+  background: oklch(1 0 0 / 0.95) !important;  /* 白色背景 */
+  color: oklch(0.208 0.042 265.755) !important;  /* gray-900文字 */
+  padding: 8px 12px;
+  border: none;
+  font-weight: 500;
+}
+
+[data-theme="minimal-monochrome"] .glass-select option:checked,
+[data-theme="minimal-monochrome"] .glass-select option:hover {
+  background: oklch(0.968 0.007 247.896 / 0.98) !important;  /* gray-100/98% */
+  color: oklch(0.208 0.042 265.755) !important;  /* gray-900 */
+}
+
+/* 黑白精简风主题弹出下拉框样式 */
+[data-theme="minimal-monochrome"] .popup-dropdown {
+  background: oklch(1 0 0 / 0.95) !important;  /* 纯白色背景 */
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid oklch(0.869 0.022 252.894 / 0.3) !important;  /* gray-300边框 */
+  box-shadow: 0 20px 60px oklch(0.208 0.042 265.755 / 0.15) !important;
+}
+
+[data-theme="minimal-monochrome"] .theme-dropdown-header h3 {
+  color: oklch(0.208 0.042 265.755) !important;  /* gray-900 */
+  text-shadow: 0 1px 2px oklch(0.984 0.003 247.858 / 0.8) !important;
+}
+
+[data-theme="minimal-monochrome"] .theme-option {
+  background: oklch(0.984 0.003 247.858 / 0.5) !important;  /* gray-50/50% */
+  color: oklch(0.208 0.042 265.755) !important;  /* gray-900 */
+  border: 1px solid oklch(0.869 0.022 252.894 / 0.3) !important;  /* gray-300边框 */
+}
+
+[data-theme="minimal-monochrome"] .theme-option h4 {
+  color: oklch(0.208 0.042 265.755) !important;  /* gray-900 */
+  text-shadow: 0 1px 2px oklch(0.984 0.003 247.858 / 0.8);
+}
+
+[data-theme="minimal-monochrome"] .theme-option p {
+  color: oklch(0.372 0.044 257.287) !important;  /* gray-700 */
+  text-shadow: 0 1px 2px oklch(0.984 0.003 247.858 / 0.6);
+}
+
+[data-theme="minimal-monochrome"] .theme-option:hover {
+  background: oklch(0.968 0.007 247.896 / 0.6) !important;  /* gray-100/60% */
+  border: 1px solid oklch(0.584 0.148 259.552 / 0.4) !important;  /* sky-600边框 */
+}
+
+[data-theme="minimal-monochrome"] .theme-option.active {
+  background: oklch(0.929 0.013 255.508 / 0.7) !important;  /* gray-200/70% */
+  border: 1px solid oklch(0.584 0.148 259.552 / 0.7) !important;  /* sky-600边框 */
+}
+
+[data-theme="minimal-monochrome"] .close-button {
+  color: oklch(0.372 0.044 257.287) !important;  /* gray-700 */
+  background: oklch(0.984 0.003 247.858 / 0.6);  /* gray-50背景 */
+  border: 1px solid oklch(0.869 0.022 252.894 / 0.3);  /* gray-300边框 */
+  text-shadow: 0 1px 2px oklch(0.984 0.003 247.858 / 0.8);
+}
+
+[data-theme="minimal-monochrome"] .glass-textarea {
+  background: var(--popup-background);
+  backdrop-filter: var(--popup-blur);
+  border: var(--popup-border);
+  color: var(--popup-text-primary);
+  text-shadow: var(--popup-text-shadow);
+  box-shadow: var(--popup-shadow);
+}
