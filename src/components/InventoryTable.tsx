@@ -1,11 +1,19 @@
 import React, { useMemo, useCallback } from 'react';
 import { InventoryItem } from '../types/inventory';
 import { Card, CardContent } from './ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
+import { 
+  Table, 
+  TableContainer,
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  TableEmpty,
+  TableLoading
+} from './ui/table';
 import { Badge } from './ui/badge';
-import { ScrollArea } from './ui/scroll-area';
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from './ui/pagination';
-import { Separator } from './ui/separator';
 import { Package } from 'lucide-react';
 
 interface InventoryTableProps {
@@ -17,6 +25,10 @@ interface InventoryTableProps {
   onPageChange: (page: number) => void;
   totalItems: number;
   itemsPerPage: number;
+  // Loading state
+  loading?: boolean;
+  // Table container height
+  height?: string | number;
 }
 
 export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({ 
@@ -26,7 +38,9 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
   totalPages,
   onPageChange,
   totalItems,
-  itemsPerPage
+  itemsPerPage,
+  loading = false,
+  height = "600px"
 }) => {
   // 缓存格式化器以避免重复创建
   const currencyFormatter = useMemo(() => new Intl.NumberFormat('en-US', {
@@ -62,15 +76,27 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
     return Math.max(0, item.stockQuantity - item.reservedQuantity);
   }, []);
 
+  // 加载状态
+  if (loading) {
+    return (
+      <Card className="glass-card h-full">
+        <CardContent className="p-0 h-full">
+          <TableLoading message="加载库存数据中..." />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // 空状态
   if (items.length === 0) {
     return (
-      <Card className="glass-card">
-        <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="p-4 rounded-full bg-white/10 backdrop-blur-sm mb-4">
-            <Package className="h-16 w-16 text-white/50" />
-          </div>
-          <h3 className="text-xl font-semibold text-white/90 mb-2">No items found</h3>
-          <p className="text-white/70">Try adjusting your search or filters</p>
+      <Card className="glass-card h-full">
+        <CardContent className="p-0 h-full">
+          <TableEmpty
+            icon={<Package className="h-16 w-16" />}
+            message="暂无库存数据"
+            description="请尝试调整搜索条件或筛选器"
+          />
         </CardContent>
       </Card>
     );
@@ -163,90 +189,97 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
   return (
     <Card className="glass-card h-full max-h-full flex flex-col overflow-hidden">
       <CardContent className="p-0 flex-1 flex flex-col min-h-0 max-h-full">
-        {/* Fixed Table Header */}
-        <div className="flex-shrink-0 p-2 md:p-4 pb-0">
-          <Table>
-            <TableHeader>
+        {/* 单一表格结构 - 使用 TableContainer */}
+        <TableContainer height={height} className="flex-1">
+          <Table stickyHeader minWidth="1200px">
+            {/* 固定表头 */}
+            <TableHeader sticky>
               <TableRow>
-                <TableHead className="min-w-[300px]">Item Details</TableHead>
+                <TableHead 
+                  fixed 
+                  fixedPosition="left" 
+                  fixedOffset={0}
+                  className="min-w-[300px] bg-white/10 backdrop-blur-lg"
+                >
+                  商品详情
+                </TableHead>
                 <TableHead className="min-w-[140px]">SKU</TableHead>
-                <TableHead className="min-w-[100px]">Category</TableHead>
-                <TableHead className="min-w-[80px] text-center">Stock</TableHead>
-                <TableHead className="min-w-[80px] text-center">Available</TableHead>
-                <TableHead className="min-w-[100px] text-right">Unit Price</TableHead>
-                <TableHead className="min-w-[100px] text-right">Total Value</TableHead>
-                <TableHead className="min-w-[100px] text-center">Status</TableHead>
-                <TableHead className="min-w-[120px]">Location</TableHead>
-                <TableHead className="min-w-[100px]">Last Updated</TableHead>
+                <TableHead className="min-w-[100px]">分类</TableHead>
+                <TableHead className="min-w-[80px] text-center">库存</TableHead>
+                <TableHead className="min-w-[80px] text-center">可用</TableHead>
+                <TableHead className="min-w-[100px] text-right">单价</TableHead>
+                <TableHead className="min-w-[100px] text-right">总价值</TableHead>
+                <TableHead className="min-w-[100px] text-center">状态</TableHead>
+                <TableHead className="min-w-[120px]">位置</TableHead>
+                <TableHead className="min-w-[100px]">最后更新</TableHead>
               </TableRow>
             </TableHeader>
-          </Table>
-        </div>
 
-        {/* Scrollable Table Body */}
-        <ScrollArea className="flex-1 min-h-0 max-h-full">
-          <div className="min-w-full px-2 md:px-4 pb-2 md:pb-4">
-            <Table>
-              <TableBody>
-                {items.map(item => (
-                  <TableRow key={item.id}>
-                    <TableCell className="min-w-[300px]">
-                      <div>
-                        <div className="font-semibold text-white mb-1">{item.name}</div>
-                        <div className="text-sm text-white/80 mb-1 leading-relaxed">{item.description}</div>
-                        <div className="text-xs text-white/60 italic">by {item.supplier}</div>
+            {/* 表体内容 */}
+            <TableBody>
+              {items.map(item => (
+                <TableRow key={item.id}>
+                  <TableCell 
+                    fixed 
+                    fixedPosition="left" 
+                    fixedOffset={0}
+                    className="min-w-[300px]"
+                  >
+                    <div>
+                      <div className="font-semibold text-white mb-1">{item.name}</div>
+                      <div className="text-sm text-white/80 mb-1 leading-relaxed">{item.description}</div>
+                      <div className="text-xs text-white/60 italic">供应商: {item.supplier}</div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="min-w-[140px]">
+                    <code className="text-sm text-white/90 bg-white/10 px-2 py-1 rounded">
+                      {item.sku}
+                    </code>
+                  </TableCell>
+                  <TableCell className="min-w-[100px]">{item.category}</TableCell>
+                  <TableCell className="min-w-[80px] text-center">
+                    <Badge variant="success" className="mb-1">
+                      {item.stockQuantity}
+                    </Badge>
+                    {item.reservedQuantity > 0 && (
+                      <div className="text-xs text-white/60 mt-1">
+                        ({item.reservedQuantity} 预留)
                       </div>
-                    </TableCell>
-                    <TableCell className="min-w-[140px]">
-                      <code className="text-sm text-white/90 bg-white/10 px-2 py-1 rounded">
-                        {item.sku}
-                      </code>
-                    </TableCell>
-                    <TableCell className="min-w-[100px] text-white/90">{item.category}</TableCell>
-                    <TableCell className="min-w-[80px] text-center">
-                      <Badge variant="success" className="mb-1">
-                        {item.stockQuantity}
-                      </Badge>
-                      {item.reservedQuantity > 0 && (
-                        <div className="text-xs text-white/60 mt-1">
-                          ({item.reservedQuantity} reserved)
-                        </div>
-                      )}
-                    </TableCell>
-                    <TableCell className="min-w-[80px] text-center">
-                      <Badge 
-                        variant={getAvailableQuantity(item) === 0 ? 'destructive' : 'secondary'}
-                      >
-                        {getAvailableQuantity(item)}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="min-w-[100px] text-right font-semibold text-white/90">
-                      {formatCurrency(item.unitPrice)}
-                    </TableCell>
-                    <TableCell className="min-w-[100px] text-right font-semibold text-white/90">
-                      {formatCurrency(item.totalValue)}
-                    </TableCell>
-                    <TableCell className="min-w-[100px] text-center">
-                      <Badge variant={getStatusVariant(item.status)}>
-                        {item.status.replace('-', ' ')}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="min-w-[120px] text-white/80">{item.location}</TableCell>
-                    <TableCell className="min-w-[100px] text-white/70 text-sm">
-                      {formatDate(item.lastUpdated)}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </ScrollArea>
+                    )}
+                  </TableCell>
+                  <TableCell className="min-w-[80px] text-center">
+                    <Badge 
+                      variant={getAvailableQuantity(item) === 0 ? 'destructive' : 'secondary'}
+                    >
+                      {getAvailableQuantity(item)}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="min-w-[100px] text-right font-semibold">
+                    {formatCurrency(item.unitPrice)}
+                  </TableCell>
+                  <TableCell className="min-w-[100px] text-right font-semibold">
+                    {formatCurrency(item.totalValue)}
+                  </TableCell>
+                  <TableCell className="min-w-[100px] text-center">
+                    <Badge variant={getStatusVariant(item.status)}>
+                      {item.status.replace('-', ' ')}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="min-w-[120px]">{item.location}</TableCell>
+                  <TableCell className="min-w-[100px] text-sm">
+                    {formatDate(item.lastUpdated)}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
         
-        {/* Pagination Section */}
+        {/* 分页部分 */}
         <div className="flex-shrink-0 border-t border-white/20 bg-white/5 backdrop-blur-sm">
           <div className="flex flex-col md:flex-row items-center justify-between px-2 md:px-4 py-2 md:py-3 gap-2">
             <div className="text-xs md:text-sm text-white/70 text-center md:text-left">
-              Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
+              显示第 {((currentPage - 1) * itemsPerPage) + 1} 到 {Math.min(currentPage * itemsPerPage, totalItems)} 条，共 {totalItems} 条记录
             </div>
             
             <div className="flex items-center justify-center md:justify-end">
