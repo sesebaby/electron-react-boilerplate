@@ -101,7 +101,7 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
     return (
       <tr className={getRowStyle()}>
         {/* 分类名称列 */}
-        <td className="sticky left-0 z-10 px-4 py-3 border-r border-white/20" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.08)', boxShadow: '2px 0 12px rgba(0, 0, 0, 0.15)'}}>
+        <td className="sticky left-0 z-10 px-4 py-3 border-r border-white/20" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.2)', boxShadow: '2px 0 12px rgba(0, 0, 0, 0.15)'}}>
           <div className={getCategoryNameStyle()}>
             {/* 展开/折叠按钮 */}
             {categoryData.hasChildren && (
@@ -184,7 +184,7 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
     return (
       <tr className={getRowStyle()}>
         {/* 产品名称列 */}
-        <td className="sticky left-0 z-10 px-4 py-3 border-r border-white/20" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.06)', boxShadow: '2px 0 12px rgba(0, 0, 0, 0.15)'}}>
+        <td className="sticky left-0 z-10 px-4 py-3 border-r border-white/20" style={{backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)', background: 'rgba(255, 255, 255, 0.15)', boxShadow: '2px 0 12px rgba(0, 0, 0, 0.15)'}}>
           <div className={`flex items-center text-white/80 ml-${Math.min((level + 1) * 4, 20)}`}>
             {/* 产品图标 */}
             <span className="mr-2 text-green-300">📦</span>
