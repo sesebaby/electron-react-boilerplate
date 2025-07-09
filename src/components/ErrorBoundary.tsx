@@ -1,12 +1,23 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { ErrorUtils } from '../utils/errors';
-import { logger } from '../utils/logger';
-import { globalErrorHandler } from '../utils/globalErrorHandler';
+import { _ErrorUtils as ErrorUtils } from '../utils/errors';
+import { _logger as logger } from '../utils/logger';
+import { _globalErrorHandler as globalErrorHandler } from '../utils/globalErrorHandler';
+
+interface ExtendedErrorInfo extends ErrorInfo {
+  errorBoundary: string;
+}
 
 interface ErrorReport {
-  error: any;
+  error: {
+    name: string;
+    message: string;
+    code: string;
+    statusCode?: number;
+    context?: Record<string, unknown>;
+    stack?: string;
+  };
   errorInfo: {
-    componentStack: string | null | undefined;
+    componentStack: string;
     errorBoundary: string;
   };
   timestamp: string;
@@ -24,7 +35,7 @@ interface ErrorBoundaryState {
 
 interface ErrorBoundaryProps {
   children: ReactNode;
-  fallback?: (error: Error, errorInfo: ErrorInfo, onRetry: () => void) => ReactNode;
+  fallback?: (error: Error, errorInfo: ExtendedErrorInfo, onRetry: () => void) => ReactNode;
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
   enableRetry?: boolean;
 }
@@ -56,11 +67,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     this.setState({ errorInfo });
 
     // 生成错误报告
-    const normalizedError = ErrorUtils.normalizeError(error);
-    const errorReport = {
+    const _normalizedError = ErrorUtils.normalizeError(error);
+    const errorReport: ErrorReport = {
       error: normalizedError.toJSON(),
       errorInfo: {
-        componentStack: errorInfo.componentStack,
+        componentStack: errorInfo.componentStack || '',
         errorBoundary: this.constructor.name
       },
       timestamp: new Date().toISOString(),
@@ -137,18 +148,18 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     return 'high'; // 未知错误认为高优先级
   }
 
-  private renderDefaultFallback(error: Error, _errorInfo: ErrorInfo) {
-    const severity = this.getErrorSeverity(error);
-    const isAppError = ErrorUtils.isAppError(error);
+  private renderDefaultFallback(error: Error, _errorInfo: ExtendedErrorInfo) {
+    const _severity = this.getErrorSeverity(error);
+    const _isAppError = ErrorUtils.isAppError(error);
     
-    const severityColors = {
+    const _severityColors = {
       low: 'error-badge-info',
       medium: 'error-badge-warning', 
       high: 'error-badge-error',
       critical: 'error-badge-critical'
     };
 
-    const severityEmojis = {
+    const _severityEmojis = {
       low: '📝',
       medium: '⚠️',
       high: '😨',
@@ -236,15 +247,21 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   render() {
     if (this.state.hasError && this.state.error) {
       // 使用自定义fallback或默认fallback
+      const extendedErrorInfo: ExtendedErrorInfo = {
+        ...this.state.errorInfo,
+        componentStack: this.state.errorInfo?.componentStack || '',
+        errorBoundary: this.constructor.name
+      };
+      
       if (this.props.fallback) {
         return this.props.fallback(
           this.state.error, 
-          this.state.errorInfo!, 
+          extendedErrorInfo, 
           this.handleRetry
         );
       }
       
-      return this.renderDefaultFallback(this.state.error, this.state.errorInfo!);
+      return this.renderDefaultFallback(this.state.error, extendedErrorInfo);
     }
 
     return this.props.children;
@@ -277,7 +294,7 @@ export function withErrorBoundary<P extends object>(
   Component: React.ComponentType<P>,
   errorFallback?: (error: Error, errorInfo: ErrorInfo, onRetry: () => void) => ReactNode
 ) {
-  const WrappedComponent = (props: P) => (
+  const _WrappedComponent = (props: P) => (
     <ErrorBoundary fallback={errorFallback}>
       <Component {...props} />
     </ErrorBoundary>

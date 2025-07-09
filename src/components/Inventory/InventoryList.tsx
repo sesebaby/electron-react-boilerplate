@@ -11,7 +11,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
+  TableEmpty as _TableEmpty,
   TableLoading
 } from '../ui/table';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
@@ -40,11 +40,11 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
     sortOrder: 'asc'
   });
 
-  const loadInventories = useCallback(async () => {
+  const _loadInventories = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await inventoryStockService.findAllStocks();
+      const _data = await inventoryStockService.findAllStocks();
       setInventories(data);
     } catch (err) {
       setError('加载库存数据失败');
@@ -59,8 +59,8 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
   }, [loadInventories]);
 
   // 使用useMemo优化过滤和排序逻辑
-  const filteredInventories = useMemo(() => {
-    let filtered = [...inventories];
+  const _filteredInventories = useMemo(() => {
+    const _filtered = [...inventories];
 
     // 搜索过滤
     if (filters.search) {
@@ -85,7 +85,7 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
 
     // 排序
     filtered.sort((a, b) => {
-      let aValue: any, bValue: any;
+      let aValue: string | number | Date, bValue: string | number | Date;
       
       switch (filters.sortBy) {
         case 'name':
@@ -101,8 +101,8 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
           bValue = b.currentStock * b.unitPrice;
           break;
         case 'updated':
-          aValue = a.lastMovementDate;
-          bValue = b.lastMovementDate;
+          aValue = a.lastMovementDate || new Date(0);
+          bValue = b.lastMovementDate || new Date(0);
           break;
         default:
           aValue = a.productId;
@@ -119,20 +119,20 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
     return filtered;
   }, [inventories, filters]);
 
-  const getStockStatusStyles = useCallback((item: InventoryStock): string => {
+  const _getStockStatusStyles = useCallback((item: InventoryStock): string => {
     if (item.currentStock === 0) return 'text-red-300 bg-red-500/20 border-red-400/30';
     if (item.currentStock <= item.minStock) return 'text-yellow-300 bg-yellow-500/20 border-yellow-400/30';
     return 'text-green-300 bg-green-500/20 border-green-400/30';
   }, []);
 
-  const getStockStatusText = useCallback((item: InventoryStock): string => {
+  const _getStockStatusText = useCallback((item: InventoryStock): string => {
     if (item.currentStock === 0) return '缺货';
     if (item.currentStock <= item.minStock) return '低库存';
     return '正常';
   }, []);
 
 
-  const handleFilterChange = useCallback((key: keyof InventoryFilters, value: any) => {
+  const _handleFilterChange = useCallback((key: keyof InventoryFilters, value: string) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   }, []);
 

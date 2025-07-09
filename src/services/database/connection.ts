@@ -14,10 +14,10 @@ class DatabaseConnection {
 
   async connect(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const dbPath = this.config.path;
+      const _dbPath = this.config.path;
       
       // 确保数据库目录存在
-      const dbDir = path.dirname(dbPath);
+      const _dbDir = path.dirname(dbPath);
       if (!fs.existsSync(dbDir)) {
         fs.mkdirSync(dbDir, { recursive: true });
       }
@@ -138,7 +138,7 @@ class DatabaseManager {
       timeout: 5000
     };
 
-    const finalConfig = { ...defaultConfig, ...config };
+    const _finalConfig = { ...defaultConfig, ...config };
     
     if (this.connection) {
       await this.connection.disconnect();
@@ -155,7 +155,7 @@ class DatabaseManager {
     try {
       // 使用与main.js相同的嵌入式schema，确保一致性
       // 注意：这个文件可能不再被使用，如果项目使用main.js中的数据库初始化
-      const schema = `
+      const _schema = `
         -- 用户表
         CREATE TABLE IF NOT EXISTS users (
           id TEXT PRIMARY KEY,
@@ -293,7 +293,7 @@ class DatabaseManager {
       `;
       
       // 拆分SQL语句并执行
-      const statements = schema
+      const _statements = schema
         .split(';')
         .map(stmt => stmt.trim())
         .filter(stmt => stmt.length > 0);
