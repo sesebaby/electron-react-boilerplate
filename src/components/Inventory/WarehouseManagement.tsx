@@ -623,6 +623,15 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
               {/* 操作按钮 */}
               <div className="flex gap-4 pt-8 border-t border-white/10">
                 <GlassButton
+                  type="button"
+                  variant="secondary"
+                  onClick={handleCancel}
+                  className="flex-1 py-4"
+                >
+                  <span className="mr-2">❌</span>
+                  取消
+                </GlassButton>
+                <GlassButton
                   type="submit"
                   variant="primary"
                   loading={isSubmitting}
@@ -630,15 +639,6 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 >
                   <span className="mr-2">{editingWarehouse ? '💾' : '✨'}</span>
                   {editingWarehouse ? '更新仓库' : '创建仓库'}
-                </GlassButton>
-                <GlassButton
-                  type="button"
-                  variant="secondary"
-                  onClick={handleCancel}
-                  className="px-8 py-4"
-                >
-                  <span className="mr-2">❌</span>
-                  取消
                 </GlassButton>
               </div>
             </form>
