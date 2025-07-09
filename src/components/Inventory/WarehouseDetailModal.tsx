@@ -48,7 +48,7 @@ const WarehouseDetailModal: React.FC<WarehouseDetailModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+    <div className="fixed inset-0 z-[9998] overflow-y-auto">
       {/* 背景遮罩 */}
       <div 
         className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"

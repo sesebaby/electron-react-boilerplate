@@ -560,7 +560,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
 
         {/* 应收账款表单模态框 */}
         {showReceivableForm && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]">
             <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-6 border-b border-white/20">
                 <h3 className="text-xl font-semibold financial-title">
@@ -694,7 +694,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
 
         {/* 收款记录表单模态框 */}
         {showReceiptForm && selectedReceivable && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]">
             <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-6 border-b border-white/20">
                 <h3 className="text-xl font-semibold text-gray-800">添加收款记录</h3>
@@ -832,7 +832,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
 
         {/* 收款记录查看模态框 */}
         {showReceiptHistory && selectedReceivable && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]">
             <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-6 border-b border-white/20">
                 <h3 className="text-xl font-semibold text-gray-800">

@@ -610,7 +610,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
 
       {/* 模态框 */}
       {showModal && (
-        <div className="popup-overlay flex items-center justify-center p-4 z-50">
+        <div className="popup-overlay flex items-center justify-center p-4 z-[9998]">
           <div className="popup-dropdown max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b border-white/20">
               <h3 className="text-lg font-semibold text-white">

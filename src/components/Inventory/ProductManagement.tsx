@@ -627,7 +627,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
 
       {/* 商品表单模态框 */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998] flex">
           <div className="w-full h-full overflow-y-auto">
             <div className="min-h-full flex items-start justify-center p-2 sm:p-4">
               <div className="glass-card w-full max-w-4xl my-2 sm:my-8 shadow-2xl">

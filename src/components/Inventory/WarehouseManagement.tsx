@@ -465,7 +465,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
 
       {/* 仓库表单模态框 */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]">
           <div className="glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-4">

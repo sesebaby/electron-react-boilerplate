@@ -97,6 +97,14 @@
   --info-color: oklch(0.7 0.15 230);          /* 信息/中性 - 蓝色 */
   --disabled-color: oklch(0.6 0.02 260);      /* 禁用/停用 - 灰色 */
 
+  /* Z-Index层级管理系统 */
+  --z-sidebar: 40;                            /* 侧边栏 */
+  --z-topbar: 50;                             /* 顶部导航栏 */
+  --z-dropdown: 1000;                         /* 下拉菜单 */
+  --z-modal: 9998;                            /* 模态框 */
+  --z-dialog: 9999;                           /* 系统对话框 */
+  --z-loading: 9999;                          /* 加载屏幕 */
+
   /* 表单控件专用颜色变量 */
   --form-label-color: var(--text-primary);    /* 表单标签颜色 */
   --form-error-color: var(--error-color);     /* 表单错误颜色 */

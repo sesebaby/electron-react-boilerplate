@@ -30,7 +30,7 @@ const DayDetailModal: React.FC<DayDetailModalProps> = ({
   const netChange = data.movements.inbound - data.movements.outbound;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9998] backdrop-blur-sm">
       <div className="glass-surface backdrop-blur-xl rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto border border-white/30">
         {/* 标题栏 */}
         <div className="flex justify-between items-center p-6 border-b border-white/20">

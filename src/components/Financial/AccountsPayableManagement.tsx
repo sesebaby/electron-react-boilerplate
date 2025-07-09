@@ -589,7 +589,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
 
         {/* 应付账款表单模态框 */}
         {showPayableForm && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]">
             <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-6 border-b border-white/20">
                 <h3 className="text-xl font-semibold text-gray-800">
@@ -722,7 +722,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
 
         {/* 付款记录表单模态框 */}
         {showPaymentForm && selectedPayable && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]">
             <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-6 border-b border-white/20">
                 <h3 className="text-xl font-semibold text-gray-800">添加付款记录</h3>
@@ -860,7 +860,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
 
         {/* 付款记录查看模态框 */}
         {showPaymentHistory && selectedPayable && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]">
             <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-6 border-b border-white/20">
                 <h3 className="text-xl font-semibold text-gray-800">

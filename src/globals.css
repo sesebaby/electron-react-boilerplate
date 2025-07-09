@@ -130,7 +130,7 @@
   /* Popup/Dropdown Styles */
   .popup-dropdown {
     position: absolute;
-    z-index: 1000;
+    z-index: var(--z-dropdown);
     border-radius: var(--border-radius-lg);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -222,7 +222,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: var(--z-loading);
 }
 
 .loading-container,
