@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { GlassCard, GlassCardContent, GlassCardDescription, GlassCardHeader, GlassCardTitle } from '../ui/GlassCard';
 import { Input } from '../ui/input';
@@ -9,7 +9,23 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [rememberPassword, setRememberPassword] = useState(true);
   const { login } = useAuth();
+
+  const STORAGE_KEY = 'login_credentials';
+
+  useEffect(() => {
+    const savedCredentials = localStorage.getItem(STORAGE_KEY);
+    if (savedCredentials) {
+      try {
+        const { username: savedUsername, password: savedPassword } = JSON.parse(savedCredentials);
+        setUsername(savedUsername || '');
+        setPassword(savedPassword || '');
+      } catch (error) {
+        console.error('Error parsing saved credentials:', error);
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +34,16 @@ const LoginPage: React.FC = () => {
 
     try {
       const success = await login(username, password);
-      if (!success) {
+      if (success) {
+        if (rememberPassword) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            username,
+            password
+          }));
+        } else {
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      } else {
         setError('用户名或密码错误');
       }
     } catch (err) {
@@ -213,6 +238,32 @@ const LoginPage: React.FC = () => {
                       }}
                       required
                     />
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 pt-2">
+                    <div className="flex items-center">
+                      <input
+                        id="rememberPassword"
+                        type="checkbox"
+                        checked={rememberPassword}
+                        onChange={(e) => setRememberPassword(e.target.checked)}
+                        className="w-4 h-4 rounded border-2 cursor-pointer transition-all duration-200 focus:ring-2 focus:ring-opacity-50"
+                        style={{
+                          background: rememberPassword ? 'var(--login-button-bg)' : 'var(--glass-bg-10)',
+                          borderColor: rememberPassword ? 'var(--login-button-bg)' : 'var(--glass-border)'
+                        }}
+                      />
+                      <label 
+                        htmlFor="rememberPassword" 
+                        className="ml-2 text-sm font-medium cursor-pointer select-none transition-colors duration-200"
+                        style={{color: 'var(--text-secondary)'}}
+                      >
+                        保存密码
+                      </label>
+                    </div>
+                    <div className="text-xs opacity-75" style={{color: 'var(--text-tertiary)'}}>
+                      下次自动填充
+                    </div>
                   </div>
                   
                   {error && (
