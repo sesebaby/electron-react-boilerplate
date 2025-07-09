@@ -486,21 +486,21 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
               <Table stickyHeader minWidth="1200px">
                 <TableHeader sticky>
                   <TableRow>
-                    <TableHead 
-                      fixed 
-                      fixedPosition="left" 
+                    <TableHead
+                      fixed
+                      fixedPosition="left"
                       fixedOffset={0}
-                      className="min-w-[200px] bg-white/10 backdrop-blur-lg"
+                      className="min-w-[200px] table-first-column-enhanced"
                     >
                       交易信息
                     </TableHead>
-                    <TableHead className="min-w-[150px]">商品</TableHead>
-                    <TableHead className="min-w-[120px]">仓库</TableHead>
-                    <TableHead className="min-w-[120px] text-center">数量变动</TableHead>
-                    <TableHead className="min-w-[100px] text-right">金额</TableHead>
-                    <TableHead className="min-w-[150px]">参考信息</TableHead>
-                    <TableHead className="min-w-[100px]">操作员</TableHead>
-                    <TableHead className="min-w-[150px]">交易时间</TableHead>
+                    <TableHead className="min-w-[150px] table-header-enhanced">商品</TableHead>
+                    <TableHead className="min-w-[120px] table-header-enhanced">仓库</TableHead>
+                    <TableHead className="min-w-[120px] text-center table-header-enhanced">数量变动</TableHead>
+                    <TableHead className="min-w-[100px] text-right table-header-enhanced">金额</TableHead>
+                    <TableHead className="min-w-[150px] table-header-enhanced">参考信息</TableHead>
+                    <TableHead className="min-w-[100px] table-header-enhanced">操作员</TableHead>
+                    <TableHead className="min-w-[150px] table-header-enhanced">交易时间</TableHead>
                   </TableRow>
                 </TableHeader>
 

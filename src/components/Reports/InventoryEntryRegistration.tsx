@@ -243,53 +243,53 @@ export const InventoryEntryRegistration: React.FC = () => {
               <TableHeader sticky>
                 {/* 第一层表头 - 日期 */}
                 <TableRow>
-                  <TableHead 
-                    fixed 
-                    fixedPosition="left" 
+                  <TableHead
+                    fixed
+                    fixedPosition="left"
                     fixedOffset={0}
-                    className="min-w-[60px] text-left border-r bg-white/10 backdrop-blur-lg"
+                    className="min-w-[60px] text-left border-r table-first-column-enhanced"
                     rowSpan={2}
                   >
                     序号
                   </TableHead>
-                  <TableHead 
-                    fixed 
-                    fixedPosition="left" 
+                  <TableHead
+                    fixed
+                    fixedPosition="left"
                     fixedOffset="60px"
-                    className="min-w-[120px] text-left border-r bg-white/10 backdrop-blur-lg"
+                    className="min-w-[120px] text-left border-r table-first-column-enhanced"
                     rowSpan={2}
                   >
                     一级分类
                   </TableHead>
-                  <TableHead 
-                    fixed 
-                    fixedPosition="left" 
+                  <TableHead
+                    fixed
+                    fixedPosition="left"
                     fixedOffset="180px"
-                    className="min-w-[120px] text-left border-r bg-white/10 backdrop-blur-lg"
+                    className="min-w-[120px] text-left border-r table-first-column-enhanced"
                     rowSpan={2}
                   >
                     二级分类
                   </TableHead>
-                  <TableHead 
-                    fixed 
-                    fixedPosition="left" 
+                  <TableHead
+                    fixed
+                    fixedPosition="left"
                     fixedOffset="300px"
-                    className="min-w-[150px] text-left border-r bg-white/10 backdrop-blur-lg"
+                    className="min-w-[150px] text-left border-r table-first-column-enhanced"
                     rowSpan={2}
                   >
                     物品名称
                   </TableHead>
-                  <TableHead 
-                    fixed 
-                    fixedPosition="left" 
+                  <TableHead
+                    fixed
+                    fixedPosition="left"
                     fixedOffset="450px"
-                    className="min-w-[100px] text-center border-r bg-white/10 backdrop-blur-lg"
+                    className="min-w-[100px] text-center border-r table-first-column-enhanced"
                     rowSpan={2}
                   >
                     总出库
                   </TableHead>
                   {filteredDates.map(date => (
-                    <TableHead key={date} colSpan={5} className="text-center border-r min-w-[300px]">
+                    <TableHead key={date} colSpan={5} className="text-center border-r min-w-[300px] table-header-enhanced">
                       {new Date(date).getDate()}日
                     </TableHead>
                   ))}
@@ -299,19 +299,19 @@ export const InventoryEntryRegistration: React.FC = () => {
                 <TableRow>
                   {filteredDates.map(date => (
                     <React.Fragment key={date}>
-                      <TableHead className="text-center border-r min-w-[60px]">
+                      <TableHead className="text-center border-r min-w-[60px] table-header-enhanced">
                         入库
                       </TableHead>
-                      <TableHead className="text-center border-r min-w-[60px]">
+                      <TableHead className="text-center border-r min-w-[60px] table-header-enhanced">
                         早
                       </TableHead>
-                      <TableHead className="text-center border-r min-w-[60px]">
+                      <TableHead className="text-center border-r min-w-[60px] table-header-enhanced">
                         中
                       </TableHead>
-                      <TableHead className="text-center border-r min-w-[60px]">
+                      <TableHead className="text-center border-r min-w-[60px] table-header-enhanced">
                         晚
                       </TableHead>
-                      <TableHead className="text-center border-r min-w-[60px]">
+                      <TableHead className="text-center border-r min-w-[60px] table-header-enhanced">
                         库存
                       </TableHead>
                     </React.Fragment>

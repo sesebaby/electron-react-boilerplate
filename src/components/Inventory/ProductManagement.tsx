@@ -550,20 +550,20 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
               <Table stickyHeader minWidth="800px">
                 <TableHeader sticky>
                   <TableRow>
-                    <TableHead 
-                      fixed 
-                      fixedPosition="left" 
+                    <TableHead
+                      fixed
+                      fixedPosition="left"
                       fixedOffset={0}
-                      className="min-w-[200px] bg-white/10 backdrop-blur-lg"
+                      className="min-w-[200px] table-first-column-enhanced"
                     >
                       商品信息
                     </TableHead>
-                    <TableHead className="min-w-[120px]">SKU</TableHead>
-                    <TableHead className="min-w-[100px]">分类</TableHead>
-                    <TableHead className="min-w-[120px]">价格</TableHead>
-                    <TableHead className="min-w-[100px]">库存范围</TableHead>
-                    <TableHead className="min-w-[80px]">状态</TableHead>
-                    <TableHead className="min-w-[120px]">操作</TableHead>
+                    <TableHead className="min-w-[120px] table-header-enhanced">SKU</TableHead>
+                    <TableHead className="min-w-[100px] table-header-enhanced">分类</TableHead>
+                    <TableHead className="min-w-[120px] table-header-enhanced">价格</TableHead>
+                    <TableHead className="min-w-[100px] table-header-enhanced">库存范围</TableHead>
+                    <TableHead className="min-w-[80px] table-header-enhanced">状态</TableHead>
+                    <TableHead className="min-w-[120px] table-header-enhanced">操作</TableHead>
                   </TableRow>
                 </TableHeader>
 

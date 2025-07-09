@@ -799,6 +799,21 @@ thead .table-cell-fixed {
 
 /* =============== 通用表格样式系统 =============== */
 
+/* 表格增强样式类 - 使用主题灰色变量 */
+.table-header-enhanced {
+  background: var(--hover-background) !important;
+  backdrop-filter: var(--glass-blur, blur(20px)) !important;
+  -webkit-backdrop-filter: var(--glass-blur, blur(20px)) !important;
+  border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2)) !important;
+}
+
+.table-first-column-enhanced {
+  background: var(--hover-background) !important;
+  backdrop-filter: var(--glass-blur, blur(20px)) !important;
+  -webkit-backdrop-filter: var(--glass-blur, blur(20px)) !important;
+  border-right: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2)) !important;
+}
+
 /* 1. 基础表格容器 */
 .table-container {
   width: 100%;

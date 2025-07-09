@@ -371,19 +371,19 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
               <Table stickyHeader minWidth="800px">
                 <TableHeader sticky>
                   <TableRow>
-                    <TableHead 
-                      fixed 
-                      fixedPosition="left" 
+                    <TableHead
+                      fixed
+                      fixedPosition="left"
                       fixedOffset={0}
-                      className="min-w-[200px] bg-white/10 backdrop-blur-lg"
+                      className="min-w-[200px] table-first-column-enhanced"
                     >
                       分类信息
                     </TableHead>
-                    <TableHead className="min-w-[250px]">分类路径</TableHead>
-                    <TableHead className="min-w-[80px] text-center">级别</TableHead>
-                    <TableHead className="min-w-[80px] text-center">排序</TableHead>
-                    <TableHead className="min-w-[100px] text-center">状态</TableHead>
-                    <TableHead className="min-w-[120px] text-center">操作</TableHead>
+                    <TableHead className="min-w-[250px] table-header-enhanced">分类路径</TableHead>
+                    <TableHead className="min-w-[80px] text-center table-header-enhanced">级别</TableHead>
+                    <TableHead className="min-w-[80px] text-center table-header-enhanced">排序</TableHead>
+                    <TableHead className="min-w-[100px] text-center table-header-enhanced">状态</TableHead>
+                    <TableHead className="min-w-[120px] text-center table-header-enhanced">操作</TableHead>
                   </TableRow>
                 </TableHeader>
 

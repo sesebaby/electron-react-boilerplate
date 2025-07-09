@@ -38,6 +38,15 @@ const themes: Theme[] = [
       primary: 'oklch(0.828 0.189 84.429)',
       secondary: 'oklch(0.769 0.188 70.08)'
     }
+  },
+  {
+    id: 'minimal-monochrome',
+    name: '黑白精简风',
+    description: '基于Gray色块系列，深灰色背景 + 浅灰色元素 + indigo装饰',
+    colors: {
+      primary: 'oklch(0.646 0.026 252.894)',
+      secondary: 'oklch(0.583 0.024 252.894)'
+    }
   }
 ];
 

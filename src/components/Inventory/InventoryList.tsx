@@ -264,23 +264,23 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
               <Table stickyHeader minWidth="1200px">
                 <TableHeader sticky>
                   <TableRow>
-                    <TableHead 
-                      fixed 
-                      fixedPosition="left" 
+                    <TableHead
+                      fixed
+                      fixedPosition="left"
                       fixedOffset={0}
-                      className="min-w-[120px] bg-white/10 backdrop-blur-lg"
+                      className="min-w-[120px] table-first-column-enhanced"
                     >
                       商品ID
                     </TableHead>
-                    <TableHead className="min-w-[120px]">仓库ID</TableHead>
-                    <TableHead className="min-w-[100px] text-center">当前库存</TableHead>
-                    <TableHead className="min-w-[100px] text-center">最小库存</TableHead>
-                    <TableHead className="min-w-[100px] text-center">最大库存</TableHead>
-                    <TableHead className="min-w-[100px] text-right">单价</TableHead>
-                    <TableHead className="min-w-[100px] text-right">总价值</TableHead>
-                    <TableHead className="min-w-[80px] text-center">状态</TableHead>
-                    <TableHead className="min-w-[100px]">最后更新</TableHead>
-                    <TableHead className="min-w-[120px] text-center">操作</TableHead>
+                    <TableHead className="min-w-[120px] table-header-enhanced">仓库ID</TableHead>
+                    <TableHead className="min-w-[100px] text-center table-header-enhanced">当前库存</TableHead>
+                    <TableHead className="min-w-[100px] text-center table-header-enhanced">最小库存</TableHead>
+                    <TableHead className="min-w-[100px] text-center table-header-enhanced">最大库存</TableHead>
+                    <TableHead className="min-w-[100px] text-right table-header-enhanced">单价</TableHead>
+                    <TableHead className="min-w-[100px] text-right table-header-enhanced">总价值</TableHead>
+                    <TableHead className="min-w-[80px] text-center table-header-enhanced">状态</TableHead>
+                    <TableHead className="min-w-[100px] table-header-enhanced">最后更新</TableHead>
+                    <TableHead className="min-w-[120px] text-center table-header-enhanced">操作</TableHead>
                   </TableRow>
                 </TableHeader>
 

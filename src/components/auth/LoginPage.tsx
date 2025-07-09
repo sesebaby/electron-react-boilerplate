@@ -29,7 +29,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" style={{background: 'var(--app-background)'}}>
       {/* 现代化背景效果 */}
       <div className="absolute inset-0">
         <div className="absolute w-72 h-72 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-1/4 top-1/3"></div>
@@ -56,13 +56,13 @@ const LoginPage: React.FC = () => {
             {/* 公司品牌 */}
             <div className="mb-12">
               <div className="mb-8">
-                <h1 className="text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight">
+                <h1 className="text-3xl lg:text-4xl font-bold mb-3 leading-tight" style={{color: 'var(--text-primary)'}}>
                   唐山市无踪信息科技
                 </h1>
-                <p className="text-indigo-200 text-lg font-medium mb-2">
+                <p className="text-lg font-medium mb-2" style={{color: 'var(--text-secondary)'}}>
                   专业软件开发 · 技术创新领航
                 </p>
-                <p className="text-slate-400 text-sm">
+                <p className="text-sm" style={{color: 'var(--text-tertiary)'}}>
                   为企业提供高质量的数字化解决方案
                 </p>
               </div>
@@ -83,7 +83,7 @@ const LoginPage: React.FC = () => {
 
             {/* 开发者信息卡片 */}
             <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-2xl mb-6">
-              <h3 className="text-white text-base font-semibold mb-4 flex items-center">
+              <h3 className="text-base font-semibold mb-4 flex items-center" style={{color: 'var(--text-primary)'}}>
                 <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></div>
                 开发团队
               </h3>
@@ -96,8 +96,8 @@ const LoginPage: React.FC = () => {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <p className="text-white font-medium">远古牛哥</p>
-                    <p className="text-slate-400 text-sm">首席开发工程师</p>
+                    <p className="font-medium" style={{color: 'var(--text-primary)'}}>远古牛哥</p>
+                    <p className="text-sm" style={{color: 'var(--text-secondary)'}}>首席开发工程师</p>
                   </div>
                 </div>
                 
@@ -108,8 +108,8 @@ const LoginPage: React.FC = () => {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <p className="text-white font-medium">18833305508</p>
-                    <p className="text-slate-400 text-sm">技术支持热线</p>
+                    <p className="font-medium" style={{color: 'var(--text-primary)'}}>18833305508</p>
+                    <p className="text-sm" style={{color: 'var(--text-secondary)'}}>技术支持热线</p>
                   </div>
                 </div>
               </div>
@@ -124,11 +124,11 @@ const LoginPage: React.FC = () => {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="text-emerald-300 font-semibold text-base mb-2">免费使用承诺</h4>
-                  <p className="text-slate-300 text-sm leading-relaxed mb-3">
+                  <h4 className="font-semibold text-base mb-2" style={{color: 'var(--success-color)'}}>免费使用承诺</h4>
+                  <p className="text-sm leading-relaxed mb-3" style={{color: 'var(--text-secondary)'}}>
                     本软件完全免费使用，无隐藏费用。如需定制开发、功能扩展或界面美化，欢迎联系我们的专业团队。
                   </p>
-                  <p className="text-slate-400 text-xs">
+                  <p className="text-xs" style={{color: 'var(--text-tertiary)'}}>
                     技术咨询 · 定制开发 · 系统集成 · 主题设计
                   </p>
                 </div>
@@ -148,10 +148,10 @@ const LoginPage: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                 </div>
-                <GlassCardTitle className="text-2xl font-bold text-white mb-2">
+                <GlassCardTitle className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>
                   进销存管理系统
                 </GlassCardTitle>
-                <GlassCardDescription className="text-slate-300">
+                <GlassCardDescription style={{color: 'var(--text-secondary)'}}>
                   请输入您的登录凭据以继续
                 </GlassCardDescription>
               </GlassCardHeader>
@@ -159,31 +159,31 @@ const LoginPage: React.FC = () => {
               <GlassCardContent className="pt-0">
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-200">用户名</label>
+                    <label className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>用户名</label>
                     <Input
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       placeholder="输入用户名"
-                      className="h-12 bg-white/10 border-white/20 text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 transition-all duration-200"
+                      className="h-12 bg-white/10 border-white/20 placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 transition-all duration-200" style={{color: 'var(--text-primary)'}}
                       required
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-200">密码</label>
+                    <label className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>密码</label>
                     <Input
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="输入密码"
-                      className="h-12 bg-white/10 border-white/20 text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 transition-all duration-200"
+                      className="h-12 bg-white/10 border-white/20 placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 transition-all duration-200" style={{color: 'var(--text-primary)'}}
                       required
                     />
                   </div>
                   
                   {error && (
-                    <div className="bg-red-500/15 border border-red-400/30 rounded-xl p-4 text-sm text-red-300 flex items-center space-x-2">
+                    <div className="bg-red-500/15 border border-red-400/30 rounded-xl p-4 text-sm flex items-center space-x-2" style={{color: 'var(--danger-color)'}}>
                       <svg className="w-4 h-4 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
@@ -207,8 +207,8 @@ const LoginPage: React.FC = () => {
                   </Button>
                 </form>
                 
-                <div className="mt-8 pt-6 border-t border-white/10 text-center text-sm text-slate-400">
-                  <p className="mb-1">默认管理员账号: <span className="text-slate-300 font-medium">admin / 123456</span></p>
+                <div className="mt-8 pt-6 border-t border-white/10 text-center text-sm" style={{color: 'var(--text-tertiary)'}}>
+                  <p className="mb-1">默认管理员账号: <span className="font-medium" style={{color: 'var(--text-secondary)'}}>admin / 123456</span></p>
                   <p>忘记密码？请联系系统管理员</p>
                 </div>
               </GlassCardContent>

@@ -195,23 +195,23 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
             {/* 固定表头 */}
             <TableHeader sticky>
               <TableRow>
-                <TableHead 
-                  fixed 
-                  fixedPosition="left" 
+                <TableHead
+                  fixed
+                  fixedPosition="left"
                   fixedOffset={0}
-                  className="min-w-[300px] table-header-fixed"
+                  className="min-w-[300px] table-first-column-enhanced"
                 >
                   商品详情
                 </TableHead>
-                <TableHead className="min-w-[140px]">SKU</TableHead>
-                <TableHead className="min-w-[100px]">分类</TableHead>
-                <TableHead className="min-w-[80px] text-center">库存</TableHead>
-                <TableHead className="min-w-[80px] text-center">可用</TableHead>
-                <TableHead className="min-w-[100px] text-right">单价</TableHead>
-                <TableHead className="min-w-[100px] text-right">总价值</TableHead>
-                <TableHead className="min-w-[100px] text-center">状态</TableHead>
-                <TableHead className="min-w-[120px]">位置</TableHead>
-                <TableHead className="min-w-[100px]">最后更新</TableHead>
+                <TableHead className="min-w-[140px] table-header-enhanced">SKU</TableHead>
+                <TableHead className="min-w-[100px] table-header-enhanced">分类</TableHead>
+                <TableHead className="min-w-[80px] text-center table-header-enhanced">库存</TableHead>
+                <TableHead className="min-w-[80px] text-center table-header-enhanced">可用</TableHead>
+                <TableHead className="min-w-[100px] text-right table-header-enhanced">单价</TableHead>
+                <TableHead className="min-w-[100px] text-right table-header-enhanced">总价值</TableHead>
+                <TableHead className="min-w-[100px] text-center table-header-enhanced">状态</TableHead>
+                <TableHead className="min-w-[120px] table-header-enhanced">位置</TableHead>
+                <TableHead className="min-w-[100px] table-header-enhanced">最后更新</TableHead>
               </TableRow>
             </TableHeader>
 
