@@ -20,8 +20,8 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [_currentPage, setCurrentPage] = useState(1);
-  const [_totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
 
   // 查询参数
@@ -37,7 +37,7 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
     loadBalances();
   }, [queryParams]);
 
-  const _loadFormData = async () => {
+  const loadFormData = async () => {
     try {
       const [warehouseList, categoryList] = await Promise.all([
         warehouseService.findAll(),
@@ -51,12 +51,12 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
     }
   };
 
-  const _loadBalances = async () => {
+  const loadBalances = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const _result = await monthlyBalanceService.queryMonthlyBalance(queryParams);
+      const result = await monthlyBalanceService.queryMonthlyBalance(queryParams);
 
       if (!result.success) {
         setError(result.error?.message || '查询失败');
@@ -66,8 +66,8 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
       setBalances(result.data || []);
       
       // 计算总页数（简化处理，实际应该从服务端返回）
-      const _totalItems = result.data?.length || 0;
-      const _pageSize = queryParams.pageSize || 20;
+      const totalItems = result.data?.length || 0;
+      const pageSize = queryParams.pageSize || 20;
       setTotalPages(Math.ceil(totalItems / pageSize));
 
     } catch (err) {
@@ -78,7 +78,7 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
     }
   };
 
-  const _handleParamChange = (key: keyof MonthlyBalanceQueryParams, value: any) => {
+  const handleParamChange = (key: keyof MonthlyBalanceQueryParams, value: any) => {
     setQueryParams(prev => ({ 
       ...prev, 
       [key]: value,
@@ -89,7 +89,7 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
     }
   };
 
-  const _handleClearFilters = () => {
+  const handleClearFilters = () => {
     setQueryParams({
       sortBy: 'balanceDate',
       sortOrder: 'desc',

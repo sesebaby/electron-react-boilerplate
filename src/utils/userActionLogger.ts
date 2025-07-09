@@ -195,17 +195,17 @@ class UserActionLogger {
    * 处理点击事件
    */
   private handleClickEvent(event: MouseEvent): void {
-    const _target = event.target as HTMLElement;
+    const target = event.target as HTMLElement;
     if (!target) return;
 
     // 检查是否是重要的UI元素
-    const _isButton = target.tagName === 'BUTTON' || target.role === 'button';
-    const _isLink = target.tagName === 'A';
-    const _hasDataTrack = target.hasAttribute('data-track');
-    const _hasClickHandler = target.onclick !== null;
+    const isButton = target.tagName === 'BUTTON' || target.role === 'button';
+    const isLink = target.tagName === 'A';
+    const hasDataTrack = target.hasAttribute('data-track');
+    const hasClickHandler = target.onclick !== null;
 
     if (isButton || isLink || hasDataTrack || hasClickHandler) {
-      const _actionData = this.extractElementInfo(target);
+      const actionData = this.extractElementInfo(target);
       
       this.logAction({
         type: UserActionType.CLICK,
@@ -225,11 +225,11 @@ class UserActionLogger {
    * 处理表单提交
    */
   private handleFormSubmit(event: Event): void {
-    const _form = event.target as HTMLFormElement;
+    const form = event.target as HTMLFormElement;
     if (!form) return;
 
-    const _formData = new FormData(form);
-    const _formFields = Array.from(formData.keys());
+    const formData = new FormData(form);
+    const formFields = Array.from(formData.keys());
 
     this.logAction({
       type: UserActionType.FORM_SUBMIT,
@@ -250,13 +250,13 @@ class UserActionLogger {
    */
   private handleKeyboardEvent(event: KeyboardEvent): void {
     // 只记录重要的快捷键
-    const _importantKeys = [
+    const importantKeys = [
       'F1', 'F5', 'F12', // 功能键
       'Escape', 'Enter', // 操作键
     ];
 
-    const _isCtrlCombo = event.ctrlKey && ['s', 'z', 'y', 'c', 'v', 'x', 'a', 'f'].includes(event.key.toLowerCase());
-    const _isImportantKey = importantKeys.includes(event.key);
+    const isCtrlCombo = event.ctrlKey && ['s', 'z', 'y', 'c', 'v', 'x', 'a', 'f'].includes(event.key.toLowerCase());
+    const isImportantKey = importantKeys.includes(event.key);
 
     if (isCtrlCombo || isImportantKey) {
       this.logAction({
@@ -278,7 +278,7 @@ class UserActionLogger {
    * 获取页面上下文
    */
   private getPageContext(): ActionContext {
-    const _path = window.location.pathname.toLowerCase();
+    const path = window.location.pathname.toLowerCase();
     
     if (path.includes('dashboard')) return ActionContext.DASHBOARD;
     if (path.includes('inventory')) return ActionContext.INVENTORY;
@@ -297,8 +297,8 @@ class UserActionLogger {
    */
   private getElementContext(element: HTMLElement): ActionContext {
     // 通过元素的类名或数据属性推断上下文
-    const _classList = element.className.toLowerCase();
-    const _dataset = element.dataset;
+    const classList = element.className.toLowerCase();
+    const dataset = element.dataset;
 
     if (dataset.context) {
       return dataset.context as ActionContext;
@@ -332,11 +332,11 @@ class UserActionLogger {
     element: string;
     text: string;
   } {
-    const _selector = this.getElementSelector(element);
-    const _text = (element.textContent || element.innerText || '').trim().substring(0, 100);
-    const _elementType = element.tagName.toLowerCase();
+    const selector = this.getElementSelector(element);
+    const text = (element.textContent || element.innerText || '').trim().substring(0, 100);
+    const elementType = element.tagName.toLowerCase();
     
-    const _description = text || selector || elementType;
+    let description = text || selector || elementType;
     
     // 特殊元素的描述
     if (element.hasAttribute('aria-label')) {
@@ -373,7 +373,7 @@ class UserActionLogger {
 
     // 使用class（取第一个有意义的class）
     if (element.className) {
-      const _classes = element.className.split(' ').filter(cls => 
+      const classes = element.className.split(' ').filter(cls => 
         cls && !cls.startsWith('css-') && !cls.includes('emotion')
       );
       if (classes.length > 0) {
@@ -382,14 +382,14 @@ class UserActionLogger {
     }
 
     // 使用标签名和层级
-    const _tagName = element.tagName.toLowerCase();
-    const _parent = element.parentElement;
+    const tagName = element.tagName.toLowerCase();
+    const parent = element.parentElement;
     
     if (parent) {
-      const _siblings = Array.from(parent.children).filter(child => 
+      const siblings = Array.from(parent.children).filter(child => 
         child.tagName === element.tagName
       );
-      const _index = siblings.indexOf(element);
+      const index = siblings.indexOf(element);
       return `${tagName}:nth-of-type(${index + 1})`;
     }
 
@@ -400,7 +400,7 @@ class UserActionLogger {
    * 格式化键盘组合
    */
   private formatKeyCombo(event: KeyboardEvent): string {
-    const _parts = [];
+    const parts = [];
     if (event.ctrlKey) parts.push('Ctrl');
     if (event.altKey) parts.push('Alt');
     if (event.shiftKey) parts.push('Shift');
@@ -766,11 +766,12 @@ class UserActionLogger {
 
 // 创建默认实例
 export const _userActionLogger = new UserActionLogger();
+export const userActionLogger = _userActionLogger;
 
 // 自动设置用户ID（如果有认证上下文）
 if (typeof window !== 'undefined') {
   // 这里可以集成到用户认证系统
-  userActionLogger.setUserId(null); // 暂时设为null
+  _userActionLogger.setUserId(null); // 暂时设为null
 }
 
 export default UserActionLogger;
