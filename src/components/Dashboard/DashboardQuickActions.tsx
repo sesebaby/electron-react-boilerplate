@@ -9,20 +9,22 @@ interface DashboardQuickActionsProps {
 }
 
 interface QuickAction {
-  type: 'low_stock' | 'out_of_stock' | 'system_issue';
+  type: 'low_stock' | 'out_of_stock' | 'overdue' | 'pending' | 'system_issue';
   count: number;
   description: string;
   action: string;
 }
 
+interface QuickShortcut {
+  name: string;
+  description: string;
+  icon: string;
+  route: string;
+}
+
 interface QuickActionsData {
   needAttention: QuickAction[];
-  shortcuts: Array<{
-    name: string;
-    description: string;
-    icon: string;
-    route: string;
-  }>;
+  shortcuts: QuickShortcut[];
 }
 
 export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ className }) => {
@@ -165,7 +167,7 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
       {quickActions?.needAttention && quickActions.needAttention.length > 0 && (
         <GlassCard title="⚠️ 需要关注" className="p-6">
           <div className="space-y-4">
-            {quickActions.needAttention.map((item: any, index: number) => (
+            {quickActions.needAttention.map((item: QuickAction, index: number) => (
               <div 
                 key={index} 
                 className={`p-4 rounded-lg ${getActionStyles(item.type)}`}
@@ -189,10 +191,10 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
                     onClick={() => {
                       // 根据注意事项类型导航到相关页面
                       switch(item.type) {
-                        case 'low-stock':
+                        case 'low_stock':
                           window.location.hash = 'inventory';
                           break;
-                        case 'out-of-stock':
+                        case 'out_of_stock':
                           window.location.hash = 'stock-in';
                           break;
                         case 'overdue':
@@ -219,7 +221,7 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
       {quickActions?.shortcuts && (
         <GlassCard title="🚀 快速操作" className="p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {quickActions.shortcuts.map((shortcut: any, index: number) => (
+            {quickActions.shortcuts.map((shortcut: QuickShortcut, index: number) => (
               <button
                 key={index}
                 type="button"

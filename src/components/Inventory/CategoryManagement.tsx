@@ -73,7 +73,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     mode: 'onBlur'
   });
 
-  const formData = watch(); // 监听表单数据变化
+  const _formData = watch(); // 监听表单数据变化
 
   useEffect(() => {
     loadData();

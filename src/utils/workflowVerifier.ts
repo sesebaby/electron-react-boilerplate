@@ -333,7 +333,7 @@ export class WorkflowVerifier {
   private async validateBusinessRules(
     step: WorkflowStep,
     result: any,
-    context: WorkflowContext
+    _context: WorkflowContext
   ): Promise<any> {
     const violations = [];
     

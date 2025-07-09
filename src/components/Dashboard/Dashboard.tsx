@@ -145,7 +145,7 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
                     e.currentTarget.style.background = 'transparent';
                   }
                 }}
-                onClick={() => setActiveTab(tab.key as any)}
+                onClick={() => setActiveTab(tab.key as 'overview' | 'charts' | 'actions')}
               >
                 <span className="text-lg">{tab.icon}</span>
                 <span className="text-sm sm:text-base">{tab.label}</span>

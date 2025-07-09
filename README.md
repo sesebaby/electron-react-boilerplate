@@ -405,7 +405,7 @@ inventory-management/
 │   │   ├── timeSlotHelper.ts        # 时间段帮助器
 │   │   └── unitConversionHelper.ts  # 单位转换帮助器
 │   ├── data/                        # 数据相关
-│   │   └── schema.sql               # 数据库表结构
+│   │   └── (数据库表结构已嵌入到main.js中)
 │   ├── database/                    # 数据库迁移
 │   │   ├── migrations.ts            # 数据库迁移
 │   │   └── seedData.ts              # 种子数据
@@ -661,7 +661,7 @@ A:
 ### Q: 数据库相关错误？
 A: 
 1. 检查 SQLite 数据库文件是否存在于 `data/` 目录
-2. 验证数据库表结构是否完整 (参考 `src/data/schema.sql`)
+2. 验证数据库表结构是否完整 (参考 `public/main.js` 中的嵌入式schema)
 3. 尝试删除数据库文件让系统重新创建
 
 ### Q: 权限访问被拒绝？
@@ -680,7 +680,7 @@ A:
 A: 
 1. 在 `src/components/` 下创建新模块目录
 2. 在 `src/services/business/` 下创建对应业务服务
-3. 在数据库中添加相应表结构 (`src/data/schema.sql`)
+3. 在数据库中添加相应表结构 (修改 `public/main.js` 中的嵌入式schema)
 4. 更新路由和权限配置
 
 ### Q: 如何自定义主题样式？

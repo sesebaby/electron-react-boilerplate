@@ -153,8 +153,144 @@ class DatabaseManager {
 
   private async initializeSchema(): Promise<void> {
     try {
-      const schemaPath = path.join(__dirname, '../../data/schema.sql');
-      const schema = fs.readFileSync(schemaPath, 'utf-8');
+      // 使用与main.js相同的嵌入式schema，确保一致性
+      // 注意：这个文件可能不再被使用，如果项目使用main.js中的数据库初始化
+      const schema = `
+        -- 用户表
+        CREATE TABLE IF NOT EXISTS users (
+          id TEXT PRIMARY KEY,
+          username TEXT UNIQUE NOT NULL,
+          password TEXT NOT NULL,
+          nickname TEXT NOT NULL,
+          email TEXT,
+          phone TEXT,
+          avatar TEXT,
+          role TEXT NOT NULL CHECK(role IN ('admin', 'purchaser', 'salesperson', 'warehouse', 'finance')),
+          status TEXT NOT NULL CHECK(status IN ('active', 'inactive', 'locked')) DEFAULT 'active',
+          last_login_at DATETIME,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+
+        -- 仓库表
+        CREATE TABLE IF NOT EXISTS warehouses (
+          id TEXT PRIMARY KEY,
+          code TEXT UNIQUE NOT NULL,
+          name TEXT NOT NULL,
+          address TEXT,
+          manager TEXT,
+          phone TEXT,
+          is_default BOOLEAN NOT NULL DEFAULT 0,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+
+        -- 客户表
+        CREATE TABLE IF NOT EXISTS customers (
+          id TEXT PRIMARY KEY,
+          code TEXT UNIQUE NOT NULL,
+          name TEXT NOT NULL,
+          contact_person TEXT,
+          phone TEXT,
+          email TEXT,
+          address TEXT,
+          customer_type TEXT NOT NULL CHECK(customer_type IN ('individual', 'company')) DEFAULT 'individual',
+          credit_limit REAL NOT NULL DEFAULT 0,
+          payment_terms TEXT,
+          discount_rate REAL NOT NULL DEFAULT 0,
+          level TEXT NOT NULL CHECK(level IN ('VIP', 'Gold', 'Silver', 'Bronze')) DEFAULT 'Bronze',
+          status TEXT NOT NULL CHECK(status IN ('active', 'inactive')) DEFAULT 'active',
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+
+        -- 分类表
+        CREATE TABLE IF NOT EXISTS categories (
+          id TEXT PRIMARY KEY,
+          name TEXT NOT NULL,
+          description TEXT,
+          parent_id TEXT,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          FOREIGN KEY (parent_id) REFERENCES categories(id)
+        );
+
+        -- 供应商表
+        CREATE TABLE IF NOT EXISTS suppliers (
+          id TEXT PRIMARY KEY,
+          name TEXT NOT NULL,
+          contact_person TEXT,
+          phone TEXT,
+          email TEXT,
+          address TEXT,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+
+        -- 计量单位表
+        CREATE TABLE IF NOT EXISTS units (
+          id TEXT PRIMARY KEY,
+          name TEXT NOT NULL,
+          symbol TEXT UNIQUE NOT NULL,
+          type TEXT NOT NULL CHECK(type IN ('weight', 'length', 'volume', 'quantity', 'area', 'time')),
+          precision INTEGER NOT NULL DEFAULT 2 CHECK(precision >= 0 AND precision <= 6),
+          description TEXT,
+          is_active BOOLEAN NOT NULL DEFAULT 1,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+
+        -- 库存交易记录表
+        CREATE TABLE IF NOT EXISTS inventory_transactions (
+          id TEXT PRIMARY KEY,
+          item_id TEXT NOT NULL,
+          transaction_type TEXT NOT NULL CHECK(transaction_type IN ('in', 'out', 'adjustment')),
+          quantity INTEGER NOT NULL,
+          unit_price REAL,
+          total_amount REAL,
+          reference_number TEXT,
+          notes TEXT,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          created_by TEXT,
+          FOREIGN KEY (item_id) REFERENCES inventory_items(id)
+        );
+
+        -- 库存物品表
+        CREATE TABLE IF NOT EXISTS inventory_items (
+          id TEXT PRIMARY KEY,
+          name TEXT NOT NULL,
+          description TEXT,
+          sku TEXT UNIQUE NOT NULL,
+          category TEXT NOT NULL,
+          supplier TEXT,
+          stock_quantity INTEGER NOT NULL DEFAULT 0,
+          reserved_quantity INTEGER NOT NULL DEFAULT 0,
+          unit_price REAL NOT NULL DEFAULT 0,
+          total_value REAL NOT NULL DEFAULT 0,
+          last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
+          status TEXT CHECK(status IN ('in-stock', 'low-stock', 'out-of-stock', 'discontinued')) DEFAULT 'in-stock',
+          location TEXT,
+          reorder_level INTEGER DEFAULT 0,
+          max_stock INTEGER DEFAULT 0,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
+        CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
+        CREATE INDEX IF NOT EXISTS idx_warehouses_code ON warehouses(code);
+        CREATE INDEX IF NOT EXISTS idx_customers_code ON customers(code);
+        CREATE INDEX IF NOT EXISTS idx_customers_level ON customers(level);
+        CREATE INDEX IF NOT EXISTS idx_inventory_sku ON inventory_items(sku);
+        CREATE INDEX IF NOT EXISTS idx_inventory_category ON inventory_items(category);
+        CREATE INDEX IF NOT EXISTS idx_inventory_status ON inventory_items(status);
+        CREATE INDEX IF NOT EXISTS idx_categories_parent ON categories(parent_id);
+        CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
+        CREATE INDEX IF NOT EXISTS idx_units_symbol ON units(symbol);
+        CREATE INDEX IF NOT EXISTS idx_units_type ON units(type);
+        CREATE INDEX IF NOT EXISTS idx_transactions_item ON inventory_transactions(item_id);
+        CREATE INDEX IF NOT EXISTS idx_transactions_type ON inventory_transactions(transaction_type);
+      `;
       
       // 拆分SQL语句并执行
       const statements = schema

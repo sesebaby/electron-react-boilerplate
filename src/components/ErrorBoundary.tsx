@@ -1,7 +1,19 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { AppError, ErrorUtils } from '../utils/errors';
+import { ErrorUtils } from '../utils/errors';
 import { logger } from '../utils/logger';
 import { globalErrorHandler } from '../utils/globalErrorHandler';
+
+interface ErrorReport {
+  error: any;
+  errorInfo: {
+    componentStack: string | null | undefined;
+    errorBoundary: string;
+  };
+  timestamp: string;
+  userAgent: string;
+  url: string;
+  userId: string;
+}
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -80,7 +92,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     }
   }
 
-  private async sendErrorReport(errorReport: any) {
+  private async sendErrorReport(errorReport: ErrorReport) {
     try {
       // TODO: 发送到错误监控服务
       // await fetch('/api/errors', {
@@ -125,7 +137,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     return 'high'; // 未知错误认为高优先级
   }
 
-  private renderDefaultFallback(error: Error, errorInfo: ErrorInfo) {
+  private renderDefaultFallback(error: Error, _errorInfo: ErrorInfo) {
     const severity = this.getErrorSeverity(error);
     const isAppError = ErrorUtils.isAppError(error);
     

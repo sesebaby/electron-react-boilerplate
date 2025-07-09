@@ -4,6 +4,15 @@ import { supplierService } from '../../services/business';
 import { AccountsPayable, Payment, PayableStatus, PaymentMethod, Supplier } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
+
+interface PayableStats {
+  total: number;
+  unpaid: number;
+  partial: number;
+  paid: number;
+  overdue: number;
+  balanceAmount: number;
+}
 import { 
   Table, 
   TableContainer,
@@ -12,8 +21,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
-  TableLoading
+  TableEmpty
 } from '../ui/table';
 
 interface AccountsPayableManagementProps {
@@ -75,7 +83,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
   const [selectedStatus, setSelectedStatus] = useState<PayableStatus | ''>('');
   const [selectedSupplier, setSelectedSupplier] = useState('');
   const [showOverdueOnly, setShowOverdueOnly] = useState(false);
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<PayableStats | null>(null);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [showPaymentHistory, setShowPaymentHistory] = useState(false);
 
@@ -234,11 +242,11 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     setPaymentFormData(emptyPaymentForm);
   };
 
-  const handlePayableInputChange = (field: keyof PayableForm, value: any) => {
+  const handlePayableInputChange = (field: keyof PayableForm, value: string | number | Date) => {
     setPayableFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handlePaymentInputChange = (field: keyof PaymentForm, value: any) => {
+  const handlePaymentInputChange = (field: keyof PaymentForm, value: string | number | Date) => {
     setPaymentFormData(prev => ({ ...prev, [field]: value }));
   };
 

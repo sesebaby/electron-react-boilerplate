@@ -221,19 +221,152 @@ function setupSystemHandlers(ipcMain, db) {
       return errorResult('Database not initialized');
     }
 
-    const fs = require('fs');
-    const path = require('path');
+    // 使用与main.js相同的嵌入式schema，确保一致性
+    const schema = `
+      -- 用户表
+      CREATE TABLE IF NOT EXISTS users (
+        id TEXT PRIMARY KEY,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        nickname TEXT NOT NULL,
+        email TEXT,
+        phone TEXT,
+        avatar TEXT,
+        role TEXT NOT NULL CHECK(role IN ('admin', 'purchaser', 'salesperson', 'warehouse', 'finance')),
+        status TEXT NOT NULL CHECK(status IN ('active', 'inactive', 'locked')) DEFAULT 'active',
+        last_login_at DATETIME,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
 
-    // 读取架构文件
-    const schemaPath = path.join(__dirname, '../../src/data/schema.sql');
-    if (!fs.existsSync(schemaPath)) {
-      throw new Error('Schema file not found');
+      -- 仓库表
+      CREATE TABLE IF NOT EXISTS warehouses (
+        id TEXT PRIMARY KEY,
+        code TEXT UNIQUE NOT NULL,
+        name TEXT NOT NULL,
+        address TEXT,
+        manager TEXT,
+        phone TEXT,
+        is_default BOOLEAN NOT NULL DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      -- 客户表
+      CREATE TABLE IF NOT EXISTS customers (
+        id TEXT PRIMARY KEY,
+        code TEXT UNIQUE NOT NULL,
+        name TEXT NOT NULL,
+        contact_person TEXT,
+        phone TEXT,
+        email TEXT,
+        address TEXT,
+        customer_type TEXT NOT NULL CHECK(customer_type IN ('individual', 'company')) DEFAULT 'individual',
+        credit_limit REAL NOT NULL DEFAULT 0,
+        payment_terms TEXT,
+        discount_rate REAL NOT NULL DEFAULT 0,
+        level TEXT NOT NULL CHECK(level IN ('VIP', 'Gold', 'Silver', 'Bronze')) DEFAULT 'Bronze',
+        status TEXT NOT NULL CHECK(status IN ('active', 'inactive')) DEFAULT 'active',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      -- 分类表
+      CREATE TABLE IF NOT EXISTS categories (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        description TEXT,
+        parent_id TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (parent_id) REFERENCES categories(id)
+      );
+
+      -- 供应商表
+      CREATE TABLE IF NOT EXISTS suppliers (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        contact_person TEXT,
+        phone TEXT,
+        email TEXT,
+        address TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      -- 计量单位表
+      CREATE TABLE IF NOT EXISTS units (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        symbol TEXT UNIQUE NOT NULL,
+        type TEXT NOT NULL CHECK(type IN ('weight', 'length', 'volume', 'quantity', 'area', 'time')),
+        precision INTEGER NOT NULL DEFAULT 2 CHECK(precision >= 0 AND precision <= 6),
+        description TEXT,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      -- 库存交易记录表
+      CREATE TABLE IF NOT EXISTS inventory_transactions (
+        id TEXT PRIMARY KEY,
+        item_id TEXT NOT NULL,
+        transaction_type TEXT NOT NULL CHECK(transaction_type IN ('in', 'out', 'adjustment')),
+        quantity INTEGER NOT NULL,
+        unit_price REAL,
+        total_amount REAL,
+        reference_number TEXT,
+        notes TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        created_by TEXT,
+        FOREIGN KEY (item_id) REFERENCES inventory_items(id)
+      );
+
+      -- 库存物品表
+      CREATE TABLE IF NOT EXISTS inventory_items (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        description TEXT,
+        sku TEXT UNIQUE NOT NULL,
+        category TEXT NOT NULL,
+        supplier TEXT,
+        stock_quantity INTEGER NOT NULL DEFAULT 0,
+        reserved_quantity INTEGER NOT NULL DEFAULT 0,
+        unit_price REAL NOT NULL DEFAULT 0,
+        total_value REAL NOT NULL DEFAULT 0,
+        last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
+        status TEXT CHECK(status IN ('in-stock', 'low-stock', 'out-of-stock', 'discontinued')) DEFAULT 'in-stock',
+        location TEXT,
+        reorder_level INTEGER DEFAULT 0,
+        max_stock INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
+      CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
+      CREATE INDEX IF NOT EXISTS idx_warehouses_code ON warehouses(code);
+      CREATE INDEX IF NOT EXISTS idx_customers_code ON customers(code);
+      CREATE INDEX IF NOT EXISTS idx_customers_level ON customers(level);
+      CREATE INDEX IF NOT EXISTS idx_inventory_sku ON inventory_items(sku);
+      CREATE INDEX IF NOT EXISTS idx_inventory_category ON inventory_items(category);
+      CREATE INDEX IF NOT EXISTS idx_inventory_status ON inventory_items(status);
+      CREATE INDEX IF NOT EXISTS idx_categories_parent ON categories(parent_id);
+      CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
+      CREATE INDEX IF NOT EXISTS idx_units_symbol ON units(symbol);
+      CREATE INDEX IF NOT EXISTS idx_units_type ON units(type);
+      CREATE INDEX IF NOT EXISTS idx_transactions_item ON inventory_transactions(item_id);
+      CREATE INDEX IF NOT EXISTS idx_transactions_type ON inventory_transactions(transaction_type);
+    `;
+
+    // 执行架构 - 添加错误处理
+    try {
+      db.exec(schema);
+      console.log('Database schema rebuilt successfully using embedded schema');
+    } catch (dbError) {
+      console.error('Database schema execution error:', dbError);
+      throw new Error(`Database schema execution failed: ${dbError.message}`);
     }
-
-    const schema = fs.readFileSync(schemaPath, 'utf-8');
-
-    // 执行架构
-    db.exec(schema);
 
     return successResult({
       message: 'Database schema rebuilt successfully',
@@ -250,16 +383,55 @@ function setupSystemHandlers(ipcMain, db) {
     const fs = require('fs');
     const path = require('path');
 
-    // 读取模拟数据文件
+    // 读取模拟数据文件 - 添加路径检查和错误处理
     const mockDataPath = path.join(__dirname, '../../mock-data.sql');
+    console.log('Mock data path:', mockDataPath);
+    console.log('Mock data path exists:', fs.existsSync(mockDataPath));
+    
     if (!fs.existsSync(mockDataPath)) {
-      throw new Error('Mock data file not found');
+      // 尝试备用路径
+      const alternativePath = path.join(__dirname, '../../../mock-data.sql');
+      console.log('Alternative mock data path:', alternativePath);
+      console.log('Alternative mock data path exists:', fs.existsSync(alternativePath));
+      
+      if (fs.existsSync(alternativePath)) {
+        const mockData = fs.readFileSync(alternativePath, 'utf-8');
+        
+        try {
+          db.exec(mockData);
+        } catch (dbError) {
+          console.error('Mock data execution error (alternative path):', dbError);
+          throw new Error(`Mock data execution failed: ${dbError.message}`);
+        }
+        
+        // 获取导入后的统计信息
+        const stats = {};
+        const tables = ['categories', 'suppliers', 'units', 'inventory_items', 'inventory_transactions', 'warehouses'];
+        
+        for (const table of tables) {
+          const result = db.prepare(`SELECT COUNT(*) as count FROM ${table}`).get();
+          stats[table] = result.count;
+        }
+        
+        return successResult({
+          message: 'Mock data imported successfully (alternative path)',
+          timestamp: new Date().toISOString(),
+          stats
+        });
+      }
+      
+      throw new Error(`Mock data file not found at ${mockDataPath} or ${alternativePath}`);
     }
 
     const mockData = fs.readFileSync(mockDataPath, 'utf-8');
 
-    // 执行模拟数据
-    db.exec(mockData);
+    // 执行模拟数据 - 添加错误处理
+    try {
+      db.exec(mockData);
+    } catch (dbError) {
+      console.error('Mock data execution error:', dbError);
+      throw new Error(`Mock data execution failed: ${dbError.message}`);
+    }
 
     // 获取导入后的统计信息
     const stats = {};

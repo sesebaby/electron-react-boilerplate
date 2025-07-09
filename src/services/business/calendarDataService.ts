@@ -32,7 +32,7 @@ export class CalendarDataService {
     weekEnd.setDate(weekEnd.getDate() + 6);
 
     const days: DailyBusinessSummary[] = [];
-    let weeklyTotals = { purchases: 0, sales: 0, netChange: 0 };
+    const weeklyTotals = { purchases: 0, sales: 0, netChange: 0 };
 
     // 生成7天的数据
     for (let i = 0; i < 7; i++) {

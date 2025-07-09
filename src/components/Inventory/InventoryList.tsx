@@ -14,7 +14,7 @@ import {
   TableEmpty,
   TableLoading
 } from '../ui/table';
-import { formatCurrency, formatNumber, debounce } from '../../utils/formatters';
+import { formatCurrency, formatNumber } from '../../utils/formatters';
 
 interface InventoryListProps {
   className?: string;

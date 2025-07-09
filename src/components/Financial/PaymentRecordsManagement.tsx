@@ -2,7 +2,16 @@ import React, { useState, useEffect } from 'react';
 import accountsPayableService from '../../services/business/accountsPayableService';
 import { supplierService } from '../../services/business';
 import { Payment, PaymentMethod, Supplier } from '../../types/entities';
-import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { GlassInput, GlassSelect, GlassCard } from '../ui/FormControls';
+
+interface PaymentStatData {
+  count: number;
+  amount: number;
+}
+
+type PaymentStats = {
+  [key in PaymentMethod]: PaymentStatData;
+};
 
 interface PaymentRecordsManagementProps {
   className?: string;
@@ -20,7 +29,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     startDate: '',
     endDate: ''
   });
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<PaymentStats | null>(null);
 
   useEffect(() => {
     loadData();
@@ -70,7 +79,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     }
   };
 
-  const getPaymentMethodClass = (method: PaymentMethod): string => {
+  const _getPaymentMethodClass = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return 'text-green-600 bg-green-50 border-green-200';
       case PaymentMethod.BANK_TRANSFER: return 'text-blue-600 bg-blue-50 border-blue-200';
@@ -81,7 +90,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     }
   };
 
-  const getSupplierName = async (payableId: string): Promise<string> => {
+  const _getSupplierName = async (payableId: string): Promise<string> => {
     try {
       const payable = await accountsPayableService.findById(payableId);
       if (payable) {
@@ -224,8 +233,8 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
                   <div key={method} className="text-center p-4 bg-white/30 rounded-xl border border-white/20">
                     <div className="text-2xl mb-2">{getPaymentMethodIcon(method as PaymentMethod)}</div>
                     <div className="font-medium financial-text mb-1">{getPaymentMethodText(method as PaymentMethod)}</div>
-                    <div className="text-sm financial-subtitle">{(data as any).count} 笔</div>
-                    <div className="text-sm font-medium financial-value-expense">¥{(data as any).amount.toLocaleString()}</div>
+                    <div className="text-sm financial-subtitle">{data.count} 笔</div>
+                    <div className="text-sm font-medium financial-value-expense">¥{data.amount.toLocaleString()}</div>
                   </div>
                 ))}
               </div>

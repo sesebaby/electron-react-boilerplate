@@ -68,7 +68,7 @@ export const findMaxValue = (data: Array<{ value: number }>): number => {
 };
 
 // 防抖工具
-export const debounce = <T extends (...args: any[]) => any>(
+export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   delay: number
 ): ((...args: Parameters<T>) => void) => {

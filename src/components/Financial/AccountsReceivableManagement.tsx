@@ -5,6 +5,15 @@ import { AccountsReceivable, Receipt, ReceivableStatus, PaymentMethod, Customer 
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
 
+interface ReceivableStats {
+  total: number;
+  unpaid: number;
+  partial: number;
+  paid: number;
+  overdue: number;
+  balanceAmount: number;
+}
+
 interface AccountsReceivableManagementProps {
   className?: string;
 }
@@ -64,7 +73,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
   const [selectedStatus, setSelectedStatus] = useState<ReceivableStatus | ''>('');
   const [selectedCustomer, setSelectedCustomer] = useState('');
   const [showOverdueOnly, setShowOverdueOnly] = useState(false);
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<ReceivableStats | null>(null);
   const [receipts, setReceipts] = useState<Receipt[]>([]);
   const [showReceiptHistory, setShowReceiptHistory] = useState(false);
 
@@ -223,11 +232,11 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     setReceiptFormData(emptyReceiptForm);
   };
 
-  const handleReceivableInputChange = (field: keyof ReceivableForm, value: any) => {
+  const handleReceivableInputChange = (field: keyof ReceivableForm, value: string | number | Date) => {
     setReceivableFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleReceiptInputChange = (field: keyof ReceiptForm, value: any) => {
+  const handleReceiptInputChange = (field: keyof ReceiptForm, value: string | number | Date) => {
     setReceiptFormData(prev => ({ ...prev, [field]: value }));
   };
 

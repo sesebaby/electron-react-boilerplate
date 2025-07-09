@@ -2,7 +2,16 @@ import React, { useState, useEffect } from 'react';
 import accountsReceivableService from '../../services/business/accountsReceivableService';
 import { customerService } from '../../services/business';
 import { Receipt, PaymentMethod, Customer } from '../../types/entities';
-import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { GlassInput, GlassSelect, GlassCard } from '../ui/FormControls';
+
+interface ReceiptStatData {
+  count: number;
+  amount: number;
+}
+
+type ReceiptStats = {
+  [key in PaymentMethod]: ReceiptStatData;
+};
 
 interface ReceiptRecordsManagementProps {
   className?: string;
@@ -20,7 +29,7 @@ export const ReceiptRecordsManagement: React.FC<ReceiptRecordsManagementProps> =
     startDate: '',
     endDate: ''
   });
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<ReceiptStats | null>(null);
 
   useEffect(() => {
     loadData();
@@ -70,7 +79,7 @@ export const ReceiptRecordsManagement: React.FC<ReceiptRecordsManagementProps> =
     }
   };
 
-  const getReceiptMethodClass = (method: PaymentMethod): string => {
+  const _getReceiptMethodClass = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return 'text-green-600 bg-green-50 border-green-200';
       case PaymentMethod.BANK_TRANSFER: return 'text-blue-600 bg-blue-50 border-blue-200';
@@ -81,7 +90,7 @@ export const ReceiptRecordsManagement: React.FC<ReceiptRecordsManagementProps> =
     }
   };
 
-  const getCustomerName = async (receivableId: string): Promise<string> => {
+  const _getCustomerName = async (receivableId: string): Promise<string> => {
     try {
       const receivable = await accountsReceivableService.findById(receivableId);
       if (receivable) {
@@ -224,8 +233,8 @@ export const ReceiptRecordsManagement: React.FC<ReceiptRecordsManagementProps> =
                   <div key={method} className="text-center p-4 bg-white/30 rounded-xl border border-white/20">
                     <div className="text-2xl mb-2">{getReceiptMethodIcon(method as PaymentMethod)}</div>
                     <div className="font-medium financial-text mb-1">{getReceiptMethodText(method as PaymentMethod)}</div>
-                    <div className="text-sm financial-subtitle">{(data as any).count} 笔</div>
-                    <div className="text-sm font-medium financial-value-income">¥{(data as any).amount.toLocaleString()}</div>
+                    <div className="text-sm financial-subtitle">{data.count} 笔</div>
+                    <div className="text-sm font-medium financial-value-income">¥{data.amount.toLocaleString()}</div>
                   </div>
                 ))}
               </div>
