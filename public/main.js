@@ -2,7 +2,7 @@ const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs').promises;
 const Database = require('better-sqlite3');
-const { setupDatabaseHandlers } = require('./database-handlers');
+const { setupDatabaseHandlers } = require('./database');
 
 let db = null;
 
@@ -453,85 +453,5 @@ ipcMain.handle('db-initialize', async () => {
   }
 });
 
-ipcMain.handle('db-get-all-items', async () => {
-  try {
-    if (!db) {
-      return { success: false, error: 'Database not initialized' };
-    }
-    
-    const query = `
-      SELECT 
-        id, name, description, sku, category, supplier,
-        stock_quantity as stockQuantity,
-        reserved_quantity as reservedQuantity,
-        unit_price as unitPrice,
-        total_value as totalValue,
-        last_updated as lastUpdated,
-        status, location,
-        reorder_level as reorderLevel,
-        max_stock as maxStock
-      FROM inventory_items 
-      ORDER BY name ASC
-    `;
-    
-    const stmt = db.prepare(query);
-    const rows = stmt.all();
-    
-    const items = rows.map(row => ({
-      ...row,
-      lastUpdated: new Date(row.lastUpdated)
-    }));
-    
-    return { success: true, data: items };
-  } catch (error) {
-    return { success: false, error: error.message };
-  }
-});
-
-// 强制重新导入单位数据的处理器
-ipcMain.handle('db-reimport-units', async () => {
-  try {
-    if (!db) {
-      return { success: false, error: 'Database not initialized' };
-    }
-
-    console.log('Forcing reimport of units data...');
-
-    // 清空现有的单位数据
-    db.prepare('DELETE FROM units').run();
-    console.log('Cleared existing units data');
-
-    // 读取并执行mock-data.sql中的单位数据部分
-    const mockDataPath = path.join(__dirname, '../mock-data.sql');
-    
-    if (!await fs.access(mockDataPath).then(() => true).catch(() => false)) {
-      return { success: false, error: 'Mock data file not found' };
-    }
-    
-    const mockDataSql = await fs.readFile(mockDataPath, 'utf8');
-    
-    // 提取单位相关的INSERT语句
-    const unitInsertRegex = /INSERT INTO units[\s\S]*?(?=(?:INSERT INTO \w+|$))/g;
-    const unitInserts = mockDataSql.match(unitInsertRegex);
-    
-    if (unitInserts && unitInserts.length > 0) {
-      // 执行单位数据插入
-      db.exec(unitInserts[0]);
-      
-      // 验证导入结果
-      const unitCount = db.prepare('SELECT COUNT(*) as count FROM units').get();
-      console.log(`Units reimport completed: ${unitCount.count} units imported`);
-      
-      return { 
-        success: true, 
-        message: `成功重新导入 ${unitCount.count} 个单位`,
-        count: unitCount.count 
-      };
-    } else {
-      return { success: false, error: 'No unit data found in mock-data.sql' };
-    }
-  } catch (error) {
-    console.error('Failed to reimport units:', error);
-    return { success: false, error: error.message };
-  }
-});
+// 重复的处理器已移除 - 现在由模块化的处理器管理
+// db-get-all-items 和 db-reimport-units 现在在 inventoryHandlers.js 和 unitHandlers.js 中处理
