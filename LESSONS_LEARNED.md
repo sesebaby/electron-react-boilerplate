@@ -802,6 +802,118 @@ const handlersToRemove = [
 
 ---
 
-*记录时间: 2025-01-03 → 2025-07-08*  
+## ❌ 错误 #15: 表单提交按钮在表单外部导致提交失效
+
+### 🐛 问题描述
+用户在商品管理页面点击"更新商品"按钮时，按钮点击事件正常响应，但表单提交逻辑没有执行，导致商品信息无法更新。具体表现为：
+1. 按钮点击成功记录到日志
+2. 没有任何表单提交的后续日志
+3. 没有错误提示
+4. 商品信息没有更新
+
+### 💡 根本原因
+**HTML表单结构问题**：提交按钮被放置在表单外部，导致 `type="submit"` 属性无效。
+
+**代码结构分析**：
+```tsx
+<form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+  {/* 表单字段 */}
+  <GlassCard title="基本信息">
+    <GlassInput label="商品名称" register={register('name')} />
+    {/* 更多字段 */}
+  </GlassCard>
+</form>  {/* ← 表单在这里结束 */}
+
+{/* 提交按钮 - 固定在底部 */}
+<div className="bg-white/5 backdrop-blur-sm border-t border-white/10 px-4 sm:px-6 py-3 sm:py-4">
+  <div className="flex gap-3 sm:gap-4">
+    <GlassButton
+      type="submit"  {/* ← 此属性无效，因为按钮在表单外部 */}
+      variant="primary"
+      loading={isSubmitting}
+      className="flex-1"
+    >
+      {editingProduct ? '更新商品' : '创建商品'}
+    </GlassButton>
+  </div>
+</div>
+```
+
+### ✅ 解决方案
+
+#### 方案1：手动触发表单提交（已采用）
+```tsx
+<GlassButton
+  type="button"  {/* 改为 button 类型 */}
+  variant="primary"
+  loading={isSubmitting}
+  className="flex-1"
+  onClick={handleSubmit(onSubmit)}  {/* 手动触发提交 */}
+>
+  {editingProduct ? '更新商品' : '创建商品'}
+</GlassButton>
+```
+
+#### 方案2：使用表单ID属性（备选）
+```tsx
+<form id="product-form" onSubmit={handleSubmit(onSubmit)}>
+  {/* 表单字段 */}
+</form>
+
+<GlassButton
+  type="submit"
+  form="product-form"  {/* 引用表单ID */}
+  variant="primary"
+  loading={isSubmitting}
+>
+  更新商品
+</GlassButton>
+```
+
+#### 方案3：重新设计布局（最彻底）
+```tsx
+<form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+  {/* 表单字段 */}
+  <GlassCard title="基本信息">
+    {/* 字段内容 */}
+  </GlassCard>
+  
+  {/* 提交按钮移入表单内部 */}
+  <div className="bg-white/5 backdrop-blur-sm border-t border-white/10 px-4 sm:px-6 py-3 sm:py-4">
+    <GlassButton type="submit" variant="primary" loading={isSubmitting}>
+      更新商品
+    </GlassButton>
+  </div>
+</form>
+```
+
+### 🔧 排查步骤
+1. **检查用户操作日志**：确认按钮点击成功但没有表单提交记录
+2. **检查错误日志**：排除JavaScript错误的可能性
+3. **审查表单结构**：确认按钮与表单的位置关系
+4. **验证HTML规范**：确认 `type="submit"` 按钮必须在表单内部才能触发提交
+
+### 📝 经验教训
+- **HTML基础很重要**：`type="submit"` 按钮只有在表单内部才能自动触发表单提交
+- **UI设计与功能实现要平衡**：为了实现固定底部按钮的UI效果，不应该破坏表单的基本功能
+- **日志分析很关键**：通过分析用户操作日志和错误日志，能够快速定位问题的根本原因
+- **表单结构设计要慎重**：复杂的表单布局设计时要考虑HTML语义和功能完整性
+
+### 🚨 预防措施
+- 在表单设计时，确保提交按钮在表单内部或使用 `form` 属性正确关联
+- 对于复杂的表单布局，优先考虑使用 `form` 属性而不是手动事件处理
+- 建立表单组件的最佳实践文档，明确按钮放置的标准
+- 在代码审查时特别注意表单结构的完整性
+
+### 🔍 相关检查点
+遇到类似表单提交问题时的检查清单：
+1. **确认按钮位置**：检查提交按钮是否在 `<form>` 标签内部
+2. **验证按钮类型**：确认按钮使用 `type="submit"` 还是手动事件处理
+3. **检查表单绑定**：确认 `onSubmit` 处理函数正确绑定
+4. **测试提交流程**：使用开发者工具监控表单提交事件
+
+---
+
+*记录时间: 2025-01-03 → 2025-07-09*  
 *项目: Inventory Management System*  
 *技术栈: React + TypeScript + shadcn/ui + Tailwind CSS + Electron + better-sqlite3*

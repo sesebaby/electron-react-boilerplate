@@ -554,16 +554,16 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                       fixed
                       fixedPosition="left"
                       fixedOffset={0}
-                      className="min-w-[200px] table-first-column-enhanced"
+                      className="min-w-[200px]"
                     >
                       商品信息
                     </TableHead>
-                    <TableHead className="min-w-[120px] table-header-enhanced">SKU</TableHead>
-                    <TableHead className="min-w-[100px] table-header-enhanced">分类</TableHead>
-                    <TableHead className="min-w-[120px] table-header-enhanced">价格</TableHead>
-                    <TableHead className="min-w-[100px] table-header-enhanced">库存范围</TableHead>
-                    <TableHead className="min-w-[80px] table-header-enhanced">状态</TableHead>
-                    <TableHead className="min-w-[120px] table-header-enhanced">操作</TableHead>
+                    <TableHead className="min-w-[120px]">SKU</TableHead>
+                    <TableHead className="min-w-[100px]">分类</TableHead>
+                    <TableHead className="min-w-[120px]">价格</TableHead>
+                    <TableHead className="min-w-[100px]">库存范围</TableHead>
+                    <TableHead className="min-w-[80px]">状态</TableHead>
+                    <TableHead className="min-w-[120px]">操作</TableHead>
                   </TableRow>
                 </TableHeader>
 
@@ -840,10 +840,11 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                 <div className="bg-white/5 backdrop-blur-sm border-t border-white/10 px-4 sm:px-6 py-3 sm:py-4">
                   <div className="flex gap-3 sm:gap-4">
                     <GlassButton
-                      type="submit"
+                      type="button"
                       variant="primary"
                       loading={isSubmitting}
                       className="flex-1"
+                      onClick={handleSubmit(onSubmit)}
                     >
                       {editingProduct ? '更新商品' : '创建商品'}
                     </GlassButton>
