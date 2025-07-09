@@ -62,17 +62,21 @@ export const GlassInput: React.FC<InputProps> = ({
   return (
     <div className="space-y-2">
       {label && (
-        <label className="block text-sm font-medium text-white flex items-center gap-1">
+        <label className="block text-sm font-medium flex items-center gap-1" style={{ color: 'var(--form-label-color)' }}>
           {sanitizeText(label)}
-          {required && <span className="text-red-400">*</span>}
+          {required && <span style={{ color: 'var(--form-required-color)' }}>*</span>}
         </label>
       )}
       <input
         {...inputProps}
-        className={`glass-input w-full px-4 py-3 rounded-lg ${error ? 'border-red-400 ring-red-400/20 ring-2' : ''} ${sanitizeText(className)}`}
+        className={`glass-input w-full px-4 py-3 rounded-lg ${sanitizeText(className)}`}
+        style={error ? {
+          border: 'var(--form-error-border)',
+          boxShadow: 'var(--form-error-ring)'
+        } : {}}
       />
       {error && (
-        <p className="text-sm text-red-400">{sanitizeText(error)}</p>
+        <p className="text-sm" style={{ color: 'var(--form-error-color)' }}>{sanitizeText(error)}</p>
       )}
     </div>
   );
@@ -100,19 +104,23 @@ export const GlassSelect: React.FC<SelectProps> = ({
   return (
     <div className="space-y-2">
       {label && (
-        <label className="block text-sm font-medium text-white flex items-center gap-1">
+        <label className="block text-sm font-medium flex items-center gap-1" style={{ color: 'var(--form-label-color)' }}>
           {sanitizeText(label)}
-          {required && <span className="text-red-400">*</span>}
+          {required && <span style={{ color: 'var(--form-required-color)' }}>*</span>}
         </label>
       )}
       <select
         {...selectProps}
-        className={`glass-input glass-select w-full px-4 py-3 rounded-lg ${error ? 'border-red-400 ring-red-400/20 ring-2' : ''} ${sanitizeText(className)}`}
+        className={`glass-input glass-select w-full px-4 py-3 rounded-lg ${sanitizeText(className)}`}
+        style={error ? {
+          border: 'var(--form-error-border)',
+          boxShadow: 'var(--form-error-ring)'
+        } : {}}
       >
         {children}
       </select>
       {error && (
-        <p className="text-sm text-red-400">{sanitizeText(error)}</p>
+        <p className="text-sm" style={{ color: 'var(--form-error-color)' }}>{sanitizeText(error)}</p>
       )}
     </div>
   );
@@ -163,11 +171,15 @@ export const GlassCard: React.FC<{
   title?: string;
 }> = ({ children, className = '', title }) => {
   return (
-    <div 
-      className={`glass-card p-6 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-lg shadow-2xl ${sanitizeText(className)}`}
+    <div
+      className={`glass-card p-6 rounded-2xl backdrop-blur-lg shadow-2xl ${sanitizeText(className)}`}
+      style={{
+        background: 'var(--card-background)',
+        border: 'var(--glass-border)'
+      }}
     >
       {title && (
-        <h3 className="text-lg font-semibold mb-4 text-white">
+        <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>
           {sanitizeText(title)}
         </h3>
       )}

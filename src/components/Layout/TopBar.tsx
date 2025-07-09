@@ -221,12 +221,13 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   const getNotificationTypeStyles = (type: NotificationType) => {
+    const baseStyle = 'border-l-4';
     switch (type) {
-      case 'warning': return 'border-l-4 border-l-yellow-400 bg-yellow-500/10';
-      case 'info': return 'border-l-4 border-l-blue-400 bg-blue-500/10';
-      case 'success': return 'border-l-4 border-l-green-400 bg-green-500/10';
-      case 'error': return 'border-l-4 border-l-red-400 bg-red-500/10';
-      default: return 'border-l-4 border-l-gray-400 bg-gray-500/10';
+      case 'warning': return `${baseStyle} notification-warning`;
+      case 'info': return `${baseStyle} notification-info`;
+      case 'success': return `${baseStyle} notification-success`;
+      case 'error': return `${baseStyle} notification-error`;
+      default: return `${baseStyle} notification-default`;
     }
   };
 
@@ -438,7 +439,7 @@ export const TopBar: React.FC<TopBarProps> = ({
               <div className="absolute top-12 left-0 right-0 popup-dropdown z-50 max-h-80 overflow-y-auto">
                 {searchResults.length > 0 ? (
                   <>
-                    <div className="p-3 border-b border-white/10">
+                    <div className="p-3 border-b" style={{ borderColor: 'var(--divider-color)' }}>
                       <h3 className="text-sm font-medium" style={{ color: 'var(--popup-text-secondary)' }}>
                         找到 {searchResults.length} 个商品
                       </h3>

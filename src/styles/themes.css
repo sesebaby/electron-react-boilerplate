@@ -19,6 +19,10 @@
   --topbar-background: oklch(0.511 0.262 276.966 / 0.85);  /* indigo-600/85% */
   --topbar-shadow: 0 4px 16px oklch(0.257 0.09 281.288 / 0.3);
 
+  /* 导航栏背景 - 玻璃未来风主题，使用表面背景色 */
+  --navigation-background: var(--surface-background);  /* 使用表面背景色 */
+  --navigation-shadow: var(--glass-shadow);
+
   /* 表格锁定专用背景 - 平衡透明度和可读性 */
   --table-fixed-background: oklch(55.4% 0.046 257.417);
   --table-fixed-background-hover: oklch(0.87 0.065 274.039 / 0.7);
@@ -93,12 +97,43 @@
   --info-color: oklch(0.7 0.15 230);          /* 信息/中性 - 蓝色 */
   --disabled-color: oklch(0.6 0.02 260);      /* 禁用/停用 - 灰色 */
 
+  /* 表单控件专用颜色变量 */
+  --form-label-color: var(--text-primary);    /* 表单标签颜色 */
+  --form-error-color: var(--error-color);     /* 表单错误颜色 */
+  --form-error-border: 1px solid var(--error-color); /* 表单错误边框 */
+  --form-error-ring: 0 0 0 2px oklch(0.63 0.24 25 / 0.2); /* 表单错误光晕 */
+  --form-required-color: var(--error-color);  /* 必填标记颜色 */
+
+  /* 通知类型颜色变量 */
+  --notification-info-border: 1px solid var(--info-color);
+  --notification-info-bg: oklch(0.7 0.15 230 / 0.1);
+  --notification-success-border: 1px solid var(--success-color);
+  --notification-success-bg: oklch(0.64 0.15 145 / 0.1);
+  --notification-warning-border: 1px solid var(--warning-color);
+  --notification-warning-bg: oklch(0.8 0.15 85 / 0.1);
+  --notification-error-border: 1px solid var(--error-color);
+  --notification-error-bg: oklch(0.63 0.24 25 / 0.1);
+  --notification-default-border: 1px solid var(--disabled-color);
+  --notification-default-bg: oklch(0.6 0.02 260 / 0.1);
+
+  /* 界面通用颜色变量 */
+  --divider-color: oklch(100% 0.00011 271.152 / 0.1); /* 分割线颜色 */
+  --hover-overlay: oklch(100% 0.00011 271.152 / 0.1); /* 悬浮覆盖层 */
+  --status-indicator: oklch(0.64 0.15 145);           /* 状态指示器颜色 */
+
   /* 财务状态颜色 */
   --financial-positive: oklch(0.64 0.15 145);  /* 正值/收入 - 绿色 */
   --financial-negative: oklch(0.63 0.24 25);   /* 负值/支出 - 红色 */
   --financial-neutral: oklch(0.7 0.15 230);    /* 中性/信息 - 蓝色 */
   --financial-warning: oklch(0.8 0.15 85);     /* 警告/注意 - 黄色 */
   --financial-accent: oklch(0.75 0.2 45);      /* 强调/橙色 */
+
+  /* 表单控件专用颜色变量 - 玻璃未来风主题 */
+  --form-label-color: oklch(100% 0.00011 271.152 / 0.945); /* 白色标签 */
+  --form-error-color: oklch(0.7 0.24 25);      /* 错误颜色 - 稍亮的红色 */
+  --form-error-border: 1px solid oklch(0.7 0.24 25); /* 错误边框 */
+  --form-error-ring: 0 0 0 2px oklch(0.7 0.24 25 / 0.2); /* 错误光晕 */
+  --form-required-color: oklch(0.7 0.24 25);   /* 必填标记颜色 */
 
   /* 表格固定表头系统变量 */
   --table-header-fixed-bg: oklch(0.511 0.262 276.966 / 0.95);  /* indigo-600/95% - 高不透明度 */
@@ -201,6 +236,10 @@
   --topbar-background: oklch(0.511 0.262 276.966 / 0.85);  /* indigo-600/85% */
   --topbar-shadow: 0 4px 16px oklch(0.257 0.09 281.288 / 0.3);
 
+  /* 导航栏背景 - 玻璃未来风主题，使用表面背景色 */
+  --navigation-background: var(--surface-background);  /* 使用表面背景色 */
+  --navigation-shadow: var(--glass-shadow);
+
   /* 表格锁定专用背景 - 平衡透明度和可读性 */
   --table-fixed-background: oklch(55.4% 0.046 257.417);
   --table-fixed-background-hover: oklch(0.87 0.065 274.039 / 0.7);
@@ -278,6 +317,14 @@
   --scrollbar-track-hover-bg: oklch(0.585 0.233 277.117 / 0.15); /* 滚动条轨道悬停 */
   --scrollbar-thumb-color: oklch(0.87 0.065 274.039 / 0.4);     /* 滚动条滑块 */
   --scrollbar-thumb-hover-color: oklch(0.87 0.065 274.039 / 0.6); /* 滚动条滑块悬停 */
+}
+
+/* 玻璃未来风主题 侧边栏导航专用样式 */
+[data-theme="glass-future"] .glass-surface {
+  background: var(--navigation-background) !important;  /* 使用主题定义的导航栏背景色 */
+  backdrop-filter: var(--glass-blur) !important;
+  border-right: 1px solid oklch(0.87 0.065 274.039 / 0.4) !important;  /* indigo边框 */
+  box-shadow: var(--navigation-shadow) !important;
 }
 
 /* 玻璃未来风主题专用控件样式 */
@@ -407,6 +454,10 @@
   --topbar-background: oklch(0.279 0.041 260.031 / 0.85);  /* slate-800/85% */
   --topbar-shadow: 0 4px 16px oklch(0.129 0.042 264.695 / 0.4);
 
+  /* 导航栏背景 - 深色科技风主题，使用表面背景色 */
+  --navigation-background: var(--surface-background);  /* 使用表面背景色 */
+  --navigation-shadow: var(--glass-shadow);
+
   /* 表格锁定专用背景 - 深色主题版本 */
   --table-fixed-background: oklch(0.231 0.084 274.153 / 0.7);
   --table-fixed-background-hover: oklch(0.278 0.118 274.395 / 0.75);
@@ -468,6 +519,13 @@
   --financial-teal: oklch(0.75 0.15 180);      /* 青色 */
   --financial-indigo: oklch(0.7 0.2 270);      /* 靛蓝色 */
 
+  /* 表单控件专用颜色变量 - 深色科技风主题 */
+  --form-label-color: oklch(0.968 0.007 247.896); /* slate-100 标签 */
+  --form-error-color: oklch(0.7 0.24 25);      /* 错误颜色 - 稍亮的红色 */
+  --form-error-border: 1px solid oklch(0.7 0.24 25); /* 错误边框 */
+  --form-error-ring: 0 0 0 2px oklch(0.7 0.24 25 / 0.2); /* 错误光晕 */
+  --form-required-color: oklch(0.7 0.24 25);   /* 必填标记颜色 */
+
   /* 表格固定表头系统变量 - 深色科技风主题 */
   --table-header-fixed-bg: oklch(0.279 0.041 260.031 / 0.95);  /* slate-800/95% - 高不透明度 */
   --table-header-blur: blur(25px);
@@ -484,6 +542,14 @@
   --scrollbar-track-hover-bg: oklch(0.279 0.041 260.031 / 0.15); /* 滚动条轨道悬停 */
   --scrollbar-thumb-color: oklch(0.446 0.043 257.281 / 0.4);     /* 滚动条滑块 */
   --scrollbar-thumb-hover-color: oklch(0.446 0.043 257.281 / 0.6); /* 滚动条滑块悬停 */
+}
+
+/* 深色科技风主题 侧边栏导航专用样式 */
+[data-theme="dark-tech"] .glass-surface {
+  background: var(--navigation-background) !important;  /* 使用主题定义的导航栏背景色 */
+  backdrop-filter: var(--glass-blur) !important;
+  border-right: 1px solid oklch(0.446 0.043 257.281 / 0.3) !important;  /* slate边框 */
+  box-shadow: var(--navigation-shadow) !important;
 }
 
 /* 深色科技风主题专用控件样式 */
@@ -603,6 +669,10 @@
   /* TopBar专用背景 - 温暖商务风主题，与主界面背景色保持一致 */
   --topbar-background: oklch(0.828 0.189 84.429 / 0.95);  /* amber-400/95% - 与主界面保持一致 */
   --topbar-shadow: 0 4px 16px oklch(0.279 0.077 45.635 / 0.5);
+  
+  /* 导航栏背景 - 温暖商务风主题，与TopBar背景色保持一致 */
+  --navigation-background: var(--topbar-background);  /* 使用与TopBar相同的背景色 */
+  --navigation-shadow: var(--topbar-shadow);
 
   /* 表格锁定专用背景 - 温暖主题版本 */
   --table-fixed-background: oklch(0.987 0.022 95.277 / 0.8);
@@ -664,6 +734,13 @@
   --financial-purple: oklch(0.5 0.2 300);      /* 深紫色 */
   --financial-teal: oklch(0.5 0.15 180);       /* 深青色 */
   --financial-indigo: oklch(0.45 0.2 270);     /* 深靛蓝色 */
+
+  /* 表单控件专用颜色变量 - 温暖商务风主题 */
+  --form-label-color: oklch(0.414 0.112 45.904); /* amber-900 标签 */
+  --form-error-color: oklch(0.5 0.24 25);      /* 错误颜色 - 深红色 */
+  --form-error-border: 1px solid oklch(0.5 0.24 25); /* 错误边框 */
+  --form-error-ring: 0 0 0 2px oklch(0.5 0.24 25 / 0.2); /* 错误光晕 */
+  --form-required-color: oklch(0.5 0.24 25);   /* 必填标记颜色 */
 
   /* 表格固定表头系统变量 - 温暖商务风主题 */
   --table-header-fixed-bg: oklch(0.987 0.022 95.277 / 0.95);  /* amber-50/95% - 高不透明度 */
@@ -855,6 +932,14 @@
   background: var(--topbar-background);
   box-shadow: var(--topbar-shadow);
   border-bottom: 1px solid oklch(0.769 0.188 70.08 / 0.8);  /* amber-500/80% 深色边框 */
+}
+
+/* 温暖商务风主题 侧边栏导航专用样式 */
+[data-theme="warm-business"] .glass-surface {
+  background: var(--navigation-background) !important;  /* 使用主题定义的导航栏背景色 */
+  backdrop-filter: var(--glass-blur) !important;
+  border-right: 1px solid oklch(0.769 0.188 70.08 / 0.4) !important;  /* amber-500/40% 边框 */
+  box-shadow: var(--navigation-shadow) !important;
 }
 
 [data-theme="warm-business"] .topbar-surface * {
@@ -1527,6 +1612,32 @@
   }
 }
 
+/* 通知类型样式类 */
+.notification-info {
+  border-left-color: var(--info-color) !important;
+  background: var(--notification-info-bg) !important;
+}
+
+.notification-success {
+  border-left-color: var(--success-color) !important;
+  background: var(--notification-success-bg) !important;
+}
+
+.notification-warning {
+  border-left-color: var(--warning-color) !important;
+  background: var(--notification-warning-bg) !important;
+}
+
+.notification-error {
+  border-left-color: var(--error-color) !important;
+  background: var(--notification-error-bg) !important;
+}
+
+.notification-default {
+  border-left-color: var(--disabled-color) !important;
+  background: var(--notification-default-bg) !important;
+}
+
 /* 动画效果 */
 @keyframes glass-shimmer {
   0% { transform: translateX(-100%); }
@@ -2140,6 +2251,10 @@
   --topbar-background: oklch(0.583 0.024 252.894 / 0.95);  /* gray-700/95% - 顶部导航栏深灰色背景 */
   --topbar-shadow: 0 2px 8px oklch(0.208 0.042 265.755 / 0.3);  /* 顶部导航栏阴影效果 */
 
+  /* 导航栏背景 - 黑白精简风主题，使用深色背景 */
+  --navigation-background: var(--topbar-background);  /* 使用与TopBar相同的深色背景 */
+  --navigation-shadow: var(--topbar-shadow);
+
   /* 表格固定列背景 - 用于锁定列的背景效果 */
   --table-fixed-background: oklch(0.85 0.01 258.065 / 0.98);  /* 固定列背景 - 与表格内容保持一致 */
   --table-fixed-background-hover: oklch(44.6% 0.03 256.802 / 1);  /* 固定列悬浮状态背景 */
@@ -2216,6 +2331,13 @@
   --scrollbar-track-hover-bg: oklch(0.646 0.026 252.894 / 0.3);  /* gray-600/30% */
   --scrollbar-thumb-color: oklch(0.583 0.024 252.894 / 0.6);  /* gray-700/60% */
   --scrollbar-thumb-hover-color: oklch(0.585 0.233 277.117 / 0.7);  /* indigo-500/70% hover */
+
+  /* 表单控件专用颜色变量 - 黑白精简风主题 */
+  --form-label-color: oklch(1 0 0 / 0.9);      /* 白色标签 */
+  --form-error-color: oklch(0.637 0.237 25.331); /* 错误颜色 - 红色 */
+  --form-error-border: 1px solid oklch(0.637 0.237 25.331); /* 错误边框 */
+  --form-error-ring: 0 0 0 2px oklch(0.637 0.237 25.331 / 0.2); /* 错误光晕 */
+  --form-required-color: oklch(0.637 0.237 25.331); /* 必填标记颜色 */
 }
 
 /* 黑白精简风主题专用控件样式 - 纯白背景+黑色文字+indigo装饰 */
@@ -2340,10 +2462,10 @@
 
 /* 黑白精简风主题侧边栏专用样式 */
 [data-theme="minimal-monochrome"] .glass-surface {
-  background: oklch(0.583 0.024 252.894 / 0.9) !important;  /* 深灰色背景 - 跟随主题 */
-  backdrop-filter: blur(12px) !important;
+  background: var(--navigation-background) !important;  /* 使用主题定义的导航栏背景色 */
+  backdrop-filter: var(--glass-blur) !important;
   border-right: 1px solid oklch(0.585 0.233 277.117 / 0.3) !important;  /* indigo边框 */
-  box-shadow: 4px 0 20px oklch(0.208 0.042 265.755 / 0.2) !important;
+  box-shadow: var(--navigation-shadow) !important;
 }
 
 /* 侧边栏菜单项背景调整 - 使用深色背景 */
