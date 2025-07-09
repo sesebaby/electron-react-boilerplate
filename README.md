@@ -603,9 +603,10 @@ export const mockInventoryData: InventoryItem[] = [
 ```
 
 ### 自定义样式
-项目使用 CSS Modules 和全局样式相结合：
-- 组件级样式：`ComponentName.css`
-- 全局样式：`App.css`
+项目使用主题系统和CSS变量：
+- 主题变量定义：`src/styles/themes.css`
+- 主题适配样式：`src/styles/theme-adaptations.css`
+- 全局基础样式：`src/globals.css`
 - 设计系统变量：参考 `UI_DESIGN_SYSTEM.md`
 
 ## 📦 依赖说明

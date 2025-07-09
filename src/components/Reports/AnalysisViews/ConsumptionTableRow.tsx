@@ -57,15 +57,15 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
    * 获取单元格样式
    */
   const getCellStyle = (value: number, timeSlot: TimeSlot): string => {
-    const baseStyle = "px-3 py-2 text-center text-sm border-r border-white/10 cursor-pointer transition-colors duration-200";
+    const baseStyle = "px-3 py-2 text-center text-sm border-r cursor-pointer transition-colors duration-200";
     const timeSlotStyle = TimeSlotHelper.getTimeSlotColorTheme(timeSlot);
-    
+
     if (value === 0) {
-      return `${baseStyle} text-white/40 hover:bg-white/5`;
+      return `${baseStyle} ${timeSlotStyle}`;
     }
-    
+
     // 文字颜色通过CSS变量控制
-    return `${baseStyle} hover:bg-white/10 ${timeSlotStyle}`;
+    return `${baseStyle} ${timeSlotStyle}`;
   };
 
   /**

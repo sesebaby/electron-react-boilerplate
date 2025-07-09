@@ -100,10 +100,10 @@ export const ThemeSelector: React.FC = () => {
         {currentThemeData && (
           <div className="space-y-3">
             <div>
-              <h4 className="text-sm font-medium text-white/90 mb-1">
+              <h4 className="text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>
                 当前主题：{currentThemeData.name}
               </h4>
-              <p className="text-xs text-white/70">
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                 {currentThemeData.description}
               </p>
             </div>

@@ -1,4 +1,0 @@
-2025-07-08T07:38:57.058Z INFO  [PerformanceMonitor][PerformanceMonitor] Performance: 请求响应时间 | {"metric":"请求响应时间","value":1.600000023841858,"unit":"ms","category":"navigation","details":{"phase":"request"}}
-2025-07-08T07:38:57.058Z INFO  [PerformanceMonitor][PerformanceMonitor] Performance: 资源加载时间 | {"metric":"资源加载时间","value":20.199999928474426,"unit":"ms","category":"navigation","details":{"phase":"resources"}}
-2025-07-08T07:38:59.076Z INFO  [PerformanceMonitor][PerformanceMonitor] Performance: First Input Delay | {"metric":"First Input Delay","value":0.40000009536743164,"unit":"ms","category":"navigation","details":{"inputDelay":0.40000009536743164}}
-2025-07-08T07:38:59.076Z INFO  [PerformanceMonitor][PerformanceMonitor] Performance: First Input Delay | {"metric":"First Input Delay","value":0.40000009536743164,"unit":"ms","category":"user_interaction","details":{"inputType":"pointerdown","startTime":2078}}

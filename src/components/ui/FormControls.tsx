@@ -131,13 +131,13 @@ export const GlassButton: React.FC<ButtonProps> = ({
   const getVariantClasses = () => {
     switch (variant) {
       case 'primary':
-        return 'bg-blue-500/20 text-blue-300 border-blue-400/30 backdrop-blur-lg';
+        return 'glass-button';
       case 'success':
-        return 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white';
+        return 'glass-button';
       case 'danger':
-        return 'bg-gradient-to-r from-red-500 to-red-600 text-white';
+        return 'glass-button';
       default:
-        return 'bg-white/10 text-white border-white/20 backdrop-blur-lg';
+        return 'glass-button';
     }
   };
 

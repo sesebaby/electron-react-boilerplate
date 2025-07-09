@@ -302,8 +302,8 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
    * 获取金额颜色样式类
    */
   const getAmountColorClass = (amount: number, columnKey: keyof ColumnDisplayConfig): string => {
-    if (amount === 0) return 'text-white/60';
-    
+    if (amount === 0) return 'financial-value-neutral';
+
     switch (columnKey) {
       case 'inboundTotal':
         return 'financial-value-positive';
@@ -313,7 +313,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
       case 'closingStock':
         return 'inventory-value-total';
       default:
-        return 'text-white/90';
+        return 'financial-value-neutral';
     }
   };
 

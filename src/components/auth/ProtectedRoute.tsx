@@ -31,16 +31,18 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const cardBg = isWarmBusiness ? 'bg-white/[0.15]' : 'bg-white/[0.08]';
   const cardBorder = isWarmBusiness ? 'border-slate-800/20' : 'border-white/20';
   
-  // 加载动画颜色
-  const spinnerColor = isWarmBusiness ? 'border-slate-800/20' : 'border-white/20';
-  const spinnerActiveColor = isWarmBusiness ? 'border-t-slate-800 border-r-slate-800/50' : 'border-t-white border-r-white/50';
-  const spinnerBg = isWarmBusiness ? 'bg-slate-800/10' : 'bg-white/10';
-  const iconColor = isWarmBusiness ? 'text-slate-800' : 'text-white';
-  
-  // 标签背景
-  const tagBg = isWarmBusiness ? 'bg-slate-800/10' : 'bg-white/10';
-  const tagBorder = isWarmBusiness ? 'border-slate-800/20' : 'border-white/20';
-  const tagText = isWarmBusiness ? 'text-slate-700' : 'text-white/80';
+  // 使用CSS变量替代硬编码颜色
+  const spinnerStyle = {
+    borderColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))',
+    borderTopColor: 'var(--text-primary)',
+    borderRightColor: 'var(--text-secondary)'
+  };
+  const iconStyle = { color: 'var(--text-primary)' };
+  const tagStyle = {
+    backgroundColor: 'var(--surface-background)',
+    borderColor: 'var(--glass-border)',
+    color: 'var(--text-secondary)'
+  };
 
   if (isLoading) {
     return (
@@ -71,10 +73,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
           {/* 加载动画区域 */}
           <div className="mb-8">
             <div className="relative mx-auto w-20 h-20 mb-6">
-              <div className={`absolute inset-0 border-4 ${spinnerColor} rounded-full`}></div>
-              <div className={`absolute inset-0 border-4 ${spinnerActiveColor} rounded-full animate-spin`}></div>
-              <div className={`absolute inset-2 ${spinnerBg} rounded-full flex items-center justify-center`}>
-                <svg className={`w-8 h-8 ${iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="absolute inset-0 border-4 rounded-full" style={spinnerStyle}></div>
+              <div className="absolute inset-0 border-4 rounded-full animate-spin" style={spinnerStyle}></div>
+              <div className="absolute inset-2 rounded-full flex items-center justify-center" style={tagStyle}>
+                <svg className="w-8 h-8" style={iconStyle} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
@@ -97,13 +99,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
             {/* 特色标签 */}
             <div className="flex flex-wrap justify-center gap-2 mb-6">
-              <span className={`px-3 py-1 ${tagBg} border ${tagBorder} rounded-full ${tagText} text-xs font-medium backdrop-blur-sm`}>
+              <span className="px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm" style={tagStyle}>
                 企业级系统
               </span>
-              <span className={`px-3 py-1 ${tagBg} border ${tagBorder} rounded-full ${tagText} text-xs font-medium backdrop-blur-sm`}>
+              <span className="px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm" style={tagStyle}>
                 永久免费
               </span>
-              <span className={`px-3 py-1 ${tagBg} border ${tagBorder} rounded-full ${tagText} text-xs font-medium backdrop-blur-sm`}>
+              <span className="px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm" style={tagStyle}>
                 定制开发
               </span>
             </div>

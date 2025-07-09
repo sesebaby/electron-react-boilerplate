@@ -10,12 +10,12 @@ const buttonVariants = cva(
       variant: {
         default: "glass-button",
         destructive:
-          "glass-button bg-red-500/20 hover:bg-red-500/30 border-red-500/30",
+          "glass-button",
         outline:
-          "glass-button border bg-transparent hover:bg-white/10",
+          "glass-button border bg-transparent",
         secondary:
-          "glass-button bg-white/10 hover:bg-white/20 border-white/20",
-        ghost: "glass-button hover:bg-white/10",
+          "glass-button",
+        ghost: "glass-button",
         link: "underline-offset-4 hover:underline",
       },
       size: {

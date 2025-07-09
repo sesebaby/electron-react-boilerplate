@@ -42,30 +42,17 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // 主题特定颜色
-        'glass-future': {
-          bg: 'oklch(0.585 0.233 277.117)',
-          'bg-secondary': 'oklch(0.511 0.262 276.966)',
-          surface: 'oklch(0.93 0.034 272.788 / 0.12)',
-          popup: 'oklch(0.511 0.262 276.966 / 0.9)',
-          text: 'oklch(100% 0.00011 271.152 / 0.945)',
-          'text-secondary': 'oklch(92.369% 0.00263 230.33)',
-        },
-        'dark-tech': {
-          bg: 'oklch(0.208 0.042 265.755)',
-          'bg-secondary': 'oklch(0.279 0.041 260.031)',
-          surface: 'oklch(0.279 0.041 260.031 / 0.05)',
-          popup: 'oklch(0.279 0.041 260.031 / 0.85)',
-          text: 'oklch(0.968 0.007 247.896)',
-          'text-secondary': 'oklch(0.929 0.013 255.508)',
-        },
-        'warm-business': {
-          bg: 'oklch(0.828 0.189 84.429)',
-          'bg-secondary': 'oklch(0.769 0.188 70.08)',
-          surface: 'oklch(0.987 0.022 95.277 / 0.6)',
-          popup: 'oklch(0.987 0.022 95.277 / 0.85)',
-          text: 'oklch(0.414 0.112 45.904)',
-          'text-secondary': 'oklch(0.473 0.137 46.201)',
+        // 主题变量引用 - 使用CSS变量而不是硬编码值
+        'theme': {
+          'app-bg': 'var(--app-background)',
+          'surface': 'var(--surface-background)',
+          'card': 'var(--card-background)',
+          'hover': 'var(--hover-background)',
+          'active': 'var(--active-background)',
+          'popup': 'var(--popup-background)',
+          'text-primary': 'var(--text-primary)',
+          'text-secondary': 'var(--text-secondary)',
+          'border': 'var(--glass-border)',
         },
       },
       borderRadius: {
@@ -125,139 +112,12 @@ module.exports = {
         },
       }
       
-      // 主题特定的组件样式
+      // 基础组件样式 - 使用CSS变量
       const themeComponents = {
-        // 玻璃未来风主题
-        '[data-theme="glass-future"] .glass-card': {
-          background: 'oklch(0.93 0.034 272.788 / 0.08)',
-          border: '1px solid oklch(0.87 0.065 274.039 / 0.3)',
-          boxShadow: '0 8px 32px oklch(0.257 0.09 281.288 / 0.15)',
-        },
-        '[data-theme="glass-future"] .glass-surface': {
-          background: 'oklch(0.93 0.034 272.788 / 0.12)',
-          border: '1px solid oklch(0.87 0.065 274.039 / 0.4)',
-        },
-        '[data-theme="glass-future"] .glass-input, [data-theme="glass-future"] .glass-select': {
-          background: 'oklch(0.585 0.233 277.117 / 0.85)',
-          border: '1px solid oklch(0.87 0.065 274.039 / 0.6)',
-          color: 'oklch(100% 0.00011 271.152 / 0.945)',
-        },
-        '[data-theme="glass-future"] .glass-input:focus, [data-theme="glass-future"] .glass-select:focus': {
-          outline: 'none',
-          background: 'oklch(0.457 0.24 277.023 / 0.95)',
-          borderColor: 'oklch(0.968 0.007 247.896)',
-          boxShadow: '0 0 0 3px oklch(0.968 0.007 247.896)',
-        },
-        '[data-theme="glass-future"] .glass-input::placeholder': {
-          color: 'oklch(0.968 0.007 247.896)',
-          opacity: '0.8',
-        },
-        '[data-theme="glass-future"] .glass-button': {
-          background: 'oklch(0.585 0.233 277.117 / 0.85)',
-          border: '1px solid oklch(0.87 0.065 274.039 / 0.6)',
-          color: 'oklch(100% 0.00011 271.152 / 0.945)',
-        },
-        '[data-theme="glass-future"] .glass-button:hover': {
-          background: 'oklch(0.457 0.24 277.023 / 0.95)',
-          borderColor: 'oklch(92.369% 0.00263 230.33)',
-          transform: 'translateY(-1px)',
-        },
-        '[data-theme="glass-future"] .glass-select': {
-          appearance: 'none',
-          paddingRight: '2.5rem',
-          backgroundImage: 'url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%23ffffff\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3e%3c/svg%3e")',
-          backgroundPosition: 'right 0.5rem center',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '1.5em 1.5em',
-        },
 
-        // 深色科技风主题
-        '[data-theme="dark-tech"] .glass-card': {
-          background: 'oklch(0.279 0.041 260.031 / 0.03)',
-          border: '1px solid oklch(0.446 0.043 257.281 / 0.3)',
-          boxShadow: '0 8px 32px oklch(0.129 0.042 264.695 / 0.3)',
-        },
-        '[data-theme="dark-tech"] .glass-surface': {
-          background: 'oklch(0.279 0.041 260.031 / 0.05)',
-          border: '1px solid oklch(0.446 0.043 257.281 / 0.3)',
-        },
-        '[data-theme="dark-tech"] .glass-input, [data-theme="dark-tech"] .glass-select': {
-          background: 'oklch(0.279 0.041 260.031 / 0.85)',
-          border: '1px solid oklch(0.446 0.043 257.281 / 0.3)',
-          color: 'oklch(0.968 0.007 247.896)',
-        },
-        '[data-theme="dark-tech"] .glass-input:focus, [data-theme="dark-tech"] .glass-select:focus': {
-          outline: 'none',
-          background: 'oklch(0.372 0.044 257.287 / 0.9)',
-          borderColor: 'oklch(0.929 0.013 255.508)',
-          boxShadow: '0 0 0 3px oklch(0.929 0.013 255.508)',
-        },
-        '[data-theme="dark-tech"] .glass-input::placeholder': {
-          color: 'oklch(0.869 0.022 252.894)',
-          opacity: '0.8',
-        },
-        '[data-theme="dark-tech"] .glass-button': {
-          background: 'oklch(0.279 0.041 260.031 / 0.85)',
-          border: '1px solid oklch(0.446 0.043 257.281 / 0.3)',
-          color: 'oklch(0.968 0.007 247.896)',
-        },
-        '[data-theme="dark-tech"] .glass-button:hover': {
-          background: 'oklch(0.372 0.044 257.287 / 0.9)',
-          borderColor: 'oklch(0.929 0.013 255.508)',
-          transform: 'translateY(-1px)',
-        },
-        '[data-theme="dark-tech"] .glass-select': {
-          appearance: 'none',
-          paddingRight: '2.5rem',
-          backgroundImage: 'url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%23f1f5f9\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3e%3c/svg%3e")',
-          backgroundPosition: 'right 0.5rem center',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '1.5em 1.5em',
-        },
 
-        // 温暖商务风主题
-        '[data-theme="warm-business"] .glass-card': {
-          background: 'oklch(0.987 0.022 95.277 / 0.4)',
-          border: '1px solid oklch(0.924 0.12 95.746 / 0.4)',
-          boxShadow: '0 8px 32px oklch(0.279 0.077 45.635 / 0.2)',
-        },
-        '[data-theme="warm-business"] .glass-surface': {
-          background: 'oklch(0.987 0.022 95.277 / 0.6)',
-          border: '1px solid oklch(0.924 0.12 95.746 / 0.4)',
-        },
-        '[data-theme="warm-business"] .glass-input, [data-theme="warm-business"] .glass-select': {
-          background: 'oklch(0.987 0.022 95.277 / 0.85)',
-          border: '1px solid oklch(0.924 0.12 95.746 / 0.4)',
-          color: 'oklch(0.414 0.112 45.904)',
-        },
-        '[data-theme="warm-business"] .glass-input:focus, [data-theme="warm-business"] .glass-select:focus': {
-          outline: 'none',
-          background: 'oklch(0.987 0.022 95.277 / 0.95)',
-          borderColor: 'oklch(0.473 0.137 46.201)',
-          boxShadow: '0 0 0 3px oklch(0.473 0.137 46.201)',
-        },
-        '[data-theme="warm-business"] .glass-input::placeholder': {
-          color: 'oklch(0.555 0.163 48.998)',
-          opacity: '0.8',
-        },
-        '[data-theme="warm-business"] .glass-button': {
-          background: 'oklch(0.987 0.022 95.277 / 0.85)',
-          border: '1px solid oklch(0.924 0.12 95.746 / 0.4)',
-          color: 'oklch(0.414 0.112 45.904)',
-        },
-        '[data-theme="warm-business"] .glass-button:hover': {
-          background: 'oklch(0.987 0.022 95.277 / 0.95)',
-          borderColor: 'oklch(0.473 0.137 46.201)',
-          transform: 'translateY(-1px)',
-        },
-        '[data-theme="warm-business"] .glass-select': {
-          appearance: 'none',
-          paddingRight: '2.5rem',
-          backgroundImage: 'url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%23451a03\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3e%3c/svg%3e")',
-          backgroundPosition: 'right 0.5rem center',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '1.5em 1.5em',
-        },
+
+
       }
 
       addUtilities(glassUtilities)

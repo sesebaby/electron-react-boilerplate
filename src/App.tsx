@@ -270,12 +270,13 @@ const App: React.FC = () => {
         <div className="glass-card p-12 text-center max-w-md w-full mx-4">
           <div className="text-6xl mb-6">❌</div>
           <h2 className="text-2xl font-bold mb-4" style={{color: 'var(--text-primary)'}}>系统初始化失败</h2>
-          <div className="bg-red-500/20 border border-red-400/30 rounded-lg p-4 mb-6">
+          <div className="rounded-lg p-4 mb-6" style={{ backgroundColor: 'var(--error-color)', borderColor: 'var(--error-color)' }}>
             <p style={{color: 'var(--text-primary)'}}>{error}</p>
           </div>
           <button
             type="button"
-            className="glass-button px-6 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-lg font-medium hover:transform hover:-translate-y-0.5 transition-all duration-300"
+            className="glass-button px-6 py-3 rounded-lg font-medium hover:transform hover:-translate-y-0.5 transition-all duration-300"
+            style={{ backgroundColor: 'var(--error-color)', color: 'var(--text-primary)' }}
             onClick={() => window.location.reload()}
           >
             重新加载

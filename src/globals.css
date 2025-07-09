@@ -7,6 +7,7 @@
 
 @layer base {
   :root {
+    /* Shadcn/ui base variables */
     --background: 220 20% 14%;
     --foreground: 220 8% 95%;
     --card: 220 20% 10%;
@@ -27,13 +28,6 @@
     --input: 220 13% 18%;
     --ring: 220 8% 95%;
     --radius: 0.5rem;
-    
-    /* Theme System Variables */
-    --spacing-xs: 0.25rem;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
     
     --border-radius-sm: 0.375rem;
     --border-radius-md: 0.5rem;
@@ -94,104 +88,11 @@
     animation: bounce-in 0.5s ease-out;
   }
   
-  /* Glass Future Theme - 基于Indigo色块系列 */
-  [data-theme="glass-future"] {
-    /* 应用背景 */
-    --app-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);
-    
-    /* 表面背景 */
-    --surface-background: oklch(0.93 0.034 272.788 / 0.12);  /* indigo-100/12% */
-    --card-background: oklch(0.93 0.034 272.788 / 0.08);     /* indigo-100/8% */
-    --hover-background: oklch(0.87 0.065 274.039 / 0.18);    /* indigo-200/18% */
-    --active-background: oklch(0.785 0.115 274.713 / 0.22);  /* indigo-300/22% */
-    
-    /* 弹出窗体背景 - 深色确保白色文字可读性 */
-    --popup-background: oklch(0.511 0.262 276.966 / 0.9);           /* indigo-600/90% */
-    --popup-header-background: oklch(0.457 0.24 277.023 / 0.95);    /* indigo-700/95% */
-    --popup-content-background: oklch(0.585 0.233 277.117 / 0.85);  /* indigo-500/85% */
-    
-    /* 文字颜色 - 白色系，增强阴影确保可读性 */
-    --popup-text-primary: oklch(100% 0.00011 271.152 / 0.945);      /* 接近白色 */
-    --popup-text-secondary: oklch(92.369% 0.00263 230.33);          /* 浅灰白色 */
-    --popup-text-tertiary: oklch(0.968 0.007 247.896);              /* gray-100 */
-    --text-primary: oklch(100% 0.00011 271.152 / 0.945);
-    --text-secondary: oklch(92.369% 0.00263 230.33);
-    --text-accent: oklch(0.968 0.007 247.896);
-    
-    /* 效果增强 */
-    --popup-text-shadow: 0 2px 8px oklch(0.257 0.09 281.288 / 0.8); /* 深色阴影 */
-    --popup-blur: blur(35px);
-    --popup-border: 1px solid oklch(0.87 0.065 274.039 / 0.6);       /* indigo-200边框 */
-    --popup-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.4);     /* 深色阴影 */
-    --glass-border: 1px solid oklch(0.87 0.065 274.039 / 0.3);
-    --glass-shadow: 0 8px 32px oklch(0.257 0.09 281.288 / 0.15);
-  }
+
   
-  /* Dark Tech Theme - 基于Slate色块系列 */
-  [data-theme="dark-tech"] {
-    /* 应用背景 */
-    --app-background: linear-gradient(135deg, oklch(0.208 0.042 265.755) 0%, oklch(0.279 0.041 260.031) 100%);
-    
-    /* 表面背景 */
-    --surface-background: oklch(0.279 0.041 260.031 / 0.05);        /* slate-800/5% */
-    --card-background: oklch(0.279 0.041 260.031 / 0.03);           /* slate-800/3% */
-    --hover-background: oklch(0.372 0.044 257.287 / 0.08);          /* slate-700/8% */
-    --active-background: oklch(0.446 0.043 257.281 / 0.12);         /* slate-600/12% */
-    
-    /* 弹出窗体背景 - Slate深色系列 */
-    --popup-background: oklch(0.279 0.041 260.031 / 0.85);          /* slate-800/85% */
-    --popup-header-background: oklch(0.372 0.044 257.287 / 0.9);    /* slate-700/90% */
-    --popup-content-background: oklch(0.208 0.042 265.755 / 0.8);   /* slate-900/80% */
-    
-    /* 文字颜色 - Slate浅色系，适合深色背景 */
-    --popup-text-primary: oklch(0.968 0.007 247.896);               /* slate-100 */
-    --popup-text-secondary: oklch(0.929 0.013 255.508);             /* slate-200 */
-    --popup-text-tertiary: oklch(0.869 0.022 252.894);              /* slate-300 */
-    --text-primary: oklch(0.968 0.007 247.896);
-    --text-secondary: oklch(0.929 0.013 255.508);
-    --text-accent: oklch(0.869 0.022 252.894);
-    
-    /* 效果增强 */
-    --popup-text-shadow: 0 1px 3px oklch(0.129 0.042 264.695 / 0.8); /* 深色阴影 */
-    --popup-blur: blur(35px);
-    --popup-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);
-    --popup-shadow: 0 25px 80px oklch(0.129 0.042 264.695 / 0.3);
-    --glass-border: 1px solid oklch(0.446 0.043 257.281 / 0.3);
-    --glass-shadow: 0 8px 32px oklch(0.129 0.042 264.695 / 0.15);
-  }
+
   
-  /* Warm Business Theme - 基于Amber色块系列 */
-  [data-theme="warm-business"] {
-    /* 应用背景 */
-    --app-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);
-    
-    /* 表面背景 */
-    --surface-background: oklch(0.987 0.022 95.277 / 0.6);          /* amber-50/60% */
-    --card-background: oklch(0.987 0.022 95.277 / 0.4);             /* amber-50/40% */
-    --hover-background: oklch(0.962 0.059 95.617 / 0.5);            /* amber-100/50% */
-    --active-background: oklch(0.924 0.12 95.746 / 0.6);            /* amber-200/60% */
-    
-    /* 弹出窗体背景 - Amber浅色系列 */
-    --popup-background: oklch(0.987 0.022 95.277 / 0.85);           /* amber-50/85% */
-    --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);    /* amber-50/95% */
-    --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);    /* amber-50/80% */
-    
-    /* 文字颜色 - Amber深色系，适合浅色背景 */
-    --popup-text-primary: oklch(0.414 0.112 45.904);                /* amber-900 */
-    --popup-text-secondary: oklch(0.473 0.137 46.201);              /* amber-800 */
-    --popup-text-tertiary: oklch(0.555 0.163 48.998);               /* amber-700 */
-    --text-primary: oklch(0.414 0.112 45.904);
-    --text-secondary: oklch(0.473 0.137 46.201);
-    --text-accent: oklch(0.555 0.163 48.998);
-    
-    /* 效果增强 */
-    --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9); /* 浅色阴影 */
-    --popup-blur: blur(35px);
-    --popup-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
-    --popup-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);
-    --glass-border: 1px solid oklch(0.924 0.12 95.746 / 0.4);
-    --glass-shadow: 0 8px 32px oklch(0.279 0.077 45.635 / 0.15);
-  }
+
 }
 
 @layer base {
@@ -209,26 +110,11 @@
   }
 }
 
-/* Custom glassmorphism styles matching current design */
+/* Custom glassmorphism styles using theme variables */
 .app-bg {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--app-background);
   min-height: 100vh;
   position: relative;
-}
-
-.app-bg::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 1;
 }
 
 @layer utilities {
