@@ -97,12 +97,12 @@ ${initOptions.importMockData ? '✓ 导入默认示例数据\n' : ''}${initOptio
         }
       );
 
-      showSuccess('系统初始化完成！页面将在3秒后刷新...');
+      showSuccess('系统初始化完成！页面将在5秒后刷新...', 5000);
       
-      // 3秒后刷新页面
+      // 5秒后刷新页面，给用户足够时间看到成功消息
       setTimeout(() => {
         window.location.reload();
-      }, 3000);
+      }, 5000);
 
     } catch (error) {
       console.error('系统初始化失败:', error);

@@ -237,6 +237,9 @@ export class SystemInitializationService {
       
       // 重新初始化数据服务
       await dataInitializer.initializeData();
+      
+      // 确保业务服务管理器也重新初始化
+      await businessServiceManager.initialize();
     } catch (error) {
       console.error('重新初始化系统服务失败:', error);
       throw error;

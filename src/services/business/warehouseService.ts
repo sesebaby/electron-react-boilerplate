@@ -12,7 +12,9 @@ export class WarehouseService {
       // 检查是否存在仓库，如果没有则创建默认的"1号库"
       const existingWarehouses = await this.findAll();
       if (existingWarehouses.length === 0) {
+        console.log('No warehouses found, creating default warehouse...');
         await this.createDefaultWarehouse();
+        console.log('Default warehouse created successfully');
       }
       
       this.initialized = true;
@@ -49,6 +51,12 @@ export class WarehouseService {
 
   async findAll(): Promise<Warehouse[]> {
     try {
+      // 确保服务已初始化
+      if (!this.initialized) {
+        console.log('WarehouseService not initialized, initializing now...');
+        await this.initialize();
+      }
+      
       const result = await electronAPI.dbGetAllWarehouses();
       if (result.success) {
         return result.data || [];
@@ -268,6 +276,12 @@ export class WarehouseService {
     withManager: number;
     withAddress: number;
   }> {
+    // 确保服务已初始化
+    if (!this.initialized) {
+      console.log('WarehouseService not initialized, initializing now...');
+      await this.initialize();
+    }
+    
     const warehouses = await this.findAll();
     
     return {
