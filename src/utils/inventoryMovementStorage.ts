@@ -94,6 +94,21 @@ export const _saveMovementFilters = (filters: Partial<MovementSummaryFilters>): 
   }
 };
 
+/**
+ * 从本地存储加载筛选条件
+ */
+export const _loadMovementFilters = (): Partial<MovementSummaryFilters> => {
+  try {
+    const _stored = localStorage.getItem(STORAGE_KEYS.FILTERS);
+    if (_stored) {
+      return JSON.parse(_stored);
+    }
+  } catch (error) {
+    console.warn('Failed to load movement filters:', error);
+  }
+  return {};
+};
+
 
 /**
  * 验证列显示配置是否有效

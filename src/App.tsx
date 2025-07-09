@@ -23,7 +23,7 @@ const App: React.FC = () => {
   useEffect(() => {
     // 初始化主题
     const _savedTheme = localStorage.getItem('inventory-system-theme') || 'glass-future';
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.documentElement.setAttribute('data-theme', _savedTheme);
     
     // 应用主题背景和文字颜色
     document.body.style.background = 'var(--app-background)';
@@ -32,16 +32,16 @@ const App: React.FC = () => {
     
     const _handleHashChange = () => {
       const _hash = window.location.hash.replace('#', '');
-      if (hash) {
-        setCurrentPage(hash);
+      if (_hash) {
+        setCurrentPage(_hash);
       }
     };
 
     // 初始化页面
-    handleHashChange();
+    _handleHashChange();
 
     // 监听哈希变化
-    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', _handleHashChange);
 
     // 初始化系统和数据
     const _initSystem = async () => {
@@ -74,11 +74,11 @@ const App: React.FC = () => {
       }
     };
     
-    const _initTimer = setTimeout(initSystem, 1000);
+    const _initTimer = setTimeout(_initSystem, 1000);
 
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-      clearTimeout(initTimer);
+      window.removeEventListener('hashchange', _handleHashChange);
+      clearTimeout(_initTimer);
     };
   }, []);
 

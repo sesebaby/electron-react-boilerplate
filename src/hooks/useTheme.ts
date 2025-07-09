@@ -43,12 +43,12 @@ export const _useTheme = () => {
 
   // 初始化主题
   useEffect(() => {
-    const _savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as ThemeName;
-    if (savedTheme && AVAILABLE_THEMES.find(t => t.name === savedTheme)) {
-      setCurrentTheme(savedTheme);
+    const _savedTheme = localStorage.getItem(_THEME_STORAGE_KEY) as ThemeName;
+    if (_savedTheme && AVAILABLE_THEMES.find(t => t.name === _savedTheme)) {
+      setCurrentTheme(_savedTheme);
     }
-    applyTheme(savedTheme || 'glass-future');
-  }, []);
+    _applyTheme(_savedTheme || 'glass-future');
+  }, [_applyTheme]);
 
   // 防抖函数
   const _debounce = useCallback((func: Function, delay: number) => {
@@ -83,35 +83,35 @@ export const _useTheme = () => {
   const _applyTheme = useCallback((theme: ThemeName) => {
     // 使用 requestAnimationFrame 进行批量DOM更新
     requestAnimationFrame(() => {
-      const _config = themeConfigs[theme];
-      if (!config) return;
+      const _config = _themeConfigs[theme];
+      if (!_config) return;
 
       // 批量更新DOM属性
       document.documentElement.setAttribute('data-theme', theme);
       
       // 使用CSS变量而不是直接操作style
-      document.documentElement.style.setProperty('--theme-background', config.background);
-      document.documentElement.style.setProperty('--theme-color', config.color);
+      document.documentElement.style.setProperty('--theme-background', _config.background);
+      document.documentElement.style.setProperty('--theme-color', _config.color);
       
       document.body.className = `theme-${theme}`;
-      document.body.style.background = config.background;
-      document.body.style.color = config.color;
+      document.body.style.background = _config.background;
+      document.body.style.color = _config.color;
       document.body.style.minHeight = '100vh';
     });
-  }, [themeConfigs]);
+  }, [_themeConfigs]);
 
   // 防抖的主题应用函数
   const _debouncedApplyTheme = useMemo(
-    () => debounce(applyTheme, 100),
-    [debounce, applyTheme]
+    () => _debounce(_applyTheme, 100),
+    [_debounce, _applyTheme]
   );
 
   // 切换主题
   const _switchTheme = useCallback((theme: ThemeName) => {
     setCurrentTheme(theme);
-    debouncedApplyTheme(theme);
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
-  }, [debouncedApplyTheme]);
+    _debouncedApplyTheme(theme);
+    localStorage.setItem(_THEME_STORAGE_KEY, theme);
+  }, [_debouncedApplyTheme]);
 
   // 获取当前主题信息
   const _getCurrentTheme = useCallback(() => {
@@ -121,18 +121,18 @@ export const _useTheme = () => {
   // 切换到下一个主题
   const _nextTheme = useCallback(() => {
     const _currentIndex = AVAILABLE_THEMES.findIndex(t => t.name === currentTheme);
-    const _nextIndex = (currentIndex + 1) % AVAILABLE_THEMES.length;
-    switchTheme(AVAILABLE_THEMES[nextIndex].name);
-  }, [currentTheme, switchTheme]);
+    const _nextIndex = (_currentIndex + 1) % AVAILABLE_THEMES.length;
+    _switchTheme(AVAILABLE_THEMES[_nextIndex].name);
+  }, [currentTheme, _switchTheme]);
 
   return {
     currentTheme,
-    switchTheme,
-    nextTheme,
-    getCurrentTheme,
+    switchTheme: _switchTheme,
+    nextTheme: _nextTheme,
+    getCurrentTheme: _getCurrentTheme,
     availableThemes: AVAILABLE_THEMES
   };
 };
 
-export { useTheme };
-export default useTheme;
+export { _useTheme as useTheme };
+export default _useTheme;

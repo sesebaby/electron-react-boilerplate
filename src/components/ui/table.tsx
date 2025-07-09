@@ -84,7 +84,7 @@ const _TableContainer = React.forwardRef<
     </div>
   )
 })
-TableContainer.displayName = "TableContainer"
+_TableContainer.displayName = "TableContainer"
 
 /**
  * 基础表格组件
@@ -107,7 +107,7 @@ const _Table = React.forwardRef<
     {...props}
   />
 ))
-Table.displayName = "Table"
+_Table.displayName = "Table"
 
 /**
  * 表头组件
@@ -126,7 +126,7 @@ const _TableHeader = React.forwardRef<
     {...props} 
   />
 ))
-TableHeader.displayName = "TableHeader"
+_TableHeader.displayName = "TableHeader"
 
 /**
  * 表体组件
@@ -141,7 +141,7 @@ const _TableBody = React.forwardRef<
     {...props}
   />
 ))
-TableBody.displayName = "TableBody"
+_TableBody.displayName = "TableBody"
 
 /**
  * 表尾组件
@@ -159,7 +159,7 @@ const _TableFooter = React.forwardRef<
     {...props}
   />
 ))
-TableFooter.displayName = "TableFooter"
+_TableFooter.displayName = "TableFooter"
 
 /**
  * 表格行组件
@@ -177,7 +177,7 @@ const _TableRow = React.forwardRef<
     {...props}
   />
 ))
-TableRow.displayName = "TableRow"
+_TableRow.displayName = "TableRow"
 
 /**
  * 表头单元格组件
@@ -217,13 +217,13 @@ const _TableHead = React.forwardRef<
       )}
       style={{
         color: 'var(--table-text-primary, var(--text-primary))',
-        ...fixedStyle
+        ..._fixedStyle
       }}
       {...props}
     />
   )
 })
-TableHead.displayName = "TableHead"
+_TableHead.displayName = "TableHead"
 
 /**
  * 表格单元格组件
@@ -263,13 +263,13 @@ const _TableCell = React.forwardRef<
       )}
       style={{
         color: 'var(--table-text-secondary, var(--text-secondary))',
-        ...fixedStyle
+        ..._fixedStyle
       }}
       {...props}
     />
   )
 })
-TableCell.displayName = "TableCell"
+_TableCell.displayName = "TableCell"
 
 /**
  * 表格标题组件
@@ -288,7 +288,7 @@ const _TableCaption = React.forwardRef<
     {...props}
   />
 ))
-TableCaption.displayName = "TableCaption"
+_TableCaption.displayName = "TableCaption"
 
 /**
  * 空状态组件
@@ -337,15 +337,15 @@ const TableLoading: React.FC<TableLoadingProps> = ({
 )
 
 export {
-  Table,
-  TableContainer,
-  TableHeader,
-  TableBody,
-  TableFooter,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableCaption,
+  _Table as Table,
+  _TableContainer as TableContainer,
+  _TableHeader as TableHeader,
+  _TableBody as TableBody,
+  _TableFooter as TableFooter,
+  _TableHead as TableHead,
+  _TableRow as TableRow,
+  _TableCell as TableCell,
+  _TableCaption as TableCaption,
   TableEmpty,
   TableLoading,
 }
