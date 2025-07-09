@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { dialogService } from '../../services/dialogService';
+import { _dialogService as dialogService } from '../../services/dialogService';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import AlertDialog from '../ui/AlertDialog';
 

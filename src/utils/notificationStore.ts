@@ -107,7 +107,7 @@ class NotificationStore {
 
   // 获取未读数量（根据配置过滤）
   getUnreadCount(): number {
-    const _filteredNotifications = this.getFilteredNotifications();
+    const filteredNotifications = this.getFilteredNotifications();
     return filteredNotifications.filter(n => !n.isRead).length;
   }
 

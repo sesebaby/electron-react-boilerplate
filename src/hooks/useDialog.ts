@@ -106,27 +106,27 @@ export const _useDialog = () => {
 
   // 便捷方法
   const _showSuccess = useCallback((message: string, duration?: number) => {
-    showToast(message, 'success', duration);
-  }, [showToast]);
+    _showToast(message, 'success', duration);
+  }, [_showToast]);
 
   const _showError = useCallback((message: string, duration?: number) => {
-    showToast(message, 'error', duration);
-  }, [showToast]);
+    _showToast(message, 'error', duration);
+  }, [_showToast]);
 
   const _showWarning = useCallback((message: string, duration?: number) => {
-    showToast(message, 'warning', duration);
-  }, [showToast]);
+    _showToast(message, 'warning', duration);
+  }, [_showToast]);
 
   const _showInfo = useCallback((message: string, duration?: number) => {
-    showToast(message, 'info', duration);
-  }, [showToast]);
+    _showToast(message, 'info', duration);
+  }, [_showToast]);
 
   const _showDeleteConfirm = useCallback((
     itemName: string,
     onConfirm: () => void,
     onCancel?: () => void
   ) => {
-    showConfirm(
+    _showConfirm(
       '删除确认',
       `确定要删除"${itemName}"吗？删除后无法恢复！`,
       onConfirm,
@@ -135,7 +135,7 @@ export const _useDialog = () => {
       '删除',
       '取消'
     );
-  }, [showConfirm]);
+  }, [_showConfirm]);
 
   return {
     // 对话框状态
@@ -144,18 +144,20 @@ export const _useDialog = () => {
     toast,
     
     // 显示方法
-    showConfirm,
-    showAlert,
-    showToast,
-    closeToast,
+    showConfirm: _showConfirm,
+    showAlert: _showAlert,
+    showToast: _showToast,
+    closeToast: _closeToast,
     
     // 便捷方法
-    showSuccess,
-    showError,
-    showWarning,
-    showInfo,
-    showDeleteConfirm
+    showSuccess: _showSuccess,
+    showError: _showError,
+    showWarning: _showWarning,
+    showInfo: _showInfo,
+    showDeleteConfirm: _showDeleteConfirm
   };
 };
 
-export default useDialog;
+// Named export without underscore for compatibility
+export const useDialog = _useDialog;
+export default _useDialog;

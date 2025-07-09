@@ -104,10 +104,6 @@
 
 ### 开发工具
 - **代码规范**: ESLint 9.30.1 + TypeScript ESLint 8.35.1
-- **测试框架**: 
-  - Jest 30.0.0 (单元测试)
-  - Testing Library (React组件测试)
-  - Playwright 1.53.2 (端到端测试)
 - **并发执行**: concurrently 8.2.2
 - **脚本执行**: ts-node 10.9.2
 

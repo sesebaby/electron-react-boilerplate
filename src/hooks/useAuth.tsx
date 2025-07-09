@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext, createContext } from 'react';
 import { User, UserRole } from '../types/entities';
 import { userService } from '../services/business';
-import { dialogService } from '../services/dialogService';
+import { _dialogService as dialogService } from '../services/dialogService';
 
 interface AuthContextType {
   user: User | null;
@@ -15,10 +15,10 @@ interface AuthContextType {
   sessionTimeRemaining: number;
 }
 
-const _AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType | null>(null);
 
-export const _useAuth = () => {
-  const _context = useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
@@ -30,11 +30,11 @@ interface AuthProviderProps {
 }
 
 // Session timeout in milliseconds (30 minutes)
-const _SESSION_TIMEOUT = 30 * 60 * 1000;
+const SESSION_TIMEOUT = 30 * 60 * 1000;
 // Token refresh interval (25 minutes)
-const _REFRESH_INTERVAL = 25 * 60 * 1000;
+const REFRESH_INTERVAL = 25 * 60 * 1000;
 // Warning time before session expires (5 minutes)
-const _SESSION_WARNING_TIME = 5 * 60 * 1000;
+const SESSION_WARNING_TIME = 5 * 60 * 1000;
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -43,10 +43,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [lastActivity, setLastActivity] = useState<number>(Date.now());
 
   // Calculate session time remaining
-  const _sessionTimeRemaining = Math.max(0, SESSION_TIMEOUT - (Date.now() - lastActivity));
+  const sessionTimeRemaining = Math.max(0, SESSION_TIMEOUT - (Date.now() - lastActivity));
 
   // Update last activity on user interactions
-  const _updateActivity = useCallback(() => {
+  const updateActivity = useCallback(() => {
     setLastActivity(Date.now());
   }, []);
 
@@ -62,22 +62,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     ]
   };
 
-  const _hasPermission = useCallback((permission: string): boolean => {
+  const hasPermission = useCallback((permission: string): boolean => {
     if (!user) return false;
-    const _userPermissions = rolePermissions[user.role] || [];
+    const userPermissions = rolePermissions[user.role] || [];
     return userPermissions.includes('*') || userPermissions.includes(permission);
   }, [user]);
 
-  const _hasRole = useCallback((role: UserRole): boolean => {
+  const hasRole = useCallback((role: UserRole): boolean => {
     return user?.role === role;
   }, [user]);
 
-  const _login = useCallback(async (username: string, password: string): Promise<boolean> => {
+  const login = useCallback(async (username: string, password: string): Promise<boolean> => {
     try {
       setIsLoading(true);
       
       // Use UserService for authentication
-      const _authenticatedUser = await userService.authenticate(username.trim(), password);
+      const authenticatedUser = await userService.authenticate(username.trim(), password);
 
       if (authenticatedUser) {
         // Store user data in localStorage for session persistence
@@ -102,7 +102,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const _logout = useCallback(async (): Promise<void> => {
+  const logout = useCallback(async (): Promise<void> => {
     try {
       setIsLoading(true);
       
@@ -123,7 +123,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const _refreshToken = useCallback(async (): Promise<boolean> => {
+  const refreshToken = useCallback(async (): Promise<boolean> => {
     try {
       // Since we're not using API tokens, just update activity time
       if (user) {
@@ -146,7 +146,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     if (!user) return;
 
-    const _refreshInterval = setInterval(() => {
+    const refreshInterval = setInterval(() => {
       // Only refresh if session is still active
       if (sessionTimeRemaining > SESSION_WARNING_TIME) {
         refreshToken();
@@ -160,7 +160,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     if (!user) return;
 
-    const _timeoutId = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       if (sessionTimeRemaining <= 0) {
         console.warn('Session expired');
         logout();
@@ -175,8 +175,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!user) return;
 
     if (sessionTimeRemaining <= SESSION_WARNING_TIME && sessionTimeRemaining > 0) {
-      const _warningId = setTimeout(() => {
-        const _remainingMinutes = Math.ceil(sessionTimeRemaining / 60000);
+      const warningId = setTimeout(() => {
+        const remainingMinutes = Math.ceil(sessionTimeRemaining / 60000);
         console.warn(`Session expires in ${remainingMinutes} minutes`);
         
         // 使用全局弹出框服务
@@ -196,7 +196,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     if (!user) return;
 
-    const _events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
     
     events.forEach(event => {
       document.addEventListener(event, updateActivity, true);
@@ -211,15 +211,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Initialize auth state
   useEffect(() => {
-    const _initializeAuth = async () => {
+    const initializeAuth = async () => {
       try {
         // Check for existing user data
-        const _userData = localStorage.getItem('_auth_user');
+        const userData = localStorage.getItem('_auth_user');
         if (userData) {
           try {
-            const _parsedUser = JSON.parse(userData);
+            const parsedUser = JSON.parse(userData);
             // Verify user still exists in the system
-            const _currentUser = await userService.findById(parsedUser.id);
+            const currentUser = await userService.findById(parsedUser.id);
             
             if (currentUser && currentUser.status === 'active') {
               setUser(currentUser);

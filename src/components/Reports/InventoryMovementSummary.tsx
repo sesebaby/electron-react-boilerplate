@@ -94,7 +94,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
   });
 
   // =============== 数据获取 ===============
-  const _loadBasicData = useCallback(async () => {
+  const loadBasicData = useCallback(async () => {
     try {
       const [productsData, categoriesData, warehousesData] = await Promise.all([
         productService.findAll(),
@@ -111,7 +111,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
     }
   }, []);
 
-  const _calculateMovementSummary = useCallback(async (): Promise<InventoryMovementSummaryData[]> => {
+  const calculateMovementSummary = useCallback(async (): Promise<InventoryMovementSummaryData[]> => {
     const { timeRange } = filters;
     
     // 获取所有相关的库存事务
@@ -266,7 +266,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
     return result;
   }, [filters, products, categories]);
 
-  const _generateReport = useCallback(async () => {
+  const generateReport = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -303,7 +303,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
   }, [calculateMovementSummary, sortConfig]);
 
   // =============== 事件处理 ===============
-  const _handleFilterChange = (field: keyof MovementSummaryFilters, value: any) => {
+  const handleFilterChange = (field: keyof MovementSummaryFilters, value: any) => {
     const _newFilters = {
       ...filters,
       [field]: value
@@ -316,14 +316,14 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
     }
   };
 
-  const _handleTimeRangeChange = (timeRange: TimeRangeFilter) => {
+  const handleTimeRangeChange = (timeRange: TimeRangeFilter) => {
     setFilters(prev => ({
       ...prev,
       timeRange
     }));
   };
 
-  const _handleConfigChange = (field: keyof MovementSummaryConfig, value: any) => {
+  const handleConfigChange = (field: keyof MovementSummaryConfig, value: any) => {
     const _newConfig = {
       ...config,
       [field]: value
@@ -332,7 +332,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
     saveMovementConfig(newConfig);
   };
 
-  const _handleColumnDisplayChange = (newColumnDisplay: ColumnDisplayConfig) => {
+  const handleColumnDisplayChange = (newColumnDisplay: ColumnDisplayConfig) => {
     // 验证至少有一列被选中
     if (!validateColumnDisplayConfig(newColumnDisplay)) {
       setError('至少需要显示一列数据');
@@ -344,11 +344,11 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
     setError(null);
   };
 
-  const _handleSort = (field: string, direction: 'asc' | 'desc') => {
+  const handleSort = (field: string, direction: 'asc' | 'desc') => {
     setSortConfig({ field, direction });
   };
 
-  const _handleExport = (options: ExportOptions) => {
+  const handleExport = (options: ExportOptions) => {
     // 导出逻辑
     console.log('Exporting with options:', options);
   };
@@ -365,7 +365,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
   }, [products, generateReport]);
 
   // =============== 计算统计信息 ===============
-  const _stats = useMemo((): MovementSummaryStats => {
+  const stats = useMemo((): MovementSummaryStats => {
     const _totalProducts = data.length;
     const _totalOpeningValue = data.reduce((sum, item) => sum + item.openingStock.amount, 0);
     const _totalInboundValue = data.reduce((sum, item) => sum + item.inboundTotal.amount, 0);

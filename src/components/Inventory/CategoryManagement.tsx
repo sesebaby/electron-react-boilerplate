@@ -24,7 +24,7 @@ import {
   TableEmpty as _TableEmpty,
   TableLoading
 } from '../ui/table';
-import { _notificationHelper as notificationHelper } from '../../utils/notificationHelper';
+import { notificationHelper } from '../../utils/notificationHelper';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import ErrorDisplay from '../ui/ErrorDisplay';
 
@@ -33,7 +33,7 @@ interface CategoryManagementProps {
 }
 
 // 定义验证模式
-const _categorySchema = z.object({
+const categorySchema = z.object({
   name: z.string().min(1, '分类名称不能为空').max(50, '分类名称最多50个字符'),
   parentId: z.string().optional(),
   level: z.number().min(1, '级别不能小于1').max(10, '级别不能超过10'),
@@ -86,7 +86,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     loadData();
   }, []);
 
-  const _loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -99,7 +99,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       setCategories(categoriesData);
       setStats(statsData);
     } catch (err) {
-      const _errorMessage = err instanceof Error ? err.message : '加载分类数据失败';
+      const errorMessage = err instanceof Error ? err.message : '加载分类数据失败';
       notificationHelper.showError('数据加载失败', errorMessage);
       console.error('Failed to load category data:', err);
     } finally {
@@ -107,10 +107,10 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     }
   };
 
-  const _onSubmit = async (data: CategoryForm) => {
+  const onSubmit = async (data: CategoryForm) => {
     try {
       // 处理根分类的parentId：将空字符串转换为undefined
-      const _submitData = {
+      const submitData = {
         ...data,
         parentId: data.parentId || undefined
       };
@@ -127,14 +127,14 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       reset(emptyForm);
       clearErrors();
     } catch (err) {
-      const _errorMessage = err instanceof Error ? err.message : '保存分类失败';
+      const errorMessage = err instanceof Error ? err.message : '保存分类失败';
       setError(errorMessage);
       notificationHelper.showError('分类保存失败', errorMessage);
       console.error('Failed to save category:', err);
     }
   };
 
-  const _handleEdit = (category: Category) => {
+  const handleEdit = (category: Category) => {
     setEditingCategory(category);
     reset({
       name: category.name,
@@ -147,12 +147,12 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     setShowForm(true);
   };
 
-  const _handleDelete = (categoryId: string) => {
+  const handleDelete = (categoryId: string) => {
     setDeleteTargetId(categoryId);
     setShowConfirmDialog(true);
   };
 
-  const _confirmDelete = async () => {
+  const confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
@@ -160,7 +160,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       await loadData();
       notificationHelper.showSuccess('删除成功', '分类已成功删除');
     } catch (err) {
-      const _errorMessage = err instanceof Error ? err.message : '删除分类失败';
+      const errorMessage = err instanceof Error ? err.message : '删除分类失败';
       notificationHelper.showError('分类删除失败', errorMessage);
       console.error('Failed to delete category:', err);
     } finally {
@@ -169,12 +169,12 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     }
   };
 
-  const _cancelDelete = () => {
+  const cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const _handleCancel = () => {
+  const handleCancel = () => {
     setShowForm(false);
     setEditingCategory(null);
     reset(emptyForm);
@@ -183,11 +183,11 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
   };
 
   // 处理父分类变更时自动调整级别
-  const _handleParentChange = (parentId: string) => {
+  const handleParentChange = (parentId: string) => {
     setValue('parentId', parentId);
     
     if (parentId) {
-      const _parentCategory = categories.find(c => c.id === parentId);
+      const parentCategory = categories.find(c => c.id === parentId);
       if (parentCategory) {
         setValue('level', parentCategory.level + 1);
       }
@@ -201,20 +201,20 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     }
   };
 
-  const _handleCreateNew = () => {
+  const handleCreateNew = () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
   };
 
-  const _getCategoryPath = (category: Category): string => {
-    const _path = [];
-    const _current = category;
+  const getCategoryPath = (category: Category): string => {
+    const path = [];
+    let current = category;
     
     while (current) {
       path.unshift(current.name);
       if (current.parentId) {
-        const _parent = categories.find(c => c.id === current.parentId);
+        const parent = categories.find(c => c.id === current.parentId);
         if (!parent) break;
         current = parent;
       } else {
@@ -225,15 +225,15 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     return path.join(' > ');
   };
 
-  const _getRootCategories = (): Category[] => {
+  const getRootCategories = (): Category[] => {
     return categories.filter(c => !c.parentId);
   };
 
-  const _filteredCategories = categories.filter(category => {
-    const _matchesSearch = !searchTerm || 
+  const filteredCategories = categories.filter(category => {
+    const matchesSearch = !searchTerm || 
       category.name.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const _matchesParent = !selectedParent || category.parentId === selectedParent;
+    const matchesParent = !selectedParent || category.parentId === selectedParent;
     
     return matchesSearch && matchesParent;
   });
@@ -363,13 +363,13 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
           {/* 表格标题 */}
           <div className="flex-shrink-0 p-4 border-b border-white/20 bg-white/5">
             <h3 className="text-lg font-semibold text-white/90">
-              分类列表 (${filteredCategories.length})
+              分类列表 ({filteredCategories.length})
             </h3>
           </div>
 
           {/* 空状态检查 */}
           {filteredCategories.length === 0 ? (
-            <TableEmpty
+            <_TableEmpty
               icon={<div className="text-6xl">📂</div>}
               message="没有找到分类"
               description="请调整搜索条件或创建新的分类"

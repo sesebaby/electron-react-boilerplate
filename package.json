@@ -11,18 +11,11 @@
     "dev": "webpack serve --config webpack.dev.config.js",
     "dev:electron": "webpack serve --mode development",
     "lint": "eslint src --ext .ts,.tsx",
-    "test": "jest",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
     "cleanup-data": "ts-node scripts/cleanup-data.ts",
     "test-data-flow": "ts-node scripts/test-data-flow.ts"
   },
   "devDependencies": {
-    "@playwright/test": "^1.53.2",
     "@tailwindcss/typography": "^0.5.16",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@types/jest": "^30.0.0",
     "@types/sqlite3": "^3.1.11",
     "@typescript-eslint/eslint-plugin": "^8.35.1",
     "@typescript-eslint/parser": "^8.35.1",

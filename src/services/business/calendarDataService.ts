@@ -24,38 +24,38 @@ export class CalendarDataService {
   async getWeeklyData(weekStart: Date, options?: CalendarViewOptions): Promise<WeeklyCalendarData> {
     const _cacheKey = this.getCacheKey(weekStart, options);
     
-    if (this.cache.has(cacheKey)) {
-      return this.cache.get(cacheKey)!;
+    if (this.cache.has(_cacheKey)) {
+      return this.cache.get(_cacheKey)!;
     }
 
     const _weekEnd = new Date(weekStart);
-    weekEnd.setDate(weekEnd.getDate() + 6);
+    _weekEnd.setDate(_weekEnd.getDate() + 6);
 
     const days: DailyBusinessSummary[] = [];
     const _weeklyTotals = { purchases: 0, sales: 0, netChange: 0 };
 
     // 生成7天的数据
-    for (let _i = 0; i < 7; i++) {
+    for (let _i = 0; _i < 7; _i++) {
       const _currentDate = new Date(weekStart);
-      currentDate.setDate(currentDate.getDate() + i);
+      _currentDate.setDate(_currentDate.getDate() + _i);
       
-      const _dailyData = await this.getDailyData(currentDate, options);
-      days.push(dailyData);
+      const _dailyData = await this.getDailyData(_currentDate, options);
+      days.push(_dailyData);
 
       // 累计周汇总
-      weeklyTotals.purchases += dailyData.purchases.totalValue;
-      weeklyTotals.sales += dailyData.sales.totalValue;
-      weeklyTotals.netChange += (dailyData.movements.inbound - dailyData.movements.outbound);
+      _weeklyTotals.purchases += _dailyData.purchases.totalValue;
+      _weeklyTotals.sales += _dailyData.sales.totalValue;
+      _weeklyTotals.netChange += (_dailyData.movements.inbound - _dailyData.movements.outbound);
     }
 
     const weeklyData: WeeklyCalendarData = {
       weekStart,
-      weekEnd,
+      weekEnd: _weekEnd,
       days,
-      weeklyTotals
+      weeklyTotals: _weeklyTotals
     };
 
-    this.cache.set(cacheKey, weeklyData);
+    this.cache.set(_cacheKey, weeklyData);
     return weeklyData;
   }
 
@@ -71,7 +71,7 @@ export class CalendarDataService {
     // 模拟数据生成（实际应该从真实数据源聚合）
     const _dailyData = this.generateMockDailyData(date);
     
-    return dailyData;
+    return _dailyData;
   }
 
   /**
@@ -243,17 +243,19 @@ export class CalendarDataService {
   private initializeTestData(): void {
     // 预生成最近4周的数据到缓存
     const _today = new Date();
-    const _fourWeeksAgo = new Date(today);
-    fourWeeksAgo.setDate(fourWeeksAgo.getDate() - 28);
+    const _fourWeeksAgo = new Date(_today);
+    _fourWeeksAgo.setDate(_fourWeeksAgo.getDate() - 28);
 
-    for (let _i = 0; i < 4; i++) {
-      const _weekStart = CalendarDataService.getWeekStart(fourWeeksAgo);
-      weekStart.setDate(weekStart.getDate() + (i * 7));
+    for (let _i = 0; _i < 4; _i++) {
+      const _weekStart = CalendarDataService.getWeekStart(_fourWeeksAgo);
+      _weekStart.setDate(_weekStart.getDate() + (_i * 7));
       
       // 异步预加载数据
-      this.getWeeklyData(weekStart).catch(console.error);
+      this.getWeeklyData(_weekStart).catch(console.error);
     }
   }
 }
 
 export const _calendarDataService = new CalendarDataService();
+// Named export without underscore for compatibility
+export const calendarDataService = _calendarDataService;

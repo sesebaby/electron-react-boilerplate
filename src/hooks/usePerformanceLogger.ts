@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { performanceMonitor } from '../utils/performanceMonitor';
+import { _performanceMonitor as performanceMonitor } from '../utils/performanceMonitor';
 
 export interface ComponentPerformanceStats {
   mountCount: number;

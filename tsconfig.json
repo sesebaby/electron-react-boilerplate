@@ -18,7 +18,6 @@
   },
   "include": [
     "src",
-    "src/types/electron.d.ts",
-    "jest.setup.ts"
+    "src/types/electron.d.ts"
   ]
 }

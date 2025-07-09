@@ -434,9 +434,9 @@ class UserActionLogger {
     }
 
     // 生成完整的操作事件
-    const _actionId = `action-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const actionId = `action-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const fullEvent: UserActionEvent = {
-      actionId: _actionId,
+      actionId,
       type: action.type,
       context: action.context,
       target: action.target,
@@ -477,7 +477,11 @@ class UserActionLogger {
   }): void {
     this.pendingActions.set(actionId, {
       startTime: new Date(),
-      event: action
+      type: action.type,
+      context: action.context,
+      description: action.description,
+      target: action.target,
+      details: action.details
     });
   }
 
@@ -489,21 +493,21 @@ class UserActionLogger {
     errorMessage?: string;
     additionalDetails?: Record<string, any>;
   }): void {
-    const _pending = this.pendingActions.get(actionId);
+    const pending = this.pendingActions.get(actionId);
     if (!pending) return;
 
-    const _duration = Date.now() - pending.startTime.getTime();
+    const duration = Date.now() - pending.startTime.getTime();
     
     this.logAction({
-      type: pending.event.type!,
-      context: pending.event.context!,
-      description: pending.event.description!,
-      target: pending.event.target,
-      duration: _duration,
+      type: pending.type,
+      context: pending.context,
+      description: pending.description,
+      target: pending.target,
+      duration,
       success: details?.success !== false,
       errorMessage: details?.errorMessage,
       details: {
-        ...pending.event.details,
+        ...pending.details,
         ...details?.additionalDetails
       }
     });

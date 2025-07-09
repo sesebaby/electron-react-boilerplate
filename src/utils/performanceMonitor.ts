@@ -161,9 +161,9 @@ class PerformanceMonitor {
     }
 
     const _startTime = this.apiMetrics.get(requestId);
-    if (!startTime) return;
+    if (!_startTime) return;
 
-    const _duration = performance.now() - startTime;
+    const _duration = performance.now() - _startTime;
     this.apiMetrics.delete(requestId);
 
     // 使用Performance API测量
@@ -184,16 +184,16 @@ class PerformanceMonitor {
         method,
         status,
         size,
-        isSlow: duration > this.config.slowApiThreshold
+        isSlow: _duration > this.config.slowApiThreshold
       }
     };
 
     this.recordMetric(metric);
 
     // 记录慢接口
-    if (duration > this.config.slowApiThreshold) {
+    if (_duration > this.config.slowApiThreshold) {
       logger.warn(`Slow API call detected: ${method} ${url}`, {
-        duration,
+        duration: _duration,
         threshold: this.config.slowApiThreshold,
         status,
         size
@@ -210,13 +210,13 @@ class PerformanceMonitor {
     }
 
     const _renderId = `${componentName}-${phase}-${Date.now()}`;
-    this.renderMetrics.set(renderId, performance.now());
+    this.renderMetrics.set(_renderId, performance.now());
 
     if (typeof performance.mark === 'function') {
-      performance.mark(`render-start-${renderId}`);
+      performance.mark(`render-start-${_renderId}`);
     }
 
-    return renderId;
+    return _renderId;
   }
 
   /**
@@ -228,9 +228,9 @@ class PerformanceMonitor {
     }
 
     const _startTime = this.renderMetrics.get(renderId);
-    if (!startTime) return;
+    if (!_startTime) return;
 
-    const _duration = performance.now() - startTime;
+    const _duration = performance.now() - _startTime;
     this.renderMetrics.delete(renderId);
 
     if (typeof performance.mark === 'function' && typeof performance.measure === 'function') {
@@ -248,16 +248,16 @@ class PerformanceMonitor {
       details: {
         componentName,
         phase,
-        isSlow: duration > this.config.slowRenderThreshold
+        isSlow: _duration > this.config.slowRenderThreshold
       }
     };
 
     this.recordMetric(metric);
 
     // 记录慢渲染
-    if (duration > this.config.slowRenderThreshold) {
+    if (_duration > this.config.slowRenderThreshold) {
       logger.warn(`Slow render detected: ${componentName} (${phase})`, {
-        duration,
+        duration: _duration,
         threshold: this.config.slowRenderThreshold,
         componentName,
         phase
@@ -275,12 +275,12 @@ class PerformanceMonitor {
 
     // 使用Navigation Timing API
     const _navTiming = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-    if (!navTiming) return;
+    if (!_navTiming) return;
 
     const metric: PerformanceMetric = {
       id: `navigation-${Date.now()}`,
       name: '页面导航',
-      value: navTiming.loadEventEnd - navTiming.fetchStart,
+      value: _navTiming.loadEventEnd - _navTiming.fetchStart,
       unit: 'ms',
       timestamp: new Date(),
       category: PerformanceCategory.NAVIGATION,
@@ -288,7 +288,7 @@ class PerformanceMonitor {
         from,
         to,
         type,
-        domContentLoaded: navTiming.domContentLoadedEventEnd - navTiming.fetchStart,
+        domContentLoaded: _navTiming.domContentLoadedEventEnd - _navTiming.fetchStart,
         firstPaint: this.getFirstPaint(),
         firstContentfulPaint: this.getFirstContentfulPaint(),
         largestContentfulPaint: this.getLargestContentfulPaint()
@@ -308,29 +308,29 @@ class PerformanceMonitor {
         // 监控导航性能
         const _navObserver = new PerformanceObserver((list) => {
           const _entries = list.getEntries();
-          entries.forEach((entry) => {
+          _entries.forEach((entry) => {
             if (entry.entryType === 'navigation') {
               const _navEntry = entry as PerformanceNavigationTiming;
-              this.recordPageLoadMetrics(navEntry);
+              this.recordPageLoadMetrics(_navEntry);
             }
           });
         });
-        navObserver.observe({ entryTypes: ['navigation'] });
+        _navObserver.observe({ entryTypes: ['navigation'] });
 
         // 监控Core Web Vitals
         const _vitalsObserver = new PerformanceObserver((list) => {
           const _entries = list.getEntries();
-          entries.forEach((entry) => {
+          _entries.forEach((entry) => {
             this.recordWebVital(entry);
           });
         });
         
         if ('PerformanceObserver' in window && PerformanceObserver.supportedEntryTypes.includes('largest-contentful-paint')) {
-          vitalsObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+          _vitalsObserver.observe({ entryTypes: ['largest-contentful-paint'] });
         }
         
         if ('PerformanceObserver' in window && PerformanceObserver.supportedEntryTypes.includes('first-input')) {
-          vitalsObserver.observe({ entryTypes: ['first-input'] });
+          _vitalsObserver.observe({ entryTypes: ['first-input'] });
         }
 
       } catch (error) {
@@ -347,13 +347,13 @@ class PerformanceMonitor {
       try {
         const _resourceObserver = new PerformanceObserver((list) => {
           const _entries = list.getEntries();
-          entries.forEach((entry) => {
+          _entries.forEach((entry) => {
             if (entry.entryType === 'resource') {
               this.recordResourceMetric(entry as PerformanceResourceTiming);
             }
           });
         });
-        resourceObserver.observe({ entryTypes: ['resource'] });
+        _resourceObserver.observe({ entryTypes: ['resource'] });
       } catch (error) {
         logger.error('Failed to setup resource performance observer', { error }, 'PerformanceMonitor');
       }
@@ -368,17 +368,17 @@ class PerformanceMonitor {
       try {
         const _interactionObserver = new PerformanceObserver((list) => {
           const _entries = list.getEntries();
-          entries.forEach((entry) => {
+          _entries.forEach((entry) => {
             this.recordInteractionMetric(entry);
           });
         });
         
         if (PerformanceObserver.supportedEntryTypes.includes('event')) {
-          interactionObserver.observe({ entryTypes: ['event'] });
+          _interactionObserver.observe({ entryTypes: ['event'] });
         }
         
         if (PerformanceObserver.supportedEntryTypes.includes('first-input')) {
-          interactionObserver.observe({ entryTypes: ['first-input'] });
+          _interactionObserver.observe({ entryTypes: ['first-input'] });
         }
       } catch (error) {
         logger.error('Failed to setup interaction performance observer', { error }, 'PerformanceMonitor');
@@ -409,32 +409,32 @@ class PerformanceMonitor {
 
     // @ts-ignore - 浏览器兼容性
     const _memInfo = (performance as any).memory;
-    if (!memInfo) return;
+    if (!_memInfo) return;
 
     const metric: PerformanceMetric = {
       id: `memory-${Date.now()}`,
       name: '内存使用',
-      value: memInfo.usedJSHeapSize,
+      value: _memInfo.usedJSHeapSize,
       unit: 'bytes',
       timestamp: new Date(),
       category: PerformanceCategory.MEMORY,
       details: {
-        usedJSHeapSize: memInfo.usedJSHeapSize,
-        totalJSHeapSize: memInfo.totalJSHeapSize,
-        jsHeapSizeLimit: memInfo.jsHeapSizeLimit,
-        usagePercent: (memInfo.usedJSHeapSize / memInfo.jsHeapSizeLimit) * 100
+        usedJSHeapSize: _memInfo.usedJSHeapSize,
+        totalJSHeapSize: _memInfo.totalJSHeapSize,
+        jsHeapSizeLimit: _memInfo.jsHeapSizeLimit,
+        usagePercent: (_memInfo.usedJSHeapSize / _memInfo.jsHeapSizeLimit) * 100
       }
     };
 
     this.recordMetric(metric);
 
     // 警告高内存使用
-    const _usagePercent = (memInfo.usedJSHeapSize / memInfo.jsHeapSizeLimit) * 100;
-    if (usagePercent > 80) {
+    const _usagePercent = (_memInfo.usedJSHeapSize / _memInfo.jsHeapSizeLimit) * 100;
+    if (_usagePercent > 80) {
       logger.warn('High memory usage detected', {
-        usagePercent,
-        usedJSHeapSize: memInfo.usedJSHeapSize,
-        jsHeapSizeLimit: memInfo.jsHeapSizeLimit
+        usagePercent: _usagePercent,
+        usedJSHeapSize: _memInfo.usedJSHeapSize,
+        jsHeapSizeLimit: _memInfo.jsHeapSizeLimit
       }, 'PerformanceMonitor');
     }
   }
@@ -471,7 +471,7 @@ class PerformanceMonitor {
       }
     ];
 
-    metrics.forEach((metric, index) => {
+    _metrics.forEach((metric, index) => {
       if (metric.value > 0) {
         this.recordMetric({
           id: `page-load-${index}-${Date.now()}`,
@@ -490,19 +490,19 @@ class PerformanceMonitor {
    * 记录Web Vitals指标
    */
   private recordWebVital(entry: PerformanceEntry): void {
-    const _name = '';
-    const _value = 0;
-    const _details = {};
+    let _name = '';
+    let _value = 0;
+    let _details = {};
 
     switch (entry.entryType) {
       case 'largest-contentful-paint':
-        name = 'Largest Contentful Paint';
-        value = entry.startTime;
+        _name = 'Largest Contentful Paint';
+        _value = entry.startTime;
         break;
       case 'first-input':
-        name = 'First Input Delay';
-        value = (entry as any).processingStart - entry.startTime;
-        details = { inputDelay: value };
+        _name = 'First Input Delay';
+        _value = (entry as any).processingStart - entry.startTime;
+        _details = { inputDelay: _value };
         break;
       default:
         return;
@@ -510,12 +510,12 @@ class PerformanceMonitor {
 
     this.recordMetric({
       id: `web-vital-${entry.entryType}-${Date.now()}`,
-      name,
-      value,
+      name: _name,
+      value: _value,
       unit: 'ms',
       timestamp: new Date(),
       category: PerformanceCategory.NAVIGATION,
-      details
+      details: _details
     });
   }
 
@@ -525,16 +525,16 @@ class PerformanceMonitor {
   private recordResourceMetric(resourceEntry: PerformanceResourceTiming): void {
     // 只监控重要资源
     const _importantResources = ['.js', '.css', '.png', '.jpg', '.jpeg', '.svg', '.woff', '.woff2'];
-    const _isImportant = importantResources.some(ext => resourceEntry.name.includes(ext));
+    const _isImportant = _importantResources.some(ext => resourceEntry.name.includes(ext));
     
-    if (!isImportant) return;
+    if (!_isImportant) return;
 
     const _duration = resourceEntry.responseEnd - resourceEntry.startTime;
     
     this.recordMetric({
       id: `resource-${Date.now()}`,
       name: '资源加载',
-      value: duration,
+      value: _duration,
       unit: 'ms',
       timestamp: new Date(),
       category: PerformanceCategory.RESOURCE_LOADING,
@@ -557,7 +557,7 @@ class PerformanceMonitor {
       this.recordMetric({
         id: `interaction-fid-${Date.now()}`,
         name: 'First Input Delay',
-        value: fid,
+        value: _fid,
         unit: 'ms',
         timestamp: new Date(),
         category: PerformanceCategory.USER_INTERACTION,
@@ -574,8 +574,8 @@ class PerformanceMonitor {
    */
   private getFirstPaint(): number {
     const _paintEntries = performance.getEntriesByType('paint');
-    const _fp = paintEntries.find(entry => entry.name === 'first-paint');
-    return fp ? fp.startTime : 0;
+    const _fp = _paintEntries.find(entry => entry.name === 'first-paint');
+    return _fp ? _fp.startTime : 0;
   }
 
   /**
@@ -583,8 +583,8 @@ class PerformanceMonitor {
    */
   private getFirstContentfulPaint(): number {
     const _paintEntries = performance.getEntriesByType('paint');
-    const _fcp = paintEntries.find(entry => entry.name === 'first-contentful-paint');
-    return fcp ? fcp.startTime : 0;
+    const _fcp = _paintEntries.find(entry => entry.name === 'first-contentful-paint');
+    return _fcp ? _fcp.startTime : 0;
   }
 
   /**
@@ -592,7 +592,7 @@ class PerformanceMonitor {
    */
   private getLargestContentfulPaint(): number {
     const _lcpEntries = performance.getEntriesByType('largest-contentful-paint');
-    return lcpEntries.length > 0 ? lcpEntries[lcpEntries.length - 1].startTime : 0;
+    return _lcpEntries.length > 0 ? _lcpEntries[_lcpEntries.length - 1].startTime : 0;
   }
 
   /**
@@ -647,35 +647,35 @@ class PerformanceMonitor {
   } {
     const _metricsByCategory = {} as Record<PerformanceCategory, number>;
     Object.values(PerformanceCategory).forEach(category => {
-      metricsByCategory[category] = 0;
+      _metricsByCategory[category] = 0;
     });
 
-    const _totalApiTime = 0;
-    const _apiCount = 0;
-    const _totalRenderTime = 0;
-    const _renderCount = 0;
-    let latestMemory: MemoryPerformanceMetric | null = null;
+    let _totalApiTime = 0;
+    let _apiCount = 0;
+    let _totalRenderTime = 0;
+    let _renderCount = 0;
+    let _latestMemory: MemoryPerformanceMetric | null = null;
 
     this.metrics.forEach(metric => {
-      metricsByCategory[metric.category]++;
+      _metricsByCategory[metric.category]++;
       
       if (metric.category === PerformanceCategory.API) {
-        totalApiTime += metric.value;
-        apiCount++;
+        _totalApiTime += metric.value;
+        _apiCount++;
       } else if (metric.category === PerformanceCategory.RENDER) {
-        totalRenderTime += metric.value;
-        renderCount++;
+        _totalRenderTime += metric.value;
+        _renderCount++;
       } else if (metric.category === PerformanceCategory.MEMORY) {
-        latestMemory = metric.details as MemoryPerformanceMetric;
+        _latestMemory = metric.details as MemoryPerformanceMetric;
       }
     });
 
     return {
       totalMetrics: this.metrics.length,
-      metricsByCategory,
-      avgApiResponseTime: apiCount > 0 ? totalApiTime / apiCount : 0,
-      avgRenderTime: renderCount > 0 ? totalRenderTime / renderCount : 0,
-      memoryUsage: latestMemory
+      metricsByCategory: _metricsByCategory,
+      avgApiResponseTime: _apiCount > 0 ? _totalApiTime / _apiCount : 0,
+      avgRenderTime: _renderCount > 0 ? _totalRenderTime / _renderCount : 0,
+      memoryUsage: _latestMemory
     };
   }
 
@@ -726,4 +726,6 @@ export const _performanceMonitor = new PerformanceMonitor({
   memoryMonitoringInterval: 60000, // 1分钟
 });
 
+// Named export without underscore for compatibility
+export const performanceMonitor = _performanceMonitor;
 export default PerformanceMonitor;

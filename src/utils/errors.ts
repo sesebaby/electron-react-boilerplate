@@ -212,4 +212,9 @@ export const _ERROR_SEVERITY = {
   CRITICAL: 'critical'
 } as const;
 
-export type ErrorSeverity = typeof ERROR_SEVERITY[keyof typeof ERROR_SEVERITY];
+export type ErrorSeverity = typeof _ERROR_SEVERITY[keyof typeof _ERROR_SEVERITY];
+
+// Re-export without underscores for backward compatibility
+export const ErrorUtils = _ErrorUtils;
+export const ERROR_CODES = _ERROR_CODES;
+export const ERROR_SEVERITY = _ERROR_SEVERITY;

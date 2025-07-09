@@ -8,13 +8,13 @@ export default [
       'dist/**',
       'node_modules/**',
       'public/**',
-      'compiled-tests/**',
+
       'logs/**',
       'data/**',
       'webpack.*.js',
       'tailwind.config.js',
       'postcss.config.js',
-      'jest.config.js',
+
       '*.sql',
       '临时/**',
       'SuperClaude/**'
@@ -108,24 +108,5 @@ export default [
       'no-var': 'error',
     },
   },
-  {
-    files: ['**/*.test.{ts,tsx,js}', '**/*.spec.{ts,tsx,js}'],
-    languageOptions: {
-      globals: {
-        jest: 'readonly',
-        describe: 'readonly',
-        it: 'readonly',
-        test: 'readonly',
-        expect: 'readonly',
-        beforeEach: 'readonly',
-        afterEach: 'readonly',
-        beforeAll: 'readonly',
-        afterAll: 'readonly',
-      },
-    },
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      'no-console': 'off',
-    },
-  },
+
 ];

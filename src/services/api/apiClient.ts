@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { logger } from '../../utils/logger';
-import { performanceMonitor } from '../../utils/performanceMonitor';
+import { _performanceMonitor as performanceMonitor } from '../../utils/performanceMonitor';
 
 // 扩展Axios配置类型以支持metadata
 declare module 'axios' {

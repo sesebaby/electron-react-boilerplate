@@ -4,8 +4,8 @@
 const _currencyFormatter = new Intl.NumberFormat('zh-CN', {
   style: 'currency',
   currency: 'CNY',
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
 });
 
 // 数字格式化器（单例）
@@ -25,22 +25,70 @@ const _dateFormatter = new Intl.DateTimeFormat('zh-CN', {
 });
 
 // 导出格式化函数
-export const _formatCurrency = (value: number): string => {
-  return _currencyFormatter.format(value);
+export const formatCurrency = (value: number | string | null | undefined, currency?: string): string => {
+  const numValue = value == null ? 0 : (typeof value === 'string' ? (isNaN(Number(value)) ? 0 : Number(value)) : value);
+  if (currency && currency !== 'CNY') {
+    const formatter = new Intl.NumberFormat('zh-CN', {
+      style: 'currency',
+      currency: currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    return formatter.format(numValue);
+  }
+  return _currencyFormatter.format(numValue);
 };
 
-export const _formatNumber = (value: number): string => {
-  return _numberFormatter.format(value);
+export const formatNumber = (value: number | string | null | undefined, decimals?: number): string => {
+  const numValue = value == null ? 0 : (typeof value === 'string' ? (isNaN(Number(value)) ? 0 : Number(value)) : value);
+  if (decimals !== undefined) {
+    const formatter = new Intl.NumberFormat('zh-CN', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+    return formatter.format(numValue);
+  }
+  return _numberFormatter.format(numValue);
 };
 
-export const _formatPercent = (value: number): string => {
-  return _percentFormatter.format(value / 100);
+export const formatPercent = (value: number | string | null | undefined): string => {
+  const numValue = value == null ? 0 : (typeof value === 'string' ? (isNaN(Number(value)) ? 0 : Number(value)) : value);
+  return _percentFormatter.format(numValue / 100);
 };
 
-export const _formatDate = (date: Date | string): string => {
-  const _dateObj = typeof date === 'string' ? new Date(date) : date;
-  return _dateFormatter.format(_dateObj);
+export const formatPercentage = (value: number | string | null | undefined, decimals?: number): string => {
+  const numValue = value == null ? 0 : (typeof value === 'string' ? (isNaN(Number(value)) ? 0 : Number(value)) : value);
+  if (decimals !== undefined) {
+    const formatter = new Intl.NumberFormat('zh-CN', {
+      style: 'percent',
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+    return formatter.format(numValue);
+  }
+  return _percentFormatter.format(numValue);
 };
+
+export const formatDate = (date: Date | string | null | undefined, format?: string): string => {
+  if (date == null) return '';
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  if (isNaN(dateObj.getTime())) return '无效日期';
+  
+  if (format === 'YYYY-MM-DD') {
+    return dateObj.toISOString().split('T')[0];
+  }
+  if (format === 'MM/DD/YYYY') {
+    return `${(dateObj.getMonth() + 1).toString().padStart(2, '0')}/${dateObj.getDate().toString().padStart(2, '0')}/${dateObj.getFullYear()}`;
+  }
+  
+  return _dateFormatter.format(dateObj);
+};
+
+// 保持旧导出以兼容性
+export const _formatCurrency = formatCurrency;
+export const _formatNumber = formatNumber;
+export const _formatPercent = formatPercent;
+export const _formatDate = formatDate;
 
 // 颜色工具（缓存）
 const _BAR_COLORS = [

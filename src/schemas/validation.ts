@@ -26,37 +26,37 @@ import {
 // 通用验证规则
 const _idSchema = z.string().min(1, 'ID不能为空');
 const _dateSchema = z.date();
-const _positiveNumberSchema = z.number().min(0, '数值不能为负数');
-const _requiredStringSchema = z.string().min(1, '此字段不能为空');
+const __positiveNumberSchema = z.number().min(0, '数值不能为负数');
+const __requiredStringSchema = z.string().min(1, '此字段不能为空');
 const _optionalStringSchema = z.string().optional();
-const _phoneSchema = z.string().regex(/^1[3-9]\d{9}$/, '请输入有效的手机号码').optional();
-const _emailSchema = z.string().email('请输入有效的邮箱地址').optional();
+const __phoneSchema = z.string().regex(/^1[3-9]\d{9}$/, '请输入有效的手机号码').optional();
+const __emailSchema = z.string().email('请输入有效的邮箱地址').optional();
 
 // 基础实体验证
 export const _BaseEntitySchema = z.object({
-  id: idSchema,
-  createdAt: dateSchema,
-  updatedAt: dateSchema
+  id: _idSchema,
+  createdAt: _dateSchema,
+  updatedAt: _dateSchema
 });
 
 // 单位转换验证 Schema
-export const _UnitConversionSchema = BaseEntitySchema.extend({
-  productId: idSchema,
-  baseUnitId: idSchema,
-  packageUnitId: idSchema,
+export const _UnitConversionSchema = _BaseEntitySchema.extend({
+  productId: _idSchema,
+  baseUnitId: _idSchema,
+  packageUnitId: _idSchema,
   conversionRate: z.number().positive('转换比率必须大于0'),
   isActive: z.boolean(),
-  description: optionalStringSchema
+  description: _optionalStringSchema
 });
 
 // 商品验证 Schema
 export const _ProductSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   sku: z.string().min(1, 'SKU不能为空').max(50, 'SKU长度不能超过50字符'),
   name: z.string().min(1, '商品名称不能为空').max(100, '商品名称长度不能超过100字符'),
   description: z.string().max(500, '商品描述长度不能超过500字符').optional(),
-  categoryId: idSchema,
-  unitId: idSchema,
+  categoryId: _idSchema,
+  unitId: _idSchema,
   brand: z.string().max(50, '品牌长度不能超过50字符').optional(),
   model: z.string().max(50, '型号长度不能超过50字符').optional(),
   barcode: z.string().max(50, '条形码长度不能超过50字符').optional(),
@@ -66,8 +66,8 @@ export const _ProductSchema = z.object({
   maxStock: z.number().min(0, '最大库存不能为负数'),
   status: z.nativeEnum(ProductStatus),
   images: z.array(z.string().url('图片地址格式不正确')).optional(),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 }).refine(data => data.maxStock >= data.minStock, {
   message: '最大库存不能小于最小库存',
   path: ['maxStock']
@@ -78,51 +78,51 @@ export const _ProductSchema = z.object({
 
 // 商品分类验证 Schema
 export const _CategorySchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   name: z.string().min(1, '分类名称不能为空').max(50, '分类名称长度不能超过50字符'),
   parentId: z.string().min(1, 'ID不能为空').optional().or(z.null()),
   level: z.number().min(1).max(5, '分类层级不能超过5级'),
   sortOrder: z.number().min(0),
   isActive: z.boolean(),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 计量单位验证 Schema
 export const _UnitSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   name: z.string().min(1, '单位名称不能为空').max(20, '单位名称长度不能超过20字符'),
   symbol: z.string().min(1, '单位符号不能为空').max(10, '单位符号长度不能超过10字符'),
   precision: z.number().min(0).max(6, '精度不能超过6位小数'),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 仓库验证 Schema
 export const _WarehouseSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   code: z.string().min(1, '仓库编码不能为空').max(20, '仓库编码长度不能超过20字符'),
   name: z.string().min(1, '仓库名称不能为空').max(50, '仓库名称长度不能超过50字符'),
   address: z.string().max(200, '地址长度不能超过200字符').optional(),
   manager: z.string().max(20, '负责人姓名长度不能超过20字符').optional(),
   isDefault: z.boolean(),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 库存验证 Schema
 export const _InventoryStockSchema = z.object({
-  id: idSchema.optional(),
-  productId: idSchema,
-  warehouseId: idSchema,
-  currentStock: positiveNumberSchema,
-  availableStock: positiveNumberSchema,
-  reservedStock: positiveNumberSchema,
-  avgCost: positiveNumberSchema,
-  lastInDate: dateSchema.optional(),
-  lastOutDate: dateSchema.optional(),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  id: _idSchema.optional(),
+  productId: _idSchema,
+  warehouseId: _idSchema,
+  currentStock: __positiveNumberSchema,
+  availableStock: __positiveNumberSchema,
+  reservedStock: __positiveNumberSchema,
+  avgCost: __positiveNumberSchema,
+  lastInDate: _dateSchema.optional(),
+  lastOutDate: _dateSchema.optional(),
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 }).refine(data => data.currentStock === data.availableStock + data.reservedStock, {
   message: '当前库存必须等于可用库存加预留库存',
   path: ['currentStock']
@@ -130,55 +130,55 @@ export const _InventoryStockSchema = z.object({
 
 // 库存流水验证 Schema
 export const _InventoryTransactionSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   transactionNo: z.string().min(1, '流水单号不能为空'),
-  productId: idSchema,
-  warehouseId: idSchema,
+  productId: _idSchema,
+  warehouseId: _idSchema,
   transactionType: z.nativeEnum(TransactionType),
   quantity: z.number().refine(val => val !== 0, '数量不能为0'),
-  unitPrice: positiveNumberSchema,
+  unitPrice: __positiveNumberSchema,
   totalAmount: z.number(),
-  referenceType: optionalStringSchema,
-  referenceId: idSchema.optional(),
+  referenceType: _optionalStringSchema,
+  referenceId: _idSchema.optional(),
   remark: z.string().max(200, '备注长度不能超过200字符').optional(),
-  operator: requiredStringSchema,
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  operator: __requiredStringSchema,
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 供应商验证 Schema
 export const _SupplierSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   code: z.string().min(1, '供应商编码不能为空').max(20, '供应商编码长度不能超过20字符'),
   name: z.string().min(1, '供应商名称不能为空').max(100, '供应商名称长度不能超过100字符'),
   contactPerson: z.string().max(20, '联系人姓名长度不能超过20字符').optional(),
-  phone: phoneSchema,
-  email: emailSchema,
+  phone: _phoneSchema,
+  email: _emailSchema,
   address: z.string().max(200, '地址长度不能超过200字符').optional(),
   paymentTerms: z.string().max(100, '付款条件长度不能超过100字符').optional(),
-  creditLimit: positiveNumberSchema,
+  creditLimit: _positiveNumberSchema,
   rating: z.nativeEnum(SupplierRating),
   status: z.nativeEnum(SupplierStatus),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 采购订单验证 Schema
 export const _PurchaseOrderSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   orderNo: z.string().min(1, '订单编号不能为空'),
-  supplierId: idSchema,
-  orderDate: dateSchema,
-  expectedDate: dateSchema.optional(),
+  supplierId: _idSchema,
+  orderDate: _dateSchema,
+  expectedDate: _dateSchema.optional(),
   status: z.nativeEnum(PurchaseOrderStatus),
-  totalAmount: positiveNumberSchema,
-  discountAmount: positiveNumberSchema,
-  taxAmount: positiveNumberSchema,
-  finalAmount: positiveNumberSchema,
+  totalAmount: _positiveNumberSchema,
+  discountAmount: _positiveNumberSchema,
+  taxAmount: _positiveNumberSchema,
+  finalAmount: _positiveNumberSchema,
   remark: z.string().max(200, '备注长度不能超过200字符').optional(),
-  creator: requiredStringSchema,
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  creator: _requiredStringSchema,
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 }).refine(data => data.finalAmount === data.totalAmount - data.discountAmount + data.taxAmount, {
   message: '最终金额计算错误',
   path: ['finalAmount']
@@ -186,17 +186,17 @@ export const _PurchaseOrderSchema = z.object({
 
 // 采购订单明细验证 Schema
 export const _PurchaseOrderItemSchema = z.object({
-  id: idSchema.optional(),
-  orderId: idSchema,
-  productId: idSchema,
+  id: _idSchema.optional(),
+  orderId: _idSchema,
+  productId: _idSchema,
   quantity: z.number().min(1, '采购数量必须大于0'),
   unitPrice: z.number().min(0, '单价不能为负数'),
   discountRate: z.number().min(0).max(1, '折扣率必须在0-1之间'),
-  amount: positiveNumberSchema,
-  receivedQuantity: positiveNumberSchema,
+  amount: _positiveNumberSchema,
+  receivedQuantity: _positiveNumberSchema,
   status: z.nativeEnum(OrderItemStatus),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 }).refine(data => data.receivedQuantity <= data.quantity, {
   message: '收货数量不能超过采购数量',
   path: ['receivedQuantity']
@@ -204,40 +204,40 @@ export const _PurchaseOrderItemSchema = z.object({
 
 // 客户验证 Schema
 export const _CustomerSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   code: z.string().min(1, '客户编码不能为空').max(20, '客户编码长度不能超过20字符'),
   name: z.string().min(1, '客户名称不能为空').max(100, '客户名称长度不能超过100字符'),
   contactPerson: z.string().max(20, '联系人姓名长度不能超过20字符').optional(),
-  phone: phoneSchema,
-  email: emailSchema,
+  phone: _phoneSchema,
+  email: _emailSchema,
   address: z.string().max(200, '地址长度不能超过200字符').optional(),
   customerType: z.nativeEnum(CustomerType),
-  creditLimit: positiveNumberSchema,
+  creditLimit: _positiveNumberSchema,
   paymentTerms: z.string().max(100, '付款条件长度不能超过100字符').optional(),
   discountRate: z.number().min(0).max(1, '折扣率必须在0-1之间'),
   level: z.nativeEnum(CustomerLevel),
   status: z.nativeEnum(CustomerStatus),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 销售订单验证 Schema
 export const _SalesOrderSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   orderNo: z.string().min(1, '订单编号不能为空'),
-  customerId: idSchema,
-  orderDate: dateSchema,
-  deliveryDate: dateSchema.optional(),
+  customerId: _idSchema,
+  orderDate: _dateSchema,
+  deliveryDate: _dateSchema.optional(),
   status: z.nativeEnum(SalesOrderStatus),
-  totalAmount: positiveNumberSchema,
-  discountAmount: positiveNumberSchema,
-  taxAmount: positiveNumberSchema,
-  finalAmount: positiveNumberSchema,
+  totalAmount: _positiveNumberSchema,
+  discountAmount: _positiveNumberSchema,
+  taxAmount: _positiveNumberSchema,
+  finalAmount: _positiveNumberSchema,
   paymentStatus: z.nativeEnum(PaymentStatus),
   remark: z.string().max(200, '备注长度不能超过200字符').optional(),
-  creator: requiredStringSchema,
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  creator: _requiredStringSchema,
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 }).refine(data => data.finalAmount === data.totalAmount - data.discountAmount + data.taxAmount, {
   message: '最终金额计算错误',
   path: ['finalAmount']
@@ -245,17 +245,17 @@ export const _SalesOrderSchema = z.object({
 
 // 销售订单明细验证 Schema
 export const _SalesOrderItemSchema = z.object({
-  id: idSchema.optional(),
-  orderId: idSchema,
-  productId: idSchema,
+  id: _idSchema.optional(),
+  orderId: _idSchema,
+  productId: _idSchema,
   quantity: z.number().min(1, '销售数量必须大于0'),
   unitPrice: z.number().min(0, '单价不能为负数'),
   discountRate: z.number().min(0).max(1, '折扣率必须在0-1之间'),
-  amount: positiveNumberSchema,
-  deliveredQuantity: positiveNumberSchema,
+  amount: _positiveNumberSchema,
+  deliveredQuantity: _positiveNumberSchema,
   status: z.nativeEnum(OrderItemStatus),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 }).refine(data => data.deliveredQuantity <= data.quantity, {
   message: '配送数量不能超过销售数量',
   path: ['deliveredQuantity']
@@ -263,32 +263,32 @@ export const _SalesOrderItemSchema = z.object({
 
 // 销售出库验证 Schema
 export const _SalesDeliverySchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   deliveryNo: z.string().min(1, '出库单号不能为空'),
-  orderId: idSchema,
-  customerId: idSchema,
-  warehouseId: idSchema,
-  deliveryDate: dateSchema,
+  orderId: _idSchema,
+  customerId: _idSchema,
+  warehouseId: _idSchema,
+  deliveryDate: _dateSchema,
   status: z.nativeEnum(DeliveryStatus),
-  totalQuantity: positiveNumberSchema,
-  totalAmount: positiveNumberSchema,
-  deliveryPerson: requiredStringSchema,
+  totalQuantity: _positiveNumberSchema,
+  totalAmount: _positiveNumberSchema,
+  deliveryPerson: _requiredStringSchema,
   remark: z.string().max(200, '备注长度不能超过200字符').optional(),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 销售出库明细验证 Schema
 export const _SalesDeliveryItemSchema = z.object({
-  id: idSchema.optional(),
-  deliveryId: idSchema,
-  productId: idSchema,
-  orderItemId: idSchema,
+  id: _idSchema.optional(),
+  deliveryId: _idSchema,
+  productId: _idSchema,
+  orderItemId: _idSchema,
   quantity: z.number().min(1, '出库数量必须大于0'),
   unitPrice: z.number().min(0, '单价不能为负数'),
-  amount: positiveNumberSchema,
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  amount: _positiveNumberSchema,
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 }).refine(data => data.amount === data.quantity * data.unitPrice, {
   message: '金额计算错误',
   path: ['amount']
@@ -296,18 +296,18 @@ export const _SalesDeliveryItemSchema = z.object({
 
 // 应付账款验证 Schema
 export const _AccountsPayableSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   billNo: z.string().min(1, '账单编号不能为空'),
-  supplierId: idSchema,
+  supplierId: _idSchema,
   orderId: z.string().min(1).optional().or(z.literal('')),
-  billDate: dateSchema,
-  dueDate: dateSchema,
-  totalAmount: positiveNumberSchema,
-  paidAmount: positiveNumberSchema,
-  balanceAmount: positiveNumberSchema,
+  billDate: _dateSchema,
+  dueDate: _dateSchema,
+  totalAmount: _positiveNumberSchema,
+  paidAmount: _positiveNumberSchema,
+  balanceAmount: _positiveNumberSchema,
   status: z.nativeEnum(PayableStatus),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 }).refine(data => data.balanceAmount === data.totalAmount - data.paidAmount, {
   message: '余额计算错误',
   path: ['balanceAmount']
@@ -318,18 +318,18 @@ export const _AccountsPayableSchema = z.object({
 
 // 应收账款验证 Schema
 export const _AccountsReceivableSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   billNo: z.string().min(1, '账单编号不能为空'),
-  customerId: idSchema,
+  customerId: _idSchema,
   orderId: z.string().min(1).optional().or(z.literal('')),
-  billDate: dateSchema,
-  dueDate: dateSchema,
-  totalAmount: positiveNumberSchema,
-  receivedAmount: positiveNumberSchema,
-  balanceAmount: positiveNumberSchema,
+  billDate: _dateSchema,
+  dueDate: _dateSchema,
+  totalAmount: _positiveNumberSchema,
+  receivedAmount: _positiveNumberSchema,
+  balanceAmount: _positiveNumberSchema,
   status: z.nativeEnum(ReceivableStatus),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 }).refine(data => data.balanceAmount === data.totalAmount - data.receivedAmount, {
   message: '余额计算错误',
   path: ['balanceAmount']
@@ -340,35 +340,35 @@ export const _AccountsReceivableSchema = z.object({
 
 // 付款记录验证 Schema
 export const _PaymentSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   paymentNo: z.string().min(1, '付款单号不能为空'),
-  payableId: idSchema,
-  paymentDate: dateSchema,
+  payableId: _idSchema,
+  paymentDate: _dateSchema,
   paymentMethod: z.nativeEnum(PaymentMethod),
   amount: z.number().min(0.01, '付款金额必须大于0'),
   remark: z.string().max(200, '备注长度不能超过200字符').optional(),
-  operator: requiredStringSchema,
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  operator: _requiredStringSchema,
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 收款记录验证 Schema
 export const _ReceiptSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   receiptNo: z.string().min(1, '收款单号不能为空'),
-  receivableId: idSchema,
-  receiptDate: dateSchema,
+  receivableId: _idSchema,
+  receiptDate: _dateSchema,
   paymentMethod: z.nativeEnum(PaymentMethod),
   amount: z.number().min(0.01, '收款金额必须大于0'),
   remark: z.string().max(200, '备注长度不能超过200字符').optional(),
-  operator: requiredStringSchema,
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  operator: _requiredStringSchema,
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 用户验证 Schema
 export const _UserSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   username: z.string()
     .min(3, '用户名至少3个字符')
     .max(20, '用户名最多20个字符')
@@ -377,49 +377,49 @@ export const _UserSchema = z.object({
     .min(6, '密码至少6个字符')
     .max(50, '密码最多50个字符'),
   nickname: z.string().min(1, '昵称不能为空').max(20, '昵称最多20个字符'),
-  email: emailSchema,
-  phone: phoneSchema,
+  email: _emailSchema,
+  phone: _phoneSchema,
   avatar: z.string().refine(
     (val) => !val || val === '' || z.string().url().safeParse(val).success,
     '头像地址格式不正确'
   ).optional(),
   role: z.nativeEnum(UserRole),
   status: z.nativeEnum(UserStatus),
-  lastLoginAt: dateSchema.optional(),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  lastLoginAt: _dateSchema.optional(),
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 系统配置验证 Schema
 export const _SystemConfigSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   key: z.string().min(1, '配置键不能为空').max(50, '配置键长度不能超过50字符'),
   value: z.string().max(500, '配置值长度不能超过500字符'),
   description: z.string().max(200, '描述长度不能超过200字符').optional(),
   category: z.string().min(1, '分类不能为空').max(50, '分类长度不能超过50字符'),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 导出类型推断
-export type ProductInput = z.infer<typeof ProductSchema>;
-export type CategoryInput = z.infer<typeof CategorySchema>;
-export type UnitInput = z.infer<typeof UnitSchema>;
-export type WarehouseInput = z.infer<typeof WarehouseSchema>;
-export type InventoryStockInput = z.infer<typeof InventoryStockSchema>;
-export type InventoryTransactionInput = z.infer<typeof InventoryTransactionSchema>;
-export type SupplierInput = z.infer<typeof SupplierSchema>;
-export type PurchaseOrderInput = z.infer<typeof PurchaseOrderSchema>;
-export type PurchaseOrderItemInput = z.infer<typeof PurchaseOrderItemSchema>;
-export type CustomerInput = z.infer<typeof CustomerSchema>;
-export type SalesOrderInput = z.infer<typeof SalesOrderSchema>;
-export type SalesOrderItemInput = z.infer<typeof SalesOrderItemSchema>;
-export type AccountsPayableInput = z.infer<typeof AccountsPayableSchema>;
-export type AccountsReceivableInput = z.infer<typeof AccountsReceivableSchema>;
-export type PaymentInput = z.infer<typeof PaymentSchema>;
-export type ReceiptInput = z.infer<typeof ReceiptSchema>;
-export type UserInput = z.infer<typeof UserSchema>;
-export type SystemConfigInput = z.infer<typeof SystemConfigSchema>;
+export type ProductInput = z.infer<typeof _ProductSchema>;
+export type CategoryInput = z.infer<typeof _CategorySchema>;
+export type UnitInput = z.infer<typeof _UnitSchema>;
+export type WarehouseInput = z.infer<typeof _WarehouseSchema>;
+export type InventoryStockInput = z.infer<typeof _InventoryStockSchema>;
+export type InventoryTransactionInput = z.infer<typeof _InventoryTransactionSchema>;
+export type SupplierInput = z.infer<typeof _SupplierSchema>;
+export type PurchaseOrderInput = z.infer<typeof _PurchaseOrderSchema>;
+export type PurchaseOrderItemInput = z.infer<typeof _PurchaseOrderItemSchema>;
+export type CustomerInput = z.infer<typeof _CustomerSchema>;
+export type SalesOrderInput = z.infer<typeof _SalesOrderSchema>;
+export type SalesOrderItemInput = z.infer<typeof _SalesOrderItemSchema>;
+export type AccountsPayableInput = z.infer<typeof _AccountsPayableSchema>;
+export type AccountsReceivableInput = z.infer<typeof _AccountsReceivableSchema>;
+export type PaymentInput = z.infer<typeof _PaymentSchema>;
+export type ReceiptInput = z.infer<typeof _ReceiptSchema>;
+export type UserInput = z.infer<typeof _UserSchema>;
+export type SystemConfigInput = z.infer<typeof _SystemConfigSchema>;
 
 // Excel导入验证 Schema
 export const _ExcelRowSchema = z.object({
@@ -439,7 +439,7 @@ export const _ExcelRowSchema = z.object({
 
 // 库存项目验证 Schema (简化版，用于兼容)
 export const _InventoryItemSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   name: z.string().min(1, '商品名称不能为空'),
   description: z.string().min(1, '商品描述不能为空'),
   sku: z.string().min(1, 'SKU不能为空'),
@@ -449,7 +449,7 @@ export const _InventoryItemSchema = z.object({
   reservedQuantity: z.number().min(0, '预留数量不能为负数'),
   unitPrice: z.number().min(0, '单价不能为负数'),
   totalValue: z.number().min(0, '总价值不能为负数'),
-  lastUpdated: dateSchema.optional(),
+  lastUpdated: _dateSchema.optional(),
   status: z.enum(['in-stock', 'low-stock', 'out-of-stock', 'discontinued']),
   location: z.string(),
   reorderLevel: z.number().min(0, '补货提醒不能为负数'),
@@ -457,8 +457,8 @@ export const _InventoryItemSchema = z.object({
 });
 
 // 导出类型
-export type ExcelRowInput = z.infer<typeof ExcelRowSchema>;
-export type InventoryItemInput = z.infer<typeof InventoryItemSchema>;
+export type ExcelRowInput = z.infer<typeof _ExcelRowSchema>;
+export type InventoryItemInput = z.infer<typeof _InventoryItemSchema>;
 
 // 通用验证函数
 export const _validateEntity = <T>(schema: z.ZodSchema<T>, data: unknown): {
@@ -468,7 +468,7 @@ export const _validateEntity = <T>(schema: z.ZodSchema<T>, data: unknown): {
 } => {
   try {
     const _validated = schema.parse(data);
-    return { success: true, data: validated };
+    return { success: true, data: _validated };
   } catch (error) {
     if (error instanceof z.ZodError) {
       return {
@@ -486,7 +486,7 @@ export const _validateExcelRow = (data: any): {
   data?: ExcelRowInput; 
   errors?: string[] 
 } => {
-  return validateEntity(ExcelRowSchema, data);
+  return _validateEntity(_ExcelRowSchema, data);
 };
 
 // 库存项目验证函数
@@ -495,14 +495,14 @@ export const _validateInventoryItem = (data: any): {
   data?: InventoryItemInput;
   errors?: string[]
 } => {
-  return validateEntity(InventoryItemSchema, data);
+  return _validateEntity(_InventoryItemSchema, data);
 };
 
 // =============== 通知系统验证 ===============
 
 // 通知验证 Schema
 export const _NotificationSchema = z.object({
-  id: idSchema.optional(),
+  id: _idSchema.optional(),
   type: z.nativeEnum(NotificationType, { errorMap: () => ({ message: '请选择有效的通知类型' }) }),
   title: z.string().min(1, '通知标题不能为空').max(100, '通知标题长度不能超过100字符'),
   message: z.string().min(1, '通知消息不能为空').max(500, '通知消息长度不能超过500字符'),
@@ -513,20 +513,20 @@ export const _NotificationSchema = z.object({
     type: z.string().min(1, '关联实体类型不能为空'),
     id: z.string().min(1, '关联实体ID不能为空')
   }).optional(),
-  readAt: dateSchema.optional(),
-  expiresAt: dateSchema.optional(),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  readAt: _dateSchema.optional(),
+  expiresAt: _dateSchema.optional(),
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });
 
 // 通知配置验证 Schema
 export const _NotificationConfigSchema = z.object({
-  id: idSchema.optional(),
-  userId: idSchema,
+  id: _idSchema.optional(),
+  userId: _idSchema,
   enabledTypes: z.array(z.nativeEnum(NotificationType)).min(1, '至少需要启用一种通知类型'),
   enabledPriorities: z.array(z.nativeEnum(NotificationPriority)).min(1, '至少需要启用一种优先级'),
   enableSound: z.boolean(),
   enableDesktop: z.boolean(),
-  createdAt: dateSchema.optional(),
-  updatedAt: dateSchema.optional()
+  createdAt: _dateSchema.optional(),
+  updatedAt: _dateSchema.optional()
 });

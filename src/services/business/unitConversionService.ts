@@ -42,8 +42,8 @@ export class UnitConversionService {
 
   async findByProductId(productId: string): Promise<UnitConversion | null> {
     const _conversionId = this.productConversions.get(productId);
-    if (!conversionId) return null;
-    return this.conversions.get(conversionId) || null;
+    if (!_conversionId) return null;
+    return this.conversions.get(_conversionId) || null;
   }
 
   async findAll(): Promise<UnitConversion[]> {
@@ -52,12 +52,12 @@ export class UnitConversionService {
 
   async update(id: string, data: Partial<Omit<UnitConversion, 'id' | 'createdAt' | 'updatedAt'>>): Promise<UnitConversion> {
     const _existing = this.conversions.get(id);
-    if (!existing) {
+    if (!_existing) {
       throw new Error(`单位转换规则不存在: ${id}`);
     }
 
     const updated: UnitConversion = {
-      ...existing,
+      ..._existing,
       ...data,
       updatedAt: new Date()
     };
@@ -73,12 +73,12 @@ export class UnitConversionService {
 
   async delete(id: string): Promise<void> {
     const _existing = this.conversions.get(id);
-    if (!existing) {
+    if (!_existing) {
       throw new Error(`单位转换规则不存在: ${id}`);
     }
 
     this.conversions.delete(id);
-    this.productConversions.delete(existing.productId);
+    this.productConversions.delete(_existing.productId);
   }
 
   // =============== 转换计算方法 ===============
@@ -91,9 +91,9 @@ export class UnitConversionService {
    */
   async convertToPackageUnit(productId: string, baseQuantity: number): Promise<number | null> {
     const _conversion = await this.findByProductId(productId);
-    if (!conversion || !conversion.isActive) return null;
+    if (!_conversion || !_conversion.isActive) return null;
 
-    return baseQuantity / conversion.conversionRate;
+    return baseQuantity / _conversion.conversionRate;
   }
 
   /**
@@ -104,9 +104,9 @@ export class UnitConversionService {
    */
   async convertToBaseUnit(productId: string, packageQuantity: number): Promise<number | null> {
     const _conversion = await this.findByProductId(productId);
-    if (!conversion || !conversion.isActive) return null;
+    if (!_conversion || !_conversion.isActive) return null;
 
-    return packageQuantity * conversion.conversionRate;
+    return packageQuantity * _conversion.conversionRate;
   }
 
   /**
@@ -123,33 +123,33 @@ export class UnitConversionService {
     formatted: string;
   } | null> {
     const _conversion = await this.findByProductId(productId);
-    if (!conversion || !conversion.isActive) return null;
+    if (!_conversion || !_conversion.isActive) return null;
 
-    const _packageQuantity = Math.floor(baseQuantity / conversion.conversionRate);
-    const _remainderQuantity = baseQuantity % conversion.conversionRate;
+    const _packageQuantity = Math.floor(baseQuantity / _conversion.conversionRate);
+    const _remainderQuantity = baseQuantity % _conversion.conversionRate;
 
     // 这里简化处理，实际应该从 unitService 获取单位名称
-    const _packageUnitName = await this.getUnitName(conversion.packageUnitId);
-    const _baseUnitName = await this.getUnitName(conversion.baseUnitId);
+    const _packageUnitName = await this.getUnitName(_conversion.packageUnitId);
+    const _baseUnitName = await this.getUnitName(_conversion.baseUnitId);
 
-    const _formatted = '';
-    if (packageQuantity > 0) {
-      formatted += `${packageQuantity}${packageUnitName}`;
+    let _formatted = '';
+    if (_packageQuantity > 0) {
+      _formatted += `${_packageQuantity}${_packageUnitName}`;
     }
-    if (remainderQuantity > 0) {
-      if (formatted) formatted += '';
-      formatted += `${remainderQuantity}${baseUnitName}`;
+    if (_remainderQuantity > 0) {
+      if (_formatted) _formatted += '';
+      _formatted += `${_remainderQuantity}${_baseUnitName}`;
     }
-    if (!formatted) {
-      formatted = `0${baseUnitName}`;
+    if (!_formatted) {
+      _formatted = `0${_baseUnitName}`;
     }
 
     return {
-      packageQuantity,
-      remainderQuantity,
-      packageUnitName,
-      baseUnitName,
-      formatted
+      packageQuantity: _packageQuantity,
+      remainderQuantity: _remainderQuantity,
+      packageUnitName: _packageUnitName,
+      baseUnitName: _baseUnitName,
+      formatted: _formatted
     };
   }
 
@@ -206,7 +206,7 @@ export class UnitConversionService {
       }
     ];
 
-    testConversions.forEach(data => {
+    _testConversions.forEach(data => {
       const conversion: UnitConversion = {
         ...data,
         id: uuidv4(),
@@ -221,3 +221,5 @@ export class UnitConversionService {
 }
 
 export const _unitConversionService = new UnitConversionService();
+// Named export without underscore for compatibility
+export const unitConversionService = _unitConversionService;

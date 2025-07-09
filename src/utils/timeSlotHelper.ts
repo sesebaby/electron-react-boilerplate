@@ -25,19 +25,19 @@ export class TimeSlotHelper {
    * @returns 时间段结果
    */
   static getTimeSlot(timestamp: Date, config: TimeSlotConfig = DEFAULT_TIME_SLOT_CONFIG): TimeSlotResult {
-    const _hour = timestamp.getHours();
-    const _minute = timestamp.getMinutes();
-    const _timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+    const hour = timestamp.getHours();
+    const minute = timestamp.getMinutes();
+    const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
     
     // 解析配置中的时间
-    const _morningStart = this.parseTime(config.morning.start);
-    const _morningEnd = this.parseTime(config.morning.end);
-    const _afternoonStart = this.parseTime(config.afternoon.start);
-    const _afternoonEnd = this.parseTime(config.afternoon.end);
-    const _eveningStart = this.parseTime(config.evening.start);
-    const _eveningEnd = this.parseTime(config.evening.end);
+    const morningStart = this.parseTime(config.morning.start);
+    const morningEnd = this.parseTime(config.morning.end);
+    const afternoonStart = this.parseTime(config.afternoon.start);
+    const afternoonEnd = this.parseTime(config.afternoon.end);
+    const eveningStart = this.parseTime(config.evening.start);
+    const eveningEnd = this.parseTime(config.evening.end);
     
-    const _currentMinutes = hour * 60 + minute;
+    const currentMinutes = hour * 60 + minute;
     
     // 判断时间段
     let timeSlot: TimeSlot;
@@ -115,7 +115,7 @@ export class TimeSlotHelper {
     
     try {
       // 验证时间格式
-      const _timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
       
       if (!timeRegex.test(config.morning.start)) {
         errors.push('早上开始时间格式无效');
@@ -137,12 +137,12 @@ export class TimeSlotHelper {
       }
       
       // 验证时间逻辑
-      const _morningStart = this.parseTime(config.morning.start);
-      const _morningEnd = this.parseTime(config.morning.end);
-      const _afternoonStart = this.parseTime(config.afternoon.start);
-      const _afternoonEnd = this.parseTime(config.afternoon.end);
-      const _eveningStart = this.parseTime(config.evening.start);
-      const _eveningEnd = this.parseTime(config.evening.end);
+      const morningStart = this.parseTime(config.morning.start);
+      const morningEnd = this.parseTime(config.morning.end);
+      const afternoonStart = this.parseTime(config.afternoon.start);
+      const afternoonEnd = this.parseTime(config.afternoon.end);
+      const eveningStart = this.parseTime(config.evening.start);
+      const eveningEnd = this.parseTime(config.evening.end);
       
       if (morningStart >= morningEnd) {
         errors.push('早上开始时间必须早于结束时间');
@@ -159,7 +159,7 @@ export class TimeSlotHelper {
         errors.push('下午和晚上时间段重叠');
       }
       
-    } catch (_error) {
+    } catch (error) {
       errors.push('时间段配置解析失败');
     }
     
@@ -203,7 +203,7 @@ export class TimeSlotHelper {
    */
   static getDateRange(startDate: Date, endDate: Date): string[] {
     const dates: string[] = [];
-    const _current = new Date(startDate);
+    const current = new Date(startDate);
     
     while (current <= endDate) {
       dates.push(this.formatDate(current));
@@ -258,7 +258,7 @@ export class TimeSlotHelper {
    * @returns 天数
    */
   static getDaysBetween(startDate: Date, endDate: Date): number {
-    const _timeDiff = endDate.getTime() - startDate.getTime();
+    const timeDiff = endDate.getTime() - startDate.getTime();
     return Math.ceil(timeDiff / (1000 * 3600 * 24));
   }
 }

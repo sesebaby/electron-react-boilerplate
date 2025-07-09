@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Card } from '../ui/card';
-import { inventoryEntryRegistrationService, InventoryEntryItem } from '../../services/business/inventoryEntryRegistrationService';
+import { _inventoryEntryRegistrationService as inventoryEntryRegistrationService, InventoryEntryItem } from '../../services/business/inventoryEntryRegistrationService';
 import { 
   Table, 
   TableContainer,
@@ -33,7 +33,7 @@ const displayModes: DisplayMode[] = [
 
 export const InventoryEntryRegistration: React.FC = () => {
   // 获取当前月份的开始和结束日期
-  const _getCurrentMonthRange = () => {
+  const getCurrentMonthRange = () => {
     const _now = new Date();
     const _year = now.getFullYear();
     const _month = now.getMonth();
@@ -49,7 +49,7 @@ export const InventoryEntryRegistration: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   // 获取当前月份的所有日期 - 基于当前实际月份，不依赖timeRange
-  const _monthDates = useMemo(() => {
+  const monthDates = useMemo(() => {
     const _now = new Date();
     const _year = now.getFullYear();
     const _month = now.getMonth();
@@ -63,7 +63,7 @@ export const InventoryEntryRegistration: React.FC = () => {
   }, []); // 移除依赖，只在组件首次加载时计算
 
   // 生成周快捷选择 - 基于当前月份
-  const _weekRanges = useMemo(() => {
+  const weekRanges = useMemo(() => {
     const _now = new Date();
     const _year = now.getFullYear();
     const _month = now.getMonth();
@@ -108,7 +108,7 @@ export const InventoryEntryRegistration: React.FC = () => {
   }, [timeRange, displayMode]);
 
   // 导出数据功能
-  const _handleExportData = () => {
+  const handleExportData = () => {
     try {
       const _csvData = inventoryEntryRegistrationService.exportToCSV(data, filteredDates);
       const _blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
@@ -125,7 +125,7 @@ export const InventoryEntryRegistration: React.FC = () => {
     }
   };
 
-  const _handleWeekSelect = (week: number) => {
+  const handleWeekSelect = (week: number) => {
     const _weekRange = weekRanges.find(w => w.week === week);
     if (weekRange) {
       setTimeRange({
@@ -136,12 +136,12 @@ export const InventoryEntryRegistration: React.FC = () => {
     }
   };
 
-  const _handleFullMonthSelect = () => {
+  const handleFullMonthSelect = () => {
     setTimeRange(getCurrentMonthRange());
     setSelectedWeek(null);
   };
 
-  const _filteredDates = useMemo(() => {
+  const filteredDates = useMemo(() => {
     // 如果选择了全月（selectedWeek为null），显示整个月的所有日期
     if (selectedWeek === null) {
       return monthDates;

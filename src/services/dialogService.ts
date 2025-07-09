@@ -53,4 +53,6 @@ class DialogService {
 }
 
 export const _dialogService = new DialogService();
-export default dialogService;
+// Named export without underscore for compatibility
+export const dialogService = _dialogService;
+export default _dialogService;
