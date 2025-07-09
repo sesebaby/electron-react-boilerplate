@@ -47,31 +47,43 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
 
   const severity = getSeverity(error);
 
-  // 样式配置
+  // 样式配置 - 使用CSS变量
   const severityColors = {
     low: {
-      bg: 'bg-blue-500/10',
-      border: 'border-blue-500/20',
-      text: 'text-blue-300',
-      icon: '📝'
+      bg: '',
+      border: '',
+      text: '',
+      icon: '📝',
+      bgColor: 'var(--info-color, oklch(0.7 0.15 230))',
+      borderColor: 'var(--info-color, oklch(0.7 0.15 230))',
+      textColor: 'var(--info-color, oklch(0.7 0.15 230))'
     },
     medium: {
-      bg: 'bg-yellow-500/10',
-      border: 'border-yellow-500/20',
-      text: 'text-yellow-300',
-      icon: '⚠️'
+      bg: '',
+      border: '',
+      text: '',
+      icon: '⚠️',
+      bgColor: 'var(--warning-color, oklch(0.8 0.15 85))',
+      borderColor: 'var(--warning-color, oklch(0.8 0.15 85))',
+      textColor: 'var(--warning-color, oklch(0.8 0.15 85))'
     },
     high: {
-      bg: 'bg-orange-500/10',
-      border: 'border-orange-500/20',
-      text: 'text-orange-300',
-      icon: '😨'
+      bg: '',
+      border: '',
+      text: '',
+      icon: '😨',
+      bgColor: 'var(--warning-color, oklch(0.8 0.15 85))',
+      borderColor: 'var(--warning-color, oklch(0.8 0.15 85))',
+      textColor: 'var(--warning-color, oklch(0.8 0.15 85))'
     },
     critical: {
-      bg: 'bg-red-500/10',
-      border: 'border-red-500/20',
-      text: 'text-red-300',
-      icon: '🛑'
+      bg: '',
+      border: '',
+      text: '',
+      icon: '🛑',
+      bgColor: 'var(--error-color, oklch(0.63 0.24 25))',
+      borderColor: 'var(--error-color, oklch(0.63 0.24 25))',
+      textColor: 'var(--error-color, oklch(0.63 0.24 25))'
     }
   };
 
@@ -104,27 +116,44 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   // Toast样式
   if (variant === 'toast') {
     return (
-      <div className={`
-        fixed top-4 right-4 z-50 max-w-sm glass-card
-        ${colors.bg} ${colors.border} border
-        ${sizeClasses[size]} ${className}
-        animate-slide-in-right
-      `}>
+      <div
+        className={`
+          fixed top-4 right-4 z-50 max-w-sm glass-card border
+          ${sizeClasses[size]} ${className}
+          animate-slide-in-right
+        `}
+        style={{
+          backgroundColor: `${colors.bgColor}20`,
+          borderColor: `${colors.borderColor}40`
+        }}
+      >
         <div className="flex items-start gap-3">
           <span className="text-lg">{colors.icon}</span>
           <div className="flex-1 min-w-0">
-            <p className={`font-medium ${colors.text}`}>
-              {severity === 'critical' ? '系统错误' : 
+            <p className="font-medium" style={{ color: colors.textColor }}>
+              {severity === 'critical' ? '系统错误' :
                severity === 'high' ? '操作失败' :
                severity === 'medium' ? '发生错误' : '提示'}
             </p>
-            <p className="text-sm text-white/80 mt-1">{error.message}</p>
+            <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>{error.message}</p>
           </div>
           <div className="flex gap-1">
             {onRetry && (
               <button
                 onClick={onRetry}
-                className="text-white/60 hover:text-white/80 text-xs p-1"
+                className="text-xs p-1 min-w-[32px] min-h-[32px] flex items-center justify-center rounded transition-colors touch-manipulation"
+                style={{
+                  color: 'var(--text-secondary)',
+                  backgroundColor: 'transparent'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'var(--text-primary)';
+                  e.currentTarget.style.backgroundColor = 'var(--hover-background)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--text-secondary)';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
                 title="重试"
               >
                 🔄
@@ -133,7 +162,19 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
             {onClear && (
               <button
                 onClick={onClear}
-                className="text-white/60 hover:text-white/80 text-xs p-1"
+                className="text-xs p-1 min-w-[32px] min-h-[32px] flex items-center justify-center rounded transition-colors touch-manipulation"
+                style={{
+                  color: 'var(--text-secondary)',
+                  backgroundColor: 'transparent'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'var(--text-primary)';
+                  e.currentTarget.style.backgroundColor = 'var(--hover-background)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--text-secondary)';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
                 title="关闭"
               >
                 ✕
@@ -198,19 +239,25 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
 
   // 卡片样式（默认）
   return (
-    <div className={`
-      glass-card ${colors.bg} ${colors.border} border
-      ${sizeClasses[size]} ${className}
-    `}>
+    <div
+      className={`
+        glass-card border
+        ${sizeClasses[size]} ${className}
+      `}
+      style={{
+        backgroundColor: `${colors.bgColor}20`,
+        borderColor: `${colors.borderColor}40`
+      }}
+    >
       <div className="flex items-start gap-3">
         <span className="text-2xl">{colors.icon}</span>
         <div className="flex-1 min-w-0">
-          <h4 className={`font-semibold ${colors.text} mb-1`}>
-            {severity === 'critical' ? '系统错误' : 
+          <h4 className="font-semibold mb-1" style={{ color: colors.textColor }}>
+            {severity === 'critical' ? '系统错误' :
              severity === 'high' ? '操作失败' :
              severity === 'medium' ? '发生错误' : '提示'}
           </h4>
-          <p className="text-white/80 text-sm">{error.message}</p>
+          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{error.message}</p>
           
           {showDetails && isAppError && (
             <details className="text-xs text-white/60 mt-3">

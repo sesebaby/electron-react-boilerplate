@@ -15,10 +15,13 @@ const Separator = React.forwardRef<
       decorative={decorative}
       orientation={orientation}
       className={cn(
-        "shrink-0 bg-white/20",
+        "shrink-0",
         orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
         className
       )}
+      style={{
+        backgroundColor: 'var(--divider-color, rgba(255, 255, 255, 0.2))'
+      }}
       {...props}
     />
   )

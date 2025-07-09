@@ -610,9 +610,10 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
 
       {/* 模态框 */}
       {showModal && (
-        <div className="popup-overlay flex items-center justify-center p-4 z-[9998]">
-          <div className="popup-dropdown max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b border-white/20">
+        <div className="popup-overlay flex items-center justify-center p-2 sm:p-4 z-[9998]">
+          <div className="popup-dropdown max-w-md w-full max-h-[90vh] overflow-y-auto sm:max-w-md md:max-w-lg">
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b"
+              style={{ borderBottomColor: 'var(--divider-color, rgba(255, 255, 255, 0.2))' }}>
               <h3 className="text-lg font-semibold text-white">
                 {modalMode === 'create' && '新增用户'}
                 {modalMode === 'edit' && '编辑用户'}
@@ -621,7 +622,19 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
               </h3>
               <button
                 type="button"
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white/70 hover:text-white"
+                className="p-2 sm:p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg transition-colors touch-manipulation"
+                style={{
+                  color: 'var(--text-secondary)',
+                  backgroundColor: 'transparent'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--hover-background, rgba(255, 255, 255, 0.1))';
+                  e.currentTarget.style.color = 'var(--text-primary)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = 'var(--text-secondary)';
+                }}
                 onClick={() => setShowModal(false)}
               >
                 ✕

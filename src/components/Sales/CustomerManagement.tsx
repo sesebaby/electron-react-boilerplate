@@ -532,7 +532,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
       {/* 客户表单模态框 */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998] flex items-center justify-center p-2 sm:p-4">
-          <div className="glass-card w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl">
+          <div className="glass-card w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
             {/* 弹出窗口头部 - 固定不滚动 */}
             <div className="bg-white/5 backdrop-blur-sm border-b border-white/10 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between shrink-0">
               <h3 className="text-lg sm:text-xl font-bold text-white">

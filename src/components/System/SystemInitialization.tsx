@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { GlassCard, GlassButton } from '../ui/FormControls';
 import { LoadingProgress } from '../ui/SkeletonLoader';
 import { useDialog } from '../../hooks/useDialog';
+import ConfirmDialog from '../ui/ConfirmDialog';
+import Toast from '../ui/Toast';
 import systemInitializationService, { 
   InitializationProgress, 
   InitializationOptions 
@@ -30,7 +32,16 @@ export const SystemInitialization: React.FC = () => {
     importMockData: true
   });
 
-  const { showConfirm, showAlert, showSuccess, showError } = useDialog();
+  const { 
+    showConfirm, 
+    showAlert, 
+    showSuccess, 
+    showError,
+    confirmDialog,
+    alertDialog,
+    toast,
+    closeToast
+  } = useDialog();
 
   useEffect(() => {
     loadSystemInfo();
@@ -272,6 +283,37 @@ ${initOptions.importMockData ? '✓ 导入默认示例数据\n' : ''}${initOptio
           </p>
         </div>
       </GlassCard>
+
+      {/* 对话框组件 */}
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        confirmText={confirmDialog.confirmText}
+        cancelText={confirmDialog.cancelText}
+        onConfirm={confirmDialog.onConfirm || (() => {})}
+        onCancel={confirmDialog.onCancel || (() => {})}
+        variant={confirmDialog.variant as 'danger' | 'warning' | 'info'}
+      />
+
+      <ConfirmDialog
+        isOpen={alertDialog.isOpen}
+        title={alertDialog.title}
+        message={alertDialog.message}
+        confirmText={alertDialog.confirmText}
+        cancelText={alertDialog.cancelText}
+        onConfirm={alertDialog.onConfirm || (() => {})}
+        onCancel={alertDialog.onCancel || (() => {})}
+        variant={alertDialog.variant as 'danger' | 'warning' | 'info'}
+      />
+
+      <Toast
+        isOpen={toast.isOpen}
+        message={toast.message}
+        variant={toast.variant}
+        duration={toast.duration}
+        onClose={closeToast}
+      />
     </div>
   );
 };
