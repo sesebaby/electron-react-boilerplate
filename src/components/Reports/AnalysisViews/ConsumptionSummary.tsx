@@ -21,43 +21,43 @@ const ConsumptionSummary: React.FC<ConsumptionSummaryProps> = ({
   /**
    * 计算日期范围天数
    */
-  const getDaysCount = (): number => {
+  const _getDaysCount = (): number => {
     return TimeSlotHelper.getDaysBetween(dateRange.startDate, dateRange.endDate) + 1;
   };
 
   /**
    * 计算平均值
    */
-  const getAverageValue = (total: number): number => {
-    const days = getDaysCount();
+  const _getAverageValue = (total: number): number => {
+    const _days = getDaysCount();
     return days > 0 ? total / days : 0;
   };
 
   /**
    * 格式化显示值
    */
-  const formatValue = (value: number): string => {
+  const _formatValue = (value: number): string => {
     return ConsumptionCalculator.formatDisplayValue(value, displayMode);
   };
 
   /**
    * 获取显示单位
    */
-  const getUnit = (): string => {
+  const _getUnit = (): string => {
     return ConsumptionCalculator.getDisplayUnit(displayMode, '个', '包装单位');
   };
 
   /**
    * 获取时间段颜色主题
    */
-  const getTimeSlotTheme = (timeSlot: TimeSlot): string => {
+  const _getTimeSlotTheme = (timeSlot: TimeSlot): string => {
     return TimeSlotHelper.getTimeSlotColorTheme(timeSlot);
   };
 
-  const grandTotalValue = ConsumptionCalculator.getDisplayValue(totals.grandTotal, displayMode);
-  const morningTotalValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.morning, displayMode);
-  const afternoonTotalValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.afternoon, displayMode);
-  const eveningTotalValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.evening, displayMode);
+  const _grandTotalValue = ConsumptionCalculator.getDisplayValue(totals.grandTotal, displayMode);
+  const _morningTotalValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.morning, displayMode);
+  const _afternoonTotalValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.afternoon, displayMode);
+  const _eveningTotalValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.evening, displayMode);
 
   return (
     <div className={`glass-surface backdrop-blur-lg rounded-xl border border-white/20 p-6 ${className}`}>
@@ -165,7 +165,7 @@ const ConsumptionSummary: React.FC<ConsumptionSummaryProps> = ({
               { slot: TimeSlot.AFTERNOON, name: '下午', value: afternoonTotalValue, icon: '☀️' },
               { slot: TimeSlot.EVENING, name: '晚上', value: eveningTotalValue, icon: '🌙' }
             ].map(({ slot, name, value, icon }) => {
-              const percentage = grandTotalValue > 0 ? (value / grandTotalValue) * 100 : 0;
+              const _percentage = grandTotalValue > 0 ? (value / grandTotalValue) * 100 : 0;
               return (
                 <div key={slot} className="flex items-center gap-3">
                   <span className="text-lg">{icon}</span>

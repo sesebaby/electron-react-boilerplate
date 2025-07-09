@@ -117,13 +117,13 @@ const menuItems: MenuItem[] = [
 
 export const Sidebar: React.FC<SidebarProps> = ({ 
   collapsed, 
-  onToggle, 
+  onToggle: _onToggle, 
   currentPage, 
   onPageChange 
 }) => {
   const [expandedMenus, setExpandedMenus] = React.useState<string[]>(['inventory']);
 
-  const toggleMenu = (menuId: string) => {
+  const _toggleMenu = (menuId: string) => {
     if (collapsed) return; // 收缩状态下不展开子菜单
     
     setExpandedMenus(prev => 
@@ -133,7 +133,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     );
   };
 
-  const handleMenuClick = (item: MenuItem) => {
+  const _handleMenuClick = (item: MenuItem) => {
     if (item.children && item.children.length > 0) {
       toggleMenu(item.id);
     } else {
@@ -142,7 +142,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   // 检查菜单项是否应该显示为激活状态
-  const isMenuActive = (item: MenuItem): boolean => {
+  const _isMenuActive = (item: MenuItem): boolean => {
     if (currentPage === item.id) {
       return true;
     }

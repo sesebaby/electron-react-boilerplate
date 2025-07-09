@@ -17,8 +17,8 @@ import ConsumptionTable from './ConsumptionTable';
 import ConsumptionSummary from './ConsumptionSummary';
 
 // 基准日期配置 - 当前月份第1天的起始日期
-const getBaseDate = () => {
-  const now = new Date();
+const _getBaseDate = () => {
+  const _now = new Date();
   return new Date(now.getFullYear(), now.getMonth(), 1);
 };
 
@@ -30,11 +30,11 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
 }) => {
   
   // 默认配置
-  const getDefaultConfig = (): DailyConsumptionViewConfig => {
+  const _getDefaultConfig = (): DailyConsumptionViewConfig => {
     // 默认显示当前月份第1周 (第1天到第7天)
-    const baseDate = getBaseDate();
-    const startDate = new Date(baseDate);
-    const endDate = new Date(baseDate);
+    const _baseDate = getBaseDate();
+    const _startDate = new Date(baseDate);
+    const _endDate = new Date(baseDate);
     endDate.setDate(baseDate.getDate() + 6);
     
     return {
@@ -60,17 +60,17 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   /**
    * 加载消耗数据
    */
-  const loadData = useCallback(async () => {
+  const _loadData = useCallback(async () => {
     setLoading(true);
     setError(null);
     
     try {
       console.log('开始加载消耗数据...', config);
-      const result = await dailyConsumptionService.getConsumptionData(config);
+      const _result = await dailyConsumptionService.getConsumptionData(config);
       setData(result);
       console.log('消耗数据加载完成', result);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : '加载数据失败';
+      const _errorMessage = err instanceof Error ? err.message : '加载数据失败';
       setError(errorMessage);
       console.error('加载消耗数据失败:', err);
     } finally {
@@ -81,7 +81,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   /**
    * 处理配置变更
    */
-  const handleConfigChange = useCallback((newConfig: DailyConsumptionViewConfig) => {
+  const _handleConfigChange = useCallback((newConfig: DailyConsumptionViewConfig) => {
     setConfig(newConfig);
     if (onConfigChange) {
       onConfigChange(newConfig);
@@ -91,7 +91,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   /**
    * 处理刷新
    */
-  const handleRefresh = useCallback(() => {
+  const _handleRefresh = useCallback(() => {
     // 清除缓存并重新加载
     dailyConsumptionService.clearCache();
     loadData();
@@ -100,7 +100,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   /**
    * 处理导出
    */
-  const handleExport = useCallback(() => {
+  const _handleExport = useCallback(() => {
     if (data && onDataExport) {
       onDataExport(data);
     } else {
@@ -113,7 +113,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   /**
    * 处理分类展开/折叠
    */
-  const handleCategoryToggle = useCallback((categoryId: string) => {
+  const _handleCategoryToggle = useCallback((categoryId: string) => {
     console.log('切换分类展开状态:', categoryId);
     // 这里可以添加分类展开状态的持久化逻辑
   }, []);
@@ -121,7 +121,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   /**
    * 处理单元格点击
    */
-  const handleCellClick = useCallback((id: string, date: string, timeSlot: TimeSlot) => {
+  const _handleCellClick = useCallback((id: string, date: string, timeSlot: TimeSlot) => {
     console.log('单元格点击:', { id, date, timeSlot });
     // 这里可以添加单元格点击的详细信息显示逻辑
     // 例如显示该时间段的详细交易记录
@@ -133,7 +133,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   }, [loadData]);
 
   // 错误显示组件
-  const renderError = () => (
+  const _renderError = () => (
     <div className="glass-surface backdrop-blur-lg rounded-xl border border-red-400/30 p-8 text-center">
       <div className="text-red-300 mb-4">
         <span className="text-4xl mb-4 block">⚠️</span>
@@ -150,7 +150,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
   );
 
   // 空数据显示组件
-  const renderEmptyState = () => (
+  const _renderEmptyState = () => (
     <div className="glass-surface backdrop-blur-lg rounded-xl border border-white/20 p-8 text-center">
       <div className="text-white/70">
         <span className="text-4xl mb-4 block">📊</span>

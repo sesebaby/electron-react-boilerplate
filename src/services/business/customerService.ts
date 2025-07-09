@@ -23,7 +23,7 @@ export class CustomerService {
   }
 
   async findByCode(code: string): Promise<Customer | null> {
-    const id = this.codeIndex.get(code);
+    const _id = this.codeIndex.get(code);
     return id ? this.customers.get(id) || null : null;
   }
 
@@ -59,12 +59,12 @@ export class CustomerService {
       return this.findAll();
     }
     
-    const term = searchTerm.toLowerCase().trim();
+    const _term = searchTerm.toLowerCase().trim();
     if (!term) return this.findAll();
 
     return Array.from(this.customers.values()).filter(customer => {
       // 空值安全的字符串比较
-      const safeStringIncludes = (str: string | undefined | null, searchTerm: string): boolean => {
+      const _safeStringIncludes = (str: string | undefined | null, searchTerm: string): boolean => {
         return str ? str.toLowerCase().includes(searchTerm) : false;
       };
       
@@ -79,7 +79,7 @@ export class CustomerService {
   async create(data: Omit<Customer, 'id' | 'createdAt' | 'updatedAt'>, currentUserId?: string): Promise<Customer> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'customers.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'customers.write');
       if (!hasPermission) {
         logger.security('Unauthorized customer creation attempt', { userId: currentUserId });
         throw new Error('无权限创建客户');
@@ -99,7 +99,7 @@ export class CustomerService {
     };
 
     // 验证数据
-    const validation = validateEntity(CustomerSchema, customer);
+    const _validation = validateEntity(CustomerSchema, customer);
     if (!validation.success) {
       throw new Error(`客户数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -113,14 +113,14 @@ export class CustomerService {
   async update(id: string, data: Partial<Omit<Customer, 'id' | 'createdAt' | 'updatedAt'>>, currentUserId?: string): Promise<Customer> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'customers.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'customers.write');
       if (!hasPermission) {
         logger.security('Unauthorized customer update attempt', { userId: currentUserId, customerId: id });
         throw new Error('无权限修改客户信息');
       }
     }
 
-    const existingCustomer = this.customers.get(id);
+    const _existingCustomer = this.customers.get(id);
     if (!existingCustomer) {
       throw new Error(`客户不存在: ${id}`);
     }
@@ -139,7 +139,7 @@ export class CustomerService {
     };
 
     // 验证更新后的数据
-    const validation = validateEntity(CustomerSchema, updatedCustomer);
+    const _validation = validateEntity(CustomerSchema, updatedCustomer);
     if (!validation.success) {
       throw new Error(`客户数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -162,14 +162,14 @@ export class CustomerService {
     
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'customers.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'customers.write');
       if (!hasPermission) {
         logger.security('Unauthorized customer deletion attempt', { userId: currentUserId, customerId: id });
         throw new Error('无权限删除客户');
       }
     }
 
-    const customer = this.customers.get(id);
+    const _customer = this.customers.get(id);
     if (!customer) {
       logger.warn(`Delete failed: Customer not found`, { customerId: id, userId: currentUserId });
       return false;
@@ -211,7 +211,7 @@ export class CustomerService {
   private async checkCustomerRelationships(customerId: string, customerName: string): Promise<void> {
     // 模拟检查销售订单关联
     // 在实际应用中，这里会查询销售订单服务
-    const hasRelatedOrders = await this.hasRelatedSalesOrders(customerId);
+    const _hasRelatedOrders = await this.hasRelatedSalesOrders(customerId);
     
     if (hasRelatedOrders) {
       logger.warn('Delete blocked: Customer has related sales orders', { 
@@ -225,7 +225,7 @@ export class CustomerService {
     }
 
     // 检查其他可能的关联数据
-    const hasRelatedPayables = await this.hasRelatedAccountsReceivable(customerId);
+    const _hasRelatedPayables = await this.hasRelatedAccountsReceivable(customerId);
     if (hasRelatedPayables) {
       logger.warn('Delete blocked: Customer has pending receivables', { 
         customerId, 
@@ -243,7 +243,7 @@ export class CustomerService {
     try {
       // 动态导入避免循环依赖
       const { default: salesOrderService } = await import('./salesOrderService');
-      const orders = await salesOrderService.findByCustomer(customerId);
+      const _orders = await salesOrderService.findByCustomer(customerId);
       return orders.length > 0;
     } catch (error) {
       logger.warn('Could not check sales orders relationships', { customerId, error });
@@ -265,7 +265,7 @@ export class CustomerService {
   }
 
   async validateCode(code: string, excludeId?: string): Promise<boolean> {
-    const existingId = this.codeIndex.get(code);
+    const _existingId = this.codeIndex.get(code);
     return !existingId || existingId === excludeId;
   }
 
@@ -323,9 +323,9 @@ export class CustomerService {
     const created: Customer[] = [];
     const errors: Array<{ index: number; error: string }> = [];
 
-    for (let i = 0; i < customers.length; i++) {
+    for (let _i = 0; i < customers.length; i++) {
       try {
-        const customer = await this.create(customers[i]);
+        const _customer = await this.create(customers[i]);
         created.push(customer);
       } catch (error) {
         errors.push({
@@ -348,7 +348,7 @@ export class CustomerService {
     averageCreditLimit: number;
     averageDiscountRate: number;
   }> {
-    const customers = await this.findAll();
+    const _customers = await this.findAll();
     
     const byType: Record<CustomerType, number> = {
       [CustomerType.INDIVIDUAL]: 0,
@@ -367,8 +367,8 @@ export class CustomerService {
       byLevel[customer.level]++;
     });
 
-    const totalCreditLimit = customers.reduce((sum, customer) => sum + customer.creditLimit, 0);
-    const totalDiscountRate = customers.reduce((sum, customer) => sum + customer.discountRate, 0);
+    const _totalCreditLimit = customers.reduce((sum, customer) => sum + customer.creditLimit, 0);
+    const _totalDiscountRate = customers.reduce((sum, customer) => sum + customer.discountRate, 0);
 
     return {
       total: customers.length,
@@ -383,7 +383,7 @@ export class CustomerService {
   }
 
   async getTopCustomersByCredit(limit: number = 10): Promise<Customer[]> {
-    const customers = await this.findAll();
+    const _customers = await this.findAll();
     return customers
       .sort((a, b) => b.creditLimit - a.creditLimit)
       .slice(0, limit);
@@ -396,7 +396,7 @@ export class CustomerService {
   }
 
   async promoteCustomerLevel(id: string): Promise<Customer> {
-    const customer = await this.findById(id);
+    const _customer = await this.findById(id);
     if (!customer) {
       throw new Error(`客户不存在: ${id}`);
     }
@@ -422,7 +422,7 @@ export class CustomerService {
   }
 
   async demoteCustomerLevel(id: string): Promise<Customer> {
-    const customer = await this.findById(id);
+    const _customer = await this.findById(id);
     if (!customer) {
       throw new Error(`客户不存在: ${id}`);
     }
@@ -455,7 +455,7 @@ export class CustomerService {
     lastOrderDate?: Date;
     // 这些数据需要与销售服务配合获取
   } | null> {
-    const customer = await this.findById(customerId);
+    const _customer = await this.findById(customerId);
     if (!customer) {
       return null;
     }
@@ -475,7 +475,7 @@ export class CustomerService {
     hasPhone: boolean;
     hasEmail: boolean;
   }>> {
-    const customers = await this.findAll();
+    const _customers = await this.findAll();
     
     return customers.map(customer => ({
       customer,
@@ -488,14 +488,14 @@ export class CustomerService {
   async validateEmail(email: string, excludeId?: string): Promise<boolean> {
     if (!email) return true;
     
-    const customers = await this.findAll();
-    const existing = customers.find(c => c.email === email && c.id !== excludeId);
+    const _customers = await this.findAll();
+    const _existing = customers.find(c => c.email === email && c.id !== excludeId);
     return !existing;
   }
 
   async generateCustomerCode(): Promise<string> {
-    const customers = await this.findAll();
-    const maxCode = customers
+    const _customers = await this.findAll();
+    const _maxCode = customers
       .map(c => c.code)
       .filter(code => /^CUS\d{3}$/.test(code))
       .map(code => parseInt(code.substring(3)))
@@ -517,13 +517,13 @@ export class CustomerService {
     finalAmount: number;
     discountRate: number;
   } | null> {
-    const customer = await this.findById(customerId);
+    const _customer = await this.findById(customerId);
     if (!customer) {
       return null;
     }
 
-    const discountAmount = originalAmount * customer.discountRate;
-    const finalAmount = originalAmount - discountAmount;
+    const _discountAmount = originalAmount * customer.discountRate;
+    const _finalAmount = originalAmount - discountAmount;
 
     return {
       customer,
@@ -543,7 +543,7 @@ export class CustomerService {
 
     for (const { id, level } of updates) {
       try {
-        const customer = await this.updateLevel(id, level);
+        const _customer = await this.updateLevel(id, level);
         updated.push(customer);
       } catch (error) {
         errors.push({

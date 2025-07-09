@@ -38,7 +38,7 @@ export class AccountsPayableService {
 
   // 创建应付账款
   async create(data: Omit<AccountsPayable, 'id' | 'createdAt' | 'updatedAt'>): Promise<AccountsPayable> {
-    const validation = validateEntity(AccountsPayableSchema, data);
+    const _validation = validateEntity(AccountsPayableSchema, data);
     if (!validation.success) {
       throw new Error(`应付账款数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -64,7 +64,7 @@ export class AccountsPayableService {
 
   // 更新应付账款
   async update(id: string, data: Partial<Omit<AccountsPayable, 'id' | 'createdAt' | 'updatedAt'>>): Promise<AccountsPayable> {
-    const existing = this.payables.get(id);
+    const _existing = this.payables.get(id);
     if (!existing) {
       throw new Error(`应付账款不存在: ${id}`);
     }
@@ -84,7 +84,7 @@ export class AccountsPayableService {
       updatedAt: new Date()
     };
 
-    const validation = validateEntity(AccountsPayableSchema, updated);
+    const _validation = validateEntity(AccountsPayableSchema, updated);
     if (!validation.success) {
       throw new Error(`应付账款数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -95,13 +95,13 @@ export class AccountsPayableService {
 
   // 删除应付账款
   async delete(id: string): Promise<void> {
-    const payable = this.payables.get(id);
+    const _payable = this.payables.get(id);
     if (!payable) {
       throw new Error(`应付账款不存在: ${id}`);
     }
 
     // 检查是否有关联的付款记录
-    const payments = this.paymentsByPayable.get(id) || [];
+    const _payments = this.paymentsByPayable.get(id) || [];
     if (payments.length > 0) {
       throw new Error('无法删除已有付款记录的应付账款');
     }
@@ -125,7 +125,7 @@ export class AccountsPayableService {
 
   // 根据账单编号查找应付账款
   async findByBillNo(billNo: string): Promise<AccountsPayable | null> {
-    const id = this.billNoIndex.get(billNo);
+    const _id = this.billNoIndex.get(billNo);
     return id ? this.payables.get(id) || null : null;
   }
 
@@ -145,7 +145,7 @@ export class AccountsPayableService {
 
   // 查找逾期应付账款
   async findOverdue(): Promise<AccountsPayable[]> {
-    const now = new Date();
+    const _now = new Date();
     return Array.from(this.payables.values())
       .filter(payable => 
         payable.status !== PayableStatus.PAID && 
@@ -156,12 +156,12 @@ export class AccountsPayableService {
 
   // 添加付款记录
   async addPayment(data: Omit<Payment, 'id' | 'createdAt' | 'updatedAt'>): Promise<Payment> {
-    const validation = validateEntity(PaymentSchema, data);
+    const _validation = validateEntity(PaymentSchema, data);
     if (!validation.success) {
       throw new Error(`付款记录数据验证失败: ${validation.errors?.join(', ')}`);
     }
 
-    const payable = this.payables.get(data.payableId);
+    const _payable = this.payables.get(data.payableId);
     if (!payable) {
       throw new Error(`应付账款不存在: ${data.payableId}`);
     }
@@ -183,7 +183,7 @@ export class AccountsPayableService {
 
     this.payments.set(payment.id, payment);
     
-    const paymentIds = this.paymentsByPayable.get(data.payableId) || [];
+    const _paymentIds = this.paymentsByPayable.get(data.payableId) || [];
     paymentIds.push(payment.id);
     this.paymentsByPayable.set(data.payableId, paymentIds);
 
@@ -195,11 +195,11 @@ export class AccountsPayableService {
 
   // 更新应付账款状态
   private async updatePayableStatus(payableId: string, paidAmount: number): Promise<void> {
-    const payable = this.payables.get(payableId);
+    const _payable = this.payables.get(payableId);
     if (!payable) return;
 
-    const newPaidAmount = payable.paidAmount + paidAmount;
-    const newBalanceAmount = payable.totalAmount - newPaidAmount;
+    const _newPaidAmount = payable.paidAmount + paidAmount;
+    const _newBalanceAmount = payable.totalAmount - newPaidAmount;
     
     let newStatus: PayableStatus;
     if (newBalanceAmount <= 0) {
@@ -219,7 +219,7 @@ export class AccountsPayableService {
 
   // 获取应付账款的付款记录
   async getPayments(payableId: string): Promise<Payment[]> {
-    const paymentIds = this.paymentsByPayable.get(payableId) || [];
+    const _paymentIds = this.paymentsByPayable.get(payableId) || [];
     return paymentIds
       .map(id => this.payments.get(id))
       .filter((payment): payment is Payment => payment !== undefined)
@@ -228,16 +228,16 @@ export class AccountsPayableService {
 
   // 删除付款记录
   async removePayment(paymentId: string): Promise<void> {
-    const payment = this.payments.get(paymentId);
+    const _payment = this.payments.get(paymentId);
     if (!payment) {
       throw new Error(`付款记录不存在: ${paymentId}`);
     }
 
     // 更新应付账款状态
-    const payable = this.payables.get(payment.payableId);
+    const _payable = this.payables.get(payment.payableId);
     if (payable) {
-      const newPaidAmount = payable.paidAmount - payment.amount;
-      const newBalanceAmount = payable.totalAmount - newPaidAmount;
+      const _newPaidAmount = payable.paidAmount - payment.amount;
+      const _newBalanceAmount = payable.totalAmount - newPaidAmount;
       
       let newStatus: PayableStatus;
       if (newBalanceAmount <= 0) {
@@ -258,8 +258,8 @@ export class AccountsPayableService {
     // 删除付款记录
     this.payments.delete(paymentId);
     
-    const paymentIds = this.paymentsByPayable.get(payment.payableId) || [];
-    const index = paymentIds.indexOf(paymentId);
+    const _paymentIds = this.paymentsByPayable.get(payment.payableId) || [];
+    const _index = paymentIds.indexOf(paymentId);
     if (index > -1) {
       paymentIds.splice(index, 1);
       this.paymentsByPayable.set(payment.payableId, paymentIds);
@@ -269,22 +269,22 @@ export class AccountsPayableService {
 
   // 生成下一个付款单号
   async generatePaymentNo(): Promise<string> {
-    const prefix = 'PAY';
-    const year = new Date().getFullYear().toString().slice(-2);
-    const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
+    const _prefix = 'PAY';
+    const _year = new Date().getFullYear().toString().slice(-2);
+    const _month = (new Date().getMonth() + 1).toString().padStart(2, '0');
     
-    let maxNumber = 0;
-    const pattern = new RegExp(`^${prefix}${year}${month}(\\d{3})$`);
+    const _maxNumber = 0;
+    const _pattern = new RegExp(`^${prefix}${year}${month}(\\d{3})$`);
     
     for (const payment of this.payments.values()) {
-      const match = payment.paymentNo.match(pattern);
+      const _match = payment.paymentNo.match(pattern);
       if (match) {
-        const number = parseInt(match[1]);
+        const _number = parseInt(match[1]);
         maxNumber = Math.max(maxNumber, number);
       }
     }
     
-    const nextNumber = (maxNumber + 1).toString().padStart(3, '0');
+    const _nextNumber = (maxNumber + 1).toString().padStart(3, '0');
     return `${prefix}${year}${month}${nextNumber}`;
   }
 
@@ -300,19 +300,19 @@ export class AccountsPayableService {
     balanceAmount: number;
     avgPaymentPeriod: number;
   }> {
-    const payables = await this.findAll();
-    const overduePayables = await this.findOverdue();
+    const _payables = await this.findAll();
+    const _overduePayables = await this.findOverdue();
     
-    const totalAmount = payables.reduce((sum, p) => sum + p.totalAmount, 0);
-    const paidAmount = payables.reduce((sum, p) => sum + p.paidAmount, 0);
-    const balanceAmount = payables.reduce((sum, p) => sum + p.balanceAmount, 0);
+    const _totalAmount = payables.reduce((sum, p) => sum + p.totalAmount, 0);
+    const _paidAmount = payables.reduce((sum, p) => sum + p.paidAmount, 0);
+    const _balanceAmount = payables.reduce((sum, p) => sum + p.balanceAmount, 0);
     
     // 计算平均付款周期
-    const paidPayables = payables.filter(p => p.status === PayableStatus.PAID);
-    const avgPaymentPeriod = paidPayables.length > 0 
+    const _paidPayables = payables.filter(p => p.status === PayableStatus.PAID);
+    const _avgPaymentPeriod = paidPayables.length > 0 
       ? paidPayables.reduce((sum, p) => {
-          const billDate = new Date(p.billDate);
-          const paymentDate = new Date(p.updatedAt); // 简化：使用更新时间作为付款时间
+          const _billDate = new Date(p.billDate);
+          const _paymentDate = new Date(p.updatedAt); // 简化：使用更新时间作为付款时间
           return sum + (paymentDate.getTime() - billDate.getTime()) / (24 * 60 * 60 * 1000);
         }, 0) / paidPayables.length
       : 0;
@@ -339,7 +339,7 @@ export class AccountsPayableService {
 
   // 根据付款方式统计
   async getPaymentMethodStats(): Promise<Record<PaymentMethod, { count: number; amount: number }>> {
-    const payments = await this.findAllPayments();
+    const _payments = await this.findAllPayments();
     const stats: Record<PaymentMethod, { count: number; amount: number }> = {
       [PaymentMethod.CASH]: { count: 0, amount: 0 },
       [PaymentMethod.BANK]: { count: 0, amount: 0 },
@@ -364,7 +364,7 @@ export class AccountsPayableService {
    */
   async createFromPurchaseOrder(purchaseOrder: PurchaseOrder, paymentTermsDays: number = 30): Promise<AccountsPayable> {
     // 检查是否已经为此订单生成过应付账款
-    const existingPayable = Array.from(this.payables.values())
+    const _existingPayable = Array.from(this.payables.values())
       .find(p => p.orderId === purchaseOrder.id);
     
     if (existingPayable) {
@@ -373,13 +373,13 @@ export class AccountsPayableService {
     }
 
     // 生成应付账款单号
-    const billNo = await this.generateBillNo();
+    const _billNo = await this.generateBillNo();
     
     // 计算到期日期（根据付款条件）
-    const billDate = new Date();
-    const dueDate = new Date(billDate.getTime() + paymentTermsDays * 24 * 60 * 60 * 1000);
+    const _billDate = new Date();
+    const _dueDate = new Date(billDate.getTime() + paymentTermsDays * 24 * 60 * 60 * 1000);
 
-    const payableData = {
+    const _payableData = {
       billNo,
       supplierId: purchaseOrder.supplierId,
       orderId: purchaseOrder.id,
@@ -402,13 +402,13 @@ export class AccountsPayableService {
    * 生成应付账款单号
    */
   async generateBillNo(): Promise<string> {
-    const now = new Date();
-    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
-    const sequence = String(this.payables.size + 1).padStart(3, '0');
+    const _now = new Date();
+    const _dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const _sequence = String(this.payables.size + 1).padStart(3, '0');
     return `AP${dateStr}${sequence}`;
   }
 }
 
 // 创建并导出服务实例
-const accountsPayableService = new AccountsPayableService();
+const _accountsPayableService = new AccountsPayableService();
 export default accountsPayableService;

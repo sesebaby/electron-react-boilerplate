@@ -14,7 +14,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
+  TableEmpty as _TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -23,7 +23,7 @@ interface UserManagementProps {
 }
 
 // 定义用户表单验证模式
-const userSchema = z.object({
+const _userSchema = z.object({
   username: z.string()
     .min(1, '用户名不能为空')
     .min(3, '用户名至少3个字符')
@@ -53,7 +53,7 @@ const userSchema = z.object({
 });
 
 // 密码修改表单验证模式
-const passwordSchema = z.object({
+const _passwordSchema = z.object({
   oldPassword: z.string().min(1, '请输入当前密码'),
   newPassword: z.string().min(6, '新密码至少6个字符').max(50, '密码最多50个字符'),
   confirmPassword: z.string().min(1, '请确认新密码')
@@ -150,7 +150,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     mode: 'onBlur'
   });
 
-  const formData = watchUser(); // 监听表单数据变化
+  const _formData = watchUser(); // 监听表单数据变化
 
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
@@ -163,12 +163,12 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     loadCurrentUser();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const usersData = await userService.findAll();
+      const _usersData = await userService.findAll();
       setUsers(usersData);
     } catch (err) {
       setError('加载用户数据失败');
@@ -178,12 +178,12 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const loadCurrentUser = () => {
-    const user = userService.getCurrentUser();
+  const _loadCurrentUser = () => {
+    const _user = userService.getCurrentUser();
     setCurrentUser(user);
   };
 
-  const handleCreate = () => {
+  const _handleCreate = () => {
     setModalMode('create');
     resetUser({
       username: '',
@@ -198,7 +198,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     setShowModal(true);
   };
 
-  const handleEdit = (user: User) => {
+  const _handleEdit = (user: User) => {
     setModalMode('edit');
     setSelectedUser(user);
     resetUser({
@@ -214,13 +214,13 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     setShowModal(true);
   };
 
-  const handleView = (user: User) => {
+  const _handleView = (user: User) => {
     setModalMode('view');
     setSelectedUser(user);
     setShowModal(true);
   };
 
-  const handleChangePassword = (user: User) => {
+  const _handleChangePassword = (user: User) => {
     setModalMode('password');
     setSelectedUser(user);
     resetPassword({
@@ -232,7 +232,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     setShowModal(true);
   };
 
-  const onUserSubmit = async (data: UserForm) => {
+  const _onUserSubmit = async (data: UserForm) => {
     try {
       setError(null);
       
@@ -269,7 +269,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const onPasswordSubmit = async (data: PasswordForm) => {
+  const _onPasswordSubmit = async (data: PasswordForm) => {
     if (!selectedUser) return;
 
     try {
@@ -290,12 +290,12 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const handleDelete = (user: User) => {
+  const _handleDelete = (user: User) => {
     setDeleteTargetId(user.id);
     setShowConfirmDialog(true);
   };
 
-  const confirmDelete = async () => {
+  const _confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
@@ -310,12 +310,12 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const cancelDelete = () => {
+  const _cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const handleStatusChange = async (user: User, newStatus: UserStatus) => {
+  const _handleStatusChange = async (user: User, newStatus: UserStatus) => {
     try {
       setError(null);
       await userService.setStatus(user.id, newStatus);
@@ -325,8 +325,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const getFilteredUsers = () => {
-    let filtered = users;
+  const _getFilteredUsers = () => {
+    const _filtered = users;
 
     if (searchTerm) {
       filtered = filtered.filter(user =>
@@ -348,7 +348,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     return filtered;
   };
 
-  const filteredUsers = getFilteredUsers();
+  const _filteredUsers = getFilteredUsers();
 
   if (loading) {
     return (

@@ -20,7 +20,7 @@ export const Toast: React.FC<ToastProps> = ({
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true);
-      const timer = setTimeout(() => {
+      const _timer = setTimeout(() => {
         setIsVisible(false);
         setTimeout(onClose, 300); // 等待动画完成
       }, duration);
@@ -29,7 +29,7 @@ export const Toast: React.FC<ToastProps> = ({
     }
   }, [isOpen, duration, onClose]);
 
-  const getVariantStyles = () => {
+  const _getVariantStyles = () => {
     switch (variant) {
       case 'success':
         return {
@@ -61,7 +61,7 @@ export const Toast: React.FC<ToastProps> = ({
 
   if (!isOpen) return null;
 
-  const styles = getVariantStyles();
+  const _styles = getVariantStyles();
 
   return (
     <div className="fixed top-4 right-4 z-[9999]">

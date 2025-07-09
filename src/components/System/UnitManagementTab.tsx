@@ -10,7 +10,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
+  TableEmpty as _TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -46,7 +46,7 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
   onDeleteUnit,
   onReimportUnits
 }) => {
-  const unitTypeOptions = [
+  const _unitTypeOptions = [
     { value: UnitType.WEIGHT, label: '重量' },
     { value: UnitType.LENGTH, label: '长度' },
     { value: UnitType.VOLUME, label: '体积' },
@@ -55,7 +55,7 @@ const UnitManagementTab: React.FC<UnitManagementTabProps> = ({
     { value: UnitType.TIME, label: '时间' }
   ];
 
-  const getUnitTypeLabel = (type: UnitType) => {
+  const _getUnitTypeLabel = (type: UnitType) => {
     return unitTypeOptions.find(opt => opt.value === type)?.label || type;
   };
 

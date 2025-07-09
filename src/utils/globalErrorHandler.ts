@@ -68,7 +68,7 @@ class GlobalErrorHandler {
    */
   private safeStringify(obj: any): string {
     try {
-      const seen = new WeakSet();
+      const _seen = new WeakSet();
       return JSON.stringify(obj, (key, value) => {
         if (typeof value === 'object' && value !== null) {
           if (seen.has(value)) {
@@ -165,7 +165,7 @@ class GlobalErrorHandler {
       try {
         this.isHandlingError = true;
 
-        const message = args.map(arg =>
+        const _message = args.map(arg =>
           typeof arg === 'object' ? this.safeStringify(arg) : String(arg)
         ).join(' ');
 
@@ -181,7 +181,7 @@ class GlobalErrorHandler {
         };
 
         // 检查是否是Error对象
-        const errorArg = args.find(arg => arg instanceof Error);
+        const _errorArg = args.find(arg => arg instanceof Error);
         if (errorArg) {
           errorReport.stack = errorArg.stack;
         }
@@ -216,7 +216,7 @@ class GlobalErrorHandler {
     window.addEventListener('error', (event) => {
       if (event.target !== window) {
         // 资源加载错误
-        const target = event.target as HTMLElement;
+        const _target = event.target as HTMLElement;
         const errorReport: ErrorReport = {
           type: 'network',
           message: `Resource failed to load: ${target.tagName}`,
@@ -267,12 +267,12 @@ class GlobalErrorHandler {
     }
 
     try {
-      const errorKey = this.generateErrorKey(errorReport);
-      const now = Date.now();
+      const _errorKey = this.generateErrorKey(errorReport);
+      const _now = Date.now();
 
       // 检查错误频率限制
-      const lastTime = this.lastErrorTime.get(errorKey) || 0;
-      const timeDiff = now - lastTime;
+      const _lastTime = this.lastErrorTime.get(errorKey) || 0;
+      const _timeDiff = now - lastTime;
 
       if (timeDiff < this.config.errorReportingThreshold * 60 * 1000) {
         // 在阈值时间内，不重复报告相同错误
@@ -280,8 +280,8 @@ class GlobalErrorHandler {
       }
 
       // 更新错误计数
-      const currentCount = this.errorCounts.get(errorKey) || 0;
-      const newCount = currentCount + 1;
+      const _currentCount = this.errorCounts.get(errorKey) || 0;
+      const _newCount = currentCount + 1;
 
       if (newCount > this.config.maxErrorsPerSession) {
         // 超过会话最大错误数，停止报告
@@ -309,7 +309,7 @@ class GlobalErrorHandler {
    * 生成错误唯一键
    */
   private generateErrorKey(errorReport: ErrorReport): string {
-    const parts = [
+    const _parts = [
       errorReport.type,
       errorReport.message,
       errorReport.source || '',
@@ -325,7 +325,7 @@ class GlobalErrorHandler {
    */
   private logError(errorReport: ErrorReport): void {
     try {
-      const logData = {
+      const _logData = {
         ...errorReport,
         context: 'GlobalErrorHandler'
       };
@@ -357,7 +357,7 @@ class GlobalErrorHandler {
    * 开发环境调试信息
    */
   private logDevelopmentInfo(errorReport: ErrorReport): void {
-    const group = `🚨 Global Error [${errorReport.type}]`;
+    const _group = `🚨 Global Error [${errorReport.type}]`;
     
     console.group(group);
     console.error('Error Report:', errorReport);
@@ -426,7 +426,7 @@ class GlobalErrorHandler {
     errorsByType: Record<string, number>;
     recentErrors: string[];
   } {
-    const totalErrors = Array.from(this.errorCounts.values()).reduce((sum, count) => sum + count, 0);
+    const _totalErrors = Array.from(this.errorCounts.values()).reduce((sum, count) => sum + count, 0);
     
     const errorsByType: Record<string, number> = {};
     const recentErrors: string[] = [];
@@ -480,7 +480,7 @@ class GlobalErrorHandler {
 }
 
 // 创建默认实例
-export const globalErrorHandler = new GlobalErrorHandler();
+export const _globalErrorHandler = new GlobalErrorHandler();
 
 // 自动设置用户ID（如果有认证上下文）
 if (typeof window !== 'undefined') {

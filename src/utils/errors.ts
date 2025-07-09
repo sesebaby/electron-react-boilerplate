@@ -50,7 +50,7 @@ export class ValidationError extends AppError {
 // 资源未找到错误
 export class NotFoundError extends AppError {
   constructor(resource: string, identifier?: string, context?: Record<string, any>) {
-    const message = identifier 
+    const _message = identifier 
       ? `${resource} '${identifier}' 未找到`
       : `${resource} 未找到`;
     super(message, 'NOT_FOUND_ERROR', 404, true, { resource, identifier, ...context });
@@ -60,7 +60,7 @@ export class NotFoundError extends AppError {
 // 权限错误
 export class PermissionError extends AppError {
   constructor(action: string, resource?: string, context?: Record<string, any>) {
-    const message = resource 
+    const _message = resource 
       ? `无权限执行 ${action} 操作于 ${resource}`
       : `无权限执行 ${action} 操作`;
     super(message, 'PERMISSION_ERROR', 403, true, { action, resource, ...context });
@@ -117,7 +117,7 @@ export class TimeoutError extends AppError {
 }
 
 // 错误工具函数
-export const ErrorUtils = {
+export const _ErrorUtils = {
   // 检查是否为应用错误
   isAppError(error: any): error is AppError {
     return error instanceof AppError;
@@ -155,7 +155,7 @@ export const ErrorUtils = {
   ): Promise<T> {
     let lastError: Error;
     
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    for (let _attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         return await operation();
       } catch (error) {
@@ -190,7 +190,7 @@ export const ErrorUtils = {
 };
 
 // 错误代码常量
-export const ERROR_CODES = {
+export const _ERROR_CODES = {
   VALIDATION_ERROR: 'VALIDATION_ERROR',
   NOT_FOUND_ERROR: 'NOT_FOUND_ERROR',
   PERMISSION_ERROR: 'PERMISSION_ERROR',
@@ -205,7 +205,7 @@ export const ERROR_CODES = {
 } as const;
 
 // 错误严重级别
-export const ERROR_SEVERITY = {
+export const _ERROR_SEVERITY = {
   LOW: 'low',
   MEDIUM: 'medium',
   HIGH: 'high',

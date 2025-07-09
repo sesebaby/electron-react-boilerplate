@@ -29,7 +29,7 @@ interface TableContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 /**
  * 表格容器组件 - 集成 Radix UI ScrollArea
  */
-const TableContainer = React.forwardRef<
+const _TableContainer = React.forwardRef<
   HTMLDivElement,
   TableContainerProps
 >(({ 
@@ -89,7 +89,7 @@ TableContainer.displayName = "TableContainer"
 /**
  * 基础表格组件
  */
-const Table = React.forwardRef<
+const _Table = React.forwardRef<
   HTMLTableElement,
   TableProps
 >(({ className, stickyHeader = false, minWidth, ...props }, ref) => (
@@ -112,7 +112,7 @@ Table.displayName = "Table"
 /**
  * 表头组件
  */
-const TableHeader = React.forwardRef<
+const _TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   TableHeaderProps
 >(({ className, sticky = false, ...props }, ref) => (
@@ -131,7 +131,7 @@ TableHeader.displayName = "TableHeader"
 /**
  * 表体组件
  */
-const TableBody = React.forwardRef<
+const _TableBody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
@@ -146,7 +146,7 @@ TableBody.displayName = "TableBody"
 /**
  * 表尾组件
  */
-const TableFooter = React.forwardRef<
+const _TableFooter = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
@@ -164,7 +164,7 @@ TableFooter.displayName = "TableFooter"
 /**
  * 表格行组件
  */
-const TableRow = React.forwardRef<
+const _TableRow = React.forwardRef<
   HTMLTableRowElement,
   React.HTMLAttributes<HTMLTableRowElement>
 >(({ className, ...props }, ref) => (
@@ -191,7 +191,7 @@ interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
   fixedOffset?: string | number
 }
 
-const TableHead = React.forwardRef<
+const _TableHead = React.forwardRef<
   HTMLTableCellElement,
   TableHeadProps
 >(({ 
@@ -202,7 +202,7 @@ const TableHead = React.forwardRef<
   style,
   ...props 
 }, ref) => {
-  const fixedStyle = fixed ? {
+  const _fixedStyle = fixed ? {
     [fixedPosition]: fixedOffset,
     ...style
   } : style
@@ -237,7 +237,7 @@ interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
   fixedOffset?: string | number
 }
 
-const TableCell = React.forwardRef<
+const _TableCell = React.forwardRef<
   HTMLTableCellElement,
   TableCellProps
 >(({ 
@@ -248,7 +248,7 @@ const TableCell = React.forwardRef<
   style,
   ...props 
 }, ref) => {
-  const fixedStyle = fixed ? {
+  const _fixedStyle = fixed ? {
     [fixedPosition]: fixedOffset,
     ...style
   } : style
@@ -274,7 +274,7 @@ TableCell.displayName = "TableCell"
 /**
  * 表格标题组件
  */
-const TableCaption = React.forwardRef<
+const _TableCaption = React.forwardRef<
   HTMLTableCaptionElement,
   React.HTMLAttributes<HTMLTableCaptionElement>
 >(({ className, ...props }, ref) => (

@@ -10,34 +10,34 @@ interface StatusBarProps {
 
 export const StatusBar: React.FC<StatusBarProps> = React.memo(({ summary }) => {
   // 缓存DateTimeFormat实例以避免重复创建
-  const timeFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', {
+  const _timeFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
     hour12: true
   }), []);
 
-  const getCurrentTime = useCallback(() => {
+  const _getCurrentTime = useCallback(() => {
     return timeFormatter.format(new Date());
   }, [timeFormatter]);
 
   const [currentTime, setCurrentTime] = useState(getCurrentTime());
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const _timer = setInterval(() => {
       setCurrentTime(getCurrentTime());
     }, 1000);
 
     return () => clearInterval(timer);
   }, [getCurrentTime]);
 
-  const getSystemStatus = useCallback(() => {
+  const _getSystemStatus = useCallback(() => {
     if (summary.outOfStockItems > 0) return { status: 'error', text: 'Critical Issues' };
     if (summary.lowStockItems > 0) return { status: 'warning', text: 'Attention Needed' };
     return { status: 'success', text: 'All Systems Normal' };
   }, [summary.outOfStockItems, summary.lowStockItems]);
 
-  const systemStatus = useMemo(() => getSystemStatus(), [getSystemStatus]);
+  const _systemStatus = useMemo(() => getSystemStatus(), [getSystemStatus]);
 
 
   return (

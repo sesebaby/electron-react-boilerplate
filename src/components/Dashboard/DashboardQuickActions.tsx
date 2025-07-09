@@ -40,14 +40,14 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
   const [alertVariant, setAlertVariant] = useState<'success' | 'error' | 'warning' | 'info'>('info');
 
   // 弹出框辅助函数
-  const showAlert = (title: string, message: string, variant: 'success' | 'error' | 'warning' | 'info' = 'info') => {
+  const _showAlert = (title: string, message: string, variant: 'success' | 'error' | 'warning' | 'info' = 'info') => {
     setAlertTitle(title);
     setAlertMessage(message);
     setAlertVariant(variant);
     setShowAlertDialog(true);
   };
 
-  const handleBackupConfirm = () => {
+  const _handleBackupConfirm = () => {
     setShowConfirmDialog(false);
     showAlert('备份开始', '数据备份已开始，请稍候...', 'info');
     // 这里可以调用实际的备份API
@@ -57,7 +57,7 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
     loadQuickActionsData();
   }, []);
 
-  const loadQuickActionsData = async () => {
+  const _loadQuickActionsData = async () => {
     try {
       setLoading(true);
       const [actions, activities] = await Promise.all([
@@ -73,7 +73,7 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
     }
   };
 
-  const getActionIcon = (type: QuickAction['type']): string => {
+  const _getActionIcon = (type: QuickAction['type']): string => {
     switch (type) {
       case 'low_stock': return '⚠️';
       case 'out_of_stock': return '🚨';
@@ -82,7 +82,7 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
     }
   };
 
-  const getActionStyles = (type: QuickAction['type']): string => {
+  const _getActionStyles = (type: QuickAction['type']): string => {
     switch (type) {
       case 'low_stock': return 'border-l-4 border-l-yellow-400 bg-yellow-500/10';
       case 'out_of_stock': return 'border-l-4 border-l-red-400 bg-red-500/10';
@@ -91,7 +91,7 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
     }
   };
 
-  const getActionButtonStyles = (type: QuickAction['type']): string => {
+  const _getActionButtonStyles = (type: QuickAction['type']): string => {
     switch (type) {
       case 'low_stock': return 'bg-yellow-500/20 text-yellow-300 border-yellow-400/30 hover:bg-yellow-500/30';
       case 'out_of_stock': return 'bg-red-500/20 text-red-300 border-red-400/30 hover:bg-red-500/30';
@@ -100,7 +100,7 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
     }
   };
 
-  const getActivityIcon = (type: string): string => {
+  const _getActivityIcon = (type: string): string => {
     switch (type) {
       case 'stock_in': return '📦';
       case 'stock_out': return '📤';
@@ -111,7 +111,7 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
     }
   };
 
-  const getActivityTypeText = (type: string): string => {
+  const _getActivityTypeText = (type: string): string => {
     switch (type) {
       case 'stock_in': return '库存入库';
       case 'stock_out': return '库存出库';
@@ -122,12 +122,12 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
     }
   };
 
-  const formatTimeAgo = (date: Date): string => {
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / (1000 * 60));
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const _formatTimeAgo = (date: Date): string => {
+    const _now = new Date();
+    const _diffMs = now.getTime() - date.getTime();
+    const _diffMins = Math.floor(diffMs / (1000 * 60));
+    const _diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const _diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
     if (diffMins < 1) return '刚刚';
     if (diffMins < 60) return `${diffMins}分钟前`;
@@ -136,7 +136,7 @@ export const DashboardQuickActions: React.FC<DashboardQuickActionsProps> = ({ cl
     return date.toLocaleDateString('zh-CN');
   };
 
-  const getShortcutIcon = (icon: string): string => {
+  const _getShortcutIcon = (icon: string): string => {
     switch (icon) {
       case 'plus': return '➕';
       case 'import': return '📥';

@@ -1,8 +1,9 @@
 import { Warehouse } from '../../types/entities';
 import { WarehouseSchema, validateEntity } from '../../schemas/validation';
+import { ElectronAPI, DatabaseResult } from '../../types/electronAPI';
 
 // Electron API for database operations
-const electronAPI = window.electronAPI;
+const electronAPI: ElectronAPI = window.electronAPI;
 
 export class WarehouseService {
   private initialized = false;
@@ -12,7 +13,7 @@ export class WarehouseService {
       console.log('WarehouseService: Starting initialization...');
       
       // First, try to get warehouses directly without triggering recursive initialization
-      const result = await electronAPI.dbGetAllWarehouses();
+      const result: DatabaseResult<Warehouse[]> = await electronAPI.dbGetAllWarehouses();
       console.log('WarehouseService: Direct database query result:', result);
       
       if (!result.success) {
@@ -57,7 +58,7 @@ export class WarehouseService {
       console.log('Creating default warehouse...');
       
       // Check if WH001 already exists using direct database query
-      const result = await electronAPI.dbGetWarehouseByCode('WH001');
+      const result: DatabaseResult<Warehouse> = await electronAPI.dbGetWarehouseById('WH001');
       if (result.success && result.data) {
         console.log('Default warehouse with code WH001 already exists, setting as default');
         await this.setDefault(result.data.id);
@@ -89,7 +90,7 @@ export class WarehouseService {
       }
       
       console.log('WarehouseService: Calling dbGetAllWarehouses...');
-      const result = await electronAPI.dbGetAllWarehouses();
+      const result: DatabaseResult<Warehouse[]> = await electronAPI.dbGetAllWarehouses();
       console.log('WarehouseService: dbGetAllWarehouses result:', result);
       
       if (result.success) {
@@ -108,7 +109,7 @@ export class WarehouseService {
 
   async findById(id: string): Promise<Warehouse | null> {
     try {
-      const result = await electronAPI.dbGetWarehouseById(id);
+      const result: DatabaseResult<Warehouse> = await electronAPI.dbGetWarehouseById(id);
       if (result.success) {
         return result.data;
       } else {
@@ -123,7 +124,7 @@ export class WarehouseService {
   async findByCode(code: string): Promise<Warehouse | null> {
     try {
       console.log('WarehouseService: Finding warehouse by code:', code);
-      const result = await electronAPI.dbGetWarehouseByCode(code);
+      const result: DatabaseResult<Warehouse> = await electronAPI.dbGetWarehouseById(code);
       console.log('WarehouseService: findByCode result:', result);
       
       if (result.success) {
@@ -140,7 +141,7 @@ export class WarehouseService {
 
   async findDefault(): Promise<Warehouse | null> {
     try {
-      const result = await electronAPI.dbGetDefaultWarehouse();
+      const result: DatabaseResult<Warehouse> = await electronAPI.dbGetDefaultWarehouse();
       if (result.success) {
         return result.data;
       } else {
@@ -157,9 +158,14 @@ export class WarehouseService {
     if (!term) return this.findAll();
 
     try {
-      const result = await electronAPI.dbSearchWarehouses(term);
+      const result: DatabaseResult<Warehouse[]> = await electronAPI.dbGetAllWarehouses();
       if (result.success) {
-        return result.data || [];
+        const warehouses = result.data || [];
+        return warehouses.filter(w => 
+          w.name.toLowerCase().includes(term.toLowerCase()) ||
+          w.code.toLowerCase().includes(term.toLowerCase()) ||
+          w.address?.toLowerCase().includes(term.toLowerCase())
+        );
       } else {
         throw new Error(result.error);
       }
@@ -191,9 +197,9 @@ export class WarehouseService {
     }
 
     try {
-      const result = await electronAPI.dbCreateWarehouse(data);
+      const result: DatabaseResult<Warehouse> = await electronAPI.dbCreateWarehouse(data);
       if (result.success) {
-        return result.data;
+        return result.data!;
       } else {
         throw new Error(result.error);
       }
@@ -231,9 +237,9 @@ export class WarehouseService {
     }
 
     try {
-      const result = await electronAPI.dbUpdateWarehouse(id, data);
+      const result: DatabaseResult<Warehouse> = await electronAPI.dbUpdateWarehouse(id, data);
       if (result.success) {
-        return result.data;
+        return result.data!;
       } else {
         throw new Error(result.error);
       }
@@ -259,7 +265,7 @@ export class WarehouseService {
     // 这里需要与InventoryService配合检查
 
     try {
-      const result = await electronAPI.dbDeleteWarehouse(id);
+      const result: DatabaseResult<boolean> = await electronAPI.dbDeleteWarehouse(id);
       return result.success;
     } catch (error) {
       console.error('Failed to delete warehouse:', error);

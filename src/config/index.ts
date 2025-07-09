@@ -126,7 +126,7 @@ class ConfigManager {
 
   // 获取指定路径的配置
   getPath<T>(path: string): T | undefined {
-    const keys = path.split('.');
+    const _keys = path.split('.');
     let current: any = this.config;
     
     for (const key of keys) {
@@ -149,11 +149,11 @@ class ConfigManager {
 
   // 更新指定路径的配置
   updatePath(path: string, value: any): void {
-    const keys = path.split('.');
+    const _keys = path.split('.');
     const updates: any = {};
-    let current = updates;
+    const _current = updates;
     
-    for (let i = 0; i < keys.length - 1; i++) {
+    for (let _i = 0; i < keys.length - 1; i++) {
       current[keys[i]] = {};
       current = current[keys[i]];
     }
@@ -178,9 +178,9 @@ class ConfigManager {
   // 从localStorage加载配置
   private loadFromLocalStorage(): void {
     try {
-      const stored = localStorage.getItem('app-config');
+      const _stored = localStorage.getItem('app-config');
       if (stored) {
-        const storedConfig = JSON.parse(stored);
+        const _storedConfig = JSON.parse(stored);
         this.config = this.mergeDeep(this.config, storedConfig);
       }
     } catch (error) {
@@ -210,7 +210,7 @@ class ConfigManager {
 
   // 深度合并对象
   private mergeDeep(target: any, source: any): any {
-    const result = { ...target };
+    const _result = { ...target };
     
     for (const key in source) {
       if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
@@ -225,16 +225,16 @@ class ConfigManager {
 }
 
 // 全局配置实例
-export const configManager = new ConfigManager();
+export const _configManager = new ConfigManager();
 
 // 便捷函数
-export const getConfig = () => configManager.get();
-export const getConfigPath = <T>(path: string) => configManager.getPath<T>(path);
-export const updateConfig = (updates: Partial<AppConfig>) => configManager.update(updates);
-export const updateConfigPath = (path: string, value: any) => configManager.updatePath(path, value);
+export const _getConfig = () => configManager.get();
+export const _getConfigPath = <T>(path: string) => configManager.getPath<T>(path);
+export const _updateConfig = (updates: Partial<AppConfig>) => configManager.update(updates);
+export const _updateConfigPath = (path: string, value: any) => configManager.updatePath(path, value);
 
 // 环境变量验证
-export const validateEnvironment = (): string[] => {
+export const _validateEnvironment = (): string[] => {
   const errors: string[] = [];
   
   // 检查必需的环境变量
@@ -249,14 +249,14 @@ export const validateEnvironment = (): string[] => {
   }
   
   // 验证数值型环境变量
-  const numericEnvVars = [
+  const _numericEnvVars = [
     'DB_TIMEOUT',
     'API_TIMEOUT',
     'UI_PAGE_SIZE'
   ];
   
   for (const envVar of numericEnvVars) {
-    const value = process.env[envVar];
+    const _value = process.env[envVar];
     if (value && isNaN(Number(value))) {
       errors.push(`Invalid numeric value for environment variable ${envVar}: ${value}`);
     }

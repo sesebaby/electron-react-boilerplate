@@ -12,7 +12,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
+  TableEmpty as _TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -49,14 +49,14 @@ interface LogStatistics {
 }
 
 // 转换日志条目为操作日志格式
-const convertLogEntryToOperationLog = (entry: LogEntry, index: number): OperationLog => {
-  const levelName = LogLevel[entry.level];
+const _convertLogEntryToOperationLog = (entry: LogEntry, index: number): OperationLog => {
+  const _levelName = LogLevel[entry.level];
   
   // 从消息中提取操作信息
-  const parseMessage = (message: string) => {
+  const _parseMessage = (message: string) => {
     // 尝试从消息中提取操作和模块信息
     if (message.includes('User Action:')) {
-      const actionMatch = message.match(/User Action: (\w+) - (.+)/);
+      const _actionMatch = message.match(/User Action: (\w+) - (.+)/);
       if (actionMatch) {
         return {
           action: actionMatch[1],
@@ -85,7 +85,7 @@ const convertLogEntryToOperationLog = (entry: LogEntry, index: number): Operatio
     };
   };
   
-  const parseSource = (source?: string) => {
+  const _parseSource = (source?: string) => {
     if (!source) return '系统';
     
     const sourceMap: Record<string, string> = {
@@ -101,7 +101,7 @@ const convertLogEntryToOperationLog = (entry: LogEntry, index: number): Operatio
     return sourceMap[source] || source;
   };
   
-  const getStatus = (level: LogLevel): 'success' | 'warning' | 'error' => {
+  const _getStatus = (level: LogLevel): 'success' | 'warning' | 'error' => {
     switch (level) {
       case LogLevel.ERROR:
         return 'error';
@@ -112,13 +112,13 @@ const convertLogEntryToOperationLog = (entry: LogEntry, index: number): Operatio
     }
   };
   
-  const getUserFromData = (data: any): string => {
+  const _getUserFromData = (data: any): string => {
     if (data?.userId) return data.userId;
     if (data?.user) return data.user;
     return '系统';
   };
   
-  const parsed = parseMessage(entry.message);
+  const _parsed = parseMessage(entry.message);
   
   return {
     id: `log_${entry.timestamp.getTime()}_${index}`,
@@ -137,13 +137,13 @@ const convertLogEntryToOperationLog = (entry: LogEntry, index: number): Operatio
 };
 
 // 获取真实日志数据
-const getRealLogData = (): OperationLog[] => {
+const _getRealLogData = (): OperationLog[] => {
   try {
     // 从日志系统获取日志
-    const logEntries = logger.getLogs();
+    const _logEntries = logger.getLogs();
     
     // 转换为操作日志格式
-    const operationLogs = logEntries.map(convertLogEntryToOperationLog);
+    const _operationLogs = logEntries.map(convertLogEntryToOperationLog);
     
     // 按时间排序（最新的在前）
     return operationLogs.sort((a, b) => 
@@ -156,23 +156,23 @@ const getRealLogData = (): OperationLog[] => {
 };
 
 // 获取日志统计信息
-const getLogStatistics = (): LogStatistics => {
+const _getLogStatistics = (): LogStatistics => {
   try {
-    const stats = logger.getStats();
-    const errorStats = globalErrorHandler.getErrorStats();
-    const actionStats = userActionLogger.getActionStats();
+    const _stats = logger.getStats();
+    const _errorStats = globalErrorHandler.getErrorStats();
+    const _actionStats = userActionLogger.getActionStats();
     
     // 计算每小时平均日志数
-    const now = Date.now();
-    const oneHourAgo = now - 60 * 60 * 1000;
-    const recentLogs = logger.getLogs().filter(log => 
+    const _now = Date.now();
+    const _oneHourAgo = now - 60 * 60 * 1000;
+    const _recentLogs = logger.getLogs().filter(log => 
       log.timestamp.getTime() > oneHourAgo
     );
     
     // 统计来源分布
     const logsBySource: Record<string, number> = {};
     logger.getLogs().forEach(log => {
-      const source = log.source || '未知';
+      const _source = log.source || '未知';
       logsBySource[source] = (logsBySource[source] || 0) + 1;
     });
     
@@ -227,7 +227,7 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
   const [alertVariant, setAlertVariant] = useState<'success' | 'error' | 'warning' | 'info'>('info');
 
   // 弹出框辅助函数
-  const showAlert = (title: string, message: string, variant: 'success' | 'error' | 'warning' | 'info' = 'info') => {
+  const _showAlert = (title: string, message: string, variant: 'success' | 'error' | 'warning' | 'info' = 'info') => {
     setAlertTitle(title);
     setAlertMessage(message);
     setAlertVariant(variant);
@@ -235,16 +235,16 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
   };
 
   // 计算分页
-  const totalPages = Math.ceil(filteredLogs.length / pageSize);
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const currentLogs = filteredLogs.slice(startIndex, endIndex);
+  const _totalPages = Math.ceil(filteredLogs.length / pageSize);
+  const _startIndex = (currentPage - 1) * pageSize;
+  const _endIndex = startIndex + pageSize;
+  const _currentLogs = filteredLogs.slice(startIndex, endIndex);
 
   // 加载日志数据
-  const loadLogData = useCallback(() => {
+  const _loadLogData = useCallback(() => {
     try {
-      const realLogs = getRealLogData();
-      const stats = getLogStatistics();
+      const _realLogs = getRealLogData();
+      const _stats = getLogStatistics();
       
       setLogs(realLogs);
       setStatistics(stats);
@@ -267,7 +267,7 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
   }, []);
 
   // 自动刷新控制
-  const toggleAutoRefresh = useCallback(() => {
+  const _toggleAutoRefresh = useCallback(() => {
     if (autoRefresh) {
       // 停止自动刷新
       if (refreshInterval) {
@@ -283,7 +283,7 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
       });
     } else {
       // 启动自动刷新
-      const interval = setInterval(() => {
+      const _interval = setInterval(() => {
         loadLogData();
       }, 10000); // 每10秒刷新一次
       
@@ -312,7 +312,7 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
 
   // 筛选日志
   useEffect(() => {
-    let filtered = logs;
+    const _filtered = logs;
 
     // 按搜索词筛选
     if (searchTerm) {
@@ -344,9 +344,9 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
     setCurrentPage(1); // 重置到第一页
   }, [logs, searchTerm, selectedModule, selectedStatus, selectedLevel]);
 
-  const loadLogSettings = async () => {
+  const _loadLogSettings = async () => {
     try {
-      const savedSettings = localStorage.getItem('operationLogs.settings');
+      const _savedSettings = localStorage.getItem('operationLogs.settings');
       if (savedSettings) {
         setLogSettings(JSON.parse(savedSettings));
       }
@@ -356,11 +356,11 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
   };
 
   // 导出日志功能
-  const exportLogs = useCallback(async (format: 'csv' | 'json' = 'csv') => {
+  const _exportLogs = useCallback(async (format: 'csv' | 'json' = 'csv') => {
     setIsExporting(true);
     
     try {
-      const exportData = filteredLogs.map(log => ({
+      const _exportData = filteredLogs.map(log => ({
         时间: new Date(log.timestamp).toLocaleString('zh-CN'),
         级别: log.level,
         用户: log.user,
@@ -377,8 +377,8 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
 
       if (format === 'csv') {
         // 生成CSV内容
-        const headers = Object.keys(exportData[0] || {});
-        const csvContent = [
+        const _headers = Object.keys(exportData[0] || {});
+        const _csvContent = [
           headers.join(','),
           ...exportData.map(row => 
             headers.map(header => 
@@ -398,9 +398,9 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
       }
 
       // 创建下载链接
-      const blob = new Blob([content], { type: mimeType });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
+      const _blob = new Blob([content], { type: mimeType });
+      const _url = URL.createObjectURL(blob);
+      const _link = document.createElement('a');
       link.href = url;
       link.download = filename;
       document.body.appendChild(link);
@@ -431,7 +431,7 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
   }, [filteredLogs]);
 
   // 清理日志功能
-  const clearLogs = useCallback(() => {
+  const _clearLogs = useCallback(() => {
     try {
       logger.clearLogs();
       loadLogData();
@@ -449,7 +449,7 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
     }
   }, [loadLogData]);
 
-  const saveLogSettings = async () => {
+  const _saveLogSettings = async () => {
     setLoading(true);
     try {
       localStorage.setItem('operationLogs.settings', JSON.stringify(logSettings));
@@ -463,7 +463,7 @@ export const OperationLogs: React.FC<OperationLogsProps> = ({ className }) => {
     }
   };
 
-  const handleLogSettingChange = (field: keyof LogSettings, value: any) => {
+  const _handleLogSettingChange = (field: keyof LogSettings, value: any) => {
     setLogSettings(prev => ({ ...prev, [field]: value }));
     setHasChanges(true);
   };

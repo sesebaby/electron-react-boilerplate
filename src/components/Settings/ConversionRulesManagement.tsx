@@ -184,7 +184,7 @@ const ConversionRulesManagement: React.FC = () => {
     setConversionRules(exampleRules);
   }, []);
 
-  const unitTypeOptions = [
+  const _unitTypeOptions = [
     { value: UnitType.WEIGHT, label: '重量' },
     { value: UnitType.LENGTH, label: '长度' },
     { value: UnitType.VOLUME, label: '体积' },
@@ -193,20 +193,20 @@ const ConversionRulesManagement: React.FC = () => {
     { value: UnitType.TIME, label: '时间' }
   ];
 
-  const getUnitTypeLabel = (type: UnitType) => {
+  const _getUnitTypeLabel = (type: UnitType) => {
     return unitTypeOptions.find(opt => opt.value === type)?.label || type;
   };
 
-  const getUnitName = (unitId: string) => {
-    const unit = units.find(u => u.id === unitId);
+  const _getUnitName = (unitId: string) => {
+    const _unit = units.find(u => u.id === unitId);
     return unit ? `${unit.name}(${unit.symbol})` : unitId;
   };
 
-  const getUnitsForCategory = (category: UnitType) => {
+  const _getUnitsForCategory = (category: UnitType) => {
     return units.filter(unit => unit.type === category && unit.isActive);
   };
 
-  const onConversionSubmit = async (e: React.FormEvent) => {
+  const _onConversionSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
@@ -250,7 +250,7 @@ const ConversionRulesManagement: React.FC = () => {
     }
   };
 
-  const onEditConversion = (rule: GlobalConversionRule) => {
+  const _onEditConversion = (rule: GlobalConversionRule) => {
     setEditingConversion(rule);
     setConversionForm({
       name: rule.name,
@@ -264,7 +264,7 @@ const ConversionRulesManagement: React.FC = () => {
     setShowConversionForm(true);
   };
 
-  const onDeleteConversion = async (ruleId: string) => {
+  const _onDeleteConversion = async (ruleId: string) => {
     if (window.confirm('确定要删除这个换算规则吗？')) {
       setConversionRules(prev => prev.filter(rule => rule.id !== ruleId));
     }
@@ -417,7 +417,7 @@ const ConversionRulesManagement: React.FC = () => {
                 <GlassSelect
                   value={conversionForm.category}
                   onChange={(e) => {
-                    const category = e.target.value as UnitType;
+                    const _category = e.target.value as UnitType;
                     setConversionForm(prev => ({ 
                       ...prev, 
                       category,

@@ -5,6 +5,7 @@
 
 import { LogLevel, LogEntry } from '../../utils/logger';
 import { logRotation } from '../../utils/logRotation';
+import { ElectronAPI, DatabaseResult, FileOperationResult } from '../../types/electronAPI';
 
 export interface FileLoggerConfig {
   logDirectory: string;
@@ -60,7 +61,8 @@ class FileLoggerService {
 
     // 检查文件日志服务需要的具体API是否可用
     const requiredAPIs = ['writeFile', 'mkdir', 'stat'];
-    return requiredAPIs.every(api => typeof (window.electronAPI as any)[api] === 'function');
+    const electronAPI: ElectronAPI = window.electronAPI;
+    return requiredAPIs.every(api => typeof (electronAPI as any)[api] === 'function');
   }
 
   /**
@@ -101,10 +103,11 @@ class FileLoggerService {
    */
   private initializeElectronFileSystem(): void {
     // 验证所有需要的API是否可用
-    if (!window.electronAPI ||
-        !window.electronAPI.writeFile ||
-        !window.electronAPI.mkdir ||
-        !window.electronAPI.stat) {
+    const electronAPI: ElectronAPI = window.electronAPI;
+    if (!electronAPI ||
+        !electronAPI.writeFile ||
+        !electronAPI.mkdir ||
+        !electronAPI.stat) {
       throw new Error('Required Electron APIs not available');
     }
 
@@ -121,8 +124,8 @@ class FileLoggerService {
           throw new Error('Callback function is required');
         }
 
-        window.electronAPI.writeFile(path, data)
-          .then((result: { success: boolean; error?: string }) => {
+        electronAPI.writeFile(path, data)
+          .then((result: FileOperationResult) => {
             if (result.success) {
               actualCallback();
             } else {
@@ -132,8 +135,8 @@ class FileLoggerService {
           .catch(actualCallback);
       },
       mkdir: (path: string, options: any, callback: (err?: any) => void) => {
-        window.electronAPI.mkdir(path, options)
-          .then((result: { success: boolean; error?: string }) => {
+        electronAPI.mkdir(path, options)
+          .then((result: FileOperationResult) => {
             if (result.success) {
               callback();
             } else {
@@ -143,8 +146,8 @@ class FileLoggerService {
           .catch(callback);
       },
       stat: (path: string, callback: (err?: any, stats?: any) => void) => {
-        window.electronAPI.stat(path)
-          .then((result: { success: boolean; data?: any; error?: string }) => {
+        electronAPI.stat(path)
+          .then((result: DatabaseResult<any>) => {
             if (result.success) {
               callback(null, result.data);
             } else {

@@ -14,9 +14,7 @@ import {
   TableCell, 
   TableHead, 
   TableHeader, 
-  TableRow,
-  TableEmpty,
-  TableLoading
+  TableRow
 } from '../ui/table';
 
 interface SupplierManagementProps {
@@ -24,7 +22,7 @@ interface SupplierManagementProps {
 }
 
 // 定义验证模式
-const supplierSchema = z.object({
+const _supplierSchema = z.object({
   code: z.string().min(1, '供应商编码不能为空').max(20, '供应商编码最多20个字符'),
   name: z.string().min(1, '供应商名称不能为空').max(100, '供应商名称最多100个字符'),
   contactPerson: z.string().max(50, '联系人名称最多50个字符').optional().or(z.literal('')),
@@ -84,7 +82,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     mode: 'onBlur'
   });
 
-  const formData = watch(); // 监听表单数据变化
+  const __formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -94,7 +92,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -114,9 +112,9 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const onSubmit = async (data: SupplierForm) => {
+  const _onSubmit = async (data: SupplierForm) => {
     try {
-      const submitData = {
+      const _submitData = {
         ...data,
         // 处理空字符串为undefined
         contactPerson: data.contactPerson || undefined,
@@ -147,7 +145,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const handleEdit = (supplier: Supplier) => {
+  const _handleEdit = (supplier: Supplier) => {
     setEditingSupplier(supplier);
     reset({
       code: supplier.code,
@@ -165,12 +163,12 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     setShowForm(true);
   };
 
-  const handleDelete = (supplierId: string) => {
+  const _handleDelete = (supplierId: string) => {
     setDeleteTargetId(supplierId);
     setShowConfirmDialog(true);
   };
 
-  const confirmDelete = async () => {
+  const _confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
@@ -185,12 +183,12 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const cancelDelete = () => {
+  const _cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const handleCancel = () => {
+  const _handleCancel = () => {
     setShowForm(false);
     setEditingSupplier(null);
     reset(emptyForm);
@@ -198,15 +196,15 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     setError(null); // 清除错误信息
   };
 
-  const handleCreateNew = () => {
+  const _handleCreateNew = () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
   };
 
-  const generateSupplierCode = async () => {
+  const _generateSupplierCode = async () => {
     try {
-      const newCode = await supplierService.generateSupplierCode();
+      const _newCode = await supplierService.generateSupplierCode();
       setValue('code', newCode);
       clearErrors('code');
     } catch (err) {
@@ -215,7 +213,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
   };
 
 
-  const getStatusText = (status: SupplierStatus): string => {
+  const _getStatusText = (status: SupplierStatus): string => {
     switch (status) {
       case SupplierStatus.ACTIVE: return '正常';
       case SupplierStatus.INACTIVE: return '停用';
@@ -223,7 +221,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const getStatusStyles = (status: SupplierStatus): string => {
+  const _getStatusStyles = (status: SupplierStatus): string => {
     switch (status) {
       case SupplierStatus.ACTIVE: return 'text-green-300 bg-green-500/20 border-green-400/30';
       case SupplierStatus.INACTIVE: return 'text-red-300 bg-red-500/20 border-red-400/30';
@@ -231,7 +229,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const getRatingText = (rating: SupplierRating): string => {
+  const __getRatingText = (rating: SupplierRating): string => {
     switch (rating) {
       case SupplierRating.A: return 'A级 - 优秀';
       case SupplierRating.B: return 'B级 - 良好';
@@ -241,7 +239,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const getRatingStyles = (rating: SupplierRating): string => {
+  const _getRatingStyles = (rating: SupplierRating): string => {
     switch (rating) {
       case SupplierRating.A: return 'text-green-300 bg-green-500/20 border-green-400/30';
       case SupplierRating.B: return 'text-blue-300 bg-blue-500/20 border-blue-400/30';
@@ -251,15 +249,15 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const filteredSuppliers = suppliers.filter(supplier => {
-    const matchesSearch = !searchTerm || 
+  const _filteredSuppliers = suppliers.filter(supplier => {
+    const _matchesSearch = !searchTerm || 
       supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       supplier.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (supplier.contactPerson || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (supplier.email || '').toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesStatus = !selectedStatus || supplier.status === selectedStatus;
-    const matchesRating = !selectedRating || supplier.rating === selectedRating;
+    const _matchesStatus = !selectedStatus || supplier.status === selectedStatus;
+    const _matchesRating = !selectedRating || supplier.rating === selectedRating;
     
     return matchesSearch && matchesStatus && matchesRating;
   });

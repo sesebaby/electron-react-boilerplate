@@ -67,10 +67,10 @@ export class MonthlyBalanceService {
   async generateMonthlyBalance(
     params: MonthlyBalanceGenerateParams
   ): Promise<MonthlyBalanceOperationResult<MonthlyBalanceGenerateResult>> {
-    const lockKey = `monthly-balance-generate-${params.year}-${params.month}`;
+    const _lockKey = `monthly-balance-generate-${params.year}-${params.month}`;
     
     return ConcurrencyManager.withMutex(lockKey, async () => {
-      const startTime = Date.now();
+      const _startTime = Date.now();
       
       try {
         // 输入验证
@@ -95,11 +95,11 @@ export class MonthlyBalanceService {
         }
 
         // 计算结余日期（月末）
-        const balanceDate = new Date(params.year, params.month, 0); // 当月最后一天
-        const periodKey = `${params.year}-${params.month.toString().padStart(2, '0')}`;
+        const _balanceDate = new Date(params.year, params.month, 0); // 当月最后一天
+        const _periodKey = `${params.year}-${params.month.toString().padStart(2, '0')}`;
 
         // 检查是否已生成过该月的结余
-        const existingBalances = this.balancesByPeriod.get(periodKey) || new Set();
+        const _existingBalances = this.balancesByPeriod.get(periodKey) || new Set();
         if (existingBalances.size > 0) {
           return {
             success: false,
@@ -111,7 +111,7 @@ export class MonthlyBalanceService {
         }
 
         // 获取所有批次数据
-        const allBatches = await fifoInventoryService.queryBatches({
+        const _allBatches = await fifoInventoryService.queryBatches({
           includeExpired: params.includeExpired,
           dateRange: {
             startDate: new Date(2020, 0, 1), // 从2020年开始
@@ -120,7 +120,7 @@ export class MonthlyBalanceService {
         });
 
         // 过滤出在结余日期仍有库存的批次
-        const validBatches = allBatches.filter(batch => {
+        const _validBatches = allBatches.filter(batch => {
           // 批次必须在结余日期之前入库
           if (batch.inboundDate > balanceDate) {
             return false;
@@ -140,11 +140,11 @@ export class MonthlyBalanceService {
         });
 
         // 应用过滤条件
-        const filteredBatches = await this.applyFilters(validBatches, params);
+        const _filteredBatches = await this.applyFilters(validBatches, params);
         
         // 获取相关的产品、仓库、分类、单位信息
-        const productIds = [...new Set(filteredBatches.map(b => b.productId))];
-        const warehouseIds = [...new Set(filteredBatches.map(b => b.warehouseId))];
+        const _productIds = [...new Set(filteredBatches.map(b => b.productId))];
+        const _warehouseIds = [...new Set(filteredBatches.map(b => b.warehouseId))];
         
         const [products, warehouses, categories, units] = await Promise.all([
           this.getProductsByIds(productIds),
@@ -154,10 +154,10 @@ export class MonthlyBalanceService {
         ]);
 
         // 创建映射表
-        const productMap = new Map(products.map(p => [p.id, p]));
-        const warehouseMap = new Map(warehouses.map(w => [w.id, w]));
-        const categoryMap = new Map(categories.map(c => [c.id, c]));
-        const unitMap = new Map(units.map(u => [u.id, u]));
+        const _productMap = new Map(products.map(p => [p.id, p]));
+        const _warehouseMap = new Map(warehouses.map(w => [w.id, w]));
+        const _categoryMap = new Map(categories.map(c => [c.id, c]));
+        const _unitMap = new Map(units.map(u => [u.id, u]));
 
         // 生成月度结余记录
         const generatedBalances: MonthlyBalance[] = [];
@@ -165,16 +165,16 @@ export class MonthlyBalanceService {
 
         for (const batch of filteredBatches) {
           try {
-            const product = productMap.get(batch.productId);
-            const warehouse = warehouseMap.get(batch.warehouseId);
+            const _product = productMap.get(batch.productId);
+            const _warehouse = warehouseMap.get(batch.warehouseId);
             
             if (!product || !warehouse) {
               errors.push(`批次 ${batch.batchNo} 的产品或仓库信息不存在`);
               continue;
             }
 
-            const category = categoryMap.get(product.categoryId);
-            const unit = unitMap.get(product.unitId);
+            const _category = categoryMap.get(product.categoryId);
+            const _unit = unitMap.get(product.unitId);
 
             if (!category || !unit) {
               errors.push(`产品 ${product.name} 的分类或单位信息不存在`);
@@ -182,7 +182,7 @@ export class MonthlyBalanceService {
             }
 
             // 计算批次年龄
-            const batchAge = Math.floor((balanceDate.getTime() - batch.inboundDate.getTime()) / (1000 * 60 * 60 * 24));
+            const _batchAge = Math.floor((balanceDate.getTime() - batch.inboundDate.getTime()) / (1000 * 60 * 60 * 24));
 
             // 创建月度结余记录
             const balance: MonthlyBalance = {
@@ -234,9 +234,9 @@ export class MonthlyBalanceService {
         }
 
         // 生成汇总信息
-        const summary = await this.generateSummary(params.year, params.month, generatedBalances);
+        const _summary = await this.generateSummary(params.year, params.month, generatedBalances);
         
-        const processingTime = Date.now() - startTime;
+        const _processingTime = Date.now() - startTime;
         
         const result: MonthlyBalanceGenerateResult = {
           success: true,
@@ -286,7 +286,7 @@ export class MonthlyBalanceService {
     params: MonthlyBalanceQueryParams
   ): Promise<MonthlyBalanceOperationResult<MonthlyBalance[]>> {
     try {
-      let balances = Array.from(this.balances.values());
+      const _balances = Array.from(this.balances.values());
 
       // 应用筛选条件
       if (params.year) {
@@ -334,7 +334,7 @@ export class MonthlyBalanceService {
       }
 
       if (params.batchNoPattern) {
-        const pattern = new RegExp(params.batchNoPattern, 'i');
+        const _pattern = new RegExp(params.batchNoPattern, 'i');
         balances = balances.filter(b => pattern.test(b.batchNo));
       }
 
@@ -372,15 +372,15 @@ export class MonthlyBalanceService {
             return params.sortOrder === 'desc' ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue);
           }
 
-          const result = aValue - bValue;
+          const _result = aValue - bValue;
           return params.sortOrder === 'desc' ? -result : result;
         });
       }
 
       // 分页
       if (params.page && params.pageSize) {
-        const start = (params.page - 1) * params.pageSize;
-        const end = start + params.pageSize;
+        const _start = (params.page - 1) * params.pageSize;
+        const _end = start + params.pageSize;
         balances = balances.slice(start, end);
       }
 
@@ -412,8 +412,8 @@ export class MonthlyBalanceService {
     month: number
   ): Promise<MonthlyBalanceOperationResult<MonthlyBalanceStatistics>> {
     try {
-      const periodKey = `${year}-${month.toString().padStart(2, '0')}`;
-      const balanceIds = this.balancesByPeriod.get(periodKey) || new Set();
+      const _periodKey = `${year}-${month.toString().padStart(2, '0')}`;
+      const _balanceIds = this.balancesByPeriod.get(periodKey) || new Set();
       
       if (balanceIds.size === 0) {
         return {
@@ -425,26 +425,26 @@ export class MonthlyBalanceService {
         };
       }
 
-      const balances = Array.from(balanceIds).map(id => this.balances.get(id)!);
-      const balanceDate = new Date(year, month, 0);
+      const _balances = Array.from(balanceIds).map(id => this.balances.get(id)!);
+      const _balanceDate = new Date(year, month, 0);
 
       // 基础统计
-      const totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
-      const productIds = new Set(balances.map(b => b.productId));
-      const batchIds = new Set(balances.map(b => b.batchId));
-      const avgBatchValue = balances.length > 0 ? totalValue / balances.length : 0;
+      const _totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
+      const _productIds = new Set(balances.map(b => b.productId));
+      const _batchIds = new Set(balances.map(b => b.batchId));
+      const _avgBatchValue = balances.length > 0 ? totalValue / balances.length : 0;
 
       // 年龄分析
-      const ageAnalysis = this.calculateAgeAnalysis(balances);
+      const _ageAnalysis = this.calculateAgeAnalysis(balances);
 
       // 价值分析
-      const valueAnalysis = this.calculateValueAnalysis(balances);
+      const _valueAnalysis = this.calculateValueAnalysis(balances);
 
       // 过期分析
-      const expiryAnalysis = this.calculateExpiryAnalysis(balances, balanceDate);
+      const _expiryAnalysis = this.calculateExpiryAnalysis(balances, balanceDate);
 
       // 周转分析
-      const turnoverAnalysis = this.calculateTurnoverAnalysis(balances);
+      const _turnoverAnalysis = this.calculateTurnoverAnalysis(balances);
 
       const statistics: MonthlyBalanceStatistics = {
         period: {
@@ -492,7 +492,7 @@ export class MonthlyBalanceService {
     batches: InventoryBatch[],
     params: MonthlyBalanceGenerateParams
   ): Promise<InventoryBatch[]> {
-    let filteredBatches = batches;
+    const _filteredBatches = batches;
 
     if (params.warehouseIds && params.warehouseIds.length > 0) {
       filteredBatches = filteredBatches.filter(b => params.warehouseIds!.includes(b.warehouseId));
@@ -503,8 +503,8 @@ export class MonthlyBalanceService {
     }
 
     if (params.categoryIds && params.categoryIds.length > 0) {
-      const products = await this.getProductsByIds([...new Set(filteredBatches.map(b => b.productId))]);
-      const productIdsInCategories = products
+      const _products = await this.getProductsByIds([...new Set(filteredBatches.map(b => b.productId))]);
+      const _productIdsInCategories = products
         .filter(p => params.categoryIds!.includes(p.categoryId))
         .map(p => p.id);
       filteredBatches = filteredBatches.filter(b => productIdsInCategories.includes(b.productId));
@@ -536,10 +536,10 @@ export class MonthlyBalanceService {
     month: number,
     balances: MonthlyBalance[]
   ): Promise<MonthlyBalanceSummary> {
-    const balanceDate = new Date(year, month, 0);
+    const _balanceDate = new Date(year, month, 0);
 
     // 按产品汇总
-    const productSummaryMap = new Map<string, any>();
+    const _productSummaryMap = new Map<string, any>();
     balances.forEach(balance => {
       if (!productSummaryMap.has(balance.productId)) {
         productSummaryMap.set(balance.productId, {
@@ -557,7 +557,7 @@ export class MonthlyBalanceService {
         });
       }
 
-      const summary = productSummaryMap.get(balance.productId);
+      const _summary = productSummaryMap.get(balance.productId);
       summary.totalQuantity += balance.remainingQuantity;
       summary.totalValue += balance.totalValue;
       summary.batchCount += 1;
@@ -565,7 +565,7 @@ export class MonthlyBalanceService {
       summary.inboundDates.push(balance.inboundDate);
     });
 
-    const productSummary = Array.from(productSummaryMap.values()).map(p => ({
+    const _productSummary = Array.from(productSummaryMap.values()).map(p => ({
       ...p,
       avgUnitCost: p.totalQuantity > 0 ? p.totalValue / p.totalQuantity : 0,
       oldestBatchDate: new Date(Math.min(...p.inboundDates.map((d: Date) => d.getTime()))),
@@ -581,7 +581,7 @@ export class MonthlyBalanceService {
     }));
 
     // 按仓库汇总
-    const warehouseSummaryMap = new Map<string, any>();
+    const _warehouseSummaryMap = new Map<string, any>();
     balances.forEach(balance => {
       if (!warehouseSummaryMap.has(balance.warehouseId)) {
         warehouseSummaryMap.set(balance.warehouseId, {
@@ -594,14 +594,14 @@ export class MonthlyBalanceService {
         });
       }
 
-      const summary = warehouseSummaryMap.get(balance.warehouseId);
+      const _summary = warehouseSummaryMap.get(balance.warehouseId);
       summary.totalValue += balance.totalValue;
       summary.productIds.add(balance.productId);
       summary.batchCount += 1;
       summary.inboundDates.push(balance.inboundDate);
     });
 
-    const warehouseSummary = Array.from(warehouseSummaryMap.values()).map(w => ({
+    const _warehouseSummary = Array.from(warehouseSummaryMap.values()).map(w => ({
       warehouseId: w.warehouseId,
       warehouseName: w.warehouseName,
       totalValue: w.totalValue,
@@ -613,7 +613,7 @@ export class MonthlyBalanceService {
     }));
 
     // 按分类汇总
-    const categorySummaryMap = new Map<string, any>();
+    const _categorySummaryMap = new Map<string, any>();
     balances.forEach(balance => {
       if (!categorySummaryMap.has(balance.categoryId)) {
         categorySummaryMap.set(balance.categoryId, {
@@ -625,13 +625,13 @@ export class MonthlyBalanceService {
         });
       }
 
-      const summary = categorySummaryMap.get(balance.categoryId);
+      const _summary = categorySummaryMap.get(balance.categoryId);
       summary.totalValue += balance.totalValue;
       summary.productIds.add(balance.productId);
       summary.batchCount += 1;
     });
 
-    const categorySummary = Array.from(categorySummaryMap.values()).map(c => ({
+    const _categorySummary = Array.from(categorySummaryMap.values()).map(c => ({
       categoryId: c.categoryId,
       categoryName: c.categoryName,
       totalValue: c.totalValue,
@@ -640,7 +640,7 @@ export class MonthlyBalanceService {
     }));
 
     // 总计
-    const totals = {
+    const _totals = {
       totalValue: balances.reduce((sum, b) => sum + b.totalValue, 0),
       totalQuantity: balances.reduce((sum, b) => sum + b.remainingQuantity, 0),
       productCount: new Set(balances.map(b => b.productId)).size,
@@ -665,7 +665,7 @@ export class MonthlyBalanceService {
    * 计算年龄分析
    */
   private calculateAgeAnalysis(balances: MonthlyBalance[]): MonthlyBalanceStatistics['ageAnalysis'] {
-    const ranges = [
+    const _ranges = [
       { range: '0-30天', min: 0, max: 30 },
       { range: '31-60天', min: 31, max: 60 },
       { range: '61-90天', min: 61, max: 90 },
@@ -674,11 +674,11 @@ export class MonthlyBalanceService {
       { range: '365天以上', min: 365, max: Infinity }
     ];
 
-    const totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
-    const rangeStats = ranges.map(range => {
-      const rangeBalances = balances.filter(b => b.batchAge >= range.min && b.batchAge <= range.max);
-      const totalQuantity = rangeBalances.reduce((sum, b) => sum + b.remainingQuantity, 0);
-      const rangeTotalValue = rangeBalances.reduce((sum, b) => sum + b.totalValue, 0);
+    const _totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
+    const _rangeStats = ranges.map(range => {
+      const _rangeBalances = balances.filter(b => b.batchAge >= range.min && b.batchAge <= range.max);
+      const _totalQuantity = rangeBalances.reduce((sum, b) => sum + b.remainingQuantity, 0);
+      const _rangeTotalValue = rangeBalances.reduce((sum, b) => sum + b.totalValue, 0);
       
       return {
         range: range.range,
@@ -689,10 +689,10 @@ export class MonthlyBalanceService {
       };
     });
 
-    const avgAge = balances.length > 0 ? 
+    const _avgAge = balances.length > 0 ? 
       balances.reduce((sum, b) => sum + b.batchAge, 0) / balances.length : 0;
 
-    const oldestBalance = balances.reduce((oldest, current) => 
+    const _oldestBalance = balances.reduce((oldest, current) => 
       current.batchAge > oldest.batchAge ? current : oldest, balances[0]);
 
     return {
@@ -713,10 +713,10 @@ export class MonthlyBalanceService {
    * 计算价值分析
    */
   private calculateValueAnalysis(balances: MonthlyBalance[]): MonthlyBalanceStatistics['valueAnalysis'] {
-    const totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
+    const _totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
 
     // 按产品统计
-    const productValueMap = new Map<string, { balance: MonthlyBalance; totalValue: number; batchCount: number }>();
+    const _productValueMap = new Map<string, { balance: MonthlyBalance; totalValue: number; batchCount: number }>();
     balances.forEach(balance => {
       if (!productValueMap.has(balance.productId)) {
         productValueMap.set(balance.productId, {
@@ -725,12 +725,12 @@ export class MonthlyBalanceService {
           batchCount: 0
         });
       }
-      const stat = productValueMap.get(balance.productId)!;
+      const _stat = productValueMap.get(balance.productId)!;
       stat.totalValue += balance.totalValue;
       stat.batchCount += 1;
     });
 
-    const topProducts = Array.from(productValueMap.values())
+    const _topProducts = Array.from(productValueMap.values())
       .map(p => ({
         productId: p.balance.productId,
         productName: p.balance.productName,
@@ -742,7 +742,7 @@ export class MonthlyBalanceService {
       .slice(0, 10);
 
     // 按仓库统计
-    const warehouseValueMap = new Map<string, { balance: MonthlyBalance; totalValue: number; batchCount: number }>();
+    const _warehouseValueMap = new Map<string, { balance: MonthlyBalance; totalValue: number; batchCount: number }>();
     balances.forEach(balance => {
       if (!warehouseValueMap.has(balance.warehouseId)) {
         warehouseValueMap.set(balance.warehouseId, {
@@ -751,12 +751,12 @@ export class MonthlyBalanceService {
           batchCount: 0
         });
       }
-      const stat = warehouseValueMap.get(balance.warehouseId)!;
+      const _stat = warehouseValueMap.get(balance.warehouseId)!;
       stat.totalValue += balance.totalValue;
       stat.batchCount += 1;
     });
 
-    const topWarehouses = Array.from(warehouseValueMap.values())
+    const _topWarehouses = Array.from(warehouseValueMap.values())
       .map(w => ({
         warehouseId: w.balance.warehouseId,
         warehouseName: w.balance.warehouseName,
@@ -768,7 +768,7 @@ export class MonthlyBalanceService {
       .slice(0, 10);
 
     // 按分类统计
-    const categoryValueMap = new Map<string, { balance: MonthlyBalance; totalValue: number; batchCount: number }>();
+    const _categoryValueMap = new Map<string, { balance: MonthlyBalance; totalValue: number; batchCount: number }>();
     balances.forEach(balance => {
       if (!categoryValueMap.has(balance.categoryId)) {
         categoryValueMap.set(balance.categoryId, {
@@ -777,12 +777,12 @@ export class MonthlyBalanceService {
           batchCount: 0
         });
       }
-      const stat = categoryValueMap.get(balance.categoryId)!;
+      const _stat = categoryValueMap.get(balance.categoryId)!;
       stat.totalValue += balance.totalValue;
       stat.batchCount += 1;
     });
 
-    const topCategories = Array.from(categoryValueMap.values())
+    const _topCategories = Array.from(categoryValueMap.values())
       .map(c => ({
         categoryId: c.balance.categoryId,
         categoryName: c.balance.categoryName,
@@ -804,17 +804,17 @@ export class MonthlyBalanceService {
    * 计算过期分析
    */
   private calculateExpiryAnalysis(balances: MonthlyBalance[], balanceDate: Date): MonthlyBalanceStatistics['expiryAnalysis'] {
-    const totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
+    const _totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
     
-    const expiredBalances = balances.filter(b => b.status === MonthlyBalanceStatus.EXPIRED);
-    const expiredValue = expiredBalances.reduce((sum, b) => sum + b.totalValue, 0);
+    const _expiredBalances = balances.filter(b => b.status === MonthlyBalanceStatus.EXPIRED);
+    const _expiredValue = expiredBalances.reduce((sum, b) => sum + b.totalValue, 0);
 
     // 即将过期（30天内）
-    const soonToExpireDate = new Date(balanceDate.getTime() + 30 * 24 * 60 * 60 * 1000);
-    const soonToExpireBalances = balances.filter(b => 
+    const _soonToExpireDate = new Date(balanceDate.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const _soonToExpireBalances = balances.filter(b => 
       b.expiryDate && b.expiryDate <= soonToExpireDate && b.status === MonthlyBalanceStatus.ACTIVE
     );
-    const soonToExpireValue = soonToExpireBalances.reduce((sum, b) => sum + b.totalValue, 0);
+    const _soonToExpireValue = soonToExpireBalances.reduce((sum, b) => sum + b.totalValue, 0);
 
     return {
       expiredBatches: expiredBalances.length,
@@ -832,15 +832,15 @@ export class MonthlyBalanceService {
    * 计算周转分析
    */
   private calculateTurnoverAnalysis(balances: MonthlyBalance[]): MonthlyBalanceStatistics['turnoverAnalysis'] {
-    const totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
+    const _totalValue = balances.reduce((sum, b) => sum + b.totalValue, 0);
     
     // 滞销品（批次年龄>90天）
-    const slowMovingBalances = balances.filter(b => b.batchAge > 90);
-    const slowMovingValue = slowMovingBalances.reduce((sum, b) => sum + b.totalValue, 0);
+    const _slowMovingBalances = balances.filter(b => b.batchAge > 90);
+    const _slowMovingValue = slowMovingBalances.reduce((sum, b) => sum + b.totalValue, 0);
 
     // 死库存（批次年龄>365天）
-    const deadStockBalances = balances.filter(b => b.batchAge > 365);
-    const deadStockValue = deadStockBalances.reduce((sum, b) => sum + b.totalValue, 0);
+    const _deadStockBalances = balances.filter(b => b.batchAge > 365);
+    const _deadStockValue = deadStockBalances.reduce((sum, b) => sum + b.totalValue, 0);
 
     return {
       slowMoving: {
@@ -862,7 +862,7 @@ export class MonthlyBalanceService {
   private async getProductsByIds(productIds: string[]): Promise<Product[]> {
     const products: Product[] = [];
     for (const productId of productIds) {
-      const product = await productService.findById(productId);
+      const _product = await productService.findById(productId);
       if (product) {
         products.push(product);
       }
@@ -876,7 +876,7 @@ export class MonthlyBalanceService {
   private async getWarehousesByIds(warehouseIds: string[]): Promise<Warehouse[]> {
     const warehouses: Warehouse[] = [];
     for (const warehouseId of warehouseIds) {
-      const warehouse = await warehouseService.findById(warehouseId);
+      const _warehouse = await warehouseService.findById(warehouseId);
       if (warehouse) {
         warehouses.push(warehouse);
       }
@@ -948,7 +948,7 @@ export class MonthlyBalanceService {
     totalValue: number;
     initialized: boolean;
   }> {
-    const totalValue = Array.from(this.balances.values())
+    const _totalValue = Array.from(this.balances.values())
       .reduce((sum, b) => sum + b.totalValue, 0);
 
     return {
@@ -963,5 +963,5 @@ export class MonthlyBalanceService {
 }
 
 // 创建并导出服务实例
-const monthlyBalanceService = new MonthlyBalanceService();
+const _monthlyBalanceService = new MonthlyBalanceService();
 export default monthlyBalanceService;

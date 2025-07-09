@@ -26,8 +26,8 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
   /**
    * 处理分类展开/折叠
    */
-  const handleCategoryToggle = (categoryId: string) => {
-    const newExpanded = new Set(expandedCategories);
+  const _handleCategoryToggle = (categoryId: string) => {
+    const _newExpanded = new Set(expandedCategories);
     if (newExpanded.has(categoryId)) {
       newExpanded.delete(categoryId);
     } else {
@@ -43,7 +43,7 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
   /**
    * 处理单元格点击
    */
-  const handleCellClick = (id: string, date: string, timeSlot: TimeSlot) => {
+  const _handleCellClick = (id: string, date: string, timeSlot: TimeSlot) => {
     if (onCellClick) {
       onCellClick(id, date, timeSlot);
     }
@@ -52,11 +52,11 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
   /**
    * 渲染分类及其子项
    */
-  const renderCategoryWithChildren = (category: CategoryRowData, level: number = 1): React.ReactNode[] => {
+  const _renderCategoryWithChildren = (category: CategoryRowData, level: number = 1): React.ReactNode[] => {
     const rows: React.ReactNode[] = [];
     
     // 渲染分类行
-    const updatedCategory = {
+    const _updatedCategory = {
       ...category,
       isExpanded: expandedCategories.has(category.categoryId)
     };
@@ -103,7 +103,7 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
   /**
    * 渲染合计行
    */
-  const renderTotalRow = () => {
+  const _renderTotalRow = () => {
     const { totals, config, dateColumns } = data;
     
     return (
@@ -127,7 +127,7 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
 
         {/* 日期合计列 */}
         {dateColumns.map((date) => {
-          const dateTotal = totals.dateTotals.get(date);
+          const _dateTotal = totals.dateTotals.get(date);
           if (!dateTotal) {
             return (
               <React.Fragment key={`total-${date}`}>
@@ -139,9 +139,9 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
           }
 
           // 计算各时间段的值（需要从日期总计中分解）
-          const morningValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.morning, config.displayMode);
-          const afternoonValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.afternoon, config.displayMode);
-          const eveningValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.evening, config.displayMode);
+          const _morningValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.morning, config.displayMode);
+          const _afternoonValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.afternoon, config.displayMode);
+          const _eveningValue = ConsumptionCalculator.getDisplayValue(totals.timeSlotTotals.evening, config.displayMode);
 
           return (
             <React.Fragment key={`total-${date}`}>
@@ -172,10 +172,10 @@ const ConsumptionTable: React.FC<ConsumptionTableProps> = ({
   /**
    * 计算表格的最小宽度
    */
-  const tableMinWidth = useMemo(() => {
-    const categoryColumnWidth = 300; // 分类列宽度
-    const timeSlotColumnWidth = 80;   // 时间段列宽度
-    const totalColumnWidth = 120;     // 合计列宽度
+  const _tableMinWidth = useMemo(() => {
+    const _categoryColumnWidth = 300; // 分类列宽度
+    const _timeSlotColumnWidth = 80;   // 时间段列宽度
+    const _totalColumnWidth = 120;     // 合计列宽度
     
     return categoryColumnWidth + 
            (data.dateColumns.length * 3 * timeSlotColumnWidth) + 

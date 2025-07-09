@@ -13,7 +13,7 @@ export class UserService {
 
   async initialize(): Promise<void> {
     // 检查是否已存在管理员账户，如果没有则创建默认管理员
-    const adminUsers = await this.findByRole(UserRole.ADMIN);
+    const _adminUsers = await this.findByRole(UserRole.ADMIN);
     if (adminUsers.length === 0) {
       await this.createDefaultAdmin();
     }
@@ -41,22 +41,22 @@ export class UserService {
   }
 
   async findById(id: string): Promise<User | null> {
-    const user = this.users.get(id);
+    const _user = this.users.get(id);
     return user ? this.sanitizeUser(user) : null;
   }
 
   async findByUsername(username: string): Promise<User | null> {
-    const id = this.usernameIndex.get(username.toLowerCase());
+    const _id = this.usernameIndex.get(username.toLowerCase());
     return id ? this.findById(id) : null;
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const id = this.emailIndex.get(email.toLowerCase());
+    const _id = this.emailIndex.get(email.toLowerCase());
     return id ? this.findById(id) : null;
   }
 
   async findByPhone(phone: string): Promise<User | null> {
-    const id = this.phoneIndex.get(phone);
+    const _id = this.phoneIndex.get(phone);
     return id ? this.findById(id) : null;
   }
 
@@ -73,7 +73,7 @@ export class UserService {
   }
 
   async search(searchTerm: string): Promise<User[]> {
-    const term = searchTerm.toLowerCase().trim();
+    const _term = searchTerm.toLowerCase().trim();
     if (!term) return this.findAll();
 
     return Array.from(this.users.values())
@@ -88,7 +88,7 @@ export class UserService {
 
   async create(userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<User> {
     // Validate input
-    const validation = validateEntity(UserSchema, userData);
+    const _validation = validateEntity(UserSchema, userData);
     if (!validation.success) {
       throw new Error(`用户数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -97,9 +97,9 @@ export class UserService {
     await this.checkDuplicates(userData.username, userData.email, userData.phone);
 
     // Hash password
-    const hashedPassword = await hash(userData.password, 10);
+    const _hashedPassword = await hash(userData.password, 10);
 
-    const now = new Date();
+    const _now = new Date();
     const user: User = {
       id: uuidv4(),
       ...userData,
@@ -118,7 +118,7 @@ export class UserService {
   }
 
   async update(id: string, userData: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt' | 'password'>>): Promise<User> {
-    const existingUser = this.users.get(id);
+    const _existingUser = this.users.get(id);
     if (!existingUser) {
       throw new Error('用户不存在');
     }
@@ -145,7 +145,7 @@ export class UserService {
     };
 
     // Validate updated data
-    const validation = validateEntity(UserSchema, {
+    const _validation = validateEntity(UserSchema, {
       ...updatedUser,
       password: 'dummy' // Use dummy password for validation
     });
@@ -161,19 +161,19 @@ export class UserService {
   }
 
   async changePassword(id: string, oldPassword: string, newPassword: string): Promise<void> {
-    const user = this.users.get(id);
+    const _user = this.users.get(id);
     if (!user) {
       throw new Error('用户不存在');
     }
 
     // Verify old password
-    const isValidOldPassword = await compare(oldPassword, user.password);
+    const _isValidOldPassword = await compare(oldPassword, user.password);
     if (!isValidOldPassword) {
       throw new Error('原密码错误');
     }
 
     // Hash new password
-    const hashedNewPassword = await hash(newPassword, 10);
+    const _hashedNewPassword = await hash(newPassword, 10);
 
     const updatedUser: User = {
       ...user,
@@ -186,13 +186,13 @@ export class UserService {
   }
 
   async resetPassword(id: string, newPassword: string): Promise<void> {
-    const user = this.users.get(id);
+    const _user = this.users.get(id);
     if (!user) {
       throw new Error('用户不存在');
     }
 
     // Hash new password
-    const hashedPassword = await hash(newPassword, 10);
+    const _hashedPassword = await hash(newPassword, 10);
 
     const updatedUser: User = {
       ...user,
@@ -205,7 +205,7 @@ export class UserService {
   }
 
   async setStatus(id: string, status: UserStatus): Promise<User> {
-    const user = this.users.get(id);
+    const _user = this.users.get(id);
     if (!user) {
       throw new Error('用户不存在');
     }
@@ -222,13 +222,13 @@ export class UserService {
   }
 
   async delete(id: string): Promise<void> {
-    const user = this.users.get(id);
+    const _user = this.users.get(id);
     if (!user) {
       throw new Error('用户不存在');
     }
 
     // Prevent deleting the last admin user
-    const adminUsers = await this.findByRole(UserRole.ADMIN);
+    const _adminUsers = await this.findByRole(UserRole.ADMIN);
     if (user.role === UserRole.ADMIN && adminUsers.length <= 1) {
       throw new Error('无法删除最后一个管理员用户');
     }
@@ -240,7 +240,7 @@ export class UserService {
 
   // Authentication methods
   async authenticate(username: string, password: string): Promise<User | null> {
-    const user = await this.findByUsernameForAuth(username);
+    const _user = await this.findByUsernameForAuth(username);
     if (!user) {
       return null;
     }
@@ -249,7 +249,7 @@ export class UserService {
       throw new Error('用户账号已被禁用或锁定');
     }
 
-    const isValidPassword = await compare(password, user.password);
+    const _isValidPassword = await compare(password, user.password);
     if (!isValidPassword) {
       return null;
     }
@@ -280,7 +280,7 @@ export class UserService {
   }
 
   async hasPermission(userId: string, permission: string): Promise<boolean> {
-    const user = this.users.get(userId);
+    const _user = this.users.get(userId);
     if (!user || user.status !== UserStatus.ACTIVE) {
       return false;
     }
@@ -291,7 +291,7 @@ export class UserService {
     }
 
     // Role-based permissions
-    const rolePermissions = this.getRolePermissions(user.role);
+    const _rolePermissions = this.getRolePermissions(user.role);
     return rolePermissions.includes(permission);
   }
 
@@ -326,18 +326,18 @@ export class UserService {
     byRole: Record<UserRole, number>;
     recentLogins: number;
   }> {
-    const users = Array.from(this.users.values());
-    const total = users.length;
-    const active = users.filter(u => u.status === UserStatus.ACTIVE).length;
-    const inactive = users.filter(u => u.status === UserStatus.INACTIVE).length;
-    const locked = users.filter(u => u.status === UserStatus.LOCKED).length;
+    const _users = Array.from(this.users.values());
+    const _total = users.length;
+    const _active = users.filter(u => u.status === UserStatus.ACTIVE).length;
+    const _inactive = users.filter(u => u.status === UserStatus.INACTIVE).length;
+    const _locked = users.filter(u => u.status === UserStatus.LOCKED).length;
 
     const byRole: Record<UserRole, number> = {
       [UserRole.ADMIN]: users.filter(u => u.role === UserRole.ADMIN).length,
       [UserRole.OPERATOR]: users.filter(u => u.role === UserRole.OPERATOR).length
     };
 
-    const recentLogins = users.filter(u => 
+    const _recentLogins = users.filter(u => 
       u.lastLoginAt && 
       new Date().getTime() - u.lastLoginAt.getTime() < 7 * 24 * 60 * 60 * 1000
     ).length;
@@ -347,7 +347,7 @@ export class UserService {
 
   // Helper methods
   private async findByUsernameForAuth(username: string): Promise<User | null> {
-    const id = this.usernameIndex.get(username.toLowerCase());
+    const _id = this.usernameIndex.get(username.toLowerCase());
     return id ? this.users.get(id) || null : null;
   }
 
@@ -358,21 +358,21 @@ export class UserService {
 
   private async checkDuplicates(username?: string, email?: string, phone?: string, excludeId?: string): Promise<void> {
     if (username) {
-      const existingByUsername = this.usernameIndex.get(username.toLowerCase());
+      const _existingByUsername = this.usernameIndex.get(username.toLowerCase());
       if (existingByUsername && existingByUsername !== excludeId) {
         throw new Error('用户名已存在');
       }
     }
 
     if (email) {
-      const existingByEmail = this.emailIndex.get(email.toLowerCase());
+      const _existingByEmail = this.emailIndex.get(email.toLowerCase());
       if (existingByEmail && existingByEmail !== excludeId) {
         throw new Error('邮箱已存在');
       }
     }
 
     if (phone) {
-      const existingByPhone = this.phoneIndex.get(phone);
+      const _existingByPhone = this.phoneIndex.get(phone);
       if (existingByPhone && existingByPhone !== excludeId) {
         throw new Error('手机号已存在');
       }
@@ -400,11 +400,11 @@ export class UserService {
   }
 
   private generateSecurePassword(): string {
-    const length = 12;
-    const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-    let password = '';
+    const _length = 12;
+    const _charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    const _password = '';
     
-    for (let i = 0; i < length; i++) {
+    for (let _i = 0; i < length; i++) {
       password += charset.charAt(Math.floor(Math.random() * charset.length));
     }
     
@@ -412,5 +412,5 @@ export class UserService {
   }
 }
 
-const userService = new UserService();
+const _userService = new UserService();
 export default userService;

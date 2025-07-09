@@ -1,4 +1,4 @@
-export const APP_CONFIG = {
+export const _APP_CONFIG = {
   DATABASE: {
     DEFAULT_PATH: 'data/inventory.db',
     TIMEOUT: 5000
@@ -14,20 +14,20 @@ export const APP_CONFIG = {
   }
 };
 
-export const INVENTORY_STATUS = {
+export const _INVENTORY_STATUS = {
   IN_STOCK: 'in-stock',
   LOW_STOCK: 'low-stock',
   OUT_OF_STOCK: 'out-of-stock',
   DISCONTINUED: 'discontinued'
 } as const;
 
-export const TRANSACTION_TYPES = {
+export const _TRANSACTION_TYPES = {
   IN: 'in',
   OUT: 'out',
   ADJUST: 'adjust'
 } as const;
 
-export const DEFAULT_COLUMN_MAPPING = {
+export const _DEFAULT_COLUMN_MAPPING = {
   '商品名称': 'name',
   '商品描述': 'description',
   'SKU': 'sku',
@@ -42,7 +42,7 @@ export const DEFAULT_COLUMN_MAPPING = {
   '最大库存': 'maxStock'
 } as const;
 
-export const EXCEL_HEADERS = [
+export const _EXCEL_HEADERS = [
   '商品名称',
   '商品描述', 
   'SKU',

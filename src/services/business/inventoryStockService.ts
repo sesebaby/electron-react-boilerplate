@@ -53,8 +53,8 @@ export class InventoryStockService {
   }
 
   async findStockByProductAndWarehouse(productId: string, warehouseId: string): Promise<InventoryStock | null> {
-    const key = `${productId}:${warehouseId}`;
-    const stockId = this.stockIndex.get(key);
+    const _key = `${productId}:${warehouseId}`;
+    const _stockId = this.stockIndex.get(key);
     return stockId ? this.stocks.get(stockId) || null : null;
   }
 
@@ -71,11 +71,11 @@ export class InventoryStockService {
   }
 
   async findLowStockItems(): Promise<InventoryStock[]> {
-    const stocks = await this.findAllStocks();
+    const _stocks = await this.findAllStocks();
     const lowStocks: InventoryStock[] = [];
 
     for (const stock of stocks) {
-      const product = await productService.findById(stock.productId);
+      const _product = await productService.findById(stock.productId);
       if (product && stock.currentStock <= product.minStock) {
         lowStocks.push(stock);
 
@@ -103,18 +103,18 @@ export class InventoryStockService {
 
   async createOrUpdateStock(data: Omit<InventoryStock, 'id' | 'createdAt' | 'updatedAt'>): Promise<InventoryStock> {
     // 验证产品和仓库存在
-    const product = await productService.findById(data.productId);
+    const _product = await productService.findById(data.productId);
     if (!product) {
       throw new Error(`产品不存在: ${data.productId}`);
     }
 
-    const warehouse = await warehouseService.findById(data.warehouseId);
+    const _warehouse = await warehouseService.findById(data.warehouseId);
     if (!warehouse) {
       throw new Error(`仓库不存在: ${data.warehouseId}`);
     }
 
     // 检查是否已存在库存记录
-    const existingStock = await this.findStockByProductAndWarehouse(data.productId, data.warehouseId);
+    const _existingStock = await this.findStockByProductAndWarehouse(data.productId, data.warehouseId);
     if (existingStock) {
       return this.updateStock(existingStock.id, data);
     }
@@ -128,12 +128,12 @@ export class InventoryStockService {
     };
 
     // 验证数据
-    const validation = validateEntity(InventoryStockSchema, stock);
+    const _validation = validateEntity(InventoryStockSchema, stock);
     if (!validation.success) {
       throw new Error(`库存数据验证失败: ${validation.errors?.join(', ')}`);
     }
 
-    const key = `${stock.productId}:${stock.warehouseId}`;
+    const _key = `${stock.productId}:${stock.warehouseId}`;
     this.stocks.set(stock.id, stock);
     this.stockIndex.set(key, stock.id);
 
@@ -141,7 +141,7 @@ export class InventoryStockService {
   }
 
   async updateStock(id: string, data: Partial<Omit<InventoryStock, 'id' | 'createdAt' | 'updatedAt'>>): Promise<InventoryStock> {
-    const existingStock = this.stocks.get(id);
+    const _existingStock = this.stocks.get(id);
     if (!existingStock) {
       throw new Error(`库存记录不存在: ${id}`);
     }
@@ -153,7 +153,7 @@ export class InventoryStockService {
     };
 
     // 验证更新后的数据
-    const validation = validateEntity(InventoryStockSchema, updatedStock);
+    const _validation = validateEntity(InventoryStockSchema, updatedStock);
     if (!validation.success) {
       throw new Error(`库存数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -167,10 +167,10 @@ export class InventoryStockService {
   async findAllTransactions(): Promise<InventoryTransaction[]> {
     try {
       // 优先从数据库获取
-      const dbTransactions = await this.database.getAllTransactions();
+      const _dbTransactions = await this.database.getAllTransactions();
       
       // 将数据库字段映射到标准格式
-      const normalizedTransactions = dbTransactions.map((dbTx: any) => ({
+      const _normalizedTransactions = dbTransactions.map((dbTx: any) => ({
         id: dbTx.id,
         transactionNo: dbTx.reference_no,
         productId: dbTx.item_id,
@@ -244,12 +244,12 @@ export class InventoryStockService {
     }
 
     // 使用库存锁，确保并发安全
-    const lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
+    const _lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
     
     return ConcurrencyManager.withMutex(lockKey, async () => {
       // 如果启用FIFO，创建批次记录
       if (this.useFifo) {
-        const batchResult = await fifoInventoryService.createBatch({
+        const _batchResult = await fifoInventoryService.createBatch({
           productId: params.productId,
           warehouseId: params.warehouseId,
           quantity: params.quantity,
@@ -292,11 +292,11 @@ export class InventoryStockService {
     }
 
     // 使用库存锁，确保原子性操作，防止并发竞态条件
-    const lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
+    const _lockKey = `stock-operation-${params.productId}-${params.warehouseId}`;
     
     return ConcurrencyManager.withMutex(lockKey, async () => {
       // 在锁内重新检查库存（防止检查后其他事务修改库存）
-      const currentStock = await this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
+      const _currentStock = await this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
       
       if (!currentStock) {
         throw new BusinessError('商品在该仓库中无库存记录', { 
@@ -316,7 +316,7 @@ export class InventoryStockService {
 
         // 触发库存不足错误通知
         try {
-          const product = await productService.findById(params.productId);
+          const _product = await productService.findById(params.productId);
           notificationHelper.showError(
             '库存出库失败',
             `库存不足，无法出库：${product?.name || params.productId}，需要${params.quantity}，可用${currentStock.availableStock}`
@@ -379,9 +379,9 @@ export class InventoryStockService {
     }
 
     // 获取当前库存
-    const currentStock = await this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
-    const currentQuantity = currentStock ? currentStock.currentStock : 0;
-    const adjustQuantity = params.newQuantity - currentQuantity;
+    const _currentStock = await this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
+    const _currentQuantity = currentStock ? currentStock.currentStock : 0;
+    const _adjustQuantity = params.newQuantity - currentQuantity;
 
     if (adjustQuantity === 0) {
       throw new Error('调整数量为0，无需调整');
@@ -410,7 +410,7 @@ export class InventoryStockService {
     operator: string;
   }): Promise<{ stock: InventoryStock; transaction: InventoryTransaction }> {
     // 生成流水单号
-    const transactionNo = await this.generateTransactionNo(params.transactionType);
+    const _transactionNo = await this.generateTransactionNo(params.transactionType);
 
     // 创建库存流水记录
     const transaction: InventoryTransaction = {
@@ -431,13 +431,13 @@ export class InventoryStockService {
     };
 
     // 验证流水数据
-    const transactionValidation = validateEntity(InventoryTransactionSchema, transaction);
+    const _transactionValidation = validateEntity(InventoryTransactionSchema, transaction);
     if (!transactionValidation.success) {
       throw new Error(`库存流水数据验证失败: ${transactionValidation.errors?.join(', ')}`);
     }
 
     // 获取或创建库存记录
-    let stock = await this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
+    const _stock = await this.findStockByProductAndWarehouse(params.productId, params.warehouseId);
     if (!stock) {
       stock = await this.createOrUpdateStock({
         productId: params.productId,
@@ -453,19 +453,19 @@ export class InventoryStockService {
     }
 
     // 更新库存数量
-    const newCurrentStock = stock.currentStock + params.quantity;
-    const newAvailableStock = stock.availableStock + params.quantity;
+    const _newCurrentStock = stock.currentStock + params.quantity;
+    const _newAvailableStock = stock.availableStock + params.quantity;
 
     // 计算新的平均成本（仅对入库操作）
-    let newAvgCost = stock.avgCost;
+    const _newAvgCost = stock.avgCost;
     if (params.transactionType === TransactionType.IN && params.quantity > 0) {
-      const totalCost = (stock.currentStock * stock.avgCost) + (params.quantity * params.unitPrice);
-      const totalQuantity = stock.currentStock + params.quantity;
+      const _totalCost = (stock.currentStock * stock.avgCost) + (params.quantity * params.unitPrice);
+      const _totalQuantity = stock.currentStock + params.quantity;
       newAvgCost = totalQuantity > 0 ? totalCost / totalQuantity : params.unitPrice;
     }
 
     // 更新库存记录
-    const updatedStock = await this.updateStock(stock.id, {
+    const _updatedStock = await this.updateStock(stock.id, {
       currentStock: newCurrentStock,
       availableStock: newAvailableStock,
       avgCost: newAvgCost,
@@ -500,16 +500,16 @@ export class InventoryStockService {
   }
 
   private async generateTransactionNo(type: TransactionType): Promise<string> {
-    const now = new Date();
-    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
-    const typePrefix = {
+    const _now = new Date();
+    const _dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const _typePrefix = {
       [TransactionType.IN]: 'IN',
       [TransactionType.OUT]: 'OUT',
       [TransactionType.ADJUST]: 'ADJ'
     }[type];
 
     // 简单的序号生成（实际应用中可能需要更复杂的逻辑）
-    const sequence = String(this.transactions.size + 1).padStart(4, '0');
+    const _sequence = String(this.transactions.size + 1).padStart(4, '0');
     return `${typePrefix}${dateStr}${sequence}`;
   }
 
@@ -526,10 +526,10 @@ export class InventoryStockService {
     }
 
     // 使用库存锁，确保原子性操作
-    const lockKey = `stock-reserve-${productId}-${warehouseId}`;
+    const _lockKey = `stock-reserve-${productId}-${warehouseId}`;
     
     return ConcurrencyManager.withMutex(lockKey, async () => {
-      const stock = await this.findStockByProductAndWarehouse(productId, warehouseId);
+      const _stock = await this.findStockByProductAndWarehouse(productId, warehouseId);
       if (!stock) {
         throw new BusinessError('库存记录不存在', { productId, warehouseId });
       }
@@ -569,10 +569,10 @@ export class InventoryStockService {
     }
 
     // 使用库存锁，确保原子性操作
-    const lockKey = `stock-reserve-${productId}-${warehouseId}`;
+    const _lockKey = `stock-reserve-${productId}-${warehouseId}`;
     
     return ConcurrencyManager.withMutex(lockKey, async () => {
-      const stock = await this.findStockByProductAndWarehouse(productId, warehouseId);
+      const _stock = await this.findStockByProductAndWarehouse(productId, warehouseId);
       if (!stock) {
         throw new BusinessError('库存记录不存在', { productId, warehouseId });
       }
@@ -610,11 +610,11 @@ export class InventoryStockService {
     outOfStockCount: number;
     totalTransactions: number;
   }> {
-    const stocks = await this.findAllStocks();
-    const lowStocks = await this.findLowStockItems();
-    const outOfStocks = await this.findOutOfStockItems();
+    const _stocks = await this.findAllStocks();
+    const _lowStocks = await this.findLowStockItems();
+    const _outOfStocks = await this.findOutOfStockItems();
 
-    const totalValue = stocks.reduce((sum, stock) => sum + (stock.currentStock * stock.avgCost), 0);
+    const _totalValue = stocks.reduce((sum, stock) => sum + (stock.currentStock * stock.avgCost), 0);
 
     return {
       totalProducts: stocks.length,
@@ -635,9 +635,9 @@ export class InventoryStockService {
       valueOut: number;
     };
   }> {
-    const transactions = await this.findTransactionsByDateRange(startDate, endDate);
+    const _transactions = await this.findTransactionsByDateRange(startDate, endDate);
 
-    const summary = transactions.reduce((acc, transaction) => {
+    const _summary = transactions.reduce((acc, transaction) => {
       switch (transaction.transactionType) {
         case TransactionType.IN:
           acc.totalIn += transaction.quantity;
@@ -668,11 +668,11 @@ export class InventoryStockService {
     product?: any;
     totalValue: number;
   }>> {
-    const stocks = await this.findAllStocks();
+    const _stocks = await this.findAllStocks();
     
-    const stocksWithValue = await Promise.all(
+    const _stocksWithValue = await Promise.all(
       stocks.map(async stock => {
-        const product = await productService.findById(stock.productId);
+        const _product = await productService.findById(stock.productId);
         return {
           stock,
           product,
@@ -688,11 +688,11 @@ export class InventoryStockService {
 
   // 获取库存统计数据
   async getInventoryStats() {
-    const stocks = await this.findAllStocks();
-    const transactions = await this.findAllTransactions();
-    const lowStockItems = await this.findLowStockItems();
+    const _stocks = await this.findAllStocks();
+    const _transactions = await this.findAllTransactions();
+    const _lowStockItems = await this.findLowStockItems();
 
-    const totalValue = stocks.reduce((sum, stock) => sum + (stock.currentStock * stock.avgCost), 0);
+    const _totalValue = stocks.reduce((sum, stock) => sum + (stock.currentStock * stock.avgCost), 0);
 
     return {
       totalStocks: stocks.length,
@@ -717,7 +717,7 @@ export class InventoryStockService {
     operator: string;
   }): Promise<InventoryTransaction> {
     // 生成流水单号
-    const transactionNo = await this.generateTransactionNo(params.transactionType);
+    const _transactionNo = await this.generateTransactionNo(params.transactionType);
 
     // 创建库存流水记录
     const transaction: InventoryTransaction = {
@@ -738,7 +738,7 @@ export class InventoryStockService {
     };
 
     // 验证流水数据
-    const transactionValidation = validateEntity(InventoryTransactionSchema, transaction);
+    const _transactionValidation = validateEntity(InventoryTransactionSchema, transaction);
     if (!transactionValidation.success) {
       throw new Error(`库存流水数据验证失败: ${transactionValidation.errors?.join(', ')}`);
     }
@@ -778,14 +778,14 @@ export class InventoryStockService {
     newUnitCost: number
   ): Promise<InventoryStock> {
     // 计算新的库存数量
-    const newCurrentStock = stock.currentStock + quantityChange;
-    const newAvailableStock = stock.availableStock + quantityChange;
+    const _newCurrentStock = stock.currentStock + quantityChange;
+    const _newAvailableStock = stock.availableStock + quantityChange;
 
     // 计算新的平均成本（加权平均）
-    let newAvgCost = stock.avgCost;
+    const _newAvgCost = stock.avgCost;
     if (quantityChange > 0) {
       // 入库时重新计算平均成本
-      const totalValue = (stock.currentStock * stock.avgCost) + (quantityChange * newUnitCost);
+      const _totalValue = (stock.currentStock * stock.avgCost) + (quantityChange * newUnitCost);
       newAvgCost = newCurrentStock > 0 ? totalValue / newCurrentStock : newUnitCost;
     } else {
       // 出库时使用FIFO计算的成本
@@ -826,14 +826,14 @@ export class InventoryStockService {
   ): Promise<{ stock: InventoryStock; transaction: InventoryTransaction }> {
     try {
       // 创建库存事务记录
-      const transaction = await this.createTransaction({
+      const _transaction = await this.createTransaction({
         ...params,
         transactionType: TransactionType.OUT,
         quantity: -params.quantity // 出库为负数
       });
 
       // 使用FIFO服务计算出库成本
-      const fifoResult = await fifoInventoryService.executeFifoOutbound(
+      const _fifoResult = await fifoInventoryService.executeFifoOutbound(
         {
           productId: params.productId,
           warehouseId: params.warehouseId,
@@ -852,8 +852,8 @@ export class InventoryStockService {
       }
 
       // 计算FIFO平均成本
-      const totalCost = fifoResult.data!.reduce((sum, consumption) => sum + consumption.totalCost, 0);
-      const avgUnitCost = params.quantity > 0 ? totalCost / params.quantity : 0;
+      const _totalCost = fifoResult.data!.reduce((sum, consumption) => sum + consumption.totalCost, 0);
+      const _avgUnitCost = params.quantity > 0 ? totalCost / params.quantity : 0;
 
       // 更新事务的实际成本（使用FIFO计算的成本）
       transaction.unitPrice = avgUnitCost;
@@ -861,7 +861,7 @@ export class InventoryStockService {
       this.transactions.set(transaction.id, transaction);
 
       // 更新库存记录
-      const updatedStock = await this.updateStockQuantity(
+      const _updatedStock = await this.updateStockQuantity(
         currentStock,
         -params.quantity,
         avgUnitCost
@@ -890,5 +890,5 @@ export class InventoryStockService {
 }
 
 // 创建并导出服务实例
-const inventoryStockService = new InventoryStockService();
+const _inventoryStockService = new InventoryStockService();
 export default inventoryStockService;

@@ -21,7 +21,7 @@ export class UnitService {
 
   private async loadUnitsFromDatabase(): Promise<void> {
     try {
-      const units = await electronDatabase.getAllUnits();
+      const _units = await electronDatabase.getAllUnits();
       
       for (const unit of units) {
         this.units.set(unit.id, unit);
@@ -44,17 +44,17 @@ export class UnitService {
   }
 
   async findBySymbol(symbol: string): Promise<Unit | null> {
-    const id = this.symbolIndex.get(symbol);
+    const _id = this.symbolIndex.get(symbol);
     return id ? this.units.get(id) || null : null;
   }
 
   async findByName(name: string): Promise<Unit | null> {
-    const id = this.nameIndex.get(name);
+    const _id = this.nameIndex.get(name);
     return id ? this.units.get(id) || null : null;
   }
 
   async search(searchTerm: string): Promise<Unit[]> {
-    const term = searchTerm.toLowerCase().trim();
+    const _term = searchTerm.toLowerCase().trim();
     if (!term) return this.findAll();
 
     return Array.from(this.units.values()).filter(unit =>
@@ -81,7 +81,7 @@ export class UnitService {
     };
 
     // 验证数据
-    const validation = validateEntity(UnitSchema, unit);
+    const _validation = validateEntity(UnitSchema, unit);
     if (!validation.success) {
       throw new Error(`单位数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -110,7 +110,7 @@ export class UnitService {
   }
 
   async update(id: string, data: Partial<Omit<Unit, 'id' | 'createdAt' | 'updatedAt'>>): Promise<Unit> {
-    const existingUnit = this.units.get(id);
+    const _existingUnit = this.units.get(id);
     if (!existingUnit) {
       throw new Error(`单位不存在: ${id}`);
     }
@@ -136,7 +136,7 @@ export class UnitService {
     };
 
     // 验证更新后的数据
-    const validation = validateEntity(UnitSchema, updatedUnit);
+    const _validation = validateEntity(UnitSchema, updatedUnit);
     if (!validation.success) {
       throw new Error(`单位数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -172,7 +172,7 @@ export class UnitService {
   }
 
   async delete(id: string): Promise<boolean> {
-    const unit = this.units.get(id);
+    const _unit = this.units.get(id);
     if (!unit) {
       return false;
     }
@@ -197,22 +197,22 @@ export class UnitService {
   }
 
   async validateName(name: string, excludeId?: string): Promise<boolean> {
-    const existingId = this.nameIndex.get(name);
+    const _existingId = this.nameIndex.get(name);
     return !existingId || existingId === excludeId;
   }
 
   async validateSymbol(symbol: string, excludeId?: string): Promise<boolean> {
-    const existingId = this.symbolIndex.get(symbol);
+    const _existingId = this.symbolIndex.get(symbol);
     return !existingId || existingId === excludeId;
   }
 
   async getCommonUnits(): Promise<Unit[]> {
     // 返回常用的计量单位
-    const commonSymbols = ['pcs', 'kg', 'g', 'L', 'ml', 'm', 'cm', 'box', 'pack'];
+    const _commonSymbols = ['pcs', 'kg', 'g', 'L', 'ml', 'm', 'cm', 'box', 'pack'];
     const commonUnits: Unit[] = [];
 
     for (const symbol of commonSymbols) {
-      const unit = await this.findBySymbol(symbol);
+      const _unit = await this.findBySymbol(symbol);
       if (unit) {
         commonUnits.push(unit);
       }
@@ -234,9 +234,9 @@ export class UnitService {
     const created: Unit[] = [];
     const errors: Array<{ index: number; error: string }> = [];
 
-    for (let i = 0; i < units.length; i++) {
+    for (let _i = 0; i < units.length; i++) {
       try {
-        const unit = await this.create(units[i]);
+        const _unit = await this.create(units[i]);
         created.push(unit);
       } catch (error) {
         errors.push({
@@ -254,14 +254,14 @@ export class UnitService {
     byPrecision: Record<number, number>;
     commonUnits: number;
   }> {
-    const units = await this.findAll();
+    const _units = await this.findAll();
     const byPrecision: Record<number, number> = {};
 
     units.forEach(unit => {
       byPrecision[unit.precision] = (byPrecision[unit.precision] || 0) + 1;
     });
 
-    const commonUnits = await this.getCommonUnits();
+    const _commonUnits = await this.getCommonUnits();
 
     return {
       total: units.length,
@@ -271,29 +271,29 @@ export class UnitService {
   }
 
   async formatQuantity(quantity: number, unitId: string): Promise<string> {
-    const unit = await this.findById(unitId);
+    const _unit = await this.findById(unitId);
     if (!unit) {
       return quantity.toString();
     }
 
-    const formattedQuantity = quantity.toFixed(unit.precision);
+    const _formattedQuantity = quantity.toFixed(unit.precision);
     return `${formattedQuantity} ${unit.symbol}`;
   }
 
   async parseQuantity(quantityString: string): Promise<{ quantity: number; unitId?: string } | null> {
-    const match = quantityString.trim().match(/^([\d.]+)\s*(.*)$/);
+    const _match = quantityString.trim().match(/^([\d.]+)\s*(.*)$/);
     if (!match) return null;
 
-    const quantity = parseFloat(match[1]);
+    const _quantity = parseFloat(match[1]);
     if (isNaN(quantity)) return null;
 
-    const symbolOrName = match[2].trim();
+    const _symbolOrName = match[2].trim();
     if (!symbolOrName) {
       return { quantity };
     }
 
     // 先尝试按符号查找，再按名称查找
-    let unit = await this.findBySymbol(symbolOrName);
+    const _unit = await this.findBySymbol(symbolOrName);
     if (!unit) {
       unit = await this.findByName(symbolOrName);
     }

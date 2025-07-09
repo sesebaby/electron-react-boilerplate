@@ -22,14 +22,14 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
   className = ''
 }) => {
   
-  const isCategoryRow = 'children' in rowData;
-  const categoryData = isCategoryRow ? rowData as CategoryRowData : null;
-  const productData = !isCategoryRow ? rowData as ProductRowData : null;
+  const _isCategoryRow = 'children' in rowData;
+  const _categoryData = isCategoryRow ? rowData as CategoryRowData : null;
+  const _productData = !isCategoryRow ? rowData as ProductRowData : null;
 
   /**
    * 处理行展开/折叠
    */
-  const handleToggle = () => {
+  const _handleToggle = () => {
     if (onToggle && isCategoryRow) {
       onToggle(categoryData!.categoryId);
     }
@@ -38,9 +38,9 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
   /**
    * 处理单元格点击
    */
-  const handleCellClick = (date: string, timeSlot: TimeSlot) => {
+  const _handleCellClick = (date: string, timeSlot: TimeSlot) => {
     if (onCellClick) {
-      const id = isCategoryRow ? categoryData!.categoryId : productData!.productId;
+      const _id = isCategoryRow ? categoryData!.categoryId : productData!.productId;
       onCellClick(id, date, timeSlot);
     }
   };
@@ -48,7 +48,7 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
   /**
    * 格式化显示值
    */
-  const formatValue = (value: number): string => {
+  const _formatValue = (value: number): string => {
     if (value === 0) return '-';
     return ConsumptionCalculator.formatDisplayValue(value, displayMode);
   };
@@ -56,9 +56,9 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
   /**
    * 获取单元格样式
    */
-  const getCellStyle = (value: number, timeSlot: TimeSlot): string => {
-    const baseStyle = "px-3 py-2 text-center text-sm border-r cursor-pointer transition-colors duration-200";
-    const timeSlotStyle = TimeSlotHelper.getTimeSlotColorTheme(timeSlot);
+  const _getCellStyle = (value: number, timeSlot: TimeSlot): string => {
+    const _baseStyle = "px-3 py-2 text-center text-sm border-r cursor-pointer transition-colors duration-200";
+    const _timeSlotStyle = TimeSlotHelper.getTimeSlotColorTheme(timeSlot);
 
     if (value === 0) {
       return `${baseStyle} ${timeSlotStyle}`;
@@ -71,11 +71,11 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
   /**
    * 获取行样式
    */
-  const getRowStyle = (): string => {
-    const baseStyle = "border-b border-white/10 hover:bg-white/5 transition-colors duration-200";
+  const _getRowStyle = (): string => {
+    const _baseStyle = "border-b border-white/10 hover:bg-white/5 transition-colors duration-200";
     
     if (isCategoryRow) {
-      const levelStyle = level === 1 ? 'bg-white/5' : 'bg-white/3';
+      const _levelStyle = level === 1 ? 'bg-white/5' : 'bg-white/3';
       return `${baseStyle} ${levelStyle} ${className}`;
     }
     
@@ -85,9 +85,9 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
   /**
    * 获取分类名称样式
    */
-  const getCategoryNameStyle = (): string => {
-    const baseStyle = "flex items-center text-white/90 drop-shadow-md";
-    const indentStyle = `ml-${Math.min(level * 4, 16)}`;
+  const _getCategoryNameStyle = (): string => {
+    const _baseStyle = "flex items-center text-white/90 drop-shadow-md";
+    const _indentStyle = `ml-${Math.min(level * 4, 16)}`;
     
     return `${baseStyle} ${indentStyle}`;
   };
@@ -95,7 +95,7 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
   /**
    * 渲染分类行
    */
-  const renderCategoryRow = () => {
+  const _renderCategoryRow = () => {
     if (!categoryData) return null;
 
     return (
@@ -128,7 +128,7 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
 
         {/* 日期数据列 */}
         {dateColumns.map((date) => {
-          const timeSlotData = categoryData.data.get(date);
+          const _timeSlotData = categoryData.data.get(date);
           if (!timeSlotData) {
             return (
               <React.Fragment key={`${categoryData.categoryId}-${date}`}>
@@ -139,9 +139,9 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
             );
           }
 
-          const morningValue = ConsumptionCalculator.getDisplayValue(timeSlotData.morning, displayMode);
-          const afternoonValue = ConsumptionCalculator.getDisplayValue(timeSlotData.afternoon, displayMode);
-          const eveningValue = ConsumptionCalculator.getDisplayValue(timeSlotData.evening, displayMode);
+          const _morningValue = ConsumptionCalculator.getDisplayValue(timeSlotData.morning, displayMode);
+          const _afternoonValue = ConsumptionCalculator.getDisplayValue(timeSlotData.afternoon, displayMode);
+          const _eveningValue = ConsumptionCalculator.getDisplayValue(timeSlotData.evening, displayMode);
 
           return (
             <React.Fragment key={`${categoryData.categoryId}-${date}`}>
@@ -178,7 +178,7 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
   /**
    * 渲染产品行
    */
-  const renderProductRow = () => {
+  const _renderProductRow = () => {
     if (!productData) return null;
 
     return (
@@ -206,7 +206,7 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
 
         {/* 日期数据列 */}
         {dateColumns.map((date) => {
-          const timeSlotData = productData.data.get(date);
+          const _timeSlotData = productData.data.get(date);
           if (!timeSlotData) {
             return (
               <React.Fragment key={`${productData.productId}-${date}`}>
@@ -217,9 +217,9 @@ const ConsumptionTableRow: React.FC<ConsumptionTableRowProps> = ({
             );
           }
 
-          const morningValue = ConsumptionCalculator.getDisplayValue(timeSlotData.morning, displayMode);
-          const afternoonValue = ConsumptionCalculator.getDisplayValue(timeSlotData.afternoon, displayMode);
-          const eveningValue = ConsumptionCalculator.getDisplayValue(timeSlotData.evening, displayMode);
+          const _morningValue = ConsumptionCalculator.getDisplayValue(timeSlotData.morning, displayMode);
+          const _afternoonValue = ConsumptionCalculator.getDisplayValue(timeSlotData.afternoon, displayMode);
+          const _eveningValue = ConsumptionCalculator.getDisplayValue(timeSlotData.evening, displayMode);
 
           return (
             <React.Fragment key={`${productData.productId}-${date}`}>

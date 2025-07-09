@@ -35,7 +35,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -57,7 +57,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     }
   };
 
-  const getPaymentMethodText = (method: PaymentMethod): string => {
+  const _getPaymentMethodText = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return '现金';
       case PaymentMethod.BANK_TRANSFER: return '银行转账';
@@ -68,7 +68,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     }
   };
 
-  const getPaymentMethodIcon = (method: PaymentMethod): string => {
+  const _getPaymentMethodIcon = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return '💵';
       case PaymentMethod.BANK_TRANSFER: return '🏦';
@@ -79,7 +79,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     }
   };
 
-  const _getPaymentMethodClass = (method: PaymentMethod): string => {
+  const __getPaymentMethodClass = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return 'text-green-600 bg-green-50 border-green-200';
       case PaymentMethod.BANK_TRANSFER: return 'text-blue-600 bg-blue-50 border-blue-200';
@@ -90,11 +90,11 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     }
   };
 
-  const _getSupplierName = async (payableId: string): Promise<string> => {
+  const __getSupplierName = async (payableId: string): Promise<string> => {
     try {
-      const payable = await accountsPayableService.findById(payableId);
+      const _payable = await accountsPayableService.findById(payableId);
       if (payable) {
-        const supplier = suppliers.find(s => s.id === payable.supplierId);
+        const _supplier = suppliers.find(s => s.id === payable.supplierId);
         return supplier ? supplier.name : '未知供应商';
       }
       return '未知供应商';
@@ -103,42 +103,42 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     }
   };
 
-  const formatDate = (date: Date): string => {
+  const _formatDate = (date: Date): string => {
     return new Date(date).toLocaleDateString('zh-CN');
   };
 
-  const formatDateTime = (date: Date): string => {
+  const _formatDateTime = (date: Date): string => {
     return new Date(date).toLocaleString('zh-CN');
   };
 
-  const getUniqueOperators = (): string[] => {
-    const operators = new Set(payments.map(p => p.operator));
+  const _getUniqueOperators = (): string[] => {
+    const _operators = new Set(payments.map(p => p.operator));
     return Array.from(operators).filter(Boolean);
   };
 
-  const filteredPayments = payments.filter(payment => {
-    const matchesSearch = !searchTerm || 
+  const _filteredPayments = payments.filter(payment => {
+    const _matchesSearch = !searchTerm || 
       payment.paymentNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payment.operator.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payment.remark?.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesMethod = !selectedMethod || payment.paymentMethod === selectedMethod;
-    const matchesOperator = !selectedOperator || payment.operator === selectedOperator;
+    const _matchesMethod = !selectedMethod || payment.paymentMethod === selectedMethod;
+    const _matchesOperator = !selectedOperator || payment.operator === selectedOperator;
     
-    const paymentDate = new Date(payment.paymentDate);
-    const matchesDateRange = (!dateRange.startDate || paymentDate >= new Date(dateRange.startDate)) &&
+    const _paymentDate = new Date(payment.paymentDate);
+    const _matchesDateRange = (!dateRange.startDate || paymentDate >= new Date(dateRange.startDate)) &&
                            (!dateRange.endDate || paymentDate <= new Date(dateRange.endDate));
     
     return matchesSearch && matchesMethod && matchesOperator && matchesDateRange;
   });
 
-  const calculateSummary = () => {
-    const totalAmount = filteredPayments.reduce((sum, p) => sum + p.amount, 0);
-    const totalCount = filteredPayments.length;
-    const todayPayments = filteredPayments.filter(p => 
+  const _calculateSummary = () => {
+    const _totalAmount = filteredPayments.reduce((sum, p) => sum + p.amount, 0);
+    const _totalCount = filteredPayments.length;
+    const _todayPayments = filteredPayments.filter(p => 
       new Date(p.paymentDate).toDateString() === new Date().toDateString()
     );
-    const todayAmount = todayPayments.reduce((sum, p) => sum + p.amount, 0);
+    const _todayAmount = todayPayments.reduce((sum, p) => sum + p.amount, 0);
 
     return {
       totalAmount,
@@ -148,7 +148,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     };
   };
 
-  const summary = calculateSummary();
+  const _summary = calculateSummary();
 
   if (loading) {
     return (

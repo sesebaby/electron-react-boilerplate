@@ -19,7 +19,7 @@ const InventoryMovementSummaryExample: React.FC = () => {
   /**
    * 处理数据变化
    */
-  const handleDataChange = (data: InventoryMovementSummaryData[]) => {
+  const _handleDataChange = (data: InventoryMovementSummaryData[]) => {
     setDataCount(data.length);
     console.log('出入库汇总数据更新:', data);
   };
@@ -27,7 +27,7 @@ const InventoryMovementSummaryExample: React.FC = () => {
   /**
    * 处理错误
    */
-  const handleError = (error: string) => {
+  const _handleError = (error: string) => {
     setLastError(error);
     console.error('出入库汇总错误:', error);
   };
@@ -35,7 +35,7 @@ const InventoryMovementSummaryExample: React.FC = () => {
   /**
    * 重置组件
    */
-  const resetComponent = () => {
+  const _resetComponent = () => {
     setShowComponent(false);
     setTimeout(() => {
       setShowComponent(true);

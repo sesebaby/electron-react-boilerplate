@@ -69,7 +69,7 @@ export class ResponsiveDesignTester {
       result.performanceTests = this.testPerformance();
 
       // 检查是否有失败的测试
-      const hasFailures = [
+      const _hasFailures = [
         ...result.breakpointTests,
         ...result.touchFriendlyTests,
         ...result.performanceTests
@@ -109,19 +109,19 @@ export class ResponsiveDesignTester {
       await new Promise(resolve => setTimeout(resolve, 100));
 
       // 检查导航栏适配
-      const navIssues = this.checkNavigationResponsive(width);
+      const _navIssues = this.checkNavigationResponsive(width);
       result.issues.push(...navIssues);
 
       // 检查表格适配
-      const tableIssues = this.checkTableResponsive(width);
+      const _tableIssues = this.checkTableResponsive(width);
       result.issues.push(...tableIssues);
 
       // 检查模态框适配
-      const modalIssues = this.checkModalResponsive(width);
+      const _modalIssues = this.checkModalResponsive(width);
       result.issues.push(...modalIssues);
 
       // 检查表单适配
-      const formIssues = this.checkFormResponsive(width);
+      const _formIssues = this.checkFormResponsive(width);
       result.issues.push(...formIssues);
 
       if (result.issues.length > 0) {
@@ -141,10 +141,10 @@ export class ResponsiveDesignTester {
     const results: TouchFriendlyTestResult[] = [];
     
     // 检查所有可点击元素
-    const clickableElements = document.querySelectorAll('button, [role="button"], a, input[type="submit"], input[type="button"]');
+    const _clickableElements = document.querySelectorAll('button, [role="button"], a, input[type="submit"], input[type="button"]');
     
     clickableElements.forEach((element, index) => {
-      const rect = element.getBoundingClientRect();
+      const _rect = element.getBoundingClientRect();
       const result: TouchFriendlyTestResult = {
         element: `${element.tagName.toLowerCase()}[${index}]`,
         minSize: { width: this.TOUCH_TARGET_MIN_SIZE, height: this.TOUCH_TARGET_MIN_SIZE },
@@ -165,7 +165,7 @@ export class ResponsiveDesignTester {
     const results: PerformanceTestResult[] = [];
 
     // 检查动画性能
-    const animationElements = document.querySelectorAll('[class*="animate"], [class*="transition"]');
+    const _animationElements = document.querySelectorAll('[class*="animate"], [class*="transition"]');
     results.push({
       metric: 'Animation Elements Count',
       value: animationElements.length,
@@ -174,7 +174,7 @@ export class ResponsiveDesignTester {
     });
 
     // 检查模糊效果元素
-    const blurElements = document.querySelectorAll('[class*="blur"], [style*="blur"]');
+    const _blurElements = document.querySelectorAll('[class*="blur"], [style*="blur"]');
     results.push({
       metric: 'Blur Effects Count',
       value: blurElements.length,
@@ -183,7 +183,7 @@ export class ResponsiveDesignTester {
     });
 
     // 检查DOM元素数量
-    const totalElements = document.querySelectorAll('*').length;
+    const _totalElements = document.querySelectorAll('*').length;
     results.push({
       metric: 'Total DOM Elements',
       value: totalElements,
@@ -209,8 +209,8 @@ export class ResponsiveDesignTester {
   private static checkNavigationResponsive(width: number): string[] {
     const issues: string[] = [];
     
-    const sidebar = document.querySelector('.sidebar, [class*="sidebar"]');
-    const topbar = document.querySelector('.topbar, [class*="topbar"]');
+    const _sidebar = document.querySelector('.sidebar, [class*="sidebar"]');
+    const _topbar = document.querySelector('.topbar, [class*="topbar"]');
     
     if (width <= 768) {
       // 移动端检查
@@ -219,7 +219,7 @@ export class ResponsiveDesignTester {
       }
       
       if (topbar) {
-        const rect = topbar.getBoundingClientRect();
+        const _rect = topbar.getBoundingClientRect();
         if (rect.height > 80) {
           issues.push('移动端顶部导航栏高度过高');
         }
@@ -235,10 +235,10 @@ export class ResponsiveDesignTester {
   private static checkTableResponsive(width: number): string[] {
     const issues: string[] = [];
     
-    const tables = document.querySelectorAll('table, [class*="table"]');
+    const _tables = document.querySelectorAll('table, [class*="table"]');
     
     tables.forEach((table, index) => {
-      const rect = table.getBoundingClientRect();
+      const _rect = table.getBoundingClientRect();
       
       if (width <= 768 && rect.width > width) {
         issues.push(`表格[${index}]在移动端宽度超出视口`);
@@ -258,10 +258,10 @@ export class ResponsiveDesignTester {
   private static checkModalResponsive(width: number): string[] {
     const issues: string[] = [];
     
-    const modals = document.querySelectorAll('[class*="modal"], [class*="popup"], [class*="dialog"]');
+    const _modals = document.querySelectorAll('[class*="modal"], [class*="popup"], [class*="dialog"]');
     
     modals.forEach((modal, index) => {
-      const rect = modal.getBoundingClientRect();
+      const _rect = modal.getBoundingClientRect();
       
       if (width <= 768) {
         if (rect.width > width * 0.95) {
@@ -283,13 +283,13 @@ export class ResponsiveDesignTester {
   private static checkFormResponsive(width: number): string[] {
     const issues: string[] = [];
     
-    const forms = document.querySelectorAll('form');
+    const _forms = document.querySelectorAll('form');
     
     forms.forEach((form, index) => {
-      const inputs = form.querySelectorAll('input, select, textarea, button');
+      const _inputs = form.querySelectorAll('input, select, textarea, button');
       
       inputs.forEach((input, inputIndex) => {
-        const rect = input.getBoundingClientRect();
+        const _rect = input.getBoundingClientRect();
         
         if (width <= 768 && rect.height < 44) {
           issues.push(`表单[${index}]输入框[${inputIndex}]在移动端高度不足44px`);
@@ -304,7 +304,7 @@ export class ResponsiveDesignTester {
    * 生成测试报告
    */
   static generateReport(result: ResponsiveTestResult): string {
-    let report = '# 响应式设计测试报告\n\n';
+    const _report = '# 响应式设计测试报告\n\n';
     
     report += `## 总体结果: ${result.success ? '✅ 通过' : '❌ 失败'}\n\n`;
     
@@ -338,7 +338,7 @@ export class ResponsiveDesignTester {
     
     // 触摸友好性测试结果
     report += '## 触摸友好性测试\n';
-    const failedTouchTests = result.touchFriendlyTests.filter(test => !test.passed);
+    const _failedTouchTests = result.touchFriendlyTests.filter(test => !test.passed);
     if (failedTouchTests.length > 0) {
       report += `发现 ${failedTouchTests.length} 个元素不符合触摸友好标准:\n`;
       failedTouchTests.forEach(test => {
@@ -360,5 +360,5 @@ export class ResponsiveDesignTester {
 }
 
 // 导出便捷方法
-export const testResponsiveDesign = () => ResponsiveDesignTester.runFullTest();
-export const generateResponsiveReport = (result: ResponsiveTestResult) => ResponsiveDesignTester.generateReport(result);
+export const _testResponsiveDesign = () => ResponsiveDesignTester.runFullTest();
+export const _generateResponsiveReport = (result: ResponsiveTestResult) => ResponsiveDesignTester.generateReport(result);

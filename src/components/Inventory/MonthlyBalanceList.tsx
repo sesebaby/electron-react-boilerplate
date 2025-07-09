@@ -20,8 +20,8 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [_currentPage, setCurrentPage] = useState(1);
+  const [_totalPages, setTotalPages] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
 
   // 查询参数
@@ -37,7 +37,7 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
     loadBalances();
   }, [queryParams]);
 
-  const loadFormData = async () => {
+  const _loadFormData = async () => {
     try {
       const [warehouseList, categoryList] = await Promise.all([
         warehouseService.findAll(),
@@ -51,12 +51,12 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
     }
   };
 
-  const loadBalances = async () => {
+  const _loadBalances = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const result = await monthlyBalanceService.queryMonthlyBalance(queryParams);
+      const _result = await monthlyBalanceService.queryMonthlyBalance(queryParams);
 
       if (!result.success) {
         setError(result.error?.message || '查询失败');
@@ -66,8 +66,8 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
       setBalances(result.data || []);
       
       // 计算总页数（简化处理，实际应该从服务端返回）
-      const totalItems = result.data?.length || 0;
-      const pageSize = queryParams.pageSize || 20;
+      const _totalItems = result.data?.length || 0;
+      const _pageSize = queryParams.pageSize || 20;
       setTotalPages(Math.ceil(totalItems / pageSize));
 
     } catch (err) {
@@ -78,7 +78,7 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
     }
   };
 
-  const handleParamChange = (key: keyof MonthlyBalanceQueryParams, value: any) => {
+  const _handleParamChange = (key: keyof MonthlyBalanceQueryParams, value: any) => {
     setQueryParams(prev => ({ 
       ...prev, 
       [key]: value,
@@ -89,7 +89,7 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
     }
   };
 
-  const handleClearFilters = () => {
+  const _handleClearFilters = () => {
     setQueryParams({
       sortBy: 'balanceDate',
       sortOrder: 'desc',
@@ -99,26 +99,26 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
     setCurrentPage(1);
   };
 
-  const formatCurrency = (value: number): string => {
+  const _formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('zh-CN', {
       style: 'currency',
       currency: 'CNY'
     }).format(value);
   };
 
-  const formatNumber = (value: number): string => {
+  const _formatNumber = (value: number): string => {
     return new Intl.NumberFormat('zh-CN').format(value);
   };
 
-  const formatDate = (date: Date): string => {
+  const _formatDate = (date: Date): string => {
     return new Date(date).toLocaleDateString('zh-CN');
   };
 
-  const formatPeriod = (year: number, month: number): string => {
+  const _formatPeriod = (year: number, month: number): string => {
     return `${year}年${month}月`;
   };
 
-  const getStatusColor = (status: MonthlyBalanceStatus): string => {
+  const _getStatusColor = (status: MonthlyBalanceStatus): string => {
     switch (status) {
       case MonthlyBalanceStatus.ACTIVE:
         return 'text-green-300 bg-green-500/20 border-green-400/30';
@@ -133,7 +133,7 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
     }
   };
 
-  const getStatusText = (status: MonthlyBalanceStatus): string => {
+  const _getStatusText = (status: MonthlyBalanceStatus): string => {
     switch (status) {
       case MonthlyBalanceStatus.ACTIVE:
         return '正常';
@@ -149,8 +149,8 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
   };
 
   // 按期间分组
-  const groupedBalances = balances.reduce((groups, balance) => {
-    const key = `${balance.year}-${balance.month}`;
+  const _groupedBalances = balances.reduce((groups, balance) => {
+    const _key = `${balance.year}-${balance.month}`;
     if (!groups[key]) {
       groups[key] = {
         year: balance.year,
@@ -169,7 +169,7 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
     return groups;
   }, {} as Record<string, any>);
 
-  const periods = Object.values(groupedBalances).sort((a: any, b: any) => 
+  const _periods = Object.values(groupedBalances).sort((a: any, b: any) => 
     new Date(b.balanceDate).getTime() - new Date(a.balanceDate).getTime()
   );
 

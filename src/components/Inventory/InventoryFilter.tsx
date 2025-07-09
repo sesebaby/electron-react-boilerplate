@@ -13,7 +13,7 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
   onChange
 }) => {
   // 库存状态选项
-  const stockStatusOptions = [
+  const _stockStatusOptions = [
     { value: 'all', label: '全部状态', icon: '📦' },
     { value: 'normal', label: '库存正常', icon: '✅' },
     { value: 'low', label: '库存预警', icon: '⚠️' },
@@ -21,15 +21,15 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
   ];
 
   // 排序选项
-  const sortOptions = [
+  const _sortOptions = [
     { value: 'name', label: '仓库名称' },
     { value: 'stock', label: '商品数量' },
     { value: 'value', label: '库存价值' }
   ];
 
   // 获取所有分类
-  const getCategories = () => {
-    const categories = new Set<string>();
+  const _getCategories = () => {
+    const _categories = new Set<string>();
     warehouses.forEach(warehouse => {
       warehouse.products.forEach(product => {
         if (product.category) {
@@ -41,7 +41,7 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
   };
 
   // 重置筛选条件
-  const handleReset = () => {
+  const _handleReset = () => {
     onChange({
       stockStatus: 'all',
       category: '',
@@ -51,7 +51,7 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
   };
 
   // 检查是否有活动筛选条件
-  const hasActiveFilters = () => {
+  const _hasActiveFilters = () => {
     return (
       filters.stockStatus !== 'all' ||
       filters.category !== '' ||
@@ -85,7 +85,7 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
           </label>
           <select
             value={filters.stockStatus}
-            onChange={(e) => onChange({ stockStatus: e.target.value as any })}
+            onChange={(e) => onChange({ stockStatus: e.target.value as 'all' | 'normal' | 'low' | 'out' })}
             className="
               block w-full px-3 py-2 border border-gray-300 rounded-lg
               bg-white/50 backdrop-blur-sm text-sm
@@ -133,7 +133,7 @@ const InventoryFilter: React.FC<InventoryFilterProps> = ({
           <div className="flex gap-2">
             <select
               value={filters.sortBy}
-              onChange={(e) => onChange({ sortBy: e.target.value as any })}
+              onChange={(e) => onChange({ sortBy: e.target.value as 'name' | 'stock' | 'value' | 'updated' })}
               className="
                 flex-1 px-3 py-2 border border-gray-300 rounded-lg
                 bg-white/50 backdrop-blur-sm text-sm

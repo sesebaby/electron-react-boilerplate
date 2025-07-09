@@ -10,7 +10,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
+  TableEmpty as _TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -76,7 +76,7 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
     generateReport();
   }, [filters]);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -98,7 +98,7 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
     }
   };
 
-  const generateReport = async () => {
+  const _generateReport = async () => {
     try {
       const [orders, deliveries] = await Promise.all([
         salesOrderService.findAll(),
@@ -106,11 +106,11 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
       ]);
 
       // 过滤日期范围
-      const cutoffDate = new Date();
+      const _cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - parseInt(filters.dateRange));
       
-      const filteredOrders = orders.filter(order => order.orderDate >= cutoffDate);
-      const filteredDeliveries = deliveries.filter(delivery => delivery.deliveryDate >= cutoffDate);
+      const _filteredOrders = orders.filter(order => order.orderDate >= cutoffDate);
+      const _filteredDeliveries = deliveries.filter(delivery => delivery.deliveryDate >= cutoffDate);
 
       // 生成不同类型的报表
       let reportItems: SalesReportData[] = [];
@@ -146,12 +146,12 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
     }
   };
 
-  const generateCustomerReport = (orders: SalesOrder[], deliveries: SalesDelivery[]): SalesReportData[] => {
-    const customerMap = new Map<string, SalesReportData>();
+  const _generateCustomerReport = (orders: SalesOrder[], deliveries: SalesDelivery[]): SalesReportData[] => {
+    const _customerMap = new Map<string, SalesReportData>();
 
     orders.forEach(order => {
-      const customer = customers.find(c => c.id === order.customerId);
-      const customerName = customer?.name || '未知客户';
+      const _customer = customers.find(c => c.id === order.customerId);
+      const _customerName = customer?.name || '未知客户';
       
       if (!customerMap.has(customerName)) {
         customerMap.set(customerName, {
@@ -170,17 +170,17 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
         });
       }
 
-      const data = customerMap.get(customerName)!;
+      const _data = customerMap.get(customerName)!;
       data.orderCount += 1;
       data.totalAmount += order.finalAmount;
     });
 
     deliveries.forEach(delivery => {
-      const customer = customers.find(c => c.id === delivery.customerId);
-      const customerName = customer?.name || '未知客户';
+      const _customer = customers.find(c => c.id === delivery.customerId);
+      const _customerName = customer?.name || '未知客户';
       
       if (customerMap.has(customerName)) {
-        const data = customerMap.get(customerName)!;
+        const _data = customerMap.get(customerName)!;
         data.deliveryCount += 1;
         data.deliveredQuantity += delivery.totalQuantity;
         data.deliveredAmount += delivery.totalAmount;
@@ -195,13 +195,13 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
     return Array.from(customerMap.values());
   };
 
-  const generateProductReport = (orders: SalesOrder[], deliveries: SalesDelivery[]): SalesReportData[] => {
-    const productMap = new Map<string, SalesReportData>();
+  const _generateProductReport = (orders: SalesOrder[], deliveries: SalesDelivery[]): SalesReportData[] => {
+    const _productMap = new Map<string, SalesReportData>();
 
     // 由于我们没有订单项目的直接访问，这里做简化处理
     orders.forEach(order => {
       // 模拟产品销售数据
-      const sampleProducts = products.slice(0, 3); // 取前3个产品作为示例
+      const _sampleProducts = products.slice(0, 3); // 取前3个产品作为示例
       
       sampleProducts.forEach(product => {
         if (!productMap.has(product.name)) {
@@ -220,7 +220,7 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
           });
         }
 
-        const data = productMap.get(product.name)!;
+        const _data = productMap.get(product.name)!;
         data.orderCount += Math.floor(Math.random() * 2) + 1; // 模拟订单数
         data.totalQuantity += Math.floor(Math.random() * 10) + 1; // 模拟数量
         data.totalAmount += Math.random() * order.finalAmount * 0.3; // 模拟金额
@@ -230,17 +230,17 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
     return Array.from(productMap.values());
   };
 
-  const generateTrendReport = (orders: SalesOrder[], deliveries: SalesDelivery[]): SalesReportData[] => {
-    const trendMap = new Map<string, SalesReportData>();
+  const _generateTrendReport = (orders: SalesOrder[], deliveries: SalesDelivery[]): SalesReportData[] => {
+    const _trendMap = new Map<string, SalesReportData>();
     
     // 按周分组
-    const getWeekKey = (date: Date) => {
-      const week = Math.floor((Date.now() - date.getTime()) / (7 * 24 * 60 * 60 * 1000));
+    const _getWeekKey = (date: Date) => {
+      const _week = Math.floor((Date.now() - date.getTime()) / (7 * 24 * 60 * 60 * 1000));
       return `${week}周前`;
     };
 
     orders.forEach(order => {
-      const weekKey = getWeekKey(order.orderDate);
+      const _weekKey = getWeekKey(order.orderDate);
       
       if (!trendMap.has(weekKey)) {
         trendMap.set(weekKey, {
@@ -258,16 +258,16 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
         });
       }
 
-      const data = trendMap.get(weekKey)!;
+      const _data = trendMap.get(weekKey)!;
       data.orderCount += 1;
       data.totalAmount += order.finalAmount;
     });
 
     deliveries.forEach(delivery => {
-      const weekKey = getWeekKey(delivery.deliveryDate);
+      const _weekKey = getWeekKey(delivery.deliveryDate);
       
       if (trendMap.has(weekKey)) {
-        const data = trendMap.get(weekKey)!;
+        const _data = trendMap.get(weekKey)!;
         data.deliveryCount += 1;
         data.deliveredQuantity += delivery.totalQuantity;
         data.deliveredAmount += delivery.totalAmount;
@@ -277,7 +277,7 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
     return Array.from(trendMap.values()).sort((a, b) => a.period.localeCompare(b.period));
   };
 
-  const generateSummaryReport = (orders: SalesOrder[], deliveries: SalesDelivery[]): SalesReportData[] => {
+  const _generateSummaryReport = (orders: SalesOrder[], deliveries: SalesDelivery[]): SalesReportData[] => {
     const summaryData: SalesReportData = {
       period: `最近${filters.dateRange}天`,
       customerName: '所有客户',
@@ -297,31 +297,31 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
     return [summaryData];
   };
 
-  const generateStats = (orders: SalesOrder[], deliveries: SalesDelivery[]) => {
-    const totalSales = orders.reduce((sum, order) => sum + order.finalAmount, 0);
-    const totalOrders = orders.length;
-    const totalDeliveries = deliveries.length;
-    const avgOrderValue = totalOrders > 0 ? totalSales / totalOrders : 0;
+  const _generateStats = (orders: SalesOrder[], deliveries: SalesDelivery[]) => {
+    const _totalSales = orders.reduce((sum, order) => sum + order.finalAmount, 0);
+    const _totalOrders = orders.length;
+    const _totalDeliveries = deliveries.length;
+    const _avgOrderValue = totalOrders > 0 ? totalSales / totalOrders : 0;
 
     // 计算增长率（模拟数据）
-    const growthRate = Math.random() * 20 - 10; // -10% 到 +10%
+    const _growthRate = Math.random() * 20 - 10; // -10% 到 +10%
     
     // 计算转化率
-    const conversionRate = totalOrders > 0 ? (totalDeliveries / totalOrders) * 100 : 0;
+    const _conversionRate = totalOrders > 0 ? (totalDeliveries / totalOrders) * 100 : 0;
 
     // 找出销售额最高的客户
-    const customerSales = new Map<string, number>();
+    const _customerSales = new Map<string, number>();
     orders.forEach(order => {
-      const customer = customers.find(c => c.id === order.customerId);
-      const customerName = customer?.name || '未知客户';
+      const _customer = customers.find(c => c.id === order.customerId);
+      const _customerName = customer?.name || '未知客户';
       customerSales.set(customerName, (customerSales.get(customerName) || 0) + order.finalAmount);
     });
 
-    const topCustomer = Array.from(customerSales.entries())
+    const _topCustomer = Array.from(customerSales.entries())
       .sort((a, b) => b[1] - a[1])[0]?.[0] || '无';
 
     // 模拟最热销产品
-    const topProduct = products[0]?.name || '无';
+    const _topProduct = products[0]?.name || '无';
 
     setStats({
       totalSales,
@@ -335,14 +335,14 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
     });
   };
 
-  const handleFilterChange = (field: keyof ReportFilters, value: string) => {
+  const _handleFilterChange = (field: keyof ReportFilters, value: string) => {
     setFilters(prev => ({ ...prev, [field]: value }));
   };
 
-  const exportToCSV = () => {
-    const headers = ['时期', '客户', '产品', '订单数', '总数量', '总金额', '平均订单价值', '发货数', '发货数量', '发货金额'];
+  const _exportToCSV = () => {
+    const _headers = ['时期', '客户', '产品', '订单数', '总数量', '总金额', '平均订单价值', '发货数', '发货数量', '发货金额'];
     
-    const csvContent = [
+    const _csvContent = [
       headers.join(','),
       ...reportData.map(item => [
         item.period,
@@ -358,9 +358,9 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
       ].join(','))
     ].join('\n');
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
+    const _blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const _link = document.createElement('a');
+    const _url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     link.setAttribute('download', `销售报表_${new Date().toISOString().split('T')[0]}.csv`);
     link.style.visibility = 'hidden';

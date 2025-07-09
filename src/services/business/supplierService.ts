@@ -11,7 +11,7 @@ export class SupplierService {
     console.log('Supplier service initializing...');
     try {
       // 从数据库加载供应商数据
-      const dbSuppliers = await electronDatabase.getAllSuppliers();
+      const _dbSuppliers = await electronDatabase.getAllSuppliers();
       console.log('Loaded suppliers from database:', dbSuppliers.length);
       
       // 转换数据库数据到内存存储
@@ -54,7 +54,7 @@ export class SupplierService {
   }
 
   async findByCode(code: string): Promise<Supplier | null> {
-    const id = this.codeIndex.get(code);
+    const _id = this.codeIndex.get(code);
     return id ? this.suppliers.get(id) || null : null;
   }
 
@@ -75,7 +75,7 @@ export class SupplierService {
   }
 
   async search(searchTerm: string): Promise<Supplier[]> {
-    const term = searchTerm.toLowerCase().trim();
+    const _term = searchTerm.toLowerCase().trim();
     if (!term) return this.findAll();
 
     return Array.from(this.suppliers.values()).filter(supplier =>
@@ -101,7 +101,7 @@ export class SupplierService {
     };
 
     // 验证数据
-    const validation = validateEntity(SupplierSchema, supplier);
+    const _validation = validateEntity(SupplierSchema, supplier);
     if (!validation.success) {
       throw new Error(`供应商数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -113,7 +113,7 @@ export class SupplierService {
   }
 
   async update(id: string, data: Partial<Omit<Supplier, 'id' | 'createdAt' | 'updatedAt'>>): Promise<Supplier> {
-    const existingSupplier = this.suppliers.get(id);
+    const _existingSupplier = this.suppliers.get(id);
     if (!existingSupplier) {
       throw new Error(`供应商不存在: ${id}`);
     }
@@ -132,7 +132,7 @@ export class SupplierService {
     };
 
     // 验证更新后的数据
-    const validation = validateEntity(SupplierSchema, updatedSupplier);
+    const _validation = validateEntity(SupplierSchema, updatedSupplier);
     if (!validation.success) {
       throw new Error(`供应商数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -148,7 +148,7 @@ export class SupplierService {
   }
 
   async delete(id: string): Promise<boolean> {
-    const supplier = this.suppliers.get(id);
+    const _supplier = this.suppliers.get(id);
     if (!supplier) {
       return false;
     }
@@ -163,7 +163,7 @@ export class SupplierService {
   }
 
   async validateCode(code: string, excludeId?: string): Promise<boolean> {
-    const existingId = this.codeIndex.get(code);
+    const _existingId = this.codeIndex.get(code);
     return !existingId || existingId === excludeId;
   }
 
@@ -182,9 +182,9 @@ export class SupplierService {
     const created: Supplier[] = [];
     const errors: Array<{ index: number; error: string }> = [];
 
-    for (let i = 0; i < suppliers.length; i++) {
+    for (let _i = 0; i < suppliers.length; i++) {
       try {
-        const supplier = await this.create(suppliers[i]);
+        const _supplier = await this.create(suppliers[i]);
         created.push(supplier);
       } catch (error) {
         errors.push({
@@ -205,7 +205,7 @@ export class SupplierService {
     totalCreditLimit: number;
     averageCreditLimit: number;
   }> {
-    const suppliers = await this.findAll();
+    const _suppliers = await this.findAll();
     const byRating: Record<SupplierRating, number> = {
       [SupplierRating.A]: 0,
       [SupplierRating.B]: 0,
@@ -217,7 +217,7 @@ export class SupplierService {
       byRating[supplier.rating]++;
     });
 
-    const totalCreditLimit = suppliers.reduce((sum, supplier) => sum + supplier.creditLimit, 0);
+    const _totalCreditLimit = suppliers.reduce((sum, supplier) => sum + supplier.creditLimit, 0);
 
     return {
       total: suppliers.length,
@@ -230,7 +230,7 @@ export class SupplierService {
   }
 
   async getTopSuppliersByCredit(limit: number = 10): Promise<Supplier[]> {
-    const suppliers = await this.findAll();
+    const _suppliers = await this.findAll();
     return suppliers
       .sort((a, b) => b.creditLimit - a.creditLimit)
       .slice(0, limit);
@@ -258,7 +258,7 @@ export class SupplierService {
     onTimeDeliveryRate: number;
     // 这些数据需要与采购服务配合获取
   } | null> {
-    const supplier = await this.findById(supplierId);
+    const _supplier = await this.findById(supplierId);
     if (!supplier) {
       return null;
     }
@@ -279,7 +279,7 @@ export class SupplierService {
     hasPhone: boolean;
     hasEmail: boolean;
   }>> {
-    const suppliers = await this.findAll();
+    const _suppliers = await this.findAll();
     
     return suppliers.map(supplier => ({
       supplier,
@@ -292,14 +292,14 @@ export class SupplierService {
   async validateEmail(email: string, excludeId?: string): Promise<boolean> {
     if (!email) return true;
     
-    const suppliers = await this.findAll();
-    const existing = suppliers.find(s => s.email === email && s.id !== excludeId);
+    const _suppliers = await this.findAll();
+    const _existing = suppliers.find(s => s.email === email && s.id !== excludeId);
     return !existing;
   }
 
   async generateSupplierCode(): Promise<string> {
-    const suppliers = await this.findAll();
-    const maxCode = suppliers
+    const _suppliers = await this.findAll();
+    const _maxCode = suppliers
       .map(s => s.code)
       .filter(code => /^SUP\d{3}$/.test(code))
       .map(code => parseInt(code.substring(3)))

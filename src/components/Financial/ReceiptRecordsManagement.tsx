@@ -35,7 +35,7 @@ export const ReceiptRecordsManagement: React.FC<ReceiptRecordsManagementProps> =
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -57,7 +57,7 @@ export const ReceiptRecordsManagement: React.FC<ReceiptRecordsManagementProps> =
     }
   };
 
-  const getReceiptMethodText = (method: PaymentMethod): string => {
+  const _getReceiptMethodText = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return '现金';
       case PaymentMethod.BANK_TRANSFER: return '银行转账';
@@ -68,7 +68,7 @@ export const ReceiptRecordsManagement: React.FC<ReceiptRecordsManagementProps> =
     }
   };
 
-  const getReceiptMethodIcon = (method: PaymentMethod): string => {
+  const _getReceiptMethodIcon = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return '💵';
       case PaymentMethod.BANK_TRANSFER: return '🏦';
@@ -79,7 +79,7 @@ export const ReceiptRecordsManagement: React.FC<ReceiptRecordsManagementProps> =
     }
   };
 
-  const _getReceiptMethodClass = (method: PaymentMethod): string => {
+  const __getReceiptMethodClass = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return 'text-green-600 bg-green-50 border-green-200';
       case PaymentMethod.BANK_TRANSFER: return 'text-blue-600 bg-blue-50 border-blue-200';
@@ -90,11 +90,11 @@ export const ReceiptRecordsManagement: React.FC<ReceiptRecordsManagementProps> =
     }
   };
 
-  const _getCustomerName = async (receivableId: string): Promise<string> => {
+  const __getCustomerName = async (receivableId: string): Promise<string> => {
     try {
-      const receivable = await accountsReceivableService.findById(receivableId);
+      const _receivable = await accountsReceivableService.findById(receivableId);
       if (receivable) {
-        const customer = customers.find(c => c.id === receivable.customerId);
+        const _customer = customers.find(c => c.id === receivable.customerId);
         return customer ? customer.name : '未知客户';
       }
       return '未知客户';
@@ -103,42 +103,42 @@ export const ReceiptRecordsManagement: React.FC<ReceiptRecordsManagementProps> =
     }
   };
 
-  const formatDate = (date: Date): string => {
+  const _formatDate = (date: Date): string => {
     return new Date(date).toLocaleDateString('zh-CN');
   };
 
-  const formatDateTime = (date: Date): string => {
+  const _formatDateTime = (date: Date): string => {
     return new Date(date).toLocaleString('zh-CN');
   };
 
-  const getUniqueOperators = (): string[] => {
-    const operators = new Set(receipts.map(r => r.operator));
+  const _getUniqueOperators = (): string[] => {
+    const _operators = new Set(receipts.map(r => r.operator));
     return Array.from(operators).filter(Boolean);
   };
 
-  const filteredReceipts = receipts.filter(receipt => {
-    const matchesSearch = !searchTerm || 
+  const _filteredReceipts = receipts.filter(receipt => {
+    const _matchesSearch = !searchTerm || 
       receipt.receiptNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       receipt.operator.toLowerCase().includes(searchTerm.toLowerCase()) ||
       receipt.remark?.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesMethod = !selectedMethod || receipt.paymentMethod === selectedMethod;
-    const matchesOperator = !selectedOperator || receipt.operator === selectedOperator;
+    const _matchesMethod = !selectedMethod || receipt.paymentMethod === selectedMethod;
+    const _matchesOperator = !selectedOperator || receipt.operator === selectedOperator;
     
-    const receiptDate = new Date(receipt.receiptDate);
-    const matchesDateRange = (!dateRange.startDate || receiptDate >= new Date(dateRange.startDate)) &&
+    const _receiptDate = new Date(receipt.receiptDate);
+    const _matchesDateRange = (!dateRange.startDate || receiptDate >= new Date(dateRange.startDate)) &&
                            (!dateRange.endDate || receiptDate <= new Date(dateRange.endDate));
     
     return matchesSearch && matchesMethod && matchesOperator && matchesDateRange;
   });
 
-  const calculateSummary = () => {
-    const totalAmount = filteredReceipts.reduce((sum, r) => sum + r.amount, 0);
-    const totalCount = filteredReceipts.length;
-    const todayReceipts = filteredReceipts.filter(r => 
+  const _calculateSummary = () => {
+    const _totalAmount = filteredReceipts.reduce((sum, r) => sum + r.amount, 0);
+    const _totalCount = filteredReceipts.length;
+    const _todayReceipts = filteredReceipts.filter(r => 
       new Date(r.receiptDate).toDateString() === new Date().toDateString()
     );
-    const todayAmount = todayReceipts.reduce((sum, r) => sum + r.amount, 0);
+    const _todayAmount = todayReceipts.reduce((sum, r) => sum + r.amount, 0);
 
     return {
       totalAmount,
@@ -148,7 +148,7 @@ export const ReceiptRecordsManagement: React.FC<ReceiptRecordsManagementProps> =
     };
   };
 
-  const summary = calculateSummary();
+  const _summary = calculateSummary();
 
   if (loading) {
     return (

@@ -10,7 +10,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
+  TableEmpty as _TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -47,7 +47,7 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
   onEditConversion,
   onDeleteConversion
 }) => {
-  const unitTypeOptions = [
+  const _unitTypeOptions = [
     { value: UnitType.WEIGHT, label: '重量' },
     { value: UnitType.LENGTH, label: '长度' },
     { value: UnitType.VOLUME, label: '体积' },
@@ -56,17 +56,17 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
     { value: UnitType.TIME, label: '时间' }
   ];
 
-  const getUnitTypeLabel = (type: UnitType) => {
+  const _getUnitTypeLabel = (type: UnitType) => {
     return unitTypeOptions.find(opt => opt.value === type)?.label || type;
   };
 
-  const getUnitName = (unitId: string) => {
-    const unit = units.find(u => u.id === unitId);
+  const _getUnitName = (unitId: string) => {
+    const _unit = units.find(u => u.id === unitId);
     return unit ? `${unit.name}(${unit.symbol})` : unitId;
   };
 
   // 按类别过滤单位
-  const getUnitsForCategory = (category: UnitType) => {
+  const _getUnitsForCategory = (category: UnitType) => {
     return units.filter(unit => unit.type === category && unit.isActive);
   };
 
@@ -195,7 +195,7 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
                 <GlassSelect
                   value={conversionForm.category}
                   onChange={(e) => {
-                    const category = e.target.value as UnitType;
+                    const _category = e.target.value as UnitType;
                     setConversionForm((prev: typeof conversionForm) => ({ 
                       ...prev, 
                       category,

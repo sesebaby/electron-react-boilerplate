@@ -19,12 +19,12 @@ export const ColumnDisplayConfig: React.FC<ColumnDisplayConfigProps> = ({
   /**
    * 处理列显示状态变化
    */
-  const handleColumnToggle = (
+  const _handleColumnToggle = (
     section: keyof ColumnConfig,
     column: keyof ColumnConfig[keyof ColumnConfig],
     checked: boolean
   ) => {
-    const newConfig = {
+    const _newConfig = {
       ...columnDisplay,
       [section]: {
         ...columnDisplay[section],
@@ -37,8 +37,8 @@ export const ColumnDisplayConfig: React.FC<ColumnDisplayConfigProps> = ({
   /**
    * 全选/全不选某个部分
    */
-  const handleSectionToggle = (section: keyof ColumnConfig, checked: boolean) => {
-    const newConfig = {
+  const _handleSectionToggle = (section: keyof ColumnConfig, checked: boolean) => {
+    const _newConfig = {
       ...columnDisplay,
       [section]: {
         quantity: checked,
@@ -52,7 +52,7 @@ export const ColumnDisplayConfig: React.FC<ColumnDisplayConfigProps> = ({
   /**
    * 重置为默认配置
    */
-  const handleReset = () => {
+  const _handleReset = () => {
     const defaultConfig: ColumnConfig = {
       openingStock: { quantity: true, convertedQuantity: true, amount: true },
       inboundTotal: { quantity: true, convertedQuantity: true, amount: true },
@@ -65,14 +65,14 @@ export const ColumnDisplayConfig: React.FC<ColumnDisplayConfigProps> = ({
   /**
    * 渲染列配置部分
    */
-  const renderSection = (
+  const _renderSection = (
     sectionKey: keyof ColumnConfig,
     sectionTitle: string,
     sectionIcon: string
   ) => {
-    const section = columnDisplay[sectionKey];
-    const allChecked = section.quantity && section.convertedQuantity && section.amount;
-    const someChecked = section.quantity || section.convertedQuantity || section.amount;
+    const _section = columnDisplay[sectionKey];
+    const _allChecked = section.quantity && section.convertedQuantity && section.amount;
+    const _someChecked = section.quantity || section.convertedQuantity || section.amount;
 
     return (
       <div className="space-y-3">
@@ -135,8 +135,8 @@ export const ColumnDisplayConfig: React.FC<ColumnDisplayConfigProps> = ({
   /**
    * 计算显示的列数
    */
-  const getVisibleColumnsCount = () => {
-    let count = 0;
+  const _getVisibleColumnsCount = () => {
+    const _count = 0;
     Object.values(columnDisplay).forEach(section => {
       if (section.quantity) count++;
       if (section.convertedQuantity) count++;

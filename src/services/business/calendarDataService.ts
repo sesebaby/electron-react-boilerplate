@@ -22,24 +22,24 @@ export class CalendarDataService {
    * @returns 周日历数据
    */
   async getWeeklyData(weekStart: Date, options?: CalendarViewOptions): Promise<WeeklyCalendarData> {
-    const cacheKey = this.getCacheKey(weekStart, options);
+    const _cacheKey = this.getCacheKey(weekStart, options);
     
     if (this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey)!;
     }
 
-    const weekEnd = new Date(weekStart);
+    const _weekEnd = new Date(weekStart);
     weekEnd.setDate(weekEnd.getDate() + 6);
 
     const days: DailyBusinessSummary[] = [];
-    const weeklyTotals = { purchases: 0, sales: 0, netChange: 0 };
+    const _weeklyTotals = { purchases: 0, sales: 0, netChange: 0 };
 
     // 生成7天的数据
-    for (let i = 0; i < 7; i++) {
-      const currentDate = new Date(weekStart);
+    for (let _i = 0; i < 7; i++) {
+      const _currentDate = new Date(weekStart);
       currentDate.setDate(currentDate.getDate() + i);
       
-      const dailyData = await this.getDailyData(currentDate, options);
+      const _dailyData = await this.getDailyData(currentDate, options);
       days.push(dailyData);
 
       // 累计周汇总
@@ -66,10 +66,10 @@ export class CalendarDataService {
    * @returns 日业务汇总
    */
   async getDailyData(date: Date, options?: CalendarViewOptions): Promise<DailyBusinessSummary> {
-    const dateStr = date.toISOString().split('T')[0];
+    const _dateStr = date.toISOString().split('T')[0];
     
     // 模拟数据生成（实际应该从真实数据源聚合）
-    const dailyData = this.generateMockDailyData(date);
+    const _dailyData = this.generateMockDailyData(date);
     
     return dailyData;
   }
@@ -88,11 +88,11 @@ export class CalendarDataService {
   ): Promise<WeeklyCalendarData[]> {
     const weeks: WeeklyCalendarData[] = [];
     
-    for (let i = 0; i < weekCount; i++) {
-      const weekStart = new Date(startDate);
+    for (let _i = 0; i < weekCount; i++) {
+      const _weekStart = new Date(startDate);
       weekStart.setDate(weekStart.getDate() + (i * 7));
       
-      const weekData = await this.getWeeklyData(weekStart, options);
+      const _weekData = await this.getWeeklyData(weekStart, options);
       weeks.push(weekData);
     }
     
@@ -102,26 +102,26 @@ export class CalendarDataService {
   // =============== 辅助方法 ===============
 
   private getCacheKey(weekStart: Date, options?: CalendarViewOptions): string {
-    const dateStr = weekStart.toISOString().split('T')[0];
-    const optionsStr = options ? JSON.stringify(options) : '';
+    const _dateStr = weekStart.toISOString().split('T')[0];
+    const _optionsStr = options ? JSON.stringify(options) : '';
     return `${dateStr}-${optionsStr}`;
   }
 
   private generateMockDailyData(date: Date): DailyBusinessSummary {
-    const dayOfWeek = date.getDay(); // 0=周日, 1=周一, ..., 6=周六
-    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-    const isWorkday = !isWeekend;
+    const _dayOfWeek = date.getDay(); // 0=周日, 1=周一, ..., 6=周六
+    const _isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+    const _isWorkday = !isWeekend;
 
     // 基础活动系数（工作日更活跃）
-    const activityFactor = isWorkday ? 1.0 : 0.3;
+    const _activityFactor = isWorkday ? 1.0 : 0.3;
     
     // 随机因子（增加真实感）
-    const randomFactor = 0.5 + Math.random();
+    const _randomFactor = 0.5 + Math.random();
     
-    const finalFactor = activityFactor * randomFactor;
+    const _finalFactor = activityFactor * randomFactor;
 
     // 生成采购数据
-    const purchases = {
+    const _purchases = {
       totalAmount: Math.floor(finalFactor * (50 + Math.random() * 200)),
       totalValue: Math.floor(finalFactor * (5000 + Math.random() * 20000)),
       orderCount: Math.floor(finalFactor * (1 + Math.random() * 5)),
@@ -129,7 +129,7 @@ export class CalendarDataService {
     };
 
     // 生成销售数据
-    const sales = {
+    const _sales = {
       totalAmount: Math.floor(finalFactor * (30 + Math.random() * 150)),
       totalValue: Math.floor(finalFactor * (3000 + Math.random() * 15000)),
       orderCount: Math.floor(finalFactor * (2 + Math.random() * 8)),
@@ -137,7 +137,7 @@ export class CalendarDataService {
     };
 
     // 生成库存数据
-    const inventory = {
+    const _inventory = {
       totalValue: 150000 + Math.floor(Math.random() * 50000),
       lowStockCount: Math.floor(Math.random() * 3),
       outOfStockCount: Math.floor(Math.random() * 2),
@@ -145,7 +145,7 @@ export class CalendarDataService {
     };
 
     // 生成库存变动数据
-    const movements = {
+    const _movements = {
       inbound: purchases.totalAmount,
       outbound: sales.totalAmount,
       adjustments: Math.floor((Math.random() - 0.5) * 20) // 可能为负数
@@ -166,19 +166,19 @@ export class CalendarDataService {
     quantity: number;
     value: number;
   }> {
-    const products = [
+    const _products = [
       { id: 'product-001', name: 'iPhone 15 Pro', basePrice: 8999 },
       { id: 'product-002', name: '小米13 Ultra', basePrice: 5999 },
       { id: 'product-003', name: '薯片', basePrice: 15 },
       { id: 'product-004', name: '运动鞋', basePrice: 299 }
     ];
 
-    const count = Math.min(3, Math.floor(factor * 2) + 1);
-    const selected = products.slice(0, count);
+    const _count = Math.min(3, Math.floor(factor * 2) + 1);
+    const _selected = products.slice(0, count);
 
     return selected.map(product => {
-      const quantity = Math.floor(factor * (1 + Math.random() * 10));
-      const value = quantity * product.basePrice;
+      const _quantity = Math.floor(factor * (1 + Math.random() * 10));
+      const _value = quantity * product.basePrice;
       
       return {
         productId: product.id,
@@ -197,9 +197,9 @@ export class CalendarDataService {
    * @returns 该周的周一日期
    */
   static getWeekStart(date: Date): Date {
-    const result = new Date(date);
-    const day = result.getDay();
-    const diff = result.getDate() - day + (day === 0 ? -6 : 1); // 调整为周一开始
+    const _result = new Date(date);
+    const _day = result.getDay();
+    const _diff = result.getDate() - day + (day === 0 ? -6 : 1); // 调整为周一开始
     result.setDate(diff);
     result.setHours(0, 0, 0, 0);
     return result;
@@ -211,8 +211,8 @@ export class CalendarDataService {
    * @returns 该周的周日日期
    */
   static getWeekEnd(date: Date): Date {
-    const weekStart = this.getWeekStart(date);
-    const weekEnd = new Date(weekStart);
+    const _weekStart = this.getWeekStart(date);
+    const _weekEnd = new Date(weekStart);
     weekEnd.setDate(weekEnd.getDate() + 6);
     weekEnd.setHours(23, 59, 59, 999);
     return weekEnd;
@@ -242,12 +242,12 @@ export class CalendarDataService {
 
   private initializeTestData(): void {
     // 预生成最近4周的数据到缓存
-    const today = new Date();
-    const fourWeeksAgo = new Date(today);
+    const _today = new Date();
+    const _fourWeeksAgo = new Date(today);
     fourWeeksAgo.setDate(fourWeeksAgo.getDate() - 28);
 
-    for (let i = 0; i < 4; i++) {
-      const weekStart = CalendarDataService.getWeekStart(fourWeeksAgo);
+    for (let _i = 0; i < 4; i++) {
+      const _weekStart = CalendarDataService.getWeekStart(fourWeeksAgo);
       weekStart.setDate(weekStart.getDate() + (i * 7));
       
       // 异步预加载数据
@@ -256,4 +256,4 @@ export class CalendarDataService {
   }
 }
 
-export const calendarDataService = new CalendarDataService();
+export const _calendarDataService = new CalendarDataService();

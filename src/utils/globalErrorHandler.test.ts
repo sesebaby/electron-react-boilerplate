@@ -6,7 +6,7 @@ import GlobalErrorHandler, { globalErrorHandler, GlobalErrorConfig, ErrorReport 
 import { originalConsole } from '../../jest.setup';
 
 // Mock logger
-const mockLogger = {
+const _mockLogger = {
   error: jest.fn(),
   warn: jest.fn(),
   info: jest.fn()
@@ -53,11 +53,11 @@ describe('GlobalErrorHandler测试', () => {
 
   describe('初始化测试', () => {
     test('应该正确初始化默认配置', () => {
-      const defaultHandler = new GlobalErrorHandler();
+      const _defaultHandler = new GlobalErrorHandler();
       
       expect(defaultHandler).toBeDefined();
       
-      const stats = defaultHandler.getErrorStats();
+      const _stats = defaultHandler.getErrorStats();
       expect(stats.sessionId).toBeDefined();
       expect(stats.totalErrors).toBe(0);
       
@@ -71,7 +71,7 @@ describe('GlobalErrorHandler测试', () => {
         maxErrorsPerSession: 25
       };
       
-      const customHandler = new GlobalErrorHandler(config);
+      const _customHandler = new GlobalErrorHandler(config);
       
       expect(customHandler).toBeDefined();
       
@@ -79,11 +79,11 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该生成唯一的会话ID', () => {
-      const handler1 = new GlobalErrorHandler();
-      const handler2 = new GlobalErrorHandler();
+      const _handler1 = new GlobalErrorHandler();
+      const _handler2 = new GlobalErrorHandler();
       
-      const stats1 = handler1.getErrorStats();
-      const stats2 = handler2.getErrorStats();
+      const _stats1 = handler1.getErrorStats();
+      const _stats2 = handler2.getErrorStats();
       
       expect(stats1.sessionId).not.toBe(stats2.sessionId);
       
@@ -94,11 +94,11 @@ describe('GlobalErrorHandler测试', () => {
 
   describe('window.onerror处理测试', () => {
     test('应该捕获JavaScript错误', () => {
-      const message = '测试JavaScript错误';
-      const source = 'test.js';
-      const line = 10;
-      const column = 5;
-      const error = new Error('测试错误对象');
+      const _message = '测试JavaScript错误';
+      const _source = 'test.js';
+      const _line = 10;
+      const _column = 5;
+      const _error = new Error('测试错误对象');
 
       // 模拟window.onerror调用
       if (window.onerror) {
@@ -118,7 +118,7 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该处理没有错误对象的情况', () => {
-      const message = '简单错误消息';
+      const _message = '简单错误消息';
 
       if (window.onerror) {
         window.onerror(message, undefined, undefined, undefined, undefined);
@@ -134,17 +134,17 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该正确返回false以不阻止默认处理', () => {
-      const result = window.onerror?.('测试', undefined, undefined, undefined, undefined);
+      const _result = window.onerror?.('测试', undefined, undefined, undefined, undefined);
       expect(result).toBe(false);
     });
   });
 
   describe('Promise rejection处理测试', () => {
     test('应该捕获未处理的Promise拒绝', async () => {
-      const reason = new Error('Promise拒绝测试');
+      const _reason = new Error('Promise拒绝测试');
       
       // 创建一个未处理的Promise拒绝
-      const unhandledRejectionEvent = new CustomEvent('unhandledrejection', {
+      const _unhandledRejectionEvent = new CustomEvent('unhandledrejection', {
         detail: reason
       }) as any;
       unhandledRejectionEvent.reason = reason;
@@ -161,9 +161,9 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该处理字符串类型的Promise拒绝', () => {
-      const reason = '字符串拒绝原因';
+      const _reason = '字符串拒绝原因';
       
-      const unhandledRejectionEvent = new CustomEvent('unhandledrejection') as any;
+      const _unhandledRejectionEvent = new CustomEvent('unhandledrejection') as any;
       unhandledRejectionEvent.reason = reason;
 
       window.dispatchEvent(unhandledRejectionEvent);
@@ -178,9 +178,9 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该处理对象类型的Promise拒绝', () => {
-      const reason = { code: 'TEST_ERROR', message: '测试对象错误' };
+      const _reason = { code: 'TEST_ERROR', message: '测试对象错误' };
       
-      const unhandledRejectionEvent = new CustomEvent('unhandledrejection') as any;
+      const _unhandledRejectionEvent = new CustomEvent('unhandledrejection') as any;
       unhandledRejectionEvent.reason = reason;
 
       window.dispatchEvent(unhandledRejectionEvent);
@@ -197,8 +197,8 @@ describe('GlobalErrorHandler测试', () => {
 
   describe('控制台错误捕获测试', () => {
     test('应该捕获console.error调用', () => {
-      const errorMessage = '测试控制台错误';
-      const errorData = { test: 'data' };
+      const _errorMessage = '测试控制台错误';
+      const _errorData = { test: 'data' };
 
       console.error(errorMessage, errorData);
 
@@ -215,7 +215,7 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该处理Error对象作为console.error参数', () => {
-      const error = new Error('控制台Error对象');
+      const _error = new Error('控制台Error对象');
 
       console.error('错误发生:', error);
 
@@ -229,7 +229,7 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该处理console.warn调用而不创建循环', () => {
-      const warnMessage = '测试警告消息';
+      const _warnMessage = '测试警告消息';
 
       console.warn(warnMessage);
 
@@ -252,10 +252,10 @@ describe('GlobalErrorHandler测试', () => {
 
   describe('资源错误处理测试', () => {
     test('应该捕获资源加载错误', () => {
-      const img = document.createElement('img');
+      const _img = document.createElement('img');
       img.src = 'non-existent-image.jpg';
       
-      const errorEvent = new Event('error', { bubbles: true });
+      const _errorEvent = new Event('error', { bubbles: true });
       Object.defineProperty(errorEvent, 'target', {
         value: img,
         writable: false
@@ -273,10 +273,10 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该处理script标签加载错误', () => {
-      const script = document.createElement('script');
+      const _script = document.createElement('script');
       script.src = 'non-existent-script.js';
       
-      const errorEvent = new Event('error', { bubbles: true });
+      const _errorEvent = new Event('error', { bubbles: true });
       Object.defineProperty(errorEvent, 'target', {
         value: script,
         writable: false
@@ -296,7 +296,7 @@ describe('GlobalErrorHandler测试', () => {
 
   describe('错误频率限制测试', () => {
     test('应该限制相同错误的报告频率', () => {
-      const message = '重复错误消息';
+      const _message = '重复错误消息';
 
       // 第一次错误应该被记录
       if (window.onerror) {
@@ -314,11 +314,11 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该限制会话错误总数', () => {
-      const maxErrors = 3;
-      const limitedHandler = new GlobalErrorHandler({ maxErrorsPerSession: maxErrors });
+      const _maxErrors = 3;
+      const _limitedHandler = new GlobalErrorHandler({ maxErrorsPerSession: maxErrors });
 
       // 生成超过限制的错误
-      for (let i = 0; i < maxErrors + 2; i++) {
+      for (let _i = 0; i < maxErrors + 2; i++) {
         if (window.onerror) {
           window.onerror(`错误 ${i}`, 'test.js', i, 1, new Error(`错误 ${i}`));
         }
@@ -333,7 +333,7 @@ describe('GlobalErrorHandler测试', () => {
 
   describe('用户管理测试', () => {
     test('应该正确设置用户ID', () => {
-      const userId = 'test-user-123';
+      const _userId = 'test-user-123';
       
       handler.setUserId(userId);
 
@@ -377,8 +377,8 @@ describe('GlobalErrorHandler测试', () => {
 
   describe('手动错误报告测试', () => {
     test('应该支持手动报告错误', () => {
-      const error = new Error('手动报告的错误');
-      const context = 'TestContext';
+      const _error = new Error('手动报告的错误');
+      const _context = 'TestContext';
 
       handler.reportError(error, context);
 
@@ -393,7 +393,7 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该支持无上下文的手动错误报告', () => {
-      const error = new Error('无上下文错误');
+      const _error = new Error('无上下文错误');
 
       handler.reportError(error);
 
@@ -416,7 +416,7 @@ describe('GlobalErrorHandler测试', () => {
 
       console.error('控制台错误');
 
-      const stats = handler.getErrorStats();
+      const _stats = handler.getErrorStats();
 
       expect(stats).toEqual({
         sessionId: expect.any(String),
@@ -443,11 +443,11 @@ describe('GlobalErrorHandler测试', () => {
       console.error('控制台错误1');
 
       // Promise错误
-      const rejectionEvent = new CustomEvent('unhandledrejection') as any;
+      const _rejectionEvent = new CustomEvent('unhandledrejection') as any;
       rejectionEvent.reason = new Error('Promise错误');
       window.dispatchEvent(rejectionEvent);
 
-      const stats = handler.getErrorStats();
+      const _stats = handler.getErrorStats();
 
       expect(stats.errorsByType.javascript).toBe(2);
       expect(stats.errorsByType.console).toBe(1);
@@ -456,13 +456,13 @@ describe('GlobalErrorHandler测试', () => {
 
     test('应该限制最近错误列表长度', () => {
       // 生成很多错误
-      for (let i = 0; i < 15; i++) {
+      for (let _i = 0; i < 15; i++) {
         if (window.onerror) {
           window.onerror(`错误 ${i}`, 'test.js', i, 1, new Error(`错误 ${i}`));
         }
       }
 
-      const stats = handler.getErrorStats();
+      const _stats = handler.getErrorStats();
 
       // 最近错误列表应该限制在10个以内
       expect(stats.recentErrors.length).toBeLessThanOrEqual(10);
@@ -476,7 +476,7 @@ describe('GlobalErrorHandler测试', () => {
         window.onerror('测试错误', 'test.js', 1, 1, new Error('测试错误'));
       }
 
-      let stats = handler.getErrorStats();
+      const _stats = handler.getErrorStats();
       expect(stats.totalErrors).toBeGreaterThan(0);
 
       handler.clearErrorStats();
@@ -512,7 +512,7 @@ describe('GlobalErrorHandler测试', () => {
   });
 
   describe('开发环境调试测试', () => {
-    const originalEnv = process.env.NODE_ENV;
+    const _originalEnv = process.env.NODE_ENV;
 
     beforeEach(() => {
       process.env.NODE_ENV = 'development';
@@ -523,9 +523,9 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该在开发环境中提供详细调试信息', () => {
-      const spy = jest.spyOn(console, 'group').mockImplementation();
-      const endSpy = jest.spyOn(console, 'groupEnd').mockImplementation();
-      const logSpy = jest.spyOn(console, 'log').mockImplementation();
+      const _spy = jest.spyOn(console, 'group').mockImplementation();
+      const _endSpy = jest.spyOn(console, 'groupEnd').mockImplementation();
+      const _logSpy = jest.spyOn(console, 'log').mockImplementation();
 
       if (window.onerror) {
         window.onerror('开发环境错误', 'test.js', 1, 1, new Error('开发环境错误'));
@@ -550,13 +550,13 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('默认实例应该正常工作', () => {
-      const error = new Error('默认实例测试错误');
+      const _error = new Error('默认实例测试错误');
       
       expect(() => {
         globalErrorHandler.reportError(error, '默认实例测试');
       }).not.toThrow();
 
-      const stats = globalErrorHandler.getErrorStats();
+      const _stats = globalErrorHandler.getErrorStats();
       expect(stats.sessionId).toBeDefined();
     });
   });
@@ -571,7 +571,7 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该处理非常长的错误消息', () => {
-      const longMessage = 'a'.repeat(10000);
+      const _longMessage = 'a'.repeat(10000);
 
       if (window.onerror) {
         window.onerror(longMessage, 'test.js', 1, 1, new Error(longMessage));
@@ -586,7 +586,7 @@ describe('GlobalErrorHandler测试', () => {
     });
 
     test('应该处理特殊字符', () => {
-      const specialMessage = '测试特殊字符: 中文 😀 \n\t\r\\';
+      const _specialMessage = '测试特殊字符: 中文 😀 \n\t\r\\';
 
       if (window.onerror) {
         window.onerror(specialMessage, 'test.js', 1, 1, new Error(specialMessage));

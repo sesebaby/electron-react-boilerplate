@@ -13,8 +13,8 @@ const WarehouseSelector: React.FC<WarehouseSelectorProps> = ({
   onChange
 }) => {
   // 处理单个仓库选择
-  const handleWarehouseToggle = (warehouseId: string) => {
-    const isSelected = selectedIds.includes(warehouseId);
+  const _handleWarehouseToggle = (warehouseId: string) => {
+    const _isSelected = selectedIds.includes(warehouseId);
     if (isSelected) {
       // 取消选择
       onChange(selectedIds.filter(id => id !== warehouseId));
@@ -25,7 +25,7 @@ const WarehouseSelector: React.FC<WarehouseSelectorProps> = ({
   };
 
   // 处理全选/取消全选
-  const handleSelectAll = () => {
+  const _handleSelectAll = () => {
     if (selectedIds.length === warehouses.length) {
       // 当前全选，执行取消全选
       onChange([]);
@@ -36,10 +36,10 @@ const WarehouseSelector: React.FC<WarehouseSelectorProps> = ({
   };
 
   // 检查是否全选
-  const isAllSelected = selectedIds.length === warehouses.length && warehouses.length > 0;
+  const _isAllSelected = selectedIds.length === warehouses.length && warehouses.length > 0;
   
   // 检查是否部分选择
-  const isPartialSelected = selectedIds.length > 0 && selectedIds.length < warehouses.length;
+  const _isPartialSelected = selectedIds.length > 0 && selectedIds.length < warehouses.length;
 
   return (
     <div className="glass-surface backdrop-blur-lg rounded-xl p-4 lg:p-6 border border-white/20">
@@ -74,7 +74,7 @@ const WarehouseSelector: React.FC<WarehouseSelectorProps> = ({
       {/* 仓库卡片网格 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 lg:gap-4">
         {warehouses.map(warehouse => {
-          const isSelected = selectedIds.includes(warehouse.warehouseId);
+          const _isSelected = selectedIds.includes(warehouse.warehouseId);
           
           return (
             <div

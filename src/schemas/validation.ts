@@ -24,23 +24,23 @@ import {
 } from '../types/entities';
 
 // 通用验证规则
-const idSchema = z.string().min(1, 'ID不能为空');
-const dateSchema = z.date();
-const positiveNumberSchema = z.number().min(0, '数值不能为负数');
-const requiredStringSchema = z.string().min(1, '此字段不能为空');
-const optionalStringSchema = z.string().optional();
-const phoneSchema = z.string().regex(/^1[3-9]\d{9}$/, '请输入有效的手机号码').optional();
-const emailSchema = z.string().email('请输入有效的邮箱地址').optional();
+const _idSchema = z.string().min(1, 'ID不能为空');
+const _dateSchema = z.date();
+const _positiveNumberSchema = z.number().min(0, '数值不能为负数');
+const _requiredStringSchema = z.string().min(1, '此字段不能为空');
+const _optionalStringSchema = z.string().optional();
+const _phoneSchema = z.string().regex(/^1[3-9]\d{9}$/, '请输入有效的手机号码').optional();
+const _emailSchema = z.string().email('请输入有效的邮箱地址').optional();
 
 // 基础实体验证
-export const BaseEntitySchema = z.object({
+export const _BaseEntitySchema = z.object({
   id: idSchema,
   createdAt: dateSchema,
   updatedAt: dateSchema
 });
 
 // 单位转换验证 Schema
-export const UnitConversionSchema = BaseEntitySchema.extend({
+export const _UnitConversionSchema = BaseEntitySchema.extend({
   productId: idSchema,
   baseUnitId: idSchema,
   packageUnitId: idSchema,
@@ -50,7 +50,7 @@ export const UnitConversionSchema = BaseEntitySchema.extend({
 });
 
 // 商品验证 Schema
-export const ProductSchema = z.object({
+export const _ProductSchema = z.object({
   id: idSchema.optional(),
   sku: z.string().min(1, 'SKU不能为空').max(50, 'SKU长度不能超过50字符'),
   name: z.string().min(1, '商品名称不能为空').max(100, '商品名称长度不能超过100字符'),
@@ -77,7 +77,7 @@ export const ProductSchema = z.object({
 });
 
 // 商品分类验证 Schema
-export const CategorySchema = z.object({
+export const _CategorySchema = z.object({
   id: idSchema.optional(),
   name: z.string().min(1, '分类名称不能为空').max(50, '分类名称长度不能超过50字符'),
   parentId: z.string().min(1, 'ID不能为空').optional().or(z.null()),
@@ -89,7 +89,7 @@ export const CategorySchema = z.object({
 });
 
 // 计量单位验证 Schema
-export const UnitSchema = z.object({
+export const _UnitSchema = z.object({
   id: idSchema.optional(),
   name: z.string().min(1, '单位名称不能为空').max(20, '单位名称长度不能超过20字符'),
   symbol: z.string().min(1, '单位符号不能为空').max(10, '单位符号长度不能超过10字符'),
@@ -99,7 +99,7 @@ export const UnitSchema = z.object({
 });
 
 // 仓库验证 Schema
-export const WarehouseSchema = z.object({
+export const _WarehouseSchema = z.object({
   id: idSchema.optional(),
   code: z.string().min(1, '仓库编码不能为空').max(20, '仓库编码长度不能超过20字符'),
   name: z.string().min(1, '仓库名称不能为空').max(50, '仓库名称长度不能超过50字符'),
@@ -111,7 +111,7 @@ export const WarehouseSchema = z.object({
 });
 
 // 库存验证 Schema
-export const InventoryStockSchema = z.object({
+export const _InventoryStockSchema = z.object({
   id: idSchema.optional(),
   productId: idSchema,
   warehouseId: idSchema,
@@ -129,7 +129,7 @@ export const InventoryStockSchema = z.object({
 });
 
 // 库存流水验证 Schema
-export const InventoryTransactionSchema = z.object({
+export const _InventoryTransactionSchema = z.object({
   id: idSchema.optional(),
   transactionNo: z.string().min(1, '流水单号不能为空'),
   productId: idSchema,
@@ -147,7 +147,7 @@ export const InventoryTransactionSchema = z.object({
 });
 
 // 供应商验证 Schema
-export const SupplierSchema = z.object({
+export const _SupplierSchema = z.object({
   id: idSchema.optional(),
   code: z.string().min(1, '供应商编码不能为空').max(20, '供应商编码长度不能超过20字符'),
   name: z.string().min(1, '供应商名称不能为空').max(100, '供应商名称长度不能超过100字符'),
@@ -164,7 +164,7 @@ export const SupplierSchema = z.object({
 });
 
 // 采购订单验证 Schema
-export const PurchaseOrderSchema = z.object({
+export const _PurchaseOrderSchema = z.object({
   id: idSchema.optional(),
   orderNo: z.string().min(1, '订单编号不能为空'),
   supplierId: idSchema,
@@ -185,7 +185,7 @@ export const PurchaseOrderSchema = z.object({
 });
 
 // 采购订单明细验证 Schema
-export const PurchaseOrderItemSchema = z.object({
+export const _PurchaseOrderItemSchema = z.object({
   id: idSchema.optional(),
   orderId: idSchema,
   productId: idSchema,
@@ -203,7 +203,7 @@ export const PurchaseOrderItemSchema = z.object({
 });
 
 // 客户验证 Schema
-export const CustomerSchema = z.object({
+export const _CustomerSchema = z.object({
   id: idSchema.optional(),
   code: z.string().min(1, '客户编码不能为空').max(20, '客户编码长度不能超过20字符'),
   name: z.string().min(1, '客户名称不能为空').max(100, '客户名称长度不能超过100字符'),
@@ -222,7 +222,7 @@ export const CustomerSchema = z.object({
 });
 
 // 销售订单验证 Schema
-export const SalesOrderSchema = z.object({
+export const _SalesOrderSchema = z.object({
   id: idSchema.optional(),
   orderNo: z.string().min(1, '订单编号不能为空'),
   customerId: idSchema,
@@ -244,7 +244,7 @@ export const SalesOrderSchema = z.object({
 });
 
 // 销售订单明细验证 Schema
-export const SalesOrderItemSchema = z.object({
+export const _SalesOrderItemSchema = z.object({
   id: idSchema.optional(),
   orderId: idSchema,
   productId: idSchema,
@@ -262,7 +262,7 @@ export const SalesOrderItemSchema = z.object({
 });
 
 // 销售出库验证 Schema
-export const SalesDeliverySchema = z.object({
+export const _SalesDeliverySchema = z.object({
   id: idSchema.optional(),
   deliveryNo: z.string().min(1, '出库单号不能为空'),
   orderId: idSchema,
@@ -279,7 +279,7 @@ export const SalesDeliverySchema = z.object({
 });
 
 // 销售出库明细验证 Schema
-export const SalesDeliveryItemSchema = z.object({
+export const _SalesDeliveryItemSchema = z.object({
   id: idSchema.optional(),
   deliveryId: idSchema,
   productId: idSchema,
@@ -295,7 +295,7 @@ export const SalesDeliveryItemSchema = z.object({
 });
 
 // 应付账款验证 Schema
-export const AccountsPayableSchema = z.object({
+export const _AccountsPayableSchema = z.object({
   id: idSchema.optional(),
   billNo: z.string().min(1, '账单编号不能为空'),
   supplierId: idSchema,
@@ -317,7 +317,7 @@ export const AccountsPayableSchema = z.object({
 });
 
 // 应收账款验证 Schema
-export const AccountsReceivableSchema = z.object({
+export const _AccountsReceivableSchema = z.object({
   id: idSchema.optional(),
   billNo: z.string().min(1, '账单编号不能为空'),
   customerId: idSchema,
@@ -339,7 +339,7 @@ export const AccountsReceivableSchema = z.object({
 });
 
 // 付款记录验证 Schema
-export const PaymentSchema = z.object({
+export const _PaymentSchema = z.object({
   id: idSchema.optional(),
   paymentNo: z.string().min(1, '付款单号不能为空'),
   payableId: idSchema,
@@ -353,7 +353,7 @@ export const PaymentSchema = z.object({
 });
 
 // 收款记录验证 Schema
-export const ReceiptSchema = z.object({
+export const _ReceiptSchema = z.object({
   id: idSchema.optional(),
   receiptNo: z.string().min(1, '收款单号不能为空'),
   receivableId: idSchema,
@@ -367,7 +367,7 @@ export const ReceiptSchema = z.object({
 });
 
 // 用户验证 Schema
-export const UserSchema = z.object({
+export const _UserSchema = z.object({
   id: idSchema.optional(),
   username: z.string()
     .min(3, '用户名至少3个字符')
@@ -391,7 +391,7 @@ export const UserSchema = z.object({
 });
 
 // 系统配置验证 Schema
-export const SystemConfigSchema = z.object({
+export const _SystemConfigSchema = z.object({
   id: idSchema.optional(),
   key: z.string().min(1, '配置键不能为空').max(50, '配置键长度不能超过50字符'),
   value: z.string().max(500, '配置值长度不能超过500字符'),
@@ -422,7 +422,7 @@ export type UserInput = z.infer<typeof UserSchema>;
 export type SystemConfigInput = z.infer<typeof SystemConfigSchema>;
 
 // Excel导入验证 Schema
-export const ExcelRowSchema = z.object({
+export const _ExcelRowSchema = z.object({
   '商品名称': z.string().min(1, '商品名称不能为空'),
   '商品描述': z.string().optional(),
   'SKU': z.string().min(1, 'SKU不能为空'),
@@ -438,7 +438,7 @@ export const ExcelRowSchema = z.object({
 });
 
 // 库存项目验证 Schema (简化版，用于兼容)
-export const InventoryItemSchema = z.object({
+export const _InventoryItemSchema = z.object({
   id: idSchema.optional(),
   name: z.string().min(1, '商品名称不能为空'),
   description: z.string().min(1, '商品描述不能为空'),
@@ -461,13 +461,13 @@ export type ExcelRowInput = z.infer<typeof ExcelRowSchema>;
 export type InventoryItemInput = z.infer<typeof InventoryItemSchema>;
 
 // 通用验证函数
-export const validateEntity = <T>(schema: z.ZodSchema<T>, data: unknown): {
+export const _validateEntity = <T>(schema: z.ZodSchema<T>, data: unknown): {
   success: boolean;
   data?: T;
   errors?: string[];
 } => {
   try {
-    const validated = schema.parse(data);
+    const _validated = schema.parse(data);
     return { success: true, data: validated };
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -481,7 +481,7 @@ export const validateEntity = <T>(schema: z.ZodSchema<T>, data: unknown): {
 };
 
 // Excel验证函数 (统一到主验证系统)
-export const validateExcelRow = (data: any): { 
+export const _validateExcelRow = (data: any): { 
   success: boolean; 
   data?: ExcelRowInput; 
   errors?: string[] 
@@ -490,7 +490,7 @@ export const validateExcelRow = (data: any): {
 };
 
 // 库存项目验证函数
-export const validateInventoryItem = (data: any): {
+export const _validateInventoryItem = (data: any): {
   success: boolean;
   data?: InventoryItemInput;
   errors?: string[]
@@ -501,7 +501,7 @@ export const validateInventoryItem = (data: any): {
 // =============== 通知系统验证 ===============
 
 // 通知验证 Schema
-export const NotificationSchema = z.object({
+export const _NotificationSchema = z.object({
   id: idSchema.optional(),
   type: z.nativeEnum(NotificationType, { errorMap: () => ({ message: '请选择有效的通知类型' }) }),
   title: z.string().min(1, '通知标题不能为空').max(100, '通知标题长度不能超过100字符'),
@@ -520,7 +520,7 @@ export const NotificationSchema = z.object({
 });
 
 // 通知配置验证 Schema
-export const NotificationConfigSchema = z.object({
+export const _NotificationConfigSchema = z.object({
   id: idSchema.optional(),
   userId: idSchema,
   enabledTypes: z.array(z.nativeEnum(NotificationType)).min(1, '至少需要启用一种通知类型'),

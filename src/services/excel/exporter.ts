@@ -2,6 +2,7 @@ import * as XLSX from 'xlsx';
 import { InventoryItem } from '../../types/inventory';
 import { ExcelExportOptions } from '../../types/excel';
 import { EXCEL_HEADERS } from '../../constants';
+import { ElectronAPI, FileOperationResult } from '../../types/electronAPI';
 
 export class ExcelExporter {
   async exportToFile(
@@ -13,8 +14,9 @@ export class ExcelExporter {
       const buffer = await this.exportToBuffer(data, options);
 
       // 使用Electron API进行文件操作
-      if (window.electronAPI?.writeFile) {
-        const result = await window.electronAPI.writeFile(filePath, buffer);
+      const electronAPI: ElectronAPI = window.electronAPI;
+      if (electronAPI?.writeFile) {
+        const result: FileOperationResult = await electronAPI.writeFile(filePath, buffer.toString());
         if (result.success) {
           return {
             success: true,

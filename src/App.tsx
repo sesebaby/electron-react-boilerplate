@@ -22,7 +22,7 @@ const App: React.FC = () => {
   // 简单的哈希路由处理
   useEffect(() => {
     // 初始化主题
-    const savedTheme = localStorage.getItem('inventory-system-theme') || 'glass-future';
+    const _savedTheme = localStorage.getItem('inventory-system-theme') || 'glass-future';
     document.documentElement.setAttribute('data-theme', savedTheme);
     
     // 应用主题背景和文字颜色
@@ -30,8 +30,8 @@ const App: React.FC = () => {
     document.body.style.minHeight = '100vh';
     document.body.style.color = 'var(--text-primary)';
     
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
+    const _handleHashChange = () => {
+      const _hash = window.location.hash.replace('#', '');
       if (hash) {
         setCurrentPage(hash);
       }
@@ -44,7 +44,7 @@ const App: React.FC = () => {
     window.addEventListener('hashchange', handleHashChange);
 
     // 初始化系统和数据
-    const initSystem = async () => {
+    const _initSystem = async () => {
       try {
         // 首先初始化数据库
         console.log('Initializing database...');
@@ -74,7 +74,7 @@ const App: React.FC = () => {
       }
     };
     
-    const initTimer = setTimeout(initSystem, 1000);
+    const _initTimer = setTimeout(initSystem, 1000);
 
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
@@ -83,7 +83,7 @@ const App: React.FC = () => {
   }, []);
 
   // 页面变化处理
-  const _handlePageChange = (page: string) => {
+  const __handlePageChange = (page: string) => {
     setCurrentPage(page);
     window.location.hash = page;
   };

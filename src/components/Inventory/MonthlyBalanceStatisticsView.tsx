@@ -29,12 +29,12 @@ export const MonthlyBalanceStatisticsView: React.FC<MonthlyBalanceStatisticsView
     loadStatistics();
   }, [selectedYear, selectedMonth]);
 
-  const loadStatistics = async () => {
+  const _loadStatistics = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const result = await monthlyBalanceService.getMonthlyBalanceStatistics(selectedYear, selectedMonth);
+      const _result = await monthlyBalanceService.getMonthlyBalanceStatistics(selectedYear, selectedMonth);
 
       if (!result.success) {
         setError(result.error?.message || '获取统计数据失败');
@@ -53,29 +53,29 @@ export const MonthlyBalanceStatisticsView: React.FC<MonthlyBalanceStatisticsView
     }
   };
 
-  const formatCurrency = (value: number): string => {
+  const _formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('zh-CN', {
       style: 'currency',
       currency: 'CNY'
     }).format(value);
   };
 
-  const formatNumber = (value: number): string => {
+  const _formatNumber = (value: number): string => {
     return new Intl.NumberFormat('zh-CN').format(value);
   };
 
-  const formatPercentage = (value: number): string => {
+  const _formatPercentage = (value: number): string => {
     return `${value.toFixed(1)}%`;
   };
 
-  const formatPeriod = (year: number, month: number): string => {
+  const _formatPeriod = (year: number, month: number): string => {
     return `${year}年${month}月`;
   };
 
   // 生成年份和月份选项
-  const currentYear = new Date().getFullYear();
-  const yearOptions = Array.from({ length: 5 }, (_, i) => currentYear - i);
-  const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
+  const _currentYear = new Date().getFullYear();
+  const _yearOptions = Array.from({ length: 5 }, (_, i) => currentYear - i);
+  const _monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
 
   if (loading) {
     return (

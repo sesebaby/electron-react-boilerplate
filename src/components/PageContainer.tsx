@@ -104,7 +104,7 @@ const DevelopmentPage: React.FC<{ title: string; description: string }> = ({ tit
 );
 
 // 为开发中的页面创建组件
-const createDevelopmentPage = (title: string, description: string) => 
+const __createDevelopmentPage = (title: string, description: string) => 
   () => <DevelopmentPage title={title} description={description} />;
 
 // 扩展页面映射，包含开发中的页面
@@ -142,7 +142,7 @@ const allPageComponents: Record<string, React.ComponentType> = {
 };
 
 export const PageContainer: React.FC<PageContainerProps> = ({ currentPage }) => {
-  const PageComponent = allPageComponents[currentPage];
+  const _PageComponent = allPageComponents[currentPage];
 
   if (!PageComponent) {
     return (

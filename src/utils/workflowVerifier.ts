@@ -62,12 +62,12 @@ export class WorkflowVerifier {
     testData: any,
     customSteps?: WorkflowStep[]
   ): Promise<WorkflowVerificationResult> {
-    const workflowId = `${workflowName}_${Date.now()}`;
-    const startTime = Date.now();
+    const _workflowId = `${workflowName}_${Date.now()}`;
+    const _startTime = Date.now();
     
     console.log(`[WorkflowVerifier] 开始验证工作流: ${workflowName} (${workflowId})`);
     
-    const steps = customSteps || this.workflows.get(workflowName);
+    const _steps = customSteps || this.workflows.get(workflowName);
     if (!steps) {
       throw new Error(`工作流 ${workflowName} 未找到`);
     }
@@ -80,11 +80,11 @@ export class WorkflowVerifier {
     };
 
     const stepResults: WorkflowStepResult[] = [];
-    let completed = true;
+    const _completed = true;
 
     // 执行每个步骤
     for (const step of steps) {
-      const stepResult = await this.executeWorkflowStep(step, context);
+      const _stepResult = await this.executeWorkflowStep(step, context);
       stepResults.push(stepResult);
       
       // 保存步骤结果到上下文
@@ -93,7 +93,7 @@ export class WorkflowVerifier {
       // 如果步骤失败，停止工作流（除非有错误处理）
       if (!stepResult.passed) {
         if (step.errorHandling) {
-          const shouldContinue = step.errorHandling(stepResult.error, context);
+          const _shouldContinue = step.errorHandling(stepResult.error, context);
           if (!shouldContinue) {
             completed = false;
             break;
@@ -105,12 +105,12 @@ export class WorkflowVerifier {
       }
     }
 
-    const totalExecutionTime = Date.now() - startTime;
-    const stepsPassed = stepResults.filter(r => r.passed).length;
-    const stepsFailed = stepResults.length - stepsPassed;
+    const _totalExecutionTime = Date.now() - startTime;
+    const _stepsPassed = stepResults.filter(r => r.passed).length;
+    const _stepsFailed = stepResults.length - stepsPassed;
 
     // 验证数据完整性
-    const dataIntegrity = await this.verifyWorkflowDataIntegrity(workflowName, context, stepResults);
+    const _dataIntegrity = await this.verifyWorkflowDataIntegrity(workflowName, context, stepResults);
 
     const result: WorkflowVerificationResult = {
       workflow: workflowName,
@@ -138,21 +138,21 @@ export class WorkflowVerifier {
     step: WorkflowStep,
     context: WorkflowContext
   ): Promise<WorkflowStepResult> {
-    const startTime = Date.now();
+    const _startTime = Date.now();
     
     console.log(`[WorkflowVerifier] 执行步骤: ${step.step}`);
     
     try {
       // 准备参数（可能依赖于之前步骤的结果）
-      const params = this.prepareStepParams(step, context);
+      const _params = this.prepareStepParams(step, context);
       
       // 执行步骤
-      const result = await this.executeStep(step.service, step.method, params);
-      const executionTime = Date.now() - startTime;
+      const _result = await this.executeStep(step.service, step.method, params);
+      const _executionTime = Date.now() - startTime;
       
       // 验证结果
-      let passed = true;
-      let validationResults = {};
+      const _passed = true;
+      const _validationResults = {};
       
       // 预期结果验证
       if (step.expectedResult !== undefined) {
@@ -166,7 +166,7 @@ export class WorkflowVerifier {
       }
       
       // 业务规则验证
-      const businessValidation = await this.validateBusinessRules(step, result, context);
+      const _businessValidation = await this.validateBusinessRules(step, result, context);
       if (!businessValidation.passed) {
         passed = false;
         validationResults = { ...validationResults, businessValidation };
@@ -183,7 +183,7 @@ export class WorkflowVerifier {
       };
 
     } catch (error) {
-      const executionTime = Date.now() - startTime;
+      const _executionTime = Date.now() - startTime;
       
       return {
         step: step.step,
@@ -207,7 +207,7 @@ export class WorkflowVerifier {
     return step.params.map(param => {
       // 如果参数是字符串且以$开头，则从上下文中获取值
       if (typeof param === 'string' && param.startsWith('$')) {
-        const key = param.substring(1);
+        const _key = param.substring(1);
         if (key.includes('.')) {
           // 支持嵌套属性访问，如 $previousStep.result.id
           return this.getNestedValue(context, key);
@@ -223,7 +223,7 @@ export class WorkflowVerifier {
    * 获取嵌套值
    */
   private getNestedValue(context: WorkflowContext, path: string): any {
-    const parts = path.split('.');
+    const _parts = path.split('.');
     let value: any = context;
     
     for (const part of parts) {
@@ -335,7 +335,7 @@ export class WorkflowVerifier {
     result: any,
     _context: WorkflowContext
   ): Promise<any> {
-    const violations = [];
+    const violations: string[] = [];
     
     // 根据步骤类型验证相应的业务规则
     switch (step.step) {
@@ -428,7 +428,7 @@ export class WorkflowVerifier {
       issues: integrityIssues,
       summary: {
         totalIssues: integrityIssues.length,
-        criticalIssues: integrityIssues.filter(i => i.severity === 'Critical').length
+        criticalIssues: integrityIssues.filter((i: any) => i.severity === 'Critical').length
       }
     };
   }
@@ -528,7 +528,7 @@ export class WorkflowVerifier {
     
     // 检查库存更新操作
     const inventoryUpdates = stepResults.filter(s => s.step.includes('inventory'));
-    inventoryUpdates.forEach(update => {
+    inventoryUpdates.forEach((update: any) => {
       if (!update.result?.success) {
         issues.push({
           type: 'Inventory Update Failed',
@@ -555,7 +555,7 @@ export class WorkflowVerifier {
       s.step.includes('payable') || s.step.includes('receivable') || s.step.includes('payment') || s.step.includes('receipt')
     );
     
-    financialSteps.forEach(step => {
+    financialSteps.forEach((step: any) => {
       if (!step.result?.success && !step.result?.total_amount) {
         issues.push({
           type: 'Financial Operation Failed',

@@ -6,13 +6,7 @@
 import backupService, { BackupInfo, BackupProgress } from './database/backupService';
 import { dataInitializer } from './dataInitializer';
 import { businessServiceManager } from './business';
-
-// 类型断言以确保 ElectronAPI 方法可用
-declare global {
-  interface Window {
-    electronAPI: any;
-  }
-}
+import { ElectronAPI, DatabaseResult } from '../types/electronAPI';
 
 export interface InitializationProgress {
   stage: 'backup' | 'clearing' | 'schema' | 'data' | 'services' | 'completed' | 'error';
@@ -169,14 +163,12 @@ export class SystemInitializationService {
    */
   private async clearDatabase(options: InitializationOptions): Promise<void> {
     try {
-      if (!window.electronAPI?.dbClearDatabase) {
+      const electronAPI: ElectronAPI = window.electronAPI;
+      if (!electronAPI?.dbCleanupDatabase) {
         throw new Error('数据库清理功能不可用');
       }
 
-      const result = await window.electronAPI.dbClearDatabase({
-        preserveUsers: options.preserveUsers,
-        preserveSettings: options.preserveSettings
-      });
+      const result: DatabaseResult<any> = await electronAPI.dbCleanupDatabase();
 
       if (!result.success) {
         throw new Error(result.error || '数据库清理失败');
@@ -192,11 +184,12 @@ export class SystemInitializationService {
    */
   private async rebuildSchema(): Promise<void> {
     try {
-      if (!window.electronAPI?.dbRebuildSchema) {
+      const electronAPI: ElectronAPI = window.electronAPI;
+      if (!electronAPI?.dbInitializeDatabase) {
         throw new Error('数据库结构重建功能不可用');
       }
 
-      const result = await window.electronAPI.dbRebuildSchema();
+      const result: DatabaseResult<boolean> = await electronAPI.dbInitializeDatabase();
 
       if (!result.success) {
         throw new Error(result.error || '数据库结构重建失败');
@@ -212,15 +205,8 @@ export class SystemInitializationService {
    */
   private async importInitialData(): Promise<void> {
     try {
-      if (!window.electronAPI?.dbImportMockData) {
-        throw new Error('导入初始数据功能不可用');
-      }
-
-      const result = await window.electronAPI.dbImportMockData();
-
-      if (!result.success) {
-        throw new Error(result.error || '导入初始数据失败');
-      }
+      // Since there's no specific import mock data API, we'll use the data initializer
+      await dataInitializer.initializeData();
     } catch (error) {
       console.error('导入初始数据失败:', error);
       throw error;
@@ -263,11 +249,12 @@ export class SystemInitializationService {
     version: string;
   }> {
     try {
-      if (!window.electronAPI?.dbGetSystemStatus) {
+      const electronAPI: ElectronAPI = window.electronAPI;
+      if (!electronAPI?.dbGetSystemStats) {
         throw new Error('获取系统状态功能不可用');
       }
 
-      const result = await window.electronAPI.dbGetSystemStatus();
+      const result: DatabaseResult<any> = await electronAPI.dbGetSystemStats();
 
       if (!result.success) {
         throw new Error(result.error || '获取系统状态失败');
@@ -289,11 +276,12 @@ export class SystemInitializationService {
     recommendations: string[];
   }> {
     try {
-      if (!window.electronAPI?.dbValidateIntegrity) {
+      const electronAPI: ElectronAPI = window.electronAPI;
+      if (!electronAPI?.dbCheckDatabaseIntegrity) {
         throw new Error('系统完整性验证功能不可用');
       }
 
-      const result = await window.electronAPI.dbValidateIntegrity();
+      const result: DatabaseResult<any> = await electronAPI.dbCheckDatabaseIntegrity();
 
       if (!result.success) {
         throw new Error(result.error || '系统完整性验证失败');

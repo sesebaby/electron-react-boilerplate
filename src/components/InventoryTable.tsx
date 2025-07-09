@@ -33,7 +33,7 @@ interface InventoryTableProps {
 
 export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({ 
   items, 
-  onUpdateItem,
+  onUpdateItem: _onUpdateItem,
   currentPage,
   totalPages,
   onPageChange,
@@ -43,26 +43,26 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
   height = "600px"
 }) => {
   // 缓存格式化器以避免重复创建
-  const currencyFormatter = useMemo(() => new Intl.NumberFormat('en-US', {
+  const _currencyFormatter = useMemo(() => new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD'
   }), []);
 
-  const dateFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', {
+  const _dateFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric'
   }), []);
 
-  const formatCurrency = useCallback((amount: number) => {
+  const _formatCurrency = useCallback((amount: number) => {
     return currencyFormatter.format(amount);
   }, [currencyFormatter]);
 
-  const formatDate = useCallback((date: Date) => {
+  const _formatDate = useCallback((date: Date) => {
     return dateFormatter.format(date);
   }, [dateFormatter]);
 
-  const getStatusVariant = useCallback((status: string): "default" | "secondary" | "destructive" | "success" | "warning" => {
+  const _getStatusVariant = useCallback((status: string): "default" | "secondary" | "destructive" | "success" | "warning" => {
     switch (status) {
       case 'in-stock': return 'success';
       case 'low-stock': return 'warning';
@@ -72,7 +72,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
     }
   }, []);
 
-  const getAvailableQuantity = useCallback((item: InventoryItem) => {
+  const _getAvailableQuantity = useCallback((item: InventoryItem) => {
     return Math.max(0, item.stockQuantity - item.reservedQuantity);
   }, []);
 
@@ -102,9 +102,9 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
     );
   }
 
-  const renderPaginationItems = useMemo(() => {
-    const items = [];
-    const showEllipsis = totalPages > 7;
+  const _renderPaginationItems = useMemo(() => {
+    const _items = [];
+    const _showEllipsis = totalPages > 7;
     
     if (showEllipsis) {
       // Show first page
@@ -129,10 +129,10 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
       }
       
       // Show current page and neighbors
-      const start = Math.max(2, currentPage - 1);
-      const end = Math.min(totalPages - 1, currentPage + 1);
+      const _start = Math.max(2, currentPage - 1);
+      const _end = Math.min(totalPages - 1, currentPage + 1);
       
-      for (let i = start; i <= end; i++) {
+      for (let _i = start; i <= end; i++) {
         items.push(
           <PaginationItem key={i}>
             <PaginationLink
@@ -169,7 +169,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
       }
     } else {
       // Show all pages if total is small
-      for (let i = 1; i <= totalPages; i++) {
+      for (let _i = 1; i <= totalPages; i++) {
         items.push(
           <PaginationItem key={i}>
             <PaginationLink

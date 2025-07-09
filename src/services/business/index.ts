@@ -1,6 +1,10 @@
 // 核心业务服务层 - 统一入口和服务管理
+// 使用依赖注入容器解决循环依赖问题
 
-// 临时注释掉可能有循环依赖的服务，逐步启用
+import { serviceContainer } from './ServiceContainer';
+import './ServiceRegistry'; // 自动注册所有服务
+
+// 直接服务导入（用于类型定义和向后兼容）
 import categoryService from './categoryService';
 import unitService from './unitService';
 import { warehouseService } from './warehouseService';
@@ -21,13 +25,11 @@ import fifoInventoryService from './fifoInventoryService';
 import monthlyBalanceService from './monthlyBalanceService';
 import globalConversionService from './globalConversionService';
 import productConversionService from './productConversionService';
-// 导入完整的财务服务
 import accountsPayableService from './accountsPayableService';
 import accountsReceivableService from './accountsReceivableService';
-// 导入权限服务
 import permissionService from './permissionService';
 
-// 导出所有服务实例（包括完整的财务服务）
+// 导出所有服务实例（向后兼容）
 export {
   categoryService,
   unitService,
@@ -55,9 +57,13 @@ export {
   permissionService
 };
 
+// 导出新的依赖注入容器
+export { serviceContainer } from './ServiceContainer';
+export { validateServiceDependencies, getServiceDependencyGraph } from './ServiceRegistry';
 
 
-// 服务管理器
+
+// 服务管理器 - 使用依赖注入容器
 export class BusinessServiceManager {
   private initialized = false;
 
@@ -67,73 +73,18 @@ export class BusinessServiceManager {
       return;
     }
 
-    console.log('Initializing business services...');
+    console.log('Initializing business services using dependency injection...');
 
     try {
-      // 初始化所有业务服务
-      console.log('开始初始化业务服务...');
-
-      // 基础服务先初始化
-      await categoryService.initialize();
-      await unitService.initialize();
-      await warehouseService.initialize();
-      await supplierService.initialize();
-      await customerService.initialize();
-      await userService.initialize();
-
-      // 库存和产品服务
-      await inventoryStockService.initialize();
-      await productService.initialize();
-
-      // 业务流程服务
-      await purchaseOrderService.initialize();
-      await purchaseReceiptService.initialize();
-      await salesOrderService.initialize();
-      await salesDeliveryService.initialize();
-
-      // 财务服务（完整版）
-      await accountsPayableService.initialize();
-      await accountsReceivableService.initialize();
-
-      // 权限服务
-      await permissionService.initialize();
-
-      // 月度结余服务
-      await monthlyBalanceService.initialize();
-
-      // 换算服务
-      await globalConversionService.initialize();
-      await productConversionService.initialize();
-
-      console.log('所有业务服务初始化完成');
-
-      // 暂时注释掉其他服务的初始化
-      // // 2. 产品服务（依赖分类和单位）
-      // await productService.initialize();
-      //
-      // // 3. 库存服务（依赖产品和仓库）
-      // await inventoryStockService.initialize();
-      //
-      // // 4. 采购订单服务（依赖产品和供应商）
-      // await purchaseOrderService.initialize();
-      //
-      // // 5. 采购收货服务（依赖采购订单和库存）
-      // await purchaseReceiptService.initialize();
-      //
-      // // 6. 销售订单服务（依赖产品和客户）
-      // await salesOrderService.initialize();
-      //
-      // // 7. 销售出库服务（依赖销售订单和库存）
-      // await salesDeliveryService.initialize();
-      //
-      // // 8. 财务服务（依赖采购和销售数据）
-      // await Promise.all([
-      //   accountsPayableService.initialize(),
-      //   accountsReceivableService.initialize()
-      // ]);
-
+      // 使用依赖注入容器进行分层初始化
+      await serviceContainer.initializeAllServices();
+      
       this.initialized = true;
-      console.log('All business services initialized successfully');
+      console.log('All business services initialized successfully using DI container');
+      
+      // 输出服务状态
+      const status = serviceContainer.getServiceStatus();
+      console.log(`服务状态: ${status.initialized}/${status.registered} 个服务已初始化`);
     } catch (error) {
       console.error('Failed to initialize business services:', error);
       throw error;
@@ -144,124 +95,77 @@ export class BusinessServiceManager {
     initialized: boolean;
     services: Array<{
       name: string;
-      status: 'active' | 'error';
+      status: 'active' | 'error' | 'initializing';
       details?: any;
     }>;
+    dependencyInfo: {
+      circularDependencies: string[][];
+      validationErrors: string[];
+    };
   }> {
     const services = [];
+    const containerStatus = serviceContainer.getServiceStatus();
+    const validation = await import('./ServiceRegistry').then(m => m.validateServiceDependencies());
 
     try {
-      // 检查各个服务的状态
-      const categoryStats = await categoryService.getCategoryStats();
-      services.push({
-        name: 'CategoryService',
-        status: 'active' as const,
-        details: categoryStats
-      });
+      // 使用依赖注入容器获取服务状态
+      for (const serviceInfo of containerStatus.services) {
+        let details = null;
+        let status: 'active' | 'error' | 'initializing' = serviceInfo.status === 'initialized' ? 'active' : serviceInfo.status;
 
-      const unitStats = await unitService.getUnitStats();
-      services.push({
-        name: 'UnitService',
-        status: 'active' as const,
-        details: unitStats
-      });
+        try {
+          if (serviceInfo.status === 'initialized') {
+            // 尝试获取服务的统计信息
+            const service = await serviceContainer.resolve(serviceInfo.name);
+            if (service) {
+              // 尝试调用各种统计方法
+              if (typeof service.getCategoryStats === 'function') {
+                details = await service.getCategoryStats();
+              } else if (typeof service.getUnitStats === 'function') {
+                details = await service.getUnitStats();
+              } else if (typeof service.getWarehouseStats === 'function') {
+                details = await service.getWarehouseStats();
+              } else if (typeof service.getProductStats === 'function') {
+                details = await service.getProductStats();
+              } else if (typeof service.getSupplierStats === 'function') {
+                details = await service.getSupplierStats();
+              } else if (typeof service.getCustomerStats === 'function') {
+                details = await service.getCustomerStats();
+              } else if (typeof service.getInventorySummary === 'function') {
+                details = await service.getInventorySummary();
+              } else if (typeof service.getUserStats === 'function') {
+                details = await service.getUserStats();
+              } else {
+                details = { message: '服务已初始化' };
+              }
+            }
+          }
+        } catch (error) {
+          status = 'error';
+          details = { error: error instanceof Error ? error.message : '未知错误' };
+        }
 
-      const warehouseStats = await warehouseService.getWarehouseStats();
-      services.push({
-        name: 'WarehouseService',
-        status: 'active' as const,
-        details: warehouseStats
-      });
-
-      const productStats = await productService.getProductStats();
-      services.push({
-        name: 'ProductService',
-        status: 'active' as const,
-        details: productStats
-      });
-
-      const supplierStats = await supplierService.getSupplierStats();
-      services.push({
-        name: 'SupplierService',
-        status: 'active' as const,
-        details: supplierStats
-      });
-
-      const customerStats = await customerService.getCustomerStats();
-      services.push({
-        name: 'CustomerService',
-        status: 'active' as const,
-        details: customerStats
-      });
-
-      const inventoryStats = await inventoryStockService.getInventorySummary();
-      services.push({
-        name: 'InventoryStockService',
-        status: 'active' as const,
-        details: inventoryStats
-      });
-
-      // 暂时注释掉这些服务，避免循环依赖
-      // const purchaseOrderStats = await purchaseOrderService.getOrderStats();
-      // services.push({
-      //   name: 'PurchaseOrderService',
-      //   status: 'active' as const,
-      //   details: purchaseOrderStats
-      // });
-      //
-      // const purchaseReceiptStats = await purchaseReceiptService.getReceiptStats();
-      // services.push({
-      //   name: 'PurchaseReceiptService',
-      //   status: 'active' as const,
-      //   details: purchaseReceiptStats
-      // });
-      //
-      // const salesOrderStats = await salesOrderService.getOrderStats();
-      // services.push({
-      //   name: 'SalesOrderService',
-      //   status: 'active' as const,
-      //   details: salesOrderStats
-      // });
-      //
-      // const salesDeliveryStats = await salesDeliveryService.getDeliveryStats();
-      // services.push({
-      //   name: 'SalesDeliveryService',
-      //   status: 'active' as const,
-      //   details: salesDeliveryStats
-      // });
-      //
-      // const accountsPayableStats = await accountsPayableService.getPayableStats();
-      // services.push({
-      //   name: 'AccountsPayableService',
-      //   status: 'active' as const,
-      //   details: accountsPayableStats
-      // });
-      //
-      // const accountsReceivableStats = await accountsReceivableService.getReceivableStats();
-      // services.push({
-      //   name: 'AccountsReceivableService',
-      //   status: 'active' as const,
-      //   details: accountsReceivableStats
-      // });
-
-      const userStats = await userService.getUserStats();
-      services.push({
-        name: 'UserService',
-        status: 'active' as const,
-        details: userStats
-      });
-
+        services.push({
+          name: serviceInfo.name,
+          status,
+          details
+        });
+      }
     } catch (error) {
       services.push({
-        name: 'Unknown',
+        name: 'SystemError',
         status: 'error' as const,
-        details: { error: error instanceof Error ? error.message : '未知错误' }
+        details: { error: error instanceof Error ? error.message : '系统错误' }
       });
     }
 
     return {
       initialized: this.initialized,
-      services
+      services,
+      dependencyInfo: {
+        circularDependencies: validation.circularDependencies,
+        validationErrors: validation.errors
+      }
     };
   }
 
@@ -285,31 +189,59 @@ export class BusinessServiceManager {
     salesDeliveries: number;
     totalDeliveryValue: number;
   }> {
-    // 暂时只获取基础服务的统计信息
+    // 使用依赖注入容器获取服务实例
+    const [
+      categoryService,
+      unitService,
+      warehouseService,
+      supplierService,
+      customerService,
+      productService,
+      inventoryStockService,
+      purchaseOrderService,
+      purchaseReceiptService,
+      salesOrderService,
+      salesDeliveryService
+    ] = await Promise.all([
+      serviceContainer.resolve('categoryService'),
+      serviceContainer.resolve('unitService'),
+      serviceContainer.resolve('warehouseService'),
+      serviceContainer.resolve('supplierService'),
+      serviceContainer.resolve('customerService'),
+      serviceContainer.resolve('productService'),
+      serviceContainer.resolve('inventoryStockService'),
+      serviceContainer.resolve('purchaseOrderService'),
+      serviceContainer.resolve('purchaseReceiptService'),
+      serviceContainer.resolve('salesOrderService'),
+      serviceContainer.resolve('salesDeliveryService')
+    ]);
+
+    // 获取所有服务的统计数据
     const [
       categoryStats,
       unitStats,
       warehouseStats,
       supplierStats,
-      customerStats
+      customerStats,
+      productStats,
+      inventoryStats,
+      purchaseOrderStats,
+      purchaseReceiptStats,
+      salesOrderStats,
+      salesDeliveryStats
     ] = await Promise.all([
       categoryService.getCategoryStats(),
       unitService.getUnitStats(),
       warehouseService.getWarehouseStats(),
       supplierService.getSupplierStats(),
-      customerService.getCustomerStats()
+      customerService.getCustomerStats(),
+      productService.getProductStats(),
+      inventoryStockService.getInventoryStats(),
+      purchaseOrderService.getOrderStats(),
+      purchaseReceiptService.getReceiptStats(),
+      salesOrderService.getOrderStats(),
+      salesDeliveryService.getDeliveryStats()
     ]);
-
-    // 获取所有服务的统计数据
-    const productStats = await productService.getProductStats();
-    const inventoryStats = await inventoryStockService.getInventoryStats();
-    const purchaseOrderStats = await purchaseOrderService.getOrderStats();
-    const purchaseReceiptStats = await purchaseReceiptService.getReceiptStats();
-    const salesOrderStats = await salesOrderService.getOrderStats();
-    const salesDeliveryStats = await salesDeliveryService.getDeliveryStats();
-    // 财务服务统计（完整版）
-    const accountsPayableStats = await accountsPayableService.getPayableStats();
-    const accountsReceivableStats = await accountsReceivableService.getReceivableStats();
 
     return {
       categories: categoryStats.total,
@@ -342,10 +274,25 @@ export class BusinessServiceManager {
     const warnings: string[] = [];
 
     try {
+      // 首先检查依赖关系
+      const dependencyValidation = await import('./ServiceRegistry').then(m => m.validateServiceDependencies());
+      issues.push(...dependencyValidation.errors);
+      warnings.push(...dependencyValidation.warnings);
+
       // 检查基础数据完整性
-      const categories = await categoryService.findAll();
-      const units = await unitService.findAll();
-      const warehouses = await warehouseService.findAll();
+      const categoryService = await serviceContainer.resolve('categoryService');
+      const unitService = await serviceContainer.resolve('unitService');
+      const warehouseService = await serviceContainer.resolve('warehouseService');
+
+      const [
+        categories,
+        units,
+        warehouses
+      ] = await Promise.all([
+        categoryService.findAll(),
+        unitService.findAll(),
+        warehouseService.findAll()
+      ]);
 
       if (categories.length === 0) {
         warnings.push('系统中没有商品分类数据');
@@ -364,40 +311,44 @@ export class BusinessServiceManager {
         issues.push('系统中没有设置默认仓库');
       }
 
-      // 暂时注释掉产品和库存数据完整性检查，避免引用未导入的服务
-      // // 检查产品数据完整性
-      // const products = await productService.findAll();
-      // for (const product of products) {
-      //   const category = await categoryService.findById(product.categoryId);
-      //   if (!category) {
-      //     issues.push(`产品 ${product.name} 关联的分类不存在: ${product.categoryId}`);
-      //   }
-      //
-      //   const unit = await unitService.findById(product.unitId);
-      //   if (!unit) {
-      //     issues.push(`产品 ${product.name} 关联的单位不存在: ${product.unitId}`);
-      //   }
-      // }
-      //
-      // // 检查库存数据完整性
-      // const stocks = await inventoryStockService.findAllStocks();
-      // for (const stock of stocks) {
-      //   const product = await productService.findById(stock.productId);
-      //   if (!product) {
-      //     issues.push(`库存记录关联的产品不存在: ${stock.productId}`);
-      //   }
-      //
-      //   const warehouse = await warehouseService.findById(stock.warehouseId);
-      //   if (!warehouse) {
-      //     issues.push(`库存记录关联的仓库不存在: ${stock.warehouseId}`);
-      //   }
-      // }
+      // 检查产品和库存数据完整性（使用依赖注入容器）
+      try {
+        const productService = await serviceContainer.resolve('productService');
+        const inventoryStockService = await serviceContainer.resolve('inventoryStockService');
+        
+        const products = await productService.findAll();
+        for (const product of products) {
+          const category = await categoryService.findById(product.categoryId);
+          if (!category) {
+            issues.push(`产品 ${product.name} 关联的分类不存在: ${product.categoryId}`);
+          }
 
-      // 暂时注释掉库存数量逻辑检查
-      // // 检查库存数量逻辑
-      // if (stock.currentStock !== stock.availableStock + stock.reservedStock) {
-      //   issues.push(`库存记录数量逻辑错误: 产品 ${stock.productId} 在仓库 ${stock.warehouseId}`);
-      // }
+          const unit = await unitService.findById(product.unitId);
+          if (!unit) {
+            issues.push(`产品 ${product.name} 关联的单位不存在: ${product.unitId}`);
+          }
+        }
+
+        const stocks = await inventoryStockService.findAllStocks();
+        for (const stock of stocks) {
+          const product = await productService.findById(stock.productId);
+          if (!product) {
+            issues.push(`库存记录关联的产品不存在: ${stock.productId}`);
+          }
+
+          const warehouse = await warehouseService.findById(stock.warehouseId);
+          if (!warehouse) {
+            issues.push(`库存记录关联的仓库不存在: ${stock.warehouseId}`);
+          }
+
+          // 检查库存数量逻辑
+          if (stock.currentStock !== stock.availableStock + stock.reservedStock) {
+            issues.push(`库存记录数量逻辑错误: 产品 ${stock.productId} 在仓库 ${stock.warehouseId}`);
+          }
+        }
+      } catch (error) {
+        warnings.push(`产品和库存数据完整性检查跳过: ${error instanceof Error ? error.message : '服务未初始化'}`);
+      }
 
     } catch (error) {
       issues.push(`系统完整性检查失败: ${error instanceof Error ? error.message : '未知错误'}`);
@@ -422,6 +373,9 @@ export class BusinessServiceManager {
   // Reset all service initialization states
   reset(): void {
     this.initialized = false;
+    
+    // Reset the dependency injection container
+    serviceContainer.reset();
     
     // Reset individual services that have reset methods
     if (warehouseService.reset) {

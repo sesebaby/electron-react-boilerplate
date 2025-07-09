@@ -10,7 +10,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
+  TableEmpty as _TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -38,7 +38,7 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -62,35 +62,35 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
     }
   };
 
-  const getFilteredOrders = () => {
-    const startDate = new Date(dateRange.startDate);
-    const endDate = new Date(dateRange.endDate);
+  const _getFilteredOrders = () => {
+    const _startDate = new Date(dateRange.startDate);
+    const _endDate = new Date(dateRange.endDate);
     return purchaseOrders.filter(order => {
-      const orderDate = new Date(order.orderDate);
+      const _orderDate = new Date(order.orderDate);
       return orderDate >= startDate && orderDate <= endDate;
     });
   };
 
-  const getFilteredReceipts = () => {
-    const startDate = new Date(dateRange.startDate);
-    const endDate = new Date(dateRange.endDate);
+  const _getFilteredReceipts = () => {
+    const _startDate = new Date(dateRange.startDate);
+    const _endDate = new Date(dateRange.endDate);
     return purchaseReceipts.filter(receipt => {
-      const receiptDate = new Date(receipt.receiptDate);
+      const _receiptDate = new Date(receipt.receiptDate);
       return receiptDate >= startDate && receiptDate <= endDate;
     });
   };
 
-  const calculateOverviewStats = () => {
-    const filteredOrders = getFilteredOrders();
-    const filteredReceipts = getFilteredReceipts();
+  const _calculateOverviewStats = () => {
+    const _filteredOrders = getFilteredOrders();
+    const _filteredReceipts = getFilteredReceipts();
     
-    const totalOrders = filteredOrders.length;
-    const totalOrderValue = filteredOrders.reduce((sum, order) => sum + order.totalAmount, 0);
-    const totalReceipts = filteredReceipts.length;
-    const totalReceiptValue = filteredReceipts.reduce((sum, receipt) => sum + receipt.totalAmount, 0);
+    const _totalOrders = filteredOrders.length;
+    const _totalOrderValue = filteredOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+    const _totalReceipts = filteredReceipts.length;
+    const _totalReceiptValue = filteredReceipts.reduce((sum, receipt) => sum + receipt.totalAmount, 0);
     
-    const activeSuppliers = new Set(filteredOrders.map(order => order.supplierId)).size;
-    const avgOrderValue = totalOrders > 0 ? totalOrderValue / totalOrders : 0;
+    const _activeSuppliers = new Set(filteredOrders.map(order => order.supplierId)).size;
+    const _avgOrderValue = totalOrders > 0 ? totalOrderValue / totalOrders : 0;
     
     return {
       totalOrders,
@@ -102,16 +102,16 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
     };
   };
 
-  const getSupplierAnalysis = () => {
-    const filteredOrders = getFilteredOrders();
-    const supplierStats = new Map<string, {
+  const _getSupplierAnalysis = () => {
+    const _filteredOrders = getFilteredOrders();
+    const _supplierStats = new Map<string, {
       orderCount: number;
       totalValue: number;
       supplier: Supplier;
     }>();
 
     filteredOrders.forEach(order => {
-      const existing = supplierStats.get(order.supplierId) || {
+      const _existing = supplierStats.get(order.supplierId) || {
         orderCount: 0,
         totalValue: 0,
         supplier: suppliers.find(s => s.id === order.supplierId)!
@@ -128,9 +128,9 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
       .slice(0, 10);
   };
 
-  const getProductAnalysis = () => {
-    const filteredOrders = getFilteredOrders();
-    const productStats = new Map<string, {
+  const _getProductAnalysis = () => {
+    const _filteredOrders = getFilteredOrders();
+    const _productStats = new Map<string, {
       orderCount: number;
       totalQuantity: number;
       totalValue: number;
@@ -139,7 +139,7 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
 
     filteredOrders.forEach(order => {
       order.items?.forEach(item => {
-        const existing = productStats.get(item.productId) || {
+        const _existing = productStats.get(item.productId) || {
           orderCount: 0,
           totalQuantity: 0,
           totalValue: 0,
@@ -159,16 +159,16 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
       .slice(0, 10);
   };
 
-  const getTrendData = () => {
-    const filteredOrders = getFilteredOrders();
-    const monthlyData = new Map<string, {
+  const _getTrendData = () => {
+    const _filteredOrders = getFilteredOrders();
+    const _monthlyData = new Map<string, {
       orderCount: number;
       totalValue: number;
     }>();
 
     filteredOrders.forEach(order => {
-      const monthKey = new Date(order.orderDate).toISOString().substring(0, 7);
-      const existing = monthlyData.get(monthKey) || { orderCount: 0, totalValue: 0 };
+      const _monthKey = new Date(order.orderDate).toISOString().substring(0, 7);
+      const _existing = monthlyData.get(monthKey) || { orderCount: 0, totalValue: 0 };
       existing.orderCount++;
       existing.totalValue += order.totalAmount;
       monthlyData.set(monthKey, existing);
@@ -179,8 +179,8 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
       .sort((a, b) => a.month.localeCompare(b.month));
   };
 
-  const renderOverview = () => {
-    const stats = calculateOverviewStats();
+  const _renderOverview = () => {
+    const _stats = calculateOverviewStats();
     
     return (
       <div className="space-y-6">
@@ -225,8 +225,8 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
     );
   };
 
-  const renderSupplierAnalysis = () => {
-    const supplierData = getSupplierAnalysis();
+  const _renderSupplierAnalysis = () => {
+    const _supplierData = getSupplierAnalysis();
     
     return (
       <GlassCard>
@@ -246,9 +246,9 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
             </TableHeader>
             <TableBody>
               {supplierData.map((data, index) => {
-                const totalValue = supplierData.reduce((sum, d) => sum + d.totalValue, 0);
-                const percentage = totalValue > 0 ? (data.totalValue / totalValue * 100).toFixed(1) : '0.0';
-                const avgOrder = data.orderCount > 0 ? data.totalValue / data.orderCount : 0;
+                const _totalValue = supplierData.reduce((sum, d) => sum + d.totalValue, 0);
+                const _percentage = totalValue > 0 ? (data.totalValue / totalValue * 100).toFixed(1) : '0.0';
+                const _avgOrder = data.orderCount > 0 ? data.totalValue / data.orderCount : 0;
                 
                 return (
                   <TableRow key={data.supplier.id}>
@@ -278,8 +278,8 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
     );
   };
 
-  const renderProductAnalysis = () => {
-    const productData = getProductAnalysis();
+  const _renderProductAnalysis = () => {
+    const _productData = getProductAnalysis();
     
     return (
       <GlassCard>
@@ -299,7 +299,7 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
             </TableHeader>
             <TableBody>
               {productData.map((data) => {
-                const avgPrice = data.totalQuantity > 0 ? data.totalValue / data.totalQuantity : 0;
+                const _avgPrice = data.totalQuantity > 0 ? data.totalValue / data.totalQuantity : 0;
                 
                 return (
                   <TableRow key={data.product.id}>
@@ -325,8 +325,8 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
     );
   };
 
-  const renderTrends = () => {
-    const trendData = getTrendData();
+  const _renderTrends = () => {
+    const _trendData = getTrendData();
     
     return (
       <GlassCard>
@@ -345,8 +345,8 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
             </TableHeader>
             <TableBody>
               {trendData.map((data) => {
-                const avgOrder = data.orderCount > 0 ? data.totalValue / data.orderCount : 0;
-                const monthName = new Date(data.month + '-01').toLocaleDateString('zh-CN', {
+                const _avgOrder = data.orderCount > 0 ? data.totalValue / data.orderCount : 0;
+                const _monthName = new Date(data.month + '-01').toLocaleDateString('zh-CN', {
                   year: 'numeric',
                   month: 'long'
                 });
@@ -369,17 +369,17 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
     );
   };
 
-  const renderPerformance = () => {
-    const filteredOrders = getFilteredOrders();
-    const filteredReceipts = getFilteredReceipts();
+  const _renderPerformance = () => {
+    const _filteredOrders = getFilteredOrders();
+    const _filteredReceipts = getFilteredReceipts();
     
-    const onTimeDeliveries = filteredReceipts.filter(receipt => {
-      const order = filteredOrders.find(o => o.id === receipt.orderId);
+    const _onTimeDeliveries = filteredReceipts.filter(receipt => {
+      const _order = filteredOrders.find(o => o.id === receipt.orderId);
       if (!order) return false;
       return new Date(receipt.receiptDate) <= new Date(order.expectedDate || order.orderDate);
     }).length;
     
-    const onTimeRate = filteredReceipts.length > 0 ? (onTimeDeliveries / filteredReceipts.length * 100).toFixed(1) : '0.0';
+    const _onTimeRate = filteredReceipts.length > 0 ? (onTimeDeliveries / filteredReceipts.length * 100).toFixed(1) : '0.0';
     
     return (
       <div className="space-y-6">
@@ -433,7 +433,7 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
     );
   };
 
-  const tabs = [
+  const _tabs = [
     { id: 'overview' as ReportTab, label: '采购概览', icon: '📊', description: '整体数据概览' },
     { id: 'suppliers' as ReportTab, label: '供应商分析', icon: '🏢', description: '供应商表现分析' },
     { id: 'products' as ReportTab, label: '商品分析', icon: '📦', description: '热门采购商品' },

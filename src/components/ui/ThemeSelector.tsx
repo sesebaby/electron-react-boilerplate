@@ -55,32 +55,32 @@ export const ThemeSelector: React.FC = () => {
 
   useEffect(() => {
     // 从localStorage读取保存的主题
-    const savedTheme = localStorage.getItem('inventory-system-theme') || 'glass-future';
+    const _savedTheme = localStorage.getItem('inventory-system-theme') || 'glass-future';
     setCurrentTheme(savedTheme);
     applyTheme(savedTheme);
   }, []);
 
-  const applyTheme = (themeId: string) => {
-    const theme = themes.find(t => t.id === themeId);
+  const _applyTheme = (themeId: string) => {
+    const _theme = themes.find(t => t.id === themeId);
     if (!theme) return;
 
     // 设置document的data-theme属性
     document.documentElement.setAttribute('data-theme', themeId);
     
     // 设置body背景渐变
-    const bodyStyle = document.body.style;
+    const _bodyStyle = document.body.style;
     bodyStyle.background = `linear-gradient(135deg, ${theme.colors.primary} 0%, ${theme.colors.secondary} 100%)`;
     
     // 保存到localStorage
     localStorage.setItem('inventory-system-theme', themeId);
   };
 
-  const handleThemeChange = (themeId: string) => {
+  const _handleThemeChange = (themeId: string) => {
     setCurrentTheme(themeId);
     applyTheme(themeId);
   };
 
-  const currentThemeData = themes.find(t => t.id === currentTheme);
+  const _currentThemeData = themes.find(t => t.id === currentTheme);
 
   return (
     <GlassCard title="主题设置" className="max-w-md">

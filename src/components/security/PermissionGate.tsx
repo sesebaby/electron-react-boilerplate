@@ -33,18 +33,18 @@ export const PermissionGate: React.FC<PermissionGateProps> = ({
   }
 
   // Collect all permissions and roles to check
-  const allPermissions = [
+  const _allPermissions = [
     ...(permission ? [permission] : []),
     ...permissions
   ];
   
-  const allRoles = [
+  const _allRoles = [
     ...(role ? [role] : []),
     ...roles
   ];
 
   // Check permissions
-  let hasRequiredPermissions = true;
+  const _hasRequiredPermissions = true;
   if (allPermissions.length > 0) {
     if (requireAll) {
       hasRequiredPermissions = allPermissions.every(p => hasPermission(p));
@@ -54,7 +54,7 @@ export const PermissionGate: React.FC<PermissionGateProps> = ({
   }
 
   // Check roles
-  let hasRequiredRoles = true;
+  const _hasRequiredRoles = true;
   if (allRoles.length > 0) {
     if (requireAll) {
       hasRequiredRoles = allRoles.every(r => hasRole(r));
@@ -64,7 +64,7 @@ export const PermissionGate: React.FC<PermissionGateProps> = ({
   }
 
   // Combine permission and role checks
-  const hasAccess = hasRequiredPermissions && hasRequiredRoles;
+  const _hasAccess = hasRequiredPermissions && hasRequiredRoles;
 
   return hasAccess ? <>{children}</> : <>{fallback}</>;
 };
@@ -106,30 +106,30 @@ export function withRole<P extends object>(
 /**
  * Hook for conditional rendering based on permissions
  */
-export const usePermissionCheck = () => {
+export const _usePermissionCheck = () => {
   const { hasPermission, hasRole } = useAuth();
 
-  const checkPermission = (permission: string): boolean => {
+  const _checkPermission = (permission: string): boolean => {
     return hasPermission(permission);
   };
 
-  const checkRole = (role: UserRole): boolean => {
+  const _checkRole = (role: UserRole): boolean => {
     return hasRole(role);
   };
 
-  const checkAnyPermission = (permissions: string[]): boolean => {
+  const _checkAnyPermission = (permissions: string[]): boolean => {
     return permissions.some(p => hasPermission(p));
   };
 
-  const checkAllPermissions = (permissions: string[]): boolean => {
+  const _checkAllPermissions = (permissions: string[]): boolean => {
     return permissions.every(p => hasPermission(p));
   };
 
-  const checkAnyRole = (roles: UserRole[]): boolean => {
+  const _checkAnyRole = (roles: UserRole[]): boolean => {
     return roles.some(r => hasRole(r));
   };
 
-  const checkAllRoles = (roles: UserRole[]): boolean => {
+  const _checkAllRoles = (roles: UserRole[]): boolean => {
     return roles.every(r => hasRole(r));
   };
 

@@ -12,8 +12,8 @@ interface FinancialProps {
 type FinancialTab = 'payables' | 'receivables' | 'payments' | 'receipts' | 'reports';
 
 // 根据URL路径确定默认显示的标签
-const getDefaultTab = (): FinancialTab => {
-  const hash = window.location.hash.replace('#', '');
+const _getDefaultTab = (): FinancialTab => {
+  const _hash = window.location.hash.replace('#', '');
   switch (hash) {
     case 'accounts-payable':
       return 'payables';
@@ -33,7 +33,7 @@ const getDefaultTab = (): FinancialTab => {
 export const Financial: React.FC<FinancialProps> = ({ className }) => {
   const [activeTab, setActiveTab] = useState<FinancialTab>(getDefaultTab());
 
-  const tabs = [
+  const _tabs = [
     { id: 'payables' as FinancialTab, label: '应付账款', icon: '💰', description: '管理供应商付款' },
     { id: 'receivables' as FinancialTab, label: '应收账款', icon: '💴', description: '管理客户收款' },
     { id: 'payments' as FinancialTab, label: '付款记录', icon: '📤', description: '查看付款历史' },
@@ -41,7 +41,7 @@ export const Financial: React.FC<FinancialProps> = ({ className }) => {
     { id: 'reports' as FinancialTab, label: '财务报表', icon: '📊', description: '分析财务数据' }
   ];
 
-  const renderTabContent = () => {
+  const _renderTabContent = () => {
     switch (activeTab) {
       case 'payables':
         return <AccountsPayableManagement />;

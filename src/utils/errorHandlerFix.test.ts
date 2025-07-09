@@ -9,7 +9,7 @@ import { logger } from './logger';
 describe('错误处理器循环调用修复测试', () => {
   let originalConsoleError: typeof console.error;
   let originalConsoleWarn: typeof console.warn;
-  let errorCallCount = 0;
+  const _errorCallCount = 0;
 
   beforeEach(() => {
     // 保存原始console方法
@@ -35,7 +35,7 @@ describe('错误处理器循环调用修复测试', () => {
 
   test('应该防止console.error循环调用', () => {
     // 模拟一个会触发错误处理的场景
-    const testError = new Error('测试错误');
+    const _testError = new Error('测试错误');
     
     // 触发错误
     console.error('测试错误消息', testError);
@@ -52,7 +52,7 @@ describe('错误处理器循环调用修复测试', () => {
 
   test('应该防止logger文件写入失败时的循环调用', async () => {
     // 模拟文件写入失败
-    const mockFileLoggerService = {
+    const _mockFileLoggerService = {
       writeLog: jest.fn().mockRejectedValue(new Error('文件写入失败')),
       writeLogBatch: jest.fn().mockRejectedValue(new Error('批量写入失败')),
       flush: jest.fn().mockResolvedValue(undefined)
@@ -92,7 +92,7 @@ describe('错误处理器循环调用修复测试', () => {
 
   test('应该在错误处理过程中出现异常时使用原始console', () => {
     // 模拟一个会在错误处理过程中抛出异常的情况
-    const problematicObject = {
+    const _problematicObject = {
       toString: () => {
         throw new Error('toString方法异常');
       }

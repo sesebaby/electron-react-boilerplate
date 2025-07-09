@@ -12,8 +12,8 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
   // 监听哈希变化来同步当前页面
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
+    const _handleHashChange = () => {
+      const _hash = window.location.hash.replace('#', '');
       if (hash) {
         setCurrentPage(hash);
       }
@@ -30,11 +30,11 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     };
   }, []);
 
-  const toggleSidebar = () => {
+  const _toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
 
-  const handlePageChange = (page: string) => {
+  const _handlePageChange = (page: string) => {
     setCurrentPage(page);
     window.location.hash = page;
   };

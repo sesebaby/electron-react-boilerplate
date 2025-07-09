@@ -85,7 +85,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -107,7 +107,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     }
   };
 
-  const handleReceivableSubmit = async (e: React.FormEvent) => {
+  const _handleReceivableSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
@@ -141,7 +141,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     }
   };
 
-  const handleReceiptSubmit = async (e: React.FormEvent) => {
+  const _handleReceiptSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
@@ -160,7 +160,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     }
   };
 
-  const handleEditReceivable = (receivable: AccountsReceivable) => {
+  const _handleEditReceivable = (receivable: AccountsReceivable) => {
     setEditingReceivable(receivable);
     setReceivableFormData({
       billNo: receivable.billNo,
@@ -174,12 +174,12 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     setShowReceivableForm(true);
   };
 
-  const handleDeleteReceivable = (receivableId: string) => {
+  const _handleDeleteReceivable = (receivableId: string) => {
     setDeleteTargetId(receivableId);
     setShowConfirmDialog(true);
   };
 
-  const confirmDelete = async () => {
+  const _confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
@@ -194,14 +194,14 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     }
   };
 
-  const cancelDelete = () => {
+  const _cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const handleAddReceipt = async (receivable: AccountsReceivable) => {
+  const _handleAddReceipt = async (receivable: AccountsReceivable) => {
     setSelectedReceivable(receivable);
-    const receiptNo = await accountsReceivableService.generateReceiptNo();
+    const _receiptNo = await accountsReceivableService.generateReceiptNo();
     setReceiptFormData({
       ...emptyReceiptForm,
       receivableId: receivable.id,
@@ -210,9 +210,9 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     setShowReceiptForm(true);
   };
 
-  const handleViewReceipts = async (receivable: AccountsReceivable) => {
+  const _handleViewReceipts = async (receivable: AccountsReceivable) => {
     try {
-      const receiptHistory = await accountsReceivableService.getReceipts(receivable.id);
+      const _receiptHistory = await accountsReceivableService.getReceipts(receivable.id);
       setReceipts(receiptHistory);
       setSelectedReceivable(receivable);
       setShowReceiptHistory(true);
@@ -222,7 +222,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     }
   };
 
-  const handleCancel = () => {
+  const _handleCancel = () => {
     setShowReceivableForm(false);
     setShowReceiptForm(false);
     setShowReceiptHistory(false);
@@ -232,24 +232,24 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     setReceiptFormData(emptyReceiptForm);
   };
 
-  const handleReceivableInputChange = (field: keyof ReceivableForm, value: string | number | Date) => {
+  const _handleReceivableInputChange = (field: keyof ReceivableForm, value: string | number | Date) => {
     setReceivableFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleReceiptInputChange = (field: keyof ReceiptForm, value: string | number | Date) => {
+  const _handleReceiptInputChange = (field: keyof ReceiptForm, value: string | number | Date) => {
     setReceiptFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const generateInvoiceNo = async () => {
+  const _generateInvoiceNo = async () => {
     try {
-      const billNo = await accountsReceivableService.generateInvoiceNo();
+      const _billNo = await accountsReceivableService.generateInvoiceNo();
       setReceivableFormData(prev => ({ ...prev, billNo }));
     } catch (err) {
       console.error('Failed to generate invoice number:', err);
     }
   };
 
-  const getStatusText = (status: ReceivableStatus): string => {
+  const _getStatusText = (status: ReceivableStatus): string => {
     switch (status) {
       case ReceivableStatus.UNPAID: return '未收款';
       case ReceivableStatus.PARTIAL: return '部分收款';
@@ -258,7 +258,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     }
   };
 
-  const getStatusClass = (status: ReceivableStatus): string => {
+  const _getStatusClass = (status: ReceivableStatus): string => {
     switch (status) {
       case ReceivableStatus.UNPAID: return 'financial-status-unpaid';
       case ReceivableStatus.PARTIAL: return 'financial-status-partial';
@@ -267,7 +267,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     }
   };
 
-  const getReceiptMethodText = (method: PaymentMethod): string => {
+  const _getReceiptMethodText = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return '现金';
       case PaymentMethod.BANK_TRANSFER: return '银行转账';
@@ -278,27 +278,27 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     }
   };
 
-  const getCustomerName = (customerId: string): string => {
-    const customer = customers.find(c => c.id === customerId);
+  const _getCustomerName = (customerId: string): string => {
+    const _customer = customers.find(c => c.id === customerId);
     return customer ? customer.name : '未知客户';
   };
 
-  const isOverdue = (receivable: AccountsReceivable): boolean => {
+  const _isOverdue = (receivable: AccountsReceivable): boolean => {
     return receivable.status !== ReceivableStatus.PAID && new Date(receivable.dueDate) < new Date();
   };
 
-  const formatDate = (date: Date): string => {
+  const _formatDate = (date: Date): string => {
     return new Date(date).toLocaleDateString('zh-CN');
   };
 
-  const filteredReceivables = receivables.filter(receivable => {
-    const matchesSearch = !searchTerm || 
+  const _filteredReceivables = receivables.filter(receivable => {
+    const _matchesSearch = !searchTerm || 
       receivable.billNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       getCustomerName(receivable.customerId).toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesStatus = !selectedStatus || receivable.status === selectedStatus;
-    const matchesCustomer = !selectedCustomer || receivable.customerId === selectedCustomer;
-    const matchesOverdue = !showOverdueOnly || isOverdue(receivable);
+    const _matchesStatus = !selectedStatus || receivable.status === selectedStatus;
+    const _matchesCustomer = !selectedCustomer || receivable.customerId === selectedCustomer;
+    const _matchesOverdue = !showOverdueOnly || isOverdue(receivable);
     
     return matchesSearch && matchesStatus && matchesCustomer && matchesOverdue;
   });

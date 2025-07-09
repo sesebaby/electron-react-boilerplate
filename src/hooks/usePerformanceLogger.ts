@@ -38,11 +38,11 @@ export function usePerformanceLogger(
     trackProps = false
   } = options;
 
-  const renderIdRef = useRef<string>('');
-  const mountTimeRef = useRef<number>(0);
-  const renderCountRef = useRef<number>(0);
-  const propsRef = useRef<any>(null);
-  const statsRef = useRef<ComponentPerformanceStats>({
+  const _renderIdRef = useRef<string>('');
+  const _mountTimeRef = useRef<number>(0);
+  const _renderCountRef = useRef<number>(0);
+  const _propsRef = useRef<any>(null);
+  const _statsRef = useRef<ComponentPerformanceStats>({
     mountCount: 0,
     updateCount: 0,
     unmountCount: 0,
@@ -53,12 +53,12 @@ export function usePerformanceLogger(
   });
 
   // 检查是否应该启用监控
-  const isEnabled = process.env.NODE_ENV === 'development' || enableInProduction;
+  const _isEnabled = process.env.NODE_ENV === 'development' || enableInProduction;
 
   /**
    * 开始渲染监控
    */
-  const startRender = useCallback((phase: 'mount' | 'update') => {
+  const _startRender = useCallback((phase: 'mount' | 'update') => {
     if (!isEnabled) return;
 
     renderIdRef.current = performanceMonitor.startRender(componentName, phase);
@@ -68,14 +68,14 @@ export function usePerformanceLogger(
   /**
    * 结束渲染监控
    */
-  const endRender = useCallback((phase: 'mount' | 'update') => {
+  const _endRender = useCallback((phase: 'mount' | 'update') => {
     if (!isEnabled || !renderIdRef.current) return;
 
-    const renderTime = performance.now() - mountTimeRef.current;
+    const _renderTime = performance.now() - mountTimeRef.current;
     performanceMonitor.endRender(renderIdRef.current, componentName, phase);
 
     // 更新统计信息
-    const stats = statsRef.current;
+    const _stats = statsRef.current;
     stats.totalRenderTime += renderTime;
     stats.lastRenderTime = renderTime;
     
@@ -98,13 +98,13 @@ export function usePerformanceLogger(
   /**
    * 检查Props变化
    */
-  const checkPropsChange = useCallback((newProps: any) => {
+  const _checkPropsChange = useCallback((newProps: any) => {
     if (!isEnabled || !trackProps || !propsRef.current) {
       propsRef.current = newProps;
       return;
     }
 
-    const oldProps = propsRef.current;
+    const _oldProps = propsRef.current;
     const changedProps: string[] = [];
 
     // 检查哪些props发生了变化
@@ -156,7 +156,7 @@ export function usePerformanceLogger(
     return () => {
       if (!isEnabled) return;
       
-      const unmountRenderId = performanceMonitor.startRender(componentName, 'unmount');
+      const _unmountRenderId = performanceMonitor.startRender(componentName, 'unmount');
       performanceMonitor.endRender(unmountRenderId, componentName, 'unmount');
       
       statsRef.current.unmountCount++;
@@ -179,9 +179,9 @@ export function withPerformanceLogger<P extends object>(
   componentName?: string,
   options: UsePerformanceLoggerOptions = {}
 ): React.ComponentType<P> {
-  const displayName = componentName || WrappedComponent.displayName || WrappedComponent.name || 'Component';
+  const _displayName = componentName || WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
-  const MemoizedComponent = React.memo<P>((props: P) => {
+  const _MemoizedComponent = React.memo<P>((props: P) => {
     const { checkPropsChange } = usePerformanceLogger(displayName, options);
     
     // 检查props变化
@@ -201,7 +201,7 @@ export function withPerformanceLogger<P extends object>(
  * React Profiler性能监控Hook
  */
 export function useProfiler(componentName: string, phase?: string) {
-  const onRenderCallback = useCallback((
+  const _onRenderCallback = useCallback((
     id: string,
     phase: 'mount' | 'update',
     actualDuration: number,
@@ -230,9 +230,9 @@ export function useProfiler(componentName: string, phase?: string) {
 export function useAsyncPerformance(operationName: string) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const startTimeRef = useRef<number>(0);
+  const _startTimeRef = useRef<number>(0);
 
-  const executeAsync = useCallback(async <T>(
+  const _executeAsync = useCallback(async <T>(
     asyncOperation: () => Promise<T>
   ): Promise<T> => {
     setIsLoading(true);
@@ -240,8 +240,8 @@ export function useAsyncPerformance(operationName: string) {
     startTimeRef.current = performance.now();
 
     try {
-      const result = await asyncOperation();
-      const duration = performance.now() - startTimeRef.current;
+      const _result = await asyncOperation();
+      const _duration = performance.now() - startTimeRef.current;
 
       console.log('Async operation completed:', {
         operationName,
@@ -251,8 +251,8 @@ export function useAsyncPerformance(operationName: string) {
 
       return result;
     } catch (err) {
-      const duration = performance.now() - startTimeRef.current;
-      const error = err as Error;
+      const _duration = performance.now() - startTimeRef.current;
+      const _error = err as Error;
 
       console.log('Async operation failed:', {
         operationName,
@@ -279,17 +279,17 @@ export function useAsyncPerformance(operationName: string) {
  * 内存泄漏检测Hook
  */
 export function useMemoryLeakDetection(componentName: string) {
-  const mountTimeRef = useRef<number>(Date.now());
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const _mountTimeRef = useRef<number>(Date.now());
+  const _intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // 每30秒检查一次内存使用
     intervalRef.current = setInterval(() => {
       // @ts-ignore
-      const memInfo = (performance as any).memory;
+      const _memInfo = (performance as any).memory;
       if (!memInfo) return;
 
-      const age = Date.now() - mountTimeRef.current;
+      const _age = Date.now() - mountTimeRef.current;
       
       console.log('Component memory check:', {
         componentName,
@@ -315,14 +315,14 @@ export function useMemoryLeakDetection(componentName: string) {
  * 用户交互性能监控Hook
  */
 export function useInteractionPerformance() {
-  const measureInteraction = useCallback((
+  const _measureInteraction = useCallback((
     interactionType: string,
     callback: () => void | Promise<void>
   ) => {
-    const startTime = performance.now();
+    const _startTime = performance.now();
     
-    const handleComplete = () => {
-      const duration = performance.now() - startTime;
+    const _handleComplete = () => {
+      const _duration = performance.now() - startTime;
       
       console.log('User interaction measurement:', {
         interactionType,
@@ -332,7 +332,7 @@ export function useInteractionPerformance() {
     };
 
     try {
-      const result = callback();
+      const _result = callback();
       
       if (result instanceof Promise) {
         return result.finally(handleComplete);

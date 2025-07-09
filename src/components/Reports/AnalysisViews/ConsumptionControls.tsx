@@ -10,8 +10,8 @@ import {
 } from '../../../types/consumption';
 
 // 基准日期配置 - 当前月份第1天的起始日期
-const getBaseDate = () => {
-  const now = new Date();
+const _getBaseDate = () => {
+  const _now = new Date();
   return new Date(now.getFullYear(), now.getMonth(), 1);
 };
 
@@ -29,7 +29,7 @@ const ConsumptionControls: React.FC<ConsumptionControlsProps> = ({
   /**
    * 处理日期范围变更
    */
-  const handleDateRangeChange = (field: 'startDate' | 'endDate', value: string) => {
+  const _handleDateRangeChange = (field: 'startDate' | 'endDate', value: string) => {
     const newConfig: DailyConsumptionViewConfig = {
       ...config,
       dateRange: {
@@ -43,7 +43,7 @@ const ConsumptionControls: React.FC<ConsumptionControlsProps> = ({
   /**
    * 处理显示模式变更
    */
-  const handleDisplayModeChange = (mode: DisplayMode) => {
+  const _handleDisplayModeChange = (mode: DisplayMode) => {
     const newConfig: DailyConsumptionViewConfig = {
       ...config,
       displayMode: mode
@@ -54,9 +54,9 @@ const ConsumptionControls: React.FC<ConsumptionControlsProps> = ({
   /**
    * 处理快速日期选择
    */
-  const handleQuickDateSelect = (days: number) => {
-    const endDate = new Date();
-    const startDate = new Date();
+  const _handleQuickDateSelect = (days: number) => {
+    const _endDate = new Date();
+    const _startDate = new Date();
     startDate.setDate(endDate.getDate() - days + 1);
     
     const newConfig: DailyConsumptionViewConfig = {
@@ -72,13 +72,13 @@ const ConsumptionControls: React.FC<ConsumptionControlsProps> = ({
   /**
    * 处理周快速选择
    */
-  const handleWeekSelect = (weekNumber: number) => {
+  const _handleWeekSelect = (weekNumber: number) => {
     // 计算该周的开始日期和结束日期
-    const baseDate = getBaseDate();
-    const startDate = new Date(baseDate);
+    const _baseDate = getBaseDate();
+    const _startDate = new Date(baseDate);
     startDate.setDate(baseDate.getDate() + (weekNumber - 1) * 7);
     
-    const endDate = new Date(startDate);
+    const _endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 6);
     
     const newConfig: DailyConsumptionViewConfig = {
@@ -94,14 +94,14 @@ const ConsumptionControls: React.FC<ConsumptionControlsProps> = ({
   /**
    * 格式化日期为输入框格式
    */
-  const formatDateForInput = (date: Date): string => {
+  const _formatDateForInput = (date: Date): string => {
     return date.toISOString().split('T')[0];
   };
 
   /**
    * 获取显示模式的图标
    */
-  const getDisplayModeIcon = (mode: DisplayMode): string => {
+  const _getDisplayModeIcon = (mode: DisplayMode): string => {
     switch (mode) {
       case DisplayMode.QUANTITY:
         return '📦';
@@ -117,7 +117,7 @@ const ConsumptionControls: React.FC<ConsumptionControlsProps> = ({
   /**
    * 获取显示模式的标题
    */
-  const getDisplayModeTitle = (mode: DisplayMode): string => {
+  const _getDisplayModeTitle = (mode: DisplayMode): string => {
     switch (mode) {
       case DisplayMode.QUANTITY:
         return '数量统计';

@@ -46,11 +46,11 @@ export class DailyConsumptionService {
    * @returns 消耗表格数据
    */
   async getConsumptionData(config: DailyConsumptionViewConfig): Promise<ConsumptionTableData> {
-    const cacheKey = this.generateCacheKey(config);
+    const _cacheKey = this.generateCacheKey(config);
     
     // 检查缓存
     if (this.isCacheValid(cacheKey)) {
-      const cachedData = this.cache.get(cacheKey);
+      const _cachedData = this.cache.get(cacheKey);
       if (cachedData) {
         console.log('返回缓存的消耗数据');
         return cachedData;
@@ -58,25 +58,25 @@ export class DailyConsumptionService {
     }
 
     console.log('开始获取逐日消耗数据...', config);
-    const startTime = Date.now();
+    const _startTime = Date.now();
 
     try {
       // 1. 获取库存事务数据
-      const transactions = await this.getInventoryTransactions(config);
+      const _transactions = await this.getInventoryTransactions(config);
       console.log(`获取到 ${transactions.length} 条库存事务记录`);
 
       // 2. 构建分类层级结构
-      const categories = await this.buildCategoryHierarchy(transactions, config);
+      const _categories = await this.buildCategoryHierarchy(transactions, config);
       console.log(`构建了 ${categories.length} 个分类层级`);
 
       // 3. 生成日期列
-      const dateColumns = TimeSlotHelper.getDateRange(
+      const _dateColumns = TimeSlotHelper.getDateRange(
         config.dateRange.startDate,
         config.dateRange.endDate
       );
 
       // 4. 计算汇总数据
-      const totals = ConsumptionCalculator.calculateTotals(categories, dateColumns);
+      const _totals = ConsumptionCalculator.calculateTotals(categories, dateColumns);
 
       // 5. 构建结果
       const result: ConsumptionTableData = {
@@ -91,7 +91,7 @@ export class DailyConsumptionService {
       this.cache.set(cacheKey, result);
       this.cacheExpiry.set(cacheKey, Date.now() + this.CACHE_DURATION);
 
-      const endTime = Date.now();
+      const _endTime = Date.now();
       console.log(`消耗数据获取完成，耗时: ${endTime - startTime}ms`);
 
       return result;
@@ -109,14 +109,14 @@ export class DailyConsumptionService {
   private async getInventoryTransactions(config: DailyConsumptionViewConfig): Promise<InventoryTransaction[]> {
     try {
       // 获取所有库存事务
-      const allTransactions = await inventoryStockService.findAllTransactions();
+      const _allTransactions = await inventoryStockService.findAllTransactions();
       
       // 筛选出库事务
-      const outTransactions = allTransactions.filter(t => t.transactionType === TransactionType.OUT);
+      const _outTransactions = allTransactions.filter(t => t.transactionType === TransactionType.OUT);
       
       // 按日期范围筛选
-      const filteredTransactions = outTransactions.filter(t => {
-        const transactionDate = new Date(t.createdAt);
+      const _filteredTransactions = outTransactions.filter(t => {
+        const _transactionDate = new Date(t.createdAt);
         return TimeSlotHelper.isDateInRange(
           transactionDate,
           config.dateRange.startDate,
@@ -125,11 +125,11 @@ export class DailyConsumptionService {
       });
 
       // 应用其他筛选条件
-      let result = filteredTransactions;
+      const _result = filteredTransactions;
 
       if (config.categoryFilter && config.categoryFilter.length > 0) {
-        const products = await productService.findAll();
-        const filteredProductIds = products
+        const _products = await productService.findAll();
+        const _filteredProductIds = products
           .filter(p => config.categoryFilter!.includes(p.categoryId))
           .map(p => p.id);
         
@@ -161,14 +161,14 @@ export class DailyConsumptionService {
       ]);
 
       // 构建分类映射
-      const categoryMap = new Map<string, Category>();
+      const _categoryMap = new Map<string, Category>();
       allCategories.forEach(cat => categoryMap.set(cat.id, cat));
 
-      const productMap = new Map<string, Product>();
+      const _productMap = new Map<string, Product>();
       allProducts.forEach(prod => productMap.set(prod.id, prod));
 
       // 按产品分组事务
-      const transactionsByProduct = new Map<string, InventoryTransaction[]>();
+      const _transactionsByProduct = new Map<string, InventoryTransaction[]>();
       transactions.forEach(t => {
         if (!transactionsByProduct.has(t.productId)) {
           transactionsByProduct.set(t.productId, []);
@@ -177,7 +177,7 @@ export class DailyConsumptionService {
       });
 
       // 按分类分组产品
-      const productsByCategory = new Map<string, Product[]>();
+      const _productsByCategory = new Map<string, Product[]>();
       allProducts.forEach(product => {
         if (!productsByCategory.has(product.categoryId)) {
           productsByCategory.set(product.categoryId, []);
@@ -186,7 +186,7 @@ export class DailyConsumptionService {
       });
 
       // 生成日期列
-      const dateColumns = TimeSlotHelper.getDateRange(
+      const _dateColumns = TimeSlotHelper.getDateRange(
         config.dateRange.startDate,
         config.dateRange.endDate
       );
@@ -195,10 +195,10 @@ export class DailyConsumptionService {
       const categoryRows: CategoryRowData[] = [];
 
       // 获取根分类
-      const rootCategories = allCategories.filter(cat => !cat.parentId);
+      const _rootCategories = allCategories.filter(cat => !cat.parentId);
 
       for (const category of rootCategories) {
-        const categoryRow = await this.buildCategoryRow(
+        const _categoryRow = await this.buildCategoryRow(
           category,
           productsByCategory,
           transactionsByProduct,
@@ -234,12 +234,12 @@ export class DailyConsumptionService {
   ): Promise<CategoryRowData | null> {
     try {
       // 获取该分类下的产品
-      const products = productsByCategory.get(category.id) || [];
+      const _products = productsByCategory.get(category.id) || [];
       
       // 构建产品行数据
       const productRows: ProductRowData[] = [];
       for (const product of products) {
-        const productRow = await this.buildProductRow(
+        const _productRow = await this.buildProductRow(
           product,
           transactionsByProduct.get(product.id) || [],
           dateColumns,
@@ -249,12 +249,12 @@ export class DailyConsumptionService {
       }
 
       // 获取子分类
-      const childCategories = Array.from(categoryMap.values())
+      const _childCategories = Array.from(categoryMap.values())
         .filter(cat => cat.parentId === category.id);
 
       const children: CategoryRowData[] = [];
       for (const childCategory of childCategories) {
-        const childRow = await this.buildCategoryRow(
+        const _childRow = await this.buildCategoryRow(
           childCategory,
           productsByCategory,
           transactionsByProduct,
@@ -269,9 +269,9 @@ export class DailyConsumptionService {
       }
 
       // 构建分类数据映射
-      const categoryData = new Map<string, TimeSlotData>();
+      const _categoryData = new Map<string, TimeSlotData>();
       for (const date of dateColumns) {
-        const timeSlotData = this.aggregateTimeSlotDataForCategory(
+        const _timeSlotData = this.aggregateTimeSlotDataForCategory(
           productRows,
           children,
           date
@@ -286,7 +286,7 @@ export class DailyConsumptionService {
       });
       children.forEach(child => allSlotData.push(child.rowTotal));
       
-      const rowTotal = ConsumptionCalculator.mergeConsumptionData(allSlotData);
+      const _rowTotal = ConsumptionCalculator.mergeConsumptionData(allSlotData);
 
       return {
         categoryId: category.id,
@@ -317,15 +317,15 @@ export class DailyConsumptionService {
     config: DailyConsumptionViewConfig
   ): Promise<ProductRowData> {
     // 按日期和时间段分组事务
-    const productData = new Map<string, TimeSlotData>();
+    const _productData = new Map<string, TimeSlotData>();
     
     for (const date of dateColumns) {
-      const dateTransactions = transactions.filter(t => {
-        const transactionDate = TimeSlotHelper.formatDate(new Date(t.createdAt));
+      const _dateTransactions = transactions.filter(t => {
+        const _transactionDate = TimeSlotHelper.formatDate(new Date(t.createdAt));
         return transactionDate === date;
       });
 
-      const timeSlotData = await this.buildTimeSlotDataFromTransactions(
+      const _timeSlotData = await this.buildTimeSlotDataFromTransactions(
         dateTransactions,
         product.id,
         config
@@ -340,13 +340,13 @@ export class DailyConsumptionService {
       allSlotData.push(timeSlotData.dailyTotal);
     });
     
-    const rowTotal = ConsumptionCalculator.mergeConsumptionData(allSlotData);
+    const _rowTotal = ConsumptionCalculator.mergeConsumptionData(allSlotData);
 
     // 检查单位转换
-    const unitConversion = await unitConversionService.findByProductId(product.id);
+    const _unitConversion = await unitConversionService.findByProductId(product.id);
 
     // 获取基础单位信息
-    const baseUnit = await unitService.findById(product.unitId);
+    const _baseUnit = await unitService.findById(product.unitId);
 
     return {
       productId: product.id,
@@ -376,7 +376,7 @@ export class DailyConsumptionService {
     const eveningTransactions: InventoryTransaction[] = [];
 
     transactions.forEach(t => {
-      const timeSlotResult = TimeSlotHelper.getTimeSlot(new Date(t.createdAt), config.timeSlotConfig);
+      const _timeSlotResult = TimeSlotHelper.getTimeSlot(new Date(t.createdAt), config.timeSlotConfig);
       
       switch (timeSlotResult.timeSlot) {
         case TimeSlot.MORNING:
@@ -392,9 +392,9 @@ export class DailyConsumptionService {
     });
 
     // 计算各时间段的消耗数据
-    const morning = await this.calculateSlotConsumption(morningTransactions, productId);
-    const afternoon = await this.calculateSlotConsumption(afternoonTransactions, productId);
-    const evening = await this.calculateSlotConsumption(eveningTransactions, productId);
+    const _morning = await this.calculateSlotConsumption(morningTransactions, productId);
+    const _afternoon = await this.calculateSlotConsumption(afternoonTransactions, productId);
+    const _evening = await this.calculateSlotConsumption(eveningTransactions, productId);
 
     const timeSlotData: TimeSlotData = {
       morning,
@@ -413,7 +413,7 @@ export class DailyConsumptionService {
     transactions: InventoryTransaction[],
     productId: string
   ): Promise<ConsumptionSlotData> {
-    const baseData = ConsumptionCalculator.calculateConsumptionFromTransactions(transactions);
+    const _baseData = ConsumptionCalculator.calculateConsumptionFromTransactions(transactions);
     return await ConsumptionCalculator.applyUnitConversion(productId, baseData);
   }
 
@@ -431,7 +431,7 @@ export class DailyConsumptionService {
 
     // 收集产品数据
     productRows.forEach(product => {
-      const timeSlotData = product.data.get(date);
+      const _timeSlotData = product.data.get(date);
       if (timeSlotData) {
         allMorningData.push(timeSlotData.morning);
         allAfternoonData.push(timeSlotData.afternoon);
@@ -441,7 +441,7 @@ export class DailyConsumptionService {
 
     // 收集子分类数据
     childCategories.forEach(child => {
-      const timeSlotData = child.data.get(date);
+      const _timeSlotData = child.data.get(date);
       if (timeSlotData) {
         allMorningData.push(timeSlotData.morning);
         allAfternoonData.push(timeSlotData.afternoon);
@@ -479,7 +479,7 @@ export class DailyConsumptionService {
    * 检查缓存是否有效
    */
   private isCacheValid(cacheKey: string): boolean {
-    const expiry = this.cacheExpiry.get(cacheKey);
+    const _expiry = this.cacheExpiry.get(cacheKey);
     return expiry ? Date.now() < expiry : false;
   }
 
@@ -496,7 +496,7 @@ export class DailyConsumptionService {
    * 清除过期缓存
    */
   clearExpiredCache(): void {
-    const now = Date.now();
+    const _now = Date.now();
     for (const [key, expiry] of this.cacheExpiry.entries()) {
       if (now >= expiry) {
         this.cache.delete(key);
@@ -507,5 +507,5 @@ export class DailyConsumptionService {
 }
 
 // 创建并导出服务实例
-const dailyConsumptionService = new DailyConsumptionService();
+const _dailyConsumptionService = new DailyConsumptionService();
 export default dailyConsumptionService;

@@ -112,12 +112,12 @@ export class PermissionService {
   }
 
   private getPermissionDescription(role: UserRole, module: PermissionModule): string {
-    const roleNames = {
+    const _roleNames = {
       [UserRole.ADMIN]: '管理员',
       [UserRole.OPERATOR]: '操作员'
     };
 
-    const moduleNames = {
+    const _moduleNames = {
       [PermissionModule.SYSTEM]: '系统管理',
       [PermissionModule.INVENTORY]: '库存管理',
       [PermissionModule.PURCHASE]: '采购管理',
@@ -139,8 +139,8 @@ export class PermissionService {
     const permissions: { [key in PermissionModule]?: PermissionAction[] } = {};
     
     Object.values(PermissionModule).forEach(module => {
-      const key = `${role}-${module}`;
-      const permission = this.rolePermissions.get(key);
+      const _key = `${role}-${module}`;
+      const _permission = this.rolePermissions.get(key);
       if (permission) {
         permissions[module] = permission.actions;
       }
@@ -152,8 +152,8 @@ export class PermissionService {
   // 更新角色权限
   async updateRolePermissions(role: UserRole, permissions: { [key in PermissionModule]?: PermissionAction[] }): Promise<void> {
     Object.entries(permissions).forEach(([module, actions]) => {
-      const key = `${role}-${module}`;
-      const existing = this.rolePermissions.get(key);
+      const _key = `${role}-${module}`;
+      const _existing = this.rolePermissions.get(key);
       
       if (existing) {
         existing.actions = actions || [];
@@ -175,8 +175,8 @@ export class PermissionService {
 
   // 检查用户是否有特定权限
   async hasPermission(userRole: UserRole, module: PermissionModule, action: PermissionAction): Promise<boolean> {
-    const key = `${userRole}-${module}`;
-    const permission = this.rolePermissions.get(key);
+    const _key = `${userRole}-${module}`;
+    const _permission = this.rolePermissions.get(key);
     return permission ? permission.actions.includes(action) : false;
   }
 
@@ -258,9 +258,9 @@ export class PermissionService {
     totalModules: number;
     totalActions: number;
   }> {
-    const roles = await this.getAllRoles();
-    const modules = await this.getAllModules();
-    const actions = await this.getAllActions();
+    const _roles = await this.getAllRoles();
+    const _modules = await this.getAllModules();
+    const _actions = await this.getAllActions();
 
     return {
       totalRoles: roles.length,

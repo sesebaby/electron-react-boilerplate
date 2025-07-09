@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../hooks/useAuth';
+import { _useAuth as useAuth } from '../hooks/useAuth';
 import { userService } from '../services/business';
 import { GlassButton, GlassInput } from './ui/FormControls';
 
@@ -22,7 +22,7 @@ export const GlobalPasswordChangeModal: React.FC = () => {
 
   // 监听来自TopBar的密码修改事件
   useEffect(() => {
-    const handleChangePassword = () => {
+    const _handleChangePassword = () => {
       if (user) {
         setIsOpen(true);
         setError(null);
@@ -40,7 +40,7 @@ export const GlobalPasswordChangeModal: React.FC = () => {
     };
   }, [user]);
 
-  const handleClose = () => {
+  const _handleClose = () => {
     setIsOpen(false);
     setError(null);
     setPasswordData({
@@ -50,7 +50,7 @@ export const GlobalPasswordChangeModal: React.FC = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const _handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
 
@@ -91,7 +91,7 @@ export const GlobalPasswordChangeModal: React.FC = () => {
     }
   };
 
-  const handleInputChange = (field: keyof PasswordChangeData, value: string) => {
+  const _handleInputChange = (field: keyof PasswordChangeData, value: string) => {
     setPasswordData(prev => ({
       ...prev,
       [field]: value

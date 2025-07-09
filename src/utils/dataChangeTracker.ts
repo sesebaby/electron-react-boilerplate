@@ -73,12 +73,12 @@ export class DataChangeTracker {
     beforeSnapshot: IDatabaseSnapshot,
     afterSnapshot: IDatabaseSnapshot
   ): Promise<DataChangeRecord> {
-    const operationId = `${operation}_${Date.now()}`;
+    const _operationId = `${operation}_${Date.now()}`;
     
     console.log(`[DataChangeTracker] 追踪操作: ${operation} (${operationId})`);
     
-    const changes = await this.analyzeChanges(beforeSnapshot, afterSnapshot);
-    const integrity = await this.verifyDataIntegrity(beforeSnapshot, afterSnapshot, changes);
+    const _changes = await this.analyzeChanges(beforeSnapshot, afterSnapshot);
+    const _integrity = await this.verifyDataIntegrity(beforeSnapshot, afterSnapshot, changes);
     
     const changeRecord: DataChangeRecord = {
       operationId,
@@ -102,20 +102,20 @@ export class DataChangeTracker {
     beforeSnapshot: IDatabaseSnapshot,
     afterSnapshot: IDatabaseSnapshot
   ): Promise<Map<string, TableChangeRecord>> {
-    const changes = new Map<string, TableChangeRecord>();
+    const _changes = new Map<string, TableChangeRecord>();
     
     // 获取所有跟踪的表
-    const trackedTables = Array.from(beforeSnapshot.tables.keys());
+    const _trackedTables = Array.from(beforeSnapshot.tables.keys());
     
     for (const tableName of trackedTables) {
-      const beforeTable = beforeSnapshot.tables.get(tableName);
-      const afterTable = afterSnapshot.tables.get(tableName);
+      const _beforeTable = beforeSnapshot.tables.get(tableName);
+      const _afterTable = afterSnapshot.tables.get(tableName);
       
       if (!beforeTable || !afterTable) {
         continue;
       }
       
-      const tableChange = await this.analyzeTableChange(tableName, beforeTable, afterTable);
+      const _tableChange = await this.analyzeTableChange(tableName, beforeTable, afterTable);
       if (tableChange.rowsAdded > 0 || tableChange.rowsUpdated > 0 || tableChange.rowsDeleted > 0) {
         changes.set(tableName, tableChange);
       }
@@ -145,8 +145,8 @@ export class DataChangeTracker {
     };
     
     // 创建数据映射以便比较
-    const beforeMap = new Map(beforeTable.data.map((row: any) => [row.id, row]));
-    const afterMap = new Map(afterTable.data.map((row: any) => [row.id, row]));
+    const _beforeMap = new Map(beforeTable.data.map((row: any) => [row.id, row]));
+    const _afterMap = new Map(afterTable.data.map((row: any) => [row.id, row]));
     
     // 查找新增的行
     afterMap.forEach((row, id) => {
@@ -155,7 +155,7 @@ export class DataChangeTracker {
         tableChange.rowsAdded++;
         
         // 检查新增行的业务规则
-        const violations = this.checkBusinessRules(tableName, row, 'insert');
+        const _violations = this.checkBusinessRules(tableName, row, 'insert');
         tableChange.businessRuleViolations.push(...violations);
       }
     });
@@ -167,14 +167,14 @@ export class DataChangeTracker {
         tableChange.rowsDeleted++;
         
         // 检查删除行的业务规则
-        const violations = this.checkBusinessRules(tableName, row, 'delete');
+        const _violations = this.checkBusinessRules(tableName, row, 'delete');
         tableChange.businessRuleViolations.push(...violations);
       }
     });
     
     // 查找更新的行
     beforeMap.forEach((beforeRow, id) => {
-      const afterRow = afterMap.get(id);
+      const _afterRow = afterMap.get(id);
       if (afterRow && JSON.stringify(beforeRow) !== JSON.stringify(afterRow)) {
         tableChange.updatedRows.push({
           id,
@@ -185,7 +185,7 @@ export class DataChangeTracker {
         tableChange.rowsUpdated++;
         
         // 检查更新行的业务规则
-        const violations = this.checkBusinessRules(tableName, afterRow, 'update', beforeRow);
+        const _violations = this.checkBusinessRules(tableName, afterRow, 'update', beforeRow);
         tableChange.businessRuleViolations.push(...violations);
       }
     });
@@ -201,11 +201,11 @@ export class DataChangeTracker {
    */
   private getRowChanges(beforeRow: any, afterRow: any): any[] {
     const changes: {field: string, before: any, after: any, changeType: string}[] = [];
-    const allKeys = new Set([...Object.keys(beforeRow), ...Object.keys(afterRow)]);
+    const _allKeys = new Set([...Object.keys(beforeRow), ...Object.keys(afterRow)]);
     
     for (const key of allKeys) {
-      const beforeValue = beforeRow[key];
-      const afterValue = afterRow[key];
+      const _beforeValue = beforeRow[key];
+      const _afterValue = afterRow[key];
       
       if (beforeValue !== afterValue) {
         changes.push({
@@ -246,16 +246,16 @@ export class DataChangeTracker {
     
     // 检查每个表的数据完整性
     for (const [tableName, tableChange] of changes.entries()) {
-      const tableViolations = await this.checkTableIntegrity(tableName, tableChange);
+      const _tableViolations = await this.checkTableIntegrity(tableName, tableChange);
       violations.push(...tableViolations);
       
       // 检查跨表数据一致性
-      const crossTableViolations = await this.checkCrossTableIntegrity(tableName, tableChange, afterSnapshot);
+      const _crossTableViolations = await this.checkCrossTableIntegrity(tableName, tableChange, afterSnapshot);
       violations.push(...crossTableViolations);
     }
     
     // 检查业务逻辑一致性
-    const businessLogicViolations = await this.checkBusinessLogicIntegrity(changes, afterSnapshot);
+    const _businessLogicViolations = await this.checkBusinessLogicIntegrity(changes, afterSnapshot);
     violations.push(...businessLogicViolations);
     
     const report: DataIntegrityReport = {
@@ -280,12 +280,12 @@ export class DataChangeTracker {
     const violations: IntegrityViolation[] = [];
     
     // 检查约束条件
-    const constraints = this.integrityConstraints.get(tableName) || [];
+    const _constraints = this.integrityConstraints.get(tableName) || [];
     
     for (const constraint of constraints) {
       // 检查新增行
       for (const row of tableChange.addedRows) {
-        const violation = this.checkConstraint(tableName, row, constraint);
+        const _violation = this.checkConstraint(tableName, row, constraint);
         if (violation) {
           violations.push(violation);
         }
@@ -293,7 +293,7 @@ export class DataChangeTracker {
       
       // 检查更新行
       for (const update of tableChange.updatedRows) {
-        const violation = this.checkConstraint(tableName, update.after, constraint);
+        const _violation = this.checkConstraint(tableName, update.after, constraint);
         if (violation) {
           violations.push(violation);
         }
@@ -362,7 +362,7 @@ export class DataChangeTracker {
       }
       
       // 检查可用库存计算
-      const availableStock = row.stock_quantity - row.reserved_quantity;
+      const _availableStock = row.stock_quantity - row.reserved_quantity;
       if (availableStock < 0) {
         violations.push({
           type: 'Invalid Available Stock',
@@ -389,14 +389,14 @@ export class DataChangeTracker {
     const violations: IntegrityViolation[] = [];
     if (!tableChange) return violations;
 
-    const allProductIds = new Set(tableChange.addedRows.map(r => r.product_id));
+    const _allProductIds = new Set(tableChange.addedRows.map(r => r.product_id));
 
     for (const productId of allProductIds) {
-      const stock = snapshot.tables.get('inventory_stocks')?.data.find(s => s.product_id === productId);
+      const _stock = snapshot.tables.get('inventory_stocks')?.data.find(s => s.product_id === productId);
       if (!stock) continue;
 
       // FIFO队列的总数量应等于关联库存的总数量
-      const totalFifoQuantity = snapshot.tables.get('fifo_queue')?.data
+      const _totalFifoQuantity = snapshot.tables.get('fifo_queue')?.data
         .filter((row: any) => row.product_id === productId)
         .reduce((sum: number, row: any) => sum + row.quantity, 0) || 0;
       
@@ -483,10 +483,10 @@ export class DataChangeTracker {
     for (const order of tableChange.addedRows) {
       // 检查子项金额是否等于主订单金额
       if (order.id && snapshot.tables.has('purchase_order_items')) {
-        const orderItemsTable = snapshot.tables.get('purchase_order_items');
+        const _orderItemsTable = snapshot.tables.get('purchase_order_items');
         if (orderItemsTable) {
-          const orderItems = orderItemsTable.data;
-          const itemsTotal = orderItems
+          const _orderItems = orderItemsTable.data;
+          const _itemsTotal = orderItems
             .filter((item: any) => item.purchase_order_id === order.id)
             .reduce((sum: number, item: any) => sum + item.total_price, 0);
 
@@ -506,9 +506,9 @@ export class DataChangeTracker {
     }
 
     for (const update of tableChange.updatedRows) {
-      const statusChange = update.changes.find((c: any) => c.field === 'status');
+      const _statusChange = update.changes.find((c: any) => c.field === 'status');
       if (statusChange) {
-        const isValidTransition = this.isValidStatusTransition(
+        const _isValidTransition = this.isValidStatusTransition(
           'purchase_order',
           statusChange.before,
           statusChange.after
@@ -544,10 +544,10 @@ export class DataChangeTracker {
     for (const order of tableChange.addedRows) {
       // 检查子项金额是否等于主订单金额
       if (order.id && snapshot.tables.has('sales_order_items')) {
-        const orderItemsTable = snapshot.tables.get('sales_order_items');
+        const _orderItemsTable = snapshot.tables.get('sales_order_items');
         if (orderItemsTable) {
-          const orderItems = orderItemsTable.data;
-          const itemsTotal = orderItems
+          const _orderItems = orderItemsTable.data;
+          const _itemsTotal = orderItems
             .filter((item: any) => item.sales_order_id === order.id)
             .reduce((sum: number, item: any) => sum + item.total_price, 0);
           
@@ -567,9 +567,9 @@ export class DataChangeTracker {
     }
 
     for (const update of tableChange.updatedRows) {
-      const statusChange = update.changes.find((c: any) => c.field === 'status');
+      const _statusChange = update.changes.find((c: any) => c.field === 'status');
       if (statusChange) {
-        const isValidTransition = this.isValidStatusTransition(
+        const _isValidTransition = this.isValidStatusTransition(
           'sales_order',
           statusChange.before,
           statusChange.after
@@ -619,8 +619,8 @@ export class DataChangeTracker {
     const violations: IntegrityViolation[] = [];
     
     // 检查库存移动是否与FIFO队列一致
-    const stockMovements = changes.get('stock_movements');
-    const fifoQueue = changes.get('fifo_queue');
+    const _stockMovements = changes.get('stock_movements');
+    const _fifoQueue = changes.get('fifo_queue');
     
     if (stockMovements && fifoQueue) {
       // 这里可以添加复杂的库存业务逻辑检查
@@ -640,8 +640,8 @@ export class DataChangeTracker {
     const violations: IntegrityViolation[] = [];
     
     // 检查财务数据的平衡性
-    const apChanges = changes.get('accounts_payable');
-    const arChanges = changes.get('accounts_receivable');
+    const _apChanges = changes.get('accounts_payable');
+    const _arChanges = changes.get('accounts_receivable');
     
     if (apChanges || arChanges) {
       // 这里可以添加复杂的财务业务逻辑检查
@@ -661,8 +661,8 @@ export class DataChangeTracker {
     const violations: IntegrityViolation[] = [];
     
     // 检查订单与库存的关联性
-    const purchaseOrders = changes.get('purchase_orders');
-    const salesOrders = changes.get('sales_orders');
+    const _purchaseOrders = changes.get('purchase_orders');
+    const _salesOrders = changes.get('sales_orders');
     
     if (purchaseOrders || salesOrders) {
       // 这里可以添加复杂的订单业务逻辑检查
@@ -670,7 +670,7 @@ export class DataChangeTracker {
     }
     
     if (changes.has('purchase_order')) {
-      const purchaseOrderChanges = changes.get('purchase_order');
+      const _purchaseOrderChanges = changes.get('purchase_order');
       if (purchaseOrderChanges) {
         purchaseOrderChanges.updatedRows.forEach((c: any) => {
           if (!this.isValidStatusTransition('purchase_order', c.before.status, c.after.status)) {
@@ -689,7 +689,7 @@ export class DataChangeTracker {
     }
 
     if (changes.has('sales_order')) {
-      const salesOrderChanges = changes.get('sales_order');
+      const _salesOrderChanges = changes.get('sales_order');
       if (salesOrderChanges) {
         salesOrderChanges.updatedRows.forEach((c: any) => {
           if (!this.isValidStatusTransition('sales_order', c.before.status, c.after.status)) {
@@ -714,11 +714,11 @@ export class DataChangeTracker {
    * 检查业务规则
    */
   private checkBusinessRules(tableName: string, row: any, operation: string, beforeRow?: any): any[] {
-    const violations = [];
-    const rules = this.businessRules.get(tableName) || [];
+    const _violations = [];
+    const _rules = this.businessRules.get(tableName) || [];
     
     for (const rule of rules) {
-      const violation = this.checkRule(tableName, row, rule, operation, beforeRow);
+      const _violation = this.checkRule(tableName, row, rule, operation, beforeRow);
       if (violation) {
         violations.push(violation);
       }
@@ -784,7 +784,7 @@ export class DataChangeTracker {
 
     if (fromStatus === toStatus) return true;
 
-    const transitions = VALID_STATUS_TRANSITIONS[entityType as keyof typeof VALID_STATUS_TRANSITIONS];
+    const _transitions = VALID_STATUS_TRANSITIONS[entityType as keyof typeof VALID_STATUS_TRANSITIONS];
     if (transitions && transitions[fromStatus as keyof typeof transitions]) {
       return transitions[fromStatus as keyof typeof transitions].includes(toStatus);
     }
@@ -796,14 +796,14 @@ export class DataChangeTracker {
    * 计算完整性分数
    */
   private calculateIntegrityScore(violations: IntegrityViolation[]): number {
-    const weights = {
+    const _weights = {
       'Critical': 10,
       'High': 5,
       'Medium': 2,
       'Low': 1
     };
     
-    const totalScore = violations.reduce((sum, violation) => {
+    const _totalScore = violations.reduce((sum, violation) => {
       return sum + weights[violation.severity];
     }, 0);
     
@@ -855,16 +855,16 @@ export class DataChangeTracker {
    */
   private async saveChangeRecord(changeRecord: DataChangeRecord): Promise<void> {
     try {
-      const fs = require('fs').promises;
-      const path = require('path');
+      const _fs = require('fs').promises;
+      const _path = require('path');
       
-      const changeDir = path.join(process.cwd(), 'tests', 'changes');
+      const _changeDir = path.join(process.cwd(), 'tests', 'changes');
       await fs.mkdir(changeDir, { recursive: true });
       
-      const changeFile = path.join(changeDir, `${changeRecord.operationId}.json`);
+      const _changeFile = path.join(changeDir, `${changeRecord.operationId}.json`);
       
       // 创建可序列化的变化记录
-      const serializableRecord = {
+      const _serializableRecord = {
         ...changeRecord,
         changes: Array.from(changeRecord.changes.entries()).map(([key, value]) => ({ key, value }))
       };

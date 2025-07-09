@@ -15,7 +15,7 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const initializeDashboard = useCallback(async () => {
+  const _initializeDashboard = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -39,13 +39,13 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
     initializeDashboard();
   }, [initializeDashboard]);
 
-  const tabItems = useMemo(() => [
+  const _tabItems = useMemo(() => [
     { key: 'overview', label: '📊 概览', icon: '📊' },
     { key: 'charts', label: '📈 图表', icon: '📈' },
     { key: 'actions', label: '⚡ 操作', icon: '⚡' }
   ], []);
 
-  const renderContent = useMemo(() => {
+  const _renderContent = useMemo(() => {
     switch (activeTab) {
       case 'overview':
         return <DashboardOverview />;

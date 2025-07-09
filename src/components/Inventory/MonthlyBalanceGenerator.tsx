@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import monthlyBalanceService from '../../services/business/monthlyBalanceService';
-import { warehouseService } from '../../services/business/warehouseService';
+import { _warehouseService as warehouseService } from '../../services/business/warehouseService';
 import categoryService from '../../services/business/categoryService';
 import { MonthlyBalanceGenerateParams, MonthlyBalanceGenerateResult } from '../../types/monthlyBalance';
 import { Warehouse, Category } from '../../types/entities';
@@ -19,9 +19,9 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
 
   // 表单状态
   const [params, setParams] = useState<MonthlyBalanceGenerateParams>(() => {
-    const now = new Date();
-    const lastMonth = now.getMonth() === 0 ? 12 : now.getMonth();
-    const year = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
+    const _now = new Date();
+    const _lastMonth = now.getMonth() === 0 ? 12 : now.getMonth();
+    const _year = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
     
     return {
       year,
@@ -36,7 +36,7 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
     loadFormData();
   }, []);
 
-  const loadFormData = async () => {
+  const _loadFormData = async () => {
     try {
       const [warehouseList, categoryList] = await Promise.all([
         warehouseService.findAll(),
@@ -51,7 +51,7 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
     }
   };
 
-  const handleGenerate = async () => {
+  const _handleGenerate = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -63,7 +63,7 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
         return;
       }
 
-      const generateResult = await monthlyBalanceService.generateMonthlyBalance(params);
+      const _generateResult = await monthlyBalanceService.generateMonthlyBalance(params);
 
       if (!generateResult.success) {
         setError(generateResult.error?.message || '生成失败');
@@ -84,31 +84,31 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
     }
   };
 
-  const handleParamChange = (key: keyof MonthlyBalanceGenerateParams, value: any) => {
+  const _handleParamChange = (key: keyof MonthlyBalanceGenerateParams, value: MonthlyBalanceGenerateParams[keyof MonthlyBalanceGenerateParams]) => {
     setParams(prev => ({ ...prev, [key]: value }));
   };
 
-  const formatCurrency = (value: number): string => {
+  const _formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('zh-CN', {
       style: 'currency',
       currency: 'CNY'
     }).format(value);
   };
 
-  const formatNumber = (value: number): string => {
+  const _formatNumber = (value: number): string => {
     return new Intl.NumberFormat('zh-CN').format(value);
   };
 
-  const formatPeriod = (year: number, month: number): string => {
+  const _formatPeriod = (year: number, month: number): string => {
     return `${year}年${month}月`;
   };
 
   // 生成年份选项（最近5年）
-  const currentYear = new Date().getFullYear();
-  const yearOptions = Array.from({ length: 5 }, (_, i) => currentYear - i);
+  const _currentYear = new Date().getFullYear();
+  const _yearOptions = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
   // 生成月份选项
-  const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
+  const _monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
 
   return (
     <div className="space-y-6">
@@ -195,7 +195,7 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
                       type="checkbox"
                       checked={params.warehouseIds?.includes(warehouse.id) || false}
                       onChange={(e) => {
-                        const warehouseIds = params.warehouseIds || [];
+                        const _warehouseIds = params.warehouseIds || [];
                         if (e.target.checked) {
                           handleParamChange('warehouseIds', [...warehouseIds, warehouse.id]);
                         } else {
@@ -226,7 +226,7 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
                       type="checkbox"
                       checked={params.categoryIds?.includes(category.id) || false}
                       onChange={(e) => {
-                        const categoryIds = params.categoryIds || [];
+                        const _categoryIds = params.categoryIds || [];
                         if (e.target.checked) {
                           handleParamChange('categoryIds', [...categoryIds, category.id]);
                         } else {

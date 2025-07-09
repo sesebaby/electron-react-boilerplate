@@ -1,8 +1,8 @@
 import { SimpleNotification, SimpleNotificationConfig, DEFAULT_NOTIFICATION_CONFIG, NotificationType, IMPORTANT_MESSAGE_TYPES } from '../types/simpleNotification';
 
-const STORAGE_KEY = 'simple-notifications';
-const CONFIG_KEY = 'simple-notification-config';
-const MAX_STORED_NOTIFICATIONS = 50; // 最多存储50条通知
+const _STORAGE_KEY = 'simple-notifications';
+const _CONFIG_KEY = 'simple-notification-config';
+const _MAX_STORED_NOTIFICATIONS = 50; // 最多存储50条通知
 
 class NotificationStore {
   private notifications: SimpleNotification[] = [];
@@ -16,9 +16,9 @@ class NotificationStore {
   private loadFromStorage(): void {
     try {
       // 加载通知数据
-      const storedNotifications = localStorage.getItem(STORAGE_KEY);
+      const _storedNotifications = localStorage.getItem(STORAGE_KEY);
       if (storedNotifications) {
-        const parsed = JSON.parse(storedNotifications);
+        const _parsed = JSON.parse(storedNotifications);
         this.notifications = parsed.map((n: any) => ({
           ...n,
           createdAt: new Date(n.createdAt)
@@ -26,7 +26,7 @@ class NotificationStore {
       }
 
       // 加载配置数据
-      const storedConfig = localStorage.getItem(CONFIG_KEY);
+      const _storedConfig = localStorage.getItem(CONFIG_KEY);
       if (storedConfig) {
         this.config = { ...DEFAULT_NOTIFICATION_CONFIG, ...JSON.parse(storedConfig) };
       }
@@ -70,7 +70,7 @@ class NotificationStore {
 
   // 获取最新通知（根据配置过滤）
   getRecent(count: number = 5): SimpleNotification[] {
-    const filteredNotifications = this.getFilteredNotifications();
+    const _filteredNotifications = this.getFilteredNotifications();
     return filteredNotifications.slice(0, count);
   }
 
@@ -107,20 +107,20 @@ class NotificationStore {
 
   // 获取未读数量（根据配置过滤）
   getUnreadCount(): number {
-    const filteredNotifications = this.getFilteredNotifications();
+    const _filteredNotifications = this.getFilteredNotifications();
     return filteredNotifications.filter(n => !n.isRead).length;
   }
 
   // 获取未读通知（根据配置过滤）
   getUnreadNotifications(count?: number): SimpleNotification[] {
-    const filteredNotifications = this.getFilteredNotifications();
-    const unreadNotifications = filteredNotifications.filter(n => !n.isRead);
+    const _filteredNotifications = this.getFilteredNotifications();
+    const _unreadNotifications = filteredNotifications.filter(n => !n.isRead);
     return count ? unreadNotifications.slice(0, count) : unreadNotifications;
   }
 
   // 标记为已读
   markAsRead(id: string): boolean {
-    const notification = this.notifications.find(n => n.id === id);
+    const _notification = this.notifications.find(n => n.id === id);
     if (notification && !notification.isRead) {
       notification.isRead = true;
       this.saveToStorage();
@@ -131,7 +131,7 @@ class NotificationStore {
 
   // 标记所有为已读
   markAllAsRead(): void {
-    let hasChanges = false;
+    const _hasChanges = false;
     this.notifications.forEach(n => {
       if (!n.isRead) {
         n.isRead = true;
@@ -146,7 +146,7 @@ class NotificationStore {
 
   // 删除通知
   remove(id: string): boolean {
-    const index = this.notifications.findIndex(n => n.id === id);
+    const _index = this.notifications.findIndex(n => n.id === id);
     if (index !== -1) {
       this.notifications.splice(index, 1);
       this.saveToStorage();
@@ -174,4 +174,4 @@ class NotificationStore {
 }
 
 // 单例实例
-export const notificationStore = new NotificationStore();
+export const _notificationStore = new NotificationStore();

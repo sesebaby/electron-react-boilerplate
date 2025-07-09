@@ -31,7 +31,7 @@ interface DialogContextType {
   showDeleteConfirm: (itemName: string, onConfirm: () => void, onCancel?: () => void) => void;
 }
 
-const DialogContext = createContext<DialogContextType | undefined>(undefined);
+const _DialogContext = createContext<DialogContextType | undefined>(undefined);
 
 interface DialogState {
   isOpen: boolean;
@@ -72,7 +72,7 @@ export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     variant: 'info'
   });
 
-  const showConfirm = useCallback((
+  const _showConfirm = useCallback((
     title: string,
     message: string,
     onConfirm: () => void,
@@ -99,7 +99,7 @@ export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
   }, []);
 
-  const showAlert = useCallback((
+  const _showAlert = useCallback((
     title: string,
     message: string,
     variant: 'success' | 'error' | 'warning' | 'info' = 'info',
@@ -117,7 +117,7 @@ export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
   }, []);
 
-  const showToast = useCallback((
+  const _showToast = useCallback((
     message: string,
     variant: 'success' | 'error' | 'warning' | 'info' = 'info',
     duration = 3000
@@ -130,27 +130,27 @@ export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
   }, []);
 
-  const closeToast = useCallback(() => {
+  const _closeToast = useCallback(() => {
     setToast(prev => ({ ...prev, isOpen: false }));
   }, []);
 
-  const showSuccess = useCallback((message: string, duration?: number) => {
+  const _showSuccess = useCallback((message: string, duration?: number) => {
     showToast(message, 'success', duration);
   }, [showToast]);
 
-  const showError = useCallback((message: string, duration?: number) => {
+  const _showError = useCallback((message: string, duration?: number) => {
     showToast(message, 'error', duration);
   }, [showToast]);
 
-  const showWarning = useCallback((message: string, duration?: number) => {
+  const _showWarning = useCallback((message: string, duration?: number) => {
     showToast(message, 'warning', duration);
   }, [showToast]);
 
-  const showInfo = useCallback((message: string, duration?: number) => {
+  const _showInfo = useCallback((message: string, duration?: number) => {
     showToast(message, 'info', duration);
   }, [showToast]);
 
-  const showDeleteConfirm = useCallback((
+  const _showDeleteConfirm = useCallback((
     itemName: string,
     onConfirm: () => void,
     onCancel?: () => void
@@ -213,8 +213,8 @@ export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   );
 };
 
-export const useDialogContext = () => {
-  const context = useContext(DialogContext);
+export const _useDialogContext = () => {
+  const _context = useContext(DialogContext);
   if (context === undefined) {
     throw new Error('useDialogContext must be used within a DialogProvider');
   }

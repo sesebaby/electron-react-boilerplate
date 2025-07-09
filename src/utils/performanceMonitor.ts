@@ -160,10 +160,10 @@ class PerformanceMonitor {
       return;
     }
 
-    const startTime = this.apiMetrics.get(requestId);
+    const _startTime = this.apiMetrics.get(requestId);
     if (!startTime) return;
 
-    const duration = performance.now() - startTime;
+    const _duration = performance.now() - startTime;
     this.apiMetrics.delete(requestId);
 
     // 使用Performance API测量
@@ -209,7 +209,7 @@ class PerformanceMonitor {
       return '';
     }
 
-    const renderId = `${componentName}-${phase}-${Date.now()}`;
+    const _renderId = `${componentName}-${phase}-${Date.now()}`;
     this.renderMetrics.set(renderId, performance.now());
 
     if (typeof performance.mark === 'function') {
@@ -227,10 +227,10 @@ class PerformanceMonitor {
       return;
     }
 
-    const startTime = this.renderMetrics.get(renderId);
+    const _startTime = this.renderMetrics.get(renderId);
     if (!startTime) return;
 
-    const duration = performance.now() - startTime;
+    const _duration = performance.now() - startTime;
     this.renderMetrics.delete(renderId);
 
     if (typeof performance.mark === 'function' && typeof performance.measure === 'function') {
@@ -274,7 +274,7 @@ class PerformanceMonitor {
     }
 
     // 使用Navigation Timing API
-    const navTiming = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+    const _navTiming = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
     if (!navTiming) return;
 
     const metric: PerformanceMetric = {
@@ -306,11 +306,11 @@ class PerformanceMonitor {
     if ('PerformanceObserver' in window) {
       try {
         // 监控导航性能
-        const navObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
+        const _navObserver = new PerformanceObserver((list) => {
+          const _entries = list.getEntries();
           entries.forEach((entry) => {
             if (entry.entryType === 'navigation') {
-              const navEntry = entry as PerformanceNavigationTiming;
+              const _navEntry = entry as PerformanceNavigationTiming;
               this.recordPageLoadMetrics(navEntry);
             }
           });
@@ -318,8 +318,8 @@ class PerformanceMonitor {
         navObserver.observe({ entryTypes: ['navigation'] });
 
         // 监控Core Web Vitals
-        const vitalsObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
+        const _vitalsObserver = new PerformanceObserver((list) => {
+          const _entries = list.getEntries();
           entries.forEach((entry) => {
             this.recordWebVital(entry);
           });
@@ -345,8 +345,8 @@ class PerformanceMonitor {
   private monitorResourcePerformance(): void {
     if ('PerformanceObserver' in window) {
       try {
-        const resourceObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
+        const _resourceObserver = new PerformanceObserver((list) => {
+          const _entries = list.getEntries();
           entries.forEach((entry) => {
             if (entry.entryType === 'resource') {
               this.recordResourceMetric(entry as PerformanceResourceTiming);
@@ -366,8 +366,8 @@ class PerformanceMonitor {
   private monitorInteractionPerformance(): void {
     if ('PerformanceObserver' in window) {
       try {
-        const interactionObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
+        const _interactionObserver = new PerformanceObserver((list) => {
+          const _entries = list.getEntries();
           entries.forEach((entry) => {
             this.recordInteractionMetric(entry);
           });
@@ -408,7 +408,7 @@ class PerformanceMonitor {
     }
 
     // @ts-ignore - 浏览器兼容性
-    const memInfo = (performance as any).memory;
+    const _memInfo = (performance as any).memory;
     if (!memInfo) return;
 
     const metric: PerformanceMetric = {
@@ -429,7 +429,7 @@ class PerformanceMonitor {
     this.recordMetric(metric);
 
     // 警告高内存使用
-    const usagePercent = (memInfo.usedJSHeapSize / memInfo.jsHeapSizeLimit) * 100;
+    const _usagePercent = (memInfo.usedJSHeapSize / memInfo.jsHeapSizeLimit) * 100;
     if (usagePercent > 80) {
       logger.warn('High memory usage detected', {
         usagePercent,
@@ -443,7 +443,7 @@ class PerformanceMonitor {
    * 记录页面加载指标
    */
   private recordPageLoadMetrics(navEntry: PerformanceNavigationTiming): void {
-    const metrics = [
+    const _metrics = [
       {
         name: 'DNS解析时间',
         value: navEntry.domainLookupEnd - navEntry.domainLookupStart,
@@ -490,9 +490,9 @@ class PerformanceMonitor {
    * 记录Web Vitals指标
    */
   private recordWebVital(entry: PerformanceEntry): void {
-    let name = '';
-    let value = 0;
-    let details = {};
+    const _name = '';
+    const _value = 0;
+    const _details = {};
 
     switch (entry.entryType) {
       case 'largest-contentful-paint':
@@ -524,12 +524,12 @@ class PerformanceMonitor {
    */
   private recordResourceMetric(resourceEntry: PerformanceResourceTiming): void {
     // 只监控重要资源
-    const importantResources = ['.js', '.css', '.png', '.jpg', '.jpeg', '.svg', '.woff', '.woff2'];
-    const isImportant = importantResources.some(ext => resourceEntry.name.includes(ext));
+    const _importantResources = ['.js', '.css', '.png', '.jpg', '.jpeg', '.svg', '.woff', '.woff2'];
+    const _isImportant = importantResources.some(ext => resourceEntry.name.includes(ext));
     
     if (!isImportant) return;
 
-    const duration = resourceEntry.responseEnd - resourceEntry.startTime;
+    const _duration = resourceEntry.responseEnd - resourceEntry.startTime;
     
     this.recordMetric({
       id: `resource-${Date.now()}`,
@@ -552,7 +552,7 @@ class PerformanceMonitor {
    */
   private recordInteractionMetric(entry: PerformanceEntry): void {
     if (entry.entryType === 'first-input') {
-      const fid = (entry as any).processingStart - entry.startTime;
+      const _fid = (entry as any).processingStart - entry.startTime;
       
       this.recordMetric({
         id: `interaction-fid-${Date.now()}`,
@@ -573,8 +573,8 @@ class PerformanceMonitor {
    * 获取First Paint时间
    */
   private getFirstPaint(): number {
-    const paintEntries = performance.getEntriesByType('paint');
-    const fp = paintEntries.find(entry => entry.name === 'first-paint');
+    const _paintEntries = performance.getEntriesByType('paint');
+    const _fp = paintEntries.find(entry => entry.name === 'first-paint');
     return fp ? fp.startTime : 0;
   }
 
@@ -582,8 +582,8 @@ class PerformanceMonitor {
    * 获取First Contentful Paint时间
    */
   private getFirstContentfulPaint(): number {
-    const paintEntries = performance.getEntriesByType('paint');
-    const fcp = paintEntries.find(entry => entry.name === 'first-contentful-paint');
+    const _paintEntries = performance.getEntriesByType('paint');
+    const _fcp = paintEntries.find(entry => entry.name === 'first-contentful-paint');
     return fcp ? fcp.startTime : 0;
   }
 
@@ -591,7 +591,7 @@ class PerformanceMonitor {
    * 获取Largest Contentful Paint时间
    */
   private getLargestContentfulPaint(): number {
-    const lcpEntries = performance.getEntriesByType('largest-contentful-paint');
+    const _lcpEntries = performance.getEntriesByType('largest-contentful-paint');
     return lcpEntries.length > 0 ? lcpEntries[lcpEntries.length - 1].startTime : 0;
   }
 
@@ -645,15 +645,15 @@ class PerformanceMonitor {
     avgRenderTime: number;
     memoryUsage: MemoryPerformanceMetric | null;
   } {
-    const metricsByCategory = {} as Record<PerformanceCategory, number>;
+    const _metricsByCategory = {} as Record<PerformanceCategory, number>;
     Object.values(PerformanceCategory).forEach(category => {
       metricsByCategory[category] = 0;
     });
 
-    let totalApiTime = 0;
-    let apiCount = 0;
-    let totalRenderTime = 0;
-    let renderCount = 0;
+    const _totalApiTime = 0;
+    const _apiCount = 0;
+    const _totalRenderTime = 0;
+    const _renderCount = 0;
     let latestMemory: MemoryPerformanceMetric | null = null;
 
     this.metrics.forEach(metric => {
@@ -720,7 +720,7 @@ class PerformanceMonitor {
 }
 
 // 创建默认实例
-export const performanceMonitor = new PerformanceMonitor({
+export const _performanceMonitor = new PerformanceMonitor({
   // 生产环境降低采样率
   sampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
   memoryMonitoringInterval: 60000, // 1分钟

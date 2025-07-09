@@ -22,12 +22,12 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
 }) => {
   if (!error) return null;
 
-  const isAppError = ErrorUtils.isAppError(error);
+  const _isAppError = ErrorUtils.isAppError(error);
   
   // 获取错误严重级别
-  const getSeverity = (error: Error): 'low' | 'medium' | 'high' | 'critical' => {
+  const _getSeverity = (error: Error): 'low' | 'medium' | 'high' | 'critical' => {
     if (isAppError) {
-      const appError = error as AppError;
+      const _appError = error as AppError;
       switch (appError.code) {
         case 'PERMISSION_ERROR':
         case 'CONFIGURATION_ERROR':
@@ -45,10 +45,10 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
     return 'high';
   };
 
-  const severity = getSeverity(error);
+  const _severity = getSeverity(error);
 
   // 样式配置 - 使用CSS变量
-  const severityColors = {
+  const _severityColors = {
     low: {
       bg: '',
       border: '',
@@ -87,13 +87,13 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
     }
   };
 
-  const sizeClasses = {
+  const _sizeClasses = {
     sm: 'p-3 text-sm',
     md: 'p-4',
     lg: 'p-6 text-lg'
   };
 
-  const colors = severityColors[severity];
+  const _colors = severityColors[severity];
 
   // 内联样式
   if (variant === 'inline') {

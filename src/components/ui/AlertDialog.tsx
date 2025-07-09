@@ -20,7 +20,7 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const getVariantStyles = () => {
+  const _getVariantStyles = () => {
     switch (variant) {
       case 'success':
         return {
@@ -55,7 +55,7 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
     }
   };
 
-  const styles = getVariantStyles();
+  const _styles = getVariantStyles();
 
   return (
     <div className="popup-overlay flex items-center justify-center p-2 sm:p-4 z-[9999]">

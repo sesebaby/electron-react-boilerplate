@@ -20,7 +20,7 @@ export class PurchaseOrderService {
 
 
   async findAll(): Promise<PurchaseOrder[]> {
-    const orders = Array.from(this.orders.values());
+    const _orders = Array.from(this.orders.values());
     
     // 加载关联数据
     for (const order of orders) {
@@ -31,7 +31,7 @@ export class PurchaseOrderService {
   }
 
   async findById(id: string): Promise<PurchaseOrder | null> {
-    const order = this.orders.get(id);
+    const _order = this.orders.get(id);
     if (!order) return null;
     
     await this.loadOrderRelations(order);
@@ -39,12 +39,12 @@ export class PurchaseOrderService {
   }
 
   async findByOrderNo(orderNo: string): Promise<PurchaseOrder | null> {
-    const id = this.orderNoIndex.get(orderNo);
+    const _id = this.orderNoIndex.get(orderNo);
     return id ? this.findById(id) : null;
   }
 
   async findBySupplier(supplierId: string): Promise<PurchaseOrder[]> {
-    const orders = Array.from(this.orders.values()).filter(
+    const _orders = Array.from(this.orders.values()).filter(
       order => order.supplierId === supplierId
     );
     
@@ -56,7 +56,7 @@ export class PurchaseOrderService {
   }
 
   async findByStatus(status: PurchaseOrderStatus): Promise<PurchaseOrder[]> {
-    const orders = Array.from(this.orders.values()).filter(
+    const _orders = Array.from(this.orders.values()).filter(
       order => order.status === status
     );
     
@@ -68,7 +68,7 @@ export class PurchaseOrderService {
   }
 
   async findByDateRange(startDate: Date, endDate: Date): Promise<PurchaseOrder[]> {
-    const orders = Array.from(this.orders.values()).filter(
+    const _orders = Array.from(this.orders.values()).filter(
       order => order.orderDate >= startDate && order.orderDate <= endDate
     );
     
@@ -81,13 +81,13 @@ export class PurchaseOrderService {
 
   async create(data: Omit<PurchaseOrder, 'id' | 'orderNo' | 'totalAmount' | 'finalAmount' | 'createdAt' | 'updatedAt'>): Promise<PurchaseOrder> {
     // 验证供应商是否存在
-    const supplier = await supplierService.findById(data.supplierId);
+    const _supplier = await supplierService.findById(data.supplierId);
     if (!supplier) {
       throw new Error(`供应商不存在: ${data.supplierId}`);
     }
 
     // 生成订单号
-    const orderNo = await this.generateOrderNo();
+    const _orderNo = await this.generateOrderNo();
 
     const order: PurchaseOrder = {
       ...data,
@@ -100,7 +100,7 @@ export class PurchaseOrderService {
     };
 
     // 验证数据
-    const validation = validateEntity(PurchaseOrderSchema, order);
+    const _validation = validateEntity(PurchaseOrderSchema, order);
     if (!validation.success) {
       throw new Error(`采购订单数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -113,7 +113,7 @@ export class PurchaseOrderService {
   }
 
   async update(id: string, data: Partial<Omit<PurchaseOrder, 'id' | 'orderNo' | 'createdAt' | 'updatedAt'>>): Promise<PurchaseOrder> {
-    const existingOrder = this.orders.get(id);
+    const _existingOrder = this.orders.get(id);
     if (!existingOrder) {
       throw new Error(`采购订单不存在: ${id}`);
     }
@@ -125,7 +125,7 @@ export class PurchaseOrderService {
     };
 
     // 验证更新后的数据
-    const validation = validateEntity(PurchaseOrderSchema, updatedOrder);
+    const _validation = validateEntity(PurchaseOrderSchema, updatedOrder);
     if (!validation.success) {
       throw new Error(`采购订单数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -147,13 +147,13 @@ export class PurchaseOrderService {
   }
 
   async delete(id: string): Promise<boolean> {
-    const order = this.orders.get(id);
+    const _order = this.orders.get(id);
     if (!order) {
       return false;
     }
 
     // 删除订单项目
-    const itemIds = this.orderItemsByOrder.get(id) || [];
+    const _itemIds = this.orderItemsByOrder.get(id) || [];
     for (const itemId of itemIds) {
       this.orderItems.delete(itemId);
     }
@@ -165,12 +165,12 @@ export class PurchaseOrderService {
   }
 
   async updateStatus(id: string, status: PurchaseOrderStatus): Promise<PurchaseOrder> {
-    const order = this.orders.get(id);
+    const _order = this.orders.get(id);
     if (!order) {
       throw new Error(`采购订单不存在: ${id}`);
     }
 
-    const updatedOrder = await this.update(id, { status });
+    const _updatedOrder = await this.update(id, { status });
 
     // 触发采购订单状态变更通知
     try {
@@ -189,22 +189,22 @@ export class PurchaseOrderService {
   // =============== 订单项目管理 ===============
 
   async addOrderItem(orderId: string, data: Omit<PurchaseOrderItem, 'id' | 'orderId' | 'amount' | 'status' | 'createdAt' | 'updatedAt'>): Promise<PurchaseOrderItem> {
-    const order = this.orders.get(orderId);
+    const _order = this.orders.get(orderId);
     if (!order) {
       throw new Error(`采购订单不存在: ${orderId}`);
     }
 
     // 验证产品是否存在
-    const product = await productService.findById(data.productId);
+    const _product = await productService.findById(data.productId);
     if (!product) {
       throw new Error(`产品不存在: ${data.productId}`);
     }
 
     // 计算金额
-    const amount = data.quantity * data.unitPrice * (1 - data.discountRate);
+    const _amount = data.quantity * data.unitPrice * (1 - data.discountRate);
     
     // 确定项目状态
-    let status = OrderItemStatus.PENDING;
+    const _status = OrderItemStatus.PENDING;
     if (data.receivedQuantity > 0) {
       status = data.receivedQuantity >= data.quantity 
         ? OrderItemStatus.COMPLETED 
@@ -222,14 +222,14 @@ export class PurchaseOrderService {
     };
 
     // 验证数据
-    const validation = validateEntity(PurchaseOrderItemSchema, orderItem);
+    const _validation = validateEntity(PurchaseOrderItemSchema, orderItem);
     if (!validation.success) {
       throw new Error(`订单项目数据验证失败: ${validation.errors?.join(', ')}`);
     }
 
     this.orderItems.set(orderItem.id, orderItem);
     
-    const orderItemIds = this.orderItemsByOrder.get(orderId) || [];
+    const _orderItemIds = this.orderItemsByOrder.get(orderId) || [];
     orderItemIds.push(orderItem.id);
     this.orderItemsByOrder.set(orderId, orderItemIds);
 
@@ -240,20 +240,20 @@ export class PurchaseOrderService {
   }
 
   async updateOrderItem(itemId: string, data: Partial<Omit<PurchaseOrderItem, 'id' | 'orderId' | 'createdAt' | 'updatedAt'>>): Promise<PurchaseOrderItem> {
-    const existingItem = this.orderItems.get(itemId);
+    const _existingItem = this.orderItems.get(itemId);
     if (!existingItem) {
       throw new Error(`订单项目不存在: ${itemId}`);
     }
 
     // 重新计算金额和状态
-    const quantity = data.quantity !== undefined ? data.quantity : existingItem.quantity;
-    const unitPrice = data.unitPrice !== undefined ? data.unitPrice : existingItem.unitPrice;
-    const discountRate = data.discountRate !== undefined ? data.discountRate : existingItem.discountRate;
-    const receivedQuantity = data.receivedQuantity !== undefined ? data.receivedQuantity : existingItem.receivedQuantity;
+    const _quantity = data.quantity !== undefined ? data.quantity : existingItem.quantity;
+    const _unitPrice = data.unitPrice !== undefined ? data.unitPrice : existingItem.unitPrice;
+    const _discountRate = data.discountRate !== undefined ? data.discountRate : existingItem.discountRate;
+    const _receivedQuantity = data.receivedQuantity !== undefined ? data.receivedQuantity : existingItem.receivedQuantity;
     
-    const amount = quantity * unitPrice * (1 - discountRate);
+    const _amount = quantity * unitPrice * (1 - discountRate);
     
-    let status = OrderItemStatus.PENDING;
+    const _status = OrderItemStatus.PENDING;
     if (receivedQuantity > 0) {
       status = receivedQuantity >= quantity 
         ? OrderItemStatus.COMPLETED 
@@ -269,7 +269,7 @@ export class PurchaseOrderService {
     };
 
     // 验证更新后的数据
-    const validation = validateEntity(PurchaseOrderItemSchema, updatedItem);
+    const _validation = validateEntity(PurchaseOrderItemSchema, updatedItem);
     if (!validation.success) {
       throw new Error(`订单项目数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -283,16 +283,16 @@ export class PurchaseOrderService {
   }
 
   async removeOrderItem(itemId: string): Promise<boolean> {
-    const item = this.orderItems.get(itemId);
+    const _item = this.orderItems.get(itemId);
     if (!item) {
       return false;
     }
 
-    const orderId = item.orderId;
+    const _orderId = item.orderId;
     this.orderItems.delete(itemId);
 
-    const orderItemIds = this.orderItemsByOrder.get(orderId) || [];
-    const updatedItemIds = orderItemIds.filter(id => id !== itemId);
+    const _orderItemIds = this.orderItemsByOrder.get(orderId) || [];
+    const _updatedItemIds = orderItemIds.filter(id => id !== itemId);
     this.orderItemsByOrder.set(orderId, updatedItemIds);
 
     // 重新计算订单总额
@@ -302,8 +302,8 @@ export class PurchaseOrderService {
   }
 
   async getOrderItems(orderId: string): Promise<PurchaseOrderItem[]> {
-    const itemIds = this.orderItemsByOrder.get(orderId) || [];
-    const items = itemIds.map(id => this.orderItems.get(id)!).filter(Boolean);
+    const _itemIds = this.orderItemsByOrder.get(orderId) || [];
+    const _items = itemIds.map(id => this.orderItems.get(id)!).filter(Boolean);
     
     // 加载关联数据
     for (const item of items) {
@@ -329,12 +329,12 @@ export class PurchaseOrderService {
   }
 
   private async recalculateOrderTotals(orderId: string): Promise<void> {
-    const order = this.orders.get(orderId);
+    const _order = this.orders.get(orderId);
     if (!order) return;
 
-    const items = await this.getOrderItems(orderId);
-    const totalAmount = items.reduce((sum, item) => sum + item.amount, 0);
-    const finalAmount = totalAmount - order.discountAmount + order.taxAmount;
+    const _items = await this.getOrderItems(orderId);
+    const _totalAmount = items.reduce((sum, item) => sum + item.amount, 0);
+    const _finalAmount = totalAmount - order.discountAmount + order.taxAmount;
 
     await this.update(orderId, {
       totalAmount,
@@ -343,9 +343,9 @@ export class PurchaseOrderService {
   }
 
   private async generateOrderNo(): Promise<string> {
-    const now = new Date();
-    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
-    const sequence = String(this.orders.size + 1).padStart(4, '0');
+    const _now = new Date();
+    const _dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const _sequence = String(this.orders.size + 1).padStart(4, '0');
     return `PO${dateStr}${sequence}`;
   }
 
@@ -359,7 +359,7 @@ export class PurchaseOrderService {
     pendingOrders: number;
     overdueOrders: number;
   }> {
-    const orders = await this.findAll();
+    const _orders = await this.findAll();
     const byStatus: Record<PurchaseOrderStatus, number> = {
       [PurchaseOrderStatus.DRAFT]: 0,
       [PurchaseOrderStatus.CONFIRMED]: 0,
@@ -368,10 +368,10 @@ export class PurchaseOrderService {
       [PurchaseOrderStatus.CANCELLED]: 0
     };
 
-    let totalValue = 0;
-    let pendingOrders = 0;
-    let overdueOrders = 0;
-    const now = new Date();
+    const _totalValue = 0;
+    const _pendingOrders = 0;
+    const _overdueOrders = 0;
+    const _now = new Date();
 
     orders.forEach(order => {
       byStatus[order.status]++;
@@ -401,8 +401,8 @@ export class PurchaseOrderService {
     totalValue: number;
     averageOrderValue: number;
   }>> {
-    const orders = await this.findAll();
-    const supplierStats = new Map<string, {
+    const _orders = await this.findAll();
+    const _supplierStats = new Map<string, {
       supplier: any;
       orderCount: number;
       totalValue: number;
@@ -410,7 +410,7 @@ export class PurchaseOrderService {
 
     orders.forEach(order => {
       if (order.supplier) {
-        const existing = supplierStats.get(order.supplierId) || {
+        const _existing = supplierStats.get(order.supplierId) || {
           supplier: order.supplier,
           orderCount: 0,
           totalValue: 0
@@ -436,17 +436,17 @@ export class PurchaseOrderService {
     orderCount: number;
     totalValue: number;
   }>> {
-    const orders = await this.findAll();
-    const monthlyStats = new Array(12).fill(null).map((_, index) => ({
+    const _orders = await this.findAll();
+    const _monthlyStats = new Array(12).fill(null).map((_, index) => ({
       month: index + 1,
       orderCount: 0,
       totalValue: 0
     }));
 
     orders.forEach(order => {
-      const orderYear = order.orderDate.getFullYear();
+      const _orderYear = order.orderDate.getFullYear();
       if (orderYear === year) {
-        const month = order.orderDate.getMonth();
+        const _month = order.orderDate.getMonth();
         monthlyStats[month].orderCount++;
         monthlyStats[month].totalValue += order.finalAmount;
       }
@@ -456,10 +456,10 @@ export class PurchaseOrderService {
   }
 
   async search(searchTerm: string): Promise<PurchaseOrder[]> {
-    const term = searchTerm.toLowerCase().trim();
+    const _term = searchTerm.toLowerCase().trim();
     if (!term) return this.findAll();
 
-    const orders = await this.findAll();
+    const _orders = await this.findAll();
     
     return orders.filter(order =>
       order.orderNo.toLowerCase().includes(term) ||

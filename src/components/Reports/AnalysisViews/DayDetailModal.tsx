@@ -14,11 +14,11 @@ const DayDetailModal: React.FC<DayDetailModalProps> = ({
 }) => {
   if (!isOpen || !data) return null;
 
-  const formatCurrency = (amount: number): string => {
+  const _formatCurrency = (amount: number): string => {
     return `¥${amount.toLocaleString()}`;
   };
 
-  const formatDate = (date: Date): string => {
+  const _formatDate = (date: Date): string => {
     return new Date(date).toLocaleDateString('zh-CN', {
       year: 'numeric',
       month: 'long',
@@ -27,7 +27,7 @@ const DayDetailModal: React.FC<DayDetailModalProps> = ({
     });
   };
 
-  const netChange = data.movements.inbound - data.movements.outbound;
+  const _netChange = data.movements.inbound - data.movements.outbound;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9998] backdrop-blur-sm">

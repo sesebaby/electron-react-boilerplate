@@ -16,10 +16,10 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = React.memo(({ cla
     loadChartData();
   }, []);
 
-  const loadChartData = useCallback(async () => {
+  const _loadChartData = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await dashboardService.getChartData();
+      const _data = await dashboardService.getChartData();
       setChartData(data);
     } catch (error) {
       console.error('Failed to load chart data:', error);
@@ -29,18 +29,18 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = React.memo(({ cla
   }, []);
 
   // 缓存复杂计算结果
-  const categoryMaxValue = useMemo(() => {
+  const _categoryMaxValue = useMemo(() => {
     return chartData?.inventoryByCategory ? findMaxValue(chartData.inventoryByCategory) : 0;
   }, [chartData?.inventoryByCategory]);
 
-  const stockMovementMaxValue = useMemo(() => {
+  const _stockMovementMaxValue = useMemo(() => {
     if (!chartData?.stockMovement) return 0;
     return Math.max(
       ...chartData.stockMovement.flatMap(d => [d.stockIn, d.stockOut, d.adjustment])
     );
   }, [chartData?.stockMovement]);
 
-  const topProductsMaxValue = useMemo(() => {
+  const _topProductsMaxValue = useMemo(() => {
     return chartData?.topProducts ? findMaxValue(chartData.topProducts) : 0;
   }, [chartData?.topProducts]);
 
@@ -79,7 +79,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = React.memo(({ cla
         {chartData.inventoryByCategory.length > 0 ? (
           <div className="space-y-4">
             {chartData.inventoryByCategory.map((item, index) => {
-              const percentage = calculatePercentage(item.value, categoryMaxValue);
+              const _percentage = calculatePercentage(item.value, categoryMaxValue);
               
               return (
                 <div key={index} className="space-y-2">
@@ -184,7 +184,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = React.memo(({ cla
         {chartData.topProducts.length > 0 ? (
           <div className="space-y-4">
             {chartData.topProducts.slice(0, 10).map((item, index) => {
-              const percentage = calculatePercentage(item.value, topProductsMaxValue);
+              const _percentage = calculatePercentage(item.value, topProductsMaxValue);
               
               return (
                 <div key={index} className="flex items-center gap-4">
@@ -255,7 +255,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = React.memo(({ cla
           {chartData.customerLevels.length > 0 ? (
             <div className="space-y-4">
               {chartData.customerLevels.map((item, index) => {
-                const levelColors = {
+                const _levelColors = {
                   'VIP': 'from-red-500 to-red-600',
                   'Gold': 'from-yellow-500 to-yellow-600',
                   'Silver': 'from-gray-400 to-gray-500',

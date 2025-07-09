@@ -6,6 +6,13 @@ import { categoryService } from '../../services/business';
 import { Category } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { Card, CardContent } from '../ui/card';
+
+interface CategoryStats {
+  total: number;
+  active: number;
+  roots: number;
+  maxLevel: number;
+}
 import { 
   Table, 
   TableContainer,
@@ -14,10 +21,10 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
+  TableEmpty as _TableEmpty,
   TableLoading
 } from '../ui/table';
-import { notificationHelper } from '../../utils/notificationHelper';
+import { _notificationHelper as notificationHelper } from '../../utils/notificationHelper';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import ErrorDisplay from '../ui/ErrorDisplay';
 
@@ -26,7 +33,7 @@ interface CategoryManagementProps {
 }
 
 // 定义验证模式
-const categorySchema = z.object({
+const _categorySchema = z.object({
   name: z.string().min(1, '分类名称不能为空').max(50, '分类名称最多50个字符'),
   parentId: z.string().optional(),
   level: z.number().min(1, '级别不能小于1').max(10, '级别不能超过10'),
@@ -52,7 +59,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedParent, setSelectedParent] = useState('');
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<CategoryStats | null>(null);
   
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -73,13 +80,13 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     mode: 'onBlur'
   });
 
-  const _formData = watch(); // 监听表单数据变化
+  const __formData = watch(); // 监听表单数据变化
 
   useEffect(() => {
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -92,7 +99,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       setCategories(categoriesData);
       setStats(statsData);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : '加载分类数据失败';
+      const _errorMessage = err instanceof Error ? err.message : '加载分类数据失败';
       notificationHelper.showError('数据加载失败', errorMessage);
       console.error('Failed to load category data:', err);
     } finally {
@@ -100,10 +107,10 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     }
   };
 
-  const onSubmit = async (data: CategoryForm) => {
+  const _onSubmit = async (data: CategoryForm) => {
     try {
       // 处理根分类的parentId：将空字符串转换为undefined
-      const submitData = {
+      const _submitData = {
         ...data,
         parentId: data.parentId || undefined
       };
@@ -120,14 +127,14 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       reset(emptyForm);
       clearErrors();
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : '保存分类失败';
+      const _errorMessage = err instanceof Error ? err.message : '保存分类失败';
       setError(errorMessage);
       notificationHelper.showError('分类保存失败', errorMessage);
       console.error('Failed to save category:', err);
     }
   };
 
-  const handleEdit = (category: Category) => {
+  const _handleEdit = (category: Category) => {
     setEditingCategory(category);
     reset({
       name: category.name,
@@ -140,12 +147,12 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     setShowForm(true);
   };
 
-  const handleDelete = (categoryId: string) => {
+  const _handleDelete = (categoryId: string) => {
     setDeleteTargetId(categoryId);
     setShowConfirmDialog(true);
   };
 
-  const confirmDelete = async () => {
+  const _confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
@@ -153,7 +160,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       await loadData();
       notificationHelper.showSuccess('删除成功', '分类已成功删除');
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : '删除分类失败';
+      const _errorMessage = err instanceof Error ? err.message : '删除分类失败';
       notificationHelper.showError('分类删除失败', errorMessage);
       console.error('Failed to delete category:', err);
     } finally {
@@ -162,12 +169,12 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     }
   };
 
-  const cancelDelete = () => {
+  const _cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const handleCancel = () => {
+  const _handleCancel = () => {
     setShowForm(false);
     setEditingCategory(null);
     reset(emptyForm);
@@ -176,11 +183,11 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
   };
 
   // 处理父分类变更时自动调整级别
-  const handleParentChange = (parentId: string) => {
+  const _handleParentChange = (parentId: string) => {
     setValue('parentId', parentId);
     
     if (parentId) {
-      const parentCategory = categories.find(c => c.id === parentId);
+      const _parentCategory = categories.find(c => c.id === parentId);
       if (parentCategory) {
         setValue('level', parentCategory.level + 1);
       }
@@ -194,20 +201,22 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     }
   };
 
-  const handleCreateNew = () => {
+  const _handleCreateNew = () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
   };
 
-  const getCategoryPath = (category: Category): string => {
-    const path = [];
-    let current = category;
+  const _getCategoryPath = (category: Category): string => {
+    const _path = [];
+    const _current = category;
     
     while (current) {
       path.unshift(current.name);
       if (current.parentId) {
-        current = categories.find(c => c.id === current.parentId)!;
+        const _parent = categories.find(c => c.id === current.parentId);
+        if (!parent) break;
+        current = parent;
       } else {
         break;
       }
@@ -216,15 +225,15 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     return path.join(' > ');
   };
 
-  const getRootCategories = (): Category[] => {
+  const _getRootCategories = (): Category[] => {
     return categories.filter(c => !c.parentId);
   };
 
-  const filteredCategories = categories.filter(category => {
-    const matchesSearch = !searchTerm || 
+  const _filteredCategories = categories.filter(category => {
+    const _matchesSearch = !searchTerm || 
       category.name.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesParent = !selectedParent || category.parentId === selectedParent;
+    const _matchesParent = !selectedParent || category.parentId === selectedParent;
     
     return matchesSearch && matchesParent;
   });

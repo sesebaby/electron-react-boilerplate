@@ -3,6 +3,8 @@
  * 负责管理日志文件的轮转、压缩和清理
  */
 
+import { ElectronAPI, DatabaseResult, FileOperationResult } from '../types/electronAPI';
+
 export interface LogRotationConfig {
   maxFileSize: number; // MB
   maxFiles: number;
@@ -62,9 +64,10 @@ class LogRotation {
     // 通过IPC与主进程通信
     this.fs = {
       readdir: (path: string, callback: (err?: any, files?: string[]) => void) => {
-        if (window.electronAPI && window.electronAPI.readdir) {
-          window.electronAPI.readdir(path)
-            .then((result: { success: boolean; data?: string[]; error?: string }) => {
+        const electronAPI: ElectronAPI = window.electronAPI;
+        if (electronAPI && (electronAPI as any).readdir) {
+          (electronAPI as any).readdir(path)
+            .then((result: DatabaseResult<string[]>) => {
               if (result.success) {
                 callback(null, result.data);
               } else {
@@ -77,9 +80,10 @@ class LogRotation {
         }
       },
       stat: (path: string, callback: (err?: any, stats?: any) => void) => {
-        if (window.electronAPI && window.electronAPI.stat) {
-          window.electronAPI.stat(path)
-            .then((result: { success: boolean; data?: any; error?: string }) => {
+        const electronAPI: ElectronAPI = window.electronAPI;
+        if (electronAPI && electronAPI.stat) {
+          electronAPI.stat(path)
+            .then((result: DatabaseResult<any>) => {
               if (result.success) {
                 callback(null, result.data);
               } else {
@@ -149,13 +153,13 @@ class LogRotation {
     this.fs = {
       readdir: (path: string, callback: (err?: any, files?: string[]) => void) => {
         // 从localStorage中获取模拟的文件列表
-        const keys = Object.keys(localStorage).filter(key => key.startsWith('log_'));
-        const files = keys.map(key => key.replace('log_', '').replace(/_/g, '/'));
+        const _keys = Object.keys(localStorage).filter(key => key.startsWith('log_'));
+        const _files = keys.map(key => key.replace('log_', '').replace(/_/g, '/'));
         callback(null, files);
       },
       stat: (path: string, callback: (err?: any, stats?: any) => void) => {
-        const key = `log_${path.replace(/[^a-zA-Z0-9]/g, '_')}`;
-        const data = localStorage.getItem(key);
+        const _key = `log_${path.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        const _data = localStorage.getItem(key);
         if (data) {
           callback(null, { 
             size: data.length,
@@ -167,9 +171,9 @@ class LogRotation {
         }
       },
       rename: (oldPath: string, newPath: string, callback: (err?: any) => void) => {
-        const oldKey = `log_${oldPath.replace(/[^a-zA-Z0-9]/g, '_')}`;
-        const newKey = `log_${newPath.replace(/[^a-zA-Z0-9]/g, '_')}`;
-        const data = localStorage.getItem(oldKey);
+        const _oldKey = `log_${oldPath.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        const _newKey = `log_${newPath.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        const _data = localStorage.getItem(oldKey);
         if (data) {
           localStorage.setItem(newKey, data);
           localStorage.removeItem(oldKey);
@@ -179,7 +183,7 @@ class LogRotation {
         }
       },
       unlink: (path: string, callback: (err?: any) => void) => {
-        const key = `log_${path.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        const _key = `log_${path.replace(/[^a-zA-Z0-9]/g, '_')}`;
         localStorage.removeItem(key);
         callback();
       },
@@ -213,8 +217,8 @@ class LogRotation {
           return;
         }
 
-        const logFiles = files.filter(file => file.endsWith('.log'));
-        const promises = logFiles.map(file => this.getFileInfo(this.path.join(directory, file)));
+        const _logFiles = files.filter(file => file.endsWith('.log'));
+        const _promises = logFiles.map(file => this.getFileInfo(this.path.join(directory, file)));
 
         Promise.all(promises)
           .then(resolve)
@@ -249,10 +253,10 @@ class LogRotation {
    */
   public async rotateIfNeeded(directory: string, config: LogRotationConfig): Promise<void> {
     try {
-      const logFiles = await this.getLogFiles(directory);
+      const _logFiles = await this.getLogFiles(directory);
       
       for (const file of logFiles) {
-        const fileSizeMB = file.size / (1024 * 1024);
+        const _fileSizeMB = file.size / (1024 * 1024);
         
         if (fileSizeMB > config.maxFileSize) {
           await this.rotateFile(file.path, config);
@@ -271,13 +275,13 @@ class LogRotation {
    * 轮转单个文件
    */
   private async rotateFile(filePath: string, config: LogRotationConfig): Promise<void> {
-    const directory = this.path.dirname(filePath);
-    const fileName = this.path.basename(filePath, '.log');
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const _directory = this.path.dirname(filePath);
+    const _fileName = this.path.basename(filePath, '.log');
+    const _timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     
     // 生成新的文件名
-    const rotatedFileName = `${fileName}.${timestamp}.log`;
-    const rotatedFilePath = this.path.join(directory, rotatedFileName);
+    const _rotatedFileName = `${fileName}.${timestamp}.log`;
+    const _rotatedFilePath = this.path.join(directory, rotatedFileName);
 
     return new Promise((resolve, reject) => {
       // 重命名当前文件
@@ -308,13 +312,13 @@ class LogRotation {
       return;
     }
 
-    const compressedPath = `${filePath}.gz`;
+    const _compressedPath = `${filePath}.gz`;
 
     return new Promise((resolve, reject) => {
       try {
-        const readStream = this.fs.createReadStream(filePath);
-        const writeStream = this.fs.createWriteStream(compressedPath);
-        const gzip = this.zlib.createGzip();
+        const _readStream = this.fs.createReadStream(filePath);
+        const _writeStream = this.fs.createWriteStream(compressedPath);
+        const _gzip = this.zlib.createGzip();
 
         readStream.pipe(gzip).pipe(writeStream);
 
@@ -343,19 +347,19 @@ class LogRotation {
    */
   private async cleanupExcessFiles(directory: string, maxFiles: number): Promise<void> {
     try {
-      const logFiles = await this.getLogFiles(directory);
+      const _logFiles = await this.getLogFiles(directory);
       
       // 按修改时间排序，最新的在前
-      const sortedFiles = logFiles.sort((a, b) => b.modified.getTime() - a.modified.getTime());
+      const _sortedFiles = logFiles.sort((a, b) => b.modified.getTime() - a.modified.getTime());
       
       // 删除超过最大数量的文件
-      const filesToDelete = sortedFiles.slice(maxFiles);
+      const _filesToDelete = sortedFiles.slice(maxFiles);
       
       for (const file of filesToDelete) {
         await this.deleteFile(file.path);
         
         // 同时删除对应的压缩文件
-        const compressedPath = `${file.path}.gz`;
+        const _compressedPath = `${file.path}.gz`;
         try {
           await this.deleteFile(compressedPath);
         } catch (error) {
@@ -388,17 +392,17 @@ class LogRotation {
    */
   public async cleanupOldLogs(directory: string, maxAgeInDays: number): Promise<void> {
     try {
-      const logFiles = await this.getLogFiles(directory);
-      const cutoffDate = new Date();
+      const _logFiles = await this.getLogFiles(directory);
+      const _cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - maxAgeInDays);
 
-      const oldFiles = logFiles.filter(file => file.modified < cutoffDate);
+      const _oldFiles = logFiles.filter(file => file.modified < cutoffDate);
 
       for (const file of oldFiles) {
         await this.deleteFile(file.path);
         
         // 同时删除对应的压缩文件
-        const compressedPath = `${file.path}.gz`;
+        const _compressedPath = `${file.path}.gz`;
         try {
           await this.deleteFile(compressedPath);
         } catch (error) {
@@ -425,7 +429,7 @@ class LogRotation {
     newestFile?: Date;
   }> {
     try {
-      const logFiles = await this.getLogFiles(directory);
+      const _logFiles = await this.getLogFiles(directory);
       
       if (logFiles.length === 0) {
         return {
@@ -434,8 +438,8 @@ class LogRotation {
         };
       }
 
-      const totalSize = logFiles.reduce((sum, file) => sum + file.size, 0);
-      const sortedByDate = logFiles.sort((a, b) => a.modified.getTime() - b.modified.getTime());
+      const _totalSize = logFiles.reduce((sum, file) => sum + file.size, 0);
+      const _sortedByDate = logFiles.sort((a, b) => a.modified.getTime() - b.modified.getTime());
       
       return {
         totalFiles: logFiles.length,

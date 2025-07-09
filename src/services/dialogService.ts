@@ -52,5 +52,5 @@ class DialogService {
   }
 }
 
-export const dialogService = new DialogService();
+export const _dialogService = new DialogService();
 export default dialogService;

@@ -60,7 +60,7 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -75,9 +75,9 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
       setWarehouses(warehousesData);
       
       // 创建库存数据映射 (productId:warehouseId -> stock)
-      const stockMap = new Map<string, InventoryStock>();
+      const _stockMap = new Map<string, InventoryStock>();
       stocksData.forEach((stock: InventoryStock) => {
-        const key = `${stock.productId}:${stock.warehouseId}`;
+        const _key = `${stock.productId}:${stock.warehouseId}`;
         stockMap.set(key, stock);
       });
       setStockData(stockMap);
@@ -90,7 +90,7 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
     }
   };
 
-  const addItem = () => {
+  const _addItem = () => {
     const newItem: StockAdjustItem = {
       ...emptyItem,
       id: Date.now().toString()
@@ -101,25 +101,25 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
     }));
   };
 
-  const removeItem = (itemId: string) => {
+  const _removeItem = (itemId: string) => {
     setFormData(prev => ({
       ...prev,
       items: prev.items.filter(item => item.id !== itemId)
     }));
   };
 
-  const updateItem = (itemId: string, field: keyof StockAdjustItem, value: any) => {
+  const _updateItem = (itemId: string, field: keyof StockAdjustItem, value: StockAdjustItem[keyof StockAdjustItem]) => {
     setFormData(prev => ({
       ...prev,
       items: prev.items.map(item => {
         if (item.id === itemId) {
-          const updatedItem = { ...item, [field]: value };
+          const _updatedItem = { ...item, [field]: value };
           
           // 当产品或仓库变化时，更新库存信息
           if (field === 'productId' || field === 'warehouseId') {
             if (updatedItem.productId && updatedItem.warehouseId) {
-              const stockKey = `${updatedItem.productId}:${updatedItem.warehouseId}`;
-              const stock = stockData.get(stockKey);
+              const _stockKey = `${updatedItem.productId}:${updatedItem.warehouseId}`;
+              const _stock = stockData.get(stockKey);
               if (stock) {
                 updatedItem.currentStock = stock.currentStock;
                 updatedItem.adjustedStock = stock.currentStock;
@@ -135,7 +135,7 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
           
           // 当调整后库存变化时，重新计算调整数量和类型
           if (field === 'adjustedStock') {
-            const difference = updatedItem.adjustedStock - updatedItem.currentStock;
+            const _difference = updatedItem.adjustedStock - updatedItem.currentStock;
             updatedItem.adjustmentQuantity = Math.abs(difference);
             
             if (difference > 0) {
@@ -167,7 +167,7 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const _handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (formData.items.length === 0) {
@@ -198,9 +198,9 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
       setError(null);
       
       // 逐个处理调整项目
-      const results = [];
+      const _results = [];
       for (const item of formData.items) {
-        const result = await inventoryStockService.stockAdjust({
+        const _result = await inventoryStockService.stockAdjust({
           productId: item.productId,
           warehouseId: item.warehouseId,
           newQuantity: item.adjustedStock,
@@ -228,16 +228,16 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
     }
   };
 
-  const getTotalAdjustmentValue = (): number => {
+  const _getTotalAdjustmentValue = (): number => {
     return formData.items.reduce((sum, item) => {
-      const adjustmentValue = Math.abs(item.adjustedStock - item.currentStock) * item.unitPrice;
+      const _adjustmentValue = Math.abs(item.adjustedStock - item.currentStock) * item.unitPrice;
       return sum + adjustmentValue;
     }, 0);
   };
 
-  const getAdjustmentSummary = () => {
-    const summary = formData.items.reduce((acc, item) => {
-      const difference = item.adjustedStock - item.currentStock;
+  const _getAdjustmentSummary = () => {
+    const _summary = formData.items.reduce((acc, item) => {
+      const _difference = item.adjustedStock - item.currentStock;
       if (difference > 0) {
         acc.increases += difference;
         acc.increaseValue += difference * item.unitPrice;
@@ -256,7 +256,7 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
     return summary;
   };
 
-  const getAdjustmentTypeText = (type: string): string => {
+  const _getAdjustmentTypeText = (type: string): string => {
     switch (type) {
       case 'increase': return '增加';
       case 'decrease': return '减少';
@@ -265,7 +265,7 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
     }
   };
 
-  const getAdjustmentTypeStyles = (type: string): string => {
+  const _getAdjustmentTypeStyles = (type: string): string => {
     switch (type) {
       case 'increase': return 'text-green-300 bg-green-500/20 border-green-400/30';
       case 'decrease': return 'text-red-300 bg-red-500/20 border-red-400/30';
@@ -274,7 +274,7 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
     }
   };
 
-  const getAdjustmentQuantityStyles = (type: string): string => {
+  const _getAdjustmentQuantityStyles = (type: string): string => {
     switch (type) {
       case 'increase': return 'text-green-300';
       case 'decrease': return 'text-red-300';
@@ -295,7 +295,7 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
     );
   }
 
-  const adjustmentSummary = getAdjustmentSummary();
+  const _adjustmentSummary = getAdjustmentSummary();
 
   return (
     <div className={`space-y-6 ${className || ''}`}>
@@ -422,7 +422,7 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
                 </thead>
                 <tbody>
                   {formData.items.map(item => {
-                    const adjustmentAmount = Math.abs(item.adjustedStock - item.currentStock) * item.unitPrice;
+                    const _adjustmentAmount = Math.abs(item.adjustedStock - item.currentStock) * item.unitPrice;
                     return (
                       <tr key={item.id} className="border-b border-white/5">
                         <td className="py-3 px-4">

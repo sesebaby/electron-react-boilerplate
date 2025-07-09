@@ -75,34 +75,34 @@ const initialState: InventoryState = {
   itemsPerPage: 5
 };
 
-export const useInventory = () => {
+export const _useInventory = () => {
   const [state, dispatch] = useReducer(inventoryReducer, initialState);
 
-  const filteredItems = useMemo(() => {
+  const _filteredItems = useMemo(() => {
     return state.items.filter(item => {
-      const matchesSearch = item.name.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
+      const _matchesSearch = item.name.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
                            item.sku.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
                            item.description.toLowerCase().includes(state.searchTerm.toLowerCase());
       
-      const matchesCategory = state.categoryFilter === 'all' || item.category === state.categoryFilter;
-      const matchesStatus = state.statusFilter === 'all' || item.status === state.statusFilter;
+      const _matchesCategory = state.categoryFilter === 'all' || item.category === state.categoryFilter;
+      const _matchesStatus = state.statusFilter === 'all' || item.status === state.statusFilter;
       
       return matchesSearch && matchesCategory && matchesStatus;
     });
   }, [state.items, state.searchTerm, state.categoryFilter, state.statusFilter]);
 
   // Paginated items
-  const paginatedItems = useMemo(() => {
-    const startIndex = (state.currentPage - 1) * state.itemsPerPage;
-    const endIndex = startIndex + state.itemsPerPage;
+  const _paginatedItems = useMemo(() => {
+    const _startIndex = (state.currentPage - 1) * state.itemsPerPage;
+    const _endIndex = startIndex + state.itemsPerPage;
     return filteredItems.slice(startIndex, endIndex);
   }, [filteredItems, state.currentPage, state.itemsPerPage]);
 
-  const totalPages = Math.ceil(filteredItems.length / state.itemsPerPage);
+  const _totalPages = Math.ceil(filteredItems.length / state.itemsPerPage);
 
   // Initialize service and load data
   useEffect(() => {
-    const initializeAndLoadData = async () => {
+    const _initializeAndLoadData = async () => {
       try {
         dispatch({ type: 'SET_LOADING', payload: true });
         dispatch({ type: 'SET_ERROR', payload: null });
@@ -118,9 +118,9 @@ export const useInventory = () => {
     initializeAndLoadData();
   }, []);
 
-  const loadItems = useCallback(async () => {
+  const _loadItems = useCallback(async () => {
     try {
-      const allItems = await InventoryService.getAllItems();
+      const _allItems = await InventoryService.getAllItems();
       dispatch({ type: 'SET_ITEMS', payload: allItems });
     } catch (err) {
       dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '加载数据失败' });
@@ -137,9 +137,9 @@ export const useInventory = () => {
 
   // Update summary when items change
   useEffect(() => {
-    const updateSummary = async () => {
+    const _updateSummary = async () => {
       try {
-        const newSummary = await InventoryService.calculateSummary();
+        const _newSummary = await InventoryService.calculateSummary();
         setSummary(newSummary);
       } catch (err) {
         console.error('Failed to calculate summary:', err);
@@ -156,10 +156,10 @@ export const useInventory = () => {
     }
   }, [state.items, state.loading]);
 
-  const updateItem = useCallback(async (id: string, updates: Partial<InventoryItem>) => {
+  const _updateItem = useCallback(async (id: string, updates: Partial<InventoryItem>) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const updatedItem = await InventoryService.updateItem(id, updates);
+      const _updatedItem = await InventoryService.updateItem(id, updates);
       dispatch({ type: 'UPDATE_ITEM', payload: { id, item: updatedItem } });
     } catch (err) {
       dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '更新失败' });
@@ -167,10 +167,10 @@ export const useInventory = () => {
     }
   }, []);
 
-  const addItem = useCallback(async (newItem: Omit<InventoryItem, 'id' | 'lastUpdated'>) => {
+  const _addItem = useCallback(async (newItem: Omit<InventoryItem, 'id' | 'lastUpdated'>) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const createdItem = await InventoryService.createItem(newItem);
+      const _createdItem = await InventoryService.createItem(newItem);
       dispatch({ type: 'ADD_ITEM', payload: createdItem });
       return createdItem;
     } catch (err) {
@@ -179,10 +179,10 @@ export const useInventory = () => {
     }
   }, []);
 
-  const deleteItem = useCallback(async (id: string) => {
+  const _deleteItem = useCallback(async (id: string) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const success = await InventoryService.deleteItem(id);
+      const _success = await InventoryService.deleteItem(id);
       if (success) {
         dispatch({ type: 'REMOVE_ITEM', payload: id });
       }
@@ -193,10 +193,10 @@ export const useInventory = () => {
     }
   }, []);
 
-  const searchItems = useCallback(async (term: string) => {
+  const _searchItems = useCallback(async (term: string) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const results = await InventoryService.searchItems(term);
+      const _results = await InventoryService.searchItems(term);
       dispatch({ type: 'SET_ITEMS', payload: results });
       dispatch({ type: 'RESET_PAGE' });
     } catch (err) {
@@ -204,10 +204,10 @@ export const useInventory = () => {
     }
   }, []);
 
-  const updateStock = useCallback(async (id: string, quantity: number, type: 'in' | 'out' | 'adjust') => {
+  const _updateStock = useCallback(async (id: string, quantity: number, type: 'in' | 'out' | 'adjust') => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const updatedItem = await InventoryService.updateStock(id, quantity, type);
+      const _updatedItem = await InventoryService.updateStock(id, quantity, type);
       dispatch({ type: 'UPDATE_ITEM', payload: { id, item: updatedItem } });
       return updatedItem;
     } catch (err) {
@@ -216,10 +216,10 @@ export const useInventory = () => {
     }
   }, []);
 
-  const bulkCreateItems = useCallback(async (items: Array<Omit<InventoryItem, 'id' | 'lastUpdated'>>) => {
+  const _bulkCreateItems = useCallback(async (items: Array<Omit<InventoryItem, 'id' | 'lastUpdated'>>) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const createdItems = await InventoryService.bulkCreateItems(items);
+      const _createdItems = await InventoryService.bulkCreateItems(items);
       await loadItems(); // Reload all items
       return createdItems;
     } catch (err) {
@@ -229,23 +229,23 @@ export const useInventory = () => {
   }, [loadItems]);
 
   // 新的setter函数
-  const setSearchTerm = useCallback((term: string) => {
+  const _setSearchTerm = useCallback((term: string) => {
     dispatch({ type: 'SET_SEARCH_TERM', payload: term });
   }, []);
 
-  const setCategoryFilter = useCallback((category: string) => {
+  const _setCategoryFilter = useCallback((category: string) => {
     dispatch({ type: 'SET_CATEGORY_FILTER', payload: category });
   }, []);
 
-  const setStatusFilter = useCallback((status: string) => {
+  const _setStatusFilter = useCallback((status: string) => {
     dispatch({ type: 'SET_STATUS_FILTER', payload: status });
   }, []);
 
-  const setCurrentPage = useCallback((page: number) => {
+  const _setCurrentPage = useCallback((page: number) => {
     dispatch({ type: 'SET_CURRENT_PAGE', payload: page });
   }, []);
 
-  const setError = useCallback((error: string | null) => {
+  const _setError = useCallback((error: string | null) => {
     dispatch({ type: 'SET_ERROR', payload: error });
   }, []);
 

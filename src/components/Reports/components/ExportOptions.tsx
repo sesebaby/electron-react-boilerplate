@@ -17,8 +17,8 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({
   /**
    * 导出为CSV格式
    */
-  const exportToCSV = () => {
-    const headers = [
+  const _exportToCSV = () => {
+    const _headers = [
       '序号', '物品名称', '产品编码', '一级分类', '二级分类', '单位', '换算单位',
       '期初数量', '期初换算数量', '期初金额',
       '入库数量', '入库换算数量', '入库金额',
@@ -26,7 +26,7 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({
       '期末数量', '期末换算数量', '期末金额'
     ];
     
-    const csvContent = [
+    const _csvContent = [
       headers.join(','),
       ...data.map(item => [
         item.sequence,
@@ -57,7 +57,7 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({
   /**
    * 导出为Excel格式（简化版，实际为CSV）
    */
-  const exportToExcel = () => {
+  const _exportToExcel = () => {
     // 这里可以使用xlsx库来生成真正的Excel文件
     // 为了简化，我们先使用CSV格式
     exportToCSV();
@@ -66,10 +66,10 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({
   /**
    * 下载文件
    */
-  const downloadFile = (content: string, mimeType: string, filename: string) => {
-    const blob = new Blob(['\uFEFF' + content], { type: `${mimeType};charset=utf-8;` });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
+  const _downloadFile = (content: string, mimeType: string, filename: string) => {
+    const _blob = new Blob(['\uFEFF' + content], { type: `${mimeType};charset=utf-8;` });
+    const _link = document.createElement('a');
+    const _url = URL.createObjectURL(blob);
     
     link.setAttribute('href', url);
     link.setAttribute('download', `${filename}_${new Date().toISOString().split('T')[0]}`);
@@ -85,8 +85,8 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({
   /**
    * 导出汇总统计
    */
-  const exportSummary = () => {
-    const totals = data.reduce((acc, row) => {
+  const _exportSummary = () => {
+    const _totals = data.reduce((acc, row) => {
       acc.openingStock.quantity += row.openingStock.quantity;
       acc.openingStock.amount += row.openingStock.amount;
       acc.inboundTotal.quantity += row.inboundTotal.quantity;
@@ -103,7 +103,7 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({
       closingStock: { quantity: 0, amount: 0 }
     });
 
-    const summaryContent = [
+    const _summaryContent = [
       '出入库汇总统计报表',
       `导出时间: ${new Date().toLocaleString('zh-CN')}`,
       `商品种类: ${data.length}`,

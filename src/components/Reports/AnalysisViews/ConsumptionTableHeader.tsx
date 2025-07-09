@@ -14,7 +14,7 @@ const ConsumptionTableHeader: React.FC<ConsumptionTableHeaderProps> = ({
   /**
    * 获取显示模式的标题
    */
-  const getDisplayModeTitle = (mode: DisplayMode): string => {
+  const _getDisplayModeTitle = (mode: DisplayMode): string => {
     switch (mode) {
       case DisplayMode.QUANTITY:
         return '数量';
@@ -30,7 +30,7 @@ const ConsumptionTableHeader: React.FC<ConsumptionTableHeaderProps> = ({
   /**
    * 获取显示模式的单位
    */
-  const getDisplayModeUnit = (mode: DisplayMode): string => {
+  const _getDisplayModeUnit = (mode: DisplayMode): string => {
     switch (mode) {
       case DisplayMode.QUANTITY:
         return '(个)';
@@ -46,11 +46,11 @@ const ConsumptionTableHeader: React.FC<ConsumptionTableHeaderProps> = ({
   /**
    * 格式化日期显示
    */
-  const formatDateDisplay = (dateString: string): string => {
-    const date = new Date(dateString);
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const weekDay = ['日', '一', '二', '三', '四', '五', '六'][date.getDay()];
+  const _formatDateDisplay = (dateString: string): string => {
+    const _date = new Date(dateString);
+    const _month = date.getMonth() + 1;
+    const _day = date.getDate();
+    const _weekDay = ['日', '一', '二', '三', '四', '五', '六'][date.getDay()];
     return `${month}/${day} 周${weekDay}`;
   };
 

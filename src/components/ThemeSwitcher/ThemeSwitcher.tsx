@@ -9,11 +9,11 @@ interface ThemeSwitcherProps {
 export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
   const { currentTheme, switchTheme, availableThemes, getCurrentTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-  const themeSwitcherRef = useRef<HTMLDivElement>(null);
+  const _themeSwitcherRef = useRef<HTMLDivElement>(null);
 
   // 点击外部关闭主题选择器
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const _handleClickOutside = (event: MouseEvent) => {
       if (themeSwitcherRef.current && !themeSwitcherRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
@@ -27,12 +27,12 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ className }) => {
     }
   }, [isOpen]);
 
-  const handleThemeSelect = (themeName: string) => {
+  const _handleThemeSelect = (themeName: string) => {
     switchTheme(themeName as any);
     setIsOpen(false);
   };
 
-  const currentThemeInfo = getCurrentTheme();
+  const _currentThemeInfo = getCurrentTheme();
 
   return (
     <div className={`relative z-50 ${className || ''}`} ref={themeSwitcherRef}>

@@ -14,7 +14,7 @@ const WarehouseCard: React.FC<WarehouseCardProps> = ({
   isSelected = false
 }) => {
   // 获取库存状态样式
-  const getStockStatusStyle = () => {
+  const _getStockStatusStyle = () => {
     if (warehouse.outOfStockCount > 0) {
       return 'border-red-300/50 bg-red-500/10';
     } else if (warehouse.lowStockCount > 0) {
@@ -25,7 +25,7 @@ const WarehouseCard: React.FC<WarehouseCardProps> = ({
   };
 
   // 获取状态指示器
-  const getStatusIndicator = () => {
+  const _getStatusIndicator = () => {
     if (warehouse.outOfStockCount > 0) {
       return (
         <div className="flex items-center gap-1 text-red-300 text-xs drop-shadow-md">
@@ -51,7 +51,7 @@ const WarehouseCard: React.FC<WarehouseCardProps> = ({
   };
 
   // 格式化金额
-  const formatCurrency = (amount: number) => {
+  const _formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('zh-CN', {
       style: 'currency',
       currency: 'CNY',

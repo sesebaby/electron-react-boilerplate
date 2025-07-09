@@ -53,15 +53,15 @@ export class ConsumptionCalculator {
    */
   static calculateConsumptionFromTransactions(transactions: InventoryTransaction[]): ConsumptionSlotData {
     // 只处理出库事务
-    const outTransactions = transactions.filter(t => t.transactionType === TransactionType.OUT);
+    const _outTransactions = transactions.filter(t => t.transactionType === TransactionType.OUT);
     
     if (outTransactions.length === 0) {
       return this.createEmptyConsumptionData();
     }
     
-    const totalQuantity = outTransactions.reduce((sum, t) => sum + Math.abs(t.quantity), 0);
-    const totalAmount = outTransactions.reduce((sum, t) => sum + Math.abs(t.totalAmount), 0);
-    const avgUnitPrice = totalQuantity > 0 ? totalAmount / totalQuantity : 0;
+    const _totalQuantity = outTransactions.reduce((sum, t) => sum + Math.abs(t.quantity), 0);
+    const _totalAmount = outTransactions.reduce((sum, t) => sum + Math.abs(t.totalAmount), 0);
+    const _avgUnitPrice = totalQuantity > 0 ? totalAmount / totalQuantity : 0;
     
     return {
       quantity: totalQuantity,
@@ -83,7 +83,7 @@ export class ConsumptionCalculator {
     consumptionData: ConsumptionSlotData
   ): Promise<ConsumptionSlotData> {
     try {
-      const convertedQuantity = await unitConversionService.convertToPackageUnit(
+      const _convertedQuantity = await unitConversionService.convertToPackageUnit(
         productId, 
         consumptionData.quantity
       );
@@ -140,7 +140,7 @@ export class ConsumptionCalculator {
       return this.createEmptyConsumptionData();
     }
     
-    const merged = dataArray.reduce((acc, data) => ({
+    const _merged = dataArray.reduce((acc, data) => ({
       quantity: acc.quantity + data.quantity,
       convertedQuantity: (acc.convertedQuantity || 0) + (data.convertedQuantity || 0),
       amount: acc.amount + data.amount,
@@ -183,7 +183,7 @@ export class ConsumptionCalculator {
       allTimeSlotData.push(product.rowTotal);
     });
     
-    const rowTotal = this.mergeConsumptionData(allTimeSlotData);
+    const _rowTotal = this.mergeConsumptionData(allTimeSlotData);
     
     return {
       ...categoryRow,
@@ -206,7 +206,7 @@ export class ConsumptionCalculator {
       allTimeSlotData.push(timeSlotData.evening);
     });
     
-    const rowTotal = this.mergeConsumptionData(allTimeSlotData);
+    const _rowTotal = this.mergeConsumptionData(allTimeSlotData);
     
     return {
       ...productRow,
@@ -221,8 +221,8 @@ export class ConsumptionCalculator {
    * @returns 总计数据
    */
   static calculateTotals(categories: CategoryRowData[], dateColumns: string[]): ConsumptionTotals {
-    const categoryTotals = new Map<string, ConsumptionSlotData>();
-    const dateTotals = new Map<string, ConsumptionSlotData>();
+    const _categoryTotals = new Map<string, ConsumptionSlotData>();
+    const _dateTotals = new Map<string, ConsumptionSlotData>();
     
     // 计算分类总计
     categories.forEach(category => {
@@ -234,7 +234,7 @@ export class ConsumptionCalculator {
       const dateData: ConsumptionSlotData[] = [];
       
       categories.forEach(category => {
-        const timeSlotData = category.data.get(date);
+        const _timeSlotData = category.data.get(date);
         if (timeSlotData) {
           dateData.push(timeSlotData.dailyTotal);
         }
@@ -256,14 +256,14 @@ export class ConsumptionCalculator {
       });
     });
     
-    const timeSlotTotals = {
+    const _timeSlotTotals = {
       morning: this.mergeConsumptionData(morningData),
       afternoon: this.mergeConsumptionData(afternoonData),
       evening: this.mergeConsumptionData(eveningData)
     };
     
     // 计算总计
-    const grandTotal = this.mergeConsumptionData([
+    const _grandTotal = this.mergeConsumptionData([
       timeSlotTotals.morning,
       timeSlotTotals.afternoon,
       timeSlotTotals.evening

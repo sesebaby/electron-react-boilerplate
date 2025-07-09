@@ -6,7 +6,7 @@ export class InventoryDatabase {
   private db = DatabaseManager.getConnection();
 
   async getAllItems(): Promise<InventoryItem[]> {
-    const query = `
+    const _query = `
       SELECT 
         id, name, description, sku, category, supplier,
         stock_quantity as stockQuantity,
@@ -21,12 +21,12 @@ export class InventoryDatabase {
       ORDER BY name ASC
     `;
     
-    const rows = await this.db.all(query);
+    const _rows = await this.db.all(query);
     return rows.map(this.mapRowToInventoryItem);
   }
 
   async getItemById(id: string): Promise<InventoryItem | null> {
-    const query = `
+    const _query = `
       SELECT 
         id, name, description, sku, category, supplier,
         stock_quantity as stockQuantity,
@@ -41,12 +41,12 @@ export class InventoryDatabase {
       WHERE id = ?
     `;
     
-    const row = await this.db.get(query, [id]);
+    const _row = await this.db.get(query, [id]);
     return row ? this.mapRowToInventoryItem(row) : null;
   }
 
   async getItemBySku(sku: string): Promise<InventoryItem | null> {
-    const query = `
+    const _query = `
       SELECT 
         id, name, description, sku, category, supplier,
         stock_quantity as stockQuantity,
@@ -61,15 +61,15 @@ export class InventoryDatabase {
       WHERE sku = ?
     `;
     
-    const row = await this.db.get(query, [sku]);
+    const _row = await this.db.get(query, [sku]);
     return row ? this.mapRowToInventoryItem(row) : null;
   }
 
   async createItem(item: Omit<InventoryItem, 'id' | 'lastUpdated'>): Promise<InventoryItem> {
-    const id = uuidv4();
-    const now = new Date().toISOString();
+    const _id = uuidv4();
+    const _now = new Date().toISOString();
     
-    const query = `
+    const _query = `
       INSERT INTO inventory_items (
         id, name, description, sku, category, supplier,
         stock_quantity, reserved_quantity, unit_price, total_value,
@@ -77,7 +77,7 @@ export class InventoryDatabase {
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     
-    const params = [
+    const _params = [
       id, item.name, item.description, item.sku, item.category, item.supplier,
       item.stockQuantity, item.reservedQuantity, item.unitPrice, item.totalValue,
       item.status, item.location, item.reorderLevel, item.maxStock, now
@@ -85,7 +85,7 @@ export class InventoryDatabase {
     
     await this.db.run(query, params);
     
-    const newItem = await this.getItemById(id);
+    const _newItem = await this.getItemById(id);
     if (!newItem) {
       throw new Error('Failed to create inventory item');
     }
@@ -94,7 +94,7 @@ export class InventoryDatabase {
   }
 
   async updateItem(id: string, updates: Partial<InventoryItem>): Promise<InventoryItem> {
-    const existingItem = await this.getItemById(id);
+    const _existingItem = await this.getItemById(id);
     if (!existingItem) {
       throw new Error(`Inventory item with id ${id} not found`);
     }
@@ -102,7 +102,7 @@ export class InventoryDatabase {
     const updateFields: string[] = [];
     const params: any[] = [];
 
-    const fieldMap = {
+    const _fieldMap = {
       name: 'name',
       description: 'description',
       sku: 'sku',
@@ -133,7 +133,7 @@ export class InventoryDatabase {
     params.push(new Date().toISOString());
     params.push(id);
 
-    const query = `
+    const _query = `
       UPDATE inventory_items 
       SET ${updateFields.join(', ')}
       WHERE id = ?
@@ -141,7 +141,7 @@ export class InventoryDatabase {
 
     await this.db.run(query, params);
     
-    const updatedItem = await this.getItemById(id);
+    const _updatedItem = await this.getItemById(id);
     if (!updatedItem) {
       throw new Error('Failed to update inventory item');
     }
@@ -150,13 +150,13 @@ export class InventoryDatabase {
   }
 
   async deleteItem(id: string): Promise<boolean> {
-    const query = 'DELETE FROM inventory_items WHERE id = ?';
-    const result = await this.db.run(query, [id]);
+    const _query = 'DELETE FROM inventory_items WHERE id = ?';
+    const _result = await this.db.run(query, [id]);
     return result.rowsAffected > 0;
   }
 
   async searchItems(searchTerm: string): Promise<InventoryItem[]> {
-    const query = `
+    const _query = `
       SELECT 
         id, name, description, sku, category, supplier,
         stock_quantity as stockQuantity,
@@ -172,13 +172,13 @@ export class InventoryDatabase {
       ORDER BY name ASC
     `;
     
-    const searchPattern = `%${searchTerm}%`;
-    const rows = await this.db.all(query, [searchPattern, searchPattern, searchPattern]);
+    const _searchPattern = `%${searchTerm}%`;
+    const _rows = await this.db.all(query, [searchPattern, searchPattern, searchPattern]);
     return rows.map(this.mapRowToInventoryItem);
   }
 
   async getItemsByCategory(category: string): Promise<InventoryItem[]> {
-    const query = `
+    const _query = `
       SELECT 
         id, name, description, sku, category, supplier,
         stock_quantity as stockQuantity,
@@ -194,12 +194,12 @@ export class InventoryDatabase {
       ORDER BY name ASC
     `;
     
-    const rows = await this.db.all(query, [category]);
+    const _rows = await this.db.all(query, [category]);
     return rows.map(this.mapRowToInventoryItem);
   }
 
   async getLowStockItems(): Promise<InventoryItem[]> {
-    const query = `
+    const _query = `
       SELECT 
         id, name, description, sku, category, supplier,
         stock_quantity as stockQuantity,
@@ -215,19 +215,19 @@ export class InventoryDatabase {
       ORDER BY stock_quantity ASC
     `;
     
-    const rows = await this.db.all(query);
+    const _rows = await this.db.all(query);
     return rows.map(this.mapRowToInventoryItem);
   }
 
   async getCategories(): Promise<string[]> {
-    const query = 'SELECT DISTINCT category FROM inventory_items ORDER BY category';
-    const rows = await this.db.all(query);
+    const _query = 'SELECT DISTINCT category FROM inventory_items ORDER BY category';
+    const _rows = await this.db.all(query);
     return rows.map(row => row.category);
   }
 
   async getSuppliers(): Promise<string[]> {
-    const query = 'SELECT DISTINCT supplier FROM inventory_items WHERE supplier IS NOT NULL ORDER BY supplier';
-    const rows = await this.db.all(query);
+    const _query = 'SELECT DISTINCT supplier FROM inventory_items WHERE supplier IS NOT NULL ORDER BY supplier';
+    const _rows = await this.db.all(query);
     return rows.map(row => row.supplier);
   }
 

@@ -38,17 +38,17 @@ export class MethodVerifier {
   async verifyService(serviceName: string, testData: any): Promise<MethodVerificationResult[]> {
     console.log(`[MethodVerifier] 验证服务: ${serviceName}`);
     
-    const service = this.services.get(serviceName);
+    const _service = this.services.get(serviceName);
     if (!service) {
       throw new Error(`服务 ${serviceName} 未找到`);
     }
 
     const results: MethodVerificationResult[] = [];
-    const testCases = this.generateTestCases(serviceName, testData);
+    const _testCases = this.generateTestCases(serviceName, testData);
     
     for (const [methodName, cases] of testCases.entries()) {
       for (const testCase of cases) {
-        const result = await this.verifyMethod(service, serviceName, methodName, testCase);
+        const _result = await this.verifyMethod(service, serviceName, methodName, testCase);
         results.push(result);
       }
     }
@@ -65,7 +65,7 @@ export class MethodVerifier {
     methodName: string,
     testCase: MethodTestCase
   ): Promise<MethodVerificationResult> {
-    const startTime = Date.now();
+    const _startTime = Date.now();
     
     console.log(`[MethodVerifier] 验证方法: ${serviceName}.${methodName} (${testCase.id})`);
     
@@ -76,12 +76,12 @@ export class MethodVerifier {
       }
       
       // 执行方法
-      const result = await service[methodName](...testCase.params);
-      const executionTime = Date.now() - startTime;
+      const _result = await service[methodName](...testCase.params);
+      const _executionTime = Date.now() - startTime;
       
       // 验证结果
-      let passed = true;
-      let errorMessage = '';
+      const _passed = true;
+      const _errorMessage = '';
       
       // 检查预期结果
       if (testCase.expectedResult !== undefined) {
@@ -100,7 +100,7 @@ export class MethodVerifier {
       }
       
       // 执行业务规则检查
-      const businessRuleChecks = await this.checkBusinessRules(serviceName, methodName, testCase.params, result);
+      const _businessRuleChecks = await this.checkBusinessRules(serviceName, methodName, testCase.params, result);
       if (!businessRuleChecks.passed) {
         passed = false;
         errorMessage = `业务规则违反: ${businessRuleChecks.violations.join(', ')}`;
@@ -118,12 +118,12 @@ export class MethodVerifier {
       };
       
     } catch (error) {
-      const executionTime = Date.now() - startTime;
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const _executionTime = Date.now() - startTime;
+      const _errorMessage = error instanceof Error ? error.message : String(error);
       
       // 检查是否是预期的错误
       if (testCase.expectedError) {
-        const passed = errorMessage.includes(testCase.expectedError);
+        const _passed = errorMessage.includes(testCase.expectedError);
         return {
           service: serviceName,
           method: methodName,
@@ -149,7 +149,7 @@ export class MethodVerifier {
    * 生成测试用例
    */
   private generateTestCases(serviceName: string, testData: any): Map<string, MethodTestCase[]> {
-    const testCases = new Map<string, MethodTestCase[]>();
+    const _testCases = new Map<string, MethodTestCase[]>();
     
     switch (serviceName) {
       case 'inventoryService':
@@ -316,7 +316,7 @@ export class MethodVerifier {
    * 生成采购订单创建测试用例
    */
   private generatePurchaseOrderCreationTestCases(testData: any): MethodTestCase[] {
-    const orderData = {
+    const _orderData = {
       supplier_id: testData.suppliers[0]?.id,
       items: [
         {
@@ -371,7 +371,7 @@ export class MethodVerifier {
    * 生成销售订单创建测试用例
    */
   private generateSalesOrderCreationTestCases(testData: any): MethodTestCase[] {
-    const orderData = {
+    const _orderData = {
       customer_id: testData.customers[0]?.id,
       items: [
         {
@@ -574,13 +574,13 @@ export class MethodVerifier {
     params: any[],
     result: any
   ): Promise<any> {
-    const violations = [];
+    const _violations = [];
     
     // 根据服务和方法检查相应的业务规则
     switch (serviceName) {
       case 'inventoryService':
         if (methodName === 'updateInventoryItem') {
-          const updateData = params[1];
+          const _updateData = params[1];
           if (updateData.stock_quantity < 0) {
             violations.push('库存数量不能为负数');
           }
@@ -597,7 +597,7 @@ export class MethodVerifier {
         
       case 'accountsPayableService':
         if (methodName === 'processPayment') {
-          const paymentAmount = params[1];
+          const _paymentAmount = params[1];
           if (paymentAmount <= 0) {
             violations.push('付款金额必须大于0');
           }
@@ -606,7 +606,7 @@ export class MethodVerifier {
         
       case 'accountsReceivableService':
         if (methodName === 'processReceipt') {
-          const receiptAmount = params[1];
+          const _receiptAmount = params[1];
           if (receiptAmount <= 0) {
             violations.push('收款金额必须大于0');
           }

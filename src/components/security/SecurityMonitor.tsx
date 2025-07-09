@@ -31,19 +31,19 @@ export const SecurityMonitor: React.FC<SecurityMonitorProps> = ({ className }) =
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   // Load audit logs and security events
-  const loadLogs = () => {
-    const hours = parseInt(selectedTimeRange);
-    const since = new Date(Date.now() - hours * 60 * 60 * 1000);
+  const _loadLogs = () => {
+    const _hours = parseInt(selectedTimeRange);
+    const _since = new Date(Date.now() - hours * 60 * 60 * 1000);
     
-    const allLogs = logger.getAuditTrail(since);
-    const secEvents = logger.getSecurityEvents(hours);
+    const _allLogs = logger.getAuditTrail(since);
+    const _secEvents = logger.getSecurityEvents(hours);
     
     setAuditLogs(allLogs);
     setSecurityEvents(secEvents);
   };
 
   // Filter logs by level
-  const filteredLogs = useMemo(() => {
+  const _filteredLogs = useMemo(() => {
     if (selectedLogLevel === 'all') {
       return auditLogs;
     }
@@ -68,22 +68,22 @@ export const SecurityMonitor: React.FC<SecurityMonitorProps> = ({ className }) =
     };
   }, [selectedTimeRange, autoRefresh]);
 
-  const handleClearLogs = () => {
+  const _handleClearLogs = () => {
     setShowConfirmDialog(true);
   };
 
-  const confirmClearLogs = () => {
+  const _confirmClearLogs = () => {
     logger.clearAuditTrail();
     logger.security('Audit logs cleared by admin', { adminId: user?.id });
     loadLogs();
     setShowConfirmDialog(false);
   };
 
-  const cancelClearLogs = () => {
+  const _cancelClearLogs = () => {
     setShowConfirmDialog(false);
   };
 
-  const getLogLevelColor = (level: string): string => {
+  const _getLogLevelColor = (level: string): string => {
     switch (level) {
       case 'error': return 'text-red-300 bg-red-500/20 border-red-400/30';
       case 'warn': return 'text-yellow-300 bg-yellow-500/20 border-yellow-400/30';
@@ -93,7 +93,7 @@ export const SecurityMonitor: React.FC<SecurityMonitorProps> = ({ className }) =
     }
   };
 
-  const formatTimestamp = (timestamp: Date): string => {
+  const _formatTimestamp = (timestamp: Date): string => {
     return new Intl.DateTimeFormat('zh-CN', {
       year: 'numeric',
       month: '2-digit',

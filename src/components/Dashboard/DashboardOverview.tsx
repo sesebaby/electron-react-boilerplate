@@ -17,14 +17,14 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ className 
     loadDashboardData();
     
     // 设置定时刷新（每30秒）
-    const interval = setInterval(loadDashboardData, 30000);
+    const _interval = setInterval(loadDashboardData, 30000);
     return () => clearInterval(interval);
   }, []);
 
-  const loadDashboardData = async () => {
+  const _loadDashboardData = async () => {
     try {
       setLoading(true);
-      const data = await dashboardService.refreshData();
+      const _data = await dashboardService.refreshData();
       setOverview(data.overview);
       setQuickStats(data.quickStats);
       setSystemHealth(data.systemHealth);
@@ -36,18 +36,18 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ className 
     }
   };
 
-  const formatCurrency = (value: number): string => {
+  const _formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('zh-CN', {
       style: 'currency',
       currency: 'CNY'
     }).format(value);
   };
 
-  const formatNumber = (value: number): string => {
+  const _formatNumber = (value: number): string => {
     return new Intl.NumberFormat('zh-CN').format(value);
   };
 
-  const getHealthStatusStyles = (status: SystemHealth['status']): string => {
+  const _getHealthStatusStyles = (status: SystemHealth['status']): string => {
     switch (status) {
       case 'healthy': return 'bg-green-500 text-green-100 border-green-400';
       case 'warning': return 'bg-yellow-500 text-yellow-100 border-yellow-400';
@@ -56,7 +56,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ className 
     }
   };
 
-  const getHealthStatusText = (status: SystemHealth['status']): string => {
+  const _getHealthStatusText = (status: SystemHealth['status']): string => {
     switch (status) {
       case 'healthy': return '系统运行正常';
       case 'warning': return '需要关注';

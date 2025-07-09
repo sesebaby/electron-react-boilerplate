@@ -654,7 +654,7 @@ export class MigrationManager {
   }
 
   async initializeMigrationTable(): Promise<void> {
-    const createMigrationTable = `
+    const _createMigrationTable = `
       CREATE TABLE IF NOT EXISTS migrations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         version INTEGER UNIQUE NOT NULL,
@@ -668,7 +668,7 @@ export class MigrationManager {
 
   async getCurrentVersion(): Promise<number> {
     try {
-      const result = this.db.prepare(`
+      const _result = this.db.prepare(`
         SELECT MAX(version) as version FROM migrations
       `).get();
 
@@ -680,11 +680,11 @@ export class MigrationManager {
 
   async runMigrations(): Promise<void> {
     await this.initializeMigrationTable();
-    const currentVersion = await this.getCurrentVersion();
+    const _currentVersion = await this.getCurrentVersion();
 
     console.log(`Current database version: ${currentVersion}`);
 
-    const pendingMigrations = migrations.filter(m => m.version > currentVersion);
+    const _pendingMigrations = migrations.filter(m => m.version > currentVersion);
 
     if (pendingMigrations.length === 0) {
       console.log('No pending migrations');
@@ -724,14 +724,14 @@ export class MigrationManager {
   }
 
   async rollbackMigration(targetVersion: number): Promise<void> {
-    const currentVersion = await this.getCurrentVersion();
+    const _currentVersion = await this.getCurrentVersion();
 
     if (targetVersion >= currentVersion) {
       console.log('Target version is not lower than current version');
       return;
     }
 
-    const migrationsToRollback = migrations
+    const _migrationsToRollback = migrations
       .filter(m => m.version > targetVersion && m.version <= currentVersion)
       .reverse(); // 按版本号倒序
 

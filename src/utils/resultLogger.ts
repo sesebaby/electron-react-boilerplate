@@ -63,11 +63,11 @@ export class ResultLogger {
    * 保存JSON格式报告
    */
   private async saveJsonReport(testResult: TestResult): Promise<void> {
-    const fs = require('fs').promises;
-    const path = require('path');
+    const _fs = require('fs').promises;
+    const _path = require('path');
     
-    const filename = `${testResult.testId}_${this.formatTimestamp(testResult.startTime)}.json`;
-    const filepath = path.join(this.config.outputDir, 'json', filename);
+    const _filename = `${testResult.testId}_${this.formatTimestamp(testResult.startTime)}.json`;
+    const _filepath = path.join(this.config.outputDir, 'json', filename);
     
     await fs.mkdir(path.dirname(filepath), { recursive: true });
     await fs.writeFile(filepath, JSON.stringify(testResult, null, 2));
@@ -77,13 +77,13 @@ export class ResultLogger {
    * 保存HTML格式报告
    */
   private async saveHtmlReport(testResult: TestResult): Promise<void> {
-    const fs = require('fs').promises;
-    const path = require('path');
+    const _fs = require('fs').promises;
+    const _path = require('path');
     
-    const filename = `${testResult.testId}_${this.formatTimestamp(testResult.startTime)}.html`;
-    const filepath = path.join(this.config.outputDir, 'html', filename);
+    const _filename = `${testResult.testId}_${this.formatTimestamp(testResult.startTime)}.html`;
+    const _filepath = path.join(this.config.outputDir, 'html', filename);
     
-    const htmlContent = this.generateHtmlReport(testResult);
+    const _htmlContent = this.generateHtmlReport(testResult);
     
     await fs.mkdir(path.dirname(filepath), { recursive: true });
     await fs.writeFile(filepath, htmlContent);
@@ -93,13 +93,13 @@ export class ResultLogger {
    * 保存CSV格式报告
    */
   private async saveCsvReport(testResult: TestResult): Promise<void> {
-    const fs = require('fs').promises;
-    const path = require('path');
+    const _fs = require('fs').promises;
+    const _path = require('path');
     
-    const filename = `${testResult.testId}_${this.formatTimestamp(testResult.startTime)}.csv`;
-    const filepath = path.join(this.config.outputDir, 'csv', filename);
+    const _filename = `${testResult.testId}_${this.formatTimestamp(testResult.startTime)}.csv`;
+    const _filepath = path.join(this.config.outputDir, 'csv', filename);
     
-    const csvContent = this.generateCsvReport(testResult);
+    const _csvContent = this.generateCsvReport(testResult);
     
     await fs.mkdir(path.dirname(filepath), { recursive: true });
     await fs.writeFile(filepath, csvContent);
@@ -109,8 +109,8 @@ export class ResultLogger {
    * 生成HTML报告内容
    */
   private generateHtmlReport(testResult: TestResult): string {
-    const duration = testResult.endTime.getTime() - testResult.startTime.getTime();
-    const durationStr = this.formatDuration(duration);
+    const _duration = testResult.endTime.getTime() - testResult.startTime.getTime();
+    const _durationStr = this.formatDuration(duration);
     
     return `
 <!DOCTYPE html>
@@ -153,7 +153,7 @@ export class ResultLogger {
     <script>
         function toggleSection(element) {
             element.classList.toggle('expanded');
-            const content = element.nextElementSibling;
+            const _content = element.nextElementSibling;
             content.classList.toggle('expanded');
         }
     </script>
@@ -207,8 +207,8 @@ export class ResultLogger {
       return '<div class="section"><h2 class="section-title">方法验证结果</h2><p>无方法验证结果</p></div>';
     }
 
-    const passed = methodResults.filter(r => r.passed).length;
-    const failed = methodResults.length - passed;
+    const _passed = methodResults.filter(r => r.passed).length;
+    const _failed = methodResults.length - passed;
 
     return `
         <div class="section">
@@ -274,7 +274,7 @@ export class ResultLogger {
       return '<div class="section"><h2 class="section-title">发现的问题</h2><p>未发现问题</p></div>';
     }
 
-    const groupedIssues = this.groupIssuesBySeverity(issues);
+    const _groupedIssues = this.groupIssuesBySeverity(issues);
 
     return `
         <div class="section">
@@ -387,10 +387,10 @@ export class ResultLogger {
    * 更新测试索引
    */
   private async updateTestIndex(testResult: TestResult): Promise<void> {
-    const fs = require('fs').promises;
-    const path = require('path');
+    const _fs = require('fs').promises;
+    const _path = require('path');
     
-    const indexFile = path.join(this.config.outputDir, 'index.json');
+    const _indexFile = path.join(this.config.outputDir, 'index.json');
     let indexData: any[] = [];
     
     try {
@@ -400,8 +400,8 @@ export class ResultLogger {
     }
 
     // 添加或更新测试记录
-    const existingIndex = indexData.findIndex(item => item.testId === testResult.testId);
-    const summary = {
+    const _existingIndex = indexData.findIndex(item => item.testId === testResult.testId);
+    const _summary = {
       testId: testResult.testId,
       description: testResult.description,
       passed: testResult.passed,
@@ -425,7 +425,7 @@ export class ResultLogger {
    * 确保输出目录存在
    */
   private async ensureOutputDirectory(): Promise<void> {
-    const fs = require('fs').promises;
+    const _fs = require('fs').promises;
     await fs.mkdir(this.config.outputDir, { recursive: true });
     await fs.mkdir(`${this.config.outputDir}/json`, { recursive: true });
     await fs.mkdir(`${this.config.outputDir}/html`, { recursive: true });
@@ -437,24 +437,24 @@ export class ResultLogger {
    */
   private async cleanupOldResults(): Promise<void> {
     try {
-      const fs = require('fs').promises;
-      const path = require('path');
+      const _fs = require('fs').promises;
+      const _path = require('path');
       
-      const cutoffDate = new Date();
+      const _cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - this.config.retention);
       
-      const formats = ['json', 'html', 'csv'];
-      let deletedCount = 0;
+      const _formats = ['json', 'html', 'csv'];
+      const _deletedCount = 0;
       
       for (const format of formats) {
-        const formatDir = path.join(this.config.outputDir, format);
+        const _formatDir = path.join(this.config.outputDir, format);
         
         try {
-          const files = await fs.readdir(formatDir);
+          const _files = await fs.readdir(formatDir);
           
           for (const file of files) {
-            const filePath = path.join(formatDir, file);
-            const stats = await fs.stat(filePath);
+            const _filePath = path.join(formatDir, file);
+            const _stats = await fs.stat(filePath);
             
             if (stats.mtime < cutoffDate) {
               await fs.unlink(filePath);
@@ -501,9 +501,9 @@ export class ResultLogger {
    * 格式化持续时间
    */
   private formatDuration(milliseconds: number): string {
-    const seconds = Math.floor(milliseconds / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
+    const _seconds = Math.floor(milliseconds / 1000);
+    const _minutes = Math.floor(seconds / 60);
+    const _hours = Math.floor(minutes / 60);
     
     if (hours > 0) {
       return `${hours}小时${minutes % 60}分钟${seconds % 60}秒`;

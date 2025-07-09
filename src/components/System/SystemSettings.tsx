@@ -74,14 +74,14 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
   const [alertVariant, setAlertVariant] = useState<'success' | 'error' | 'warning' | 'info'>('info');
 
   // 弹出框辅助函数
-  const showAlert = (title: string, message: string, variant: 'success' | 'error' | 'warning' | 'info' = 'info') => {
+  const _showAlert = (title: string, message: string, variant: 'success' | 'error' | 'warning' | 'info' = 'info') => {
     setAlertTitle(title);
     setAlertMessage(message);
     setAlertVariant(variant);
     setShowAlertDialog(true);
   };
 
-  const showConfirm = (message: string, onConfirm: () => void) => {
+  const _showConfirm = (message: string, onConfirm: () => void) => {
     setConfirmAction(() => onConfirm);
     setShowConfirmDialog(true);
   };
@@ -90,12 +90,12 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     loadSettings();
   }, []);
 
-  const loadSettings = async () => {
+  const _loadSettings = async () => {
     setLoading(true);
     try {
       // 从localStorage或API加载设置
-      const savedBasic = localStorage.getItem('systemSettings.basic');
-      const savedBusiness = localStorage.getItem('systemSettings.business');
+      const _savedBasic = localStorage.getItem('systemSettings.basic');
+      const _savedBusiness = localStorage.getItem('systemSettings.business');
 
       if (savedBasic) setBasicSettings(JSON.parse(savedBasic));
       if (savedBusiness) setBusinessSettings(JSON.parse(savedBusiness));
@@ -109,7 +109,7 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     }
   };
 
-  const saveSettings = async () => {
+  const _saveSettings = async () => {
     setLoading(true);
     try {
       // 保存到localStorage或API
@@ -129,32 +129,32 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     }
   };
 
-  const resetSettings = () => {
+  const _resetSettings = () => {
     showConfirm('确定要重置所有设置到默认值吗？此操作不可撤销。', () => {
       loadSettings();
       setHasChanges(false);
     });
   };
 
-  const handleBasicChange = (field: keyof BasicSettings, value: string) => {
+  const _handleBasicChange = (field: keyof BasicSettings, value: string) => {
     setBasicSettings(prev => ({ ...prev, [field]: value }));
     setHasChanges(true);
   };
 
-  const handleBusinessChange = (field: keyof BusinessSettings, value: any) => {
+  const _handleBusinessChange = (field: keyof BusinessSettings, value: any) => {
     setBusinessSettings(prev => ({ ...prev, [field]: value }));
     setHasChanges(true);
   };
 
   // 通知配置处理函数
-  const handleNotificationChange = (field: string, value: any) => {
+  const _handleNotificationChange = (field: string, value: any) => {
     setNotificationSettings(prev => ({ ...prev, [field]: value }));
     setHasChanges(true);
   };
 
-  const handleMessageTypeToggle = (type: NotificationType) => {
+  const _handleMessageTypeToggle = (type: NotificationType) => {
     setNotificationSettings(prev => {
-      const enabledTypes = prev.enabledTypes.includes(type)
+      const _enabledTypes = prev.enabledTypes.includes(type)
         ? prev.enabledTypes.filter(t => t !== type)
         : [...prev.enabledTypes, type];
 
@@ -163,7 +163,7 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
     setHasChanges(true);
   };
 
-  const handleImportantModeToggle = (enabled: boolean) => {
+  const _handleImportantModeToggle = (enabled: boolean) => {
     setNotificationSettings(prev => ({
       ...prev,
       showOnlyImportant: enabled,
@@ -543,14 +543,14 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ className }) => 
                   <h5 className="text-md font-medium text-white/90">选择要显示的消息类型：</h5>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {ALL_MESSAGE_TYPES.map(type => {
-                      const typeConfig = {
+                      const _typeConfig = {
                         info: { icon: '💡', label: '信息', color: 'blue' },
                         success: { icon: '✅', label: '成功', color: 'green' },
                         warning: { icon: '⚠️', label: '警告', color: 'yellow' },
                         error: { icon: '❌', label: '错误', color: 'red' }
                       }[type];
 
-                      const isEnabled = notificationSettings.enabledTypes.includes(type);
+                      const _isEnabled = notificationSettings.enabledTypes.includes(type);
 
                       return (
                         <label key={type} className="flex items-center space-x-3 cursor-pointer">

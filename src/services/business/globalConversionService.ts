@@ -27,7 +27,7 @@ export class GlobalConversionService {
     }
 
     // 检查是否已存在相同的换算规则
-    const existingRule = Array.from(this.rules.values()).find(
+    const _existingRule = Array.from(this.rules.values()).find(
       rule => rule.fromUnitId === data.fromUnitId && 
               rule.toUnitId === data.toUnitId && 
               rule.isActive
@@ -52,12 +52,12 @@ export class GlobalConversionService {
   }
 
   async findAll(activeOnly: boolean = true): Promise<GlobalConversionRule[]> {
-    const allRules = Array.from(this.rules.values());
+    const _allRules = Array.from(this.rules.values());
     return activeOnly ? allRules.filter(rule => rule.isActive) : allRules;
   }
 
   async findByCategory(category: UnitType, activeOnly: boolean = true): Promise<GlobalConversionRule[]> {
-    const allRules = await this.findAll(activeOnly);
+    const _allRules = await this.findAll(activeOnly);
     return allRules.filter(rule => rule.category === category);
   }
 
@@ -70,21 +70,21 @@ export class GlobalConversionService {
   }
 
   async update(id: string, data: Partial<Omit<GlobalConversionRule, 'id' | 'createdAt' | 'updatedAt'>>): Promise<GlobalConversionRule> {
-    const existingRule = this.rules.get(id);
+    const _existingRule = this.rules.get(id);
     if (!existingRule) {
       throw new Error('换算规则不存在');
     }
 
     // 如果修改单位，检查是否会产生冲突
     if (data.fromUnitId || data.toUnitId) {
-      const fromUnit = data.fromUnitId || existingRule.fromUnitId;
-      const toUnit = data.toUnitId || existingRule.toUnitId;
+      const _fromUnit = data.fromUnitId || existingRule.fromUnitId;
+      const _toUnit = data.toUnitId || existingRule.toUnitId;
       
       if (fromUnit === toUnit) {
         throw new Error('源单位和目标单位不能相同');
       }
 
-      const conflictRule = Array.from(this.rules.values()).find(
+      const _conflictRule = Array.from(this.rules.values()).find(
         rule => rule.id !== id && 
                 rule.fromUnitId === fromUnit && 
                 rule.toUnitId === toUnit && 
@@ -110,7 +110,7 @@ export class GlobalConversionService {
   }
 
   async toggleActive(id: string): Promise<GlobalConversionRule> {
-    const rule = this.rules.get(id);
+    const _rule = this.rules.get(id);
     if (!rule) {
       throw new Error('换算规则不存在');
     }
@@ -125,7 +125,7 @@ export class GlobalConversionService {
       return value;
     }
 
-    const rule = await this.findByUnits(fromUnitId, toUnitId);
+    const _rule = await this.findByUnits(fromUnitId, toUnitId);
     if (!rule) {
       return null; // 没有找到换算规则
     }
@@ -134,7 +134,7 @@ export class GlobalConversionService {
   }
 
   async getConversionDescription(fromUnitId: string, toUnitId: string): Promise<string | null> {
-    const rule = await this.findByUnits(fromUnitId, toUnitId);
+    const _rule = await this.findByUnits(fromUnitId, toUnitId);
     return rule ? rule.description : null;
   }
 
@@ -145,8 +145,8 @@ export class GlobalConversionService {
     active: number;
     byCategory: Record<UnitType, number>;
   }> {
-    const allRules = Array.from(this.rules.values());
-    const activeRules = allRules.filter(rule => rule.isActive);
+    const _allRules = Array.from(this.rules.values());
+    const _activeRules = allRules.filter(rule => rule.isActive);
 
     const byCategory: Record<UnitType, number> = {
       [UnitType.WEIGHT]: 0,
@@ -171,7 +171,7 @@ export class GlobalConversionService {
   // =============== 搜索和筛选 ===============
 
   async search(searchTerm: string): Promise<GlobalConversionRule[]> {
-    const term = searchTerm.toLowerCase().trim();
+    const _term = searchTerm.toLowerCase().trim();
     if (!term) return this.findAll();
 
     return Array.from(this.rules.values()).filter(rule =>
@@ -185,7 +185,7 @@ export class GlobalConversionService {
   // =============== 批量操作 ===============
 
   async bulkToggleActive(ids: string[]): Promise<void> {
-    const updates = ids.map(id => this.toggleActive(id));
+    const _updates = ids.map(id => this.toggleActive(id));
     await Promise.all(updates);
   }
 
@@ -195,5 +195,5 @@ export class GlobalConversionService {
 }
 
 // 创建并导出服务实例
-const globalConversionService = new GlobalConversionService();
+const _globalConversionService = new GlobalConversionService();
 export default globalConversionService;

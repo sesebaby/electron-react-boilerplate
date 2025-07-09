@@ -14,7 +14,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
+  TableEmpty as _TableEmpty,
   TableLoading
 } from '../../ui/table';
 
@@ -41,7 +41,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
   /**
    * 格式化数值显示
    */
-  const formatNumber = (value: number, decimals: number = 2): string => {
+  const _formatNumber = (value: number, decimals: number = 2): string => {
     if (value === 0) return '0';
     return value.toLocaleString('zh-CN', { 
       minimumFractionDigits: decimals,
@@ -52,7 +52,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
   /**
    * 格式化金额显示
    */
-  const formatAmount = (value: number): string => {
+  const _formatAmount = (value: number): string => {
     if (value === 0) return '¥0.00';
     return `¥${formatNumber(value, 2)}`;
   };
@@ -60,15 +60,15 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
   /**
    * 计算表格最小宽度
    */
-  const tableMinWidth = useMemo(() => {
-    let width = 400; // 固定列基础宽度
+  const _tableMinWidth = useMemo(() => {
+    const _width = 400; // 固定列基础宽度
     
     // 每个主列组（期初、入库、出库、期末）
-    const mainColumns = ['openingStock', 'inboundTotal', 'outboundTotal', 'closingStock'];
+    const _mainColumns = ['openingStock', 'inboundTotal', 'outboundTotal', 'closingStock'];
     
     mainColumns.forEach(column => {
-      const columnConfig = columnDisplay[column as keyof ColumnDisplayConfig];
-      let columnWidth = 0;
+      const _columnConfig = columnDisplay[column as keyof ColumnDisplayConfig];
+      const _columnWidth = 0;
       
       if (columnConfig.quantity) columnWidth += 100;
       if (columnConfig.convertedQuantity && config.showConvertedQuantity) columnWidth += 100;
@@ -83,7 +83,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
   /**
    * 渲染表头
    */
-  const renderTableHeader = () => {
+  const _renderTableHeader = () => {
     return (
       <TableHeader sticky>
         {/* 第一层表头 */}
@@ -159,9 +159,9 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
   /**
    * 获取主列的跨列数
    */
-  const getColumnSpan = (columnKey: keyof ColumnDisplayConfig): number => {
-    const columnConfig = columnDisplay[columnKey];
-    let span = 0;
+  const _getColumnSpan = (columnKey: keyof ColumnDisplayConfig): number => {
+    const _columnConfig = columnDisplay[columnKey];
+    const _span = 0;
     
     if (columnConfig.quantity) span++;
     if (columnConfig.convertedQuantity && config.showConvertedQuantity) span++;
@@ -173,9 +173,9 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
   /**
    * 渲染子表头
    */
-  const renderSubHeaders = (columnKey: keyof ColumnDisplayConfig) => {
-    const columnConfig = columnDisplay[columnKey];
-    const headers = [];
+  const _renderSubHeaders = (columnKey: keyof ColumnDisplayConfig) => {
+    const _columnConfig = columnDisplay[columnKey];
+    const _headers = [];
 
     if (columnConfig.quantity) {
       headers.push(
@@ -207,7 +207,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
   /**
    * 渲染数据行
    */
-  const renderDataRow = (row: InventoryMovementSummaryData, index: number) => {
+  const _renderDataRow = (row: InventoryMovementSummaryData, index: number) => {
     return (
       <TableRow
         key={row.id}
@@ -263,10 +263,10 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
   /**
    * 渲染数据单元格
    */
-  const renderDataCells = (row: InventoryMovementSummaryData, columnKey: keyof ColumnDisplayConfig) => {
-    const columnConfig = columnDisplay[columnKey];
-    const stockData = row[columnKey];
-    const cells = [];
+  const _renderDataCells = (row: InventoryMovementSummaryData, columnKey: keyof ColumnDisplayConfig) => {
+    const _columnConfig = columnDisplay[columnKey];
+    const _stockData = row[columnKey];
+    const _cells = [];
 
     if (columnConfig.quantity) {
       cells.push(
@@ -287,7 +287,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
     }
 
     if (columnConfig.amount) {
-      const amountClass = getAmountColorClass(stockData.amount, columnKey);
+      const _amountClass = getAmountColorClass(stockData.amount, columnKey);
       cells.push(
         <TableCell key={`${columnKey}-amount`} className="text-right border-r border-white/5">
           <span className={amountClass}>{formatAmount(stockData.amount)}</span>
@@ -301,7 +301,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
   /**
    * 获取金额颜色样式类
    */
-  const getAmountColorClass = (amount: number, columnKey: keyof ColumnDisplayConfig): string => {
+  const _getAmountColorClass = (amount: number, columnKey: keyof ColumnDisplayConfig): string => {
     if (amount === 0) return 'financial-value-neutral';
 
     switch (columnKey) {
@@ -320,8 +320,8 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
   /**
    * 渲染合计行
    */
-  const renderTotalRow = () => {
-    const totals = data.reduce((acc, row) => {
+  const _renderTotalRow = () => {
+    const _totals = data.reduce((acc, row) => {
       acc.openingStock.quantity += row.openingStock.quantity;
       acc.openingStock.convertedQuantity += row.openingStock.convertedQuantity;
       acc.openingStock.amount += row.openingStock.amount;
@@ -392,10 +392,10 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
   /**
    * 渲染合计单元格
    */
-  const renderTotalCells = (totals: any, columnKey: keyof ColumnDisplayConfig) => {
-    const columnConfig = columnDisplay[columnKey];
-    const stockData = totals[columnKey];
-    const cells = [];
+  const _renderTotalCells = (totals: any, columnKey: keyof ColumnDisplayConfig) => {
+    const _columnConfig = columnDisplay[columnKey];
+    const _stockData = totals[columnKey];
+    const _cells = [];
 
     if (columnConfig.quantity) {
       cells.push(
@@ -414,7 +414,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
     }
 
     if (columnConfig.amount) {
-      const amountClass = getAmountColorClass(stockData.amount, columnKey);
+      const _amountClass = getAmountColorClass(stockData.amount, columnKey);
       cells.push(
         <TableCell key={`total-${columnKey}-amount`} className="text-right border-r border-white/10 font-bold">
           <span className={amountClass}>{formatAmount(stockData.amount)}</span>

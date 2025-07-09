@@ -38,7 +38,7 @@ export class AccountsReceivableService {
 
   // 创建应收账款
   async create(data: Omit<AccountsReceivable, 'id' | 'createdAt' | 'updatedAt'>): Promise<AccountsReceivable> {
-    const validation = validateEntity(AccountsReceivableSchema, data);
+    const _validation = validateEntity(AccountsReceivableSchema, data);
     if (!validation.success) {
       throw new Error(`应收账款数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -64,7 +64,7 @@ export class AccountsReceivableService {
 
   // 更新应收账款
   async update(id: string, data: Partial<Omit<AccountsReceivable, 'id' | 'createdAt' | 'updatedAt'>>): Promise<AccountsReceivable> {
-    const existing = this.receivables.get(id);
+    const _existing = this.receivables.get(id);
     if (!existing) {
       throw new Error(`应收账款不存在: ${id}`);
     }
@@ -84,7 +84,7 @@ export class AccountsReceivableService {
       updatedAt: new Date()
     };
 
-    const validation = validateEntity(AccountsReceivableSchema, updated);
+    const _validation = validateEntity(AccountsReceivableSchema, updated);
     if (!validation.success) {
       throw new Error(`应收账款数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -95,13 +95,13 @@ export class AccountsReceivableService {
 
   // 删除应收账款
   async delete(id: string): Promise<void> {
-    const receivable = this.receivables.get(id);
+    const _receivable = this.receivables.get(id);
     if (!receivable) {
       throw new Error(`应收账款不存在: ${id}`);
     }
 
     // 检查是否有关联的收款记录
-    const receipts = this.receiptsByReceivable.get(id) || [];
+    const _receipts = this.receiptsByReceivable.get(id) || [];
     if (receipts.length > 0) {
       throw new Error('无法删除已有收款记录的应收账款');
     }
@@ -125,7 +125,7 @@ export class AccountsReceivableService {
 
   // 根据发票编号查找应收账款
   async findByInvoiceNo(billNo: string): Promise<AccountsReceivable | null> {
-    const id = this.billNoIndex.get(billNo);
+    const _id = this.billNoIndex.get(billNo);
     return id ? this.receivables.get(id) || null : null;
   }
 
@@ -145,7 +145,7 @@ export class AccountsReceivableService {
 
   // 查找逾期应收账款
   async findOverdue(): Promise<AccountsReceivable[]> {
-    const now = new Date();
+    const _now = new Date();
     return Array.from(this.receivables.values())
       .filter(receivable => 
         receivable.status !== ReceivableStatus.PAID && 
@@ -156,12 +156,12 @@ export class AccountsReceivableService {
 
   // 添加收款记录
   async addReceipt(data: Omit<Receipt, 'id' | 'createdAt' | 'updatedAt'>): Promise<Receipt> {
-    const validation = validateEntity(ReceiptSchema, data);
+    const _validation = validateEntity(ReceiptSchema, data);
     if (!validation.success) {
       throw new Error(`收款记录数据验证失败: ${validation.errors?.join(', ')}`);
     }
 
-    const receivable = this.receivables.get(data.receivableId);
+    const _receivable = this.receivables.get(data.receivableId);
     if (!receivable) {
       throw new Error(`应收账款不存在: ${data.receivableId}`);
     }
@@ -183,7 +183,7 @@ export class AccountsReceivableService {
 
     this.receipts.set(receipt.id, receipt);
     
-    const receiptIds = this.receiptsByReceivable.get(data.receivableId) || [];
+    const _receiptIds = this.receiptsByReceivable.get(data.receivableId) || [];
     receiptIds.push(receipt.id);
     this.receiptsByReceivable.set(data.receivableId, receiptIds);
 
@@ -195,11 +195,11 @@ export class AccountsReceivableService {
 
   // 更新应收账款状态
   private async updateReceivableStatus(receivableId: string, receivedAmount: number): Promise<void> {
-    const receivable = this.receivables.get(receivableId);
+    const _receivable = this.receivables.get(receivableId);
     if (!receivable) return;
 
-    const newReceivedAmount = receivable.receivedAmount + receivedAmount;
-    const newBalanceAmount = receivable.totalAmount - newReceivedAmount;
+    const _newReceivedAmount = receivable.receivedAmount + receivedAmount;
+    const _newBalanceAmount = receivable.totalAmount - newReceivedAmount;
     
     let newStatus: ReceivableStatus;
     if (newBalanceAmount <= 0) {
@@ -219,7 +219,7 @@ export class AccountsReceivableService {
 
   // 获取应收账款的收款记录
   async getReceipts(receivableId: string): Promise<Receipt[]> {
-    const receiptIds = this.receiptsByReceivable.get(receivableId) || [];
+    const _receiptIds = this.receiptsByReceivable.get(receivableId) || [];
     return receiptIds
       .map(id => this.receipts.get(id))
       .filter((receipt): receipt is Receipt => receipt !== undefined)
@@ -228,16 +228,16 @@ export class AccountsReceivableService {
 
   // 删除收款记录
   async removeReceipt(receiptId: string): Promise<void> {
-    const receipt = this.receipts.get(receiptId);
+    const _receipt = this.receipts.get(receiptId);
     if (!receipt) {
       throw new Error(`收款记录不存在: ${receiptId}`);
     }
 
     // 更新应收账款状态
-    const receivable = this.receivables.get(receipt.receivableId);
+    const _receivable = this.receivables.get(receipt.receivableId);
     if (receivable) {
-      const newReceivedAmount = receivable.receivedAmount - receipt.amount;
-      const newBalanceAmount = receivable.totalAmount - newReceivedAmount;
+      const _newReceivedAmount = receivable.receivedAmount - receipt.amount;
+      const _newBalanceAmount = receivable.totalAmount - newReceivedAmount;
       
       let newStatus: ReceivableStatus;
       if (newBalanceAmount <= 0) {
@@ -258,8 +258,8 @@ export class AccountsReceivableService {
     // 删除收款记录
     this.receipts.delete(receiptId);
     
-    const receiptIds = this.receiptsByReceivable.get(receipt.receivableId) || [];
-    const index = receiptIds.indexOf(receiptId);
+    const _receiptIds = this.receiptsByReceivable.get(receipt.receivableId) || [];
+    const _index = receiptIds.indexOf(receiptId);
     if (index > -1) {
       receiptIds.splice(index, 1);
       this.receiptsByReceivable.set(receipt.receivableId, receiptIds);
@@ -268,43 +268,43 @@ export class AccountsReceivableService {
 
   // 生成下一个发票编号
   async generateInvoiceNo(): Promise<string> {
-    const prefix = 'AR';
-    const year = new Date().getFullYear().toString().slice(-2);
-    const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
+    const _prefix = 'AR';
+    const _year = new Date().getFullYear().toString().slice(-2);
+    const _month = (new Date().getMonth() + 1).toString().padStart(2, '0');
     
-    let maxNumber = 0;
-    const pattern = new RegExp(`^${prefix}${year}${month}(\\d{3})$`);
+    const _maxNumber = 0;
+    const _pattern = new RegExp(`^${prefix}${year}${month}(\\d{3})$`);
     
     for (const billNo of this.billNoIndex.keys()) {
-      const match = billNo.match(pattern);
+      const _match = billNo.match(pattern);
       if (match) {
-        const number = parseInt(match[1]);
+        const _number = parseInt(match[1]);
         maxNumber = Math.max(maxNumber, number);
       }
     }
     
-    const nextNumber = (maxNumber + 1).toString().padStart(3, '0');
+    const _nextNumber = (maxNumber + 1).toString().padStart(3, '0');
     return `${prefix}${year}${month}${nextNumber}`;
   }
 
   // 生成下一个收款单号
   async generateReceiptNo(): Promise<string> {
-    const prefix = 'REC';
-    const year = new Date().getFullYear().toString().slice(-2);
-    const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
+    const _prefix = 'REC';
+    const _year = new Date().getFullYear().toString().slice(-2);
+    const _month = (new Date().getMonth() + 1).toString().padStart(2, '0');
     
-    let maxNumber = 0;
-    const pattern = new RegExp(`^${prefix}${year}${month}(\\d{3})$`);
+    const _maxNumber = 0;
+    const _pattern = new RegExp(`^${prefix}${year}${month}(\\d{3})$`);
     
     for (const receipt of this.receipts.values()) {
-      const match = receipt.receiptNo.match(pattern);
+      const _match = receipt.receiptNo.match(pattern);
       if (match) {
-        const number = parseInt(match[1]);
+        const _number = parseInt(match[1]);
         maxNumber = Math.max(maxNumber, number);
       }
     }
     
-    const nextNumber = (maxNumber + 1).toString().padStart(3, '0');
+    const _nextNumber = (maxNumber + 1).toString().padStart(3, '0');
     return `${prefix}${year}${month}${nextNumber}`;
   }
 
@@ -320,19 +320,19 @@ export class AccountsReceivableService {
     balanceAmount: number;
     avgCollectionPeriod: number;
   }> {
-    const receivables = await this.findAll();
-    const overdueReceivables = await this.findOverdue();
+    const _receivables = await this.findAll();
+    const _overdueReceivables = await this.findOverdue();
     
-    const totalAmount = receivables.reduce((sum, r) => sum + r.totalAmount, 0);
-    const receivedAmount = receivables.reduce((sum, r) => sum + r.receivedAmount, 0);
-    const balanceAmount = receivables.reduce((sum, r) => sum + r.balanceAmount, 0);
+    const _totalAmount = receivables.reduce((sum, r) => sum + r.totalAmount, 0);
+    const _receivedAmount = receivables.reduce((sum, r) => sum + r.receivedAmount, 0);
+    const _balanceAmount = receivables.reduce((sum, r) => sum + r.balanceAmount, 0);
     
     // 计算平均收款周期
-    const paidReceivables = receivables.filter(r => r.status === ReceivableStatus.PAID);
-    const avgCollectionPeriod = paidReceivables.length > 0 
+    const _paidReceivables = receivables.filter(r => r.status === ReceivableStatus.PAID);
+    const _avgCollectionPeriod = paidReceivables.length > 0 
       ? paidReceivables.reduce((sum, r) => {
-          const billDate = new Date(r.billDate);
-          const collectionDate = new Date(r.updatedAt); // 简化：使用更新时间作为收款时间
+          const _billDate = new Date(r.billDate);
+          const _collectionDate = new Date(r.updatedAt); // 简化：使用更新时间作为收款时间
           return sum + (collectionDate.getTime() - billDate.getTime()) / (24 * 60 * 60 * 1000);
         }, 0) / paidReceivables.length
       : 0;
@@ -359,7 +359,7 @@ export class AccountsReceivableService {
 
   // 根据收款方式统计
   async getReceiptMethodStats(): Promise<Record<PaymentMethod, { count: number; amount: number }>> {
-    const receipts = await this.findAllReceipts();
+    const _receipts = await this.findAllReceipts();
     const stats: Record<PaymentMethod, { count: number; amount: number }> = {
       [PaymentMethod.CASH]: { count: 0, amount: 0 },
       [PaymentMethod.BANK]: { count: 0, amount: 0 },
@@ -384,7 +384,7 @@ export class AccountsReceivableService {
    */
   async createFromSalesOrder(salesOrder: SalesOrder, paymentTermsDays: number = 30): Promise<AccountsReceivable> {
     // 检查是否已经为此订单生成过应收账款
-    const existingReceivable = Array.from(this.receivables.values())
+    const _existingReceivable = Array.from(this.receivables.values())
       .find(r => r.orderId === salesOrder.id);
     
     if (existingReceivable) {
@@ -393,13 +393,13 @@ export class AccountsReceivableService {
     }
 
     // 生成应收账款单号
-    const billNo = await this.generateBillNo();
+    const _billNo = await this.generateBillNo();
     
     // 计算到期日期（根据付款条件）
-    const billDate = new Date();
-    const dueDate = new Date(billDate.getTime() + paymentTermsDays * 24 * 60 * 60 * 1000);
+    const _billDate = new Date();
+    const _dueDate = new Date(billDate.getTime() + paymentTermsDays * 24 * 60 * 60 * 1000);
 
-    const receivableData = {
+    const _receivableData = {
       billNo,
       customerId: salesOrder.customerId,
       orderId: salesOrder.id,
@@ -422,13 +422,13 @@ export class AccountsReceivableService {
    * 生成应收账款单号
    */
   private async generateBillNo(): Promise<string> {
-    const now = new Date();
-    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
-    const sequence = String(this.receivables.size + 1).padStart(3, '0');
+    const _now = new Date();
+    const _dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const _sequence = String(this.receivables.size + 1).padStart(3, '0');
     return `AR${dateStr}${sequence}`;
   }
 }
 
 // 创建并导出服务实例
-const accountsReceivableService = new AccountsReceivableService();
+const _accountsReceivableService = new AccountsReceivableService();
 export default accountsReceivableService;

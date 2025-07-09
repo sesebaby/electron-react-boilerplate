@@ -115,8 +115,8 @@ class InventoryCardService {
   async getWarehouseCardById(warehouseId: string): Promise<WarehouseCardData> {
     try {
       // 从模拟数据中查找
-      const allData = await this.getWarehouseCardData();
-      const warehouseData = allData.find(w => w.warehouseId === warehouseId);
+      const _allData = await this.getWarehouseCardData();
+      const _warehouseData = allData.find(w => w.warehouseId === warehouseId);
 
       if (!warehouseData) {
         throw new Error(`仓库不存在: ${warehouseId}`);
@@ -134,9 +134,9 @@ class InventoryCardService {
    */
   async getInventoryStatistics() {
     try {
-      const warehouseData = await this.getWarehouseCardData();
+      const _warehouseData = await this.getWarehouseCardData();
 
-      const statistics = {
+      const _statistics = {
         totalWarehouses: warehouseData.length,
         totalProducts: warehouseData.reduce((sum, w) => sum + w.totalProducts, 0),
         totalLowStock: warehouseData.reduce((sum, w) => sum + w.lowStockCount, 0),
@@ -157,17 +157,17 @@ class InventoryCardService {
    */
   async searchProductStock(keyword: string, warehouseId?: string): Promise<ProductStockInfo[]> {
     try {
-      const warehouseData = warehouseId
+      const _warehouseData = warehouseId
         ? [await this.getWarehouseCardById(warehouseId)]
         : await this.getWarehouseCardData();
 
-      const allProducts = warehouseData.flatMap(w => w.products);
+      const _allProducts = warehouseData.flatMap(w => w.products);
 
       if (!keyword.trim()) {
         return allProducts;
       }
 
-      const searchTerm = keyword.toLowerCase();
+      const _searchTerm = keyword.toLowerCase();
       return allProducts.filter(product =>
         product.productName.toLowerCase().includes(searchTerm) ||
         product.sku.toLowerCase().includes(searchTerm) ||
@@ -184,8 +184,8 @@ class InventoryCardService {
    */
   async getLowStockWarnings(): Promise<ProductStockInfo[]> {
     try {
-      const warehouseData = await this.getWarehouseCardData();
-      const allProducts = warehouseData.flatMap(w => w.products);
+      const _warehouseData = await this.getWarehouseCardData();
+      const _allProducts = warehouseData.flatMap(w => w.products);
 
       return allProducts.filter(product => product.isLowStock || product.isOutOfStock);
     } catch (error) {
@@ -210,5 +210,5 @@ class InventoryCardService {
 }
 
 // 导出单例实例
-const inventoryCardService = new InventoryCardService();
+const _inventoryCardService = new InventoryCardService();
 export default inventoryCardService;

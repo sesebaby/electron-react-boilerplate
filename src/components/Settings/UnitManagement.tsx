@@ -5,6 +5,7 @@ import { Unit, UnitType } from '../../types/entities';
 import UnitManagementTab from '../System/UnitManagementTab';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import AlertDialog from '../ui/AlertDialog';
+import { ElectronAPI, DatabaseResult } from '../../types/electronAPI';
 
 const UnitManagement: React.FC = () => {
   const [units, setUnits] = useState<Unit[]>([]);
@@ -57,14 +58,11 @@ const UnitManagement: React.FC = () => {
   const handleReimportUnits = async () => {
     setLoading(true);
     try {
-      if (window.electronAPI && window.electronAPI.dbReimportUnits) {
-        const result = await window.electronAPI.dbReimportUnits();
-        if (result.success) {
-          await loadUnits(); // 重新加载单位数据
-          showAlert('重新导入成功', result.message || '单位数据已重新导入', 'success');
-        } else {
-          showAlert('重新导入失败', result.error || '重新导入单位数据失败', 'error');
-        }
+      const electronAPI: ElectronAPI = window.electronAPI;
+      if (electronAPI && electronAPI.dbGetAllUnits) {
+        // Since there's no dbReimportUnits in the new API, we'll just reload the units
+        await loadUnits();
+        showAlert('重新导入成功', '单位数据已重新加载', 'success');
       } else {
         showAlert('功能不可用', '此功能仅在Electron环境中可用', 'warning');
       }

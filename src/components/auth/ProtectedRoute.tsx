@@ -10,37 +10,37 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
   const { getCurrentTheme } = useTheme();
-  const currentTheme = getCurrentTheme();
+  const _currentTheme = getCurrentTheme();
   
   // 检查是否为温暖商务风主题
-  const isWarmBusiness = currentTheme?.name === 'warm-business';
+  const _isWarmBusiness = currentTheme?.name === 'warm-business';
   
   // 使用CSS变量而不是硬编码颜色
-  const textStyle = { color: 'var(--text-primary)' };
-  const textStyleSecondary = { color: 'var(--text-secondary)' };
-  const textStyleTertiary = { color: 'var(--text-tertiary)' };
-  const textStyleMuted = { color: 'var(--text-secondary)' };
+  const _textStyle = { color: 'var(--text-primary)' };
+  const _textStyleSecondary = { color: 'var(--text-secondary)' };
+  const _textStyleTertiary = { color: 'var(--text-tertiary)' };
+  const _textStyleMuted = { color: 'var(--text-secondary)' };
   
   // 背景装饰颜色
-  const decorationColor = isWarmBusiness ? 'bg-slate-800/5' : 'bg-white/5';
-  const decorationColorSecondary = isWarmBusiness ? 'bg-slate-800/3' : 'bg-white/3';
-  const decorationColorTertiary = isWarmBusiness ? 'bg-slate-800/4' : 'bg-white/4';
+  const _decorationColor = isWarmBusiness ? 'bg-slate-800/5' : 'bg-white/5';
+  const _decorationColorSecondary = isWarmBusiness ? 'bg-slate-800/3' : 'bg-white/3';
+  const _decorationColorTertiary = isWarmBusiness ? 'bg-slate-800/4' : 'bg-white/4';
   
   // 网格背景颜色
-  const gridColor = isWarmBusiness ? 'rgba(51,65,85,0.1)' : 'rgba(255,255,255,0.03)';
+  const _gridColor = isWarmBusiness ? 'rgba(51,65,85,0.1)' : 'rgba(255,255,255,0.03)';
   
   // 卡片背景和边框
-  const cardBg = isWarmBusiness ? 'bg-white/[0.15]' : 'bg-white/[0.08]';
-  const cardBorder = isWarmBusiness ? 'border-slate-800/20' : 'border-white/20';
+  const _cardBg = isWarmBusiness ? 'bg-white/[0.15]' : 'bg-white/[0.08]';
+  const _cardBorder = isWarmBusiness ? 'border-slate-800/20' : 'border-white/20';
   
   // 使用CSS变量替代硬编码颜色
-  const spinnerStyle = {
+  const _spinnerStyle = {
     borderColor: 'var(--glass-border, rgba(255, 255, 255, 0.2))',
     borderTopColor: 'var(--text-primary)',
     borderRightColor: 'var(--text-secondary)'
   };
-  const iconStyle = { color: 'var(--text-primary)' };
-  const tagStyle = {
+  const _iconStyle = { color: 'var(--text-primary)' };
+  const _tagStyle = {
     backgroundColor: 'var(--surface-background)',
     borderColor: 'var(--glass-border)',
     color: 'var(--text-secondary)'

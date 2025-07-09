@@ -133,9 +133,9 @@ export class TestDataGenerator {
    * 生成类别数据
    */
   async generateCategories(count: number): Promise<any[]> {
-    const categories = [];
+    const _categories = [];
     
-    for (let i = 1; i <= count; i++) {
+    for (let _i = 1; i <= count; i++) {
       categories.push({
         id: i,
         name: this.categories[i % this.categories.length],
@@ -153,10 +153,10 @@ export class TestDataGenerator {
    * 生成供应商数据
    */
   async generateSuppliers(count: number): Promise<any[]> {
-    const suppliers = [];
+    const _suppliers = [];
     
-    for (let i = 1; i <= count; i++) {
-      const template = this.suppliers[i % this.suppliers.length];
+    for (let _i = 1; i <= count; i++) {
+      const _template = this.suppliers[i % this.suppliers.length];
       suppliers.push({
         id: i,
         name: `${template.name}${i}`,
@@ -178,10 +178,10 @@ export class TestDataGenerator {
    * 生成客户数据
    */
   async generateCustomers(count: number): Promise<any[]> {
-    const customers = [];
+    const _customers = [];
     
-    for (let i = 1; i <= count; i++) {
-      const template = this.customers[i % this.customers.length];
+    for (let _i = 1; i <= count; i++) {
+      const _template = this.customers[i % this.customers.length];
       customers.push({
         id: i,
         name: `${template.name}${i}`,
@@ -204,10 +204,10 @@ export class TestDataGenerator {
    * 生成仓库数据
    */
   async generateWarehouses(count: number): Promise<any[]> {
-    const warehouses = [];
+    const _warehouses = [];
     
-    for (let i = 1; i <= count; i++) {
-      const template = this.warehouses[i % this.warehouses.length];
+    for (let _i = 1; i <= count; i++) {
+      const _template = this.warehouses[i % this.warehouses.length];
       warehouses.push({
         id: i,
         name: `${template.name}${i}`,
@@ -243,11 +243,11 @@ export class TestDataGenerator {
    * 生成产品数据
    */
   async generateProducts(count: number, categories: any[], suppliers: any[]): Promise<any[]> {
-    const products = [];
+    const _products = [];
     
-    for (let i = 1; i <= count; i++) {
-      const category = categories[Math.floor(Math.random() * categories.length)];
-      const supplier = suppliers[Math.floor(Math.random() * suppliers.length)];
+    for (let _i = 1; i <= count; i++) {
+      const _category = categories[Math.floor(Math.random() * categories.length)];
+      const _supplier = suppliers[Math.floor(Math.random() * suppliers.length)];
       
       products.push({
         id: i,
@@ -274,14 +274,14 @@ export class TestDataGenerator {
    * 生成库存数据
    */
   async generateInventoryStocks(products: any[], warehouses: any[], batchCount: number): Promise<any[]> {
-    const inventoryStocks = [];
-    let stockId = 1;
+    const _inventoryStocks = [];
+    const _stockId = 1;
     
     for (const product of products) {
       for (const warehouse of warehouses) {
         // 每个产品在每个仓库都有库存记录
-        const stockQuantity = Math.floor(Math.random() * 200) + 50;
-        const reservedQuantity = Math.floor(stockQuantity * 0.1); // 10%预留
+        const _stockQuantity = Math.floor(Math.random() * 200) + 50;
+        const _reservedQuantity = Math.floor(stockQuantity * 0.1); // 10%预留
         
         inventoryStocks.push({
           id: stockId++,
@@ -304,16 +304,16 @@ export class TestDataGenerator {
    * 生成FIFO队列数据
    */
   async generateFifoQueue(inventoryStocks: any[]): Promise<any[]> {
-    const fifoQueue = [];
-    let queueId = 1;
+    const _fifoQueue = [];
+    const _queueId = 1;
     
     for (const stock of inventoryStocks) {
       // 为每个库存记录生成2-4个FIFO批次
-      const batchCount = Math.floor(Math.random() * 3) + 2;
-      let remainingQuantity = stock.stock_quantity;
+      const _batchCount = Math.floor(Math.random() * 3) + 2;
+      const _remainingQuantity = stock.stock_quantity;
       
-      for (let i = 0; i < batchCount && remainingQuantity > 0; i++) {
-        const batchQuantity = i === batchCount - 1 
+      for (let _i = 0; i < batchCount && remainingQuantity > 0; i++) {
+        const _batchQuantity = i === batchCount - 1 
           ? remainingQuantity 
           : Math.floor(remainingQuantity / (batchCount - i) * (0.8 + Math.random() * 0.4));
         
@@ -341,20 +341,20 @@ export class TestDataGenerator {
    * 生成采购订单数据
    */
   async generatePurchaseOrders(count: number, products: any[], suppliers: any[]): Promise<any[]> {
-    const purchaseOrders = [];
+    const _purchaseOrders = [];
     
-    for (let i = 1; i <= count; i++) {
-      const supplier = suppliers[Math.floor(Math.random() * suppliers.length)];
-      const orderDate = this.randomDate(30);
+    for (let _i = 1; i <= count; i++) {
+      const _supplier = suppliers[Math.floor(Math.random() * suppliers.length)];
+      const _orderDate = this.randomDate(30);
       
       // 为每个订单选择1-5个产品
-      const orderProducts = this.selectRandomItems(products, Math.floor(Math.random() * 5) + 1);
-      let totalAmount = 0;
+      const _orderProducts = this.selectRandomItems(products, Math.floor(Math.random() * 5) + 1);
+      const _totalAmount = 0;
       
-      const orderItems = orderProducts.map((product, index) => {
-        const quantity = Math.floor(Math.random() * 100) + 10;
-        const unitPrice = product.purchase_price * (0.9 + Math.random() * 0.2); // 价格浮动
-        const itemTotal = quantity * unitPrice;
+      const _orderItems = orderProducts.map((product, index) => {
+        const _quantity = Math.floor(Math.random() * 100) + 10;
+        const _unitPrice = product.purchase_price * (0.9 + Math.random() * 0.2); // 价格浮动
+        const _itemTotal = quantity * unitPrice;
         totalAmount += itemTotal;
         
         return {
@@ -389,20 +389,20 @@ export class TestDataGenerator {
    * 生成销售订单数据
    */
   async generateSalesOrders(count: number, products: any[], customers: any[]): Promise<any[]> {
-    const salesOrders = [];
+    const _salesOrders = [];
     
-    for (let i = 1; i <= count; i++) {
-      const customer = customers[Math.floor(Math.random() * customers.length)];
-      const orderDate = this.randomDate(30);
+    for (let _i = 1; i <= count; i++) {
+      const _customer = customers[Math.floor(Math.random() * customers.length)];
+      const _orderDate = this.randomDate(30);
       
       // 为每个订单选择1-4个产品
-      const orderProducts = this.selectRandomItems(products, Math.floor(Math.random() * 4) + 1);
-      let totalAmount = 0;
+      const _orderProducts = this.selectRandomItems(products, Math.floor(Math.random() * 4) + 1);
+      const _totalAmount = 0;
       
-      const orderItems = orderProducts.map((product, index) => {
-        const quantity = Math.floor(Math.random() * 50) + 5;
-        const unitPrice = product.sale_price * (0.9 + Math.random() * 0.2); // 价格浮动
-        const itemTotal = quantity * unitPrice;
+      const _orderItems = orderProducts.map((product, index) => {
+        const _quantity = Math.floor(Math.random() * 50) + 5;
+        const _unitPrice = product.sale_price * (0.9 + Math.random() * 0.2); // 价格浮动
+        const _itemTotal = quantity * unitPrice;
         totalAmount += itemTotal;
         
         return {
@@ -441,7 +441,7 @@ export class TestDataGenerator {
     
     purchaseOrders.forEach((order, index) => {
       if (order.status === 'completed' || order.status === 'approved') {
-        const paidAmount = Math.random() > 0.5 
+        const _paidAmount = Math.random() > 0.5 
           ? order.total_amount * (0.3 + Math.random() * 0.7)
           : 0;
         
@@ -471,7 +471,7 @@ export class TestDataGenerator {
     
     salesOrders.forEach((order, index) => {
       if (order.status === 'completed' || order.status === 'approved') {
-        const receivedAmount = Math.random() > 0.4 
+        const _receivedAmount = Math.random() > 0.4 
           ? order.total_amount * (0.2 + Math.random() * 0.8)
           : 0;
         
@@ -497,10 +497,10 @@ export class TestDataGenerator {
    * 生成用户数据
    */
   async generateUsers(count: number): Promise<any[]> {
-    const users = [];
-    const roles = ['admin', 'manager', 'operator', 'viewer'];
+    const _users = [];
+    const _roles = ['admin', 'manager', 'operator', 'viewer'];
     
-    for (let i = 1; i <= count; i++) {
+    for (let _i = 1; i <= count; i++) {
       users.push({
         id: i,
         username: `user${i}`,
@@ -522,12 +522,12 @@ export class TestDataGenerator {
    * 生成库存测试数据
    */
   async generateInventoryTestData(specs: any): Promise<any> {
-    const categories = await this.generateCategories(2);
-    const suppliers = await this.generateSuppliers(2);
-    const warehouses = await this.generateWarehouses(specs.warehouseCount || 2);
-    const products = await this.generateProducts(specs.productCount || 5, categories, suppliers);
-    const inventoryStocks = await this.generateInventoryStocks(products, warehouses, specs.batchCount || 3);
-    const fifoQueue = await this.generateFifoQueue(inventoryStocks);
+    const _categories = await this.generateCategories(2);
+    const _suppliers = await this.generateSuppliers(2);
+    const _warehouses = await this.generateWarehouses(specs.warehouseCount || 2);
+    const _products = await this.generateProducts(specs.productCount || 5, categories, suppliers);
+    const _inventoryStocks = await this.generateInventoryStocks(products, warehouses, specs.batchCount || 3);
+    const _fifoQueue = await this.generateFifoQueue(inventoryStocks);
     
     return {
       categories,
@@ -543,10 +543,10 @@ export class TestDataGenerator {
    * 生成采购测试数据
    */
   async generatePurchaseTestData(specs: any): Promise<any> {
-    const categories = await this.generateCategories(3);
-    const suppliers = await this.generateSuppliers(specs.supplierCount || 3);
-    const products = await this.generateProducts(specs.productCount || 10, categories, suppliers);
-    const purchaseOrders = await this.generatePurchaseOrders(specs.orderCount || 5, products, suppliers);
+    const _categories = await this.generateCategories(3);
+    const _suppliers = await this.generateSuppliers(specs.supplierCount || 3);
+    const _products = await this.generateProducts(specs.productCount || 10, categories, suppliers);
+    const _purchaseOrders = await this.generatePurchaseOrders(specs.orderCount || 5, products, suppliers);
     
     return {
       categories,
@@ -560,11 +560,11 @@ export class TestDataGenerator {
    * 生成销售测试数据
    */
   async generateSalesTestData(specs: any): Promise<any> {
-    const categories = await this.generateCategories(3);
-    const suppliers = await this.generateSuppliers(3);
-    const customers = await this.generateCustomers(specs.customerCount || 5);
-    const products = await this.generateProducts(specs.productCount || 15, categories, suppliers);
-    const salesOrders = await this.generateSalesOrders(specs.orderCount || 8, products, customers);
+    const _categories = await this.generateCategories(3);
+    const _suppliers = await this.generateSuppliers(3);
+    const _customers = await this.generateCustomers(specs.customerCount || 5);
+    const _products = await this.generateProducts(specs.productCount || 15, categories, suppliers);
+    const _salesOrders = await this.generateSalesOrders(specs.orderCount || 8, products, customers);
     
     return {
       categories,
@@ -579,11 +579,11 @@ export class TestDataGenerator {
    * 生成多仓库测试数据
    */
   async generateMultiWarehouseTestData(specs: any): Promise<any> {
-    const categories = await this.generateCategories(2);
-    const suppliers = await this.generateSuppliers(3);
-    const warehouses = await this.generateWarehouses(specs.warehouseCount || 5);
-    const products = await this.generateProducts(specs.productCount || 20, categories, suppliers);
-    const inventoryStocks = await this.generateInventoryStocks(products, warehouses, 2);
+    const _categories = await this.generateCategories(2);
+    const _suppliers = await this.generateSuppliers(3);
+    const _warehouses = await this.generateWarehouses(specs.warehouseCount || 5);
+    const _products = await this.generateProducts(specs.productCount || 20, categories, suppliers);
+    const _inventoryStocks = await this.generateInventoryStocks(products, warehouses, 2);
     
     return {
       categories,
@@ -599,14 +599,14 @@ export class TestDataGenerator {
    * 生成财务测试数据
    */
   async generateFinancialTestData(specs: any): Promise<any> {
-    const categories = await this.generateCategories(2);
-    const suppliers = await this.generateSuppliers(5);
-    const customers = await this.generateCustomers(8);
-    const products = await this.generateProducts(30, categories, suppliers);
-    const purchaseOrders = await this.generatePurchaseOrders(specs.transactionCount || 25, products, suppliers);
-    const salesOrders = await this.generateSalesOrders(specs.transactionCount || 30, products, customers);
-    const accountsPayable = await this.generateAccountsPayable(purchaseOrders);
-    const accountsReceivable = await this.generateAccountsReceivable(salesOrders);
+    const _categories = await this.generateCategories(2);
+    const _suppliers = await this.generateSuppliers(5);
+    const _customers = await this.generateCustomers(8);
+    const _products = await this.generateProducts(30, categories, suppliers);
+    const _purchaseOrders = await this.generatePurchaseOrders(specs.transactionCount || 25, products, suppliers);
+    const _salesOrders = await this.generateSalesOrders(specs.transactionCount || 30, products, customers);
+    const _accountsPayable = await this.generateAccountsPayable(purchaseOrders);
+    const _accountsReceivable = await this.generateAccountsReceivable(salesOrders);
     
     return {
       categories,
@@ -626,16 +626,16 @@ export class TestDataGenerator {
    * 生成库存转移记录
    */
   private generateStockTransfers(count: number, inventoryStocks: any[]): any[] {
-    const transfers = [];
+    const _transfers = [];
     
-    for (let i = 1; i <= count; i++) {
-      const fromStock = inventoryStocks[Math.floor(Math.random() * inventoryStocks.length)];
-      const toStock = inventoryStocks.find(s => 
+    for (let _i = 1; i <= count; i++) {
+      const _fromStock = inventoryStocks[Math.floor(Math.random() * inventoryStocks.length)];
+      const _toStock = inventoryStocks.find(s => 
         s.product_id === fromStock.product_id && s.warehouse_id !== fromStock.warehouse_id
       );
       
       if (toStock) {
-        const transferQuantity = Math.floor(Math.random() * 20) + 5;
+        const _transferQuantity = Math.floor(Math.random() * 20) + 5;
         
         transfers.push({
           id: i,
@@ -659,11 +659,11 @@ export class TestDataGenerator {
    * 生成付款记录
    */
   private generatePayments(count: number, accountsPayable: any[]): any[] {
-    const payments = [];
+    const _payments = [];
     
-    for (let i = 1; i <= count; i++) {
-      const payable = accountsPayable[Math.floor(Math.random() * accountsPayable.length)];
-      const paymentAmount = Math.min(
+    for (let _i = 1; i <= count; i++) {
+      const _payable = accountsPayable[Math.floor(Math.random() * accountsPayable.length)];
+      const _paymentAmount = Math.min(
         payable.remaining_amount,
         this.randomPrice(1000, payable.total_amount)
       );
@@ -688,11 +688,11 @@ export class TestDataGenerator {
    * 生成收款记录
    */
   private generateReceipts(count: number, accountsReceivable: any[]): any[] {
-    const receipts = [];
+    const _receipts = [];
     
-    for (let i = 1; i <= count; i++) {
-      const receivable = accountsReceivable[Math.floor(Math.random() * accountsReceivable.length)];
-      const receiptAmount = Math.min(
+    for (let _i = 1; i <= count; i++) {
+      const _receivable = accountsReceivable[Math.floor(Math.random() * accountsReceivable.length)];
+      const _receiptAmount = Math.min(
         receivable.remaining_amount,
         this.randomPrice(500, receivable.total_amount)
       );
@@ -719,12 +719,12 @@ export class TestDataGenerator {
    * 生成随机日期
    */
   private randomDate(daysBack: number): Date {
-    const now = new Date();
-    const randomDays = Math.floor(Math.random() * daysBack);
-    const randomHours = Math.floor(Math.random() * 24);
-    const randomMinutes = Math.floor(Math.random() * 60);
+    const _now = new Date();
+    const _randomDays = Math.floor(Math.random() * daysBack);
+    const _randomHours = Math.floor(Math.random() * 24);
+    const _randomMinutes = Math.floor(Math.random() * 60);
     
-    const date = new Date(now);
+    const _date = new Date(now);
     date.setDate(date.getDate() - randomDays);
     date.setHours(randomHours, randomMinutes, 0, 0);
     
@@ -735,7 +735,7 @@ export class TestDataGenerator {
    * 添加天数到日期
    */
   private addDays(date: Date, days: number): Date {
-    const result = new Date(date);
+    const _result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
   }
@@ -751,7 +751,7 @@ export class TestDataGenerator {
    * 从数组中随机选择项目
    */
   private selectRandomItems<T>(array: T[], count: number): T[] {
-    const shuffled = [...array].sort(() => Math.random() - 0.5);
+    const _shuffled = [...array].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, Math.min(count, array.length));
   }
 

@@ -32,13 +32,13 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   // 角色名称映射
-  const roleNames = {
+  const _roleNames = {
     [UserRole.ADMIN]: '管理员',
     [UserRole.OPERATOR]: '操作员'
   };
 
   // 角色描述映射
-  const roleDescriptions = {
+  const _roleDescriptions = {
     [UserRole.ADMIN]: '拥有系统所有权限，可以管理用户、权限、系统设置等',
     [UserRole.OPERATOR]: '拥有业务操作权限，可以进行库存、采购、销售等日常业务操作'
   };
@@ -47,7 +47,7 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       const [rolesData, modulesData, actionsData] = await Promise.all([
@@ -63,7 +63,7 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
       // 默认选择第一个角色
       if (rolesData.length > 0) {
         setSelectedRole(rolesData[0]);
-        const permissions = await permissionService.getRolePermissions(rolesData[0]);
+        const _permissions = await permissionService.getRolePermissions(rolesData[0]);
         setRolePermissions(permissions);
       }
     } catch (error) {
@@ -74,10 +74,10 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
     }
   };
 
-  const handleRoleSelect = async (role: UserRole) => {
+  const _handleRoleSelect = async (role: UserRole) => {
     try {
       setSelectedRole(role);
-      const permissions = await permissionService.getRolePermissions(role);
+      const _permissions = await permissionService.getRolePermissions(role);
       setRolePermissions(permissions);
     } catch (error) {
       console.error('Failed to load role permissions:', error);
@@ -85,15 +85,15 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
     }
   };
 
-  const handlePermissionChange = (module: PermissionModule, action: PermissionAction, checked: boolean) => {
+  const _handlePermissionChange = (module: PermissionModule, action: PermissionAction, checked: boolean) => {
     if (!rolePermissions) return;
 
-    const updatedPermissions = { ...rolePermissions };
+    const _updatedPermissions = { ...rolePermissions };
     if (!updatedPermissions.permissions[module]) {
       updatedPermissions.permissions[module] = [];
     }
 
-    const moduleActions = updatedPermissions.permissions[module] || [];
+    const _moduleActions = updatedPermissions.permissions[module] || [];
     if (checked) {
       if (!moduleActions.includes(action)) {
         updatedPermissions.permissions[module] = [...moduleActions, action];
@@ -105,7 +105,7 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
     setRolePermissions(updatedPermissions);
   };
 
-  const handleSavePermissions = async () => {
+  const _handleSavePermissions = async () => {
     if (!selectedRole || !rolePermissions) return;
 
     try {
@@ -120,9 +120,9 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
     }
   };
 
-  const isActionAllowed = (module: PermissionModule, action: PermissionAction): boolean => {
+  const _isActionAllowed = (module: PermissionModule, action: PermissionAction): boolean => {
     if (!rolePermissions) return false;
-    const moduleActions = rolePermissions.permissions[module] || [];
+    const _moduleActions = rolePermissions.permissions[module] || [];
     return moduleActions.includes(action);
   };
 

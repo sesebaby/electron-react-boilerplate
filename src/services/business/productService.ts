@@ -36,7 +36,7 @@ export class ProductService {
     
     try {
       // 从数据库加载库存商品数据
-      const dbItems = await electronDatabase.getAllItems();
+      const _dbItems = await electronDatabase.getAllItems();
       console.log('Loaded inventory items from database:', dbItems.length);
       
       // 转换数据库数据到产品实体
@@ -78,7 +78,7 @@ export class ProductService {
   }
 
   async findBySku(sku: string): Promise<Product | null> {
-    const id = this.skuIndex.get(sku);
+    const _id = this.skuIndex.get(sku);
     return id ? this.products.get(id) || null : null;
   }
 
@@ -95,7 +95,7 @@ export class ProductService {
   }
 
   async search(searchTerm: string): Promise<Product[]> {
-    const term = searchTerm.toLowerCase().trim();
+    const _term = searchTerm.toLowerCase().trim();
     if (!term) return this.findAll();
 
     return Array.from(this.products.values()).filter(product => 
@@ -112,7 +112,7 @@ export class ProductService {
     return ConcurrencyManager.withMutex(`product-create-${data.sku}`, async () => {
       // 权限检查
       if (currentUserId) {
-        const hasPermission = await userService.hasPermission(currentUserId, 'products.write');
+        const _hasPermission = await userService.hasPermission(currentUserId, 'products.write');
         if (!hasPermission) {
           logger.security('Unauthorized product creation attempt', { userId: currentUserId, sku: data.sku });
           throw new ValidationError('无权限创建产品', { userId: currentUserId, sku: data.sku });
@@ -120,7 +120,7 @@ export class ProductService {
       }
 
       // 验证输入数据
-      const validation = validateEntity(ProductSchema, {
+      const _validation = validateEntity(ProductSchema, {
         ...data,
         id: uuidv4(),
         createdAt: new Date(),
@@ -176,19 +176,19 @@ export class ProductService {
 
   async update(id: string, data: Partial<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>, currentUserId?: string): Promise<Product> {
     // 使用产品ID和新SKU作为并发锁的键，防止重复SKU的并发更新
-    const lockKey = data.sku ? `product-update-${id}-${data.sku}` : `product-update-${id}`;
+    const _lockKey = data.sku ? `product-update-${id}-${data.sku}` : `product-update-${id}`;
     
     return ConcurrencyManager.withMutex(lockKey, async () => {
       // 权限检查
       if (currentUserId) {
-        const hasPermission = await userService.hasPermission(currentUserId, 'products.write');
+        const _hasPermission = await userService.hasPermission(currentUserId, 'products.write');
         if (!hasPermission) {
           logger.security('Unauthorized product update attempt', { userId: currentUserId, productId: id });
           throw new ValidationError('无权限修改产品', { userId: currentUserId, productId: id });
         }
       }
 
-      const existingProduct = this.products.get(id);
+      const _existingProduct = this.products.get(id);
       if (!existingProduct) {
         throw new BusinessError(`产品不存在: ${id}`, { productId: id });
       }
@@ -207,7 +207,7 @@ export class ProductService {
       };
 
       // 验证更新后的数据
-      const validation = validateEntity(ProductSchema, updatedProduct);
+      const _validation = validateEntity(ProductSchema, updatedProduct);
       if (!validation.success) {
         throw new ValidationError(`产品数据验证失败: ${validation.errors?.join(', ')}`, {
           errors: validation.errors,
@@ -241,14 +241,14 @@ export class ProductService {
     return ConcurrencyManager.withMutex(`product-delete-${id}`, async () => {
       // 权限检查
       if (currentUserId) {
-        const hasPermission = await userService.hasPermission(currentUserId, 'products.write');
+        const _hasPermission = await userService.hasPermission(currentUserId, 'products.write');
         if (!hasPermission) {
           logger.security('Unauthorized product deletion attempt', { userId: currentUserId, productId: id });
           throw new ValidationError('无权限删除产品', { userId: currentUserId, productId: id });
         }
       }
 
-      const product = this.products.get(id);
+      const _product = this.products.get(id);
       if (!product) {
         return false;
       }
@@ -273,7 +273,7 @@ export class ProductService {
   }> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'products.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'products.write');
       if (!hasPermission) {
         logger.security('Unauthorized bulk product creation attempt', { userId: currentUserId });
         throw new Error('无权限批量创建产品');
@@ -283,9 +283,9 @@ export class ProductService {
     const created: Product[] = [];
     const errors: Array<{ index: number; error: string }> = [];
 
-    for (let i = 0; i < products.length; i++) {
+    for (let _i = 0; i < products.length; i++) {
       try {
-        const product = await this.create(products[i], currentUserId);
+        const _product = await this.create(products[i], currentUserId);
         created.push(product);
       } catch (error) {
         errors.push({
@@ -302,7 +302,7 @@ export class ProductService {
     try {
       // 如果没有提供库存数据，返回基于minStock设置的产品
       if (!lowStockItems || lowStockItems.length === 0) {
-        const allProducts = Array.from(this.products.values());
+        const _allProducts = Array.from(this.products.values());
         const lowStockProducts: Product[] = [];
         
         for (const product of allProducts) {
@@ -323,9 +323,9 @@ export class ProductService {
       // 根据SKU匹配产品信息
       const lowStockProducts: Product[] = [];
       for (const item of lowStockItems) {
-        const productId = this.skuIndex.get(item.sku);
+        const _productId = this.skuIndex.get(item.sku);
         if (productId) {
-          const product = this.products.get(productId);
+          const _product = this.products.get(productId);
           if (product && product.status === ProductStatus.ACTIVE) {
             lowStockProducts.push(product);
           }
@@ -334,11 +334,11 @@ export class ProductService {
       
       // 如果没有找到SKU匹配的产品，检查是否有产品的minStock设置需要预警
       if (lowStockProducts.length === 0) {
-        const allProducts = Array.from(this.products.values());
+        const _allProducts = Array.from(this.products.values());
         for (const product of allProducts) {
           if (product.status === ProductStatus.ACTIVE && product.minStock && product.minStock > 0) {
             // 通过SKU查询对应的库存信息
-            const stockItem = lowStockItems.find(item => item.sku === product.sku);
+            const _stockItem = lowStockItems.find(item => item.sku === product.sku);
             if (stockItem && stockItem.stockQuantity <= product.minStock) {
               lowStockProducts.push(product);
             }
@@ -353,7 +353,7 @@ export class ProductService {
       
       return lowStockProducts;
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : '未知错误';
+      const _errorMsg = error instanceof Error ? error.message : '未知错误';
       logger.error('Failed to get low stock products', { error: errorMsg });
       throw new BusinessError(`获取低库存产品失败: ${errorMsg}`, { originalError: error });
     }
@@ -368,7 +368,7 @@ export class ProductService {
   }
 
   async validateSku(sku: string, excludeId?: string): Promise<boolean> {
-    const existingId = this.skuIndex.get(sku);
+    const _existingId = this.skuIndex.get(sku);
     return !existingId || existingId === excludeId;
   }
 
@@ -400,7 +400,7 @@ export class ProductService {
     if (data.categoryId) {
       try {
         // TODO: 当分类服务可用时启用此验证
-        // const category = await categoryService.findById(data.categoryId);
+        // const _category = await categoryService.findById(data.categoryId);
         // if (!category) {
         //   throw new ValidationError('指定的产品分类不存在', { categoryId: data.categoryId });
         // }
@@ -438,7 +438,7 @@ export class ProductService {
     inactive: number;
     discontinued: number;
   }> {
-    const products = await this.findAll();
+    const _products = await this.findAll();
     
     return {
       total: products.length,

@@ -9,7 +9,7 @@ describe('LogRotation工具测试', () => {
   let rotationService: LogRotation;
 
   // Mock文件系统操作
-  const mockFs = {
+  const _mockFs = {
     readdir: jest.fn(),
     stat: jest.fn(),
     rename: jest.fn(),
@@ -18,20 +18,20 @@ describe('LogRotation工具测试', () => {
     createWriteStream: jest.fn()
   };
 
-  const mockPath = {
+  const _mockPath = {
     join: jest.fn().mockImplementation((...paths: string[]) => paths.join('/')),
     dirname: jest.fn().mockImplementation((path: string) => path.substring(0, path.lastIndexOf('/'))),
     basename: jest.fn().mockImplementation((path: string, ext?: string) => {
-      const name = path.substring(path.lastIndexOf('/') + 1);
+      const _name = path.substring(path.lastIndexOf('/') + 1);
       return ext ? name.replace(ext, '') : name;
     }),
     extname: jest.fn().mockImplementation((path: string) => {
-      const lastDot = path.lastIndexOf('.');
+      const _lastDot = path.lastIndexOf('.');
       return lastDot > 0 ? path.substring(lastDot) : '';
     })
   };
 
-  const mockZlib = {
+  const _mockZlib = {
     createGzip: jest.fn()
   };
 
@@ -60,7 +60,7 @@ describe('LogRotation工具测试', () => {
       callback();
     });
 
-    const mockStream = {
+    const _mockStream = {
       pipe: jest.fn().mockReturnThis(),
       on: jest.fn()
     };
@@ -83,14 +83,14 @@ describe('LogRotation工具测试', () => {
         writable: true
       });
 
-      const electronRotation = new LogRotation();
+      const _electronRotation = new LogRotation();
       expect(electronRotation).toBeDefined();
     });
 
     test('应该在浏览器环境中回退到localStorage', () => {
       delete (window as any).electronAPI;
       
-      const browserRotation = new LogRotation();
+      const _browserRotation = new LogRotation();
       expect(browserRotation).toBeDefined();
     });
   });
@@ -118,7 +118,7 @@ describe('LogRotation工具测试', () => {
     });
 
     test('应该在Electron环境中获取日志文件', async () => {
-      const files = await rotationService.getLogFiles('/test/logs');
+      const _files = await rotationService.getLogFiles('/test/logs');
       
       expect(mockElectronAPI.readdir).toHaveBeenCalledWith('/test/logs');
       expect(files).toHaveLength(2); // 只有.log文件
@@ -168,7 +168,7 @@ describe('LogRotation工具测试', () => {
       localStorageMock.getItem.mockReturnValue('test data');
       Object.keys = jest.fn().mockReturnValue(['log_app_log', 'log_error_log', 'other_key']);
 
-      const files = await rotationService.getLogFiles('/browser/logs');
+      const _files = await rotationService.getLogFiles('/browser/logs');
       
       expect(files).toHaveLength(2);
       expect(files[0].path).toContain('app/log');
@@ -210,7 +210,7 @@ describe('LogRotation工具测试', () => {
     });
 
     test('应该正确获取日志文件信息', async () => {
-      const files = await rotationService.getLogFiles('/logs');
+      const _files = await rotationService.getLogFiles('/logs');
       
       expect(mockFs.readdir).toHaveBeenCalledWith('/logs', expect.any(Function));
       expect(files).toHaveLength(2); // 只有.log文件
@@ -257,7 +257,7 @@ describe('LogRotation工具测试', () => {
     });
 
     test('应该生成带时间戳的轮转文件名', async () => {
-      const files = await rotationService.getLogFiles('/logs');
+      const _files = await rotationService.getLogFiles('/logs');
       
       if (files.length > 0) {
         // 模拟文件大小超限
@@ -308,12 +308,12 @@ describe('LogRotation工具测试', () => {
       };
 
       // 设置模拟的zlib模块
-      const mockGzip = {
+      const _mockGzip = {
         on: jest.fn(),
         pipe: jest.fn().mockReturnThis()
       };
       
-      const mockWriteStream = {
+      const _mockWriteStream = {
         on: jest.fn((event: string, handler: Function) => {
           if (event === 'finish') {
             setTimeout(handler, 0); // 异步调用finish处理器
@@ -321,7 +321,7 @@ describe('LogRotation工具测试', () => {
         })
       };
 
-      const mockReadStream = {
+      const _mockReadStream = {
         pipe: jest.fn().mockReturnValue(mockGzip),
         on: jest.fn()
       };
@@ -340,7 +340,7 @@ describe('LogRotation工具测试', () => {
 
     test('应该在压缩功能不可用时跳过压缩', async () => {
       // 创建没有zlib的环境
-      const rotationWithoutZlib = new LogRotation();
+      const _rotationWithoutZlib = new LogRotation();
       
       const config: LogRotationConfig = {
         maxFileSize: 0.5,
@@ -356,7 +356,7 @@ describe('LogRotation工具测试', () => {
   describe('过期日志清理测试', () => {
     test('应该删除过期的日志文件', async () => {
       // 模拟过期文件
-      const oldDate = new Date();
+      const _oldDate = new Date();
       oldDate.setDate(oldDate.getDate() - 35); // 35天前
 
       mockFs.stat.mockImplementation((path: string, callback: Function) => {
@@ -374,7 +374,7 @@ describe('LogRotation工具测试', () => {
 
     test('应该保留未过期的日志文件', async () => {
       // 模拟新文件
-      const recentDate = new Date();
+      const _recentDate = new Date();
       recentDate.setDate(recentDate.getDate() - 10); // 10天前
 
       mockFs.stat.mockImplementation((path: string, callback: Function) => {
@@ -391,7 +391,7 @@ describe('LogRotation工具测试', () => {
     });
 
     test('应该同时删除压缩文件', async () => {
-      const oldDate = new Date();
+      const _oldDate = new Date();
       oldDate.setDate(oldDate.getDate() - 35);
 
       mockFs.stat.mockImplementation((path: string, callback: Function) => {
@@ -409,7 +409,7 @@ describe('LogRotation工具测试', () => {
     });
 
     test('应该忽略压缩文件不存在的错误', async () => {
-      const oldDate = new Date();
+      const _oldDate = new Date();
       oldDate.setDate(oldDate.getDate() - 35);
 
       mockFs.stat.mockImplementation((path: string, callback: Function) => {
@@ -436,7 +436,7 @@ describe('LogRotation工具测试', () => {
 
   describe('目录统计测试', () => {
     test('应该返回正确的目录统计信息', async () => {
-      const stats = await rotationService.getDirectoryStats('/logs');
+      const _stats = await rotationService.getDirectoryStats('/logs');
 
       expect(stats).toEqual({
         totalFiles: expect.any(Number),
@@ -454,7 +454,7 @@ describe('LogRotation工具测试', () => {
         callback(null, ['non-log-file.txt']); // 没有.log文件
       });
 
-      const stats = await rotationService.getDirectoryStats('/empty');
+      const _stats = await rotationService.getDirectoryStats('/empty');
 
       expect(stats).toEqual({
         totalFiles: 0,
@@ -467,7 +467,7 @@ describe('LogRotation工具测试', () => {
         callback(new Error('Directory not accessible'));
       });
 
-      const stats = await rotationService.getDirectoryStats('/forbidden');
+      const _stats = await rotationService.getDirectoryStats('/forbidden');
 
       expect(stats).toEqual({
         totalFiles: 0,
@@ -476,8 +476,8 @@ describe('LogRotation工具测试', () => {
     });
 
     test('应该正确计算文件时间范围', async () => {
-      const oldDate = new Date('2023-01-01');
-      const newDate = new Date('2023-12-31');
+      const _oldDate = new Date('2023-01-01');
+      const _newDate = new Date('2023-12-31');
 
       mockFs.stat
         .mockImplementationOnce((path: string, callback: Function) => {
@@ -487,7 +487,7 @@ describe('LogRotation工具测试', () => {
           callback(null, { size: 2048, mtime: newDate, birthtime: newDate });
         });
 
-      const stats = await rotationService.getDirectoryStats('/logs');
+      const _stats = await rotationService.getDirectoryStats('/logs');
 
       expect(stats.oldestFile?.getTime()).toBe(oldDate.getTime());
       expect(stats.newestFile?.getTime()).toBe(newDate.getTime());
@@ -496,29 +496,29 @@ describe('LogRotation工具测试', () => {
 
   describe('路径处理测试', () => {
     test('应该正确处理路径操作', () => {
-      const testPaths = ['/logs', 'app.log'];
-      const result = mockPath.join(...testPaths);
+      const _testPaths = ['/logs', 'app.log'];
+      const _result = mockPath.join(...testPaths);
       
       expect(result).toBe('/logs/app.log');
     });
 
     test('应该正确提取目录名', () => {
-      const result = mockPath.dirname('/logs/app.log');
+      const _result = mockPath.dirname('/logs/app.log');
       expect(result).toBe('/logs');
     });
 
     test('应该正确提取文件名', () => {
-      const result = mockPath.basename('/logs/app.log');
+      const _result = mockPath.basename('/logs/app.log');
       expect(result).toBe('app.log');
     });
 
     test('应该正确提取文件名（不含扩展名）', () => {
-      const result = mockPath.basename('/logs/app.log', '.log');
+      const _result = mockPath.basename('/logs/app.log', '.log');
       expect(result).toBe('app');
     });
 
     test('应该正确提取文件扩展名', () => {
-      const result = mockPath.extname('/logs/app.log');
+      const _result = mockPath.extname('/logs/app.log');
       expect(result).toBe('.log');
     });
   });
@@ -537,7 +537,7 @@ describe('LogRotation工具测试', () => {
           callback(new Error('File access denied'));
         });
 
-      const files = await rotationService.getLogFiles('/logs');
+      const _files = await rotationService.getLogFiles('/logs');
       
       // 应该至少获取到一个文件
       expect(files.length).toBeGreaterThan(0);
@@ -545,7 +545,7 @@ describe('LogRotation工具测试', () => {
 
     test('应该处理ENOENT错误', async () => {
       mockFs.unlink.mockImplementation((path: string, callback: Function) => {
-        const error = new Error('File not found');
+        const _error = new Error('File not found');
         (error as any).code = 'ENOENT';
         callback(error);
       });

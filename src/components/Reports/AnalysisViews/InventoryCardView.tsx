@@ -29,12 +29,12 @@ const InventoryCardView: React.FC = () => {
   const [showDetailModal, setShowDetailModal] = useState(false);
 
   // 加载仓库数据
-  const loadWarehouseData = async () => {
+  const _loadWarehouseData = async () => {
     try {
       setState(prev => ({ ...prev, loading: true, error: null }));
 
       // 获取真实的仓库卡片数据
-      const warehouses = await inventoryCardService.getWarehouseCardData();
+      const _warehouses = await inventoryCardService.getWarehouseCardData();
 
       setState(prev => ({
         ...prev,
@@ -44,7 +44,7 @@ const InventoryCardView: React.FC = () => {
       }));
 
       // 检查是否有库存预警
-      const lowStockWarnings = await inventoryCardService.getLowStockWarnings();
+      const _lowStockWarnings = await inventoryCardService.getLowStockWarnings();
       if (lowStockWarnings.length > 0) {
         notificationHelper.showWarning(
           '库存预警',
@@ -64,8 +64,8 @@ const InventoryCardView: React.FC = () => {
   };
 
   // 应用筛选条件
-  const applyFilters = useMemo(() => {
-    let filtered = [...state.warehouses];
+  const _applyFilters = useMemo(() => {
+    const _filtered = [...state.warehouses];
 
     // 仓库筛选
     if (state.filters.warehouseIds.length > 0) {
@@ -76,7 +76,7 @@ const InventoryCardView: React.FC = () => {
 
     // 搜索关键词
     if (state.filters.searchKeyword) {
-      const keyword = state.filters.searchKeyword.toLowerCase();
+      const _keyword = state.filters.searchKeyword.toLowerCase();
       filtered = filtered.filter(warehouse =>
         warehouse.warehouseName.toLowerCase().includes(keyword) ||
         warehouse.warehouseCode.toLowerCase().includes(keyword) ||
@@ -126,10 +126,10 @@ const InventoryCardView: React.FC = () => {
       }
 
       if (typeof aValue === 'string') {
-        const result = aValue.localeCompare(bValue);
+        const _result = aValue.localeCompare(bValue);
         return state.filters.sortOrder === 'asc' ? result : -result;
       } else {
-        const result = aValue - bValue;
+        const _result = aValue - bValue;
         return state.filters.sortOrder === 'asc' ? result : -result;
       }
     });
@@ -151,7 +151,7 @@ const InventoryCardView: React.FC = () => {
   }, []);
 
   // 处理筛选条件变更
-  const handleFilterChange = (newFilters: Partial<InventoryFilterOptions>) => {
+  const _handleFilterChange = (newFilters: Partial<InventoryFilterOptions>) => {
     setState(prev => ({
       ...prev,
       filters: { ...prev.filters, ...newFilters }
@@ -159,7 +159,7 @@ const InventoryCardView: React.FC = () => {
   };
 
   // 处理仓库卡片点击
-  const handleWarehouseClick = (warehouseId: string) => {
+  const _handleWarehouseClick = (warehouseId: string) => {
     setState(prev => ({
       ...prev,
       selectedWarehouse: warehouseId
@@ -169,7 +169,7 @@ const InventoryCardView: React.FC = () => {
     setShowDetailModal(true);
 
     // 显示选中反馈
-    const warehouse = state.warehouses.find(w => w.warehouseId === warehouseId);
+    const _warehouse = state.warehouses.find(w => w.warehouseId === warehouseId);
     if (warehouse) {
       notificationHelper.showInfo(
         '仓库详情',
@@ -179,7 +179,7 @@ const InventoryCardView: React.FC = () => {
   };
 
   // 关闭详情模态框
-  const handleCloseDetailModal = () => {
+  const _handleCloseDetailModal = () => {
     setShowDetailModal(false);
     setState(prev => ({
       ...prev,
@@ -188,7 +188,7 @@ const InventoryCardView: React.FC = () => {
   };
 
   // 刷新数据
-  const handleRefresh = () => {
+  const _handleRefresh = () => {
     loadWarehouseData();
   };
 

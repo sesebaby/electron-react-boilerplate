@@ -54,8 +54,8 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
 
   // 筛选条件
   const [filters, setFilters] = useState<MovementSummaryFilters>(() => {
-    const savedFilters = loadMovementFilters();
-    const currentMonthRange = getCurrentMonthRange();
+    const _savedFilters = loadMovementFilters();
+    const _currentMonthRange = getCurrentMonthRange();
 
     return {
       timeRange: currentMonthRange,
@@ -69,7 +69,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
 
   // 组件配置
   const [config, setConfig] = useState<MovementSummaryConfig>(() => {
-    const savedConfig = loadMovementConfig();
+    const _savedConfig = loadMovementConfig();
     return savedConfig || {
       displayDimension: MovementDimension.QUANTITY,
       groupByWarehouse: false,
@@ -81,7 +81,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
 
   // 列显示配置
   const [columnDisplay, setColumnDisplay] = useState<ColumnDisplayConfig>(() => {
-    const savedColumnDisplay = loadColumnDisplayConfig();
+    const _savedColumnDisplay = loadColumnDisplayConfig();
     return savedColumnDisplay && validateColumnDisplayConfig(savedColumnDisplay)
       ? savedColumnDisplay
       : getDefaultColumnDisplayConfig();
@@ -94,7 +94,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
   });
 
   // =============== 数据获取 ===============
-  const loadBasicData = useCallback(async () => {
+  const _loadBasicData = useCallback(async () => {
     try {
       const [productsData, categoriesData, warehousesData] = await Promise.all([
         productService.findAll(),
@@ -111,23 +111,23 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
     }
   }, []);
 
-  const calculateMovementSummary = useCallback(async (): Promise<InventoryMovementSummaryData[]> => {
+  const _calculateMovementSummary = useCallback(async (): Promise<InventoryMovementSummaryData[]> => {
     const { timeRange } = filters;
     
     // 获取所有相关的库存事务
-    const transactions = await inventoryStockService.findTransactionsByDateRange(
+    const _transactions = await inventoryStockService.findTransactionsByDateRange(
       timeRange.startDate,
       timeRange.endDate
     );
 
     // 获取期初库存（时间范围开始前的库存状态）
-    const openingStockTransactions = await inventoryStockService.findTransactionsByDateRange(
+    const _openingStockTransactions = await inventoryStockService.findTransactionsByDateRange(
       new Date('2000-01-01'), // 从很早的日期开始
       new Date(timeRange.startDate.getTime() - 1) // 到开始日期前一天
     );
 
     // 按产品分组计算
-    const productGroups = new Map<string, {
+    const _productGroups = new Map<string, {
       product: Product;
       openingStock: { quantity: number; amount: number };
       inboundTotal: { quantity: number; amount: number };
@@ -136,9 +136,9 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
 
     // 计算期初库存
     for (const transaction of openingStockTransactions) {
-      const key = transaction.productId;
+      const _key = transaction.productId;
       if (!productGroups.has(key)) {
-        const product = products.find(p => p.id === transaction.productId);
+        const _product = products.find(p => p.id === transaction.productId);
         if (!product) continue;
         
         productGroups.set(key, {
@@ -149,16 +149,16 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
         });
       }
 
-      const group = productGroups.get(key)!;
+      const _group = productGroups.get(key)!;
       group.openingStock.quantity += transaction.quantity;
       group.openingStock.amount += transaction.totalAmount;
     }
 
     // 计算期间内的入库和出库
     for (const transaction of transactions) {
-      const key = transaction.productId;
+      const _key = transaction.productId;
       if (!productGroups.has(key)) {
-        const product = products.find(p => p.id === transaction.productId);
+        const _product = products.find(p => p.id === transaction.productId);
         if (!product) continue;
         
         productGroups.set(key, {
@@ -169,7 +169,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
         });
       }
 
-      const group = productGroups.get(key)!;
+      const _group = productGroups.get(key)!;
       if (transaction.quantity > 0) {
         // 入库
         group.inboundTotal.quantity += transaction.quantity;
@@ -183,26 +183,26 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
 
     // 转换为组件数据格式
     const result: InventoryMovementSummaryData[] = [];
-    let sequence = 1;
+    const _sequence = 1;
 
     for (const [productId, group] of productGroups) {
       const { product, openingStock, inboundTotal, outboundTotal } = group;
       
       // 获取分类信息
-      const category = categories.find(c => c.id === product.categoryId);
-      const primaryCategory = category?.parentId 
+      const _category = categories.find(c => c.id === product.categoryId);
+      const _primaryCategory = category?.parentId 
         ? categories.find(c => c.id === category.parentId)?.name || '未分类'
         : category?.name || '未分类';
-      const secondaryCategory = category?.parentId 
+      const _secondaryCategory = category?.parentId 
         ? category.name 
         : '无子分类';
 
       // 计算期末库存
-      const closingQuantity = openingStock.quantity + inboundTotal.quantity - outboundTotal.quantity;
-      const closingAmount = openingStock.amount + inboundTotal.amount - outboundTotal.amount;
+      const _closingQuantity = openingStock.quantity + inboundTotal.quantity - outboundTotal.quantity;
+      const _closingAmount = openingStock.amount + inboundTotal.amount - outboundTotal.amount;
 
       // 计算换算数量（这里简化处理，实际应该根据产品的换算关系）
-      const conversionRate = 1; // 默认换算比率
+      const _conversionRate = 1; // 默认换算比率
       
       const summaryData: InventoryMovementSummaryData = {
         id: productId,
@@ -253,7 +253,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
       }
 
       if (filters.searchKeyword) {
-        const keyword = filters.searchKeyword.toLowerCase();
+        const _keyword = filters.searchKeyword.toLowerCase();
         if (!product.name.toLowerCase().includes(keyword) &&
             !product.sku.toLowerCase().includes(keyword)) {
           continue;
@@ -266,17 +266,17 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
     return result;
   }, [filters, products, categories]);
 
-  const generateReport = useCallback(async () => {
+  const _generateReport = useCallback(async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const summaryData = await calculateMovementSummary();
+      const _summaryData = await calculateMovementSummary();
       
       // 应用排序
-      const sortedData = [...summaryData].sort((a, b) => {
-        const aValue = a[sortConfig.field as keyof InventoryMovementSummaryData];
-        const bValue = b[sortConfig.field as keyof InventoryMovementSummaryData];
+      const _sortedData = [...summaryData].sort((a, b) => {
+        const _aValue = a[sortConfig.field as keyof InventoryMovementSummaryData];
+        const _bValue = b[sortConfig.field as keyof InventoryMovementSummaryData];
         
         if (typeof aValue === 'string' && typeof bValue === 'string') {
           return sortConfig.direction === 'asc' 
@@ -303,8 +303,8 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
   }, [calculateMovementSummary, sortConfig]);
 
   // =============== 事件处理 ===============
-  const handleFilterChange = (field: keyof MovementSummaryFilters, value: any) => {
-    const newFilters = {
+  const _handleFilterChange = (field: keyof MovementSummaryFilters, value: any) => {
+    const _newFilters = {
       ...filters,
       [field]: value
     };
@@ -316,15 +316,15 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
     }
   };
 
-  const handleTimeRangeChange = (timeRange: TimeRangeFilter) => {
+  const _handleTimeRangeChange = (timeRange: TimeRangeFilter) => {
     setFilters(prev => ({
       ...prev,
       timeRange
     }));
   };
 
-  const handleConfigChange = (field: keyof MovementSummaryConfig, value: any) => {
-    const newConfig = {
+  const _handleConfigChange = (field: keyof MovementSummaryConfig, value: any) => {
+    const _newConfig = {
       ...config,
       [field]: value
     };
@@ -332,7 +332,7 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
     saveMovementConfig(newConfig);
   };
 
-  const handleColumnDisplayChange = (newColumnDisplay: ColumnDisplayConfig) => {
+  const _handleColumnDisplayChange = (newColumnDisplay: ColumnDisplayConfig) => {
     // 验证至少有一列被选中
     if (!validateColumnDisplayConfig(newColumnDisplay)) {
       setError('至少需要显示一列数据');
@@ -344,11 +344,11 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
     setError(null);
   };
 
-  const handleSort = (field: string, direction: 'asc' | 'desc') => {
+  const _handleSort = (field: string, direction: 'asc' | 'desc') => {
     setSortConfig({ field, direction });
   };
 
-  const handleExport = (options: ExportOptions) => {
+  const _handleExport = (options: ExportOptions) => {
     // 导出逻辑
     console.log('Exporting with options:', options);
   };
@@ -365,14 +365,14 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
   }, [products, generateReport]);
 
   // =============== 计算统计信息 ===============
-  const stats = useMemo((): MovementSummaryStats => {
-    const totalProducts = data.length;
-    const totalOpeningValue = data.reduce((sum, item) => sum + item.openingStock.amount, 0);
-    const totalInboundValue = data.reduce((sum, item) => sum + item.inboundTotal.amount, 0);
-    const totalOutboundValue = data.reduce((sum, item) => sum + item.outboundTotal.amount, 0);
-    const totalClosingValue = data.reduce((sum, item) => sum + item.closingStock.amount, 0);
-    const netMovementValue = totalInboundValue - totalOutboundValue;
-    const turnoverRate = totalOpeningValue > 0 ? totalOutboundValue / totalOpeningValue : 0;
+  const _stats = useMemo((): MovementSummaryStats => {
+    const _totalProducts = data.length;
+    const _totalOpeningValue = data.reduce((sum, item) => sum + item.openingStock.amount, 0);
+    const _totalInboundValue = data.reduce((sum, item) => sum + item.inboundTotal.amount, 0);
+    const _totalOutboundValue = data.reduce((sum, item) => sum + item.outboundTotal.amount, 0);
+    const _totalClosingValue = data.reduce((sum, item) => sum + item.closingStock.amount, 0);
+    const _netMovementValue = totalInboundValue - totalOutboundValue;
+    const _turnoverRate = totalOpeningValue > 0 ? totalOutboundValue / totalOpeningValue : 0;
 
     return {
       totalProducts,

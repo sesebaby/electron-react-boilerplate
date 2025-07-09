@@ -142,11 +142,11 @@ export class DashboardService {
     ]);
 
     // 暂时设置默认值，避免引用未导入的服务
-    const productStats = { total: 0, active: 0, inactive: 0 };
-    const inventoryStats = { totalProducts: 0, totalValue: 0 };
+    const _productStats = { total: 0, active: 0, inactive: 0 };
+    const _inventoryStats = { totalProducts: 0, totalValue: 0 };
     const lowStockItems: any[] = [];
 
-    const avgItemValue = inventoryStats.totalProducts > 0
+    const _avgItemValue = inventoryStats.totalProducts > 0
       ? inventoryStats.totalValue / inventoryStats.totalProducts
       : 0;
 
@@ -200,14 +200,14 @@ export class DashboardService {
     const topProducts: any[] = [];
 
     // 供应商评级分布
-    const supplierDistribution = Object.entries(supplierStats.byRating).map(([rating, count]) => ({
+    const _supplierDistribution = Object.entries(supplierStats.byRating).map(([rating, count]) => ({
       rating,
       count,
       percentage: supplierStats.total > 0 ? (count / supplierStats.total) * 100 : 0
     }));
 
     // 客户等级分布
-    const customerLevels = await Promise.all(
+    const _customerLevels = await Promise.all(
       Object.entries(customerStats.byLevel).map(async ([level, count]) => ({
         level,
         count,
@@ -232,17 +232,17 @@ export class DashboardService {
     // 暂时返回空数组，避免引用未导入的服务
     return [];
 
-    // const categories = await categoryService.findAll();
-    // const stocks = await inventoryStockService.findAllStocks();
+    // const _categories = await categoryService.findAll();
+    // const _stocks = await inventoryStockService.findAllStocks();
     //
-    // const categoryMap = new Map(categories.map(c => [c.id, c.name]));
-    // const categoryStats = new Map<string, { value: number; count: number }>();
+    // const _categoryMap = new Map(categories.map(c => [c.id, c.name]));
+    // const _categoryStats = new Map<string, { value: number; count: number }>();
     //
     // for (const stock of stocks) {
-    //   const product = await productService.findById(stock.productId);
+    //   const _product = await productService.findById(stock.productId);
     //   if (product) {
-    //     const categoryName = categoryMap.get(product.categoryId) || '未分类';
-    //     const existing = categoryStats.get(categoryName) || { value: 0, count: 0 };
+    //     const _categoryName = categoryMap.get(product.categoryId) || '未分类';
+    //     const _existing = categoryStats.get(categoryName) || { value: 0, count: 0 };
     //
     //     categoryStats.set(categoryName, {
     //       value: existing.value + (stock.currentStock * stock.avgCost),
@@ -267,24 +267,24 @@ export class DashboardService {
     // 暂时返回空数组，避免引用未导入的服务
     return [];
 
-    // const endDate = new Date();
-    // const startDate = new Date();
+    // const _endDate = new Date();
+    // const _startDate = new Date();
     // startDate.setDate(endDate.getDate() - days);
     //
-    // const transactions = await inventoryStockService.findTransactionsByDateRange(startDate, endDate);
+    // const _transactions = await inventoryStockService.findTransactionsByDateRange(startDate, endDate);
 
-    // const movementMap = new Map<string, { stockIn: number; stockOut: number; adjustment: number }>();
+    // const _movementMap = new Map<string, { stockIn: number; stockOut: number; adjustment: number }>();
     //
     // // 初始化日期
-    // for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-    //   const dateStr = d.toISOString().split('T')[0];
+    // for (let _d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+    //   const _dateStr = d.toISOString().split('T')[0];
     //   movementMap.set(dateStr, { stockIn: 0, stockOut: 0, adjustment: 0 });
     // }
     //
     // // 统计每日流水
     // transactions.forEach(transaction => {
-    //   const dateStr = transaction.createdAt.toISOString().split('T')[0];
-    //   const existing = movementMap.get(dateStr);
+    //   const _dateStr = transaction.createdAt.toISOString().split('T')[0];
+    //   const _existing = movementMap.get(dateStr);
     //
     //   if (existing) {
     //     switch (transaction.transactionType) {
@@ -331,14 +331,14 @@ export class DashboardService {
   // =============== 系统健康状态 ===============
 
   async getSystemHealth(): Promise<SystemHealth> {
-    const validation = await businessServiceManager.validateSystemIntegrity();
+    const _validation = await businessServiceManager.validateSystemIntegrity();
 
     const recommendations: string[] = [];
 
     // 暂时注释掉库存检查，避免引用未导入的服务
     // // 检查基础数据
-    // const lowStockItems = await inventoryStockService.findLowStockItems();
-    // const outOfStockItems = await inventoryStockService.findOutOfStockItems();
+    // const _lowStockItems = await inventoryStockService.findLowStockItems();
+    // const _outOfStockItems = await inventoryStockService.findOutOfStockItems();
     //
     // if (lowStockItems.length > 0) {
     //   recommendations.push(`有 ${lowStockItems.length} 个商品库存偏低，建议及时补货`);
@@ -350,10 +350,10 @@ export class DashboardService {
 
     // 暂时注释掉产品数据完整性检查，避免引用未导入的服务
     // // 检查数据完整性
-    // const products = await productService.findAll();
-    // const productsWithoutCategory = [];
+    // const _products = await productService.findAll();
+    // const _productsWithoutCategory = [];
     // for (const product of products) {
-    //   const category = await categoryService.findById(product.categoryId);
+    //   const _category = await categoryService.findById(product.categoryId);
     //   if (!category) {
     //     productsWithoutCategory.push(product.name);
     //   }
@@ -398,7 +398,7 @@ export class DashboardService {
     // 暂时设置默认值，避免引用未导入的服务
     const lowStockItems: any[] = [];
     const outOfStockItems: any[] = [];
-    const systemHealth = await this.getSystemHealth();
+    const _systemHealth = await this.getSystemHealth();
 
     const needAttention: Array<{
       type: 'low_stock' | 'out_of_stock' | 'system_issue';
@@ -429,7 +429,7 @@ export class DashboardService {
       });
     }
 
-    const shortcuts = [
+    const _shortcuts = [
       { name: '添加商品', description: '快速添加新商品', icon: 'plus', route: 'products' },
       { name: '库存入库', description: '商品入库操作', icon: 'import', route: 'stock-in' },
       { name: '库存出库', description: '商品出库操作', icon: 'export', route: 'stock-out' },
@@ -475,13 +475,13 @@ export class DashboardService {
 
       // // 简化的库存周转率计算：年销售额 / 平均库存价值
       // // 这里使用模拟数据，实际应该从销售记录计算
-      // const inventory = await this.inventoryService.getAllItems();
-      // const totalInventoryValue = inventory.reduce((sum: number, item: any) => sum + item.totalValue, 0);
+      // const _inventory = await this.inventoryService.getAllItems();
+      // const _totalInventoryValue = inventory.reduce((sum: number, item: any) => sum + item.totalValue, 0);
       //
       // if (totalInventoryValue === 0) return 0;
       //
       // // 模拟年销售额（实际应该从销售记录计算）
-      // const estimatedAnnualSales = totalInventoryValue * 3; // 假设周转3次
+      // const _estimatedAnnualSales = totalInventoryValue * 3; // 假设周转3次
       // return Math.round((estimatedAnnualSales / totalInventoryValue) * 100) / 100;
     } catch (error) {
       console.error('计算库存周转率失败:', error);
@@ -493,7 +493,7 @@ export class DashboardService {
     try {
       // 根据客户等级计算总消费额
       // 这里使用模拟数据，实际应该从销售记录统计
-      const customers = await customerService.findByLevel(level as any);
+      const _customers = await customerService.findByLevel(level as any);
       
       // 模拟不同等级客户的平均消费
       const avgSpendingByLevel: Record<string, number> = {
@@ -504,7 +504,7 @@ export class DashboardService {
         'REGULAR': 1000
       };
       
-      const avgSpending = avgSpendingByLevel[level.toUpperCase()] || 1000;
+      const _avgSpending = avgSpendingByLevel[level.toUpperCase()] || 1000;
       return customers.length * avgSpending;
     } catch (error) {
       console.error('计算客户等级消费额失败:', error);

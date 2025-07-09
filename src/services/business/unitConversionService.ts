@@ -41,7 +41,7 @@ export class UnitConversionService {
   }
 
   async findByProductId(productId: string): Promise<UnitConversion | null> {
-    const conversionId = this.productConversions.get(productId);
+    const _conversionId = this.productConversions.get(productId);
     if (!conversionId) return null;
     return this.conversions.get(conversionId) || null;
   }
@@ -51,7 +51,7 @@ export class UnitConversionService {
   }
 
   async update(id: string, data: Partial<Omit<UnitConversion, 'id' | 'createdAt' | 'updatedAt'>>): Promise<UnitConversion> {
-    const existing = this.conversions.get(id);
+    const _existing = this.conversions.get(id);
     if (!existing) {
       throw new Error(`单位转换规则不存在: ${id}`);
     }
@@ -72,7 +72,7 @@ export class UnitConversionService {
   }
 
   async delete(id: string): Promise<void> {
-    const existing = this.conversions.get(id);
+    const _existing = this.conversions.get(id);
     if (!existing) {
       throw new Error(`单位转换规则不存在: ${id}`);
     }
@@ -90,7 +90,7 @@ export class UnitConversionService {
    * @returns 包装单位数量（可能有小数）
    */
   async convertToPackageUnit(productId: string, baseQuantity: number): Promise<number | null> {
-    const conversion = await this.findByProductId(productId);
+    const _conversion = await this.findByProductId(productId);
     if (!conversion || !conversion.isActive) return null;
 
     return baseQuantity / conversion.conversionRate;
@@ -103,7 +103,7 @@ export class UnitConversionService {
    * @returns 基础单位数量
    */
   async convertToBaseUnit(productId: string, packageQuantity: number): Promise<number | null> {
-    const conversion = await this.findByProductId(productId);
+    const _conversion = await this.findByProductId(productId);
     if (!conversion || !conversion.isActive) return null;
 
     return packageQuantity * conversion.conversionRate;
@@ -122,17 +122,17 @@ export class UnitConversionService {
     baseUnitName: string;
     formatted: string;
   } | null> {
-    const conversion = await this.findByProductId(productId);
+    const _conversion = await this.findByProductId(productId);
     if (!conversion || !conversion.isActive) return null;
 
-    const packageQuantity = Math.floor(baseQuantity / conversion.conversionRate);
-    const remainderQuantity = baseQuantity % conversion.conversionRate;
+    const _packageQuantity = Math.floor(baseQuantity / conversion.conversionRate);
+    const _remainderQuantity = baseQuantity % conversion.conversionRate;
 
     // 这里简化处理，实际应该从 unitService 获取单位名称
-    const packageUnitName = await this.getUnitName(conversion.packageUnitId);
-    const baseUnitName = await this.getUnitName(conversion.baseUnitId);
+    const _packageUnitName = await this.getUnitName(conversion.packageUnitId);
+    const _baseUnitName = await this.getUnitName(conversion.baseUnitId);
 
-    let formatted = '';
+    const _formatted = '';
     if (packageQuantity > 0) {
       formatted += `${packageQuantity}${packageUnitName}`;
     }
@@ -171,7 +171,7 @@ export class UnitConversionService {
   // =============== 测试数据初始化 ===============
 
   private initializeTestData(): void {
-    const testConversions = [
+    const _testConversions = [
       {
         productId: 'product-001', // iPhone 15 Pro
         baseUnitId: 'unit-002',   // 台
@@ -220,4 +220,4 @@ export class UnitConversionService {
   }
 }
 
-export const unitConversionService = new UnitConversionService();
+export const _unitConversionService = new UnitConversionService();

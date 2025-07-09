@@ -58,27 +58,27 @@ export class ProductConversionService {
   }
 
   async findByProductId(productId: string): Promise<ProductConversionSetting | null> {
-    const settingId = this.productIndex.get(productId);
+    const _settingId = this.productIndex.get(productId);
     if (!settingId) return null;
     return this.settings.get(settingId) || null;
   }
 
   async findAll(activeOnly: boolean = true): Promise<ProductConversionSetting[]> {
-    const allSettings = Array.from(this.settings.values());
+    const _allSettings = Array.from(this.settings.values());
     return activeOnly ? allSettings.filter(setting => setting.isActive) : allSettings;
   }
 
   async update(id: string, data: Partial<Omit<ProductConversionSetting, 'id' | 'createdAt' | 'updatedAt'>>): Promise<ProductConversionSetting> {
-    const existingSetting = this.settings.get(id);
+    const _existingSetting = this.settings.get(id);
     if (!existingSetting) {
       throw new Error('换算设置不存在');
     }
 
     // 验证更新数据
     if (data.enableConversion !== undefined && data.enableConversion) {
-      const conversionType = data.conversionType || existingSetting.conversionType;
-      const globalRuleId = data.globalRuleId || existingSetting.globalRuleId;
-      const customRule = data.customRule || existingSetting.customRule;
+      const _conversionType = data.conversionType || existingSetting.conversionType;
+      const _globalRuleId = data.globalRuleId || existingSetting.globalRuleId;
+      const _customRule = data.customRule || existingSetting.customRule;
 
       if (conversionType === 'global' && !globalRuleId) {
         throw new Error('使用全局换算时必须选择全局规则');
@@ -107,7 +107,7 @@ export class ProductConversionService {
   }
 
   async updateByProductId(productId: string, data: Partial<Omit<ProductConversionSetting, 'id' | 'productId' | 'createdAt' | 'updatedAt'>>): Promise<ProductConversionSetting> {
-    const setting = await this.findByProductId(productId);
+    const _setting = await this.findByProductId(productId);
     if (!setting) {
       throw new Error('商品换算设置不存在');
     }
@@ -115,7 +115,7 @@ export class ProductConversionService {
   }
 
   async delete(id: string): Promise<boolean> {
-    const setting = this.settings.get(id);
+    const _setting = this.settings.get(id);
     if (!setting) return false;
 
     this.productIndex.delete(setting.productId);
@@ -123,7 +123,7 @@ export class ProductConversionService {
   }
 
   async deleteByProductId(productId: string): Promise<boolean> {
-    const settingId = this.productIndex.get(productId);
+    const _settingId = this.productIndex.get(productId);
     if (!settingId) return false;
     return this.delete(settingId);
   }
@@ -146,7 +146,7 @@ export class ProductConversionService {
       };
     }
 
-    const setting = await this.findByProductId(productId);
+    const _setting = await this.findByProductId(productId);
     if (!setting || !setting.enableConversion || !setting.isActive) {
       return {
         convertedQuantity: null,
@@ -159,7 +159,7 @@ export class ProductConversionService {
 
     if (setting.conversionType === 'global' && setting.globalRuleId) {
       // 使用全局换算规则
-      const globalRule = await globalConversionService.findById(setting.globalRuleId);
+      const _globalRule = await globalConversionService.findById(setting.globalRuleId);
       if (globalRule && globalRule.fromUnitId === fromUnitId && globalRule.toUnitId === toUnitId) {
         convertedQuantity = quantity * globalRule.conversionRate;
         conversionRule = globalRule.description;
@@ -186,17 +186,17 @@ export class ProductConversionService {
     fromUnit?: string;
     toUnit?: string;
   }> {
-    const setting = await this.findByProductId(productId);
+    const _setting = await this.findByProductId(productId);
     if (!setting || !setting.enableConversion || !setting.isActive) {
       return { hasConversion: false };
     }
 
-    let conversionRule = '';
-    let fromUnit = '';
-    let toUnit = '';
+    const _conversionRule = '';
+    const _fromUnit = '';
+    const _toUnit = '';
 
     if (setting.conversionType === 'global' && setting.globalRuleId) {
-      const globalRule = await globalConversionService.findById(setting.globalRuleId);
+      const _globalRule = await globalConversionService.findById(setting.globalRuleId);
       if (globalRule) {
         conversionRule = globalRule.description;
         fromUnit = globalRule.fromUnitId;
@@ -226,9 +226,9 @@ export class ProductConversionService {
     globalType: number;
     customType: number;
   }> {
-    const allSettings = Array.from(this.settings.values());
-    const activeSettings = allSettings.filter(setting => setting.isActive);
-    const enabledSettings = activeSettings.filter(setting => setting.enableConversion);
+    const _allSettings = Array.from(this.settings.values());
+    const _activeSettings = allSettings.filter(setting => setting.isActive);
+    const _enabledSettings = activeSettings.filter(setting => setting.enableConversion);
 
     return {
       total: allSettings.length,
@@ -244,7 +244,7 @@ export class ProductConversionService {
     productId: string;
     data: Partial<Omit<ProductConversionSetting, 'id' | 'productId' | 'createdAt' | 'updatedAt'>>;
   }>): Promise<void> {
-    const updatePromises = updates.map(({ productId, data }) => 
+    const _updatePromises = updates.map(({ productId, data }) => 
       this.updateByProductId(productId, data)
     );
     await Promise.all(updatePromises);
@@ -253,11 +253,11 @@ export class ProductConversionService {
   // =============== 验证操作 ===============
 
   async validateGlobalRule(globalRuleId: string): Promise<boolean> {
-    const rule = await globalConversionService.findById(globalRuleId);
+    const _rule = await globalConversionService.findById(globalRuleId);
     return !!(rule && rule.isActive);
   }
 }
 
 // 创建并导出服务实例
-const productConversionService = new ProductConversionService();
+const _productConversionService = new ProductConversionService();
 export default productConversionService;

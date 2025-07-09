@@ -12,10 +12,10 @@ const LoginPage: React.FC = () => {
   const [rememberPassword, setRememberPassword] = useState(true);
   const { login } = useAuth();
 
-  const STORAGE_KEY = 'login_credentials';
+  const _STORAGE_KEY = 'login_credentials';
 
   useEffect(() => {
-    const savedCredentials = localStorage.getItem(STORAGE_KEY);
+    const _savedCredentials = localStorage.getItem(STORAGE_KEY);
     if (savedCredentials) {
       try {
         const { username: savedUsername, password: savedPassword } = JSON.parse(savedCredentials);
@@ -27,13 +27,13 @@ const LoginPage: React.FC = () => {
     }
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const _handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      const success = await login(username, password);
+      const _success = await login(username, password);
       if (success) {
         if (rememberPassword) {
           localStorage.setItem(STORAGE_KEY, JSON.stringify({

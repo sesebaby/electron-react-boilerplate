@@ -14,8 +14,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
-  TableLoading
+  TableEmpty
 } from '../ui/table';
 
 interface WarehouseManagementProps {
@@ -63,20 +62,20 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     reset,
     setValue,
     watch,
-    trigger,
+    trigger: _trigger,
     clearErrors
   } = useForm<WarehouseForm>({
     defaultValues: emptyForm,
     mode: 'onBlur'
   });
 
-  const formData = watch(); // 监听表单数据变化
+  const _formData = watch(); // 监听表单数据变化
 
   useEffect(() => {
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -104,9 +103,9 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }
   };
 
-  const onSubmit = async (data: WarehouseForm) => {
+  const _onSubmit = async (data: WarehouseForm) => {
     try {
-      const submitData = {
+      const _submitData = {
         ...data,
         manager: data.creator
       };
@@ -127,7 +126,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }
   };
 
-  const handleEdit = (warehouse: Warehouse) => {
+  const _handleEdit = (warehouse: Warehouse) => {
     setEditingWarehouse(warehouse);
     reset({
       code: warehouse.code,
@@ -140,8 +139,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     setShowForm(true);
   };
 
-  const handleDelete = (warehouseId: string) => {
-    const warehouse = warehouses.find(w => w.id === warehouseId);
+  const _handleDelete = (warehouseId: string) => {
+    const _warehouse = warehouses.find(w => w.id === warehouseId);
     if (warehouse?.isDefault) {
       setError('默认仓库不能删除');
       return;
@@ -151,7 +150,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     setShowDeleteDialog(true);
   };
 
-  const confirmDelete = async () => {
+  const _confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
@@ -166,17 +165,17 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }
   };
 
-  const cancelDelete = () => {
+  const _cancelDelete = () => {
     setShowDeleteDialog(false);
     setDeleteTargetId(null);
   };
 
-  const handleSetDefault = (warehouseId: string) => {
+  const _handleSetDefault = (warehouseId: string) => {
     setDefaultTargetId(warehouseId);
     setShowDefaultDialog(true);
   };
 
-  const confirmSetDefault = async () => {
+  const _confirmSetDefault = async () => {
     if (!defaultTargetId) return;
 
     try {
@@ -191,20 +190,20 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }
   };
 
-  const cancelSetDefault = () => {
+  const _cancelSetDefault = () => {
     setShowDefaultDialog(false);
     setDefaultTargetId(null);
   };
 
-  const handleCancel = () => {
+  const _handleCancel = () => {
     setShowForm(false);
     setEditingWarehouse(null);
     reset(emptyForm);
     clearErrors();
   };
 
-  const handleCreateNew = () => {
-    const newFormData = {
+  const _handleCreateNew = () => {
+    const _newFormData = {
       ...emptyForm,
       creator: user?.nickname || user?.username || ''
     };
@@ -213,17 +212,17 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     setShowForm(true);
   };
 
-  const generateWarehouseCode = () => {
-    const maxCode = warehouses.reduce((max, warehouse) => {
-      const match = warehouse.code.match(/WH(\d+)/);
+  const _generateWarehouseCode = () => {
+    const _maxCode = warehouses.reduce((max, warehouse) => {
+      const _match = warehouse.code.match(/WH(\d+)/);
       if (match) {
-        const num = parseInt(match[1]);
+        const _num = parseInt(match[1]);
         return Math.max(max, num);
       }
       return max;
     }, 0);
     
-    const newCode = `WH${String(maxCode + 1).padStart(3, '0')}`;
+    const _newCode = `WH${String(maxCode + 1).padStart(3, '0')}`;
     setValue('code', newCode);
     clearErrors('code');
   };
@@ -235,14 +234,14 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }
   }, [showForm, editingWarehouse, warehouses.length]);
 
-  const filteredWarehouses = warehouses.filter(warehouse => {
-    const matchesSearch = !searchTerm || 
+  const _filteredWarehouses = warehouses.filter(warehouse => {
+    const _matchesSearch = !searchTerm || 
       warehouse.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       warehouse.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (warehouse.address || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (warehouse.manager || '').toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesStatus = !selectedStatus || 
+    const _matchesStatus = !selectedStatus || 
       (selectedStatus === 'default' && warehouse.isDefault);
     
     return matchesSearch && matchesStatus;

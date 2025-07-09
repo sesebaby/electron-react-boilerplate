@@ -75,33 +75,33 @@ export class BusinessLogicTester {
     try {
       // 1. 生成测试数据
       console.log(`[${config.testId}] 生成测试数据...`);
-      const testData = await this.testDataGenerator.generateTestData(config.testDataSpecs);
+      const _testData = await this.testDataGenerator.generateTestData(config.testDataSpecs);
       
       // 2. 捕获初始数据库状态
       console.log(`[${config.testId}] 捕获初始数据库状态...`);
-      const initialSnapshot = await this.databaseSnapshot.captureSnapshot(config.testId, 'initial');
+      const _initialSnapshot = await this.databaseSnapshot.captureSnapshot(config.testId, 'initial');
 
       // 3. 执行方法级验证
       console.log(`[${config.testId}] 执行方法级验证...`);
       for (const serviceName of config.services) {
-        const methodResults = await this.methodVerifier.verifyService(serviceName, testData);
+        const _methodResults = await this.methodVerifier.verifyService(serviceName, testData);
         testResult.methodResults.push(...methodResults);
       }
 
       // 4. 执行工作流验证
       console.log(`[${config.testId}] 执行工作流验证...`);
       for (const workflowName of config.workflows) {
-        const workflowResult = await this.workflowVerifier.verifyWorkflow(workflowName, testData);
+        const _workflowResult = await this.workflowVerifier.verifyWorkflow(workflowName, testData);
         testResult.workflowResults.push(workflowResult);
       }
 
       // 5. 捕获最终数据库状态
       console.log(`[${config.testId}] 捕获最终数据库状态...`);
-      const finalSnapshot = await this.databaseSnapshot.captureSnapshot(config.testId, 'final');
+      const _finalSnapshot = await this.databaseSnapshot.captureSnapshot(config.testId, 'final');
 
       // 6. 分析数据变化
       console.log(`[${config.testId}] 分析数据整体变化...`);
-      const changes = await this.dataChangeTracker.analyzeChanges(initialSnapshot, finalSnapshot);
+      const _changes = await this.dataChangeTracker.analyzeChanges(initialSnapshot, finalSnapshot);
 
       // 7. 数据完整性检查
       console.log(`[${config.testId}] 执行数据完整性检查...`);
@@ -125,7 +125,7 @@ export class BusinessLogicTester {
       return testResult;
 
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const _errorMessage = error instanceof Error ? error.message : String(error);
       console.error(`[${config.testId}] 验证过程中发生错误:`, error);
       testResult.endTime = new Date();
       testResult.passed = false;
@@ -165,32 +165,32 @@ export class BusinessLogicTester {
    * 基本库存操作验证场景
    */
   private async runInventoryBasicOperationsScenario(params: any) {
-    const testId = `inventory_basic_${Date.now()}`;
+    const _testId = `inventory_basic_${Date.now()}`;
     console.log(`[${testId}] 开始基本库存操作验证场景...`);
 
     // 创建测试数据
-    const testData = await this.testDataGenerator.generateInventoryTestData({
+    const _testData = await this.testDataGenerator.generateInventoryTestData({
       productCount: 5,
       batchCount: 3,
       warehouseCount: 2
     });
 
-    const operations = [
+    const _operations = [
       { type: 'stock_in', service: 'inventoryService', method: 'stockIn' },
       { type: 'stock_out', service: 'inventoryService', method: 'stockOut' },
       { type: 'stock_adjust', service: 'inventoryService', method: 'adjustStock' },
       { type: 'fifo_calculation', service: 'fifoInventoryService', method: 'calculateFifoConsumption' }
     ];
 
-    const results = [];
+    const _results = [];
     for (const operation of operations) {
-      const beforeSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `before_${operation.type}`);
+      const _beforeSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `before_${operation.type}`);
       
       try {
-        const result = await this.executeInventoryOperation(operation, testData);
-        const afterSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `after_${operation.type}`);
+        const _result = await this.executeInventoryOperation(operation, testData);
+        const _afterSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `after_${operation.type}`);
         
-        const changes = await this.dataChangeTracker.trackOperation(
+        const _changes = await this.dataChangeTracker.trackOperation(
           operation.type,
           beforeSnapshot,
           afterSnapshot
@@ -203,7 +203,7 @@ export class BusinessLogicTester {
           passed: this.validateInventoryOperation(operation, result, changes)
         });
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : String(error);
+        const _errorMessage = error instanceof Error ? error.message : String(error);
         results.push({
           operation: operation.type,
           error: errorMessage,
@@ -225,17 +225,17 @@ export class BusinessLogicTester {
    * 完整采购工作流验证场景
    */
   private async runPurchaseCompleteWorkflowScenario(params: any) {
-    const testId = `purchase_workflow_${Date.now()}`;
+    const _testId = `purchase_workflow_${Date.now()}`;
     console.log(`[${testId}] 开始完整采购工作流验证场景...`);
 
     // 创建测试数据
-    const testData = await this.testDataGenerator.generatePurchaseTestData({
+    const _testData = await this.testDataGenerator.generatePurchaseTestData({
       supplierCount: 3,
       productCount: 10,
       orderCount: 5
     });
 
-    const workflow = [
+    const _workflow = [
       { step: 'create_purchase_order', service: 'purchaseOrderService', method: 'createPurchaseOrder' },
       { step: 'create_receipt', service: 'purchaseReceiptService', method: 'createReceipt' },
       { step: 'update_inventory', service: 'inventoryService', method: 'updateFromReceipt' },
@@ -250,17 +250,17 @@ export class BusinessLogicTester {
    * 完整销售工作流验证场景
    */
   private async runSalesCompleteWorkflowScenario(params: any) {
-    const testId = `sales_workflow_${Date.now()}`;
+    const _testId = `sales_workflow_${Date.now()}`;
     console.log(`[${testId}] 开始完整销售工作流验证场景...`);
 
     // 创建测试数据
-    const testData = await this.testDataGenerator.generateSalesTestData({
+    const _testData = await this.testDataGenerator.generateSalesTestData({
       customerCount: 5,
       productCount: 15,
       orderCount: 8
     });
 
-    const workflow = [
+    const _workflow = [
       { step: 'create_sales_order', service: 'salesOrderService', method: 'createSalesOrder' },
       { step: 'reserve_stock', service: 'inventoryService', method: 'reserveStock' },
       { step: 'create_delivery', service: 'salesDeliveryService', method: 'createDelivery' },
@@ -276,32 +276,32 @@ export class BusinessLogicTester {
    * 多仓库操作验证场景
    */
   private async runMultiWarehouseOperationsScenario(params: any) {
-    const testId = `multi_warehouse_${Date.now()}`;
+    const _testId = `multi_warehouse_${Date.now()}`;
     console.log(`[${testId}] 开始多仓库操作验证场景...`);
 
     // 创建测试数据
-    const testData = await this.testDataGenerator.generateMultiWarehouseTestData({
+    const _testData = await this.testDataGenerator.generateMultiWarehouseTestData({
       warehouseCount: 5,
       productCount: 20,
       transferCount: 10
     });
 
-    const operations = [
+    const _operations = [
       { type: 'stock_transfer', service: 'warehouseService', method: 'transferStock' },
       { type: 'stock_allocation', service: 'warehouseService', method: 'allocateStock' },
       { type: 'warehouse_balance', service: 'warehouseService', method: 'balanceWarehouses' },
       { type: 'multi_warehouse_fifo', service: 'fifoInventoryService', method: 'calculateMultiWarehouseFifo' }
     ];
 
-    const results = [];
+    const _results = [];
     for (const operation of operations) {
-      const beforeSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `before_${operation.type}`);
+      const _beforeSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `before_${operation.type}`);
       
       try {
-        const result = await this.executeWarehouseOperation(operation, testData);
-        const afterSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `after_${operation.type}`);
+        const _result = await this.executeWarehouseOperation(operation, testData);
+        const _afterSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `after_${operation.type}`);
         
-        const changes = await this.dataChangeTracker.trackOperation(
+        const _changes = await this.dataChangeTracker.trackOperation(
           operation.type,
           beforeSnapshot,
           afterSnapshot
@@ -314,7 +314,7 @@ export class BusinessLogicTester {
           passed: this.validateWarehouseOperation(operation, result, changes)
         });
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : String(error);
+        const _errorMessage = error instanceof Error ? error.message : String(error);
         results.push({
           operation: operation.type,
           error: errorMessage,
@@ -336,17 +336,17 @@ export class BusinessLogicTester {
    * 财务对账验证场景
    */
   private async runFinancialReconciliationScenario(params: any) {
-    const testId = `financial_reconciliation_${Date.now()}`;
+    const _testId = `financial_reconciliation_${Date.now()}`;
     console.log(`[${testId}] 开始财务对账验证场景...`);
 
     // 创建测试数据
-    const testData = await this.testDataGenerator.generateFinancialTestData({
+    const _testData = await this.testDataGenerator.generateFinancialTestData({
       transactionCount: 50,
       paymentCount: 25,
       receiptCount: 30
     });
 
-    const reconciliationSteps = [
+    const _reconciliationSteps = [
       { step: 'ap_balance_check', service: 'accountsPayableService', method: 'calculateBalance' },
       { step: 'ar_balance_check', service: 'accountsReceivableService', method: 'calculateBalance' },
       { step: 'payment_reconciliation', service: 'accountsPayableService', method: 'reconcilePayments' },
@@ -354,15 +354,15 @@ export class BusinessLogicTester {
       { step: 'financial_report_generation', service: 'dashboardService', method: 'generateFinancialReport' }
     ];
 
-    const results = [];
+    const _results = [];
     for (const step of reconciliationSteps) {
-      const beforeSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `before_${step.step}`);
+      const _beforeSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `before_${step.step}`);
       
       try {
-        const result = await this.executeFinancialOperation(step, testData);
-        const afterSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `after_${step.step}`);
+        const _result = await this.executeFinancialOperation(step, testData);
+        const _afterSnapshot = await this.databaseSnapshot.captureSnapshot(testId, `after_${step.step}`);
         
-        const changes = await this.dataChangeTracker.trackOperation(
+        const _changes = await this.dataChangeTracker.trackOperation(
           step.step,
           beforeSnapshot,
           afterSnapshot
@@ -375,7 +375,7 @@ export class BusinessLogicTester {
           passed: this.validateFinancialOperation(step, result, changes)
         });
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : String(error);
+        const _errorMessage = error instanceof Error ? error.message : String(error);
         results.push({
           step: step.step,
           error: errorMessage,
@@ -476,7 +476,7 @@ export class BusinessLogicTester {
     }
     
     // 对问题进行排序
-    const severityOrder = { 'Critical': 1, 'High': 2, 'Medium': 3, 'Low': 4, 'Info': 5 };
+    const _severityOrder = { 'Critical': 1, 'High': 2, 'Medium': 3, 'Low': 4, 'Info': 5 };
     issues.sort((a, b) => (severityOrder[a.severity] || 99) - (severityOrder[b.severity] || 99));
 
     return issues;
@@ -486,9 +486,9 @@ export class BusinessLogicTester {
    * 确定测试结果
    */
   private determineTestResult(testResult: TestResult): boolean {
-    const methodsPassed = testResult.methodResults.every(r => r.passed);
-    const workflowsPassed = testResult.workflowResults.every(r => r.completed);
-    const dataIntegrityPassed = testResult.dataIntegrityReport?.passed || false;
+    const _methodsPassed = testResult.methodResults.every(r => r.passed);
+    const _workflowsPassed = testResult.workflowResults.every(r => r.completed);
+    const _dataIntegrityPassed = testResult.dataIntegrityReport?.passed || false;
     
     return methodsPassed && workflowsPassed && dataIntegrityPassed;
   }
@@ -497,9 +497,9 @@ export class BusinessLogicTester {
    * 生成场景摘要
    */
   private generateScenarioSummary(results: any[]): any {
-    const total = results.length;
-    const passed = results.filter(r => r.passed).length;
-    const failed = total - passed;
+    const _total = results.length;
+    const _passed = results.filter(r => r.passed).length;
+    const _failed = total - passed;
     
     return {
       total,
@@ -512,7 +512,7 @@ export class BusinessLogicTester {
 }
 
 // 导出测试配置模板
-export const testConfigurations = {
+export const _testConfigurations = {
   fullVerification: {
     testId: 'full_verification',
     description: '完整业务逻辑验证',

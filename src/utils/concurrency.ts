@@ -18,9 +18,9 @@ export class Mutex {
     }
 
     this._locked = true;
-    const nextCallback = this._queue.shift()!;
+    const _nextCallback = this._queue.shift()!;
     
-    const release = () => {
+    const _release = () => {
       this._locked = false;
       this._dispatch();
     };
@@ -29,7 +29,7 @@ export class Mutex {
   }
 
   async withLock<T>(operation: () => Promise<T> | T): Promise<T> {
-    const release = await this.acquire();
+    const _release = await this.acquire();
     try {
       return await operation();
     } finally {
@@ -60,9 +60,9 @@ export class Semaphore {
     }
 
     this._permits--;
-    const nextCallback = this._queue.shift()!;
+    const _nextCallback = this._queue.shift()!;
     
-    const release = () => {
+    const _release = () => {
       this._permits++;
       this._dispatch();
     };
@@ -71,7 +71,7 @@ export class Semaphore {
   }
 
   async withPermit<T>(operation: () => Promise<T> | T): Promise<T> {
-    const release = await this.acquire();
+    const _release = await this.acquire();
     try {
       return await operation();
     } finally {
@@ -90,12 +90,12 @@ export class OperationDebouncer {
     delay: number
   ): (...args: T) => void {
     return (...args: T) => {
-      const existingTimeout = this._timeouts.get(key);
+      const _existingTimeout = this._timeouts.get(key);
       if (existingTimeout) {
         clearTimeout(existingTimeout);
       }
 
-      const timeout = setTimeout(() => {
+      const _timeout = setTimeout(() => {
         operation(...args);
         this._timeouts.delete(key);
       }, delay);
@@ -105,7 +105,7 @@ export class OperationDebouncer {
   }
 
   cancel(key: string): void {
-    const timeout = this._timeouts.get(key);
+    const _timeout = this._timeouts.get(key);
     if (timeout) {
       clearTimeout(timeout);
       this._timeouts.delete(key);
@@ -127,9 +127,9 @@ export class RetryOperation {
     backoffMultiplier = 2
   ): Promise<T> {
     let lastError: Error;
-    let delay = delayMs;
+    const _delay = delayMs;
 
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    for (let _attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         return await operation();
       } catch (error) {
@@ -172,7 +172,7 @@ export class ConcurrencyManager {
     key: string,
     operation: () => Promise<T> | T
   ): Promise<T> {
-    const mutex = this.getMutex(key);
+    const _mutex = this.getMutex(key);
     return mutex.withLock(operation);
   }
 
@@ -181,7 +181,7 @@ export class ConcurrencyManager {
     permits: number,
     operation: () => Promise<T> | T
   ): Promise<T> {
-    const semaphore = this.getSemaphore(key, permits);
+    const _semaphore = this.getSemaphore(key, permits);
     return semaphore.withPermit(operation);
   }
 }
@@ -195,17 +195,17 @@ export class OperationLockManager {
     operation: () => Promise<T>
   ): Promise<T> {
     // 如果已经有相同的操作在进行，等待它完成
-    const existingOperation = this._locks.get(key);
+    const _existingOperation = this._locks.get(key);
     if (existingOperation) {
       await existingOperation;
     }
 
     // 执行新操作
-    const promise = operation();
+    const _promise = operation();
     this._locks.set(key, promise);
 
     try {
-      const result = await promise;
+      const _result = await promise;
       return result;
     } finally {
       // 操作完成后移除锁
@@ -218,7 +218,7 @@ export class OperationLockManager {
   }
 
   static async waitForOperation(key: string): Promise<void> {
-    const operation = this._locks.get(key);
+    const _operation = this._locks.get(key);
     if (operation) {
       await operation;
     }
@@ -235,8 +235,8 @@ export class DistributedLock {
   }
 
   async acquire(key: string, ttlMs = 30000): Promise<boolean> {
-    const now = Date.now();
-    const existingLock = DistributedLock._locks.get(key);
+    const _now = Date.now();
+    const _existingLock = DistributedLock._locks.get(key);
 
     // 检查锁是否过期
     if (existingLock && existingLock.expiry > now) {
@@ -253,7 +253,7 @@ export class DistributedLock {
   }
 
   release(key: string): boolean {
-    const lock = DistributedLock._locks.get(key);
+    const _lock = DistributedLock._locks.get(key);
     if (!lock || lock.owner !== this._instanceId) {
       return false; // 只有锁的所有者才能释放
     }
@@ -268,7 +268,7 @@ export class DistributedLock {
     ttlMs = 30000,
     maxWaitMs = 10000
   ): Promise<T> {
-    const startTime = Date.now();
+    const _startTime = Date.now();
     
     while (Date.now() - startTime < maxWaitMs) {
       if (await this.acquire(key, ttlMs)) {

@@ -10,7 +10,7 @@ export class ExcelImporter {
 
   async importFromFile(filePath: string, options: ExcelImportOptions = {}): Promise<ImportResult> {
     try {
-      const workbook = XLSX.readFile(filePath);
+      const _workbook = XLSX.readFile(filePath);
       return this.processWorkbook(workbook, options);
     } catch (error) {
       return {
@@ -29,7 +29,7 @@ export class ExcelImporter {
 
   async importFromBuffer(buffer: ArrayBuffer, options: ExcelImportOptions = {}): Promise<ImportResult> {
     try {
-      const workbook = XLSX.read(buffer, { type: 'array' });
+      const _workbook = XLSX.read(buffer, { type: 'array' });
       return this.processWorkbook(workbook, options);
     } catch (error) {
       return {
@@ -53,7 +53,7 @@ export class ExcelImporter {
       mapping = this.defaultMapping
     } = options;
 
-    const worksheet = workbook.Sheets[sheetName];
+    const _worksheet = workbook.Sheets[sheetName];
     if (!worksheet) {
       return {
         success: false,
@@ -68,7 +68,7 @@ export class ExcelImporter {
       };
     }
 
-    const rawData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    const _rawData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
     if (rawData.length <= skipRows) {
       return {
         success: false,
@@ -84,8 +84,8 @@ export class ExcelImporter {
     }
 
     // 获取表头
-    const headers = rawData[skipRows] as string[];
-    const dataRows = rawData.slice(skipRows + 1);
+    const _headers = rawData[skipRows] as string[];
+    const _dataRows = rawData.slice(skipRows + 1);
 
     const result: ImportResult = {
       success: true,
@@ -95,7 +95,7 @@ export class ExcelImporter {
     };
 
     // 验证表头
-    const mappingValidation = this.validateHeaders(headers, mapping);
+    const _mappingValidation = this.validateHeaders(headers, mapping);
     if (!mappingValidation.valid) {
       result.success = false;
       result.errors.push({
@@ -108,9 +108,9 @@ export class ExcelImporter {
     }
 
     // 处理数据行
-    for (let i = 0; i < dataRows.length; i++) {
-      const rowIndex = skipRows + i + 2; // Excel行号(从1开始) + 跳过的表头行
-      const rowData = dataRows[i] as any[];
+    for (let _i = 0; i < dataRows.length; i++) {
+      const _rowIndex = skipRows + i + 2; // Excel行号(从1开始) + 跳过的表头行
+      const _rowData = dataRows[i] as any[];
 
       if (this.isEmptyRow(rowData)) {
         result.skippedRows++;
@@ -128,8 +128,8 @@ export class ExcelImporter {
       }
 
       try {
-        const mappedData = this.mapRowData(headers, rowData, mapping);
-        const validation = validateExcelRow(mappedData);
+        const _mappedData = this.mapRowData(headers, rowData, mapping);
+        const _validation = validateExcelRow(mappedData);
 
         if (!validation.success) {
           result.errors.push({
@@ -141,7 +141,7 @@ export class ExcelImporter {
           continue;
         }
 
-        const inventoryItem = this.convertToInventoryItem(validation.data!);
+        const _inventoryItem = this.convertToInventoryItem(validation.data!);
         result.data.push(inventoryItem);
 
       } catch (error) {
@@ -161,10 +161,10 @@ export class ExcelImporter {
   }
 
   private validateHeaders(headers: string[], mapping: ColumnMapping): { valid: boolean; message: string } {
-    const requiredFields = ['name', 'sku', 'category', 'stockQuantity', 'unitPrice'];
-    const mappedFields = Object.values(mapping);
+    const _requiredFields = ['name', 'sku', 'category', 'stockQuantity', 'unitPrice'];
+    const _mappedFields = Object.values(mapping);
     
-    const missingFields = requiredFields.filter(field => 
+    const _missingFields = requiredFields.filter(field => 
       !mappedFields.includes(field as keyof InventoryItem)
     );
 
@@ -176,7 +176,7 @@ export class ExcelImporter {
     }
 
     // 检查Excel表头是否包含映射中定义的列
-    const missingColumns = Object.keys(mapping).filter(col => 
+    const _missingColumns = Object.keys(mapping).filter(col => 
       !headers.includes(col)
     );
 
@@ -195,7 +195,7 @@ export class ExcelImporter {
     
     headers.forEach((header, index) => {
       if (mapping[header]) {
-        const value = rowData[index];
+        const _value = rowData[index];
         if (value !== undefined && value !== null && value !== '') {
           mapped[header] = value;
         }
@@ -206,9 +206,9 @@ export class ExcelImporter {
   }
 
   private convertToInventoryItem(data: ExcelRowInput): InventoryItem {
-    const now = new Date();
-    const stockQuantity = data['库存数量'] || 0;
-    const unitPrice = data['单价'] || 0;
+    const _now = new Date();
+    const _stockQuantity = data['库存数量'] || 0;
+    const _unitPrice = data['单价'] || 0;
     
     return {
       id: uuidv4(),
@@ -241,7 +241,7 @@ export class ExcelImporter {
 
   validateFile(filePath: string): { valid: boolean; message: string } {
     try {
-      const extension = filePath.toLowerCase().substring(filePath.lastIndexOf('.'));
+      const _extension = filePath.toLowerCase().substring(filePath.lastIndexOf('.'));
       
       if (!APP_CONFIG.EXCEL.SUPPORTED_EXTENSIONS.includes(extension)) {
         return {

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { productService, categoryService, unitService, productConversionService } from '../../services/business';
-import { Product, Category, Unit, ProductStatus, ProductConversionSetting } from '../../types/entities';
+import { Product, Category, Unit, ProductStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { Card, CardContent } from '../ui/card';
 import { 
@@ -115,14 +115,14 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     mode: 'onBlur'
   });
 
-  const formData = watch(); // 监听表单数据变化
+  const __formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   // 性能监控
-  const { stats } = usePerformanceLogger('ProductManagement', {
+  const { stats: _stats } = usePerformanceLogger('ProductManagement', {
     enableInProduction: true,
     trackRerenders: true
   });
@@ -131,7 +131,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -153,7 +153,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     }
   };
 
-  const onSubmit = async (data: ProductForm) => {
+  const _onSubmit = async (data: ProductForm) => {
     // 记录操作开始
     const actionId = `product-${editingProduct ? 'update' : 'create'}-${Date.now()}`;
     userActionLogger.startAction(actionId, {
@@ -278,7 +278,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     }
   };
 
-  const handleEdit = async (product: Product) => {
+  const _handleEdit = async (product: Product) => {
     // 记录查看/编辑操作
     userActionLogger.logBusinessAction({
       type: UserActionType.VIEW,
@@ -332,12 +332,12 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     setShowForm(true);
   };
 
-  const handleDelete = (id: string) => {
+  const _handleDelete = (id: string) => {
     setDeleteTargetId(id);
     setShowConfirmDialog(true);
   };
 
-  const confirmDelete = async () => {
+  const _confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     // 找到要删除的产品信息
@@ -387,12 +387,12 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     }
   };
 
-  const cancelDelete = () => {
+  const _cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const handleCancel = () => {
+  const _handleCancel = () => {
     setShowForm(false);
     setEditingProduct(null);
     reset(emptyForm);
@@ -401,15 +401,15 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     setError(null); // 清除错误信息
   };
 
-  const handleCreateNew = () => {
+  const _handleCreateNew = () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
     // 自动生成SKU编码
-    generateSKU();
+    _generateSKU();
   };
 
-  const generateSKU = () => {
+  const _generateSKU = () => {
     try {
       // 生成基于时间戳和随机数的SKU
       const timestamp = Date.now().toString().slice(-6);
@@ -433,7 +433,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     return matchesSearch && matchesCategory && matchesStatus;
   });
 
-  const getStatusText = (status: ProductStatus) => {
+  const _getStatusText = (status: ProductStatus) => {
     switch (status) {
       case ProductStatus.ACTIVE: return '正常';
       case ProductStatus.INACTIVE: return '停用';
@@ -442,7 +442,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     }
   };
 
-  const getStatusColor = (status: ProductStatus) => {
+  const _getStatusColor = (status: ProductStatus) => {
     switch (status) {
       case ProductStatus.ACTIVE: return 'bg-green-500/20 text-green-300 border-green-400/30';
       case ProductStatus.INACTIVE: return 'bg-yellow-500/20 text-yellow-300 border-yellow-400/30';
@@ -569,7 +569,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
 
                 <TableBody>
                   {filteredProducts.map((product) => {
-                    const category = categories.find(c => c.id === product.categoryId);
+                    const _category = categories.find(c => c.id === product.categoryId);
                     return (
                       <TableRow key={product.id}>
                         <TableCell 

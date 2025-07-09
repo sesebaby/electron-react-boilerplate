@@ -45,10 +45,10 @@ export class InventoryEntryRegistrationService {
   public async getInventoryEntryData(filter: InventoryEntryFilter): Promise<InventoryEntryItem[]> {
     try {
       // 生成指定时间范围内的日期列表
-      const dateRange = this.generateDateRange(filter.startDate, filter.endDate);
+      const _dateRange = this.generateDateRange(filter.startDate, filter.endDate);
       
       // 模拟数据 - 在实际应用中，这里应该从数据库或API获取数据
-      const mockData = this.generateMockData(dateRange, filter);
+      const _mockData = this.generateMockData(dateRange, filter);
       
       return mockData;
     } catch (error) {
@@ -65,10 +65,10 @@ export class InventoryEntryRegistrationService {
    */
   private generateDateRange(startDate: string, endDate: string): string[] {
     const dates: string[] = [];
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+    const _start = new Date(startDate);
+    const _end = new Date(endDate);
     
-    const current = new Date(start);
+    const _current = new Date(start);
     while (current <= end) {
       dates.push(current.toISOString().split('T')[0]);
       current.setDate(current.getDate() + 1);
@@ -84,14 +84,14 @@ export class InventoryEntryRegistrationService {
    * @returns 模拟的出入库登记数据
    */
   private generateMockData(dateRange: string[], filter: InventoryEntryFilter): InventoryEntryItem[] {
-    const categories = [
+    const _categories = [
       { primary: '食品', secondary: ['蔬菜', '水果', '肉类', '调料'] },
       { primary: '用品', secondary: ['清洁用品', '办公用品', '日用品'] },
       { primary: '原料', secondary: ['调料', '包装材料', '添加剂'] },
       { primary: '设备', secondary: ['厨具', '餐具', '电器'] }
     ];
 
-    const products = [
+    const _products = [
       { primary: '食品', secondary: '蔬菜', names: ['白菜', '萝卜', '土豆', '洋葱', '胡萝卜'] },
       { primary: '食品', secondary: '水果', names: ['苹果', '香蕉', '橙子', '葡萄', '梨'] },
       { primary: '食品', secondary: '肉类', names: ['猪肉', '牛肉', '鸡肉', '鱼肉'] },
@@ -104,28 +104,28 @@ export class InventoryEntryRegistrationService {
     const mockItems: InventoryEntryItem[] = [];
 
     // 生成15-20个产品的数据
-    const numProducts = 15 + Math.floor(Math.random() * 6);
+    const _numProducts = 15 + Math.floor(Math.random() * 6);
     
-    for (let i = 0; i < numProducts; i++) {
-      const productCategory = products[Math.floor(Math.random() * products.length)];
-      const productName = productCategory.names[Math.floor(Math.random() * productCategory.names.length)];
+    for (let _i = 0; i < numProducts; i++) {
+      const _productCategory = products[Math.floor(Math.random() * products.length)];
+      const _productName = productCategory.names[Math.floor(Math.random() * productCategory.names.length)];
       
       // 生成每日数据
       const dailyData: { [date: string]: any } = {};
-      let totalOut = 0;
+      const _totalOut = 0;
       
       dateRange.forEach(date => {
-        const stockIn = Math.floor(Math.random() * 30) + 5; // 5-35
-        const morning = Math.floor(Math.random() * 15) + 2; // 2-17
-        const noon = Math.floor(Math.random() * 20) + 5; // 5-25
-        const evening = Math.floor(Math.random() * 12) + 3; // 3-15
-        const dailyOut = morning + noon + evening;
-        const stock = Math.floor(Math.random() * 80) + 20; // 20-100
+        const _stockIn = Math.floor(Math.random() * 30) + 5; // 5-35
+        const _morning = Math.floor(Math.random() * 15) + 2; // 2-17
+        const _noon = Math.floor(Math.random() * 20) + 5; // 5-25
+        const _evening = Math.floor(Math.random() * 12) + 3; // 3-15
+        const _dailyOut = morning + noon + evening;
+        const _stock = Math.floor(Math.random() * 80) + 20; // 20-100
         
         totalOut += dailyOut;
         
         // 根据显示模式调整数值
-        const multiplier = this.getDisplayModeMultiplier(filter.displayMode);
+        const _multiplier = this.getDisplayModeMultiplier(filter.displayMode);
         
         dailyData[date] = {
           stockIn: Math.round(stockIn * multiplier),
@@ -174,13 +174,13 @@ export class InventoryEntryRegistrationService {
    */
   public getMonthlyWeekRanges(date: string): Array<{ week: number; startDate: string; endDate: string; label: string }> {
     const [year, month] = date.split('-').map(Number);
-    const daysInMonth = new Date(year, month, 0).getDate();
+    const _daysInMonth = new Date(year, month, 0).getDate();
     
-    const weeks = [];
+    const _weeks = [];
     
-    for (let week = 1; week <= 5; week++) {
-      const startDay = (week - 1) * 7 + 1;
-      const endDay = Math.min(week * 7, daysInMonth);
+    for (let _week = 1; week <= 5; week++) {
+      const _startDay = (week - 1) * 7 + 1;
+      const _endDay = Math.min(week * 7, daysInMonth);
       
       if (startDay <= daysInMonth) {
         weeks.push({
@@ -202,18 +202,18 @@ export class InventoryEntryRegistrationService {
    * @returns CSV字符串
    */
   public exportToCSV(data: InventoryEntryItem[], dateRange: string[]): string {
-    const headers = ['序号', '一级分类', '二级分类', '物品名称', '总出库'];
+    const _headers = ['序号', '一级分类', '二级分类', '物品名称', '总出库'];
     
     // 添加日期相关的列头
     dateRange.forEach(date => {
-      const day = new Date(date).getDate();
+      const _day = new Date(date).getDate();
       headers.push(`${day}日-入库`, `${day}日-早`, `${day}日-中`, `${day}日-晚`, `${day}日-库存`);
     });
 
-    const csvRows = [headers.join(',')];
+    const _csvRows = [headers.join(',')];
 
     data.forEach((item, index) => {
-      const row = [
+      const _row = [
         index + 1,
         item.primaryCategory,
         item.secondaryCategory,
@@ -223,7 +223,7 @@ export class InventoryEntryRegistrationService {
 
       // 添加每日数据
       dateRange.forEach(date => {
-        const dayData = item.dailyData[date];
+        const _dayData = item.dailyData[date];
         row.push(
           dayData?.stockIn || 0,
           dayData?.morning || 0,
@@ -245,15 +245,15 @@ export class InventoryEntryRegistrationService {
    * @returns 统计汇总
    */
   public getStatisticsSummary(data: InventoryEntryItem[]) {
-    const totalItems = data.length;
-    const totalOut = data.reduce((sum, item) => sum + item.totalOut, 0);
-    const totalStock = data.reduce((sum, item) => {
-      const latestStock = Object.values(item.dailyData).reduce((latest, current) => 
+    const _totalItems = data.length;
+    const _totalOut = data.reduce((sum, item) => sum + item.totalOut, 0);
+    const _totalStock = data.reduce((sum, item) => {
+      const _latestStock = Object.values(item.dailyData).reduce((latest, current) => 
         latest + current.stock, 0) / Object.keys(item.dailyData).length;
       return sum + latestStock;
     }, 0);
 
-    const categoryStats = data.reduce((stats, item) => {
+    const _categoryStats = data.reduce((stats, item) => {
       if (!stats[item.primaryCategory]) {
         stats[item.primaryCategory] = { count: 0, totalOut: 0 };
       }
@@ -272,4 +272,4 @@ export class InventoryEntryRegistrationService {
 }
 
 // 导出单例实例
-export const inventoryEntryRegistrationService = InventoryEntryRegistrationService.getInstance();
+export const _inventoryEntryRegistrationService = InventoryEntryRegistrationService.getInstance();

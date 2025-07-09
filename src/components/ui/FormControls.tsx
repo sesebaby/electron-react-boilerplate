@@ -2,12 +2,12 @@ import React from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 // Security utility functions
-const sanitizeText = (text: string): string => {
+const _sanitizeText = (text: string): string => {
   if (typeof text !== 'string') return '';
   return text.replace(/[<>\"']/g, '');
 };
 
-const sanitizeHtml = (html: string): string => {
+const _sanitizeHtml = (html: string): string => {
   if (typeof html !== 'string') return '';
   return html
     .replace(/</g, '&lt;')
@@ -47,11 +47,11 @@ export const GlassInput: React.FC<InputProps> = ({
   ...props 
 }) => {
   // Sanitize potentially dangerous props
-  const sanitizedProps = { ...props };
+  const _sanitizedProps = { ...props };
   delete sanitizedProps.dangerouslySetInnerHTML;
   
   // If register is provided, use it instead of manual value handling
-  const inputProps = register ? {
+  const _inputProps = register ? {
     ...sanitizedProps,
     ...register
   } : {
@@ -92,11 +92,11 @@ export const GlassSelect: React.FC<SelectProps> = ({
   ...props 
 }) => {
   // Sanitize potentially dangerous props
-  const sanitizedProps = { ...props };
+  const _sanitizedProps = { ...props };
   delete sanitizedProps.dangerouslySetInnerHTML;
   
   // If register is provided, use it
-  const selectProps = register ? {
+  const _selectProps = register ? {
     ...sanitizedProps,
     ...register
   } : sanitizedProps;
@@ -134,9 +134,9 @@ export const GlassButton: React.FC<ButtonProps> = ({
   disabled,
   ...props 
 }) => {
-  const baseClasses = 'glass-button px-6 py-3 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2';
+  const _baseClasses = 'glass-button px-6 py-3 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2';
   
-  const getVariantClasses = () => {
+  const _getVariantClasses = () => {
     switch (variant) {
       case 'primary':
         return 'glass-button';

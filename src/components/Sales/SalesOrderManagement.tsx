@@ -122,7 +122,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     name: 'items'
   });
 
-  const formData = watch(); // 监听表单数据变化
+  const _formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -132,7 +132,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -156,7 +156,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     }
   };
 
-  const onSubmit = async (data: SalesOrderForm) => {
+  const _onSubmit = async (data: SalesOrderForm) => {
     try {
       // 处理订单数据
       const orderData = {
@@ -207,7 +207,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     }
   };
 
-  const handleEdit = async (order: SalesOrder) => {
+  const _handleEdit = async (order: SalesOrder) => {
     setEditingOrder(order);
     
     // 加载订单项目
@@ -236,12 +236,12 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     setShowForm(true);
   };
 
-  const handleDelete = (orderId: string) => {
+  const _handleDelete = (orderId: string) => {
     setDeleteTargetId(orderId);
     setShowConfirmDialog(true);
   };
 
-  const confirmDelete = async () => {
+  const _confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
@@ -256,12 +256,12 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     }
   };
 
-  const cancelDelete = () => {
+  const _cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const handleStatusUpdate = async (orderId: string, newStatus: SalesOrderStatus) => {
+  const _handleStatusUpdate = async (orderId: string, newStatus: SalesOrderStatus) => {
     try {
       await salesOrderService.updateStatus(orderId, newStatus);
       await loadData();
@@ -271,7 +271,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     }
   };
 
-  const handlePaymentStatusUpdate = async (orderId: string, newPaymentStatus: PaymentStatus) => {
+  const _handlePaymentStatusUpdate = async (orderId: string, newPaymentStatus: PaymentStatus) => {
     try {
       await salesOrderService.updatePaymentStatus(orderId, newPaymentStatus);
       await loadData();
@@ -281,7 +281,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     }
   };
 
-  const handleCancel = () => {
+  const _handleCancel = () => {
     setShowForm(false);
     setEditingOrder(null);
     reset(emptyForm);
@@ -289,24 +289,24 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     setError(null); // 清除错误信息
   };
 
-  const handleCreateNew = () => {
+  const _handleCreateNew = () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
   };
 
   // 添加订单项
-  const addOrderItem = () => {
+  const _addOrderItem = () => {
     append(emptyItem);
   };
 
   // 删除订单项
-  const removeOrderItem = (index: number) => {
+  const _removeOrderItem = (index: number) => {
     remove(index);
   };
 
   // 获取商品信息并更新价格
-  const handleProductChange = (index: number, productId: string) => {
+  const _handleProductChange = (index: number, productId: string) => {
     const product = products.find(p => p.id === productId);
     if (product) {
       setValue(`items.${index}.productId`, productId);
@@ -315,7 +315,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
   };
 
 
-  const getStatusText = (status: SalesOrderStatus): string => {
+  const _getStatusText = (status: SalesOrderStatus): string => {
     switch (status) {
       case SalesOrderStatus.DRAFT: return '草稿';
       case SalesOrderStatus.CONFIRMED: return '已确认';
@@ -326,7 +326,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     }
   };
 
-  const getPaymentStatusText = (status: PaymentStatus): string => {
+  const _getPaymentStatusText = (status: PaymentStatus): string => {
     switch (status) {
       case PaymentStatus.UNPAID: return '未付款';
       case PaymentStatus.PARTIAL: return '部分付款';
@@ -335,7 +335,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     }
   };
 
-  const getStatusStyles = (status: SalesOrderStatus): string => {
+  const _getStatusStyles = (status: SalesOrderStatus): string => {
     switch (status) {
       case SalesOrderStatus.DRAFT: return 'text-gray-300 bg-gray-500/20 border-gray-400/30';
       case SalesOrderStatus.CONFIRMED: return 'text-blue-300 bg-blue-500/20 border-blue-400/30';
@@ -346,7 +346,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     }
   };
 
-  const getPaymentStatusStyles = (status: PaymentStatus): string => {
+  const _getPaymentStatusStyles = (status: PaymentStatus): string => {
     switch (status) {
       case PaymentStatus.UNPAID: return 'text-red-300 bg-red-500/20 border-red-400/30';
       case PaymentStatus.PARTIAL: return 'text-yellow-300 bg-yellow-500/20 border-yellow-400/30';
@@ -355,39 +355,39 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     }
   };
 
-  const getCustomerName = (customerId: string): string => {
+  const _getCustomerName = (customerId: string): string => {
     const customer = customers.find(c => c.id === customerId);
     return customer ? customer.name : '未知客户';
   };
 
-  const getProductName = (productId: string): string => {
+  const _getProductName = (productId: string): string => {
     const product = products.find(p => p.id === productId);
     return product ? product.name : '未知商品';
   };
 
-  const getTotalItemAmount = (): number => {
+  const _getTotalItemAmount = (): number => {
     return formData.items.reduce((sum, item) => {
       const amount = item.quantity * item.unitPrice * (1 - item.discountRate);
       return sum + amount;
     }, 0);
   };
 
-  const getFinalAmount = (): number => {
+  const _getFinalAmount = (): number => {
     return getTotalItemAmount() - formData.discountAmount + formData.taxAmount;
   };
 
-  const formatDate = (date: Date): string => {
+  const _formatDate = (date: Date): string => {
     return new Date(date).toLocaleDateString('zh-CN');
   };
 
-  const isOverdue = (order: SalesOrder): boolean => {
+  const _isOverdue = (order: SalesOrder): boolean => {
     if (!order.deliveryDate) return false;
     const now = new Date();
     return order.deliveryDate < now && 
            (order.status === SalesOrderStatus.CONFIRMED || order.status === SalesOrderStatus.SHIPPED);
   };
 
-  const filteredOrders = orders.filter(order => {
+  const _filteredOrders = orders.filter(order => {
     const matchesSearch = !searchTerm || 
       order.orderNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (order.customer?.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -423,7 +423,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
         </div>
         <GlassButton
           variant="primary"
-          onClick={() => setShowForm(true)}
+          onClick={_handleCreateNew}
           className="self-start lg:self-auto"
         >
           <span className="mr-2">📄</span>
@@ -561,7 +561,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
             <div className="text-6xl mb-4">📄</div>
             <h3 className="text-xl font-semibold text-white mb-2">没有找到销售订单</h3>
             <p className="text-white/70 mb-4">请调整搜索条件或创建新的销售订单</p>
-            <GlassButton variant="primary" onClick={() => setShowForm(true)}>
+            <GlassButton variant="primary" onClick={_handleCreateNew}>
               创建第一个订单
             </GlassButton>
           </div>
@@ -629,7 +629,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                     <TableCell className="py-3 px-4">
                       <div className="flex gap-1 flex-wrap">
                         <button
-                          onClick={() => handleEdit(order)}
+                          onClick={() => _handleEdit(order)}
                           className="px-2 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors"
                           title="编辑"
                         >
@@ -638,7 +638,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                         
                         {order.status === SalesOrderStatus.DRAFT && (
                           <button
-                            onClick={() => handleStatusUpdate(order.id, SalesOrderStatus.CONFIRMED)}
+                            onClick={() => _handleStatusUpdate(order.id, SalesOrderStatus.CONFIRMED)}
                             className="px-2 py-1 text-xs bg-green-500/20 text-green-300 border border-green-400/30 rounded hover:bg-green-500/30 transition-colors"
                             title="确认订单"
                           >
@@ -648,7 +648,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
 
                         {order.status === SalesOrderStatus.CONFIRMED && (
                           <button
-                            onClick={() => handleStatusUpdate(order.id, SalesOrderStatus.SHIPPED)}
+                            onClick={() => _handleStatusUpdate(order.id, SalesOrderStatus.SHIPPED)}
                             className="px-2 py-1 text-xs bg-orange-500/20 text-orange-300 border border-orange-400/30 rounded hover:bg-orange-500/30 transition-colors"
                             title="标记发货"
                           >
@@ -658,7 +658,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                         
                         {(order.status === SalesOrderStatus.DRAFT || order.status === SalesOrderStatus.CONFIRMED) && (
                           <button
-                            onClick={() => handleStatusUpdate(order.id, SalesOrderStatus.CANCELLED)}
+                            onClick={() => _handleStatusUpdate(order.id, SalesOrderStatus.CANCELLED)}
                             className="px-2 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
                             title="取消订单"
                           >
@@ -668,7 +668,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
 
                         {order.paymentStatus !== PaymentStatus.PAID && (
                           <button
-                            onClick={() => handlePaymentStatusUpdate(order.id, 
+                            onClick={() => _handlePaymentStatusUpdate(order.id, 
                               order.paymentStatus === PaymentStatus.UNPAID ? PaymentStatus.PARTIAL : PaymentStatus.PAID
                             )}
                             className="px-2 py-1 text-xs bg-green-500/20 text-green-300 border border-green-400/30 rounded hover:bg-green-500/30 transition-colors"
@@ -679,7 +679,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                         )}
                         
                         <button
-                          onClick={() => handleDelete(order.id)}
+                          onClick={() => _handleDelete(order.id)}
                           className="px-2 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
                           title="删除"
                         >
@@ -704,14 +704,14 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                 {editingOrder ? '编辑销售订单' : '新建销售订单'}
               </h3>
               <button
-                onClick={handleCancel}
+                onClick={_handleCancel}
                 className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={handleSubmit(_onSubmit)} className="space-y-6">
               {/* 错误信息显示 */}
               {error && (
                 <ErrorDisplay
@@ -828,7 +828,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                   <GlassButton
                     type="button"
                     variant="primary"
-                    onClick={addOrderItem}
+                    onClick={_addOrderItem}
                   >
                     <span className="mr-2">➕</span>
                     添加项目
@@ -863,7 +863,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                               <TableCell className="py-3 px-4">
                                 <select
                                   {...register(`items.${index}.productId`)}
-                                  onChange={(e) => handleProductChange(index, e.target.value)}
+                                  onChange={(e) => _handleProductChange(index, e.target.value)}
                                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
                                   required
                                 >
@@ -933,7 +933,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                                 <button
                                   type="button"
                                   className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
-                                  onClick={() => removeOrderItem(index)}
+                                  onClick={() => _removeOrderItem(index)}
                                   title="删除"
                                 >
                                   🗑️
@@ -976,7 +976,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
                 <GlassButton
                   type="button"
                   variant="secondary"
-                  onClick={handleCancel}
+                  onClick={_handleCancel}
                 >
                   取消
                 </GlassButton>
@@ -1001,8 +1001,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
         confirmText="删除"
         cancelText="取消"
         variant="danger"
-        onConfirm={confirmDelete}
-        onCancel={cancelDelete}
+        onConfirm={_confirmDelete}
+        onCancel={_cancelDelete}
       />
     </div>
   );

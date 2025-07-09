@@ -53,7 +53,7 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -73,7 +73,7 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
     }
   };
 
-  const addItem = () => {
+  const _addItem = () => {
     const newItem: StockInItem = {
       ...emptyItem,
       id: Date.now().toString()
@@ -84,14 +84,14 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
     }));
   };
 
-  const removeItem = (itemId: string) => {
+  const _removeItem = (itemId: string) => {
     setFormData(prev => ({
       ...prev,
       items: prev.items.filter(item => item.id !== itemId)
     }));
   };
 
-  const updateItem = (itemId: string, field: keyof StockInItem, value: any) => {
+  const _updateItem = (itemId: string, field: keyof StockInItem, value: any) => {
     setFormData(prev => ({
       ...prev,
       items: prev.items.map(item =>
@@ -100,7 +100,7 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const _handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (formData.items.length === 0) {
@@ -121,9 +121,9 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
       setError(null);
       
       // 逐个处理入库项目
-      const results = [];
+      const _results = [];
       for (const item of formData.items) {
-        const result = await inventoryStockService.stockIn({
+        const _result = await inventoryStockService.stockIn({
           productId: item.productId,
           warehouseId: item.warehouseId,
           quantity: item.quantity,
@@ -150,21 +150,21 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
     }
   };
 
-  const getProductName = (productId: string): string => {
-    const product = products.find(p => p.id === productId);
+  const __getProductName = (productId: string): string => {
+    const _product = products.find(p => p.id === productId);
     return product ? product.name : '';
   };
 
-  const getWarehouseName = (warehouseId: string): string => {
-    const warehouse = warehouses.find(w => w.id === warehouseId);
+  const __getWarehouseName = (warehouseId: string): string => {
+    const _warehouse = warehouses.find(w => w.id === warehouseId);
     return warehouse ? warehouse.name : '';
   };
 
-  const getTotalAmount = (): number => {
+  const _getTotalAmount = (): number => {
     return formData.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
   };
 
-  const getTotalQuantity = (): number => {
+  const _getTotalQuantity = (): number => {
     return formData.items.reduce((sum, item) => sum + item.quantity, 0);
   };
 

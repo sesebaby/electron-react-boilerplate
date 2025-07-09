@@ -76,7 +76,7 @@ class ApiClient {
     this.client.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
         // Add request ID for tracking
-        const requestId = uuidv4();
+        const _requestId = uuidv4();
         config.metadata = { 
           requestId, 
           startTime: new Date(),
@@ -84,7 +84,7 @@ class ApiClient {
         };
 
         // Add auth token if available
-        const token = this.getAuthToken();
+        const _token = this.getAuthToken();
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -131,7 +131,7 @@ class ApiClient {
   }
 
   private getOrCreateEncryptionKey(): string {
-    let key = sessionStorage.getItem('_app_key');
+    const _key = sessionStorage.getItem('_app_key');
     if (!key) {
       key = uuidv4().replace(/-/g, '');
       sessionStorage.setItem('_app_key', key);
@@ -141,7 +141,7 @@ class ApiClient {
 
   private encryptToken(token: string): string {
     try {
-      const encrypted = btoa(token + '|' + this.encryptionKey.slice(0, 8));
+      const _encrypted = btoa(token + '|' + this.encryptionKey.slice(0, 8));
       return encrypted;
     } catch (error) {
       logger.warn('Token encryption failed, using fallback');
@@ -151,8 +151,8 @@ class ApiClient {
 
   private decryptToken(encryptedToken: string): string | null {
     try {
-      const decoded = atob(encryptedToken);
-      const parts = decoded.split('|');
+      const _decoded = atob(encryptedToken);
+      const _parts = decoded.split('|');
       if (parts.length === 2 && parts[1] === this.encryptionKey.slice(0, 8)) {
         return parts[0];
       }
@@ -166,7 +166,7 @@ class ApiClient {
 
   private getAuthToken(): string | null {
     try {
-      const encryptedToken = localStorage.getItem('_auth_data');
+      const _encryptedToken = localStorage.getItem('_auth_data');
       if (!encryptedToken) {
         return null;
       }
@@ -182,7 +182,7 @@ class ApiClient {
    * 创建初始日志条目
    */
   private createInitialLogEntry(config: InternalAxiosRequestConfig, requestId: string): ApiLogEntry {
-    const fullUrl = `${config.baseURL || this.config.baseURL}${config.url}`;
+    const _fullUrl = `${config.baseURL || this.config.baseURL}${config.url}`;
     
     return {
       requestId,
@@ -203,7 +203,7 @@ class ApiClient {
    * 记录请求开始
    */
   private logRequestStart(config: InternalAxiosRequestConfig): void {
-    const logEntry = config.metadata?.logEntry;
+    const _logEntry = config.metadata?.logEntry;
     if (!logEntry) return;
 
     // 开始性能监控
@@ -238,11 +238,11 @@ class ApiClient {
    * 记录响应成功
    */
   private logResponseSuccess(response: AxiosResponse): void {
-    const config = response.config;
-    const startTime = config.metadata?.startTime;
-    const requestId = config.metadata?.requestId;
-    const endTime = new Date();
-    const duration = startTime ? endTime.getTime() - startTime.getTime() : undefined;
+    const _config = response.config;
+    const _startTime = config.metadata?.startTime;
+    const _requestId = config.metadata?.requestId;
+    const _endTime = new Date();
+    const _duration = startTime ? endTime.getTime() - startTime.getTime() : undefined;
 
     const logEntry: ApiLogEntry = {
       requestId: requestId || 'unknown',
@@ -282,12 +282,12 @@ class ApiClient {
    * 记录响应错误
    */
   private logResponseError(error: any): void {
-    const config = error.config;
-    const response = error.response;
-    const startTime = config?.metadata?.startTime;
-    const requestId = config?.metadata?.requestId;
-    const endTime = new Date();
-    const duration = startTime ? endTime.getTime() - startTime.getTime() : undefined;
+    const _config = error.config;
+    const _response = error.response;
+    const _startTime = config?.metadata?.startTime;
+    const _requestId = config?.metadata?.requestId;
+    const _endTime = new Date();
+    const _duration = startTime ? endTime.getTime() - startTime.getTime() : undefined;
 
     const logEntry: ApiLogEntry = {
       requestId: requestId || 'unknown',
@@ -330,11 +330,11 @@ class ApiClient {
   private sanitizeHeaders(headers: any): Record<string, any> {
     if (!headers) return {};
     
-    const sanitized = { ...headers };
-    const sensitiveKeys = ['authorization', 'auth', 'cookie', 'set-cookie', 'x-api-key', 'x-auth-token'];
+    const _sanitized = { ...headers };
+    const _sensitiveKeys = ['authorization', 'auth', 'cookie', 'set-cookie', 'x-api-key', 'x-auth-token'];
     
     for (const key of sensitiveKeys) {
-      const lowerKey = key.toLowerCase();
+      const _lowerKey = key.toLowerCase();
       for (const headerKey of Object.keys(sanitized)) {
         if (headerKey.toLowerCase() === lowerKey) {
           sanitized[headerKey] = '[REDACTED]';
@@ -353,8 +353,8 @@ class ApiClient {
     
     if (typeof data !== 'object') return '[DATA]';
     
-    const sanitized = { ...data };
-    const sensitiveKeys = ['password', 'token', 'auth', 'secret', 'key', 'pin', 'ssn', 'credit'];
+    const _sanitized = { ...data };
+    const _sensitiveKeys = ['password', 'token', 'auth', 'secret', 'key', 'pin', 'ssn', 'credit'];
     
     for (const key of sensitiveKeys) {
       if (sanitized[key] !== undefined) {
@@ -372,15 +372,15 @@ class ApiClient {
     if (!data) return data;
     
     // 限制响应数据大小
-    const dataStr = JSON.stringify(data);
+    const _dataStr = JSON.stringify(data);
     if (dataStr.length > 10000) {
       return '[LARGE_RESPONSE]';
     }
     
     if (typeof data !== 'object') return data;
     
-    const sanitized = { ...data };
-    const sensitiveKeys = ['password', 'token', 'auth', 'secret', 'key', 'pin', 'ssn', 'credit'];
+    const _sanitized = { ...data };
+    const _sensitiveKeys = ['password', 'token', 'auth', 'secret', 'key', 'pin', 'ssn', 'credit'];
     
     for (const key of sensitiveKeys) {
       if (sanitized[key] !== undefined) {
@@ -417,7 +417,7 @@ class ApiClient {
   private formatError(error: any): Error {
     if (error.response) {
       // Server responded with error status
-      const message = error.response.data?.message || error.response.statusText || 'Request failed';
+      const _message = error.response.data?.message || error.response.statusText || 'Request failed';
       return new Error(`${error.response.status}: ${message}`);
     } else if (error.request) {
       // Request was made but no response received
@@ -430,7 +430,7 @@ class ApiClient {
 
   async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     try {
-      const response = await this.client.get(url, config);
+      const _response = await this.client.get(url, config);
       return {
         success: true,
         data: response.data
@@ -446,7 +446,7 @@ class ApiClient {
 
   async post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     try {
-      const response = await this.client.post(url, data, config);
+      const _response = await this.client.post(url, data, config);
       return {
         success: true,
         data: response.data
@@ -462,7 +462,7 @@ class ApiClient {
 
   async put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     try {
-      const response = await this.client.put(url, data, config);
+      const _response = await this.client.put(url, data, config);
       return {
         success: true,
         data: response.data
@@ -478,7 +478,7 @@ class ApiClient {
 
   async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     try {
-      const response = await this.client.delete(url, config);
+      const _response = await this.client.delete(url, config);
       return {
         success: true,
         data: response.data
@@ -494,7 +494,7 @@ class ApiClient {
 
   async patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     try {
-      const response = await this.client.patch(url, data, config);
+      const _response = await this.client.patch(url, data, config);
       return {
         success: true,
         data: response.data
@@ -510,7 +510,7 @@ class ApiClient {
 
   setAuthToken(token: string) {
     try {
-      const encryptedToken = this.encryptToken(token);
+      const _encryptedToken = this.encryptToken(token);
       localStorage.setItem('_auth_data', encryptedToken);
       logger.info('Auth token stored securely', { userId: this.currentUserId }, 'ApiClient');
     } catch (error) {
@@ -533,7 +533,7 @@ class ApiClient {
   private getResponseSize(response: AxiosResponse): number {
     try {
       // 尝试从Content-Length头获取
-      const contentLength = response.headers?.['content-length'];
+      const _contentLength = response.headers?.['content-length'];
       if (contentLength) {
         return parseInt(contentLength, 10);
       }
@@ -636,5 +636,5 @@ const defaultConfig: ApiConfig = {
   }
 };
 
-export const apiClient = new ApiClient(defaultConfig);
+export const _apiClient = new ApiClient(defaultConfig);
 export default ApiClient;

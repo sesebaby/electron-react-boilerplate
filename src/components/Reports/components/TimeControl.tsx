@@ -19,15 +19,15 @@ export const TimeControl: React.FC<TimeControlProps> = ({
   /**
    * 格式化日期为输入框格式
    */
-  const formatDateForInput = (date: Date): string => {
+  const _formatDateForInput = (date: Date): string => {
     return date.toISOString().split('T')[0];
   };
 
   /**
    * 处理日期范围变化
    */
-  const handleDateRangeChange = (field: 'startDate' | 'endDate', value: string) => {
-    const newDate = new Date(value);
+  const _handleDateRangeChange = (field: 'startDate' | 'endDate', value: string) => {
+    const _newDate = new Date(value);
     const newTimeRange: TimeRangeFilter = {
       ...timeRange,
       [field]: newDate
@@ -42,8 +42,8 @@ export const TimeControl: React.FC<TimeControlProps> = ({
   /**
    * 处理快捷时间选择
    */
-  const handleQuickTimeSelect = (quickRange: QuickTimeRange) => {
-    const now = new Date();
+  const _handleQuickTimeSelect = (quickRange: QuickTimeRange) => {
+    const _now = new Date();
     let startDate: Date;
     let endDate: Date;
 
@@ -76,16 +76,16 @@ export const TimeControl: React.FC<TimeControlProps> = ({
   /**
    * 获取快捷按钮的显示文本
    */
-  const getQuickButtonText = (quickRange: QuickTimeRange): string => {
-    const now = new Date();
+  const _getQuickButtonText = (quickRange: QuickTimeRange): string => {
+    const _now = new Date();
     
     switch (quickRange) {
       case QuickTimeRange.LAST_LAST_MONTH:
-        const lastLastMonth = new Date(now.getFullYear(), now.getMonth() - 2, 1);
+        const _lastLastMonth = new Date(now.getFullYear(), now.getMonth() - 2, 1);
         return `${lastLastMonth.getMonth() + 1}月`;
         
       case QuickTimeRange.LAST_MONTH:
-        const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        const _lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
         return `${lastMonth.getMonth() + 1}月`;
         
       case QuickTimeRange.CURRENT_MONTH:
@@ -99,8 +99,8 @@ export const TimeControl: React.FC<TimeControlProps> = ({
   /**
    * 检查快捷按钮是否为当前选中状态
    */
-  const isQuickRangeActive = (quickRange: QuickTimeRange): boolean => {
-    const now = new Date();
+  const _isQuickRangeActive = (quickRange: QuickTimeRange): boolean => {
+    const _now = new Date();
     let expectedStart: Date;
     let expectedEnd: Date;
 
@@ -126,8 +126,8 @@ export const TimeControl: React.FC<TimeControlProps> = ({
     }
 
     // 比较日期（忽略时间部分）
-    const startMatches = timeRange.startDate.toDateString() === expectedStart.toDateString();
-    const endMatches = timeRange.endDate.toDateString() === expectedEnd.toDateString() ||
+    const _startMatches = timeRange.startDate.toDateString() === expectedStart.toDateString();
+    const _endMatches = timeRange.endDate.toDateString() === expectedEnd.toDateString() ||
                       (quickRange === QuickTimeRange.CURRENT_MONTH && 
                        timeRange.endDate.toDateString() === new Date().toDateString());
 

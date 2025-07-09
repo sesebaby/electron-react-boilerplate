@@ -18,7 +18,7 @@ interface ToastState {
   duration?: number;
 }
 
-export const useDialog = () => {
+export const _useDialog = () => {
   const [confirmDialog, setConfirmDialog] = useState<DialogState>({
     isOpen: false,
     title: '',
@@ -40,7 +40,7 @@ export const useDialog = () => {
   });
 
   // 确认对话框
-  const showConfirm = useCallback((
+  const _showConfirm = useCallback((
     title: string,
     message: string,
     onConfirm: () => void,
@@ -68,7 +68,7 @@ export const useDialog = () => {
   }, []);
 
   // 警告对话框
-  const showAlert = useCallback((
+  const _showAlert = useCallback((
     title: string,
     message: string,
     variant: 'success' | 'error' | 'warning' | 'info' = 'info',
@@ -87,7 +87,7 @@ export const useDialog = () => {
   }, []);
 
   // Toast 通知
-  const showToast = useCallback((
+  const _showToast = useCallback((
     message: string,
     variant: 'success' | 'error' | 'warning' | 'info' = 'info',
     duration = 3000
@@ -100,28 +100,28 @@ export const useDialog = () => {
     });
   }, []);
 
-  const closeToast = useCallback(() => {
+  const _closeToast = useCallback(() => {
     setToast(prev => ({ ...prev, isOpen: false }));
   }, []);
 
   // 便捷方法
-  const showSuccess = useCallback((message: string, duration?: number) => {
+  const _showSuccess = useCallback((message: string, duration?: number) => {
     showToast(message, 'success', duration);
   }, [showToast]);
 
-  const showError = useCallback((message: string, duration?: number) => {
+  const _showError = useCallback((message: string, duration?: number) => {
     showToast(message, 'error', duration);
   }, [showToast]);
 
-  const showWarning = useCallback((message: string, duration?: number) => {
+  const _showWarning = useCallback((message: string, duration?: number) => {
     showToast(message, 'warning', duration);
   }, [showToast]);
 
-  const showInfo = useCallback((message: string, duration?: number) => {
+  const _showInfo = useCallback((message: string, duration?: number) => {
     showToast(message, 'info', duration);
   }, [showToast]);
 
-  const showDeleteConfirm = useCallback((
+  const _showDeleteConfirm = useCallback((
     itemName: string,
     onConfirm: () => void,
     onCancel?: () => void

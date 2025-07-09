@@ -4,7 +4,7 @@
 
 import { ColumnDisplayConfig, MovementSummaryConfig, MovementSummaryFilters } from '../types/inventoryMovement';
 
-const STORAGE_KEYS = {
+const _STORAGE_KEYS = {
   COLUMN_DISPLAY: 'inventory-movement-column-display',
   CONFIG: 'inventory-movement-config',
   FILTERS: 'inventory-movement-filters'
@@ -13,7 +13,7 @@ const STORAGE_KEYS = {
 /**
  * 保存列显示配置到本地存储
  */
-export const saveColumnDisplayConfig = (config: ColumnDisplayConfig): void => {
+export const _saveColumnDisplayConfig = (config: ColumnDisplayConfig): void => {
   try {
     localStorage.setItem(STORAGE_KEYS.COLUMN_DISPLAY, JSON.stringify(config));
   } catch (error) {
@@ -24,9 +24,9 @@ export const saveColumnDisplayConfig = (config: ColumnDisplayConfig): void => {
 /**
  * 从本地存储加载列显示配置
  */
-export const loadColumnDisplayConfig = (): ColumnDisplayConfig | null => {
+export const _loadColumnDisplayConfig = (): ColumnDisplayConfig | null => {
   try {
-    const stored = localStorage.getItem(STORAGE_KEYS.COLUMN_DISPLAY);
+    const _stored = localStorage.getItem(STORAGE_KEYS.COLUMN_DISPLAY);
     if (stored) {
       return JSON.parse(stored);
     }
@@ -39,7 +39,7 @@ export const loadColumnDisplayConfig = (): ColumnDisplayConfig | null => {
 /**
  * 获取默认列显示配置
  */
-export const getDefaultColumnDisplayConfig = (): ColumnDisplayConfig => {
+export const _getDefaultColumnDisplayConfig = (): ColumnDisplayConfig => {
   return {
     openingStock: { quantity: true, convertedQuantity: true, amount: true },
     inboundTotal: { quantity: true, convertedQuantity: true, amount: true },
@@ -51,7 +51,7 @@ export const getDefaultColumnDisplayConfig = (): ColumnDisplayConfig => {
 /**
  * 保存组件配置到本地存储
  */
-export const saveMovementConfig = (config: MovementSummaryConfig): void => {
+export const _saveMovementConfig = (config: MovementSummaryConfig): void => {
   try {
     localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config));
   } catch (error) {
@@ -62,9 +62,9 @@ export const saveMovementConfig = (config: MovementSummaryConfig): void => {
 /**
  * 从本地存储加载组件配置
  */
-export const loadMovementConfig = (): MovementSummaryConfig | null => {
+export const _loadMovementConfig = (): MovementSummaryConfig | null => {
   try {
-    const stored = localStorage.getItem(STORAGE_KEYS.CONFIG);
+    const _stored = localStorage.getItem(STORAGE_KEYS.CONFIG);
     if (stored) {
       return JSON.parse(stored);
     }
@@ -77,10 +77,10 @@ export const loadMovementConfig = (): MovementSummaryConfig | null => {
 /**
  * 保存筛选条件到本地存储（不包含时间范围）
  */
-export const saveMovementFilters = (filters: Partial<MovementSummaryFilters>): void => {
+export const _saveMovementFilters = (filters: Partial<MovementSummaryFilters>): void => {
   try {
     // 只保存非时间相关的筛选条件
-    const filtersToSave = {
+    const _filtersToSave = {
       productId: filters.productId,
       categoryId: filters.categoryId,
       warehouseId: filters.warehouseId,
@@ -95,9 +95,9 @@ export const saveMovementFilters = (filters: Partial<MovementSummaryFilters>): v
 /**
  * 从本地存储加载筛选条件
  */
-export const loadMovementFilters = (): Partial<MovementSummaryFilters> | null => {
+export const _loadMovementFilters = (): Partial<MovementSummaryFilters> | null => {
   try {
-    const stored = localStorage.getItem(STORAGE_KEYS.FILTERS);
+    const _stored = localStorage.getItem(STORAGE_KEYS.FILTERS);
     if (stored) {
       return JSON.parse(stored);
     }
@@ -110,7 +110,7 @@ export const loadMovementFilters = (): Partial<MovementSummaryFilters> | null =>
 /**
  * 清除所有本地存储的配置
  */
-export const clearAllStoredConfig = (): void => {
+export const _clearAllStoredConfig = (): void => {
   try {
     Object.values(STORAGE_KEYS).forEach(key => {
       localStorage.removeItem(key);
@@ -123,7 +123,7 @@ export const clearAllStoredConfig = (): void => {
 /**
  * 验证列显示配置是否有效
  */
-export const validateColumnDisplayConfig = (config: ColumnDisplayConfig): boolean => {
+export const _validateColumnDisplayConfig = (config: ColumnDisplayConfig): boolean => {
   // 检查是否至少有一列被选中
   return Object.values(config).some(section =>
     section.quantity || section.convertedQuantity || section.amount
@@ -133,29 +133,29 @@ export const validateColumnDisplayConfig = (config: ColumnDisplayConfig): boolea
 /**
  * 获取当前月份的时间范围
  */
-export const getCurrentMonthRange = () => {
-  const now = new Date();
-  const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-  const endDate = new Date();
+export const _getCurrentMonthRange = () => {
+  const _now = new Date();
+  const _startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+  const _endDate = new Date();
   return { startDate, endDate };
 };
 
 /**
  * 获取上个月的时间范围
  */
-export const getLastMonthRange = () => {
-  const now = new Date();
-  const startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-  const endDate = new Date(now.getFullYear(), now.getMonth(), 0);
+export const _getLastMonthRange = () => {
+  const _now = new Date();
+  const _startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const _endDate = new Date(now.getFullYear(), now.getMonth(), 0);
   return { startDate, endDate };
 };
 
 /**
  * 获取上上月的时间范围
  */
-export const getLastLastMonthRange = () => {
-  const now = new Date();
-  const startDate = new Date(now.getFullYear(), now.getMonth() - 2, 1);
-  const endDate = new Date(now.getFullYear(), now.getMonth() - 1, 0);
+export const _getLastLastMonthRange = () => {
+  const _now = new Date();
+  const _startDate = new Date(now.getFullYear(), now.getMonth() - 2, 1);
+  const _endDate = new Date(now.getFullYear(), now.getMonth() - 1, 0);
   return { startDate, endDate };
 };

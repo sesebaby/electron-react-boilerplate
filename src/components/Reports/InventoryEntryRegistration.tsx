@@ -9,7 +9,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
+  TableEmpty as _TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -33,12 +33,12 @@ const displayModes: DisplayMode[] = [
 
 export const InventoryEntryRegistration: React.FC = () => {
   // 获取当前月份的开始和结束日期
-  const getCurrentMonthRange = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const startDate = new Date(year, month, 1).toISOString().split('T')[0];
-    const endDate = new Date(year, month + 1, 0).toISOString().split('T')[0];
+  const _getCurrentMonthRange = () => {
+    const _now = new Date();
+    const _year = now.getFullYear();
+    const _month = now.getMonth();
+    const _startDate = new Date(year, month, 1).toISOString().split('T')[0];
+    const _endDate = new Date(year, month + 1, 0).toISOString().split('T')[0];
     return { startDate, endDate };
   };
 
@@ -49,41 +49,41 @@ export const InventoryEntryRegistration: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   // 获取当前月份的所有日期 - 基于当前实际月份，不依赖timeRange
-  const monthDates = useMemo(() => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const _monthDates = useMemo(() => {
+    const _now = new Date();
+    const _year = now.getFullYear();
+    const _month = now.getMonth();
+    const _daysInMonth = new Date(year, month + 1, 0).getDate();
     
     return Array.from({ length: daysInMonth }, (_, i) => {
-      const day = i + 1;
+      const _day = i + 1;
       // 直接构建日期字符串，避免时区问题
       return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     });
   }, []); // 移除依赖，只在组件首次加载时计算
 
   // 生成周快捷选择 - 基于当前月份
-  const weekRanges = useMemo(() => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
+  const _weekRanges = useMemo(() => {
+    const _now = new Date();
+    const _year = now.getFullYear();
+    const _month = now.getMonth();
     // 直接构建日期字符串，避免时区问题
-    const currentMonthFirstDay = `${year}-${String(month + 1).padStart(2, '0')}-01`;
+    const _currentMonthFirstDay = `${year}-${String(month + 1).padStart(2, '0')}-01`;
     return inventoryEntryRegistrationService.getMonthlyWeekRanges(currentMonthFirstDay);
   }, []); // 移除依赖，只基于当前月份
 
   // 获取数据
   useEffect(() => {
-    const fetchData = async () => {
+    const _fetchData = async () => {
       setLoading(true);
       try {
-        const result = await inventoryEntryRegistrationService.getInventoryEntryData({
+        const _result = await inventoryEntryRegistrationService.getInventoryEntryData({
           startDate: timeRange.startDate,
           endDate: timeRange.endDate,
           displayMode
         });
         // 按一级分类、二级分类排序
-        const sortedData = result.sort((a, b) => {
+        const _sortedData = result.sort((a, b) => {
           // 首先按一级分类排序
           if (a.primaryCategory !== b.primaryCategory) {
             return a.primaryCategory.localeCompare(b.primaryCategory, 'zh-CN');
@@ -108,12 +108,12 @@ export const InventoryEntryRegistration: React.FC = () => {
   }, [timeRange, displayMode]);
 
   // 导出数据功能
-  const handleExportData = () => {
+  const _handleExportData = () => {
     try {
-      const csvData = inventoryEntryRegistrationService.exportToCSV(data, filteredDates);
-      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      const url = URL.createObjectURL(blob);
+      const _csvData = inventoryEntryRegistrationService.exportToCSV(data, filteredDates);
+      const _blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+      const _link = document.createElement('a');
+      const _url = URL.createObjectURL(blob);
       link.setAttribute('href', url);
       link.setAttribute('download', `出入库登记_${timeRange.startDate}_${timeRange.endDate}.csv`);
       link.style.visibility = 'hidden';
@@ -125,8 +125,8 @@ export const InventoryEntryRegistration: React.FC = () => {
     }
   };
 
-  const handleWeekSelect = (week: number) => {
-    const weekRange = weekRanges.find(w => w.week === week);
+  const _handleWeekSelect = (week: number) => {
+    const _weekRange = weekRanges.find(w => w.week === week);
     if (weekRange) {
       setTimeRange({
         startDate: weekRange.startDate,
@@ -136,12 +136,12 @@ export const InventoryEntryRegistration: React.FC = () => {
     }
   };
 
-  const handleFullMonthSelect = () => {
+  const _handleFullMonthSelect = () => {
     setTimeRange(getCurrentMonthRange());
     setSelectedWeek(null);
   };
 
-  const filteredDates = useMemo(() => {
+  const _filteredDates = useMemo(() => {
     // 如果选择了全月（selectedWeek为null），显示整个月的所有日期
     if (selectedWeek === null) {
       return monthDates;
@@ -383,7 +383,7 @@ export const InventoryEntryRegistration: React.FC = () => {
                       </span>
                     </TableCell>
                     {filteredDates.map(date => {
-                      const dayData = item.dailyData[date];
+                      const _dayData = item.dailyData[date];
                       return (
                         <React.Fragment key={date}>
                           <TableCell className="text-center border-r min-w-[60px]">

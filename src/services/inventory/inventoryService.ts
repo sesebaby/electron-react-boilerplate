@@ -30,7 +30,7 @@ export class InventoryService {
 
   async createItem(item: Omit<InventoryItem, 'id' | 'lastUpdated'>): Promise<InventoryItem> {
     // 数据验证
-    const validation = validateInventoryItem({
+    const _validation = validateInventoryItem({
       ...item,
       totalValue: item.stockQuantity * item.unitPrice
     });
@@ -43,13 +43,13 @@ export class InventoryService {
     }
 
     // 检查SKU是否已存在
-    const existingItem = await this.db.getItemBySku(item.sku);
+    const _existingItem = await this.db.getItemBySku(item.sku);
     if (existingItem) {
       throw new ValidationError(`SKU "${item.sku}" 已存在`, { sku: item.sku });
     }
 
     // 计算总价值
-    const itemWithCalculatedValue = {
+    const _itemWithCalculatedValue = {
       ...item,
       totalValue: item.stockQuantity * item.unitPrice
     };
@@ -58,27 +58,27 @@ export class InventoryService {
   }
 
   async updateItem(id: string, updates: Partial<InventoryItem>): Promise<InventoryItem> {
-    const currentItem = await this.db.getItemById(id);
+    const _currentItem = await this.db.getItemById(id);
     if (!currentItem) {
       throw new ValidationError(`库存项目不存在: ${id}`, { id });
     }
 
     // 如果更新了库存数量或单价，重新计算总价值
     if (updates.stockQuantity !== undefined || updates.unitPrice !== undefined) {
-      const stockQuantity = updates.stockQuantity ?? currentItem.stockQuantity;
-      const unitPrice = updates.unitPrice ?? currentItem.unitPrice;
+      const _stockQuantity = updates.stockQuantity ?? currentItem.stockQuantity;
+      const _unitPrice = updates.unitPrice ?? currentItem.unitPrice;
       updates.totalValue = stockQuantity * unitPrice;
     }
 
     // 合并更新数据
-    const updatedItem = {
+    const _updatedItem = {
       ...currentItem,
       ...updates,
       lastUpdated: new Date()
     };
 
     // 验证更新后的完整数据
-    const validation = validateInventoryItem(updatedItem);
+    const _validation = validateInventoryItem(updatedItem);
     if (!validation.success) {
       throw new ValidationError(`库存项目数据验证失败: ${validation.errors?.join(', ')}`, {
         errors: validation.errors,
@@ -88,7 +88,7 @@ export class InventoryService {
 
     // 如果更新了SKU，检查是否已存在
     if (updates.sku && updates.sku !== currentItem.sku) {
-      const existingItem = await this.db.getItemBySku(updates.sku);
+      const _existingItem = await this.db.getItemBySku(updates.sku);
       if (existingItem && existingItem.id !== id) {
         throw new ValidationError(`SKU "${updates.sku}" 已存在`, { sku: updates.sku });
       }
@@ -125,7 +125,7 @@ export class InventoryService {
   }
 
   async updateStock(id: string, quantity: number, type: 'in' | 'out' | 'adjust'): Promise<InventoryItem> {
-    const item = await this.db.getItemById(id);
+    const _item = await this.db.getItemById(id);
     if (!item) {
       throw new Error(`商品不存在: ${id}`);
     }
@@ -150,7 +150,7 @@ export class InventoryService {
     }
 
     // 更新库存状态
-    let status = item.status;
+    const _status = item.status;
     if (newQuantity <= 0) {
       status = 'out-of-stock';
     } else if (newQuantity <= item.reorderLevel) {
@@ -166,7 +166,7 @@ export class InventoryService {
   }
 
   async calculateSummary(): Promise<InventorySummary> {
-    const allItems = await this.getAllItems();
+    const _allItems = await this.getAllItems();
     
     const summary: InventorySummary = {
       totalItems: allItems.length,
@@ -180,7 +180,7 @@ export class InventoryService {
   }
 
   async getItemsByStatus(status: InventoryItem['status']): Promise<InventoryItem[]> {
-    const allItems = await this.getAllItems();
+    const _allItems = await this.getAllItems();
     return allItems.filter(item => item.status === status);
   }
 
@@ -189,7 +189,7 @@ export class InventoryService {
     
     for (const { id, updates: itemUpdates } of updates) {
       try {
-        const updated = await this.updateItem(id, itemUpdates);
+        const _updated = await this.updateItem(id, itemUpdates);
         results.push(updated);
       } catch (error) {
         console.error(`Failed to update item ${id}:`, error);
@@ -204,12 +204,12 @@ export class InventoryService {
     const results: InventoryItem[] = [];
     const errors: string[] = [];
     
-    for (let i = 0; i < items.length; i++) {
+    for (let _i = 0; i < items.length; i++) {
       try {
-        const created = await this.createItem(items[i]);
+        const _created = await this.createItem(items[i]);
         results.push(created);
       } catch (error) {
-        const errorMsg = error instanceof Error ? error.message : '未知错误';
+        const _errorMsg = error instanceof Error ? error.message : '未知错误';
         errors.push(`第 ${i + 1} 行: ${errorMsg}`);
       }
     }

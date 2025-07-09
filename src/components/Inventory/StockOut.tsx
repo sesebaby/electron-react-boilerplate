@@ -58,7 +58,7 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -73,9 +73,9 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
       setWarehouses(warehousesData);
       
       // 创建库存数据映射 (productId:warehouseId -> stock)
-      const stockMap = new Map<string, InventoryStock>();
+      const _stockMap = new Map<string, InventoryStock>();
       stocksData.forEach((stock: InventoryStock) => {
-        const key = `${stock.productId}:${stock.warehouseId}`;
+        const _key = `${stock.productId}:${stock.warehouseId}`;
         stockMap.set(key, stock);
       });
       setStockData(stockMap);
@@ -88,7 +88,7 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
     }
   };
 
-  const addItem = () => {
+  const _addItem = () => {
     const newItem: StockOutItem = {
       ...emptyItem,
       id: Date.now().toString()
@@ -99,25 +99,25 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
     }));
   };
 
-  const removeItem = (itemId: string) => {
+  const _removeItem = (itemId: string) => {
     setFormData(prev => ({
       ...prev,
       items: prev.items.filter(item => item.id !== itemId)
     }));
   };
 
-  const updateItem = (itemId: string, field: keyof StockOutItem, value: any) => {
+  const _updateItem = (itemId: string, field: keyof StockOutItem, value: any) => {
     setFormData(prev => ({
       ...prev,
       items: prev.items.map(item => {
         if (item.id === itemId) {
-          const updatedItem = { ...item, [field]: value };
+          const _updatedItem = { ...item, [field]: value };
           
           // 当产品或仓库变化时，更新库存信息
           if (field === 'productId' || field === 'warehouseId') {
             if (updatedItem.productId && updatedItem.warehouseId) {
-              const stockKey = `${updatedItem.productId}:${updatedItem.warehouseId}`;
-              const stock = stockData.get(stockKey);
+              const _stockKey = `${updatedItem.productId}:${updatedItem.warehouseId}`;
+              const _stock = stockData.get(stockKey);
               if (stock) {
                 updatedItem.currentStock = stock.currentStock;
                 updatedItem.availableStock = stock.availableStock;
@@ -139,7 +139,7 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const _handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (formData.items.length === 0) {
@@ -156,8 +156,8 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
       
       // 检查库存是否足够
       if (item.availableStock !== undefined && item.quantity > item.availableStock) {
-        const product = products.find(p => p.id === item.productId);
-        const warehouse = warehouses.find(w => w.id === item.warehouseId);
+        const _product = products.find(p => p.id === item.productId);
+        const _warehouse = warehouses.find(w => w.id === item.warehouseId);
         setError(`商品 "${product?.name}" 在仓库 "${warehouse?.name}" 的可用库存不足，当前可用: ${item.availableStock}，需要: ${item.quantity}`);
         return;
       }
@@ -168,9 +168,9 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
       setError(null);
       
       // 逐个处理出库项目
-      const results = [];
+      const _results = [];
       for (const item of formData.items) {
-        const result = await inventoryStockService.stockOut({
+        const _result = await inventoryStockService.stockOut({
           productId: item.productId,
           warehouseId: item.warehouseId,
           quantity: item.quantity,
@@ -200,15 +200,15 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
     }
   };
 
-  const getTotalAmount = (): number => {
+  const _getTotalAmount = (): number => {
     return formData.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
   };
 
-  const getTotalQuantity = (): number => {
+  const _getTotalQuantity = (): number => {
     return formData.items.reduce((sum, item) => sum + item.quantity, 0);
   };
 
-  const getStockStatus = (item: StockOutItem): string => {
+  const _getStockStatus = (item: StockOutItem): string => {
     if (!item.productId || !item.warehouseId) return '';
     if (item.availableStock === undefined) return '';
     
@@ -218,7 +218,7 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
     return 'normal';
   };
 
-  const getStockStatusText = (status: string): string => {
+  const _getStockStatusText = (status: string): string => {
     switch (status) {
       case 'out-of-stock': return '缺货';
       case 'insufficient': return '库存不足';
@@ -228,7 +228,7 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
     }
   };
 
-  const getStockStatusStyles = (status: string): string => {
+  const _getStockStatusStyles = (status: string): string => {
     switch (status) {
       case 'out-of-stock': return 'text-red-300 bg-red-500/20 border-red-400/30';
       case 'insufficient': return 'text-red-300 bg-red-500/20 border-red-400/30';
@@ -373,7 +373,7 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
                 </thead>
                 <tbody>
                   {formData.items.map(item => {
-                    const stockStatus = getStockStatus(item);
+                    const _stockStatus = getStockStatus(item);
                     return (
                       <tr key={item.id} className="border-b border-white/5">
                         <td className="py-3 px-4">

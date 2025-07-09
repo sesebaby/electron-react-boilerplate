@@ -14,17 +14,17 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ className }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedNotifications, setSelectedNotifications] = useState<string[]>([]);
-  const pageSize = 10;
+  const _pageSize = 10;
 
   // 加载通知数据
-  const loadNotifications = useCallback(() => {
+  const _loadNotifications = useCallback(() => {
     setLoading(true);
     try {
-      const config = notificationHelper.getConfig();
-      const allNotifications = notificationHelper.getAllUnfiltered?.() || [];
+      const __config = notificationHelper.getConfig();
+      const _allNotifications = notificationHelper.getAllUnfiltered?.() || [];
       
       // 根据过滤条件过滤通知
-      let filteredNotifications = allNotifications;
+      const _filteredNotifications = allNotifications;
       
       if (filter === 'unread') {
         filteredNotifications = allNotifications.filter(n => !n.isRead);
@@ -54,16 +54,16 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ className }) => {
   }, [loadNotifications]);
 
   // 分页数据
-  const paginatedNotifications = useMemo(() => {
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
+  const _paginatedNotifications = useMemo(() => {
+    const _startIndex = (currentPage - 1) * pageSize;
+    const _endIndex = startIndex + pageSize;
     return notifications.slice(startIndex, endIndex);
   }, [notifications, currentPage, pageSize]);
 
-  const totalPages = Math.ceil(notifications.length / pageSize);
+  const _totalPages = Math.ceil(notifications.length / pageSize);
 
   // 处理通知点击
-  const handleNotificationClick = (notification: SimpleNotification) => {
+  const _handleNotificationClick = (notification: SimpleNotification) => {
     if (!notification.isRead) {
       notificationHelper.markAsRead(notification.id);
       loadNotifications();
@@ -71,7 +71,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ className }) => {
   };
 
   // 批量操作
-  const handleSelectAll = () => {
+  const _handleSelectAll = () => {
     if (selectedNotifications.length === paginatedNotifications.length) {
       setSelectedNotifications([]);
     } else {
@@ -79,7 +79,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ className }) => {
     }
   };
 
-  const handleBatchMarkAsRead = () => {
+  const _handleBatchMarkAsRead = () => {
     selectedNotifications.forEach(id => {
       notificationHelper.markAsRead(id);
     });
@@ -87,7 +87,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ className }) => {
     loadNotifications();
   };
 
-  const handleBatchDelete = () => {
+  const _handleBatchDelete = () => {
     selectedNotifications.forEach(id => {
       notificationHelper.deleteNotification(id);
     });
@@ -96,7 +96,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ className }) => {
   };
 
   // 获取通知类型样式
-  const getNotificationTypeStyles = (type: NotificationType) => {
+  const _getNotificationTypeStyles = (type: NotificationType) => {
     switch (type) {
       case 'warning': return 'border-l-4 border-l-yellow-400 bg-yellow-500/10';
       case 'info': return 'border-l-4 border-l-blue-400 bg-blue-500/10';
@@ -107,8 +107,8 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ className }) => {
   };
 
   // 获取通知类型显示文本
-  const getTypeDisplayText = (type: NotificationType) => {
-    const typeMap = {
+  const _getTypeDisplayText = (type: NotificationType) => {
+    const _typeMap = {
       'info': '信息',
       'success': '成功',
       'warning': '警告',
@@ -118,8 +118,8 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ className }) => {
   };
 
   // 获取通知类型图标
-  const getTypeIcon = (type: NotificationType) => {
-    const iconMap = {
+  const _getTypeIcon = (type: NotificationType) => {
+    const _iconMap = {
       'info': '💡',
       'success': '✅',
       'warning': '⚠️',
@@ -128,7 +128,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ className }) => {
     return iconMap[type] || '📢';
   };
 
-  const filterOptions = [
+  const _filterOptions = [
     { value: 'all', label: '全部通知' },
     { value: 'unread', label: '未读通知' },
     { value: 'info', label: '信息通知' },

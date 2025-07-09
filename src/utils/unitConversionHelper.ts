@@ -19,17 +19,17 @@ export class UnitConversionHelper {
     preferPackage: boolean = true
   ): Promise<string> {
     try {
-      const conversion = await unitConversionService.findByProductId(productId);
+      const _conversion = await unitConversionService.findByProductId(productId);
       
       if (!conversion || !conversion.isActive) {
         // 没有转换规则，直接显示基础单位
-        const baseUnitName = await this.getUnitName(conversion?.baseUnitId || 'unit-001');
+        const _baseUnitName = await this.getUnitName(conversion?.baseUnitId || 'unit-001');
         return `${baseQuantity}${baseUnitName}`;
       }
 
-      const formatted = await unitConversionService.getFormattedQuantity(productId, baseQuantity);
+      const _formatted = await unitConversionService.getFormattedQuantity(productId, baseQuantity);
       if (!formatted) {
-        const baseUnitName = await this.getUnitName(conversion.baseUnitId);
+        const _baseUnitName = await this.getUnitName(conversion.baseUnitId);
         return `${baseQuantity}${baseUnitName}`;
       }
 
@@ -60,10 +60,10 @@ export class UnitConversionHelper {
     hasConversion: boolean;
   }> {
     try {
-      const conversion = await unitConversionService.findByProductId(productId);
+      const _conversion = await unitConversionService.findByProductId(productId);
       
       if (!conversion || !conversion.isActive) {
-        const baseUnitName = await this.getUnitName(conversion?.baseUnitId || 'unit-001');
+        const _baseUnitName = await this.getUnitName(conversion?.baseUnitId || 'unit-001');
         return {
           baseDisplay: `${baseQuantity}${baseUnitName}`,
           packageDisplay: null,
@@ -71,10 +71,10 @@ export class UnitConversionHelper {
         };
       }
 
-      const baseUnitName = await this.getUnitName(conversion.baseUnitId);
-      const packageUnitName = await this.getUnitName(conversion.packageUnitId);
+      const _baseUnitName = await this.getUnitName(conversion.baseUnitId);
+      const _packageUnitName = await this.getUnitName(conversion.packageUnitId);
       
-      const packageQuantity = await unitConversionService.convertToPackageUnit(productId, baseQuantity);
+      const _packageQuantity = await unitConversionService.convertToPackageUnit(productId, baseQuantity);
       
       return {
         baseDisplay: `${baseQuantity}${baseUnitName}`,
@@ -98,7 +98,7 @@ export class UnitConversionHelper {
    */
   static async hasConversionRule(productId: string): Promise<boolean> {
     try {
-      const conversion = await unitConversionService.findByProductId(productId);
+      const _conversion = await unitConversionService.findByProductId(productId);
       return conversion !== null && conversion.isActive;
     } catch (error) {
       console.error('检查转换规则失败:', error);
@@ -119,14 +119,14 @@ export class UnitConversionHelper {
     description: string;
   } | null> {
     try {
-      const conversion = await unitConversionService.findByProductId(productId);
+      const _conversion = await unitConversionService.findByProductId(productId);
       
       if (!conversion || !conversion.isActive) {
         return null;
       }
 
-      const baseUnitName = await this.getUnitName(conversion.baseUnitId);
-      const packageUnitName = await this.getUnitName(conversion.packageUnitId);
+      const _baseUnitName = await this.getUnitName(conversion.baseUnitId);
+      const _packageUnitName = await this.getUnitName(conversion.packageUnitId);
 
       return {
         hasRule: true,
@@ -149,14 +149,14 @@ export class UnitConversionHelper {
    */
   static async getSuggestedDisplayUnit(productId: string, baseQuantity: number): Promise<'base' | 'package' | 'mixed'> {
     try {
-      const conversion = await unitConversionService.findByProductId(productId);
+      const _conversion = await unitConversionService.findByProductId(productId);
       
       if (!conversion || !conversion.isActive) {
         return 'base';
       }
 
-      const packageQuantity = Math.floor(baseQuantity / conversion.conversionRate);
-      const remainder = baseQuantity % conversion.conversionRate;
+      const _packageQuantity = Math.floor(baseQuantity / conversion.conversionRate);
+      const _remainder = baseQuantity % conversion.conversionRate;
 
       if (packageQuantity === 0) {
         return 'base'; // 不足一个包装单位，显示基础单位
@@ -212,7 +212,7 @@ export class UnitConversionHelper {
     switch (format) {
       case 'compact':
         // 紧凑格式：10箱5个
-        let result = '';
+        const _result = '';
         if (packageQuantity > 0) result += `${packageQuantity}${packageUnitName}`;
         if (remainderQuantity > 0) result += `${remainderQuantity}${baseUnitName}`;
         return result || `0${baseUnitName}`;
@@ -229,7 +229,7 @@ export class UnitConversionHelper {
         
       case 'separate':
         // 分离格式：返回数组形式的字符串
-        const parts = [];
+        const _parts = [];
         if (packageQuantity > 0) parts.push(`${packageQuantity}${packageUnitName}`);
         if (remainderQuantity > 0) parts.push(`${remainderQuantity}${baseUnitName}`);
         return parts.join(' ');
@@ -241,4 +241,4 @@ export class UnitConversionHelper {
 }
 
 // 导出便捷的静态方法
-export const unitConversionHelper = UnitConversionHelper;
+export const _unitConversionHelper = UnitConversionHelper;

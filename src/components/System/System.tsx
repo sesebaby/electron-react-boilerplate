@@ -14,18 +14,18 @@ export const System: React.FC<SystemProps> = ({ className }) => {
 
   // 根据当前页面设置活动标签
   useEffect(() => {
-    const currentHash = window.location.hash.replace('#', '');
+    const _currentHash = window.location.hash.replace('#', '');
     if (['users', 'permissions', 'settings', 'logs', 'initialization'].includes(currentHash)) {
       setActiveTab(currentHash as SystemTab);
     }
   }, []);
 
-  const handleTabChange = (tab: SystemTab) => {
+  const _handleTabChange = (tab: SystemTab) => {
     setActiveTab(tab);
     window.location.hash = tab;
   };
 
-  const tabs = [
+  const _tabs = [
     { id: 'users' as SystemTab, label: '用户管理', icon: '👥', description: '管理系统用户' },
     { id: 'permissions' as SystemTab, label: '权限管理', icon: '🔐', description: '角色权限设置' },
     { id: 'settings' as SystemTab, label: '系统设置', icon: '⚙️', description: '系统参数配置' },
@@ -33,7 +33,7 @@ export const System: React.FC<SystemProps> = ({ className }) => {
     { id: 'initialization' as SystemTab, label: '系统初始化', icon: '🔄', description: '重置系统数据' }
   ];
 
-  const renderComingSoon = (title: string, description: string) => (
+  const _renderComingSoon = (title: string, description: string) => (
     <GlassCard className="text-center p-12">
       <div className="text-6xl mb-6">🚧</div>
       <h3 className="text-2xl font-bold text-white mb-4">{title}</h3>

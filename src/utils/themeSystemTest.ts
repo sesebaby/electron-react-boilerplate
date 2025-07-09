@@ -38,7 +38,7 @@ export class ThemeSystemTester {
     const results: ThemeTestResult[] = [];
 
     for (const themeName of this.AVAILABLE_THEMES) {
-      const result = await this.testTheme(themeName);
+      const _result = await this.testTheme(themeName);
       results.push(result);
     }
 
@@ -64,10 +64,10 @@ export class ThemeSystemTester {
       await new Promise(resolve => setTimeout(resolve, 100));
 
       // 检查必需的CSS变量
-      const computedStyle = getComputedStyle(document.documentElement);
+      const _computedStyle = getComputedStyle(document.documentElement);
       
       for (const variable of this.REQUIRED_CSS_VARIABLES) {
-        const value = computedStyle.getPropertyValue(variable).trim();
+        const _value = computedStyle.getPropertyValue(variable).trim();
         
         if (!value) {
           result.errors.push(`CSS变量 ${variable} 未定义或为空`);
@@ -78,7 +78,7 @@ export class ThemeSystemTester {
       }
 
       // 检查背景色是否正确应用
-      const appBackground = computedStyle.getPropertyValue('--app-background').trim();
+      const _appBackground = computedStyle.getPropertyValue('--app-background').trim();
       if (!appBackground.includes('gradient') && !appBackground.includes('oklch')) {
         result.warnings.push('应用背景可能不是预期的渐变或oklch颜色');
       }
@@ -95,7 +95,7 @@ export class ThemeSystemTester {
    * 检查是否存在硬编码颜色
    */
   static checkForHardcodedColors(): string[] {
-    const hardcodedPatterns = [
+    const _hardcodedPatterns = [
       /rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)/g,
       /rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*[\d.]+\s*\)/g,
       /#[0-9a-fA-F]{3,6}/g,
@@ -105,11 +105,11 @@ export class ThemeSystemTester {
     ];
 
     const issues: string[] = [];
-    const allElements = document.querySelectorAll('*');
+    const _allElements = document.querySelectorAll('*');
 
     allElements.forEach((element, index) => {
-      const computedStyle = getComputedStyle(element);
-      const className = element.className;
+      const _computedStyle = getComputedStyle(element);
+      const _className = element.className;
 
       // 检查类名中的硬编码颜色
       hardcodedPatterns.forEach(pattern => {
@@ -119,7 +119,7 @@ export class ThemeSystemTester {
       });
 
       // 检查内联样式中的硬编码颜色
-      const style = (element as HTMLElement).style;
+      const _style = (element as HTMLElement).style;
       if (style.color && !style.color.includes('var(')) {
         issues.push(`元素 ${index}: 内联样式包含硬编码颜色 - color: ${style.color}`);
       }
@@ -135,11 +135,11 @@ export class ThemeSystemTester {
    * 生成测试报告
    */
   static generateReport(results: ThemeTestResult[]): string {
-    let report = '# 主题系统测试报告\n\n';
+    const _report = '# 主题系统测试报告\n\n';
     
-    const totalThemes = results.length;
-    const successfulThemes = results.filter(r => r.success).length;
-    const failedThemes = results.filter(r => !r.success).length;
+    const _totalThemes = results.length;
+    const _successfulThemes = results.filter(r => r.success).length;
+    const _failedThemes = results.filter(r => !r.success).length;
 
     report += `## 总体统计\n`;
     report += `- 测试主题数: ${totalThemes}\n`;
@@ -178,13 +178,13 @@ export class ThemeSystemTester {
     console.log('🧪 开始主题系统测试...');
 
     // 测试所有主题
-    const themeResults = await this.testAllThemes();
+    const _themeResults = await this.testAllThemes();
     
     // 检查硬编码颜色
-    const hardcodedIssues = this.checkForHardcodedColors();
+    const _hardcodedIssues = this.checkForHardcodedColors();
     
     // 生成报告
-    const report = this.generateReport(themeResults);
+    const _report = this.generateReport(themeResults);
     
     console.log(report);
     
@@ -196,10 +196,10 @@ export class ThemeSystemTester {
       }
     }
 
-    const allSuccess = themeResults.every(r => r.success) && hardcodedIssues.length === 0;
+    const _allSuccess = themeResults.every(r => r.success) && hardcodedIssues.length === 0;
     console.log(allSuccess ? '✅ 主题系统测试全部通过!' : '❌ 主题系统存在问题，请检查上述报告');
   }
 }
 
 // 导出便捷函数
-export const testThemeSystem = () => ThemeSystemTester.runFullTest();
+export const _testThemeSystem = () => ThemeSystemTester.runFullTest();

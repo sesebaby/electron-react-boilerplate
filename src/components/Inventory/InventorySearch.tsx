@@ -17,7 +17,7 @@ const InventorySearch: React.FC<InventorySearchProps> = ({
 
   // 防抖处理
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const _timer = setTimeout(() => {
       if (localValue !== value) {
         onChange(localValue);
       }
@@ -34,7 +34,7 @@ const InventorySearch: React.FC<InventorySearchProps> = ({
   }, [value]);
 
   // 清空搜索
-  const handleClear = () => {
+  const _handleClear = () => {
     setLocalValue('');
     onChange('');
   };

@@ -24,7 +24,7 @@ export class SalesOrderService {
 
 
   async findAll(): Promise<SalesOrder[]> {
-    const orders = Array.from(this.orders.values());
+    const _orders = Array.from(this.orders.values());
     
     // 加载关联数据
     for (const order of orders) {
@@ -35,7 +35,7 @@ export class SalesOrderService {
   }
 
   async findById(id: string): Promise<SalesOrder | null> {
-    const order = this.orders.get(id);
+    const _order = this.orders.get(id);
     if (!order) return null;
     
     await this.loadOrderRelations(order);
@@ -43,12 +43,12 @@ export class SalesOrderService {
   }
 
   async findByOrderNo(orderNo: string): Promise<SalesOrder | null> {
-    const id = this.orderNoIndex.get(orderNo);
+    const _id = this.orderNoIndex.get(orderNo);
     return id ? this.findById(id) : null;
   }
 
   async findByCustomer(customerId: string): Promise<SalesOrder[]> {
-    const orders = Array.from(this.orders.values()).filter(
+    const _orders = Array.from(this.orders.values()).filter(
       order => order.customerId === customerId
     );
     
@@ -60,7 +60,7 @@ export class SalesOrderService {
   }
 
   async findByStatus(status: SalesOrderStatus): Promise<SalesOrder[]> {
-    const orders = Array.from(this.orders.values()).filter(
+    const _orders = Array.from(this.orders.values()).filter(
       order => order.status === status
     );
     
@@ -72,7 +72,7 @@ export class SalesOrderService {
   }
 
   async findByDateRange(startDate: Date, endDate: Date): Promise<SalesOrder[]> {
-    const orders = Array.from(this.orders.values()).filter(
+    const _orders = Array.from(this.orders.values()).filter(
       order => order.orderDate >= startDate && order.orderDate <= endDate
     );
     
@@ -86,7 +86,7 @@ export class SalesOrderService {
   async create(data: Omit<SalesOrder, 'id' | 'orderNo' | 'totalAmount' | 'finalAmount' | 'createdAt' | 'updatedAt'>, currentUserId?: string): Promise<SalesOrder> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
       if (!hasPermission) {
         logger.security('Unauthorized sales order creation attempt', { userId: currentUserId });
         throw new Error('无权限创建销售订单');
@@ -94,13 +94,13 @@ export class SalesOrderService {
     }
 
     // 验证客户是否存在
-    const customer = await customerService.findById(data.customerId);
+    const _customer = await customerService.findById(data.customerId);
     if (!customer) {
       throw new Error(`客户不存在: ${data.customerId}`);
     }
 
     // 生成订单号
-    const orderNo = await this.generateOrderNo();
+    const _orderNo = await this.generateOrderNo();
 
     const order: SalesOrder = {
       ...data,
@@ -113,7 +113,7 @@ export class SalesOrderService {
     };
 
     // 验证数据
-    const validation = validateEntity(SalesOrderSchema, order);
+    const _validation = validateEntity(SalesOrderSchema, order);
     if (!validation.success) {
       throw new Error(`销售订单数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -128,14 +128,14 @@ export class SalesOrderService {
   async update(id: string, data: Partial<Omit<SalesOrder, 'id' | 'orderNo' | 'createdAt' | 'updatedAt'>>, currentUserId?: string): Promise<SalesOrder> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
       if (!hasPermission) {
         logger.security('Unauthorized sales order update attempt', { userId: currentUserId, orderId: id });
         throw new Error('无权限修改销售订单');
       }
     }
 
-    const existingOrder = this.orders.get(id);
+    const _existingOrder = this.orders.get(id);
     if (!existingOrder) {
       throw new Error(`销售订单不存在: ${id}`);
     }
@@ -171,7 +171,7 @@ export class SalesOrderService {
     };
 
     // 验证更新后的数据
-    const validation = validateEntity(SalesOrderSchema, updatedOrder);
+    const _validation = validateEntity(SalesOrderSchema, updatedOrder);
     if (!validation.success) {
       throw new Error(`销售订单数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -207,14 +207,14 @@ export class SalesOrderService {
   async delete(id: string, currentUserId?: string): Promise<boolean> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
       if (!hasPermission) {
         logger.security('Unauthorized sales order deletion attempt', { userId: currentUserId, orderId: id });
         throw new Error('无权限删除销售订单');
       }
     }
 
-    const order = this.orders.get(id);
+    const _order = this.orders.get(id);
     if (!order) {
       logger.warn('Delete failed: Sales order not found', { orderId: id, userId: currentUserId });
       return false;
@@ -224,7 +224,7 @@ export class SalesOrderService {
     await this.validateOrderDeletion(order, currentUserId);
 
     // 删除订单项目
-    const itemIds = this.orderItemsByOrder.get(id) || [];
+    const _itemIds = this.orderItemsByOrder.get(id) || [];
     for (const itemId of itemIds) {
       this.orderItems.delete(itemId);
     }
@@ -247,7 +247,7 @@ export class SalesOrderService {
   // 验证订单是否可以删除
   private async validateOrderDeletion(order: SalesOrder, currentUserId?: string): Promise<void> {
     // 不能删除已确认及以后状态的订单
-    const undeletableStatuses = [
+    const _undeletableStatuses = [
       SalesOrderStatus.CONFIRMED,
       SalesOrderStatus.SHIPPED,
       SalesOrderStatus.COMPLETED
@@ -290,7 +290,7 @@ export class SalesOrderService {
   }
 
   async updateStatus(id: string, status: SalesOrderStatus, currentUserId?: string): Promise<SalesOrder> {
-    const order = this.orders.get(id);
+    const _order = this.orders.get(id);
     if (!order) {
       throw new Error(`销售订单不存在: ${id}`);
     }
@@ -298,7 +298,7 @@ export class SalesOrderService {
     // 状态机验证 - 检查状态转换是否合法
     await this.validateStatusTransition(order, status, currentUserId);
 
-    const updatedOrder = await this.update(id, { status });
+    const _updatedOrder = await this.update(id, { status });
 
     logger.audit('status_change', 'sales_order', {
       orderId: id,
@@ -328,7 +328,7 @@ export class SalesOrderService {
     newStatus: SalesOrderStatus, 
     currentUserId?: string
   ): Promise<void> {
-    const currentStatus = order.status;
+    const _currentStatus = order.status;
     
     // 如果状态没有变化，直接返回
     if (currentStatus === newStatus) {
@@ -359,7 +359,7 @@ export class SalesOrderService {
       ]
     };
 
-    const allowedStatuses = allowedTransitions[currentStatus] || [];
+    const _allowedStatuses = allowedTransitions[currentStatus] || [];
     
     if (!allowedStatuses.includes(newStatus)) {
       logger.security('Invalid status transition attempted', {
@@ -389,7 +389,7 @@ export class SalesOrderService {
   ): Promise<void> {
     // 规则1: 确认订单时必须有订单项目
     if (newStatus === SalesOrderStatus.CONFIRMED) {
-      const orderItems = this.orderItemsByOrder.get(order.id) || [];
+      const _orderItems = this.orderItemsByOrder.get(order.id) || [];
       if (orderItems.length === 0) {
         throw new Error('无法确认订单：订单必须包含至少一个商品。');
       }
@@ -409,12 +409,12 @@ export class SalesOrderService {
     }
 
     // 规则4: 某些状态变更需要特殊权限
-    const restrictedTransitions = [
+    const _restrictedTransitions = [
       { from: SalesOrderStatus.COMPLETED, to: SalesOrderStatus.DRAFT },
       { from: SalesOrderStatus.CONFIRMED, to: SalesOrderStatus.DRAFT }
     ];
 
-    const isRestrictedTransition = restrictedTransitions.some(
+    const _isRestrictedTransition = restrictedTransitions.some(
       t => t.from === order.status && t.to === newStatus
     );
 
@@ -451,20 +451,20 @@ export class SalesOrderService {
   async addOrderItem(orderId: string, data: Omit<SalesOrderItem, 'id' | 'orderId' | 'amount' | 'status' | 'createdAt' | 'updatedAt'>, currentUserId?: string): Promise<SalesOrderItem> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
       if (!hasPermission) {
         logger.security('Unauthorized order item addition attempt', { userId: currentUserId, orderId });
         throw new Error('无权限添加订单项目');
       }
     }
 
-    const order = this.orders.get(orderId);
+    const _order = this.orders.get(orderId);
     if (!order) {
       throw new Error(`销售订单不存在: ${orderId}`);
     }
 
     // 验证产品是否存在
-    const product = await productService.findById(data.productId);
+    const _product = await productService.findById(data.productId);
     if (!product) {
       throw new Error(`产品不存在: ${data.productId}`);
     }
@@ -472,12 +472,12 @@ export class SalesOrderService {
     // 检查库存是否足够（使用默认仓库，实际应从产品或订单配置中获取）
     // 使用延迟导入避免循环依赖
     const { warehouseService } = await import('./warehouseService');
-    const defaultWarehouse = await warehouseService.findDefault();
+    const _defaultWarehouse = await warehouseService.findDefault();
     if (!defaultWarehouse) {
       throw new Error('系统未配置默认仓库，无法检查库存');
     }
-    const warehouseId = defaultWarehouse.id;
-    const stock = await inventoryStockService.findStockByProductAndWarehouse(data.productId, warehouseId);
+    const _warehouseId = defaultWarehouse.id;
+    const _stock = await inventoryStockService.findStockByProductAndWarehouse(data.productId, warehouseId);
     
     if (!stock || stock.availableStock < data.quantity) {
       throw new Error(`库存不足：产品 ${product.name} 可用库存 ${stock?.availableStock || 0}，订单需求 ${data.quantity}`);
@@ -493,7 +493,7 @@ export class SalesOrderService {
         orderId 
       });
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : '未知错误';
+      const _errorMsg = error instanceof Error ? error.message : '未知错误';
       logger.error('Failed to reserve stock for order item', { 
         productId: data.productId, 
         quantity: data.quantity, 
@@ -503,10 +503,10 @@ export class SalesOrderService {
     }
 
     // 计算金额
-    const amount = data.quantity * data.unitPrice * (1 - data.discountRate);
+    const _amount = data.quantity * data.unitPrice * (1 - data.discountRate);
     
     // 确定项目状态
-    let status = OrderItemStatus.PENDING;
+    const _status = OrderItemStatus.PENDING;
     if (data.deliveredQuantity > 0) {
       status = data.deliveredQuantity >= data.quantity 
         ? OrderItemStatus.COMPLETED 
@@ -524,14 +524,14 @@ export class SalesOrderService {
     };
 
     // 验证数据
-    const validation = validateEntity(SalesOrderItemSchema, orderItem);
+    const _validation = validateEntity(SalesOrderItemSchema, orderItem);
     if (!validation.success) {
       throw new Error(`订单项目数据验证失败: ${validation.errors?.join(', ')}`);
     }
 
     this.orderItems.set(orderItem.id, orderItem);
     
-    const orderItemIds = this.orderItemsByOrder.get(orderId) || [];
+    const _orderItemIds = this.orderItemsByOrder.get(orderId) || [];
     orderItemIds.push(orderItem.id);
     this.orderItemsByOrder.set(orderId, orderItemIds);
 
@@ -544,27 +544,27 @@ export class SalesOrderService {
   async updateOrderItem(itemId: string, data: Partial<Omit<SalesOrderItem, 'id' | 'orderId' | 'createdAt' | 'updatedAt'>>, currentUserId?: string): Promise<SalesOrderItem> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
       if (!hasPermission) {
         logger.security('Unauthorized order item update attempt', { userId: currentUserId, itemId });
         throw new Error('无权限修改订单项目');
       }
     }
 
-    const existingItem = this.orderItems.get(itemId);
+    const _existingItem = this.orderItems.get(itemId);
     if (!existingItem) {
       throw new Error(`订单项目不存在: ${itemId}`);
     }
 
     // 重新计算金额和状态
-    const quantity = data.quantity !== undefined ? data.quantity : existingItem.quantity;
-    const unitPrice = data.unitPrice !== undefined ? data.unitPrice : existingItem.unitPrice;
-    const discountRate = data.discountRate !== undefined ? data.discountRate : existingItem.discountRate;
-    const deliveredQuantity = data.deliveredQuantity !== undefined ? data.deliveredQuantity : existingItem.deliveredQuantity;
+    const _quantity = data.quantity !== undefined ? data.quantity : existingItem.quantity;
+    const _unitPrice = data.unitPrice !== undefined ? data.unitPrice : existingItem.unitPrice;
+    const _discountRate = data.discountRate !== undefined ? data.discountRate : existingItem.discountRate;
+    const _deliveredQuantity = data.deliveredQuantity !== undefined ? data.deliveredQuantity : existingItem.deliveredQuantity;
     
-    const amount = quantity * unitPrice * (1 - discountRate);
+    const _amount = quantity * unitPrice * (1 - discountRate);
     
-    let status = OrderItemStatus.PENDING;
+    const _status = OrderItemStatus.PENDING;
     if (deliveredQuantity > 0) {
       status = deliveredQuantity >= quantity 
         ? OrderItemStatus.COMPLETED 
@@ -580,7 +580,7 @@ export class SalesOrderService {
     };
 
     // 验证更新后的数据
-    const validation = validateEntity(SalesOrderItemSchema, updatedItem);
+    const _validation = validateEntity(SalesOrderItemSchema, updatedItem);
     if (!validation.success) {
       throw new Error(`订单项目数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -596,23 +596,23 @@ export class SalesOrderService {
   async removeOrderItem(itemId: string, currentUserId?: string): Promise<boolean> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
       if (!hasPermission) {
         logger.security('Unauthorized order item removal attempt', { userId: currentUserId, itemId });
         throw new Error('无权限删除订单项目');
       }
     }
 
-    const item = this.orderItems.get(itemId);
+    const _item = this.orderItems.get(itemId);
     if (!item) {
       return false;
     }
 
-    const orderId = item.orderId;
+    const _orderId = item.orderId;
     this.orderItems.delete(itemId);
 
-    const orderItemIds = this.orderItemsByOrder.get(orderId) || [];
-    const updatedItemIds = orderItemIds.filter(id => id !== itemId);
+    const _orderItemIds = this.orderItemsByOrder.get(orderId) || [];
+    const _updatedItemIds = orderItemIds.filter(id => id !== itemId);
     this.orderItemsByOrder.set(orderId, updatedItemIds);
 
     // 重新计算订单总额
@@ -622,8 +622,8 @@ export class SalesOrderService {
   }
 
   async getOrderItems(orderId: string): Promise<SalesOrderItem[]> {
-    const itemIds = this.orderItemsByOrder.get(orderId) || [];
-    const items = itemIds.map(id => this.orderItems.get(id)!).filter(Boolean);
+    const _itemIds = this.orderItemsByOrder.get(orderId) || [];
+    const _items = itemIds.map(id => this.orderItems.get(id)!).filter(Boolean);
     
     // 加载关联数据
     for (const item of items) {
@@ -649,12 +649,12 @@ export class SalesOrderService {
   }
 
   private async recalculateOrderTotals(orderId: string): Promise<void> {
-    const order = this.orders.get(orderId);
+    const _order = this.orders.get(orderId);
     if (!order) return;
 
-    const items = await this.getOrderItems(orderId);
-    const totalAmount = items.reduce((sum, item) => sum + item.amount, 0);
-    const finalAmount = totalAmount - order.discountAmount + order.taxAmount;
+    const _items = await this.getOrderItems(orderId);
+    const _totalAmount = items.reduce((sum, item) => sum + item.amount, 0);
+    const _finalAmount = totalAmount - order.discountAmount + order.taxAmount;
 
     await this.update(orderId, {
       totalAmount,
@@ -663,9 +663,9 @@ export class SalesOrderService {
   }
 
   private async generateOrderNo(): Promise<string> {
-    const now = new Date();
-    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
-    const sequence = String(this.orders.size + 1).padStart(4, '0');
+    const _now = new Date();
+    const _dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const _sequence = String(this.orders.size + 1).padStart(4, '0');
     return `SO${dateStr}${sequence}`;
   }
 
@@ -680,7 +680,7 @@ export class SalesOrderService {
     pendingOrders: number;
     overdueOrders: number;
   }> {
-    const orders = await this.findAll();
+    const _orders = await this.findAll();
     const byStatus: Record<SalesOrderStatus, number> = {
       [SalesOrderStatus.DRAFT]: 0,
       [SalesOrderStatus.CONFIRMED]: 0,
@@ -695,10 +695,10 @@ export class SalesOrderService {
       [PaymentStatus.PAID]: 0
     };
 
-    let totalValue = 0;
-    let pendingOrders = 0;
-    let overdueOrders = 0;
-    const now = new Date();
+    const _totalValue = 0;
+    const _pendingOrders = 0;
+    const _overdueOrders = 0;
+    const _now = new Date();
 
     orders.forEach(order => {
       byStatus[order.status]++;
@@ -730,8 +730,8 @@ export class SalesOrderService {
     totalValue: number;
     averageOrderValue: number;
   }>> {
-    const orders = await this.findAll();
-    const customerStats = new Map<string, {
+    const _orders = await this.findAll();
+    const _customerStats = new Map<string, {
       customer: any;
       orderCount: number;
       totalValue: number;
@@ -739,7 +739,7 @@ export class SalesOrderService {
 
     orders.forEach(order => {
       if (order.customer) {
-        const existing = customerStats.get(order.customerId) || {
+        const _existing = customerStats.get(order.customerId) || {
           customer: order.customer,
           orderCount: 0,
           totalValue: 0
@@ -765,17 +765,17 @@ export class SalesOrderService {
     orderCount: number;
     totalValue: number;
   }>> {
-    const orders = await this.findAll();
-    const monthlyStats = new Array(12).fill(null).map((_, index) => ({
+    const _orders = await this.findAll();
+    const _monthlyStats = new Array(12).fill(null).map((_, index) => ({
       month: index + 1,
       orderCount: 0,
       totalValue: 0
     }));
 
     orders.forEach(order => {
-      const orderYear = order.orderDate.getFullYear();
+      const _orderYear = order.orderDate.getFullYear();
       if (orderYear === year) {
-        const month = order.orderDate.getMonth();
+        const _month = order.orderDate.getMonth();
         monthlyStats[month].orderCount++;
         monthlyStats[month].totalValue += order.finalAmount;
       }
@@ -785,10 +785,10 @@ export class SalesOrderService {
   }
 
   async search(searchTerm: string): Promise<SalesOrder[]> {
-    const term = searchTerm.toLowerCase().trim();
+    const _term = searchTerm.toLowerCase().trim();
     if (!term) return this.findAll();
 
-    const orders = await this.findAll();
+    const _orders = await this.findAll();
     
     return orders.filter(order =>
       order.orderNo.toLowerCase().includes(term) ||
@@ -803,18 +803,18 @@ export class SalesOrderService {
     orderItems: any[];
     canDeliver: boolean;
   }> {
-    const order = await this.findById(orderId);
+    const _order = await this.findById(orderId);
     if (!order || !order.items) {
       return { orderItems: [], canDeliver: false };
     }
 
-    const orderItems = order.items.map(item => ({
+    const _orderItems = order.items.map(item => ({
       ...item,
       pendingQuantity: item.quantity - item.deliveredQuantity,
       canDeliver: item.quantity > item.deliveredQuantity
     }));
 
-    const canDeliver = orderItems.some(item => item.canDeliver);
+    const _canDeliver = orderItems.some(item => item.canDeliver);
 
     return { orderItems, canDeliver };
   }
@@ -827,25 +827,25 @@ export class SalesOrderService {
   async cancelOrderItem(orderItemId: string, currentUserId?: string): Promise<void> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
       if (!hasPermission) {
         logger.security('Unauthorized order item cancellation attempt', { userId: currentUserId, orderItemId });
         throw new Error('无权限取消订单项目');
       }
     }
 
-    const orderItem = this.orderItems.get(orderItemId);
+    const _orderItem = this.orderItems.get(orderItemId);
     if (!orderItem) {
       throw new Error(`订单项目不存在: ${orderItemId}`);
     }
 
     // 获取产品信息以确定仓库
-    const product = await productService.findById(orderItem.productId);
+    const _product = await productService.findById(orderItem.productId);
     if (!product) {
       throw new Error(`产品不存在: ${orderItem.productId}`);
     }
 
-    const warehouseId = 'default-warehouse'; // TODO: 从产品或订单配置中获取仓库ID
+    const _warehouseId = 'default-warehouse'; // TODO: 从产品或订单配置中获取仓库ID
 
     try {
       // 释放预留库存
@@ -871,7 +871,7 @@ export class SalesOrderService {
       await this.recalculateOrderTotals(orderItem.orderId);
 
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : '未知错误';
+      const _errorMsg = error instanceof Error ? error.message : '未知错误';
       logger.error('Failed to release stock for cancelled order item', {
         orderItemId,
         error: errorMsg
@@ -886,14 +886,14 @@ export class SalesOrderService {
   async deliverOrderItem(orderItemId: string, deliveredQuantity: number, currentUserId?: string): Promise<void> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
       if (!hasPermission) {
         logger.security('Unauthorized order item delivery attempt', { userId: currentUserId, orderItemId });
         throw new Error('无权限执行发货操作');
       }
     }
 
-    const orderItem = this.orderItems.get(orderItemId);
+    const _orderItem = this.orderItems.get(orderItemId);
     if (!orderItem) {
       throw new Error(`订单项目不存在: ${orderItemId}`);
     }
@@ -902,18 +902,18 @@ export class SalesOrderService {
       throw new Error('发货数量必须大于0');
     }
 
-    const remainingQuantity = orderItem.quantity - orderItem.deliveredQuantity;
+    const _remainingQuantity = orderItem.quantity - orderItem.deliveredQuantity;
     if (deliveredQuantity > remainingQuantity) {
       throw new Error(`发货数量不能超过剩余数量: ${remainingQuantity}`);
     }
 
     // 获取产品信息以确定仓库
-    const product = await productService.findById(orderItem.productId);
+    const _product = await productService.findById(orderItem.productId);
     if (!product) {
       throw new Error(`产品不存在: ${orderItem.productId}`);
     }
 
-    const warehouseId = 'default-warehouse'; // TODO: 从产品或订单配置中获取仓库ID
+    const _warehouseId = 'default-warehouse'; // TODO: 从产品或订单配置中获取仓库ID
 
     try {
       // 从预留库存中扣减（这会自动释放预留并扣减实际库存）
@@ -956,7 +956,7 @@ export class SalesOrderService {
       await this.recalculateOrderTotals(orderItem.orderId);
 
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : '未知错误';
+      const _errorMsg = error instanceof Error ? error.message : '未知错误';
       logger.error('Failed to deliver order item', {
         orderItemId,
         deliveredQuantity,
@@ -972,14 +972,14 @@ export class SalesOrderService {
   async cancelOrder(orderId: string, currentUserId?: string): Promise<void> {
     // 权限检查
     if (currentUserId) {
-      const hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
+      const _hasPermission = await userService.hasPermission(currentUserId, 'sales-orders.write');
       if (!hasPermission) {
         logger.security('Unauthorized order cancellation attempt', { userId: currentUserId, orderId });
         throw new Error('无权限取消订单');
       }
     }
 
-    const order = this.orders.get(orderId);
+    const _order = this.orders.get(orderId);
     if (!order) {
       throw new Error(`订单不存在: ${orderId}`);
     }
@@ -993,12 +993,12 @@ export class SalesOrderService {
     }
 
     // 获取订单的所有项目
-    const orderItemIds = this.orderItemsByOrder.get(orderId) || [];
+    const _orderItemIds = this.orderItemsByOrder.get(orderId) || [];
     
     try {
       // 取消所有未发货的订单项目
       for (const itemId of orderItemIds) {
-        const orderItem = this.orderItems.get(itemId);
+        const _orderItem = this.orderItems.get(itemId);
         if (orderItem && orderItem.status !== OrderItemStatus.COMPLETED && orderItem.status !== OrderItemStatus.CANCELLED) {
           await this.cancelOrderItem(itemId, currentUserId);
         }
@@ -1012,7 +1012,7 @@ export class SalesOrderService {
       logger.info('Order cancelled successfully', { orderId, userId: currentUserId });
 
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : '未知错误';
+      const _errorMsg = error instanceof Error ? error.message : '未知错误';
       logger.error('Failed to cancel order', {
         orderId,
         error: errorMsg

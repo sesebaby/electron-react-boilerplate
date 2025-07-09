@@ -15,11 +15,11 @@ const CalendarOverviewPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   // 加载周数据
-  const loadWeekData = async (weekStart: Date) => {
+  const _loadWeekData = async (weekStart: Date) => {
     try {
       setLoading(true);
       setError(null);
-      const data = await calendarDataService.getWeeklyData(weekStart);
+      const _data = await calendarDataService.getWeeklyData(weekStart);
       setWeekData(data);
     } catch (err) {
       setError('加载日历数据失败');
@@ -35,47 +35,47 @@ const CalendarOverviewPage: React.FC = () => {
   }, [currentWeekStart]);
 
   // 导航到上一周
-  const goToPreviousWeek = () => {
-    const prevWeek = new Date(currentWeekStart);
+  const _goToPreviousWeek = () => {
+    const _prevWeek = new Date(currentWeekStart);
     prevWeek.setDate(prevWeek.getDate() - 7);
     setCurrentWeekStart(prevWeek);
   };
 
   // 导航到下一周
-  const goToNextWeek = () => {
-    const nextWeek = new Date(currentWeekStart);
+  const _goToNextWeek = () => {
+    const _nextWeek = new Date(currentWeekStart);
     nextWeek.setDate(nextWeek.getDate() + 7);
     setCurrentWeekStart(nextWeek);
   };
 
   // 导航到当前周
-  const goToCurrentWeek = () => {
-    const currentWeek = CalendarDataService.getWeekStart(new Date());
+  const _goToCurrentWeek = () => {
+    const _currentWeek = CalendarDataService.getWeekStart(new Date());
     setCurrentWeekStart(currentWeek);
   };
 
   // 处理日期点击
-  const handleDayClick = (dayData: DailyBusinessSummary) => {
+  const _handleDayClick = (dayData: DailyBusinessSummary) => {
     setSelectedDay(dayData);
     setIsDetailModalOpen(true);
   };
 
   // 关闭详情模态框
-  const closeDetailModal = () => {
+  const _closeDetailModal = () => {
     setIsDetailModalOpen(false);
     setSelectedDay(null);
   };
 
   // 格式化周范围显示
-  const formatWeekRange = (start: Date, end: Date): string => {
-    const startStr = start.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
-    const endStr = end.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
+  const _formatWeekRange = (start: Date, end: Date): string => {
+    const _startStr = start.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
+    const _endStr = end.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
     return `${startStr} - ${endStr}`;
   };
 
   // 检查是否是当前周
-  const isCurrentWeek = (): boolean => {
-    const currentWeek = CalendarDataService.getWeekStart(new Date());
+  const _isCurrentWeek = (): boolean => {
+    const _currentWeek = CalendarDataService.getWeekStart(new Date());
     return currentWeekStart.getTime() === currentWeek.getTime();
   };
 

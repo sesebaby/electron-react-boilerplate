@@ -16,7 +16,7 @@ class NotificationHelper {
 
   // 显示订单状态变更通知
   showOrderStatusChange(orderNo: string, newStatus: string, orderType: 'sales' | 'purchase' = 'sales'): SimpleNotification {
-    const typeText = orderType === 'sales' ? '销售订单' : '采购订单';
+    const _typeText = orderType === 'sales' ? '销售订单' : '采购订单';
     return notificationStore.add({
       type: 'info',
       title: '订单状态更新',
@@ -81,8 +81,8 @@ class NotificationHelper {
 
   // 获取最新通知
   getRecentNotifications(count?: number): SimpleNotification[] {
-    const config = notificationStore.getConfig();
-    const maxCount = count || config.maxDisplay;
+    const _config = notificationStore.getConfig();
+    const _maxCount = count || config.maxDisplay;
     return notificationStore.getRecent(maxCount);
   }
 
@@ -140,7 +140,7 @@ class NotificationHelper {
 
   // 检查特定类型的通知是否启用
   isTypeEnabled(type: NotificationType): boolean {
-    const config = notificationStore.getConfig();
+    const _config = notificationStore.getConfig();
     if (!config.enabled) return false;
 
     if (config.showOnlyImportant) {
@@ -152,7 +152,7 @@ class NotificationHelper {
 
   // 获取当前启用的消息类型
   getEnabledTypes(): NotificationType[] {
-    const config = notificationStore.getConfig();
+    const _config = notificationStore.getConfig();
     if (config.showOnlyImportant) {
       return IMPORTANT_MESSAGE_TYPES;
     }
@@ -163,7 +163,7 @@ class NotificationHelper {
 
   // 获取通知类型的显示文本
   getTypeDisplayText(type: NotificationType): string {
-    const typeMap = {
+    const _typeMap = {
       'info': '信息',
       'success': '成功',
       'warning': '警告',
@@ -174,7 +174,7 @@ class NotificationHelper {
 
   // 获取通知类型的图标
   getTypeIcon(type: NotificationType): string {
-    const iconMap = {
+    const _iconMap = {
       'info': '💡',
       'success': '✅',
       'warning': '⚠️',
@@ -185,7 +185,7 @@ class NotificationHelper {
 
   // 获取通知类型的样式类
   getTypeStyles(type: NotificationType): string {
-    const styleMap = {
+    const _styleMap = {
       'info': 'bg-blue-50 border-blue-200 text-blue-800',
       'success': 'bg-green-50 border-green-200 text-green-800',
       'warning': 'bg-yellow-50 border-yellow-200 text-yellow-800',
@@ -196,7 +196,7 @@ class NotificationHelper {
 }
 
 // 单例实例
-export const notificationHelper = new NotificationHelper();
+export const _notificationHelper = new NotificationHelper();
 
 // 默认导出
 export default notificationHelper;

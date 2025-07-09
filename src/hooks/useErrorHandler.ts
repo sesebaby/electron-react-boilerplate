@@ -15,7 +15,7 @@ export interface UseErrorHandlerOptions {
   autoResetDelay?: number;
 }
 
-export const useErrorHandler = (options: UseErrorHandlerOptions = {}) => {
+export const _useErrorHandler = (options: UseErrorHandlerOptions = {}) => {
   const [errorState, setErrorState] = useState<ErrorState>({
     error: null,
     isLoading: false,
@@ -30,9 +30,9 @@ export const useErrorHandler = (options: UseErrorHandlerOptions = {}) => {
   } = options;
 
   // 处理错误
-  const handleError = useCallback((error: unknown) => {
-    const normalizedError = ErrorUtils.normalizeError(error);
-    const errorId = `error-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  const _handleError = useCallback((error: unknown) => {
+    const _normalizedError = ErrorUtils.normalizeError(error);
+    const _errorId = `error-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
     // 记录错误
     logger.error('Error handled by useErrorHandler', {
@@ -63,7 +63,7 @@ export const useErrorHandler = (options: UseErrorHandlerOptions = {}) => {
   }, [onError, autoReset, autoResetDelay]);
 
   // 清除错误状态
-  const clearError = useCallback(() => {
+  const _clearError = useCallback(() => {
     setErrorState({
       error: null,
       isLoading: false,
@@ -73,12 +73,12 @@ export const useErrorHandler = (options: UseErrorHandlerOptions = {}) => {
   }, []);
 
   // 设置加载状态
-  const setLoading = useCallback((loading: boolean) => {
+  const _setLoading = useCallback((loading: boolean) => {
     setErrorState(prev => ({ ...prev, isLoading: loading }));
   }, []);
 
   // 包装异步操作
-  const executeAsync = useCallback(async <T>(
+  const _executeAsync = useCallback(async <T>(
     operation: () => Promise<T>,
     loadingMessage?: string
   ): Promise<T | null> => {
@@ -86,7 +86,7 @@ export const useErrorHandler = (options: UseErrorHandlerOptions = {}) => {
       setLoading(true);
       clearError();
       
-      const result = await operation();
+      const _result = await operation();
       setLoading(false);
       return result;
     } catch (error) {
@@ -96,7 +96,7 @@ export const useErrorHandler = (options: UseErrorHandlerOptions = {}) => {
   }, [handleError, clearError, setLoading]);
 
   // 包装同步操作
-  const executeSync = useCallback(<T>(
+  const _executeSync = useCallback(<T>(
     operation: () => T
   ): T | null => {
     try {
@@ -109,17 +109,17 @@ export const useErrorHandler = (options: UseErrorHandlerOptions = {}) => {
   }, [handleError, clearError]);
 
   // 重试操作
-  const retry = useCallback(async <T>(
+  const _retry = useCallback(async <T>(
     operation: () => Promise<T>,
     maxRetries: number = 3,
     delay: number = 1000
   ): Promise<T | null> => {
-    let attempt = 0;
+    const _attempt = 0;
     
     while (attempt < maxRetries) {
       try {
         setLoading(true);
-        const result = await operation();
+        const _result = await operation();
         setLoading(false);
         clearError();
         return result;
@@ -151,8 +151,8 @@ export const useErrorHandler = (options: UseErrorHandlerOptions = {}) => {
 };
 
 // 全局错误处理Hook
-export const useGlobalErrorHandler = () => {
-  const errorHandler = useErrorHandler({
+export const _useGlobalErrorHandler = () => {
+  const _errorHandler = useErrorHandler({
     autoReset: false, // 全局错误不自动重置
     onError: (error) => {
       // 可以在这里添加全局错误处理逻辑

@@ -14,7 +14,7 @@ interface CustomerManagementProps {
 }
 
 // 定义验证模式
-const customerSchema = z.object({
+const _customerSchema = z.object({
   code: z.string().min(1, '客户编码不能为空').max(20, '客户编码最多20个字符'),
   name: z.string().min(1, '客户名称不能为空').max(100, '客户名称最多100个字符'),
   contactPerson: z.string().max(50, '联系人名称最多50个字符').optional().or(z.literal('')),
@@ -79,7 +79,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     mode: 'onBlur'
   });
 
-  const formData = watch(); // 监听表单数据变化
+  const _formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -89,7 +89,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -109,9 +109,9 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const onSubmit = async (data: CustomerForm) => {
+  const _onSubmit = async (data: CustomerForm) => {
     try {
-      const submitData = {
+      const _submitData = {
         ...data,
         // 处理空字符串为undefined
         contactPerson: data.contactPerson || undefined,
@@ -138,7 +138,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const handleEdit = (customer: Customer) => {
+  const _handleEdit = (customer: Customer) => {
     setEditingCustomer(customer);
     reset({
       code: customer.code,
@@ -158,12 +158,12 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     setShowForm(true);
   };
 
-  const handleDelete = (customerId: string) => {
+  const _handleDelete = (customerId: string) => {
     setDeleteTargetId(customerId);
     setShowConfirmDialog(true);
   };
 
-  const confirmDelete = async () => {
+  const _confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
@@ -178,12 +178,12 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const cancelDelete = () => {
+  const _cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const handleCancel = () => {
+  const _handleCancel = () => {
     setShowForm(false);
     setEditingCustomer(null);
     reset(emptyForm);
@@ -191,28 +191,28 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     setError(null); // 清除错误信息
   };
 
-  const handleCreateNew = () => {
+  const _handleCreateNew = () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
   };
 
-  const generateCustomerCode = () => {
-    const maxCode = customers.reduce((max, customer) => {
-      const match = customer.code.match(/CUS(\d+)/);
+  const _generateCustomerCode = () => {
+    const _maxCode = customers.reduce((max, customer) => {
+      const _match = customer.code.match(/CUS(\d+)/);
       if (match) {
-        const num = parseInt(match[1]);
+        const _num = parseInt(match[1]);
         return Math.max(max, num);
       }
       return max;
     }, 0);
     
-    const newCode = `CUS${String(maxCode + 1).padStart(3, '0')}`;
+    const _newCode = `CUS${String(maxCode + 1).padStart(3, '0')}`;
     setValue('code', newCode);
     clearErrors('code');
   };
 
-  const getTypeText = (type: CustomerType): string => {
+  const _getTypeText = (type: CustomerType): string => {
     switch (type) {
       case CustomerType.COMPANY: return '企业客户';
       case CustomerType.INDIVIDUAL: return '个人客户';
@@ -220,7 +220,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const getLevelText = (level: CustomerLevel): string => {
+  const _getLevelText = (level: CustomerLevel): string => {
     switch (level) {
       case CustomerLevel.VIP: return 'VIP';
       case CustomerLevel.GOLD: return '金牌';
@@ -230,7 +230,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const getStatusText = (status: CustomerStatus): string => {
+  const _getStatusText = (status: CustomerStatus): string => {
     switch (status) {
       case CustomerStatus.ACTIVE: return '活跃';
       case CustomerStatus.INACTIVE: return '非活跃';
@@ -238,7 +238,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const getStatusStyles = (status: CustomerStatus): string => {
+  const _getStatusStyles = (status: CustomerStatus): string => {
     switch (status) {
       case CustomerStatus.ACTIVE: return 'text-green-300 bg-green-500/20 border-green-400/30';
       case CustomerStatus.INACTIVE: return 'text-red-300 bg-red-500/20 border-red-400/30';
@@ -246,7 +246,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const getLevelStyles = (level: CustomerLevel): string => {
+  const _getLevelStyles = (level: CustomerLevel): string => {
     switch (level) {
       case CustomerLevel.VIP: return 'text-purple-300 bg-purple-500/20 border-purple-400/30';
       case CustomerLevel.GOLD: return 'text-yellow-300 bg-yellow-500/20 border-yellow-400/30';
@@ -256,17 +256,17 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const filteredCustomers = customers.filter(customer => {
-    const matchesSearch = !searchTerm || 
+  const _filteredCustomers = customers.filter(customer => {
+    const _matchesSearch = !searchTerm || 
       customer.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (customer.contactPerson || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (customer.phone || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (customer.email || '').toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesType = !selectedType || customer.customerType === selectedType;
-    const matchesLevel = !selectedLevel || customer.level === selectedLevel;
-    const matchesStatus = !selectedStatus || customer.status === selectedStatus;
+    const _matchesType = !selectedType || customer.customerType === selectedType;
+    const _matchesLevel = !selectedLevel || customer.level === selectedLevel;
+    const _matchesStatus = !selectedStatus || customer.status === selectedStatus;
     
     return matchesSearch && matchesType && matchesLevel && matchesStatus;
   });

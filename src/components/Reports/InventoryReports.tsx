@@ -10,7 +10,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty,
+  TableEmpty as _TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -69,7 +69,7 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
     generateReport();
   }, [filters]);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -91,7 +91,7 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
     }
   };
 
-  const generateReport = async () => {
+  const _generateReport = async () => {
     try {
       const [products, stocks] = await Promise.all([
         productService.findAll(),
@@ -106,7 +106,7 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
           continue;
         }
 
-        const productStocks = stocks.filter(s => s.productId === product.id);
+        const _productStocks = stocks.filter(s => s.productId === product.id);
         
         for (const stock of productStocks) {
           // 筛选仓库
@@ -114,8 +114,8 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
             continue;
           }
 
-          const category = categories.find(c => c.id === product.categoryId);
-          const warehouse = warehouses.find(w => w.id === stock.warehouseId);
+          const _category = categories.find(c => c.id === product.categoryId);
+          const _warehouse = warehouses.find(w => w.id === stock.warehouseId);
           
           // 计算库存状态
           let stockStatus: 'normal' | 'low' | 'out' | 'excess' = 'normal';
@@ -133,8 +133,8 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
           }
 
           // 计算周转率（模拟数据）
-          const turnoverRate = Math.random() * 5 + 1; // 1-6次/年
-          const daysInStock = Math.floor(365 / turnoverRate);
+          const _turnoverRate = Math.random() * 5 + 1; // 1-6次/年
+          const _daysInStock = Math.floor(365 / turnoverRate);
 
           const reportItem: InventoryReportData = {
             productId: product.id,
@@ -165,11 +165,11 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
     }
   };
 
-  const handleFilterChange = (field: keyof ReportFilters, value: string) => {
+  const _handleFilterChange = (field: keyof ReportFilters, value: string) => {
     setFilters(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSort = (field: keyof InventoryReportData) => {
+  const _handleSort = (field: keyof InventoryReportData) => {
     if (sortField === field) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
@@ -178,9 +178,9 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
     }
   };
 
-  const sortedData = [...reportData].sort((a, b) => {
-    const aValue = a[sortField];
-    const bValue = b[sortField];
+  const _sortedData = [...reportData].sort((a, b) => {
+    const _aValue = a[sortField];
+    const _bValue = b[sortField];
     
     if (typeof aValue === 'string' && typeof bValue === 'string') {
       return sortDirection === 'asc' 
@@ -197,7 +197,7 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
     return 0;
   });
 
-  const getStatusText = (status: string): string => {
+  const _getStatusText = (status: string): string => {
     switch (status) {
       case 'normal': return '正常';
       case 'low': return '库存不足';
@@ -207,7 +207,7 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
     }
   };
 
-  const getStatusClass = (status: string): string => {
+  const _getStatusClass = (status: string): string => {
     switch (status) {
       case 'normal': return 'inventory-status-normal';
       case 'low': return 'inventory-status-low';
@@ -217,12 +217,12 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
     }
   };
 
-  const getSummaryStats = () => {
-    const totalValue = sortedData.reduce((sum, item) => sum + item.totalValue, 0);
-    const totalItems = sortedData.length;
-    const lowStockItems = sortedData.filter(item => item.stockStatus === 'low').length;
-    const outOfStockItems = sortedData.filter(item => item.stockStatus === 'out').length;
-    const avgTurnover = sortedData.reduce((sum, item) => sum + (item.turnoverRate || 0), 0) / totalItems;
+  const _getSummaryStats = () => {
+    const _totalValue = sortedData.reduce((sum, item) => sum + item.totalValue, 0);
+    const _totalItems = sortedData.length;
+    const _lowStockItems = sortedData.filter(item => item.stockStatus === 'low').length;
+    const _outOfStockItems = sortedData.filter(item => item.stockStatus === 'out').length;
+    const _avgTurnover = sortedData.reduce((sum, item) => sum + (item.turnoverRate || 0), 0) / totalItems;
 
     return {
       totalValue,
@@ -233,13 +233,13 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
     };
   };
 
-  const exportToCSV = () => {
-    const headers = [
+  const _exportToCSV = () => {
+    const _headers = [
       '商品编码', '商品名称', '分类', '仓库', '当前库存', '可用库存', '预留库存',
       '平均成本', '库存价值', '最小库存', '最大库存', '库存状态', '周转率', '库存天数'
     ];
     
-    const csvContent = [
+    const _csvContent = [
       headers.join(','),
       ...sortedData.map(item => [
         item.productSku,
@@ -259,9 +259,9 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
       ].join(','))
     ].join('\n');
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
+    const _blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const _link = document.createElement('a');
+    const _url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     link.setAttribute('download', `库存报表_${new Date().toISOString().split('T')[0]}.csv`);
     link.style.visibility = 'hidden';
@@ -270,7 +270,7 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
     document.body.removeChild(link);
   };
 
-  const stats = getSummaryStats();
+  const _stats = getSummaryStats();
 
   if (loading) {
     return (

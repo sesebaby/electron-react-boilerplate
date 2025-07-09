@@ -42,7 +42,7 @@ jest.mock('../../services/business', () => ({
 }));
 
 // Mock localStorage
-const localStorageMock = {
+const _localStorageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
@@ -123,7 +123,7 @@ describe('InventoryMovementSummary', () => {
     render(<InventoryMovementSummary />);
     
     await waitFor(() => {
-      const exportButton = screen.getByText('导出报表');
+      const _exportButton = screen.getByText('导出报表');
       fireEvent.click(exportButton);
     });
 
@@ -136,7 +136,7 @@ describe('InventoryMovementSummary', () => {
     render(<InventoryMovementSummary />);
     
     await waitFor(() => {
-      const columnButton = screen.getByText('列设置');
+      const _columnButton = screen.getByText('列设置');
       fireEvent.click(columnButton);
     });
 
@@ -149,7 +149,7 @@ describe('InventoryMovementSummary', () => {
     render(<InventoryMovementSummary />);
     
     await waitFor(() => {
-      const searchInput = screen.getByPlaceholderText('商品名称或编码');
+      const _searchInput = screen.getByPlaceholderText('商品名称或编码');
       fireEvent.change(searchInput, { target: { value: '测试搜索' } });
       expect(searchInput).toHaveValue('测试搜索');
     });
@@ -159,7 +159,7 @@ describe('InventoryMovementSummary', () => {
     render(<InventoryMovementSummary />);
     
     await waitFor(() => {
-      const checkbox = screen.getByLabelText('显示无变动');
+      const _checkbox = screen.getByLabelText('显示无变动');
       fireEvent.click(checkbox);
       expect(checkbox).toBeChecked();
     });
@@ -169,7 +169,7 @@ describe('InventoryMovementSummary', () => {
     render(<InventoryMovementSummary />);
     
     await waitFor(() => {
-      const checkbox = screen.getByLabelText('显示无变动');
+      const _checkbox = screen.getByLabelText('显示无变动');
       fireEvent.click(checkbox);
     });
 
@@ -182,7 +182,7 @@ describe('InventoryMovementSummary', () => {
   });
 
   test('loads saved preferences from localStorage', () => {
-    const savedConfig = JSON.stringify({
+    const _savedConfig = JSON.stringify({
       showZeroMovement: true,
       productId: 'product-1'
     });
@@ -197,7 +197,7 @@ describe('InventoryMovementSummary', () => {
     render(<InventoryMovementSummary />);
     
     await waitFor(() => {
-      const refreshButton = screen.getByText('刷新数据');
+      const _refreshButton = screen.getByText('刷新数据');
       fireEvent.click(refreshButton);
     });
 

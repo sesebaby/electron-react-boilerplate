@@ -39,7 +39,7 @@ export class MemoryDatabase {
   }
 
   async updateItem(id: string, updates: Partial<InventoryItem>): Promise<InventoryItem> {
-    const index = this.items.findIndex(item => item.id === id);
+    const _index = this.items.findIndex(item => item.id === id);
     if (index === -1) {
       throw new Error(`Item with id ${id} not found`);
     }
@@ -62,7 +62,7 @@ export class MemoryDatabase {
   }
 
   async deleteItem(id: string): Promise<boolean> {
-    const index = this.items.findIndex(item => item.id === id);
+    const _index = this.items.findIndex(item => item.id === id);
     if (index === -1) {
       return false;
     }
@@ -72,7 +72,7 @@ export class MemoryDatabase {
   }
 
   async searchItems(searchTerm: string): Promise<InventoryItem[]> {
-    const term = searchTerm.toLowerCase();
+    const _term = searchTerm.toLowerCase();
     return this.items.filter(item =>
       item.name.toLowerCase().includes(term) ||
       item.sku.toLowerCase().includes(term) ||
@@ -89,12 +89,12 @@ export class MemoryDatabase {
   }
 
   async getCategories(): Promise<string[]> {
-    const categories = [...new Set(this.items.map(item => item.category))];
+    const _categories = [...new Set(this.items.map(item => item.category))];
     return categories.sort();
   }
 
   async getSuppliers(): Promise<string[]> {
-    const suppliers = [...new Set(this.items.map(item => item.supplier).filter(Boolean))];
+    const _suppliers = [...new Set(this.items.map(item => item.supplier).filter(Boolean))];
     return suppliers.sort();
   }
 }

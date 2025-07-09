@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { purchaseReceiptService, purchaseOrderService, warehouseService, productService } from '../../services/business';
-import { PurchaseReceipt, PurchaseReceiptItem, ReceiptStatus, PurchaseOrder, Warehouse, Product } from '../../types/entities';
+import { PurchaseReceipt, ReceiptStatus, PurchaseOrder, Warehouse, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
-import { TableContainer, Table, TableHeader, TableBody, TableCell, TableHead, TableRow, TableEmpty } from '../ui/table';
+import { TableContainer, Table, TableHeader, TableBody, TableCell, TableHead, TableRow } from '../ui/table';
 
 interface PurchaseReceiptManagementProps {
   className?: string;
@@ -51,7 +51,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
   const [selectedStatus, setSelectedStatus] = useState<ReceiptStatus | ''>('');
   const [selectedWarehouse, setSelectedWarehouse] = useState('');
   const [stats, setStats] = useState<any>(null);
-  const [availableOrderItems, setAvailableOrderItems] = useState<any[]>([]);
+  const [_availableOrderItems, setAvailableOrderItems] = useState<any[]>([]);
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -61,7 +61,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -87,7 +87,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     }
   };
 
-  const handleOrderChange = async (orderId: string) => {
+  const _handleOrderChange = async (orderId: string) => {
     if (!orderId) {
       setAvailableOrderItems([]);
       setFormItems([]);
@@ -113,9 +113,9 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
       setFormItems(newFormItems);
 
       // 自动填充供应商仓库信息
-      const order = orders.find(o => o.id === orderId);
+      const _order = orders.find(o => o.id === orderId);
       if (order && warehouses.length > 0) {
-        const defaultWarehouse = warehouses.find(w => w.isDefault) || warehouses[0];
+        const _defaultWarehouse = warehouses.find(w => w.isDefault) || warehouses[0];
         setFormData(prev => ({
           ...prev,
           orderId,
@@ -128,7 +128,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const _handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (formItems.length === 0) {
@@ -145,7 +145,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     }
     
     try {
-      const order = orders.find(o => o.id === formData.orderId);
+      const _order = orders.find(o => o.id === formData.orderId);
       if (!order) {
         setError('请选择有效的采购订单');
         return;
@@ -162,7 +162,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
         });
         
         // 更新收货项目（简化：删除所有重新添加）
-        const existingItems = await purchaseReceiptService.getReceiptItems(editingReceipt.id);
+        const _existingItems = await purchaseReceiptService.getReceiptItems(editingReceipt.id);
         for (const item of existingItems) {
           await purchaseReceiptService.removeReceiptItem(item.id);
         }
@@ -197,7 +197,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     }
   };
 
-  const handleEdit = async (receipt: PurchaseReceipt) => {
+  const _handleEdit = async (receipt: PurchaseReceipt) => {
     setEditingReceipt(receipt);
     setFormData({
       orderId: receipt.orderId,
@@ -209,7 +209,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     });
     
     // 加载收货项目
-    const items = await purchaseReceiptService.getReceiptItems(receipt.id);
+    const _items = await purchaseReceiptService.getReceiptItems(receipt.id);
     await handleOrderChange(receipt.orderId);
     
     setFormItems(items.map(item => ({
@@ -224,12 +224,12 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     setShowForm(true);
   };
 
-  const handleDelete = (receiptId: string) => {
+  const _handleDelete = (receiptId: string) => {
     setDeleteTargetId(receiptId);
     setShowConfirmDialog(true);
   };
 
-  const confirmDelete = async () => {
+  const _confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
@@ -244,12 +244,12 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     }
   };
 
-  const cancelDelete = () => {
+  const _cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const handleStatusUpdate = async (receiptId: string, newStatus: ReceiptStatus) => {
+  const _handleStatusUpdate = async (receiptId: string, newStatus: ReceiptStatus) => {
     try {
       await purchaseReceiptService.updateStatus(receiptId, newStatus);
       await loadData();
@@ -259,7 +259,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     }
   };
 
-  const handleCancel = () => {
+  const _handleCancel = () => {
     setShowForm(false);
     setEditingReceipt(null);
     setFormData(emptyForm);
@@ -267,21 +267,21 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     setAvailableOrderItems([]);
   };
 
-  const handleInputChange = (field: keyof ReceiptForm, value: any) => {
+  const _handleInputChange = (field: keyof ReceiptForm, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const updateItem = (itemId: string, field: keyof ReceiptItemForm, value: any) => {
+  const _updateItem = (itemId: string, field: keyof ReceiptItemForm, value: any) => {
     setFormItems(prev => prev.map(item =>
       item.id === itemId ? { ...item, [field]: value } : item
     ));
   };
 
-  const removeItem = (itemId: string) => {
+  const _removeItem = (itemId: string) => {
     setFormItems(prev => prev.filter(item => item.id !== itemId));
   };
 
-  const getStatusText = (status: ReceiptStatus): string => {
+  const _getStatusText = (status: ReceiptStatus): string => {
     switch (status) {
       case ReceiptStatus.DRAFT: return '草稿';
       case ReceiptStatus.CONFIRMED: return '已确认';
@@ -289,7 +289,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     }
   };
 
-  const getStatusStyles = (status: ReceiptStatus): string => {
+  const _getStatusStyles = (status: ReceiptStatus): string => {
     switch (status) {
       case ReceiptStatus.DRAFT: return 'text-gray-300 bg-gray-500/20 border-gray-400/30';
       case ReceiptStatus.CONFIRMED: return 'text-green-300 bg-green-500/20 border-green-400/30';
@@ -297,35 +297,35 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     }
   };
 
-  const getOrderInfo = (orderId: string): string => {
-    const order = orders.find(o => o.id === orderId);
+  const _getOrderInfo = (orderId: string): string => {
+    const _order = orders.find(o => o.id === orderId);
     return order ? `${order.orderNo} - ${order.supplier?.name || '未知供应商'}` : '未知订单';
   };
 
-  const getWarehouseName = (warehouseId: string): string => {
-    const warehouse = warehouses.find(w => w.id === warehouseId);
+  const _getWarehouseName = (warehouseId: string): string => {
+    const _warehouse = warehouses.find(w => w.id === warehouseId);
     return warehouse ? warehouse.name : '未知仓库';
   };
 
-  const getProductName = (productId: string): string => {
-    const product = products.find(p => p.id === productId);
+  const _getProductName = (productId: string): string => {
+    const _product = products.find(p => p.id === productId);
     return product ? product.name : '未知商品';
   };
 
-  const formatDate = (date: Date): string => {
+  const _formatDate = (date: Date): string => {
     return new Date(date).toLocaleDateString('zh-CN');
   };
 
-  const getTotalAmount = (): number => {
+  const _getTotalAmount = (): number => {
     return formItems.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
   };
 
-  const getTotalQuantity = (): number => {
+  const _getTotalQuantity = (): number => {
     return formItems.reduce((sum, item) => sum + item.quantity, 0);
   };
 
-  const filteredReceipts = receipts.filter(receipt => {
-    const matchesSearch = !searchTerm || 
+  const _filteredReceipts = receipts.filter(receipt => {
+    const _matchesSearch = !searchTerm || 
       receipt.receiptNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (receipt.order?.orderNo || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (receipt.supplier?.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -333,8 +333,8 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
       receipt.receiver.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (receipt.remark || '').toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesStatus = !selectedStatus || receipt.status === selectedStatus;
-    const matchesWarehouse = !selectedWarehouse || receipt.warehouseId === selectedWarehouse;
+    const _matchesStatus = !selectedStatus || receipt.status === selectedStatus;
+    const _matchesWarehouse = !selectedWarehouse || receipt.warehouseId === selectedWarehouse;
     
     return matchesSearch && matchesStatus && matchesWarehouse;
   });
@@ -691,7 +691,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
                       </TableHeader>
                       <TableBody>
                         {formItems.map(item => {
-                          const amount = item.quantity * item.unitPrice;
+                          const _amount = item.quantity * item.unitPrice;
                           return (
                             <TableRow key={item.id}>
                               <TableCell className="py-3 px-4">

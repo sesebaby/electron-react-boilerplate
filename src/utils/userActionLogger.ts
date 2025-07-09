@@ -195,17 +195,17 @@ class UserActionLogger {
    * 处理点击事件
    */
   private handleClickEvent(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
+    const _target = event.target as HTMLElement;
     if (!target) return;
 
     // 检查是否是重要的UI元素
-    const isButton = target.tagName === 'BUTTON' || target.role === 'button';
-    const isLink = target.tagName === 'A';
-    const hasDataTrack = target.hasAttribute('data-track');
-    const hasClickHandler = target.onclick !== null;
+    const _isButton = target.tagName === 'BUTTON' || target.role === 'button';
+    const _isLink = target.tagName === 'A';
+    const _hasDataTrack = target.hasAttribute('data-track');
+    const _hasClickHandler = target.onclick !== null;
 
     if (isButton || isLink || hasDataTrack || hasClickHandler) {
-      const actionData = this.extractElementInfo(target);
+      const _actionData = this.extractElementInfo(target);
       
       this.logAction({
         type: UserActionType.CLICK,
@@ -225,11 +225,11 @@ class UserActionLogger {
    * 处理表单提交
    */
   private handleFormSubmit(event: Event): void {
-    const form = event.target as HTMLFormElement;
+    const _form = event.target as HTMLFormElement;
     if (!form) return;
 
-    const formData = new FormData(form);
-    const formFields = Array.from(formData.keys());
+    const _formData = new FormData(form);
+    const _formFields = Array.from(formData.keys());
 
     this.logAction({
       type: UserActionType.FORM_SUBMIT,
@@ -250,13 +250,13 @@ class UserActionLogger {
    */
   private handleKeyboardEvent(event: KeyboardEvent): void {
     // 只记录重要的快捷键
-    const importantKeys = [
+    const _importantKeys = [
       'F1', 'F5', 'F12', // 功能键
       'Escape', 'Enter', // 操作键
     ];
 
-    const isCtrlCombo = event.ctrlKey && ['s', 'z', 'y', 'c', 'v', 'x', 'a', 'f'].includes(event.key.toLowerCase());
-    const isImportantKey = importantKeys.includes(event.key);
+    const _isCtrlCombo = event.ctrlKey && ['s', 'z', 'y', 'c', 'v', 'x', 'a', 'f'].includes(event.key.toLowerCase());
+    const _isImportantKey = importantKeys.includes(event.key);
 
     if (isCtrlCombo || isImportantKey) {
       this.logAction({
@@ -278,7 +278,7 @@ class UserActionLogger {
    * 获取页面上下文
    */
   private getPageContext(): ActionContext {
-    const path = window.location.pathname.toLowerCase();
+    const _path = window.location.pathname.toLowerCase();
     
     if (path.includes('dashboard')) return ActionContext.DASHBOARD;
     if (path.includes('inventory')) return ActionContext.INVENTORY;
@@ -297,8 +297,8 @@ class UserActionLogger {
    */
   private getElementContext(element: HTMLElement): ActionContext {
     // 通过元素的类名或数据属性推断上下文
-    const classList = element.className.toLowerCase();
-    const dataset = element.dataset;
+    const _classList = element.className.toLowerCase();
+    const _dataset = element.dataset;
 
     if (dataset.context) {
       return dataset.context as ActionContext;
@@ -332,11 +332,11 @@ class UserActionLogger {
     element: string;
     text: string;
   } {
-    const selector = this.getElementSelector(element);
-    const text = (element.textContent || element.innerText || '').trim().substring(0, 100);
-    const elementType = element.tagName.toLowerCase();
+    const _selector = this.getElementSelector(element);
+    const _text = (element.textContent || element.innerText || '').trim().substring(0, 100);
+    const _elementType = element.tagName.toLowerCase();
     
-    let description = text || selector || elementType;
+    const _description = text || selector || elementType;
     
     // 特殊元素的描述
     if (element.hasAttribute('aria-label')) {
@@ -373,7 +373,7 @@ class UserActionLogger {
 
     // 使用class（取第一个有意义的class）
     if (element.className) {
-      const classes = element.className.split(' ').filter(cls => 
+      const _classes = element.className.split(' ').filter(cls => 
         cls && !cls.startsWith('css-') && !cls.includes('emotion')
       );
       if (classes.length > 0) {
@@ -382,14 +382,14 @@ class UserActionLogger {
     }
 
     // 使用标签名和层级
-    const tagName = element.tagName.toLowerCase();
-    const parent = element.parentElement;
+    const _tagName = element.tagName.toLowerCase();
+    const _parent = element.parentElement;
     
     if (parent) {
-      const siblings = Array.from(parent.children).filter(child => 
+      const _siblings = Array.from(parent.children).filter(child => 
         child.tagName === element.tagName
       );
-      const index = siblings.indexOf(element);
+      const _index = siblings.indexOf(element);
       return `${tagName}:nth-of-type(${index + 1})`;
     }
 
@@ -400,7 +400,7 @@ class UserActionLogger {
    * 格式化键盘组合
    */
   private formatKeyCombo(event: KeyboardEvent): string {
-    const parts = [];
+    const _parts = [];
     if (event.ctrlKey) parts.push('Ctrl');
     if (event.altKey) parts.push('Alt');
     if (event.shiftKey) parts.push('Shift');
@@ -434,7 +434,7 @@ class UserActionLogger {
     }
 
     // 生成完整的操作事件
-    const actionId = `action-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const _actionId = `action-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const fullEvent: UserActionEvent = {
       actionId,
       type: action.type,
@@ -489,10 +489,10 @@ class UserActionLogger {
     errorMessage?: string;
     additionalDetails?: Record<string, any>;
   }): void {
-    const pending = this.pendingActions.get(actionId);
+    const _pending = this.pendingActions.get(actionId);
     if (!pending) return;
 
-    const duration = Date.now() - pending.startTime.getTime();
+    const _duration = Date.now() - pending.startTime.getTime();
     
     this.logAction({
       type: pending.event.type!,
@@ -595,9 +595,9 @@ class UserActionLogger {
       ActionContext.SETTINGS
     ];
 
-    const typeMatch = sensitiveTypes.includes(event.type);
-    const contextMatch = sensitiveContexts.includes(event.context);
-    const descriptionMatch = event.description && typeof event.description === 'string' && 
+    const _typeMatch = sensitiveTypes.includes(event.type);
+    const _contextMatch = sensitiveContexts.includes(event.context);
+    const _descriptionMatch = event.description && typeof event.description === 'string' && 
                             event.description.toLowerCase().includes('password');
     
     return typeMatch || contextMatch || Boolean(descriptionMatch);
@@ -607,8 +607,8 @@ class UserActionLogger {
    * 记录操作到日志系统
    */
   private recordAction(event: UserActionEvent): void {
-    const logLevel = this.getLogLevel(event);
-    const message = `User Action: ${event.type} - ${event.description}`;
+    const _logLevel = this.getLogLevel(event);
+    const _message = `User Action: ${event.type} - ${event.description}`;
 
     switch (logLevel) {
       case 'info':
@@ -648,8 +648,8 @@ class UserActionLogger {
    * 更新操作统计
    */
   private updateActionStats(event: UserActionEvent): void {
-    const key = `${event.type}:${event.context}`;
-    const currentCount = this.actionCounts.get(key) || 0;
+    const _key = `${event.type}:${event.context}`;
+    const _currentCount = this.actionCounts.get(key) || 0;
     this.actionCounts.set(key, currentCount + 1);
   }
 
@@ -657,8 +657,8 @@ class UserActionLogger {
    * 检查会话超时
    */
   private checkSessionTimeout(): void {
-    const now = Date.now();
-    const timeoutMs = this.config.sessionTimeout * 60 * 1000;
+    const _now = Date.now();
+    const _timeoutMs = this.config.sessionTimeout * 60 * 1000;
     
     if (now - this.lastActionTime > timeoutMs) {
       // 会话超时，创建新会话
@@ -684,7 +684,7 @@ class UserActionLogger {
    * 设置当前用户ID
    */
   public setUserId(userId: string | null): void {
-    const oldUserId = this.currentUserId;
+    const _oldUserId = this.currentUserId;
     this.currentUserId = userId;
     
     logger.info('User action logger user ID updated', {
@@ -718,7 +718,7 @@ class UserActionLogger {
     sessionStartTime: number;
     lastActionTime: number;
   } {
-    const totalActions = this.getTotalActionCount();
+    const _totalActions = this.getTotalActionCount();
     const actionsByType: Record<string, number> = {};
     
     for (const [key, count] of this.actionCounts.entries()) {
@@ -765,7 +765,7 @@ class UserActionLogger {
 }
 
 // 创建默认实例
-export const userActionLogger = new UserActionLogger();
+export const _userActionLogger = new UserActionLogger();
 
 // 自动设置用户ID（如果有认证上下文）
 if (typeof window !== 'undefined') {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GlobalConversionRule, Unit, UnitType } from '../../types/entities';
+import { GlobalConversionRule, Unit } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassCard } from '../ui/FormControls';
 import { globalConversionService, unitService } from '../../services/business';
 
@@ -72,7 +72,7 @@ export const UnitConversionSettings: React.FC<UnitConversionSettingsProps> = ({
     });
   }, [enableConversion, conversionType, globalRuleId, customRule]);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -92,8 +92,8 @@ export const UnitConversionSettings: React.FC<UnitConversionSettingsProps> = ({
     }
   };
 
-  const handleSettingsChange = (newSettings: Partial<typeof localSettings>) => {
-    const updatedSettings = { ...localSettings, ...newSettings };
+  const _handleSettingsChange = (newSettings: Partial<typeof localSettings>) => {
+    const _updatedSettings = { ...localSettings, ...newSettings };
     setLocalSettings(updatedSettings);
     
     // 构建回调参数
@@ -107,25 +107,25 @@ export const UnitConversionSettings: React.FC<UnitConversionSettingsProps> = ({
     onSettingsChange(callbackData);
   };
 
-  const handleEnableToggle = (enabled: boolean) => {
+  const _handleEnableToggle = (enabled: boolean) => {
     handleSettingsChange({ enableConversion: enabled });
   };
 
-  const handleTypeChange = (type: 'global' | 'custom') => {
+  const _handleTypeChange = (type: 'global' | 'custom') => {
     handleSettingsChange({ conversionType: type });
   };
 
-  const handleGlobalRuleChange = (ruleId: string) => {
+  const _handleGlobalRuleChange = (ruleId: string) => {
     handleSettingsChange({ globalRuleId: ruleId });
   };
 
-  const handleCustomRuleChange = (field: keyof typeof localSettings.customRule, value: any) => {
-    const updatedCustomRule = { ...localSettings.customRule, [field]: value };
+  const _handleCustomRuleChange = (field: keyof typeof localSettings.customRule, value: any) => {
+    const _updatedCustomRule = { ...localSettings.customRule, [field]: value };
     
     // 自动生成描述
     if (field === 'fromUnitId' || field === 'toUnitId' || field === 'conversionRate') {
-      const fromUnit = units.find(u => u.id === updatedCustomRule.fromUnitId);
-      const toUnit = units.find(u => u.id === updatedCustomRule.toUnitId);
+      const _fromUnit = units.find(u => u.id === updatedCustomRule.fromUnitId);
+      const _toUnit = units.find(u => u.id === updatedCustomRule.toUnitId);
       
       if (fromUnit && toUnit && updatedCustomRule.conversionRate) {
         updatedCustomRule.description = `1${fromUnit.symbol} = ${updatedCustomRule.conversionRate}${toUnit.symbol}`;
@@ -135,18 +135,18 @@ export const UnitConversionSettings: React.FC<UnitConversionSettingsProps> = ({
     handleSettingsChange({ customRule: updatedCustomRule });
   };
 
-  const getPreviewText = () => {
+  const _getPreviewText = () => {
     if (!localSettings.enableConversion) {
       return '换算已禁用';
     }
     
     if (localSettings.conversionType === 'global') {
-      const rule = globalRules.find(r => r.id === localSettings.globalRuleId);
+      const _rule = globalRules.find(r => r.id === localSettings.globalRuleId);
       return rule ? rule.description : '请选择全局规则';
     } else {
       const { customRule } = localSettings;
-      const fromUnit = units.find(u => u.id === customRule.fromUnitId);
-      const toUnit = units.find(u => u.id === customRule.toUnitId);
+      const _fromUnit = units.find(u => u.id === customRule.fromUnitId);
+      const _toUnit = units.find(u => u.id === customRule.toUnitId);
       
       if (fromUnit && toUnit && customRule.conversionRate) {
         return `1${fromUnit.symbol} = ${customRule.conversionRate}${toUnit.symbol}`;

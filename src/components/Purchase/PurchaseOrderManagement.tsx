@@ -3,18 +3,18 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { purchaseOrderService, supplierService, productService } from '../../services/business';
-import { PurchaseOrder, PurchaseOrderItem, PurchaseOrderStatus, Supplier, Product } from '../../types/entities';
+import { PurchaseOrder, PurchaseOrderStatus, Supplier, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import ErrorDisplay from '../ui/ErrorDisplay';
-import { TableContainer, Table, TableHeader, TableBody, TableCell, TableHead, TableRow, TableEmpty } from '../ui/table';
+import { TableContainer, Table, TableHeader, TableBody, TableCell, TableHead, TableRow } from '../ui/table';
 
 interface PurchaseOrderManagementProps {
   className?: string;
 }
 
 // 定义订单项验证模式
-const orderItemSchema = z.object({
+const _orderItemSchema = z.object({
   id: z.string().optional(),
   productId: z.string().min(1, '请选择商品'),
   quantity: z.number().min(0.01, '数量必须大于0').max(999999, '数量过大'),
@@ -23,7 +23,7 @@ const orderItemSchema = z.object({
 });
 
 // 定义订单表单验证模式
-const purchaseOrderSchema = z.object({
+const _purchaseOrderSchema = z.object({
   supplierId: z.string().min(1, '请选择供应商'),
   orderDate: z.string().min(1, '请选择订单日期'),
   expectedDate: z.string().min(1, '请选择预计到货日期'),
@@ -34,8 +34,8 @@ const purchaseOrderSchema = z.object({
   creator: z.string().min(1, '创建人不能为空'),
   items: z.array(orderItemSchema).min(1, '请至少添加一个采购项目')
 }).refine((data) => {
-  const orderDate = new Date(data.orderDate);
-  const expectedDate = new Date(data.expectedDate);
+  const _orderDate = new Date(data.orderDate);
+  const _expectedDate = new Date(data.expectedDate);
   return expectedDate >= orderDate;
 }, {
   message: '预计到货日期不能早于订单日期',
@@ -45,7 +45,7 @@ const purchaseOrderSchema = z.object({
 type PurchaseOrderForm = z.infer<typeof purchaseOrderSchema>;
 type OrderItemForm = z.infer<typeof orderItemSchema>;
 
-interface OrderFormLegacy {
+interface _OrderFormLegacy {
   supplierId: string;
   orderDate: string;
   expectedDate: string;
@@ -56,7 +56,7 @@ interface OrderFormLegacy {
   creator: string;
 }
 
-interface OrderItemFormLegacy {
+interface _OrderItemFormLegacy {
   id: string;
   productId: string;
   quantity: number;
@@ -102,7 +102,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    setValue,
+    setValue: _setValue,
     watch,
     clearErrors,
     control
@@ -113,12 +113,12 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
   });
 
   // useFieldArray for dynamic order items
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove, update: _update } = useFieldArray({
     control,
     name: 'items'
   });
 
-  const formData = watch(); // 监听表单数据变化
+  const _formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -128,7 +128,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     loadData();
   }, []);
 
-  const loadData = async (retryCount = 0) => {
+  const _loadData = async (retryCount = 0) => {
     try {
       setLoading(true);
       setError(null);
@@ -160,7 +160,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     }
   };
 
-  const onSubmit = async (data: PurchaseOrderForm) => {
+  const _onSubmit = async (data: PurchaseOrderForm) => {
     try {
       setError(null);
       
@@ -180,7 +180,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
         });
         
         // 更新订单项目（简化：删除所有重新添加）
-        const existingItems = await purchaseOrderService.getOrderItems(editingOrder.id);
+        const _existingItems = await purchaseOrderService.getOrderItems(editingOrder.id);
         for (const item of existingItems) {
           await purchaseOrderService.removeOrderItem(item.id);
         }
@@ -220,11 +220,11 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     }
   };
 
-  const handleEdit = async (order: PurchaseOrder) => {
+  const _handleEdit = async (order: PurchaseOrder) => {
     setEditingOrder(order);
     
     // 加载订单项目
-    const items = await purchaseOrderService.getOrderItems(order.id);
+    const _items = await purchaseOrderService.getOrderItems(order.id);
     
     reset({
       supplierId: order.supplierId,
@@ -248,12 +248,12 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     setShowForm(true);
   };
 
-  const handleDelete = (orderId: string) => {
+  const _handleDelete = (orderId: string) => {
     setDeleteTargetId(orderId);
     setShowConfirmDialog(true);
   };
 
-  const confirmDelete = async () => {
+  const _confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
@@ -268,12 +268,12 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     }
   };
 
-  const cancelDelete = () => {
+  const _cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const handleStatusUpdate = async (orderId: string, newStatus: PurchaseOrderStatus) => {
+  const _handleStatusUpdate = async (orderId: string, newStatus: PurchaseOrderStatus) => {
     try {
       await purchaseOrderService.updateStatus(orderId, newStatus);
       await loadData();
@@ -283,7 +283,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     }
   };
 
-  const handleCancel = () => {
+  const _handleCancel = () => {
     setShowForm(false);
     setEditingOrder(null);
     reset(emptyForm);
@@ -291,21 +291,21 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     setError(null); // 清除错误信息
   };
 
-  const addItem = () => {
+  const _addItem = () => {
     append(emptyItem);
   };
 
-  const removeItem = (index: number) => {
+  const _removeItem = (index: number) => {
     remove(index);
   };
 
-  const handleCreateNew = () => {
+  const _handleCreateNew = () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
   };
 
-  const getStatusText = (status: PurchaseOrderStatus): string => {
+  const _getStatusText = (status: PurchaseOrderStatus): string => {
     switch (status) {
       case PurchaseOrderStatus.DRAFT: return '草稿';
       case PurchaseOrderStatus.CONFIRMED: return '已确认';
@@ -316,7 +316,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     }
   };
 
-  const getStatusStyles = (status: PurchaseOrderStatus): string => {
+  const _getStatusStyles = (status: PurchaseOrderStatus): string => {
     switch (status) {
       case PurchaseOrderStatus.DRAFT: return 'text-gray-300 bg-gray-500/20 border-gray-400/30';
       case PurchaseOrderStatus.CONFIRMED: return 'text-blue-300 bg-blue-500/20 border-blue-400/30';
@@ -327,46 +327,46 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     }
   };
 
-  const getSupplierName = (supplierId: string): string => {
-    const supplier = suppliers.find(s => s.id === supplierId);
+  const _getSupplierName = (supplierId: string): string => {
+    const _supplier = suppliers.find(s => s.id === supplierId);
     return supplier ? supplier.name : '未知供应商';
   };
 
-  const getProductName = (productId: string): string => {
-    const product = products.find(p => p.id === productId);
+  const __getProductName = (productId: string): string => {
+    const _product = products.find(p => p.id === productId);
     return product ? product.name : '未知商品';
   };
 
-  const getTotalItemAmount = (): number => {
+  const _getTotalItemAmount = (): number => {
     return formData.items.reduce((sum, item) => {
-      const amount = item.quantity * item.unitPrice * (1 - item.discountRate);
+      const _amount = item.quantity * item.unitPrice * (1 - item.discountRate);
       return sum + amount;
     }, 0);
   };
 
-  const getFinalAmount = (): number => {
+  const _getFinalAmount = (): number => {
     return getTotalItemAmount() - formData.discountAmount + formData.taxAmount;
   };
 
-  const formatDate = (date: Date): string => {
+  const _formatDate = (date: Date): string => {
     return new Date(date).toLocaleDateString('zh-CN');
   };
 
-  const isOverdue = (order: PurchaseOrder): boolean => {
+  const _isOverdue = (order: PurchaseOrder): boolean => {
     if (!order.expectedDate) return false;
-    const now = new Date();
+    const _now = new Date();
     return order.expectedDate < now && 
            (order.status === PurchaseOrderStatus.CONFIRMED || order.status === PurchaseOrderStatus.PARTIAL);
   };
 
-  const filteredOrders = orders.filter(order => {
-    const matchesSearch = !searchTerm || 
+  const _filteredOrders = orders.filter(order => {
+    const _matchesSearch = !searchTerm || 
       order.orderNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (order.supplier?.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (order.remark || '').toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesStatus = !selectedStatus || order.status === selectedStatus;
-    const matchesSupplier = !selectedSupplier || order.supplierId === selectedSupplier;
+    const _matchesStatus = !selectedStatus || order.status === selectedStatus;
+    const _matchesSupplier = !selectedSupplier || order.supplierId === selectedSupplier;
     
     return matchesSearch && matchesStatus && matchesSupplier;
   });
@@ -793,8 +793,8 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
                       </TableHeader>
                       <TableBody>
                         {fields.map((field, index) => {
-                          const itemData = formData.items[index];
-                          const amount = itemData ? itemData.quantity * itemData.unitPrice * (1 - itemData.discountRate) : 0;
+                          const _itemData = formData.items[index];
+                          const _amount = itemData ? itemData.quantity * itemData.unitPrice * (1 - itemData.discountRate) : 0;
                           return (
                             <TableRow key={field.id}>
                               <TableCell className="py-3 px-4">

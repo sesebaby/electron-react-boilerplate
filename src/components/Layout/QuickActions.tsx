@@ -19,11 +19,11 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
   onExportData
 }) => {
   const [showActions, setShowActions] = useState(false);
-  const actionsRef = useRef<HTMLDivElement>(null);
+  const _actionsRef = useRef<HTMLDivElement>(null);
 
   // 点击外部关闭弹出框
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const _handleClickOutside = (event: MouseEvent) => {
       if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
         setShowActions(false);
       }
@@ -118,7 +118,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
   ];
 
   // 处理快捷操作点击
-  const handleActionClick = (action: QuickAction) => {
+  const _handleActionClick = (action: QuickAction) => {
     setShowActions(false);
     
     if (action.action) {

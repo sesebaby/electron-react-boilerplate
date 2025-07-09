@@ -1,5 +1,6 @@
 import { InventoryItem } from '../../types/inventory';
 import { Unit } from '../../types/entities';
+import { ElectronAPI, DatabaseResult } from '../../types/electronAPI';
 
 // Electron renderer process database service
 // Uses IPC to communicate with main process for database operations
@@ -8,11 +9,12 @@ export class ElectronDatabase {
   private isInitialized = false;
 
   async initialize(): Promise<void> {
-    if (!window.electronAPI?.dbInitialize) {
+    const electronAPI: ElectronAPI = window.electronAPI;
+    if (!electronAPI?.dbInitializeDatabase) {
       throw new Error('Electron API not available');
     }
     
-    const result = await window.electronAPI.dbInitialize();
+    const result: DatabaseResult<boolean> = await electronAPI.dbInitializeDatabase();
     if (!result.success) {
       throw new Error(result.error || 'Failed to initialize database');
     }
@@ -28,7 +30,8 @@ export class ElectronDatabase {
 
   async getAllItems(): Promise<InventoryItem[]> {
     this.checkInitialized();
-    const result = await window.electronAPI.dbGetAllItems();
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<InventoryItem[]> = await electronAPI.dbGetAllInventoryItems();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get items');
     }
@@ -37,7 +40,8 @@ export class ElectronDatabase {
 
   async getItemById(id: string): Promise<InventoryItem | null> {
     this.checkInitialized();
-    const result = await window.electronAPI.dbGetItemById(id);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<InventoryItem> = await electronAPI.dbGetProductById(id);
     if (!result.success) {
       throw new Error(result.error || 'Failed to get item');
     }
@@ -45,7 +49,8 @@ export class ElectronDatabase {
   }
 
   async getItemBySku(sku: string): Promise<InventoryItem | null> {
-    const result = await window.electronAPI.dbGetItemBySku(sku);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<InventoryItem> = await electronAPI.dbGetProductById(sku);
     if (!result.success) {
       throw new Error(result.error || 'Failed to get item by SKU');
     }
@@ -54,7 +59,8 @@ export class ElectronDatabase {
 
   async addTransaction(transaction: any): Promise<any> {
     this.checkInitialized();
-    const result = await window.electronAPI.dbAddTransaction(transaction);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<any> = await electronAPI.dbCreateInventoryTransaction(transaction);
     if (!result.success) {
       throw new Error(result.error || 'Failed to add transaction');
     }
@@ -62,7 +68,8 @@ export class ElectronDatabase {
   }
 
   async createItem(item: Omit<InventoryItem, 'id' | 'lastUpdated'>): Promise<InventoryItem> {
-    const result = await window.electronAPI.dbCreateItem(item);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<InventoryItem> = await electronAPI.dbCreateProduct(item);
     if (!result.success) {
       throw new Error(result.error || 'Failed to create item');
     }
@@ -73,7 +80,8 @@ export class ElectronDatabase {
   }
 
   async updateItem(id: string, updates: Partial<InventoryItem>): Promise<InventoryItem> {
-    const result = await window.electronAPI.dbUpdateItem(id, updates);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<InventoryItem> = await electronAPI.dbUpdateProduct(id, updates);
     if (!result.success) {
       throw new Error(result.error || 'Failed to update item');
     }
@@ -84,7 +92,8 @@ export class ElectronDatabase {
   }
 
   async deleteItem(id: string): Promise<boolean> {
-    const result = await window.electronAPI.dbDeleteItem(id);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<boolean> = await electronAPI.dbDeleteProduct(id);
     if (!result.success) {
       throw new Error(result.error || 'Failed to delete item');
     }
@@ -92,15 +101,22 @@ export class ElectronDatabase {
   }
 
   async searchItems(searchTerm: string): Promise<InventoryItem[]> {
-    const result = await window.electronAPI.dbSearchItems(searchTerm);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<InventoryItem[]> = await electronAPI.dbGetAllProducts();
     if (!result.success) {
       throw new Error(result.error || 'Failed to search items');
     }
-    return result.data || [];
+    const items = result.data || [];
+    return items.filter(item => 
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   }
 
   async getItemsByCategory(category: string): Promise<InventoryItem[]> {
-    const result = await window.electronAPI.dbGetItemsByCategory(category);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<InventoryItem[]> = await electronAPI.dbGetProductsByCategory(category);
     if (!result.success) {
       throw new Error(result.error || 'Failed to get items by category');
     }
@@ -108,7 +124,8 @@ export class ElectronDatabase {
   }
 
   async getLowStockItems(): Promise<InventoryItem[]> {
-    const result = await window.electronAPI.dbGetLowStockItems();
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<InventoryItem[]> = await electronAPI.dbGetLowStockItems();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get low stock items');
     }
@@ -116,25 +133,28 @@ export class ElectronDatabase {
   }
 
   async getCategories(): Promise<string[]> {
-    const result = await window.electronAPI.dbGetCategories();
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<string[]> = await electronAPI.dbGetAllCategories();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get categories');
     }
-    return result.data || [];
+    return (result.data || []).map(cat => cat.name);
   }
 
   async getSuppliers(): Promise<string[]> {
-    const result = await window.electronAPI.dbGetSuppliers();
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<string[]> = await electronAPI.dbGetAllSuppliers();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get suppliers');
     }
-    return result.data || [];
+    return (result.data || []).map(sup => sup.name);
   }
 
   // Get all categories from categories table
   async getAllCategories(): Promise<any[]> {
     this.checkInitialized();
-    const result = await window.electronAPI.dbGetAllCategories();
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<any[]> = await electronAPI.dbGetAllCategories();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get all categories');
     }
@@ -144,7 +164,8 @@ export class ElectronDatabase {
   // Get all suppliers from suppliers table
   async getAllSuppliers(): Promise<any[]> {
     this.checkInitialized();
-    const result = await window.electronAPI.dbGetAllSuppliers();
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<any[]> = await electronAPI.dbGetAllSuppliers();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get all suppliers');
     }
@@ -154,7 +175,8 @@ export class ElectronDatabase {
   // Get all inventory transactions
   async getAllTransactions(): Promise<any[]> {
     this.checkInitialized();
-    const result = await window.electronAPI.dbGetAllTransactions();
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<any[]> = await electronAPI.dbGetInventoryTransactions();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get all transactions');
     }
@@ -166,7 +188,8 @@ export class ElectronDatabase {
   // Get all units
   async getAllUnits(): Promise<Unit[]> {
     this.checkInitialized();
-    const result = await (window.electronAPI as any).dbGetAllUnits();
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<Unit[]> = await electronAPI.dbGetAllUnits();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get all units');
     }
@@ -176,7 +199,8 @@ export class ElectronDatabase {
   // Get unit by ID
   async getUnitById(id: string): Promise<Unit | null> {
     this.checkInitialized();
-    const result = await (window.electronAPI as any).dbGetUnitById(id);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<Unit> = await electronAPI.dbGetUnitById(id);
     if (!result.success) {
       throw new Error(result.error || 'Failed to get unit');
     }
@@ -186,17 +210,20 @@ export class ElectronDatabase {
   // Get unit by symbol
   async getUnitBySymbol(symbol: string): Promise<Unit | null> {
     this.checkInitialized();
-    const result = await (window.electronAPI as any).dbGetUnitBySymbol(symbol);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<Unit[]> = await electronAPI.dbGetAllUnits();
     if (!result.success) {
       throw new Error(result.error || 'Failed to get unit by symbol');
     }
-    return result.data || null;
+    const units = result.data || [];
+    return units.find(unit => unit.symbol === symbol) || null;
   }
 
   // Create unit
   async createUnit(unit: Omit<Unit, 'id' | 'createdAt' | 'updatedAt'>): Promise<Unit> {
     this.checkInitialized();
-    const result = await (window.electronAPI as any).dbCreateUnit(unit);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<Unit> = await electronAPI.dbCreateUnit(unit);
     if (!result.success) {
       throw new Error(result.error || 'Failed to create unit');
     }
@@ -209,7 +236,8 @@ export class ElectronDatabase {
   // Update unit
   async updateUnit(id: string, updates: Partial<Unit>): Promise<Unit> {
     this.checkInitialized();
-    const result = await (window.electronAPI as any).dbUpdateUnit(id, updates);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<Unit> = await electronAPI.dbUpdateUnit(id, updates);
     if (!result.success) {
       throw new Error(result.error || 'Failed to update unit');
     }
@@ -222,7 +250,8 @@ export class ElectronDatabase {
   // Delete unit
   async deleteUnit(id: string): Promise<boolean> {
     this.checkInitialized();
-    const result = await (window.electronAPI as any).dbDeleteUnit(id);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<boolean> = await electronAPI.dbDeleteUnit(id);
     if (!result.success) {
       throw new Error(result.error || 'Failed to delete unit');
     }
@@ -232,11 +261,16 @@ export class ElectronDatabase {
   // Search units
   async searchUnits(searchTerm: string): Promise<Unit[]> {
     this.checkInitialized();
-    const result = await (window.electronAPI as any).dbSearchUnits(searchTerm);
+    const electronAPI: ElectronAPI = window.electronAPI;
+    const result: DatabaseResult<Unit[]> = await electronAPI.dbGetAllUnits();
     if (!result.success) {
       throw new Error(result.error || 'Failed to search units');
     }
-    return result.data || [];
+    const units = result.data || [];
+    return units.filter(unit => 
+      unit.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      unit.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   }
 }
 

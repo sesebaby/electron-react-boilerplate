@@ -63,8 +63,8 @@ export class DatabaseSnapshot {
    * 捕获数据库快照
    */
   async captureSnapshot(testId: string, operation: string): Promise<IDatabaseSnapshot> {
-    const snapshotId = `${testId}_${operation}_${Date.now()}`;
-    const timestamp = new Date();
+    const _snapshotId = `${testId}_${operation}_${Date.now()}`;
+    const _timestamp = new Date();
     
     console.log(`[DatabaseSnapshot] 捕获快照: ${snapshotId}`);
     
@@ -84,10 +84,10 @@ export class DatabaseSnapshot {
     // 为每个跟踪的表创建快照
     for (const tableName of this.TRACKED_TABLES) {
       try {
-        const tableSnapshot = await this.captureTableSnapshot(tableName, timestamp);
+        const _tableSnapshot = await this.captureTableSnapshot(tableName, timestamp);
         snapshot.tables.set(tableName, tableSnapshot);
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : String(error);
+        const _errorMessage = error instanceof Error ? error.message : String(error);
         console.warn(`[DatabaseSnapshot] 无法捕获表 ${tableName} 的快照:`, errorMessage);
         // 创建空快照以保持一致性
         snapshot.tables.set(tableName, {
@@ -111,14 +111,14 @@ export class DatabaseSnapshot {
    * 捕获单个表的快照
    */
   private async captureTableSnapshot(tableName: string, timestamp: Date): Promise<TableSnapshot> {
-    const db = dbManager.getConnection();
+    const _db = dbManager.getConnection();
     
     // 获取表数据
-    const data = await db.all(`SELECT * FROM ${tableName} ORDER BY id`);
-    const rowCount = data.length;
+    const _data = await db.all(`SELECT * FROM ${tableName} ORDER BY id`);
+    const _rowCount = data.length;
     
     // 计算数据校验和
-    const checksum = this.calculateChecksum(data);
+    const _checksum = this.calculateChecksum(data);
     
     return {
       tableName,
@@ -134,8 +134,8 @@ export class DatabaseSnapshot {
    */
   private async getDatabaseVersion(): Promise<string> {
     try {
-      const db = dbManager.getConnection();
-      const result = await db.get('SELECT value FROM system_settings WHERE key = "database_version"');
+      const _db = dbManager.getConnection();
+      const _result = await db.get('SELECT value FROM system_settings WHERE key = "database_version"');
       return result?.value || '1.0.0';
     } catch (error) {
       return '1.0.0';
@@ -146,10 +146,10 @@ export class DatabaseSnapshot {
    * 计算数据校验和
    */
   private calculateChecksum(data: any[]): string {
-    const dataString = JSON.stringify(data, Object.keys(data).sort());
-    let hash = 0;
-    for (let i = 0; i < dataString.length; i++) {
-      const char = dataString.charCodeAt(i);
+    const _dataString = JSON.stringify(data, Object.keys(data).sort());
+    const _hash = 0;
+    for (let _i = 0; i < dataString.length; i++) {
+      const _char = dataString.charCodeAt(i);
       hash = ((hash << 5) - hash) + char;
       hash = hash & hash; // 转换为32位整数
     }
@@ -161,16 +161,16 @@ export class DatabaseSnapshot {
    */
   private async saveSnapshot(snapshot: IDatabaseSnapshot): Promise<void> {
     try {
-      const fs = require('fs').promises;
-      const path = require('path');
+      const _fs = require('fs').promises;
+      const _path = require('path');
       
-      const snapshotDir = path.join(process.cwd(), 'tests', 'snapshots');
+      const _snapshotDir = path.join(process.cwd(), 'tests', 'snapshots');
       await fs.mkdir(snapshotDir, { recursive: true });
       
-      const snapshotFile = path.join(snapshotDir, `${snapshot.snapshotId}.json`);
+      const _snapshotFile = path.join(snapshotDir, `${snapshot.snapshotId}.json`);
       
       // 创建可序列化的快照数据
-      const serializableSnapshot = {
+      const _serializableSnapshot = {
         ...snapshot,
         tables: Array.from(snapshot.tables.entries()).map(([key, value]) => ({ key, value }))
       };
@@ -187,12 +187,12 @@ export class DatabaseSnapshot {
    */
   async loadSnapshot(snapshotId: string): Promise<IDatabaseSnapshot | null> {
     try {
-      const fs = require('fs').promises;
-      const path = require('path');
+      const _fs = require('fs').promises;
+      const _path = require('path');
       
-      const snapshotFile = path.join(process.cwd(), 'tests', 'snapshots', `${snapshotId}.json`);
-      const data = await fs.readFile(snapshotFile, 'utf8');
-      const snapshotData = JSON.parse(data);
+      const _snapshotFile = path.join(process.cwd(), 'tests', 'snapshots', `${snapshotId}.json`);
+      const _data = await fs.readFile(snapshotFile, 'utf8');
+      const _snapshotData = JSON.parse(data);
       
       // 恢复 Map 结构
       const snapshot: IDatabaseSnapshot = {
@@ -211,7 +211,7 @@ export class DatabaseSnapshot {
    * 比较两个快照的差异
    */
   async compareSnapshots(beforeSnapshot: IDatabaseSnapshot, afterSnapshot: IDatabaseSnapshot): Promise<any> {
-    const comparisonTime = new Date();
+    const _comparisonTime = new Date();
     const summary: { type: string; table: string; description: string; details?: any }[] = [];
     const tables: { [key: string]: any } = {};
 
@@ -219,8 +219,8 @@ export class DatabaseSnapshot {
 
     // 比较每个表的变化
     for (const tableName of this.TRACKED_TABLES) {
-      const beforeTable = beforeSnapshot.tables.get(tableName);
-      const afterTable = afterSnapshot.tables.get(tableName);
+      const _beforeTable = beforeSnapshot.tables.get(tableName);
+      const _afterTable = afterSnapshot.tables.get(tableName);
       
       if (!beforeTable || !afterTable) {
         summary.push({
@@ -231,7 +231,7 @@ export class DatabaseSnapshot {
         continue;
       }
 
-      const tableComparison = this.compareTableData(beforeTable, afterTable);
+      const _tableComparison = this.compareTableData(beforeTable, afterTable);
       if (tableComparison.added.length > 0 || tableComparison.removed.length > 0 || tableComparison.modified.length > 0) {
         tables[tableName] = tableComparison;
         summary.push({
@@ -257,8 +257,8 @@ export class DatabaseSnapshot {
    * 比较两个表的快照数据
    */
   private compareTableData(beforeTable: TableSnapshot, afterTable: TableSnapshot): { added: any[], removed: any[], modified: any[] } {
-    const beforeDataMap = new Map(beforeTable.data.map(row => [row.id, row]));
-    const afterDataMap = new Map(afterTable.data.map(row => [row.id, row]));
+    const _beforeDataMap = new Map(beforeTable.data.map(row => [row.id, row]));
+    const _afterDataMap = new Map(afterTable.data.map(row => [row.id, row]));
     
     const tableChanges: { added: any[], removed: any[], modified: { id: any; before: any; after: any; changes: any[] }[] } = {
       added: [],
@@ -282,7 +282,7 @@ export class DatabaseSnapshot {
 
     // 检查更新的行
     for (const [id, beforeRow] of beforeDataMap.entries()) {
-      const afterRow = afterDataMap.get(id);
+      const _afterRow = afterDataMap.get(id);
       if (afterRow && JSON.stringify(beforeRow) !== JSON.stringify(afterRow)) {
         tableChanges.modified.push({
           id,
@@ -301,11 +301,11 @@ export class DatabaseSnapshot {
    */
   private getRowChanges(beforeRow: any, afterRow: any): { field: string, before: any, after: any, changeType: string }[] {
     const changes: { field: string, before: any, after: any, changeType: string }[] = [];
-    const allKeys = new Set([...Object.keys(beforeRow), ...Object.keys(afterRow)]);
+    const _allKeys = new Set([...Object.keys(beforeRow), ...Object.keys(afterRow)]);
 
     for (const key of allKeys) {
-      const beforeValue = beforeRow[key];
-      const afterValue = afterRow[key];
+      const _beforeValue = beforeRow[key];
+      const _afterValue = afterRow[key];
       
       if (beforeValue !== afterValue) {
         changes.push({
@@ -338,16 +338,16 @@ export class DatabaseSnapshot {
    */
   private async saveComparison(comparison: any): Promise<void> {
     try {
-      const fs = require('fs').promises;
-      const path = require('path');
+      const _fs = require('fs').promises;
+      const _path = require('path');
       
-      const comparisonDir = path.join(process.cwd(), 'tests', 'comparisons');
+      const _comparisonDir = path.join(process.cwd(), 'tests', 'comparisons');
       await fs.mkdir(comparisonDir, { recursive: true });
       
-      const comparisonFile = path.join(comparisonDir, `${comparison.id}.json`);
+      const _comparisonFile = path.join(comparisonDir, `${comparison.id}.json`);
       
       // 处理Map等不易序列化的数据结构
-      const serializableComparison = {
+      const _serializableComparison = {
         ...comparison,
         tables: Object.fromEntries(
           Object.entries(comparison.tables).map(([key, value]: [string, any]) => [
@@ -363,7 +363,7 @@ export class DatabaseSnapshot {
       await fs.writeFile(comparisonFile, JSON.stringify(serializableComparison, null, 2));
       console.log(`[DatabaseSnapshot] 比较结果已保存: ${comparisonFile}`);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const _errorMessage = error instanceof Error ? error.message : String(error);
       console.log(`[DatabaseSnapshot] 保存比较结果失败:`, errorMessage);
     }
   }
@@ -373,8 +373,8 @@ export class DatabaseSnapshot {
    */
   async getTableRowCount(tableName: string): Promise<number> {
     try {
-      const db = dbManager.getConnection();
-      const result = await db.get(`SELECT COUNT(*) as count FROM ${tableName}`);
+      const _db = dbManager.getConnection();
+      const _result = await db.get(`SELECT COUNT(*) as count FROM ${tableName}`);
       return result?.count || 0;
     } catch (error) {
       console.log(`[DatabaseSnapshot] 获取表 ${tableName} 行数失败:`, error);
@@ -387,8 +387,8 @@ export class DatabaseSnapshot {
    */
   async tableExists(tableName: string): Promise<boolean> {
     try {
-      const db = dbManager.getConnection();
-      const result = await db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, [tableName]);
+      const _db = dbManager.getConnection();
+      const _result = await db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, [tableName]);
       return !!result;
     } catch (error) {
       console.error(`[DatabaseSnapshot] 检查表 ${tableName} 是否存在失败:`, error);
@@ -408,21 +408,21 @@ export class DatabaseSnapshot {
    */
   async cleanupOldSnapshots(retentionDays: number = 7): Promise<void> {
     try {
-      const fs = require('fs').promises;
-      const path = require('path');
+      const _fs = require('fs').promises;
+      const _path = require('path');
       
-      const snapshotDir = path.join(process.cwd(), 'tests', 'snapshots');
-      const files = await fs.readdir(snapshotDir);
+      const _snapshotDir = path.join(process.cwd(), 'tests', 'snapshots');
+      const _files = await fs.readdir(snapshotDir);
       
-      const cutoffDate = new Date();
+      const _cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - retentionDays);
       
-      let deletedCount = 0;
+      const _deletedCount = 0;
       
       for (const file of files) {
         if (file.endsWith('.json')) {
-          const filePath = path.join(snapshotDir, file);
-          const stats = await fs.stat(filePath);
+          const _filePath = path.join(snapshotDir, file);
+          const _stats = await fs.stat(filePath);
           
           if (stats.mtime < cutoffDate) {
             await fs.unlink(filePath);

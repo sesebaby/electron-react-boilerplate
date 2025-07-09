@@ -20,7 +20,7 @@ export class SalesDeliveryService {
 
 
   async findAll(): Promise<SalesDelivery[]> {
-    const deliveries = Array.from(this.deliveries.values());
+    const _deliveries = Array.from(this.deliveries.values());
     
     // 加载关联数据
     for (const delivery of deliveries) {
@@ -31,7 +31,7 @@ export class SalesDeliveryService {
   }
 
   async findById(id: string): Promise<SalesDelivery | null> {
-    const delivery = this.deliveries.get(id);
+    const _delivery = this.deliveries.get(id);
     if (!delivery) return null;
     
     await this.loadDeliveryRelations(delivery);
@@ -39,12 +39,12 @@ export class SalesDeliveryService {
   }
 
   async findByDeliveryNo(deliveryNo: string): Promise<SalesDelivery | null> {
-    const id = this.deliveryNoIndex.get(deliveryNo);
+    const _id = this.deliveryNoIndex.get(deliveryNo);
     return id ? this.findById(id) : null;
   }
 
   async findByOrder(orderId: string): Promise<SalesDelivery[]> {
-    const deliveries = Array.from(this.deliveries.values()).filter(
+    const _deliveries = Array.from(this.deliveries.values()).filter(
       delivery => delivery.orderId === orderId
     );
     
@@ -56,7 +56,7 @@ export class SalesDeliveryService {
   }
 
   async findByCustomer(customerId: string): Promise<SalesDelivery[]> {
-    const deliveries = Array.from(this.deliveries.values()).filter(
+    const _deliveries = Array.from(this.deliveries.values()).filter(
       delivery => delivery.customerId === customerId
     );
     
@@ -68,7 +68,7 @@ export class SalesDeliveryService {
   }
 
   async findByWarehouse(warehouseId: string): Promise<SalesDelivery[]> {
-    const deliveries = Array.from(this.deliveries.values()).filter(
+    const _deliveries = Array.from(this.deliveries.values()).filter(
       delivery => delivery.warehouseId === warehouseId
     );
     
@@ -80,7 +80,7 @@ export class SalesDeliveryService {
   }
 
   async findByDateRange(startDate: Date, endDate: Date): Promise<SalesDelivery[]> {
-    const deliveries = Array.from(this.deliveries.values()).filter(
+    const _deliveries = Array.from(this.deliveries.values()).filter(
       delivery => delivery.deliveryDate >= startDate && delivery.deliveryDate <= endDate
     );
     
@@ -93,25 +93,25 @@ export class SalesDeliveryService {
 
   async create(data: Omit<SalesDelivery, 'id' | 'deliveryNo' | 'totalQuantity' | 'totalAmount' | 'createdAt' | 'updatedAt'>): Promise<SalesDelivery> {
     // 验证销售订单是否存在
-    const order = await salesOrderService.findById(data.orderId);
+    const _order = await salesOrderService.findById(data.orderId);
     if (!order) {
       throw new Error(`销售订单不存在: ${data.orderId}`);
     }
 
     // 验证客户是否存在
-    const customer = await customerService.findById(data.customerId);
+    const _customer = await customerService.findById(data.customerId);
     if (!customer) {
       throw new Error(`客户不存在: ${data.customerId}`);
     }
 
     // 验证仓库是否存在
-    const warehouse = await warehouseService.findById(data.warehouseId);
+    const _warehouse = await warehouseService.findById(data.warehouseId);
     if (!warehouse) {
       throw new Error(`仓库不存在: ${data.warehouseId}`);
     }
 
     // 生成出库单号
-    const deliveryNo = await this.generateDeliveryNo();
+    const _deliveryNo = await this.generateDeliveryNo();
 
     const delivery: SalesDelivery = {
       ...data,
@@ -131,7 +131,7 @@ export class SalesDeliveryService {
   }
 
   async update(id: string, data: Partial<Omit<SalesDelivery, 'id' | 'deliveryNo' | 'createdAt' | 'updatedAt'>>): Promise<SalesDelivery> {
-    const existingDelivery = this.deliveries.get(id);
+    const _existingDelivery = this.deliveries.get(id);
     if (!existingDelivery) {
       throw new Error(`销售出库单不存在: ${id}`);
     }
@@ -147,13 +147,13 @@ export class SalesDeliveryService {
   }
 
   async delete(id: string): Promise<boolean> {
-    const delivery = this.deliveries.get(id);
+    const _delivery = this.deliveries.get(id);
     if (!delivery) {
       return false;
     }
 
     // 删除出库项目
-    const itemIds = this.deliveryItemsByDelivery.get(id) || [];
+    const _itemIds = this.deliveryItemsByDelivery.get(id) || [];
     for (const itemId of itemIds) {
       this.deliveryItems.delete(itemId);
     }
@@ -165,7 +165,7 @@ export class SalesDeliveryService {
   }
 
   async updateStatus(id: string, status: DeliveryStatus): Promise<SalesDelivery> {
-    const delivery = await this.update(id, { status });
+    const _delivery = await this.update(id, { status });
     
     // 如果状态变更为已完成，更新库存和订单状态
     if (status === DeliveryStatus.COMPLETED) {
@@ -178,19 +178,19 @@ export class SalesDeliveryService {
   // =============== 出库项目管理 ===============
 
   async addDeliveryItem(deliveryId: string, data: Omit<SalesDeliveryItem, 'id' | 'deliveryId' | 'amount' | 'createdAt' | 'updatedAt'>): Promise<SalesDeliveryItem> {
-    const delivery = this.deliveries.get(deliveryId);
+    const _delivery = this.deliveries.get(deliveryId);
     if (!delivery) {
       throw new Error(`销售出库单不存在: ${deliveryId}`);
     }
 
     // 验证产品是否存在
-    const product = await productService.findById(data.productId);
+    const _product = await productService.findById(data.productId);
     if (!product) {
       throw new Error(`产品不存在: ${data.productId}`);
     }
 
     // 计算金额
-    const amount = data.quantity * data.unitPrice;
+    const _amount = data.quantity * data.unitPrice;
 
     const deliveryItem: SalesDeliveryItem = {
       ...data,
@@ -203,7 +203,7 @@ export class SalesDeliveryService {
 
     this.deliveryItems.set(deliveryItem.id, deliveryItem);
     
-    const deliveryItemIds = this.deliveryItemsByDelivery.get(deliveryId) || [];
+    const _deliveryItemIds = this.deliveryItemsByDelivery.get(deliveryId) || [];
     deliveryItemIds.push(deliveryItem.id);
     this.deliveryItemsByDelivery.set(deliveryId, deliveryItemIds);
 
@@ -214,15 +214,15 @@ export class SalesDeliveryService {
   }
 
   async updateDeliveryItem(itemId: string, data: Partial<Omit<SalesDeliveryItem, 'id' | 'deliveryId' | 'createdAt' | 'updatedAt'>>): Promise<SalesDeliveryItem> {
-    const existingItem = this.deliveryItems.get(itemId);
+    const _existingItem = this.deliveryItems.get(itemId);
     if (!existingItem) {
       throw new Error(`出库项目不存在: ${itemId}`);
     }
 
     // 重新计算金额
-    const quantity = data.quantity !== undefined ? data.quantity : existingItem.quantity;
-    const unitPrice = data.unitPrice !== undefined ? data.unitPrice : existingItem.unitPrice;
-    const amount = quantity * unitPrice;
+    const _quantity = data.quantity !== undefined ? data.quantity : existingItem.quantity;
+    const _unitPrice = data.unitPrice !== undefined ? data.unitPrice : existingItem.unitPrice;
+    const _amount = quantity * unitPrice;
 
     const updatedItem: SalesDeliveryItem = {
       ...existingItem,
@@ -240,16 +240,16 @@ export class SalesDeliveryService {
   }
 
   async removeDeliveryItem(itemId: string): Promise<boolean> {
-    const item = this.deliveryItems.get(itemId);
+    const _item = this.deliveryItems.get(itemId);
     if (!item) {
       return false;
     }
 
-    const deliveryId = item.deliveryId;
+    const _deliveryId = item.deliveryId;
     this.deliveryItems.delete(itemId);
 
-    const deliveryItemIds = this.deliveryItemsByDelivery.get(deliveryId) || [];
-    const updatedItemIds = deliveryItemIds.filter(id => id !== itemId);
+    const _deliveryItemIds = this.deliveryItemsByDelivery.get(deliveryId) || [];
+    const _updatedItemIds = deliveryItemIds.filter(id => id !== itemId);
     this.deliveryItemsByDelivery.set(deliveryId, updatedItemIds);
 
     // 重新计算出库单总额
@@ -259,8 +259,8 @@ export class SalesDeliveryService {
   }
 
   async getDeliveryItems(deliveryId: string): Promise<SalesDeliveryItem[]> {
-    const itemIds = this.deliveryItemsByDelivery.get(deliveryId) || [];
-    const items = itemIds.map(id => this.deliveryItems.get(id)!).filter(Boolean);
+    const _itemIds = this.deliveryItemsByDelivery.get(deliveryId) || [];
+    const _items = itemIds.map(id => this.deliveryItems.get(id)!).filter(Boolean);
     
     // 加载关联数据
     for (const item of items) {
@@ -273,7 +273,7 @@ export class SalesDeliveryService {
   // =============== 库存更新 ===============
 
   private async updateInventoryOnComplete(deliveryId: string): Promise<void> {
-    const delivery = await this.findById(deliveryId);
+    const _delivery = await this.findById(deliveryId);
     if (!delivery || !delivery.items) return;
 
     for (const item of delivery.items) {
@@ -297,11 +297,11 @@ export class SalesDeliveryService {
       if (item.orderItemId) {
         try {
           // 从订单中获取订单项目信息
-          const order = await salesOrderService.findById(delivery.orderId);
+          const _order = await salesOrderService.findById(delivery.orderId);
           if (order && order.items) {
-            const orderItem = order.items.find(oi => oi.id === item.orderItemId);
+            const _orderItem = order.items.find(oi => oi.id === item.orderItemId);
             if (orderItem) {
-              const newDeliveredQuantity = orderItem.deliveredQuantity + item.quantity;
+              const _newDeliveredQuantity = orderItem.deliveredQuantity + item.quantity;
               await salesOrderService.updateOrderItem(item.orderItemId, {
                 deliveredQuantity: newDeliveredQuantity
               });
@@ -330,12 +330,12 @@ export class SalesDeliveryService {
   }
 
   private async recalculateDeliveryTotals(deliveryId: string): Promise<void> {
-    const delivery = this.deliveries.get(deliveryId);
+    const _delivery = this.deliveries.get(deliveryId);
     if (!delivery) return;
 
-    const items = await this.getDeliveryItems(deliveryId);
-    const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
-    const totalAmount = items.reduce((sum, item) => sum + item.amount, 0);
+    const _items = await this.getDeliveryItems(deliveryId);
+    const _totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+    const _totalAmount = items.reduce((sum, item) => sum + item.amount, 0);
 
     await this.update(deliveryId, {
       totalQuantity,
@@ -344,9 +344,9 @@ export class SalesDeliveryService {
   }
 
   private async generateDeliveryNo(): Promise<string> {
-    const now = new Date();
-    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
-    const sequence = String(this.deliveries.size + 1).padStart(4, '0');
+    const _now = new Date();
+    const _dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const _sequence = String(this.deliveries.size + 1).padStart(4, '0');
     return `SD${dateStr}${sequence}`;
   }
 
@@ -359,7 +359,7 @@ export class SalesDeliveryService {
     totalValue: number;
     averageDeliveryValue: number;
   }> {
-    const deliveries = await this.findAll();
+    const _deliveries = await this.findAll();
     const byStatus: Record<DeliveryStatus, number> = {
       [DeliveryStatus.DRAFT]: 0,
       [DeliveryStatus.CONFIRMED]: 0,
@@ -368,8 +368,8 @@ export class SalesDeliveryService {
       [DeliveryStatus.CANCELLED]: 0
     };
 
-    let totalQuantity = 0;
-    let totalValue = 0;
+    const _totalQuantity = 0;
+    const _totalValue = 0;
 
     deliveries.forEach(delivery => {
       byStatus[delivery.status]++;
@@ -392,8 +392,8 @@ export class SalesDeliveryService {
     totalQuantity: number;
     totalValue: number;
   }>> {
-    const deliveries = await this.findAll();
-    const monthlyStats = new Array(12).fill(null).map((_, index) => ({
+    const _deliveries = await this.findAll();
+    const _monthlyStats = new Array(12).fill(null).map((_, index) => ({
       month: index + 1,
       deliveryCount: 0,
       totalQuantity: 0,
@@ -401,9 +401,9 @@ export class SalesDeliveryService {
     }));
 
     deliveries.forEach(delivery => {
-      const deliveryYear = delivery.deliveryDate.getFullYear();
+      const _deliveryYear = delivery.deliveryDate.getFullYear();
       if (deliveryYear === year) {
-        const month = delivery.deliveryDate.getMonth();
+        const _month = delivery.deliveryDate.getMonth();
         monthlyStats[month].deliveryCount++;
         monthlyStats[month].totalQuantity += delivery.totalQuantity;
         monthlyStats[month].totalValue += delivery.totalAmount;
@@ -414,10 +414,10 @@ export class SalesDeliveryService {
   }
 
   async search(searchTerm: string): Promise<SalesDelivery[]> {
-    const term = searchTerm.toLowerCase().trim();
+    const _term = searchTerm.toLowerCase().trim();
     if (!term) return this.findAll();
 
-    const deliveries = await this.findAll();
+    const _deliveries = await this.findAll();
     
     return deliveries.filter(delivery =>
       delivery.deliveryNo.toLowerCase().includes(term) ||
@@ -432,18 +432,18 @@ export class SalesDeliveryService {
     orderItems: any[];
     canDeliver: boolean;
   }> {
-    const order = await salesOrderService.findById(orderId);
+    const _order = await salesOrderService.findById(orderId);
     if (!order || !order.items) {
       return { orderItems: [], canDeliver: false };
     }
 
-    const orderItems = order.items.map(item => ({
+    const _orderItems = order.items.map(item => ({
       ...item,
       pendingQuantity: item.quantity - item.deliveredQuantity,
       canDeliver: item.quantity > item.deliveredQuantity
     }));
 
-    const canDeliver = orderItems.some(item => item.canDeliver);
+    const _canDeliver = orderItems.some(item => item.canDeliver);
 
     return { orderItems, canDeliver };
   }

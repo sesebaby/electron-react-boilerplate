@@ -4,13 +4,13 @@ import { ImportResult, ExcelImportOptions, ExcelExportOptions } from '../types/e
 import ExcelImporter from '../services/excel/importer';
 import ExcelExporter from '../services/excel/exporter';
 
-export const useExcel = () => {
+export const _useExcel = () => {
   const [importing, setImporting] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [importResult, setImportResult] = useState<ImportResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const importFromFile = useCallback(async (
+  const _importFromFile = useCallback(async (
     filePath: string, 
     options?: ExcelImportOptions
   ): Promise<ImportResult> => {
@@ -18,7 +18,7 @@ export const useExcel = () => {
       setImporting(true);
       setError(null);
       
-      const result = await ExcelImporter.importFromFile(filePath, options);
+      const _result = await ExcelImporter.importFromFile(filePath, options);
       setImportResult(result);
       
       if (!result.success) {
@@ -27,7 +27,7 @@ export const useExcel = () => {
       
       return result;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : '导入失败';
+      const _errorMessage = err instanceof Error ? err.message : '导入失败';
       setError(errorMessage);
       const failedResult: ImportResult = {
         success: false,
@@ -47,7 +47,7 @@ export const useExcel = () => {
     }
   }, []);
 
-  const importFromBuffer = useCallback(async (
+  const _importFromBuffer = useCallback(async (
     buffer: ArrayBuffer, 
     options?: ExcelImportOptions
   ): Promise<ImportResult> => {
@@ -55,7 +55,7 @@ export const useExcel = () => {
       setImporting(true);
       setError(null);
       
-      const result = await ExcelImporter.importFromBuffer(buffer, options);
+      const _result = await ExcelImporter.importFromBuffer(buffer, options);
       setImportResult(result);
       
       if (!result.success) {
@@ -64,7 +64,7 @@ export const useExcel = () => {
       
       return result;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : '导入失败';
+      const _errorMessage = err instanceof Error ? err.message : '导入失败';
       setError(errorMessage);
       const failedResult: ImportResult = {
         success: false,
@@ -84,7 +84,7 @@ export const useExcel = () => {
     }
   }, []);
 
-  const exportToFile = useCallback(async (
+  const _exportToFile = useCallback(async (
     data: InventoryItem[], 
     filePath: string, 
     options?: ExcelExportOptions
@@ -93,7 +93,7 @@ export const useExcel = () => {
       setExporting(true);
       setError(null);
       
-      const result = await ExcelExporter.exportToFile(data, filePath, options);
+      const _result = await ExcelExporter.exportToFile(data, filePath, options);
       
       if (!result.success) {
         setError(result.message);
@@ -101,7 +101,7 @@ export const useExcel = () => {
       
       return result;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : '导出失败';
+      const _errorMessage = err instanceof Error ? err.message : '导出失败';
       setError(errorMessage);
       return {
         success: false,
@@ -112,7 +112,7 @@ export const useExcel = () => {
     }
   }, []);
 
-  const exportToBuffer = useCallback(async (
+  const _exportToBuffer = useCallback(async (
     data: InventoryItem[], 
     options?: ExcelExportOptions
   ): Promise<Buffer | null> => {
@@ -122,7 +122,7 @@ export const useExcel = () => {
       
       return await ExcelExporter.exportToBuffer(data, options);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : '导出失败';
+      const _errorMessage = err instanceof Error ? err.message : '导出失败';
       setError(errorMessage);
       return null;
     } finally {
@@ -130,12 +130,12 @@ export const useExcel = () => {
     }
   }, []);
 
-  const exportTemplate = useCallback(async (filePath: string): Promise<{ success: boolean; message: string }> => {
+  const _exportTemplate = useCallback(async (filePath: string): Promise<{ success: boolean; message: string }> => {
     try {
       setExporting(true);
       setError(null);
       
-      const result = await ExcelExporter.exportTemplate(filePath);
+      const _result = await ExcelExporter.exportTemplate(filePath);
       
       if (!result.success) {
         setError(result.message);
@@ -143,7 +143,7 @@ export const useExcel = () => {
       
       return result;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : '模板生成失败';
+      const _errorMessage = err instanceof Error ? err.message : '模板生成失败';
       setError(errorMessage);
       return {
         success: false,
@@ -154,20 +154,20 @@ export const useExcel = () => {
     }
   }, []);
 
-  const validateFile = useCallback((filePath: string): { valid: boolean; message: string } => {
+  const _validateFile = useCallback((filePath: string): { valid: boolean; message: string } => {
     return ExcelImporter.validateFile(filePath);
   }, []);
 
-  const getDefaultMapping = useCallback(() => {
+  const _getDefaultMapping = useCallback(() => {
     return ExcelImporter.getDefaultMapping();
   }, []);
 
-  const clearImportResult = useCallback(() => {
+  const _clearImportResult = useCallback(() => {
     setImportResult(null);
     setError(null);
   }, []);
 
-  const clearError = useCallback(() => {
+  const _clearError = useCallback(() => {
     setError(null);
   }, []);
 

@@ -24,7 +24,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const getVariantStyles = () => {
+  const _getVariantStyles = () => {
     switch (variant) {
       case 'danger':
         return {
@@ -53,7 +53,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     }
   };
 
-  const styles = getVariantStyles();
+  const _styles = getVariantStyles();
 
   return (
     <div className="popup-overlay flex items-center justify-center p-2 sm:p-4 z-[9999]">

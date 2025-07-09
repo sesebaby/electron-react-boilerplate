@@ -16,7 +16,7 @@ const WarehouseDetailModal: React.FC<WarehouseDetailModalProps> = ({
   if (!isOpen || !warehouse) return null;
 
   // 格式化金额
-  const formatCurrency = (amount: number) => {
+  const _formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('zh-CN', {
       style: 'currency',
       currency: 'CNY',
@@ -26,7 +26,7 @@ const WarehouseDetailModal: React.FC<WarehouseDetailModalProps> = ({
   };
 
   // 获取库存状态样式
-  const getStockStatusStyle = () => {
+  const _getStockStatusStyle = () => {
     if (warehouse.outOfStockCount > 0) {
       return 'text-red-600 bg-red-100';
     } else if (warehouse.lowStockCount > 0) {
@@ -37,7 +37,7 @@ const WarehouseDetailModal: React.FC<WarehouseDetailModalProps> = ({
   };
 
   // 获取状态文本
-  const getStatusText = () => {
+  const _getStatusText = () => {
     if (warehouse.outOfStockCount > 0) {
       return '有缺货商品';
     } else if (warehouse.lowStockCount > 0) {

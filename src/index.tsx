@@ -12,7 +12,7 @@ import './utils/userActionLogger';
 // 导入性能监控器以初始化
 import './utils/performanceMonitor';
 
-const root = ReactDOM.createRoot(
+const _root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 

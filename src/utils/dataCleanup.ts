@@ -1,7 +1,7 @@
 // 数据清理工具
 // 用于清除所有业务数据，保留基础配置数据
 
-const DatabaseManager = require('../services/database/connection').default;
+const _DatabaseManager = require('../services/database/connection').default;
 
 interface CleanupResult {
   success: boolean;
@@ -66,7 +66,7 @@ class DataCleanupManager {
    */
   private async tableExists(tableName: string): Promise<boolean> {
     try {
-      const result = await this.db.get(`
+      const _result = await this.db.get(`
         SELECT name FROM sqlite_master 
         WHERE type='table' AND name=?
       `, [tableName]);
@@ -82,7 +82,7 @@ class DataCleanupManager {
    */
   private async getTableRowCount(tableName: string): Promise<number> {
     try {
-      const result = await this.db.get(`SELECT COUNT(*) as count FROM ${tableName}`);
+      const _result = await this.db.get(`SELECT COUNT(*) as count FROM ${tableName}`);
       return result?.count || 0;
     } catch (error) {
       console.warn(`获取表 ${tableName} 记录数时出错:`, error);
@@ -95,13 +95,13 @@ class DataCleanupManager {
    */
   private async clearTable(tableName: string): Promise<{ success: boolean; error?: string }> {
     try {
-      const exists = await this.tableExists(tableName);
+      const _exists = await this.tableExists(tableName);
       if (!exists) {
         console.log(`表 ${tableName} 不存在，跳过清理`);
         return { success: true };
       }
 
-      const beforeCount = await this.getTableRowCount(tableName);
+      const _beforeCount = await this.getTableRowCount(tableName);
       console.log(`清理表 ${tableName}，清理前记录数: ${beforeCount}`);
 
       if (beforeCount === 0) {
@@ -115,12 +115,12 @@ class DataCleanupManager {
       // 重置自增ID（如果有的话）
       await this.db.run(`DELETE FROM sqlite_sequence WHERE name = ?`, [tableName]);
 
-      const afterCount = await this.getTableRowCount(tableName);
+      const _afterCount = await this.getTableRowCount(tableName);
       console.log(`表 ${tableName} 清理完成，清理后记录数: ${afterCount}`);
 
       return { success: true };
     } catch (error) {
-      const errorMsg = `清理表 ${tableName} 失败: ${error instanceof Error ? error.message : '未知错误'}`;
+      const _errorMsg = `清理表 ${tableName} 失败: ${error instanceof Error ? error.message : '未知错误'}`;
       console.error(errorMsg);
       return { success: false, error: errorMsg };
     }
@@ -151,7 +151,7 @@ class DataCleanupManager {
 
       // 清理业务数据表
       for (const tableName of this.BUSINESS_TABLES) {
-        const clearResult = await this.clearTable(tableName);
+        const _clearResult = await this.clearTable(tableName);
         
         if (clearResult.success) {
           result.clearedTables.push(tableName);
@@ -178,7 +178,7 @@ class DataCleanupManager {
 
       // 记录保留的表
       for (const tableName of this.CONFIG_TABLES) {
-        const exists = await this.tableExists(tableName);
+        const _exists = await this.tableExists(tableName);
         if (exists) {
           result.preservedTables.push(tableName);
         }
@@ -192,7 +192,7 @@ class DataCleanupManager {
         console.log('回滚事务失败:', rollbackError);
       }
 
-      const errorMsg = `数据清理过程中发生严重错误: ${error instanceof Error ? error.message : '未知错误'}`;
+      const _errorMsg = `数据清理过程中发生严重错误: ${error instanceof Error ? error.message : '未知错误'}`;
       result.success = false;
       result.message = errorMsg;
       result.errors.push(errorMsg);
@@ -211,16 +211,16 @@ class DataCleanupManager {
     details: { tableName: string; rowCount: number; expected: 'empty' | 'preserved' }[];
   }> {
     const details: { tableName: string; rowCount: number; expected: 'empty' | 'preserved' }[] = [];
-    let businessTablesEmpty = true;
-    let configTablesPreserved = true;
+    const _businessTablesEmpty = true;
+    const _configTablesPreserved = true;
 
     console.log('🔍 验证清理结果...');
 
     // 检查业务数据表是否为空
     for (const tableName of this.BUSINESS_TABLES) {
-      const exists = await this.tableExists(tableName);
+      const _exists = await this.tableExists(tableName);
       if (exists) {
-        const rowCount = await this.getTableRowCount(tableName);
+        const _rowCount = await this.getTableRowCount(tableName);
         details.push({ tableName, rowCount, expected: 'empty' });
         
         if (rowCount > 0) {
@@ -234,9 +234,9 @@ class DataCleanupManager {
 
     // 检查配置数据表是否保留
     for (const tableName of this.CONFIG_TABLES) {
-      const exists = await this.tableExists(tableName);
+      const _exists = await this.tableExists(tableName);
       if (exists) {
-        const rowCount = await this.getTableRowCount(tableName);
+        const _rowCount = await this.getTableRowCount(tableName);
         details.push({ tableName, rowCount, expected: 'preserved' });
         console.log(`📋 配置数据表 ${tableName} 保留 ${rowCount} 条记录`);
       } else {
@@ -256,7 +256,7 @@ class DataCleanupManager {
    * 生成清理报告
    */
   generateCleanupReport(result: CleanupResult, validation: any): string {
-    const report = [
+    const _report = [
       '📊 数据清理报告',
       '=' .repeat(50),
       '',
@@ -284,7 +284,7 @@ class DataCleanupManager {
 
     report.push('详细统计:');
     validation.details.forEach((detail: any) => {
-      const status = detail.expected === 'empty' 
+      const _status = detail.expected === 'empty' 
         ? (detail.rowCount === 0 ? '✅' : '❌')
         : (detail.rowCount > 0 ? '✅' : '⚠️');
       report.push(`  ${status} ${detail.tableName}: ${detail.rowCount} 条记录 (期望: ${detail.expected})`);
@@ -295,6 +295,6 @@ class DataCleanupManager {
 }
 
 // 导出单例实例
-const dataCleanupManager = new DataCleanupManager();
+const _dataCleanupManager = new DataCleanupManager();
 
 module.exports = { DataCleanupManager, dataCleanupManager };

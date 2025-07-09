@@ -18,15 +18,15 @@ export function VirtualizedList<T>({
   className = ''
 }: VirtualizedListProps<T>) {
   const [scrollTop, setScrollTop] = useState(0);
-  const scrollElementRef = useRef<HTMLDivElement>(null);
+  const _scrollElementRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+  const _handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
     setScrollTop(e.currentTarget.scrollTop);
   }, []);
 
-  const visibleRange = useMemo(() => {
-    const startIndex = Math.floor(scrollTop / itemHeight);
-    const endIndex = Math.min(
+  const _visibleRange = useMemo(() => {
+    const _startIndex = Math.floor(scrollTop / itemHeight);
+    const _endIndex = Math.min(
       startIndex + Math.ceil(containerHeight / itemHeight),
       items.length - 1
     );
@@ -37,12 +37,12 @@ export function VirtualizedList<T>({
     };
   }, [scrollTop, itemHeight, containerHeight, items.length, overscan]);
 
-  const visibleItems = useMemo(() => {
+  const _visibleItems = useMemo(() => {
     return items.slice(visibleRange.start, visibleRange.end + 1);
   }, [items, visibleRange]);
 
-  const totalHeight = items.length * itemHeight;
-  const offsetY = visibleRange.start * itemHeight;
+  const _totalHeight = items.length * itemHeight;
+  const _offsetY = visibleRange.start * itemHeight;
 
   return (
     <div
@@ -129,16 +129,16 @@ export function VirtualizedGrid<T>({
 }: VirtualizedGridProps<T>) {
   const [scrollTop, setScrollTop] = useState(0);
   
-  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+  const _handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
     setScrollTop(e.currentTarget.scrollTop);
   }, []);
 
-  const rowHeight = itemHeight + gap;
-  const totalRows = Math.ceil(items.length / itemsPerRow);
+  const _rowHeight = itemHeight + gap;
+  const _totalRows = Math.ceil(items.length / itemsPerRow);
   
-  const visibleRange = useMemo(() => {
-    const startRow = Math.floor(scrollTop / rowHeight);
-    const endRow = Math.min(
+  const _visibleRange = useMemo(() => {
+    const _startRow = Math.floor(scrollTop / rowHeight);
+    const _endRow = Math.min(
       startRow + Math.ceil(containerHeight / rowHeight),
       totalRows - 1
     );
@@ -149,14 +149,14 @@ export function VirtualizedGrid<T>({
     };
   }, [scrollTop, rowHeight, containerHeight, totalRows]);
 
-  const visibleItems = useMemo(() => {
-    const startIndex = visibleRange.start * itemsPerRow;
-    const endIndex = Math.min((visibleRange.end + 1) * itemsPerRow, items.length);
+  const _visibleItems = useMemo(() => {
+    const _startIndex = visibleRange.start * itemsPerRow;
+    const _endIndex = Math.min((visibleRange.end + 1) * itemsPerRow, items.length);
     return items.slice(startIndex, endIndex);
   }, [items, visibleRange, itemsPerRow]);
 
-  const totalHeight = totalRows * rowHeight;
-  const offsetY = visibleRange.start * rowHeight;
+  const _totalHeight = totalRows * rowHeight;
+  const _offsetY = visibleRange.start * rowHeight;
 
   return (
     <div

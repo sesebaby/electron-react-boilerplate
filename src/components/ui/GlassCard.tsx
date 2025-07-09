@@ -1,7 +1,7 @@
 import * as React from "react"
 import { cn } from "../../lib/utils"
 
-const GlassCard = React.forwardRef<
+const _GlassCard = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -16,7 +16,7 @@ const GlassCard = React.forwardRef<
 ))
 GlassCard.displayName = "GlassCard"
 
-const GlassCardHeader = React.forwardRef<
+const _GlassCardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -28,7 +28,7 @@ const GlassCardHeader = React.forwardRef<
 ))
 GlassCardHeader.displayName = "GlassCardHeader"
 
-const GlassCardTitle = React.forwardRef<
+const _GlassCardTitle = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
@@ -44,7 +44,7 @@ const GlassCardTitle = React.forwardRef<
 ))
 GlassCardTitle.displayName = "GlassCardTitle"
 
-const GlassCardDescription = React.forwardRef<
+const _GlassCardDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
@@ -57,7 +57,7 @@ const GlassCardDescription = React.forwardRef<
 ))
 GlassCardDescription.displayName = "GlassCardDescription"
 
-const GlassCardContent = React.forwardRef<
+const _GlassCardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -65,7 +65,7 @@ const GlassCardContent = React.forwardRef<
 ))
 GlassCardContent.displayName = "GlassCardContent"
 
-const GlassCardFooter = React.forwardRef<
+const _GlassCardFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (

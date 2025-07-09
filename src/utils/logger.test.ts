@@ -6,7 +6,7 @@ import { logger, Logger, LogLevel, LogEntry, LoggerConfig } from './logger';
 import { originalConsole } from '../../jest.setup';
 
 // Mock文件日志服务
-const mockFileLoggerService = {
+const _mockFileLoggerService = {
   writeLog: jest.fn().mockResolvedValue(undefined),
   writeLogBatch: jest.fn().mockResolvedValue(undefined),
   flush: jest.fn().mockResolvedValue(undefined),
@@ -38,7 +38,7 @@ describe('Logger工具测试', () => {
 
   describe('基础功能测试', () => {
     test('应该正确初始化logger配置', () => {
-      const config = testLogger.getConfig();
+      const _config = testLogger.getConfig();
       expect(config.level).toBe(LogLevel.DEBUG);
       expect(config.maxLogs).toBe(100);
       expect(config.enableFileLogging).toBe(true);
@@ -46,8 +46,8 @@ describe('Logger工具测试', () => {
     });
 
     test('应该创建具有默认配置的logger', () => {
-      const defaultLogger = new Logger();
-      const config = defaultLogger.getConfig();
+      const _defaultLogger = new Logger();
+      const _config = defaultLogger.getConfig();
       
       expect(config.level).toBe(LogLevel.INFO);
       expect(config.maxLogs).toBe(1000);
@@ -63,7 +63,7 @@ describe('Logger工具测试', () => {
     test('应该记录DEBUG级别日志', () => {
       testLogger.debug('测试debug消息', { test: true });
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs).toHaveLength(1);
       expect(logs[0].level).toBe(LogLevel.DEBUG);
       expect(logs[0].message).toBe('测试debug消息');
@@ -73,7 +73,7 @@ describe('Logger工具测试', () => {
     test('应该记录INFO级别日志', () => {
       testLogger.info('测试info消息', { info: 'data' });
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs).toHaveLength(1);
       expect(logs[0].level).toBe(LogLevel.INFO);
       expect(logs[0].message).toBe('测试info消息');
@@ -82,7 +82,7 @@ describe('Logger工具测试', () => {
     test('应该记录WARN级别日志', () => {
       testLogger.warn('测试warn消息');
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs).toHaveLength(1);
       expect(logs[0].level).toBe(LogLevel.WARN);
       expect(logs[0].message).toBe('测试warn消息');
@@ -91,7 +91,7 @@ describe('Logger工具测试', () => {
     test('应该记录ERROR级别日志', () => {
       testLogger.error('测试error消息', new Error('测试错误'));
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs).toHaveLength(1);
       expect(logs[0].level).toBe(LogLevel.ERROR);
       expect(logs[0].message).toBe('测试error消息');
@@ -100,16 +100,16 @@ describe('Logger工具测试', () => {
     test('应该包含source信息', () => {
       testLogger.info('测试消息', null, 'TestSource');
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs[0].source).toBe('TestSource');
     });
 
     test('应该包含正确的时间戳', () => {
-      const beforeTime = new Date();
+      const _beforeTime = new Date();
       testLogger.info('测试时间戳');
-      const afterTime = new Date();
+      const _afterTime = new Date();
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs[0].timestamp.getTime()).toBeGreaterThanOrEqual(beforeTime.getTime());
       expect(logs[0].timestamp.getTime()).toBeLessThanOrEqual(afterTime.getTime());
     });
@@ -124,7 +124,7 @@ describe('Logger工具测试', () => {
       testLogger.warn('这条应该被记录');
       testLogger.error('这条也应该被记录');
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs).toHaveLength(2);
       expect(logs[0].level).toBe(LogLevel.WARN);
       expect(logs[1].level).toBe(LogLevel.ERROR);
@@ -136,10 +136,10 @@ describe('Logger工具测试', () => {
       testLogger.warn('warn消息');
       testLogger.error('error消息');
       
-      const debugLogs = testLogger.getLogs(LogLevel.DEBUG);
-      const infoLogs = testLogger.getLogs(LogLevel.INFO);
-      const warnLogs = testLogger.getLogs(LogLevel.WARN);
-      const errorLogs = testLogger.getLogs(LogLevel.ERROR);
+      const _debugLogs = testLogger.getLogs(LogLevel.DEBUG);
+      const _infoLogs = testLogger.getLogs(LogLevel.INFO);
+      const _warnLogs = testLogger.getLogs(LogLevel.WARN);
+      const _errorLogs = testLogger.getLogs(LogLevel.ERROR);
       
       expect(debugLogs).toHaveLength(4); // 包含所有级别
       expect(infoLogs).toHaveLength(3); // 不包含DEBUG
@@ -158,7 +158,7 @@ describe('Logger工具测试', () => {
       
       testLogger.logBatch(entries);
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs).toHaveLength(3);
       expect(logs[0].message).toBe('批量消息1');
       expect(logs[1].message).toBe('批量消息2');
@@ -177,14 +177,14 @@ describe('Logger工具测试', () => {
       
       testLogger.logBatch(entries);
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs).toHaveLength(2);
       expect(logs[0].level).toBe(LogLevel.WARN);
       expect(logs[1].level).toBe(LogLevel.ERROR);
     });
 
     test('应该为批量日志设置正确的时间戳', () => {
-      const beforeTime = new Date();
+      const _beforeTime = new Date();
       
       const entries: Omit<LogEntry, 'timestamp'>[] = [
         { level: LogLevel.INFO, message: '消息1' },
@@ -192,9 +192,9 @@ describe('Logger工具测试', () => {
       ];
       
       testLogger.logBatch(entries);
-      const afterTime = new Date();
+      const _afterTime = new Date();
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       logs.forEach((log: LogEntry) => {
         expect(log.timestamp.getTime()).toBeGreaterThanOrEqual(beforeTime.getTime());
         expect(log.timestamp.getTime()).toBeLessThanOrEqual(afterTime.getTime());
@@ -211,7 +211,7 @@ describe('Logger工具测试', () => {
       testLogger.info('消息3');
       testLogger.info('消息4'); // 这应该导致消息1被删除
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs).toHaveLength(3);
       expect(logs[0].message).toBe('消息2');
       expect(logs[1].message).toBe('消息3');
@@ -239,7 +239,7 @@ describe('Logger工具测试', () => {
       testLogger.warn('warn消息');
       testLogger.error('error消息');
       
-      const stats = testLogger.getStats();
+      const _stats = testLogger.getStats();
       
       expect(stats.totalLogs).toBe(5);
       expect(stats.logsByLevel.DEBUG).toBe(1);
@@ -252,15 +252,15 @@ describe('Logger工具测试', () => {
     });
 
     test('应该正确计算日志时间范围', () => {
-      const firstTime = new Date();
+      const _firstTime = new Date();
       testLogger.info('第一条消息');
       
       // 等待一小段时间确保时间差
       setTimeout(() => {
         testLogger.info('第二条消息');
-        const lastTime = new Date();
+        const _lastTime = new Date();
         
-        const stats = testLogger.getStats();
+        const _stats = testLogger.getStats();
         expect(stats.oldestLog?.getTime()).toBeGreaterThanOrEqual(firstTime.getTime());
         expect(stats.newestLog?.getTime()).toBeLessThanOrEqual(lastTime.getTime());
         expect(stats.newestLog?.getTime()).toBeGreaterThanOrEqual(stats.oldestLog!.getTime());
@@ -278,7 +278,7 @@ describe('Logger工具测试', () => {
       
       testLogger.updateConfig(newConfig);
       
-      const config = testLogger.getConfig();
+      const _config = testLogger.getConfig();
       expect(config.level).toBe(LogLevel.ERROR);
       expect(config.maxLogs).toBe(50);
       expect(config.enableConsoleOutput).toBe(false);
@@ -382,7 +382,7 @@ describe('Logger工具测试', () => {
     });
 
     test('默认实例应该正常工作', () => {
-      const originalLogCount = logger.getLogCount();
+      const _originalLogCount = logger.getLogCount();
       logger.info('测试默认实例');
       expect(logger.getLogCount()).toBe(originalLogCount + 1);
     });
@@ -394,7 +394,7 @@ describe('Logger工具测试', () => {
       testLogger.info('消息2', undefined);
       testLogger.info('消息3', '');
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs).toHaveLength(3);
       expect(logs[0].data).toBeNull();
       expect(logs[1].data).toBeUndefined();
@@ -402,7 +402,7 @@ describe('Logger工具测试', () => {
     });
 
     test('应该处理复杂对象数据', () => {
-      const complexData = {
+      const _complexData = {
         nested: { deep: { value: 'test' } },
         array: [1, 2, { item: 'value' }],
         function: () => 'test',
@@ -412,7 +412,7 @@ describe('Logger工具测试', () => {
       
       testLogger.info('复杂数据测试', complexData);
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs[0].data).toBe(complexData);
     });
 
@@ -424,16 +424,16 @@ describe('Logger工具测试', () => {
         testLogger.info('循环引用测试', circularObj);
       }).not.toThrow();
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs).toHaveLength(1);
     });
 
     test('应该处理非常长的消息', () => {
-      const longMessage = 'a'.repeat(10000);
+      const _longMessage = 'a'.repeat(10000);
       
       testLogger.info(longMessage);
       
-      const logs = testLogger.getLogs();
+      const _logs = testLogger.getLogs();
       expect(logs[0].message).toBe(longMessage);
     });
   });

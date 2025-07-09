@@ -14,21 +14,21 @@ const DayCell: React.FC<DayCellProps> = ({
   isSelected = false,
   onClick
 }) => {
-  const date = new Date(data.date);
-  const dayNumber = date.getDate();
-  const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+  const _date = new Date(data.date);
+  const _dayNumber = date.getDate();
+  const _isWeekend = date.getDay() === 0 || date.getDay() === 6;
 
   // 计算活动强度（用于颜色编码）
-  const totalActivity = data.purchases.totalValue + data.sales.totalValue;
-  const activityLevel = totalActivity > 20000 ? 'high' : totalActivity > 10000 ? 'medium' : 'low';
+  const _totalActivity = data.purchases.totalValue + data.sales.totalValue;
+  const _activityLevel = totalActivity > 20000 ? 'high' : totalActivity > 10000 ? 'medium' : 'low';
 
   // 计算净变化
-  const netChange = data.movements.inbound - data.movements.outbound;
-  const isPositive = netChange > 0;
-  const isNegative = netChange < 0;
+  const _netChange = data.movements.inbound - data.movements.outbound;
+  const _isPositive = netChange > 0;
+  const _isNegative = netChange < 0;
 
   // 样式类
-  const cellClasses = [
+  const _cellClasses = [
     'relative p-3 border border-white/20 rounded-lg cursor-pointer transition-all duration-200 glass-surface backdrop-blur-md',
     'hover:shadow-lg hover:border-blue-300/50 hover:bg-white/10',
     isToday && 'ring-2 ring-blue-400/50 ring-opacity-50',
@@ -37,28 +37,28 @@ const DayCell: React.FC<DayCellProps> = ({
     !isWeekend && 'bg-white/10'
   ].filter(Boolean).join(' ');
 
-  const activityIndicatorClasses = [
+  const _activityIndicatorClasses = [
     'absolute top-1 right-1 w-2 h-2 rounded-full shadow-sm',
     activityLevel === 'high' && 'bg-green-400',
     activityLevel === 'medium' && 'bg-yellow-400',
     activityLevel === 'low' && 'bg-gray-400'
   ].filter(Boolean).join(' ');
 
-  const formatCurrency = (amount: number): string => {
+  const _formatCurrency = (amount: number): string => {
     if (amount >= 10000) {
       return `${(amount / 10000).toFixed(1)}万`;
     }
     return `${amount.toLocaleString()}`;
   };
 
-  const formatQuantity = (quantity: number): string => {
+  const _formatQuantity = (quantity: number): string => {
     if (quantity >= 1000) {
       return `${(quantity / 1000).toFixed(1)}k`;
     }
     return quantity.toString();
   };
 
-  const handleClick = () => {
+  const _handleClick = () => {
     if (onClick) {
       onClick(data);
     }

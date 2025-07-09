@@ -47,7 +47,7 @@ export const SystemInitialization: React.FC = () => {
     loadSystemInfo();
   }, []);
 
-  const loadSystemInfo = async () => {
+  const _loadSystemInfo = async () => {
     try {
       setIsLoading(true);
       const [status, backups] = await Promise.all([
@@ -64,7 +64,7 @@ export const SystemInitialization: React.FC = () => {
     }
   };
 
-  const handleInitializeSystem = () => {
+  const _handleInitializeSystem = () => {
     showConfirm(
       '系统初始化确认',
       `⚠️ 警告：此操作将执行以下步骤：
@@ -81,7 +81,7 @@ ${initOptions.importMockData ? '✓ 导入默认示例数据\n' : ''}${initOptio
     );
   };
 
-  const executeInitialization = async () => {
+  const _executeInitialization = async () => {
     try {
       setIsInitializing(true);
       setInitProgress(null);
@@ -113,11 +113,11 @@ ${initOptions.importMockData ? '✓ 导入默认示例数据\n' : ''}${initOptio
     }
   };
 
-  const formatFileSize = (bytes: number): string => {
+  const _formatFileSize = (bytes: number): string => {
     if (bytes === 0) return '0 B';
-    const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    const _k = 1024;
+    const _sizes = ['B', 'KB', 'MB', 'GB'];
+    const _i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 

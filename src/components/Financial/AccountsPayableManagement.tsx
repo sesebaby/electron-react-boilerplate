@@ -95,7 +95,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     loadData();
   }, []);
 
-  const loadData = async () => {
+  const _loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -117,7 +117,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     }
   };
 
-  const handlePayableSubmit = async (e: React.FormEvent) => {
+  const _handlePayableSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
@@ -151,7 +151,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     }
   };
 
-  const handlePaymentSubmit = async (e: React.FormEvent) => {
+  const _handlePaymentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
@@ -170,7 +170,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     }
   };
 
-  const handleEditPayable = (payable: AccountsPayable) => {
+  const _handleEditPayable = (payable: AccountsPayable) => {
     setEditingPayable(payable);
     setPayableFormData({
       billNo: payable.billNo,
@@ -184,12 +184,12 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     setShowPayableForm(true);
   };
 
-  const handleDeletePayable = (payableId: string) => {
+  const _handleDeletePayable = (payableId: string) => {
     setDeleteTargetId(payableId);
     setShowConfirmDialog(true);
   };
 
-  const confirmDelete = async () => {
+  const _confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
@@ -204,14 +204,14 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     }
   };
 
-  const cancelDelete = () => {
+  const _cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const handleAddPayment = async (payable: AccountsPayable) => {
+  const _handleAddPayment = async (payable: AccountsPayable) => {
     setSelectedPayable(payable);
-    const paymentNo = await accountsPayableService.generatePaymentNo();
+    const _paymentNo = await accountsPayableService.generatePaymentNo();
     setPaymentFormData({
       ...emptyPaymentForm,
       payableId: payable.id,
@@ -220,9 +220,9 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     setShowPaymentForm(true);
   };
 
-  const handleViewPayments = async (payable: AccountsPayable) => {
+  const _handleViewPayments = async (payable: AccountsPayable) => {
     try {
-      const paymentHistory = await accountsPayableService.getPayments(payable.id);
+      const _paymentHistory = await accountsPayableService.getPayments(payable.id);
       setPayments(paymentHistory);
       setSelectedPayable(payable);
       setShowPaymentHistory(true);
@@ -232,7 +232,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     }
   };
 
-  const handleCancel = () => {
+  const _handleCancel = () => {
     setShowPayableForm(false);
     setShowPaymentForm(false);
     setShowPaymentHistory(false);
@@ -242,24 +242,24 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     setPaymentFormData(emptyPaymentForm);
   };
 
-  const handlePayableInputChange = (field: keyof PayableForm, value: string | number | Date) => {
+  const _handlePayableInputChange = (field: keyof PayableForm, value: string | number | Date) => {
     setPayableFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handlePaymentInputChange = (field: keyof PaymentForm, value: string | number | Date) => {
+  const _handlePaymentInputChange = (field: keyof PaymentForm, value: string | number | Date) => {
     setPaymentFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const generateBillNo = async () => {
+  const _generateBillNo = async () => {
     try {
-      const billNo = await accountsPayableService.generateBillNo();
+      const _billNo = await accountsPayableService.generateBillNo();
       setPayableFormData(prev => ({ ...prev, billNo }));
     } catch (err) {
       console.error('Failed to generate bill number:', err);
     }
   };
 
-  const getStatusText = (status: PayableStatus): string => {
+  const _getStatusText = (status: PayableStatus): string => {
     switch (status) {
       case PayableStatus.UNPAID: return '未付款';
       case PayableStatus.PARTIAL: return '部分付款';
@@ -268,7 +268,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     }
   };
 
-  const getStatusClass = (status: PayableStatus): string => {
+  const _getStatusClass = (status: PayableStatus): string => {
     switch (status) {
       case PayableStatus.UNPAID: 
         return 'text-red-300 bg-red-500/20 border-red-400/30';
@@ -281,7 +281,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     }
   };
 
-  const getPaymentMethodText = (method: PaymentMethod): string => {
+  const _getPaymentMethodText = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return '现金';
       case PaymentMethod.BANK_TRANSFER: return '银行转账';
@@ -292,27 +292,27 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     }
   };
 
-  const getSupplierName = (supplierId: string): string => {
-    const supplier = suppliers.find(s => s.id === supplierId);
+  const _getSupplierName = (supplierId: string): string => {
+    const _supplier = suppliers.find(s => s.id === supplierId);
     return supplier ? supplier.name : '未知供应商';
   };
 
-  const isOverdue = (payable: AccountsPayable): boolean => {
+  const _isOverdue = (payable: AccountsPayable): boolean => {
     return payable.status !== PayableStatus.PAID && new Date(payable.dueDate) < new Date();
   };
 
-  const formatDate = (date: Date): string => {
+  const _formatDate = (date: Date): string => {
     return new Date(date).toLocaleDateString('zh-CN');
   };
 
-  const filteredPayables = payables.filter(payable => {
-    const matchesSearch = !searchTerm || 
+  const _filteredPayables = payables.filter(payable => {
+    const _matchesSearch = !searchTerm || 
       payable.billNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       getSupplierName(payable.supplierId).toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesStatus = !selectedStatus || payable.status === selectedStatus;
-    const matchesSupplier = !selectedSupplier || payable.supplierId === selectedSupplier;
-    const matchesOverdue = !showOverdueOnly || isOverdue(payable);
+    const _matchesStatus = !selectedStatus || payable.status === selectedStatus;
+    const _matchesSupplier = !selectedSupplier || payable.supplierId === selectedSupplier;
+    const _matchesOverdue = !showOverdueOnly || isOverdue(payable);
     
     return matchesSearch && matchesStatus && matchesSupplier && matchesOverdue;
   });

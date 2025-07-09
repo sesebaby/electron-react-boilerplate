@@ -13,33 +13,33 @@ const WeeklyCalendarView: React.FC<WeeklyCalendarViewProps> = ({
   selectedDate,
   onDayClick
 }) => {
-  const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-  const today = new Date();
+  const _weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+  const _today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const formatCurrency = (amount: number): string => {
+  const _formatCurrency = (amount: number): string => {
     if (amount >= 10000) {
       return `${(amount / 10000).toFixed(1)}万`;
     }
     return `${amount.toLocaleString()}`;
   };
 
-  const formatDateRange = (start: Date, end: Date): string => {
-    const startStr = start.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' });
-    const endStr = end.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' });
+  const _formatDateRange = (start: Date, end: Date): string => {
+    const _startStr = start.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' });
+    const _endStr = end.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' });
     return `${startStr} - ${endStr}`;
   };
 
-  const isToday = (date: Date): boolean => {
-    const checkDate = new Date(date);
+  const _isToday = (date: Date): boolean => {
+    const _checkDate = new Date(date);
     checkDate.setHours(0, 0, 0, 0);
     return checkDate.getTime() === today.getTime();
   };
 
-  const isSelected = (date: Date): boolean => {
+  const _isSelected = (date: Date): boolean => {
     if (!selectedDate) return false;
-    const checkDate = new Date(date);
-    const selected = new Date(selectedDate);
+    const _checkDate = new Date(date);
+    const _selected = new Date(selectedDate);
     checkDate.setHours(0, 0, 0, 0);
     selected.setHours(0, 0, 0, 0);
     return checkDate.getTime() === selected.getTime();
