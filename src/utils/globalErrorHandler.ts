@@ -482,10 +482,13 @@ class GlobalErrorHandler {
 // 创建默认实例
 export const _globalErrorHandler = new GlobalErrorHandler();
 
+// Re-export without underscore for backward compatibility
+export const globalErrorHandler = _globalErrorHandler;
+
 // 自动设置用户ID（如果有认证上下文）
 if (typeof window !== 'undefined') {
   // 这里可以集成到用户认证系统
-  globalErrorHandler.setUserId(null); // 暂时设为null
+  _globalErrorHandler.setUserId(null); // 暂时设为null
 }
 
-export default GlobalErrorHandler;
+export default _globalErrorHandler;

@@ -273,3 +273,6 @@ export class InventoryEntryRegistrationService {
 
 // 导出单例实例
 export const _inventoryEntryRegistrationService = InventoryEntryRegistrationService.getInstance();
+
+// Re-export without underscore for backward compatibility
+export const inventoryEntryRegistrationService = _inventoryEntryRegistrationService;

@@ -365,19 +365,22 @@ export class Logger {
 // 创建并导出默认日志实例
 export const _logger = new Logger();
 
+// Re-export without underscore for backward compatibility
+export const logger = _logger;
+
 // 进程退出时清理
 if (typeof process !== 'undefined') {
   process.on('exit', () => {
-    logger.destroy().catch(console.error);
+    _logger.destroy().catch(console.error);
   });
 
   process.on('SIGINT', () => {
-    logger.destroy().then(() => process.exit(0)).catch(() => process.exit(1));
+    _logger.destroy().then(() => process.exit(0)).catch(() => process.exit(1));
   });
 
   process.on('SIGTERM', () => {
-    logger.destroy().then(() => process.exit(0)).catch(() => process.exit(1));
+    _logger.destroy().then(() => process.exit(0)).catch(() => process.exit(1));
   });
 }
 
-export default logger;
+export default _logger;
