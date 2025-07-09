@@ -47,30 +47,6 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
   onEditConversion,
   onDeleteConversion
 }) => {
-  // 添加滚动条样式
-  React.useEffect(() => {
-    const style = document.createElement('style');
-    style.textContent = `
-      .conversion-table-container::-webkit-scrollbar {
-        height: 8px;
-      }
-      .conversion-table-container::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 4px;
-      }
-      .conversion-table-container::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 4px;
-      }
-      .conversion-table-container::-webkit-scrollbar-thumb:hover {
-        background: rgba(255, 255, 255, 0.5);
-      }
-    `;
-    document.head.appendChild(style);
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
   const unitTypeOptions = [
     { value: UnitType.WEIGHT, label: '重量' },
     { value: UnitType.LENGTH, label: '长度' },
@@ -112,13 +88,8 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
 
       {/* 换算规则表格 */}
       <div className="glass-surface rounded-lg overflow-hidden mb-6">
-        <div className="conversion-table-container w-full overflow-x-auto overflow-y-visible" style={{
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(255, 255, 255, 0.3) transparent'
-        }}>
-          <div className="relative">
-            <TableContainer height="400px">
-              <Table stickyHeader minWidth="1000px">
+        <TableContainer height="400px" scrollbarClassName="table-scrollbar">
+          <Table stickyHeader minWidth="1000px">
                 <TableHeader sticky>
                   <TableRow>
                     <TableHead className="min-w-[150px] text-left">规则名称</TableHead>
@@ -182,15 +153,13 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
                 ))
               )}
             </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        </div>
+          </Table>
+        </TableContainer>
       </div>
 
       {/* 换算规则表单弹出框 */}
       {showConversionForm && createPortal(
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
           <div className="glass-card w-full max-w-md mx-4 p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h4 className="text-lg font-semibold text-white">
