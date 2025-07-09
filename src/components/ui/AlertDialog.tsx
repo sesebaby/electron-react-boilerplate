@@ -84,7 +84,12 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
           <GlassButton
             variant={styles.confirmVariant}
             onClick={onConfirm}
-            className="px-6 sm:px-8 py-2 min-h-[44px] touch-manipulation"
+            className="px-6 sm:px-8 py-2 min-h-[44px] touch-manipulation glass-button-primary"
+            style={{
+              background: 'var(--accent-color)',
+              borderColor: 'var(--accent-color)',
+              color: 'var(--text-primary)'
+            }}
           >
             {confirmText}
           </GlassButton>

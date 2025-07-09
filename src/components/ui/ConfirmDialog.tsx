@@ -89,7 +89,12 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           <GlassButton
             variant={styles.confirmVariant}
             onClick={onConfirm}
-            className="px-4 sm:px-6 py-2 min-h-[44px] touch-manipulation"
+            className="px-4 sm:px-6 py-2 min-h-[44px] touch-manipulation glass-button-primary"
+            style={{
+              background: 'var(--accent-color)',
+              borderColor: 'var(--accent-color)',
+              color: 'var(--text-primary)'
+            }}
           >
             {confirmText}
           </GlassButton>

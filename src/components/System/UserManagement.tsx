@@ -855,17 +855,24 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
                   
                   {modalMode !== 'view' && (
                     <div className="flex gap-3 pt-4">
-                      <GlassButton 
-                        type="button" 
+                      <GlassButton
+                        type="button"
+                        variant="secondary"
                         onClick={() => setShowModal(false)}
-                        className="flex-1 bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        className="flex-1 min-h-[44px] touch-manipulation"
                       >
                         取消
                       </GlassButton>
-                      <GlassButton 
+                      <GlassButton
                         type="submit"
+                        variant="primary"
                         loading={isUserSubmitting}
-                        className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700"
+                        className="flex-1 min-h-[44px] touch-manipulation glass-button-primary"
+                        style={{
+                          background: 'var(--accent-color)',
+                          borderColor: 'var(--accent-color)',
+                          color: 'var(--text-primary)'
+                        }}
                       >
                         {modalMode === 'create' ? '创建用户' : '保存修改'}
                       </GlassButton>

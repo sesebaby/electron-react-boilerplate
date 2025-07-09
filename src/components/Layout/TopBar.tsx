@@ -19,7 +19,10 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
   'dashboard': { title: '仪表盘', breadcrumb: ['仪表盘'] },
 
   // 库存管理
+  'inventory': { title: '库存列表', breadcrumb: ['库存管理', '库存列表'] },
+  'inventory-products': { title: '库存商品', breadcrumb: ['库存管理', '库存商品'] },
   'inventory-card-view': { title: '库存卡片视图', breadcrumb: ['库存管理', '库存卡片视图'] },
+  'calendar-overview': { title: '日历总览', breadcrumb: ['库存管理', '日历总览'] },
   'daily-consumption': { title: '逐日消耗视图', breadcrumb: ['库存管理', '逐日消耗视图'] },
   'products': { title: '商品管理', breadcrumb: ['库存管理', '商品管理'] },
   'categories': { title: '分类管理', breadcrumb: ['库存管理', '分类管理'] },
@@ -27,6 +30,8 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
   'stock-in': { title: '入库管理', breadcrumb: ['库存管理', '入库管理'] },
   'stock-out': { title: '出库管理', breadcrumb: ['库存管理', '出库管理'] },
   'stock-adjust': { title: '库存调整', breadcrumb: ['库存管理', '库存调整'] },
+  'transaction-records': { title: '交易记录', breadcrumb: ['库存管理', '交易记录'] },
+  'monthly-balance': { title: '月度结余', breadcrumb: ['库存管理', '月度结余'] },
 
   // 采购管理
   'suppliers': { title: '供应商管理', breadcrumb: ['采购管理', '供应商管理'] },
@@ -43,10 +48,12 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
   'accounts-receivable': { title: '应收账款', breadcrumb: ['财务管理', '应收账款'] },
   'payments': { title: '付款记录', breadcrumb: ['财务管理', '付款记录'] },
   'receipts': { title: '收款记录', breadcrumb: ['财务管理', '收款记录'] },
+  'financial': { title: '财务总览', breadcrumb: ['财务管理', '财务总览'] },
 
   // 报表分析
   'inventory-reports': { title: '库存报表', breadcrumb: ['报表分析', '库存报表'] },
   'inventory-entry-registration': { title: '出入库登记', breadcrumb: ['报表分析', '出入库登记'] },
+  'inventory-movement-summary': { title: '库存流动汇总', breadcrumb: ['报表分析', '库存流动汇总'] },
   'sales-reports': { title: '销售报表', breadcrumb: ['报表分析', '销售报表'] },
   'purchase-reports': { title: '采购报表', breadcrumb: ['报表分析', '采购报表'] },
   'financial-reports': { title: '财务报表', breadcrumb: ['报表分析', '财务报表'] },
@@ -56,7 +63,12 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
   'permissions': { title: '权限管理', breadcrumb: ['系统管理', '权限管理'] },
   'settings': { title: '系统设置', breadcrumb: ['系统管理', '系统设置'] },
   'logs': { title: '操作日志', breadcrumb: ['系统管理', '操作日志'] },
-  
+  'initialization': { title: '系统初始化', breadcrumb: ['系统管理', '系统初始化'] },
+
+  // 通用设置
+  'units': { title: '单位管理', breadcrumb: ['通用设置', '单位管理'] },
+  'conversion-rules': { title: '换算规则', breadcrumb: ['通用设置', '换算规则'] },
+
   // 通知中心
   'notifications': { title: '通知中心', breadcrumb: ['通知中心'] }
 };

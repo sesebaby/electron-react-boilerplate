@@ -700,20 +700,25 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
               <div className="flex gap-3 sm:gap-4">
                 <GlassButton
                   type="button"
-                  variant="primary"
-                  loading={isSubmitting}
-                  className="flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation"
-                  onClick={handleSubmit(onSubmit)}
-                >
-                  {editingCustomer ? '更新客户' : '创建客户'}
-                </GlassButton>
-                <GlassButton
-                  type="button"
                   variant="secondary"
                   onClick={handleCancel}
                   className="flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation"
                 >
                   取消
+                </GlassButton>
+                <GlassButton
+                  type="button"
+                  variant="primary"
+                  loading={isSubmitting}
+                  className="flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation glass-button-primary"
+                  style={{
+                    background: 'var(--accent-color)',
+                    borderColor: 'var(--accent-color)',
+                    color: 'var(--text-primary)'
+                  }}
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  {editingCustomer ? '更新客户' : '创建客户'}
                 </GlassButton>
               </div>
             </div>
