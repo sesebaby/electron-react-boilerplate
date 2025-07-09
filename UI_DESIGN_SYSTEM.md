@@ -130,11 +130,54 @@
 --info-color: oklch(0.7 0.15 230);          /* 信息/中性 - 蓝色 */
 --disabled-color: oklch(0.6 0.02 260);      /* 禁用/停用 - 灰色 */
 
-/* 库存状态颜色 */
---stock-high: oklch(0.64 0.15 145);         /* 库存充足 - 绿色 */
---stock-medium: oklch(0.8 0.15 85);         /* 库存中等 - 黄色 */
---stock-low: oklch(0.75 0.2 45);            /* 库存不足 - 橙色 */
---stock-empty: oklch(0.63 0.24 25);         /* 库存为空 - 红色 */
+/* 表单控件专用颜色变量 */
+--form-label-color: var(--text-primary);    /* 表单标签颜色 */
+--form-error-color: var(--error-color);     /* 表单错误颜色 */
+--form-error-border: 1px solid var(--error-color); /* 表单错误边框 */
+--form-error-ring: 0 0 0 2px oklch(0.63 0.24 25 / 0.2); /* 表单错误光晕 */
+--form-required-color: var(--error-color);  /* 必填标记颜色 */
+
+/* 通知类型颜色变量 */
+--notification-info-border: 1px solid var(--info-color);
+--notification-info-bg: oklch(0.7 0.15 230 / 0.1);
+--notification-success-border: 1px solid var(--success-color);
+--notification-success-bg: oklch(0.64 0.15 145 / 0.1);
+--notification-warning-border: 1px solid var(--warning-color);
+--notification-warning-bg: oklch(0.8 0.15 85 / 0.1);
+--notification-error-border: 1px solid var(--error-color);
+--notification-error-bg: oklch(0.63 0.24 25 / 0.1);
+--notification-default-border: 1px solid var(--disabled-color);
+--notification-default-bg: oklch(0.6 0.02 260 / 0.1);
+
+/* 界面通用颜色变量 */
+--divider-color: oklch(100% 0.00011 271.152 / 0.1); /* 分割线颜色 */
+--hover-overlay: oklch(100% 0.00011 271.152 / 0.1); /* 悬浮覆盖层 */
+--status-indicator: oklch(0.64 0.15 145);           /* 状态指示器颜色 */
+
+/* 库存状态徽章颜色变量 */
+--stock-in-bg: oklch(0.64 0.15 145 / 0.2);         /* 有库存背景 */
+--stock-in-text: oklch(0.7 0.15 145);              /* 有库存文字 */
+--stock-low-bg: oklch(0.8 0.15 85 / 0.2);          /* 库存不足背景 */
+--stock-low-text: oklch(0.85 0.15 85);             /* 库存不足文字 */
+--stock-out-bg: oklch(0.63 0.24 25 / 0.2);         /* 缺货背景 */
+--stock-out-text: oklch(0.7 0.24 25);              /* 缺货文字 */
+--stock-disabled-bg: oklch(0.6 0.02 260 / 0.2);    /* 停产背景 */
+--stock-disabled-text: oklch(0.7 0.02 260);        /* 停产文字 */
+
+/* 加载和状态指示器颜色变量 */
+--loading-spinner-track: oklch(100% 0.00011 271.152 / 0.3); /* 加载动画轨道 */
+--loading-spinner-active: oklch(100% 0.00011 271.152);      /* 加载动画活动部分 */
+--status-indicator-active: oklch(0.64 0.15 145);            /* 活动状态指示器 */
+--status-indicator-bg: oklch(100% 0.00011 271.152 / 0.05);  /* 状态指示器背景 */
+--status-indicator-border: oklch(100% 0.00011 271.152 / 0.1); /* 状态指示器边框 */
+--tab-active-bg: oklch(100% 0.00011 271.152 / 0.2);         /* 激活标签背景 */
+--tab-active-border: oklch(100% 0.00011 271.152 / 0.3);     /* 激活标签边框 */
+--tab-inactive-text: oklch(100% 0.00011 271.152 / 0.8);     /* 非激活标签文字 */
+
+/* 表格组件颜色变量 */
+--table-border: oklch(100% 0.00011 271.152 / 0.1);          /* 表格边框颜色 */
+--table-footer-border: oklch(100% 0.00011 271.152 / 0.2);   /* 表格底部边框 */
+--table-row-border: oklch(100% 0.00011 271.152 / 0.05);     /* 表格行边框 */
 ```
 
 ### 主题切换设计原则
@@ -253,30 +296,30 @@
 ### 基础玻璃卡片
 ```css
 .glass-card {
-  background: rgba(255, 255, 255, 0.1);          /* 10% 白色透明背景 */
-  backdrop-filter: blur(10px);                    /* 10px 毛玻璃效果 */
-  border-radius: 16px;                           /* 16px 圆角 */
-  border: 1px solid rgba(255, 255, 255, 0.2);   /* 20% 白色透明边框 */
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);    /* 柔和阴影 */
+  background: var(--card-background);            /* 使用主题卡片背景 */
+  backdrop-filter: var(--glass-blur);            /* 使用主题模糊效果 */
+  border-radius: var(--radius-lg);               /* 16px 圆角 */
+  border: var(--glass-border);                   /* 使用主题边框 */
+  box-shadow: var(--shadow-md);                  /* 使用主题阴影 */
   transition: all 0.3s ease;                     /* 平滑过渡 */
 }
 
 /* 悬浮效果 */
 .glass-card:hover {
-  transform: translateY(-2px);                    /* 向上移动 2px */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);  /* 加深阴影 */
-  background: rgba(255, 255, 255, 0.15);         /* 背景变亮 */
+  transform: translateY(-2px);                   /* 向上移动 2px */
+  box-shadow: var(--shadow-lg);                  /* 使用主题加深阴影 */
+  background: var(--hover-background);           /* 使用主题悬浮背景 */
 }
 ```
 
 ### 高级玻璃效果
 ```css
 .glass-card-elevated {
-  background: rgba(255, 255, 255, 0.15);         /* 更亮的背景 */
+  background: var(--surface-background);         /* 使用主题表面背景 */
   backdrop-filter: blur(15px);                   /* 更强的模糊 */
-  border-radius: 20px;                          /* 更大的圆角 */
-  border: 1px solid rgba(255, 255, 255, 0.3);   /* 更明显的边框 */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);   /* 更深的阴影 */
+  border-radius: var(--radius-xl);               /* 20px 圆角 */
+  border: var(--glass-border);                   /* 使用主题边框 */
+  box-shadow: var(--shadow-lg);                  /* 使用主题深阴影 */
 }
 ```
 
@@ -355,14 +398,14 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
 ### 仪表盘卡片
 ```css
 .dashboard-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 1.5rem;                             /* 24px 内边距 */
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--card-background);          /* 使用主题卡片背景 */
+  backdrop-filter: var(--glass-blur);          /* 使用主题模糊效果 */
+  border-radius: var(--radius-lg);             /* 16px 圆角 */
+  padding: var(--spacing-md);                  /* 24px 内边距 */
+  border: var(--glass-border);                 /* 使用主题边框 */
   display: flex;                               /* 弹性布局 */
   align-items: center;                         /* 垂直居中 */
-  gap: 1rem;                                   /* 16px 间距 */
+  gap: var(--spacing-sm);                      /* 16px 间距 */
   transition: all 0.3s ease;
 }
 
@@ -370,12 +413,13 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
   font-size: 2.5rem;                          /* 40px 图标 */
   min-width: 60px;                            /* 固定宽度 */
   text-align: center;
+  color: var(--text-primary);                 /* 使用主题文字颜色 */
 }
 
 .dashboard-card .value {
-  font-size: 1.8rem;                          /* 28px 数值 */
-  font-weight: 700;                           /* 粗体 */
-  color: white;
+  font-size: var(--font-size-display);        /* 28px 数值 */
+  font-weight: var(--font-weight-bold);       /* 粗体 */
+  color: var(--text-primary);                 /* 使用主题文字颜色 */
 }
 ```
 
@@ -385,24 +429,30 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
   width: 100%;
   padding: 0.875rem 1rem;                     /* 14px 16px 内边距 */
   border: none;
-  border-radius: 12px;                        /* 12px 圆角 */
-  background: rgba(255, 255, 255, 0.1);       /* 玻璃背景 */
-  backdrop-filter: blur(10px);
-  color: white;
-  font-size: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);            /* 12px 圆角 */
+  background: var(--card-background);         /* 使用主题卡片背景 */
+  backdrop-filter: var(--glass-blur);         /* 使用主题模糊效果 */
+  color: var(--text-primary);                 /* 使用主题文字颜色 */
+  font-size: var(--font-size-base);           /* 16px 基础字体 */
+  border: var(--glass-border);                /* 使用主题边框 */
   transition: all 0.3s ease;
 }
 
 .glass-input:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.15);      /* 聚焦时背景变亮 */
-  border-color: rgba(255, 255, 255, 0.4);     /* 边框变亮 */
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1); /* 聚焦光晕 */
+  background: var(--hover-background);        /* 使用主题悬浮背景 */
+  border-color: var(--tab-active-border);     /* 使用主题激活边框 */
+  box-shadow: var(--form-error-ring);         /* 使用主题聚焦光晕 */
 }
 
 .glass-input::placeholder {
-  color: rgba(255, 255, 255, 0.7);           /* 占位符颜色 */
+  color: var(--text-secondary);               /* 使用主题次要文字颜色 */
+}
+
+/* 错误状态 */
+.glass-input.error {
+  border: var(--form-error-border);           /* 使用主题错误边框 */
+  box-shadow: var(--form-error-ring);         /* 使用主题错误光晕 */
 }
 ```
 
@@ -412,47 +462,112 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
   display: inline-block;
   padding: 0.375rem 0.75rem;                  /* 6px 12px 内边距 */
   border-radius: 20px;                        /* 20px 圆角（胶囊形） */
-  font-size: 0.75rem;                         /* 12px 字体 */
-  font-weight: 600;                           /* 半粗体 */
+  font-size: var(--font-size-xs);             /* 12px 字体 */
+  font-weight: var(--font-weight-semibold);   /* 半粗体 */
   text-transform: uppercase;                   /* 大写 */
-  color: white;
+  color: var(--text-primary);                 /* 使用主题文字颜色 */
   letter-spacing: 0.5px;                      /* 字间距 */
   backdrop-filter: blur(5px);                 /* 轻微模糊 */
+}
+
+/* 库存状态徽章样式类 */
+.stock-status-in {
+  background: var(--stock-in-bg);
+  color: var(--stock-in-text);
+}
+
+.stock-status-low {
+  background: var(--stock-low-bg);
+  color: var(--stock-low-text);
+}
+
+.stock-status-out {
+  background: var(--stock-out-bg);
+  color: var(--stock-out-text);
+}
+
+.stock-status-disabled {
+  background: var(--stock-disabled-bg);
+  color: var(--stock-disabled-text);
+}
+```
+
+### 通知类型样式
+```css
+/* 通知类型样式类 */
+.notification-info {
+  border-left-color: var(--info-color);
+  background: var(--notification-info-bg);
+}
+
+.notification-success {
+  border-left-color: var(--success-color);
+  background: var(--notification-success-bg);
+}
+
+.notification-warning {
+  border-left-color: var(--warning-color);
+  background: var(--notification-warning-bg);
+}
+
+.notification-error {
+  border-left-color: var(--error-color);
+  background: var(--notification-error-bg);
+}
+
+.notification-default {
+  border-left-color: var(--disabled-color);
+  background: var(--notification-default-bg);
 }
 ```
 
 ### 数据表格
 ```css
 .glass-table {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--card-background);          /* 使用主题卡片背景 */
+  backdrop-filter: var(--glass-blur);          /* 使用主题模糊效果 */
+  border-radius: var(--radius-lg);             /* 16px 圆角 */
+  border: var(--glass-border);                 /* 使用主题边框 */
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);                /* 使用主题阴影 */
 }
 
 .glass-table th {
-  background: rgba(255, 255, 255, 0.1);       /* 表头背景 */
-  padding: 1rem;                              /* 16px 内边距 */
-  font-weight: 600;                           /* 半粗体 */
-  font-size: 0.875rem;                        /* 14px 字体 */
+  background: var(--surface-background);       /* 使用主题表面背景 */
+  padding: var(--spacing-sm);                  /* 16px 内边距 */
+  font-weight: var(--font-weight-semibold);    /* 半粗体 */
+  font-size: var(--font-size-sm);              /* 14px 字体 */
   text-transform: uppercase;                   /* 大写 */
   letter-spacing: 0.5px;                      /* 字间距 */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: var(--table-border);          /* 使用主题表格边框 */
   position: sticky;                           /* 粘性定位 */
   top: 0;
-  backdrop-filter: blur(10px);
+  backdrop-filter: var(--glass-blur);          /* 使用主题模糊效果 */
+  color: var(--text-primary);                 /* 使用主题文字颜色 */
 }
 
 .glass-table td {
-  padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: var(--spacing-sm);                  /* 16px 内边距 */
+  border-bottom: var(--table-row-border);      /* 使用主题行边框 */
   vertical-align: top;
+  color: var(--text-primary);                 /* 使用主题文字颜色 */
 }
 
 .glass-table tr:hover {
-  background: rgba(255, 255, 255, 0.05);      /* 悬浮行背景 */
+  background: var(--hover-overlay);            /* 使用主题悬浮覆盖层 */
+}
+
+/* 表格组件样式类 */
+.table-border {
+  border-color: var(--table-border);
+}
+
+.table-footer-border {
+  border-color: var(--table-footer-border);
+}
+
+.table-row-border {
+  border-color: var(--table-row-border);
 }
 ```
 
@@ -483,7 +598,39 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
 
 .hover-lift:hover {
   transform: translateY(-2px);                /* 向上移动 2px */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);               /* 使用主题悬浮阴影 */
+}
+```
+
+### 加载动画
+```css
+/* 旋转加载器 */
+.loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--loading-spinner-track);
+  border-top: 2px solid var(--loading-spinner-active);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 脉冲加载器 */
+.loading-pulse {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--status-indicator-active);
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
 }
 ```
 
@@ -512,32 +659,44 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
 ### 按钮状态
 ```css
 .glass-button {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  padding: 0.75rem 1.5rem;
-  color: white;
-  font-weight: 600;
+  background: var(--card-background);          /* 使用主题卡片背景 */
+  backdrop-filter: var(--glass-blur);          /* 使用主题模糊效果 */
+  border: var(--glass-border);                 /* 使用主题边框 */
+  border-radius: var(--radius-md);             /* 12px 圆角 */
+  padding: 0.75rem 1.5rem;                     /* 12px 24px 内边距 */
+  color: var(--text-primary);                  /* 使用主题文字颜色 */
+  font-weight: var(--font-weight-semibold);    /* 半粗体 */
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .glass-button:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  background: var(--hover-background);         /* 使用主题悬浮背景 */
+  transform: translateY(-1px);                 /* 向上移动 1px */
+  box-shadow: var(--shadow-md);                /* 使用主题阴影 */
 }
 
 .glass-button:active {
-  transform: translateY(0);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);                    /* 点击时回到原位 */
+  box-shadow: var(--shadow-sm);                /* 使用主题小阴影 */
 }
 
 .glass-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  color: var(--disabled-color);                /* 使用主题禁用颜色 */
+}
+
+/* 按钮变体 */
+.glass-button-primary {
+  background: var(--primary-color);
+  color: var(--primary-foreground);
+}
+
+.glass-button-secondary {
+  background: var(--secondary-color);
+  color: var(--secondary-foreground);
 }
 ```
 
@@ -1200,6 +1359,228 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
 - 适应不同使用场景
 
 **使用此设计系统，您可以快速创建风格一致、用户友好的现代化界面，同时确保代码的可维护性和扩展性。**
+
+---
+
+## 📚 主题变量使用指南
+
+### 新增主题变量说明
+
+#### **表单控件变量**
+```css
+/* 表单标签和错误提示 */
+--form-label-color          /* 表单标签文字颜色 */
+--form-error-color          /* 表单错误提示颜色 */
+--form-error-border         /* 表单错误边框样式 */
+--form-error-ring           /* 表单错误聚焦光晕 */
+--form-required-color       /* 必填标记颜色 */
+```
+
+#### **通知类型变量**
+```css
+/* 通知背景和边框 */
+--notification-info-bg      /* 信息通知背景 */
+--notification-info-border  /* 信息通知边框 */
+--notification-success-bg   /* 成功通知背景 */
+--notification-success-border /* 成功通知边框 */
+--notification-warning-bg   /* 警告通知背景 */
+--notification-warning-border /* 警告通知边框 */
+--notification-error-bg     /* 错误通知背景 */
+--notification-error-border /* 错误通知边框 */
+--notification-default-bg   /* 默认通知背景 */
+--notification-default-border /* 默认通知边框 */
+```
+
+#### **状态指示器变量**
+```css
+/* 加载和状态 */
+--loading-spinner-track     /* 加载动画轨道颜色 */
+--loading-spinner-active    /* 加载动画活动部分颜色 */
+--status-indicator-active   /* 活动状态指示器颜色 */
+--status-indicator-bg       /* 状态指示器背景 */
+--status-indicator-border   /* 状态指示器边框 */
+```
+
+#### **交互状态变量**
+```css
+/* 标签页和悬浮效果 */
+--tab-active-bg             /* 激活标签背景 */
+--tab-active-border         /* 激活标签边框 */
+--tab-inactive-text         /* 非激活标签文字 */
+--divider-color             /* 分割线颜色 */
+--hover-overlay             /* 悬浮覆盖层 */
+```
+
+#### **表格组件变量**
+```css
+/* 表格边框系统 */
+--table-border              /* 表格主边框 */
+--table-footer-border       /* 表格底部边框 */
+--table-row-border          /* 表格行边框 */
+```
+
+#### **库存状态变量**
+```css
+/* 库存状态徽章 */
+--stock-in-bg               /* 有库存背景 */
+--stock-in-text             /* 有库存文字 */
+--stock-low-bg              /* 库存不足背景 */
+--stock-low-text            /* 库存不足文字 */
+--stock-out-bg              /* 缺货背景 */
+--stock-out-text            /* 缺货文字 */
+--stock-disabled-bg         /* 停产背景 */
+--stock-disabled-text       /* 停产文字 */
+```
+
+### 变量使用示例
+
+#### **表单组件示例**
+```tsx
+// 表单标签
+<label style={{ color: 'var(--form-label-color)' }}>
+  用户名 <span style={{ color: 'var(--form-required-color)' }}>*</span>
+</label>
+
+// 错误状态输入框
+<input
+  className="glass-input"
+  style={hasError ? {
+    border: 'var(--form-error-border)',
+    boxShadow: 'var(--form-error-ring)'
+  } : {}}
+/>
+
+// 错误提示
+{error && (
+  <p style={{ color: 'var(--form-error-color)' }}>{error}</p>
+)}
+```
+
+#### **通知组件示例**
+```tsx
+// 使用通知样式类
+<div className={`border-l-4 p-4 rounded ${
+  type === 'error' ? 'notification-error' :
+  type === 'success' ? 'notification-success' :
+  type === 'warning' ? 'notification-warning' :
+  type === 'info' ? 'notification-info' :
+  'notification-default'
+}`}>
+  {message}
+</div>
+```
+
+#### **加载动画示例**
+```tsx
+// 旋转加载器
+<div
+  className="w-8 h-8 border-2 rounded-full animate-spin"
+  style={{
+    borderColor: 'var(--loading-spinner-track)',
+    borderTopColor: 'var(--loading-spinner-active)'
+  }}
+/>
+
+// 状态指示器
+<div
+  className="w-2 h-2 rounded-full animate-pulse"
+  style={{ background: 'var(--status-indicator-active)' }}
+/>
+```
+
+---
+
+## 🔧 主题系统最佳实践
+
+### 1. 主题系统使用原则
+
+#### **严禁硬编码颜色值**
+- ✅ 使用CSS变量：`var(--primary-color)`
+- ❌ 硬编码颜色：`#ffffff`、`rgb(255,255,255)`、`'red'`
+
+#### **支持主题切换**
+- 确保所有组件在4个主题下都能正确显示
+- 测试主题切换的流畅性和一致性
+
+#### **语义化变量命名**
+- 使用有意义的变量名：`--form-error-color`
+- 避免颜色描述性命名：`--red-color`
+
+### 2. 样式类使用规范
+
+#### **优先使用主题样式类**
+```tsx
+// ✅ 正确使用
+<div className="notification-error">错误信息</div>
+<span className="stock-status-in">有库存</span>
+
+// ❌ 错误使用
+<div className="border-l-red-400 bg-red-500/10">错误信息</div>
+<span className="bg-green-500/20 text-green-300">有库存</span>
+```
+
+#### **表单控件最佳实践**
+```tsx
+// ✅ 正确的表单控件使用
+<label style={{ color: 'var(--form-label-color)' }}>
+  用户名
+  <span style={{ color: 'var(--form-required-color)' }}>*</span>
+</label>
+<input
+  className="glass-input"
+  style={error ? {
+    border: 'var(--form-error-border)',
+    boxShadow: 'var(--form-error-ring)'
+  } : {}}
+/>
+{error && (
+  <p style={{ color: 'var(--form-error-color)' }}>{error}</p>
+)}
+```
+
+#### **通知组件最佳实践**
+```tsx
+// ✅ 正确的通知类型使用
+const getNotificationClass = (type: NotificationType) => {
+  const baseClass = 'border-l-4 p-4 rounded';
+  switch (type) {
+    case 'error': return `${baseClass} notification-error`;
+    case 'success': return `${baseClass} notification-success`;
+    case 'warning': return `${baseClass} notification-warning`;
+    case 'info': return `${baseClass} notification-info`;
+    default: return `${baseClass} notification-default`;
+  }
+};
+```
+
+### 3. 开发和维护指南
+
+#### **代码审查检查点**
+- [ ] 是否有硬编码颜色值
+- [ ] 是否正确使用主题变量
+- [ ] 是否支持所有主题切换
+- [ ] 是否遵循命名规范
+
+#### **自动化检测**
+```javascript
+// ESLint规则示例
+"rules": {
+  "no-hardcoded-colors": "error",
+  "use-theme-variables": "warn"
+}
+```
+
+#### **测试覆盖**
+- 在所有4个主题下测试组件
+- 验证主题切换的流畅性
+- 检查颜色对比度是否符合标准
+
+### 4. 新组件开发流程
+
+1. **设计阶段**：确定需要的主题变量
+2. **开发阶段**：使用CSS变量而非硬编码
+3. **测试阶段**：在所有主题下验证效果
+4. **文档阶段**：更新变量文档和使用示例
 
 ---
 
