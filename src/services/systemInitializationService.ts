@@ -5,6 +5,7 @@
 
 import backupService, { BackupInfo, BackupProgress } from './database/backupService';
 import { dataInitializer } from './dataInitializer';
+import { businessServiceManager } from './business';
 
 // 类型断言以确保 ElectronAPI 方法可用
 declare global {
@@ -231,6 +232,9 @@ export class SystemInitializationService {
    */
   private async reinitializeServices(): Promise<void> {
     try {
+      // 重置所有业务服务状态
+      businessServiceManager.reset();
+      
       // 重新初始化数据服务
       await dataInitializer.initializeData();
     } catch (error) {

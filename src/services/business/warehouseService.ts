@@ -8,12 +8,6 @@ export class WarehouseService {
   private initialized = false;
 
   async initialize(): Promise<void> {
-    if (this.initialized) {
-      return;
-    }
-    
-    console.log('Warehouse service initialized');
-    
     try {
       // 检查是否存在仓库，如果没有则创建默认的"1号库"
       const existingWarehouses = await this.findAll();
@@ -22,10 +16,18 @@ export class WarehouseService {
       }
       
       this.initialized = true;
+      console.log('WarehouseService: Initialization completed successfully');
     } catch (error) {
       console.error('Failed to initialize warehouse service:', error);
+      // Reset initialization state on error so we can try again
+      this.initialized = false;
       throw error;
     }
+  }
+  
+  // Add method to reset initialization state (useful for system reset)
+  reset(): void {
+    this.initialized = false;
   }
 
   private async createDefaultWarehouse(): Promise<void> {

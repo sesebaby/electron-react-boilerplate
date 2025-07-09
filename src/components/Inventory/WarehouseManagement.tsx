@@ -239,6 +239,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     
     return matchesSearch && matchesStatus;
   });
+  
 
   if (loading) {
     return (

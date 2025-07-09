@@ -419,6 +419,18 @@ export class BusinessServiceManager {
     console.warn('Data reset operation logged but not executed for safety');
   }
 
+  // Reset all service initialization states
+  reset(): void {
+    this.initialized = false;
+    
+    // Reset individual services that have reset methods
+    if (warehouseService.reset) {
+      warehouseService.reset();
+    }
+    
+    // Add reset calls for other services as needed
+  }
+
   get isInitialized(): boolean {
     return this.initialized;
   }
