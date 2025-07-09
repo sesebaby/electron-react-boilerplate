@@ -286,10 +286,10 @@ export function useMemoryLeakDetection(componentName: string) {
     // 每30秒检查一次内存使用
     intervalRef.current = setInterval(() => {
       // @ts-ignore
-      const _memInfo = (performance as any).memory;
+      const memInfo = (performance as any).memory;
       if (!memInfo) return;
 
-      const _age = Date.now() - mountTimeRef.current;
+      const age = Date.now() - mountTimeRef.current;
       
       console.log('Component memory check:', {
         componentName,
@@ -315,14 +315,14 @@ export function useMemoryLeakDetection(componentName: string) {
  * 用户交互性能监控Hook
  */
 export function useInteractionPerformance() {
-  const _measureInteraction = useCallback((
+  const measureInteraction = useCallback((
     interactionType: string,
     callback: () => void | Promise<void>
   ) => {
-    const _startTime = performance.now();
+    const startTime = performance.now();
     
-    const _handleComplete = () => {
-      const _duration = performance.now() - startTime;
+    const handleComplete = () => {
+      const duration = performance.now() - startTime;
       
       console.log('User interaction measurement:', {
         interactionType,
@@ -332,7 +332,7 @@ export function useInteractionPerformance() {
     };
 
     try {
-      const _result = callback();
+      const result = callback();
       
       if (result instanceof Promise) {
         return result.finally(handleComplete);

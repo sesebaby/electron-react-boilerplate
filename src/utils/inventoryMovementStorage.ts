@@ -94,33 +94,6 @@ export const _saveMovementFilters = (filters: Partial<MovementSummaryFilters>): 
   }
 };
 
-/**
- * 从本地存储加载筛选条件
- */
-export const loadMovementFilters = (): Partial<MovementSummaryFilters> | null => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEYS.FILTERS);
-    if (stored) {
-      return JSON.parse(stored);
-    }
-  } catch (error) {
-    console.warn('Failed to load movement filters:', error);
-  }
-  return null;
-};
-
-/**
- * 清除所有本地存储的配置
- */
-export const clearAllStoredConfig = (): void => {
-  try {
-    Object.values(STORAGE_KEYS).forEach(key => {
-      localStorage.removeItem(key);
-    });
-  } catch (error) {
-    console.warn('Failed to clear stored config:', error);
-  }
-};
 
 /**
  * 验证列显示配置是否有效
@@ -136,30 +109,43 @@ export const _validateColumnDisplayConfig = (config: ColumnDisplayConfig): boole
  * 获取当前月份的时间范围
  */
 export const _getCurrentMonthRange = () => {
-  const _now = new Date();
-  const _startDate = new Date(_now.getFullYear(), _now.getMonth(), 1);
-  const _endDate = new Date();
-  return { startDate: _startDate, endDate: _endDate };
+  const now = new Date();
+  const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+  const endDate = new Date();
+  return { startDate: startDate, endDate: endDate };
 };
 
 /**
  * 获取上个月的时间范围
  */
 export const _getLastMonthRange = () => {
-  const _now = new Date();
-  const _startDate = new Date(_now.getFullYear(), _now.getMonth() - 1, 1);
-  const _endDate = new Date(_now.getFullYear(), _now.getMonth(), 0);
-  return { startDate: _startDate, endDate: _endDate };
+  const now = new Date();
+  const startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const endDate = new Date(now.getFullYear(), now.getMonth(), 0);
+  return { startDate: startDate, endDate: endDate };
 };
 
 /**
  * 获取上上月的时间范围
  */
 export const _getLastLastMonthRange = () => {
-  const _now = new Date();
-  const _startDate = new Date(_now.getFullYear(), _now.getMonth() - 2, 1);
-  const _endDate = new Date(_now.getFullYear(), _now.getMonth() - 1, 0);
-  return { startDate: _startDate, endDate: _endDate };
+  const now = new Date();
+  const startDate = new Date(now.getFullYear(), now.getMonth() - 2, 1);
+  const endDate = new Date(now.getFullYear(), now.getMonth() - 1, 0);
+  return { startDate: startDate, endDate: endDate };
+};
+
+/**
+ * 清除所有本地存储的配置
+ */
+export const _clearAllStoredConfig = (): void => {
+  try {
+    Object.values(_STORAGE_KEYS).forEach(key => {
+      localStorage.removeItem(key);
+    });
+  } catch (error) {
+    console.warn('Failed to clear stored config:', error);
+  }
 };
 
 // Re-export without underscores for backward compatibility

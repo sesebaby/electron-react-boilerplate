@@ -855,16 +855,16 @@ export class DataChangeTracker {
    */
   private async saveChangeRecord(changeRecord: DataChangeRecord): Promise<void> {
     try {
-      const _fs = require('fs').promises;
-      const _path = require('path');
+      const fs = require('fs').promises;
+      const path = require('path');
       
-      const _changeDir = path.join(process.cwd(), 'tests', 'changes');
+      const changeDir = path.join(process.cwd(), 'tests', 'changes');
       await fs.mkdir(changeDir, { recursive: true });
       
-      const _changeFile = path.join(changeDir, `${changeRecord.operationId}.json`);
+      const changeFile = path.join(changeDir, `${changeRecord.operationId}.json`);
       
       // 创建可序列化的变化记录
-      const _serializableRecord = {
+      const serializableRecord = {
         ...changeRecord,
         changes: Array.from(changeRecord.changes.entries()).map(([key, value]) => ({ key, value }))
       };

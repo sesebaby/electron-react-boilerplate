@@ -14,7 +14,7 @@ const _GlassCard = React.forwardRef<
     {...props}
   />
 ))
-GlassCard.displayName = "GlassCard"
+_GlassCard.displayName = "GlassCard"
 
 const _GlassCardHeader = React.forwardRef<
   HTMLDivElement,
@@ -26,7 +26,7 @@ const _GlassCardHeader = React.forwardRef<
     {...props}
   />
 ))
-GlassCardHeader.displayName = "GlassCardHeader"
+_GlassCardHeader.displayName = "GlassCardHeader"
 
 const _GlassCardTitle = React.forwardRef<
   HTMLParagraphElement,
@@ -42,7 +42,7 @@ const _GlassCardTitle = React.forwardRef<
     {...props}
   />
 ))
-GlassCardTitle.displayName = "GlassCardTitle"
+_GlassCardTitle.displayName = "GlassCardTitle"
 
 const _GlassCardDescription = React.forwardRef<
   HTMLParagraphElement,
@@ -55,7 +55,7 @@ const _GlassCardDescription = React.forwardRef<
     {...props}
   />
 ))
-GlassCardDescription.displayName = "GlassCardDescription"
+_GlassCardDescription.displayName = "GlassCardDescription"
 
 const _GlassCardContent = React.forwardRef<
   HTMLDivElement,
@@ -63,7 +63,7 @@ const _GlassCardContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("p-6", className)} {...props} />
 ))
-GlassCardContent.displayName = "GlassCardContent"
+_GlassCardContent.displayName = "GlassCardContent"
 
 const _GlassCardFooter = React.forwardRef<
   HTMLDivElement,
@@ -75,13 +75,13 @@ const _GlassCardFooter = React.forwardRef<
     {...props}
   />
 ))
-GlassCardFooter.displayName = "GlassCardFooter"
+_GlassCardFooter.displayName = "GlassCardFooter"
 
 export { 
-  GlassCard, 
-  GlassCardHeader, 
-  GlassCardFooter, 
-  GlassCardTitle, 
-  GlassCardDescription, 
-  GlassCardContent 
+  _GlassCard as GlassCard, 
+  _GlassCardHeader as GlassCardHeader, 
+  _GlassCardFooter as GlassCardFooter, 
+  _GlassCardTitle as GlassCardTitle, 
+  _GlassCardDescription as GlassCardDescription, 
+  _GlassCardContent as GlassCardContent 
 }
