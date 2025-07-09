@@ -553,10 +553,10 @@
   --table-header-text: oklch(0.414 0.112 45.904 / 0.95);
   --table-header-text-secondary: oklch(0.473 0.137 46.201 / 0.8);
 
-  /* 主题文字颜色 - amber-900/800 深色文字，适合浅色背景 */
-  --text-primary: oklch(0.414 0.112 45.904);
-  --text-secondary: oklch(0.473 0.137 46.201);
-  --text-tertiary: oklch(0.555 0.163 48.998);
+  /* 主题文字颜色 - 深灰色文字，适合浅色背景 */
+  --text-primary: oklch(0.25 0.02 258.065);
+  --text-secondary: oklch(0.35 0.03 258.065);
+  --text-tertiary: oklch(0.45 0.03 258.065);
   --text-accent: oklch(0.279 0.077 45.635);
 
   /* 弹出窗体背景系统 - amber-50 系列，高可读性 */
@@ -564,10 +564,10 @@
   --popup-header-background: oklch(0.987 0.022 95.277 / 0.95);
   --popup-content-background: oklch(0.987 0.022 95.277 / 0.8);
 
-  /* 弹出窗体文字颜色 - amber-900/800 深色文字，确保对比度 */
-  --popup-text-primary: oklch(0.414 0.112 45.904);
-  --popup-text-secondary: oklch(0.473 0.137 46.201);
-  --popup-text-tertiary: oklch(0.555 0.163 48.998);
+  /* 弹出窗体文字颜色 - 深灰色文字，确保对比度 */
+  --popup-text-primary: oklch(0.25 0.02 258.065);
+  --popup-text-secondary: oklch(0.35 0.03 258.065);
+  --popup-text-tertiary: oklch(0.45 0.03 258.065);
   --popup-text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9);
 
   /* 滚动条颜色 - amber系列，半透明 */
@@ -980,7 +980,7 @@
 }
 
 .table-cell-fixed {
-  background: var(--table-fixed-background);
+  background: transparent;
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
   transition: var(--transition-base);
@@ -989,7 +989,7 @@
 }
 
 .table-cell-fixed:hover {
-  background: var(--table-fixed-background-hover);
+  background: var(--hover-background);
   /* 悬浮时增强阴影 */
   box-shadow: 2px 0 12px var(--glass-shadow-color, rgba(0, 0, 0, 0.15));
 }
@@ -2021,20 +2021,20 @@
   --popup-shadow: 0 20px 60px oklch(0.583 0.024 252.894 / 0.3);  /* 深灰色阴影 */
   --popup-shadow-hover: 0 25px 80px oklch(0.583 0.024 252.894 / 0.4);
 
-  /* 弹出窗体文字颜色 - 纯黑色文字系统 */
-  --popup-text-primary: oklch(0.208 0.042 265.755);  /* gray-900 - 纯黑色 */
-  --popup-text-secondary: oklch(0.372 0.044 257.287);  /* gray-700 - 深灰色 */
-  --popup-text-tertiary: oklch(0.446 0.043 257.281);  /* gray-600 - 中灰色 */
+  /* 弹出窗体文字颜色 - 纯白色文字系统 */
+  --popup-text-primary: oklch(1 0 0 / 0.95);  /* 纯白色 */
+  --popup-text-secondary: oklch(1 0 0 / 0.8);  /* 白色 - 次要文字 */
+  --popup-text-tertiary: oklch(1 0 0 / 0.7);  /* 白色 - 第三级文字 */
   --popup-text-shadow: none;  /* 移除阴影，保持纯净 */
 
   /* 滚动条颜色 - 深灰色系，专业设计 */
   --scrollbar-thumb-color: oklch(0.583 0.024 252.894 / 0.6);  /* gray-700/60% */
   --scrollbar-thumb-hover-color: oklch(0.583 0.024 252.894 / 0.8);  /* gray-700/80% */
 
-  /* 主题文字颜色 - 用于浅色背景上的深色文字 */
-  --text-primary: oklch(0.208 0.042 265.755);  /* gray-900 - 主要文字颜色，用于标题、正文等 */
-  --text-secondary: oklch(0.372 0.044 257.287);  /* gray-700 - 次要文字颜色，用于描述文本、说明等 */
-  --text-tertiary: oklch(0.446 0.043 257.281);  /* gray-600 - 第三级文字颜色，用于提示文本、占位符等 */
+  /* 主题文字颜色 - 用于深色背景上的白色文字 */
+  --text-primary: oklch(1 0 0 / 0.95);  /* 纯白色 - 主要文字颜色，用于标题、正文等 */
+  --text-secondary: oklch(1 0 0 / 0.8);  /* 白色 - 次要文字颜色，用于描述文本、说明等 */
+  --text-tertiary: oklch(1 0 0 / 0.7);  /* 白色 - 第三级文字颜色，用于提示文本、占位符等 */
   --text-accent: oklch(0.585 0.233 277.117);  /* indigo-500 - 强调文字颜色，用于链接、按钮文字等 */
   
   /* 侧边栏文字颜色 - 用于深色背景上的白色文字 */
