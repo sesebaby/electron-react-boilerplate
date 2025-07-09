@@ -511,21 +511,25 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
 
       {/* 供应商表单模态框 */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]">
-          <div className="glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold text-white">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998] flex items-center justify-center p-2 sm:p-4">
+          <div className="glass-card w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl">
+            {/* 弹出窗口头部 */}
+            <div className="bg-white/5 backdrop-blur-sm border-b border-white/10 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between shrink-0">
+              <h3 className="text-lg sm:text-xl font-bold text-white">
                 {editingSupplier ? '编辑供应商' : '新增供应商'}
               </h3>
               <button
                 onClick={handleCancel}
-                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white"
+                className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white touch-manipulation"
+                aria-label="关闭"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* 弹出窗口内容 */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6 overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
               {/* 错误信息显示 */}
               {error && (
                 <ErrorDisplay
@@ -644,23 +648,31 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                 )}
               </div>
 
-              <div className="flex gap-4 pt-4">
+              </form>
+            </div>
+
+            {/* 弹出窗口底部 */}
+            <div className="bg-white/5 backdrop-blur-sm border-t border-white/10 px-4 sm:px-6 py-3 sm:py-4 shrink-0">
+              <div className="flex gap-3 sm:gap-4">
+                <GlassButton
+                  type="button"
+                  variant="primary"
+                  loading={isSubmitting}
+                  className="flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  {editingSupplier ? '更新供应商' : '创建供应商'}
+                </GlassButton>
                 <GlassButton
                   type="button"
                   variant="secondary"
                   onClick={handleCancel}
+                  className="flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation"
                 >
                   取消
                 </GlassButton>
-                <GlassButton
-                  type="submit"
-                  variant="primary"
-                  loading={isSubmitting}
-                >
-                  {editingSupplier ? '更新供应商' : '创建供应商'}
-                </GlassButton>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       )}

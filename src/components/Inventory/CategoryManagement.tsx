@@ -53,6 +53,10 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedParent, setSelectedParent] = useState('');
   const [stats, setStats] = useState<any>(null);
+  
+  // 确认对话框状态
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   // React Hook Form setup
   const {
@@ -70,10 +74,6 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
   });
 
   const formData = watch(); // 监听表单数据变化
-
-  // 确认对话框状态
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -550,25 +550,27 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
                 </div>
               </div>
 
-              {/* 操作按钮区域 */}
-              <div className="flex gap-4 pt-6 border-t border-white/20">
-                <GlassButton
-                  type="submit"
-                  variant="primary"
-                  loading={isSubmitting}
-                  className="flex-1 md:flex-none md:min-w-32"
-                >
-                  <span className="mr-2">{editingCategory ? '💾' : '✨'}</span>
-                  {editingCategory ? '更新分类' : '创建分类'}
-                </GlassButton>
-                <GlassButton
-                  type="button"
-                  variant="secondary"
-                  onClick={handleCancel}
-                  className="flex-1 md:flex-none md:min-w-24"
-                >
-                  取消
-                </GlassButton>
+              {/* 弹出窗口底部 */}
+              <div className="bg-white/5 backdrop-blur-sm border-t border-white/10 px-4 sm:px-6 py-3 sm:py-4 shrink-0">
+                <div className="flex gap-3 sm:gap-4">
+                  <GlassButton
+                    type="submit"
+                    variant="primary"
+                    loading={isSubmitting}
+                    className="flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation"
+                  >
+                    <span className="mr-2">{editingCategory ? '💾' : '✨'}</span>
+                    {editingCategory ? '更新分类' : '创建分类'}
+                  </GlassButton>
+                  <GlassButton
+                    type="button"
+                    variant="secondary"
+                    onClick={handleCancel}
+                    className="flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation"
+                  >
+                    取消
+                  </GlassButton>
+                </div>
               </div>
             </form>
           </div>

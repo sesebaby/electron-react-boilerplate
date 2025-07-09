@@ -56,8 +56,8 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   const styles = getVariantStyles();
 
   return (
-    <div className="popup-overlay flex items-center justify-center p-4 z-[9999]">
-      <div className="glass-card max-w-md w-full p-6 animate-in fade-in-0 zoom-in-95 duration-200">
+    <div className="popup-overlay flex items-center justify-center p-2 sm:p-4 z-[9999]">
+      <div className="glass-card max-w-md w-full p-4 sm:p-6 animate-in fade-in-0 zoom-in-95 duration-200">
         {/* 图标和标题 */}
         <div className="flex items-center gap-4 mb-4">
           <div className={`w-12 h-12 rounded-full ${styles.iconClassName} flex items-center justify-center`}>
@@ -82,14 +82,14 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           <GlassButton
             variant="secondary"
             onClick={onCancel}
-            className="px-6 py-2"
+            className="px-4 sm:px-6 py-2 min-h-[44px] touch-manipulation"
           >
             {cancelText}
           </GlassButton>
           <GlassButton
             variant={styles.confirmVariant}
             onClick={onConfirm}
-            className="px-6 py-2"
+            className="px-4 sm:px-6 py-2 min-h-[44px] touch-manipulation"
           >
             {confirmText}
           </GlassButton>

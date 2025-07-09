@@ -627,23 +627,24 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
 
       {/* 商品表单模态框 */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998] flex">
-          <div className="w-full h-full overflow-y-auto">
-            <div className="min-h-full flex items-start justify-center p-2 sm:p-4">
-              <div className="glass-card w-full max-w-4xl my-2 sm:my-8 shadow-2xl">
-                <div className="bg-white/5 backdrop-blur-sm border-b border-white/10 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-                  <h3 className="text-lg sm:text-xl font-bold text-white">
-                    {editingProduct ? '编辑商品' : '新增商品'}
-                  </h3>
-                  <button
-                    onClick={handleCancel}
-                    className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white"
-                  >
-                    ✕
-                  </button>
-                </div>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998] flex items-center justify-center p-2 sm:p-4">
+          <div className="glass-card w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl">
+            {/* 弹出窗口头部 - 固定不滚动 */}
+            <div className="bg-white/5 backdrop-blur-sm border-b border-white/10 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between shrink-0">
+              <h3 className="text-lg sm:text-xl font-bold text-white">
+                {editingProduct ? '编辑商品' : '新增商品'}
+              </h3>
+              <button
+                onClick={handleCancel}
+                className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white touch-manipulation"
+                aria-label="关闭"
+              >
+                ✕
+              </button>
+            </div>
 
-                <div className="p-3 sm:p-6 max-h-[calc(100vh-8rem)] overflow-y-auto">
+            {/* 弹出窗口内容 - 可滚动区域 */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6 overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
                   <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
                     {/* 错误信息显示 */}
                     {error && (
@@ -837,27 +838,26 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
                 </div>
 
                 {/* 提交按钮 - 固定在底部 */}
-                <div className="bg-white/5 backdrop-blur-sm border-t border-white/10 px-4 sm:px-6 py-3 sm:py-4">
-                  <div className="flex gap-3 sm:gap-4">
-                    <GlassButton
-                      type="button"
-                      variant="primary"
-                      loading={isSubmitting}
-                      className="flex-1"
-                      onClick={handleSubmit(onSubmit)}
-                    >
-                      {editingProduct ? '更新商品' : '创建商品'}
-                    </GlassButton>
-                    <GlassButton
-                      type="button"
-                      variant="secondary"
-                      onClick={handleCancel}
-                      className="flex-1"
-                    >
-                      取消
-                    </GlassButton>
-                  </div>
-                </div>
+            {/* 弹出窗口底部 - 固定不滚动 */}
+            <div className="bg-white/5 backdrop-blur-sm border-t border-white/10 px-4 sm:px-6 py-3 sm:py-4 shrink-0">
+              <div className="flex gap-3 sm:gap-4">
+                <GlassButton
+                  type="button"
+                  variant="primary"
+                  loading={isSubmitting}
+                  className="flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  {editingProduct ? '更新商品' : '创建商品'}
+                </GlassButton>
+                <GlassButton
+                  type="button"
+                  variant="secondary"
+                  onClick={handleCancel}
+                  className="flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation"
+                >
+                  取消
+                </GlassButton>
               </div>
             </div>
           </div>
