@@ -81,10 +81,18 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       setLoading(true);
       setError(null);
       
+      console.log('WarehouseManagement: Starting to load data...');
+      
+      // Force reinitialize warehouse service to ensure data consistency
+      await warehouseService.forceReinitialize();
+      
       const [warehousesData, statsData] = await Promise.all([
         warehouseService.findAll(),
         warehouseService.getWarehouseStats()
       ]);
+      
+      console.log('WarehouseManagement: Loaded warehouses:', warehousesData);
+      console.log('WarehouseManagement: Loaded stats:', statsData);
       
       setWarehouses(warehousesData);
       setStats(statsData);
@@ -319,7 +327,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 ⭐
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">1</div>
+                <div className="text-2xl font-bold text-white">{stats.hasDefault ? 1 : 0}</div>
                 <div className="text-white/70 text-sm">默认仓库</div>
               </div>
             </div>

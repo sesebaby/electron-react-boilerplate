@@ -9,8 +9,20 @@ export class WarehouseService {
 
   async initialize(): Promise<void> {
     try {
-      // 检查是否存在仓库，如果没有则创建默认的"1号库"
-      const existingWarehouses = await this.findAll();
+      console.log('WarehouseService: Starting initialization...');
+      
+      // First, try to get warehouses directly without triggering recursive initialization
+      const result = await electronAPI.dbGetAllWarehouses();
+      console.log('WarehouseService: Direct database query result:', result);
+      
+      if (!result.success) {
+        console.error('WarehouseService: Database query failed:', result.error);
+        throw new Error(result.error);
+      }
+      
+      const existingWarehouses = result.data || [];
+      console.log('WarehouseService: Found', existingWarehouses.length, 'existing warehouses');
+      
       if (existingWarehouses.length === 0) {
         console.log('No warehouses found, creating default warehouse...');
         await this.createDefaultWarehouse();
@@ -30,10 +42,28 @@ export class WarehouseService {
   // Add method to reset initialization state (useful for system reset)
   reset(): void {
     this.initialized = false;
+    console.log('WarehouseService: Reset called, will reinitialize on next use');
+  }
+
+  // Force reinitialize - useful after system reset
+  async forceReinitialize(): Promise<void> {
+    console.log('WarehouseService: Force reinitialize called');
+    this.initialized = false;
+    await this.initialize();
   }
 
   private async createDefaultWarehouse(): Promise<void> {
     try {
+      console.log('Creating default warehouse...');
+      
+      // Check if WH001 already exists using direct database query
+      const result = await electronAPI.dbGetWarehouseByCode('WH001');
+      if (result.success && result.data) {
+        console.log('Default warehouse with code WH001 already exists, setting as default');
+        await this.setDefault(result.data.id);
+        return;
+      }
+      
       const defaultWarehouse = await this.create({
         code: 'WH001',
         name: '1号库',
@@ -42,10 +72,11 @@ export class WarehouseService {
         isDefault: true
       });
       
-      console.log('Default warehouse "1号库" created:', defaultWarehouse.id);
+      console.log('Default warehouse "1号库" created successfully:', defaultWarehouse.id);
     } catch (error) {
       console.error('Failed to create default warehouse:', error);
-      throw error;
+      // Don't throw here - let the service continue to work even if default warehouse creation fails
+      console.warn('Continuing without default warehouse due to creation error');
     }
   }
 
@@ -57,10 +88,16 @@ export class WarehouseService {
         await this.initialize();
       }
       
+      console.log('WarehouseService: Calling dbGetAllWarehouses...');
       const result = await electronAPI.dbGetAllWarehouses();
+      console.log('WarehouseService: dbGetAllWarehouses result:', result);
+      
       if (result.success) {
-        return result.data || [];
+        const warehouses = result.data || [];
+        console.log('WarehouseService: Found', warehouses.length, 'warehouses:', warehouses);
+        return warehouses;
       } else {
+        console.error('WarehouseService: Database query failed:', result.error);
         throw new Error(result.error);
       }
     } catch (error) {
@@ -85,10 +122,14 @@ export class WarehouseService {
 
   async findByCode(code: string): Promise<Warehouse | null> {
     try {
+      console.log('WarehouseService: Finding warehouse by code:', code);
       const result = await electronAPI.dbGetWarehouseByCode(code);
+      console.log('WarehouseService: findByCode result:', result);
+      
       if (result.success) {
         return result.data;
       } else {
+        console.error('WarehouseService: findByCode failed:', result.error);
         throw new Error(result.error);
       }
     } catch (error) {
@@ -282,15 +323,20 @@ export class WarehouseService {
       await this.initialize();
     }
     
+    console.log('WarehouseService: Getting warehouse stats...');
     const warehouses = await this.findAll();
+    console.log('WarehouseService: Stats calculation with', warehouses.length, 'warehouses');
     
-    return {
+    const stats = {
       total: warehouses.length,
       active: warehouses.length, // All warehouses are considered active
       hasDefault: warehouses.some(w => w.isDefault),
       withManager: warehouses.filter(w => w.manager).length,
       withAddress: warehouses.filter(w => w.address).length
     };
+    
+    console.log('WarehouseService: Calculated stats:', stats);
+    return stats;
   }
 }
 

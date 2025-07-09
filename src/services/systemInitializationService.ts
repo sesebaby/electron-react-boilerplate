@@ -240,6 +240,12 @@ export class SystemInitializationService {
       
       // 确保业务服务管理器也重新初始化
       await businessServiceManager.initialize();
+      
+      // 特别处理仓库服务，确保默认仓库被创建
+      const { warehouseService } = await import('./business');
+      await warehouseService.forceReinitialize();
+      
+      console.log('系统服务重新初始化完成');
     } catch (error) {
       console.error('重新初始化系统服务失败:', error);
       throw error;
