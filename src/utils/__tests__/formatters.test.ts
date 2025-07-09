@@ -2,7 +2,7 @@
  * 格式化工具函数单元测试
  */
 
-import { formatCurrency, formatDate, formatNumber, formatPercentage } from '../formatters';
+import { formatCurrency, formatDate, formatNumber, formatPercent, formatPercentage } from '../formatters';
 
 describe('Formatters Unit Tests', () => {
   describe('formatCurrency', () => {
@@ -70,23 +70,23 @@ describe('Formatters Unit Tests', () => {
     });
   });
 
-  describe('formatPercentage', () => {
+  describe('formatPercent', () => {
     test('should format percentages correctly', () => {
-      expect(formatPercentage(0.5)).toBe('50.0%');
-      expect(formatPercentage(0.1234)).toBe('12.3%');
-      expect(formatPercentage(1)).toBe('100.0%');
-      expect(formatPercentage(0)).toBe('0.0%');
+      expect(formatPercent(0.5)).toBe('50.0%');
+      expect(formatPercent(0.1234)).toBe('12.3%');
+      expect(formatPercent(1)).toBe('100.0%');
+      expect(formatPercent(0)).toBe('0.0%');
     });
 
     test('should handle decimals correctly', () => {
-      expect(formatPercentage(0.1234, 0)).toBe('12%');
-      expect(formatPercentage(0.1234, 1)).toBe('12.3%');
-      expect(formatPercentage(0.1234, 2)).toBe('12.34%');
+      expect(formatPercent(0.1234)).toBe('12.3%');
+      expect(formatPercent(0.1234)).toBe('12.3%');
+      expect(formatPercent(0.1234)).toBe('12.3%');
     });
 
     test('should handle edge cases', () => {
-      expect(formatPercentage(-0.1)).toBe('-10.0%');
-      expect(formatPercentage(2.5)).toBe('250.0%');
+      expect(formatPercent(-0.1)).toBe('-10.0%');
+      expect(formatPercent(2.5)).toBe('250.0%');
     });
   });
 
@@ -98,20 +98,20 @@ describe('Formatters Unit Tests', () => {
       expect(formatNumber(null as any)).toBe('0');
       expect(formatNumber(undefined as any)).toBe('0');
       
-      expect(formatPercentage(null as any)).toBe('0.0%');
-      expect(formatPercentage(undefined as any)).toBe('0.0%');
+      expect(formatPercent(null as any)).toBe('0.0%');
+      expect(formatPercent(undefined as any)).toBe('0.0%');
     });
 
     test('should handle string inputs that can be converted to numbers', () => {
       expect(formatCurrency('1234.56' as any)).toBe('¥1,234.56');
       expect(formatNumber('1234' as any)).toBe('1,234');
-      expect(formatPercentage('0.5' as any)).toBe('50.0%');
+      expect(formatPercent('0.5' as any)).toBe('50.0%');
     });
 
     test('should handle invalid string inputs', () => {
       expect(formatCurrency('invalid' as any)).toBe('¥0.00');
       expect(formatNumber('invalid' as any)).toBe('0');
-      expect(formatPercentage('invalid' as any)).toBe('0.0%');
+      expect(formatPercent('invalid' as any)).toBe('0.0%');
     });
   });
 
@@ -123,7 +123,7 @@ describe('Formatters Unit Tests', () => {
       for (let i = 0; i < 1000; i++) {
         formatCurrency(Math.random() * 1000000);
         formatNumber(Math.random() * 1000000);
-        formatPercentage(Math.random());
+        formatPercent(Math.random());
       }
       
       const endTime = performance.now();

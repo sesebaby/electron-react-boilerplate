@@ -15,7 +15,7 @@ const _STORAGE_KEYS = {
  */
 export const _saveColumnDisplayConfig = (config: ColumnDisplayConfig): void => {
   try {
-    localStorage.setItem(STORAGE_KEYS.COLUMN_DISPLAY, JSON.stringify(config));
+    localStorage.setItem(_STORAGE_KEYS.COLUMN_DISPLAY, JSON.stringify(config));
   } catch (error) {
     console.warn('Failed to save column display config:', error);
   }
@@ -26,9 +26,9 @@ export const _saveColumnDisplayConfig = (config: ColumnDisplayConfig): void => {
  */
 export const _loadColumnDisplayConfig = (): ColumnDisplayConfig | null => {
   try {
-    const _stored = localStorage.getItem(STORAGE_KEYS.COLUMN_DISPLAY);
-    if (stored) {
-      return JSON.parse(stored);
+    const _stored = localStorage.getItem(_STORAGE_KEYS.COLUMN_DISPLAY);
+    if (_stored) {
+      return JSON.parse(_stored);
     }
   } catch (error) {
     console.warn('Failed to load column display config:', error);
@@ -112,7 +112,7 @@ export const _loadMovementFilters = (): Partial<MovementSummaryFilters> | null =
  */
 export const _clearAllStoredConfig = (): void => {
   try {
-    Object.values(STORAGE_KEYS).forEach(key => {
+    Object.values(_STORAGE_KEYS).forEach(key => {
       localStorage.removeItem(key);
     });
   } catch (error) {
@@ -135,9 +135,9 @@ export const _validateColumnDisplayConfig = (config: ColumnDisplayConfig): boole
  */
 export const _getCurrentMonthRange = () => {
   const _now = new Date();
-  const _startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+  const _startDate = new Date(_now.getFullYear(), _now.getMonth(), 1);
   const _endDate = new Date();
-  return { startDate, endDate };
+  return { startDate: _startDate, endDate: _endDate };
 };
 
 /**
@@ -145,9 +145,9 @@ export const _getCurrentMonthRange = () => {
  */
 export const _getLastMonthRange = () => {
   const _now = new Date();
-  const _startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-  const _endDate = new Date(now.getFullYear(), now.getMonth(), 0);
-  return { startDate, endDate };
+  const _startDate = new Date(_now.getFullYear(), _now.getMonth() - 1, 1);
+  const _endDate = new Date(_now.getFullYear(), _now.getMonth(), 0);
+  return { startDate: _startDate, endDate: _endDate };
 };
 
 /**
@@ -155,7 +155,21 @@ export const _getLastMonthRange = () => {
  */
 export const _getLastLastMonthRange = () => {
   const _now = new Date();
-  const _startDate = new Date(now.getFullYear(), now.getMonth() - 2, 1);
-  const _endDate = new Date(now.getFullYear(), now.getMonth() - 1, 0);
-  return { startDate, endDate };
+  const _startDate = new Date(_now.getFullYear(), _now.getMonth() - 2, 1);
+  const _endDate = new Date(_now.getFullYear(), _now.getMonth() - 1, 0);
+  return { startDate: _startDate, endDate: _endDate };
 };
+
+// Re-export without underscores for backward compatibility
+export const saveColumnDisplayConfig = _saveColumnDisplayConfig;
+export const loadColumnDisplayConfig = _loadColumnDisplayConfig;
+export const getDefaultColumnDisplayConfig = _getDefaultColumnDisplayConfig;
+export const saveMovementConfig = _saveMovementConfig;
+export const loadMovementConfig = _loadMovementConfig;
+export const saveMovementFilters = _saveMovementFilters;
+export const loadMovementFilters = _loadMovementFilters;
+export const clearAllStoredConfig = _clearAllStoredConfig;
+export const validateColumnDisplayConfig = _validateColumnDisplayConfig;
+export const getCurrentMonthRange = _getCurrentMonthRange;
+export const getLastMonthRange = _getLastMonthRange;
+export const getLastLastMonthRange = _getLastLastMonthRange;

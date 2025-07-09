@@ -3,7 +3,7 @@
  * 记录用户的关键业务操作和UI交互
  */
 
-import { logger } from './logger';
+import { _logger as logger } from './logger';
 
 export enum UserActionType {
   // 认证相关
@@ -436,7 +436,7 @@ class UserActionLogger {
     // 生成完整的操作事件
     const _actionId = `action-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const fullEvent: UserActionEvent = {
-      actionId,
+      actionId: _actionId,
       type: action.type,
       context: action.context,
       target: action.target,
@@ -499,7 +499,7 @@ class UserActionLogger {
       context: pending.event.context!,
       description: pending.event.description!,
       target: pending.event.target,
-      duration,
+      duration: _duration,
       success: details?.success !== false,
       errorMessage: details?.errorMessage,
       details: {
@@ -600,7 +600,7 @@ class UserActionLogger {
     const _descriptionMatch = event.description && typeof event.description === 'string' && 
                             event.description.toLowerCase().includes('password');
     
-    return typeMatch || contextMatch || Boolean(descriptionMatch);
+    return _typeMatch || _contextMatch || Boolean(_descriptionMatch);
   }
 
   /**
@@ -610,18 +610,18 @@ class UserActionLogger {
     const _logLevel = this.getLogLevel(event);
     const _message = `User Action: ${event.type} - ${event.description}`;
 
-    switch (logLevel) {
+    switch (_logLevel) {
       case 'info':
-        logger.info(message, event, 'UserAction');
+        logger.info(_message, event, 'UserAction');
         break;
       case 'warn':
-        logger.warn(message, event, 'UserAction');
+        logger.warn(_message, event, 'UserAction');
         break;
       case 'error':
-        logger.error(message, event, 'UserAction');
+        logger.error(_message, event, 'UserAction');
         break;
       default:
-        logger.info(message, event, 'UserAction');
+        logger.info(_message, event, 'UserAction');
     }
   }
 
@@ -648,8 +648,8 @@ class UserActionLogger {
    * 更新操作统计
    */
   private updateActionStats(event: UserActionEvent): void {
-    const _key = `${event.type}:${event.context}`;
-    const _currentCount = this.actionCounts.get(key) || 0;
+    const key = `${event.type}:${event.context}`;
+    const currentCount = this.actionCounts.get(key) || 0;
     this.actionCounts.set(key, currentCount + 1);
   }
 
@@ -657,8 +657,8 @@ class UserActionLogger {
    * 检查会话超时
    */
   private checkSessionTimeout(): void {
-    const _now = Date.now();
-    const _timeoutMs = this.config.sessionTimeout * 60 * 1000;
+    const now = Date.now();
+    const timeoutMs = this.config.sessionTimeout * 60 * 1000;
     
     if (now - this.lastActionTime > timeoutMs) {
       // 会话超时，创建新会话
@@ -684,7 +684,7 @@ class UserActionLogger {
    * 设置当前用户ID
    */
   public setUserId(userId: string | null): void {
-    const _oldUserId = this.currentUserId;
+    const oldUserId = this.currentUserId;
     this.currentUserId = userId;
     
     logger.info('User action logger user ID updated', {
@@ -718,7 +718,7 @@ class UserActionLogger {
     sessionStartTime: number;
     lastActionTime: number;
   } {
-    const _totalActions = this.getTotalActionCount();
+    const totalActions = this.getTotalActionCount();
     const actionsByType: Record<string, number> = {};
     
     for (const [key, count] of this.actionCounts.entries()) {
