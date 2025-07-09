@@ -131,6 +131,7 @@ const allPageComponents: Record<string, React.ComponentType> = {
   'permissions': PermissionManagement,
   'settings': SystemSettings,
   'logs': OperationLogs,
+  'initialization': System, // 系统初始化使用System组件，通过hash切换到initialization标签
   
   // 通知中心
   'notifications': NotificationsPage,

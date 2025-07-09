@@ -122,7 +122,7 @@ class FileLoggerService {
         }
 
         window.electronAPI.writeFile(path, data)
-          .then((result) => {
+          .then((result: { success: boolean; error?: string }) => {
             if (result.success) {
               actualCallback();
             } else {
@@ -133,7 +133,7 @@ class FileLoggerService {
       },
       mkdir: (path: string, options: any, callback: (err?: any) => void) => {
         window.electronAPI.mkdir(path, options)
-          .then((result) => {
+          .then((result: { success: boolean; error?: string }) => {
             if (result.success) {
               callback();
             } else {
@@ -144,7 +144,7 @@ class FileLoggerService {
       },
       stat: (path: string, callback: (err?: any, stats?: any) => void) => {
         window.electronAPI.stat(path)
-          .then((result) => {
+          .then((result: { success: boolean; data?: any; error?: string }) => {
             if (result.success) {
               callback(null, result.data);
             } else {

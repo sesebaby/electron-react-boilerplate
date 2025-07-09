@@ -57,7 +57,35 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbDeleteUnit: (id) => ipcRenderer.invoke('db-delete-unit', id),
   dbSearchUnits: (searchTerm) => ipcRenderer.invoke('db-search-units', searchTerm),
   dbReimportUnits: () => ipcRenderer.invoke('db-reimport-units'),
-  
+
+  // Global conversion rules operations
+  dbGetAllConversionRules: () => ipcRenderer.invoke('db-get-all-conversion-rules'),
+  dbGetConversionRuleById: (options) => ipcRenderer.invoke('db-get-conversion-rule-by-id', options),
+  dbCreateConversionRule: (ruleData) => ipcRenderer.invoke('db-create-conversion-rule', ruleData),
+  dbUpdateConversionRule: (options) => ipcRenderer.invoke('db-update-conversion-rule', options),
+  dbDeleteConversionRule: (options) => ipcRenderer.invoke('db-delete-conversion-rule', options),
+  dbSearchConversionRules: (searchTerm) => ipcRenderer.invoke('db-search-conversion-rules', searchTerm),
+
+  // Product conversion settings operations
+  dbGetAllProductConversions: () => ipcRenderer.invoke('db-get-all-product-conversions'),
+  dbGetProductConversionById: (options) => ipcRenderer.invoke('db-get-product-conversion-by-id', options),
+  dbGetProductConversionByProduct: (options) => ipcRenderer.invoke('db-get-product-conversion-by-product', options),
+  dbCreateProductConversion: (settingData) => ipcRenderer.invoke('db-create-product-conversion', settingData),
+  dbUpdateProductConversion: (options) => ipcRenderer.invoke('db-update-product-conversion', options),
+  dbDeleteProductConversion: (options) => ipcRenderer.invoke('db-delete-product-conversion', options),
+
+  // System initialization and backup operations
+  dbBackup: (options) => ipcRenderer.invoke('db-backup', options),
+  dbGetBackupList: () => ipcRenderer.invoke('db-get-backup-list'),
+  dbDeleteBackup: (options) => ipcRenderer.invoke('db-delete-backup', options),
+  dbRestore: (options) => ipcRenderer.invoke('db-restore', options),
+  dbValidateBackup: (options) => ipcRenderer.invoke('db-validate-backup', options),
+  dbClearDatabase: (options) => ipcRenderer.invoke('db-clear-database', options),
+  dbRebuildSchema: () => ipcRenderer.invoke('db-rebuild-schema'),
+  dbImportMockData: () => ipcRenderer.invoke('db-import-mock-data'),
+  dbGetSystemStatus: () => ipcRenderer.invoke('db-get-system-status'),
+  dbValidateIntegrity: () => ipcRenderer.invoke('db-validate-integrity'),
+
   // Platform info
   platform: process.platform,
   

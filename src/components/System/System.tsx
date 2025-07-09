@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import UserManagement from './UserManagement';
+import SystemInitialization from './SystemInitialization';
 import { GlassCard } from '../ui/FormControls';
 
 interface SystemProps {
   className?: string;
 }
 
-type SystemTab = 'users' | 'permissions' | 'settings' | 'logs';
+type SystemTab = 'users' | 'permissions' | 'settings' | 'logs' | 'initialization';
 
 export const System: React.FC<SystemProps> = ({ className }) => {
   const [activeTab, setActiveTab] = useState<SystemTab>('users');
@@ -14,7 +15,7 @@ export const System: React.FC<SystemProps> = ({ className }) => {
   // 根据当前页面设置活动标签
   useEffect(() => {
     const currentHash = window.location.hash.replace('#', '');
-    if (['users', 'permissions', 'settings', 'logs'].includes(currentHash)) {
+    if (['users', 'permissions', 'settings', 'logs', 'initialization'].includes(currentHash)) {
       setActiveTab(currentHash as SystemTab);
     }
   }, []);
@@ -28,7 +29,8 @@ export const System: React.FC<SystemProps> = ({ className }) => {
     { id: 'users' as SystemTab, label: '用户管理', icon: '👥', description: '管理系统用户' },
     { id: 'permissions' as SystemTab, label: '权限管理', icon: '🔐', description: '角色权限设置' },
     { id: 'settings' as SystemTab, label: '系统设置', icon: '⚙️', description: '系统参数配置' },
-    { id: 'logs' as SystemTab, label: '操作日志', icon: '📋', description: '操作记录查看' }
+    { id: 'logs' as SystemTab, label: '操作日志', icon: '📋', description: '操作记录查看' },
+    { id: 'initialization' as SystemTab, label: '系统初始化', icon: '🔄', description: '重置系统数据' }
   ];
 
   const renderComingSoon = (title: string, description: string) => (
@@ -102,6 +104,8 @@ export const System: React.FC<SystemProps> = ({ className }) => {
         {activeTab === 'logs' &&
           renderComingSoon('操作日志', '查看系统操作记录和审计日志')
         }
+
+        {activeTab === 'initialization' && <SystemInitialization />}
       </div>
     </div>
   );

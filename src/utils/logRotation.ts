@@ -64,7 +64,7 @@ class LogRotation {
       readdir: (path: string, callback: (err?: any, files?: string[]) => void) => {
         if (window.electronAPI && window.electronAPI.readdir) {
           window.electronAPI.readdir(path)
-            .then((result) => {
+            .then((result: { success: boolean; data?: string[]; error?: string }) => {
               if (result.success) {
                 callback(null, result.data);
               } else {
@@ -79,7 +79,7 @@ class LogRotation {
       stat: (path: string, callback: (err?: any, stats?: any) => void) => {
         if (window.electronAPI && window.electronAPI.stat) {
           window.electronAPI.stat(path)
-            .then((result) => {
+            .then((result: { success: boolean; data?: any; error?: string }) => {
               if (result.success) {
                 callback(null, result.data);
               } else {
@@ -94,7 +94,7 @@ class LogRotation {
       rename: (oldPath: string, newPath: string, callback: (err?: any) => void) => {
         if (window.electronAPI && window.electronAPI.rename) {
           window.electronAPI.rename(oldPath, newPath)
-            .then((result) => {
+            .then((result: { success: boolean; error?: string }) => {
               if (result.success) {
                 callback();
               } else {
@@ -109,7 +109,7 @@ class LogRotation {
       unlink: (path: string, callback: (err?: any) => void) => {
         if (window.electronAPI && window.electronAPI.unlink) {
           window.electronAPI.unlink(path)
-            .then((result) => {
+            .then((result: { success: boolean; error?: string }) => {
               if (result.success) {
                 callback();
               } else {

@@ -47,6 +47,30 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
   onEditConversion,
   onDeleteConversion
 }) => {
+  // 添加滚动条样式
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      .conversion-table-container::-webkit-scrollbar {
+        height: 8px;
+      }
+      .conversion-table-container::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+      .conversion-table-container::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+      }
+      .conversion-table-container::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
   const unitTypeOptions = [
     { value: UnitType.WEIGHT, label: '重量' },
     { value: UnitType.LENGTH, label: '长度' },
@@ -88,20 +112,25 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
 
       {/* 换算规则表格 */}
       <div className="glass-surface rounded-lg overflow-hidden mb-6">
-        <TableContainer height="400px">
-          <Table stickyHeader minWidth="1000px">
-            <TableHeader sticky>
-              <TableRow>
-                <TableHead className="min-w-[150px] text-left">规则名称</TableHead>
-                <TableHead className="min-w-[100px] text-left">类别</TableHead>
-                <TableHead className="min-w-[120px] text-left">源单位</TableHead>
-                <TableHead className="min-w-[120px] text-left">目标单位</TableHead>
-                <TableHead className="min-w-[100px] text-left">比率</TableHead>
-                <TableHead className="min-w-[200px] text-left">描述</TableHead>
-                <TableHead className="min-w-[80px] text-left">状态</TableHead>
-                <TableHead className="min-w-[120px] text-left">操作</TableHead>
-              </TableRow>
-            </TableHeader>
+        <div className="conversion-table-container w-full overflow-x-auto overflow-y-visible" style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(255, 255, 255, 0.3) transparent'
+        }}>
+          <div className="relative">
+            <TableContainer height="400px">
+              <Table stickyHeader minWidth="1000px">
+                <TableHeader sticky>
+                  <TableRow>
+                    <TableHead className="min-w-[150px] text-left">规则名称</TableHead>
+                    <TableHead className="min-w-[100px] text-left">类别</TableHead>
+                    <TableHead className="min-w-[120px] text-left">源单位</TableHead>
+                    <TableHead className="min-w-[120px] text-left">目标单位</TableHead>
+                    <TableHead className="min-w-[100px] text-left">比率</TableHead>
+                    <TableHead className="min-w-[200px] text-left">描述</TableHead>
+                    <TableHead className="min-w-[80px] text-left">状态</TableHead>
+                    <TableHead className="min-w-[140px] text-left">操作</TableHead>
+                  </TableRow>
+                </TableHeader>
             <TableBody>
               {conversionRules.length === 0 ? (
                 <TableRow>
@@ -129,23 +158,23 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
                         {rule.isActive ? '启用' : '禁用'}
                       </span>
                     </TableCell>
-                    <TableCell className="min-w-[120px]">
+                    <TableCell className="min-w-[140px]">
                       <div className="flex gap-2">
                         <button
                           type="button"
                           onClick={() => onEditConversion(rule)}
-                          className="text-blue-400 hover:text-blue-300 transition-colors"
+                          className="px-2 py-1 bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 hover:text-blue-300 rounded-md transition-all duration-200 border border-blue-500/30 hover:border-blue-400/50"
                           title="编辑"
                         >
-                          ✏️
+                          <span className="text-sm">✏️</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => onDeleteConversion(rule.id)}
-                          className="text-red-400 hover:text-red-300 transition-colors"
+                          className="px-2 py-1 bg-red-500/20 text-red-400 hover:bg-red-500/30 hover:text-red-300 rounded-md transition-all duration-200 border border-red-500/30 hover:border-red-400/50"
                           title="删除"
                         >
-                          🗑️
+                          <span className="text-sm">🗑️</span>
                         </button>
                       </div>
                     </TableCell>
@@ -153,8 +182,10 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
                 ))
               )}
             </TableBody>
-          </Table>
-        </TableContainer>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
       </div>
 
       {/* 换算规则表单弹出框 */}

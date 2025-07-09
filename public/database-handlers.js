@@ -41,7 +41,32 @@ function setupDatabaseHandlers(ipcMain, db) {
     'db-create-unit',
     'db-update-unit',
     'db-delete-unit',
-    'db-search-units'
+    'db-search-units',
+    // Global conversion rules handlers
+    'db-get-all-conversion-rules',
+    'db-get-conversion-rule-by-id',
+    'db-create-conversion-rule',
+    'db-update-conversion-rule',
+    'db-delete-conversion-rule',
+    'db-search-conversion-rules',
+    // Product conversion settings handlers
+    'db-get-all-product-conversions',
+    'db-get-product-conversion-by-id',
+    'db-get-product-conversion-by-product',
+    'db-create-product-conversion',
+    'db-update-product-conversion',
+    'db-delete-product-conversion',
+    // System initialization handlers
+    'db-backup',
+    'db-get-backup-list',
+    'db-delete-backup',
+    'db-restore',
+    'db-validate-backup',
+    'db-clear-database',
+    'db-rebuild-schema',
+    'db-import-mock-data',
+    'db-get-system-status',
+    'db-validate-integrity'
   ];
 
   handlersToRemove.forEach(handler => {
@@ -1107,6 +1132,809 @@ function setupDatabaseHandlers(ipcMain, db) {
       }));
       
       return { success: true, data: units };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // ========== SYSTEM INITIALIZATION HANDLERS ==========
+
+  // Database backup
+  ipcMain.handle('db-backup', async (event, { filename, description }) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const fs = require('fs');
+      const path = require('path');
+      const { app } = require('electron');
+
+      // Create backup directory if it doesn't exist
+      const backupDir = path.join(app.getPath('userData'), 'backups');
+      if (!fs.existsSync(backupDir)) {
+        fs.mkdirSync(backupDir, { recursive: true });
+      }
+
+      const backupPath = path.join(backupDir, filename);
+      const currentDbPath = db.name;
+
+      // Copy database file
+      fs.copyFileSync(currentDbPath, backupPath);
+
+      // Get file size
+      const stats = fs.statSync(backupPath);
+
+      // Save backup info to database
+      const backupInfo = {
+        id: filename.replace('.db', ''),
+        filename,
+        filepath: backupPath,
+        timestamp: new Date().toISOString(),
+        size: stats.size,
+        description: description || 'Manual backup'
+      };
+
+      // Create backups table if it doesn't exist
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS backups (
+          id TEXT PRIMARY KEY,
+          filename TEXT NOT NULL,
+          filepath TEXT NOT NULL,
+          timestamp TEXT NOT NULL,
+          size INTEGER NOT NULL,
+          description TEXT
+        )
+      `);
+
+      const stmt = db.prepare(`
+        INSERT OR REPLACE INTO backups (id, filename, filepath, timestamp, size, description)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `);
+
+      stmt.run(backupInfo.id, backupInfo.filename, backupInfo.filepath,
+               backupInfo.timestamp, backupInfo.size, backupInfo.description);
+
+      return {
+        success: true,
+        filepath: backupPath,
+        size: stats.size
+      };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Get backup list
+  ipcMain.handle('db-get-backup-list', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      // Create backups table if it doesn't exist
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS backups (
+          id TEXT PRIMARY KEY,
+          filename TEXT NOT NULL,
+          filepath TEXT NOT NULL,
+          timestamp TEXT NOT NULL,
+          size INTEGER NOT NULL,
+          description TEXT
+        )
+      `);
+
+      const stmt = db.prepare(`
+        SELECT * FROM backups ORDER BY timestamp DESC
+      `);
+
+      const rows = stmt.all();
+
+      const backups = rows.map(row => ({
+        ...row,
+        timestamp: new Date(row.timestamp)
+      }));
+
+      return { success: true, data: backups };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Delete backup
+  ipcMain.handle('db-delete-backup', async (event, { backupId }) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const fs = require('fs');
+
+      // Get backup info
+      const stmt = db.prepare('SELECT * FROM backups WHERE id = ?');
+      const backup = stmt.get(backupId);
+
+      if (!backup) {
+        return { success: false, error: 'Backup not found' };
+      }
+
+      // Delete file
+      if (fs.existsSync(backup.filepath)) {
+        fs.unlinkSync(backup.filepath);
+      }
+
+      // Delete from database
+      const deleteStmt = db.prepare('DELETE FROM backups WHERE id = ?');
+      deleteStmt.run(backupId);
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Restore backup
+  ipcMain.handle('db-restore', async (event, { backupId }) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const fs = require('fs');
+
+      // Get backup info
+      const stmt = db.prepare('SELECT * FROM backups WHERE id = ?');
+      const backup = stmt.get(backupId);
+
+      if (!backup) {
+        return { success: false, error: 'Backup not found' };
+      }
+
+      if (!fs.existsSync(backup.filepath)) {
+        return { success: false, error: 'Backup file not found' };
+      }
+
+      // Close current database
+      db.close();
+
+      // Replace current database with backup
+      const currentDbPath = db.name;
+      fs.copyFileSync(backup.filepath, currentDbPath);
+
+      // Reopen database
+      const Database = require('better-sqlite3');
+      db = new Database(currentDbPath);
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Validate backup
+  ipcMain.handle('db-validate-backup', async (event, { backupId }) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const fs = require('fs');
+      const Database = require('better-sqlite3');
+
+      // Get backup info
+      const stmt = db.prepare('SELECT * FROM backups WHERE id = ?');
+      const backup = stmt.get(backupId);
+
+      if (!backup) {
+        return { success: false, error: 'Backup not found' };
+      }
+
+      if (!fs.existsSync(backup.filepath)) {
+        return { success: false, error: 'Backup file not found' };
+      }
+
+      // Try to open backup database
+      let testDb;
+      try {
+        testDb = new Database(backup.filepath, { readonly: true });
+
+        // Test basic query
+        testDb.prepare('SELECT COUNT(*) as count FROM sqlite_master').get();
+
+        testDb.close();
+        return { success: true, valid: true };
+      } catch (error) {
+        if (testDb) testDb.close();
+        return { success: true, valid: false, error: error.message };
+      }
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Clear database
+  ipcMain.handle('db-clear-database', async (event, { preserveUsers, preserveSettings }) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      // Get list of all tables
+      const tables = db.prepare(`
+        SELECT name FROM sqlite_master
+        WHERE type='table' AND name NOT LIKE 'sqlite_%'
+      `).all();
+
+      // Tables to preserve
+      const preserveTables = [];
+      if (preserveUsers) {
+        preserveTables.push('users', 'user_sessions');
+      }
+      if (preserveSettings) {
+        preserveTables.push('system_settings', 'backups');
+      }
+
+      // Clear tables (except preserved ones)
+      for (const table of tables) {
+        if (!preserveTables.includes(table.name)) {
+          db.prepare(`DELETE FROM ${table.name}`).run();
+        }
+      }
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Rebuild schema
+  ipcMain.handle('db-rebuild-schema', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const fs = require('fs');
+      const path = require('path');
+
+      // Read schema file
+      const schemaPath = path.join(__dirname, '..', 'src', 'data', 'schema.sql');
+      if (!fs.existsSync(schemaPath)) {
+        return { success: false, error: 'Schema file not found' };
+      }
+
+      const schema = fs.readFileSync(schemaPath, 'utf-8');
+
+      // Execute schema
+      db.exec(schema);
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Import mock data
+  ipcMain.handle('db-import-mock-data', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const fs = require('fs');
+      const path = require('path');
+
+      // Read mock data file
+      const mockDataPath = path.join(__dirname, '..', 'mock-data.sql');
+      if (!fs.existsSync(mockDataPath)) {
+        return { success: false, error: 'Mock data file not found' };
+      }
+
+      const mockData = fs.readFileSync(mockDataPath, 'utf-8');
+
+      // Execute mock data
+      db.exec(mockData);
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Get system status
+  ipcMain.handle('db-get-system-status', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const fs = require('fs');
+
+      // Get database file size
+      const dbPath = db.name;
+      const stats = fs.statSync(dbPath);
+      const databaseSize = stats.size;
+
+      // Get table count
+      const tableCount = db.prepare(`
+        SELECT COUNT(*) as count FROM sqlite_master
+        WHERE type='table' AND name NOT LIKE 'sqlite_%'
+      `).get().count;
+
+      // Get total record count
+      const tables = db.prepare(`
+        SELECT name FROM sqlite_master
+        WHERE type='table' AND name NOT LIKE 'sqlite_%'
+      `).all();
+
+      let recordCount = 0;
+      for (const table of tables) {
+        try {
+          const count = db.prepare(`SELECT COUNT(*) as count FROM ${table.name}`).get().count;
+          recordCount += count;
+        } catch (error) {
+          // Skip tables that can't be counted
+        }
+      }
+
+      // Get last backup date
+      let lastBackup;
+      try {
+        const backup = db.prepare(`
+          SELECT timestamp FROM backups ORDER BY timestamp DESC LIMIT 1
+        `).get();
+        if (backup) {
+          lastBackup = new Date(backup.timestamp);
+        }
+      } catch (error) {
+        // No backups table or no backups
+      }
+
+      // Get version
+      const version = '1.0.0'; // You can get this from package.json or config
+
+      return {
+        success: true,
+        data: {
+          databaseSize,
+          tableCount,
+          recordCount,
+          lastBackup,
+          version
+        }
+      };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Validate integrity
+  ipcMain.handle('db-validate-integrity', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const issues = [];
+      const recommendations = [];
+
+      // Check database integrity
+      try {
+        const result = db.prepare('PRAGMA integrity_check').get();
+        if (result.integrity_check !== 'ok') {
+          issues.push('Database integrity check failed');
+          recommendations.push('Consider restoring from a backup');
+        }
+      } catch (error) {
+        issues.push('Unable to perform integrity check');
+      }
+
+      // Check for required tables
+      const requiredTables = [
+        'inventory_items', 'categories', 'suppliers', 'warehouses',
+        'units', 'inventory_transactions', 'users'
+      ];
+
+      const existingTables = db.prepare(`
+        SELECT name FROM sqlite_master
+        WHERE type='table' AND name NOT LIKE 'sqlite_%'
+      `).all().map(t => t.name);
+
+      for (const table of requiredTables) {
+        if (!existingTables.includes(table)) {
+          issues.push(`Missing required table: ${table}`);
+          recommendations.push('Run system initialization to recreate missing tables');
+        }
+      }
+
+      // Check for orphaned records
+      try {
+        const orphanedItems = db.prepare(`
+          SELECT COUNT(*) as count FROM inventory_items
+          WHERE category_id NOT IN (SELECT id FROM categories)
+        `).get().count;
+
+        if (orphanedItems > 0) {
+          issues.push(`Found ${orphanedItems} inventory items with invalid categories`);
+          recommendations.push('Clean up orphaned records or restore category data');
+        }
+      } catch (error) {
+        // Skip if tables don't exist
+      }
+
+      return {
+        success: true,
+        data: {
+          isValid: issues.length === 0,
+          issues,
+          recommendations
+        }
+      };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // ========== GLOBAL CONVERSION RULES HANDLERS ==========
+
+  // Get all global conversion rules
+  ipcMain.handle('db-get-all-conversion-rules', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const query = `
+        SELECT
+          id, name, from_unit_id as fromUnitId, to_unit_id as toUnitId,
+          conversion_rate as conversionRate, category, description,
+          is_active as isActive,
+          created_at as createdAt, updated_at as updatedAt
+        FROM global_conversion_rules
+        ORDER BY category, name ASC
+      `;
+
+      const stmt = db.prepare(query);
+      const rows = stmt.all();
+
+      const rules = rows.map(row => ({
+        ...row,
+        isActive: Boolean(row.isActive),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      }));
+
+      return { success: true, data: rules };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Get conversion rule by ID
+  ipcMain.handle('db-get-conversion-rule-by-id', async (event, { id }) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const query = `
+        SELECT
+          id, name, from_unit_id as fromUnitId, to_unit_id as toUnitId,
+          conversion_rate as conversionRate, category, description,
+          is_active as isActive,
+          created_at as createdAt, updated_at as updatedAt
+        FROM global_conversion_rules
+        WHERE id = ?
+      `;
+
+      const stmt = db.prepare(query);
+      const row = stmt.get(id);
+
+      if (!row) {
+        return { success: false, error: 'Conversion rule not found' };
+      }
+
+      const rule = {
+        ...row,
+        isActive: Boolean(row.isActive),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      };
+
+      return { success: true, data: rule };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Create conversion rule
+  ipcMain.handle('db-create-conversion-rule', async (event, ruleData) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const { name, fromUnitId, toUnitId, conversionRate, category, description, isActive = true } = ruleData;
+      const id = require('uuid').v4();
+      const now = new Date().toISOString();
+
+      const stmt = db.prepare(`
+        INSERT INTO global_conversion_rules
+        (id, name, from_unit_id, to_unit_id, conversion_rate, category, description, is_active, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `);
+
+      stmt.run(id, name, fromUnitId, toUnitId, conversionRate, category, description, isActive ? 1 : 0, now, now);
+
+      return { success: true, data: { id, ...ruleData, createdAt: now, updatedAt: now } };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Update conversion rule
+  ipcMain.handle('db-update-conversion-rule', async (event, { id, updates }) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const fields = [];
+      const values = [];
+
+      Object.keys(updates).forEach(key => {
+        if (key === 'fromUnitId') {
+          fields.push('from_unit_id = ?');
+          values.push(updates[key]);
+        } else if (key === 'toUnitId') {
+          fields.push('to_unit_id = ?');
+          values.push(updates[key]);
+        } else if (key === 'conversionRate') {
+          fields.push('conversion_rate = ?');
+          values.push(updates[key]);
+        } else if (key === 'isActive') {
+          fields.push('is_active = ?');
+          values.push(updates[key] ? 1 : 0);
+        } else {
+          fields.push(`${key} = ?`);
+          values.push(updates[key]);
+        }
+      });
+
+      fields.push('updated_at = ?');
+      values.push(new Date().toISOString());
+      values.push(id);
+
+      const stmt = db.prepare(`
+        UPDATE global_conversion_rules
+        SET ${fields.join(', ')}
+        WHERE id = ?
+      `);
+
+      const result = stmt.run(...values);
+
+      if (result.changes === 0) {
+        return { success: false, error: 'Conversion rule not found' };
+      }
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Delete conversion rule
+  ipcMain.handle('db-delete-conversion-rule', async (event, { id }) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const stmt = db.prepare('DELETE FROM global_conversion_rules WHERE id = ?');
+      const result = stmt.run(id);
+
+      if (result.changes === 0) {
+        return { success: false, error: 'Conversion rule not found' };
+      }
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // ========== PRODUCT CONVERSION SETTINGS HANDLERS ==========
+
+  // Get all product conversion settings
+  ipcMain.handle('db-get-all-product-conversions', async () => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const query = `
+        SELECT
+          id, product_id as productId, enable_conversion as enableConversion,
+          conversion_type as conversionType, global_rule_id as globalRuleId,
+          custom_from_unit_id as customFromUnitId, custom_to_unit_id as customToUnitId,
+          custom_conversion_rate as customConversionRate, custom_description as customDescription,
+          is_active as isActive,
+          created_at as createdAt, updated_at as updatedAt
+        FROM product_conversion_settings
+        ORDER BY product_id ASC
+      `;
+
+      const stmt = db.prepare(query);
+      const rows = stmt.all();
+
+      const settings = rows.map(row => ({
+        ...row,
+        enableConversion: Boolean(row.enableConversion),
+        isActive: Boolean(row.isActive),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      }));
+
+      return { success: true, data: settings };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Get product conversion by product ID
+  ipcMain.handle('db-get-product-conversion-by-product', async (event, { productId }) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const query = `
+        SELECT
+          id, product_id as productId, enable_conversion as enableConversion,
+          conversion_type as conversionType, global_rule_id as globalRuleId,
+          custom_from_unit_id as customFromUnitId, custom_to_unit_id as customToUnitId,
+          custom_conversion_rate as customConversionRate, custom_description as customDescription,
+          is_active as isActive,
+          created_at as createdAt, updated_at as updatedAt
+        FROM product_conversion_settings
+        WHERE product_id = ?
+      `;
+
+      const stmt = db.prepare(query);
+      const row = stmt.get(productId);
+
+      if (!row) {
+        return { success: true, data: null };
+      }
+
+      const setting = {
+        ...row,
+        enableConversion: Boolean(row.enableConversion),
+        isActive: Boolean(row.isActive),
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
+      };
+
+      return { success: true, data: setting };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Create product conversion setting
+  ipcMain.handle('db-create-product-conversion', async (event, settingData) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const {
+        productId, enableConversion, conversionType, globalRuleId,
+        customFromUnitId, customToUnitId, customConversionRate, customDescription,
+        isActive = true
+      } = settingData;
+
+      const id = require('uuid').v4();
+      const now = new Date().toISOString();
+
+      const stmt = db.prepare(`
+        INSERT INTO product_conversion_settings
+        (id, product_id, enable_conversion, conversion_type, global_rule_id,
+         custom_from_unit_id, custom_to_unit_id, custom_conversion_rate, custom_description,
+         is_active, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `);
+
+      stmt.run(
+        id, productId, enableConversion ? 1 : 0, conversionType, globalRuleId,
+        customFromUnitId, customToUnitId, customConversionRate, customDescription,
+        isActive ? 1 : 0, now, now
+      );
+
+      return { success: true, data: { id, ...settingData, createdAt: now, updatedAt: now } };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Update product conversion setting
+  ipcMain.handle('db-update-product-conversion', async (event, { id, updates }) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const fields = [];
+      const values = [];
+
+      Object.keys(updates).forEach(key => {
+        if (key === 'productId') {
+          fields.push('product_id = ?');
+          values.push(updates[key]);
+        } else if (key === 'enableConversion') {
+          fields.push('enable_conversion = ?');
+          values.push(updates[key] ? 1 : 0);
+        } else if (key === 'conversionType') {
+          fields.push('conversion_type = ?');
+          values.push(updates[key]);
+        } else if (key === 'globalRuleId') {
+          fields.push('global_rule_id = ?');
+          values.push(updates[key]);
+        } else if (key === 'customFromUnitId') {
+          fields.push('custom_from_unit_id = ?');
+          values.push(updates[key]);
+        } else if (key === 'customToUnitId') {
+          fields.push('custom_to_unit_id = ?');
+          values.push(updates[key]);
+        } else if (key === 'customConversionRate') {
+          fields.push('custom_conversion_rate = ?');
+          values.push(updates[key]);
+        } else if (key === 'customDescription') {
+          fields.push('custom_description = ?');
+          values.push(updates[key]);
+        } else if (key === 'isActive') {
+          fields.push('is_active = ?');
+          values.push(updates[key] ? 1 : 0);
+        }
+      });
+
+      fields.push('updated_at = ?');
+      values.push(new Date().toISOString());
+      values.push(id);
+
+      const stmt = db.prepare(`
+        UPDATE product_conversion_settings
+        SET ${fields.join(', ')}
+        WHERE id = ?
+      `);
+
+      const result = stmt.run(...values);
+
+      if (result.changes === 0) {
+        return { success: false, error: 'Product conversion setting not found' };
+      }
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  // Delete product conversion setting
+  ipcMain.handle('db-delete-product-conversion', async (event, { id }) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const stmt = db.prepare('DELETE FROM product_conversion_settings WHERE id = ?');
+      const result = stmt.run(id);
+
+      if (result.changes === 0) {
+        return { success: false, error: 'Product conversion setting not found' };
+      }
+
+      return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
     }

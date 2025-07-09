@@ -48,7 +48,7 @@ const menuItems: MenuItem[] = [
       { id: 'categories', label: '分类管理', icon: '📂' },
       { id: 'customers', label: '客户管理', icon: '👥' },
       { id: 'units', label: '单位管理', icon: '📏' },
-      { id: 'conversion-rules', label: '换算规则管理', icon: '⚖️' }
+      { id: 'conversion-rules', label: '换算规则', icon: '⚖️' }
     ]
   },
   {
@@ -100,7 +100,8 @@ const menuItems: MenuItem[] = [
       { id: 'users', label: '用户管理', icon: '👤' },
       { id: 'permissions', label: '权限管理', icon: '🔐' },
       { id: 'settings', label: '系统设置', icon: '🔧' },
-      { id: 'logs', label: '操作日志', icon: '📋' }
+      { id: 'logs', label: '操作日志', icon: '📋' },
+      { id: 'initialization', label: '系统初始化', icon: '🔄' }
     ]
   }
 ];
