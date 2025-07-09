@@ -4,29 +4,30 @@
 
 /* 导入主题样式 */
 @import './styles/themes.css';
+@import './styles/theme-adaptations.css';
 
 @layer base {
   :root {
     /* Shadcn/ui base variables */
-    --background: 220 20% 14%;
-    --foreground: 220 8% 95%;
-    --card: 220 20% 10%;
-    --card-foreground: 220 8% 95%;
-    --popover: 220 20% 10%;
-    --popover-foreground: 220 8% 95%;
-    --primary: 220 8% 95%;
-    --primary-foreground: 220 20% 14%;
-    --secondary: 220 20% 14%;
-    --secondary-foreground: 220 8% 95%;
-    --muted: 220 20% 14%;
-    --muted-foreground: 220 8% 65%;
-    --accent: 220 20% 14%;
-    --accent-foreground: 220 8% 95%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 18%;
-    --input: 220 13% 18%;
-    --ring: 220 8% 95%;
+    --background: var(--shadcn-background);
+    --foreground: var(--shadcn-foreground);
+    --card: var(--shadcn-card);
+    --card-foreground: var(--shadcn-card-foreground);
+    --popover: var(--shadcn-popover);
+    --popover-foreground: var(--shadcn-popover-foreground);
+    --primary: var(--shadcn-primary);
+    --primary-foreground: var(--shadcn-primary-foreground);
+    --secondary: var(--shadcn-secondary);
+    --secondary-foreground: var(--shadcn-secondary-foreground);
+    --muted: var(--shadcn-muted);
+    --muted-foreground: var(--shadcn-muted-foreground);
+    --accent: var(--shadcn-accent);
+    --accent-foreground: var(--shadcn-accent-foreground);
+    --destructive: var(--shadcn-destructive);
+    --destructive-foreground: var(--shadcn-destructive-foreground);
+    --border: var(--shadcn-border);
+    --input: var(--shadcn-input);
+    --ring: var(--shadcn-ring);
     --radius: 0.5rem;
     
     --border-radius-sm: 0.375rem;
@@ -34,8 +35,8 @@
     --border-radius-lg: 0.75rem;
     
     --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --glass-blur: blur(20px);
-    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    --glass-blur: var(--glass-blur);
+    --glass-shadow: var(--glass-shadow);
   }
   
   /* Animation utilities */
@@ -101,7 +102,7 @@
   }
   body {
     background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    color: var(--text-primary);
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
@@ -119,28 +120,28 @@
 
 @layer utilities {
   .glass-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    background: var(--glass-bg-10);
+    backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--glass-shadow);
   }
   
   /* Popup/Dropdown Styles */
   .popup-dropdown {
     position: absolute;
     z-index: 1000;
-    border-radius: 16px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    border-radius: var(--border-radius-lg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--loading-container-shadow);
     overflow: hidden;
   }
   
   .popup-header {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: var(--glass-bg-10);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
   }
   
   .popup-content {
@@ -152,27 +153,27 @@
   }
   
   .glass-card-hover:hover {
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    background: var(--glass-bg-15);
+    box-shadow: var(--glass-shadow-hover);
     transform: translateY(-2px);
   }
   
   .glass-input {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: var(--glass-bg-10);
+    backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    color: var(--text-primary);
+    transition: var(--transition-fast);
   }
-  
+
   .glass-input::placeholder {
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--text-secondary);
   }
   
   .glass-input:focus {
     outline: none;
     ring: 2px;
-    ring-color: rgba(255, 255, 255, 0.3);
+    ring-color: var(--glass-bg-30);
     ring-offset: 2px;
   }
   
@@ -181,15 +182,15 @@
   }
   
   .glass-input.ring-red-400\/20 {
-    box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.2) !important;
+    box-shadow: 0 0 0 2px var(--error-message-border) !important;
   }
   
   .text-gradient {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+    text-shadow: 0 4px 20px var(--glass-bg-30);
   }
   
   .animate-fade-in-up {
@@ -216,7 +217,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--loading-background);
   font-family: 'Arial', 'Microsoft YaHei', sans-serif;
   position: fixed;
   top: 0;
@@ -226,14 +227,14 @@
 
 .loading-container,
 .error-container {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
+  background: var(--loading-container-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--border-radius-xl);
   padding: 48px;
   text-align: center;
   max-width: 420px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+  border: var(--loading-container-border);
+  box-shadow: var(--loading-container-shadow);
 }
 
 /* 加载动画 */
@@ -245,8 +246,8 @@
 .loading-spinner {
   width: 60px;
   height: 60px;
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid white;
+  border: 4px solid var(--loading-spinner-track);
+  border-top: 4px solid var(--loading-spinner-fill);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 20px;
@@ -261,7 +262,7 @@
 .loading-dots span {
   width: 8px;
   height: 8px;
-  background: white;
+  background: var(--loading-spinner-fill);
   border-radius: 50%;
   animation: bounce 1.4s ease-in-out infinite both;
 }
@@ -271,15 +272,15 @@
 .loading-dots span:nth-child(3) { animation-delay: 0s; }
 
 .loading-title {
-  color: white;
+  color: var(--loading-text-primary);
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 8px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px var(--glass-bg-dark-30);
 }
 
 .loading-text {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--loading-text-secondary);
   font-size: 1.1rem;
   margin-bottom: 24px;
 }
@@ -287,7 +288,7 @@
 .loading-progress {
   width: 100%;
   height: 4px;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--loading-progress-bg);
   border-radius: 2px;
   overflow: hidden;
   margin-bottom: 24px;
@@ -295,21 +296,21 @@
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  background: var(--loading-progress-fill);
   border-radius: 2px;
   animation: progress 2s ease-in-out infinite;
 }
 
 .loading-tips {
   text-align: left;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  background: var(--loading-tips-bg);
+  border-radius: var(--border-radius-md);
   padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: var(--loading-tips-border);
 }
 
 .loading-tips p {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--loading-text-secondary);
   font-size: 0.9rem;
   margin-bottom: 6px;
   display: flex;
@@ -328,38 +329,38 @@
 }
 
 .error-title {
-  color: white;
+  color: var(--error-text-primary);
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 12px;
 }
 
 .error-message {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--error-text-secondary);
   font-size: 1rem;
   margin-bottom: 24px;
-  background: rgba(255, 77, 79, 0.2);
+  background: var(--error-message-bg);
   padding: 12px 16px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 77, 79, 0.3);
+  border-radius: var(--border-radius-sm);
+  border: var(--error-message-border);
 }
 
 .error-retry {
-  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
-  color: white;
+  background: var(--error-button-bg);
+  color: var(--error-text-primary);
   border: none;
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-sm);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+  transition: var(--transition-base);
+  box-shadow: var(--error-button-shadow);
 }
 
 .error-retry:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+  box-shadow: var(--error-button-hover-shadow);
 }
 
 /* 主App容器 */
@@ -397,4 +398,61 @@
     width: 100%;
     opacity: 0;
   }
+}
+
+/* 温暖商务风主题全局样式覆盖 */
+[data-theme="warm-business"] .glass-input {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="warm-business"] .glass-input::placeholder {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="warm-business"] body {
+  color: var(--text-primary) !important;
+}
+
+/* 覆盖所有硬编码的白色文字 */
+[data-theme="warm-business"] .text-white {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="warm-business"] .text-white\/80 {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="warm-business"] .text-white\/70 {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="warm-business"] .text-white\/60 {
+  color: var(--text-tertiary) !important;
+}
+
+[data-theme="warm-business"] .text-white\/50 {
+  color: var(--text-tertiary) !important;
+}
+
+/* 表格文字颜色 */
+[data-theme="warm-business"] td {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="warm-business"] th {
+  color: var(--text-primary) !important;
+}
+
+/* 卡片和容器文字 */
+[data-theme="warm-business"] .glass-card {
+  color: var(--text-primary);
+}
+
+[data-theme="warm-business"] .glass-card * {
+  color: inherit;
+}
+
+/* 按钮文字 */
+[data-theme="warm-business"] .glass-button {
+  color: var(--text-primary) !important;
 }

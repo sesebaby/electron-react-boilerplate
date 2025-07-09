@@ -32,17 +32,18 @@ const LoginPage: React.FC = () => {
     <div className="min-h-screen relative overflow-hidden" style={{background: 'var(--app-background)'}}>
       {/* 现代化背景效果 */}
       <div className="absolute inset-0">
-        <div className="absolute w-72 h-72 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-1/4 top-1/3"></div>
-        <div className="absolute w-64 h-64 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 right-1/3 top-2/3"></div>
-        <div className="absolute w-80 h-80 bg-gradient-to-r from-cyan-500/8 to-blue-500/8 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-2/3 top-1/4"></div>
+        <div className="absolute w-72 h-72 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-1/4 top-1/3" style={{background: 'var(--glass-bg-10)'}}></div>
+        <div className="absolute w-64 h-64 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 right-1/3 top-2/3" style={{background: 'var(--glass-bg-15)'}}></div>
+        <div className="absolute w-80 h-80 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-2/3 top-1/4" style={{background: 'var(--glass-bg-20)'}}></div>
       </div>
 
       {/* 网格背景 */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-white/[0.05]" 
+      <div className="absolute inset-0" 
            style={{
+             background: 'var(--glass-bg-10)',
              backgroundImage: `
-               linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-               linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+               linear-gradient(var(--glass-bg-dark-10) 1px, transparent 1px),
+               linear-gradient(90deg, var(--glass-bg-dark-10) 1px, transparent 1px)
              `,
              backgroundSize: '50px 50px'
            }}>
@@ -69,20 +70,35 @@ const LoginPage: React.FC = () => {
 
               {/* 特色标签 */}
               <div className="flex flex-wrap gap-2 mb-8">
-                <span className="px-3 py-1 bg-blue-500/20 border border-blue-400/30 rounded-full text-blue-300 text-xs font-medium">
+                <span className="px-3 py-1 rounded-full text-xs font-medium" style={{
+                  background: 'var(--info-color)',
+                  border: `1px solid var(--info-color)`,
+                  color: 'var(--text-primary)'
+                }}>
                   企业级系统
                 </span>
-                <span className="px-3 py-1 bg-green-500/20 border border-green-400/30 rounded-full text-green-300 text-xs font-medium">
+                <span className="px-3 py-1 rounded-full text-xs font-medium" style={{
+                  background: 'var(--success-color)',
+                  border: `1px solid var(--success-color)`,
+                  color: 'var(--text-primary)'
+                }}>
                   永久免费
                 </span>
-                <span className="px-3 py-1 bg-purple-500/20 border border-purple-400/30 rounded-full text-purple-300 text-xs font-medium">
+                <span className="px-3 py-1 rounded-full text-xs font-medium" style={{
+                  background: 'var(--financial-purple)',
+                  border: `1px solid var(--financial-purple)`,
+                  color: 'var(--text-primary)'
+                }}>
                   定制开发
                 </span>
               </div>
             </div>
 
             {/* 开发者信息卡片 */}
-            <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-2xl mb-6">
+            <div className="backdrop-blur-xl rounded-2xl p-6 shadow-2xl mb-6" style={{
+              background: 'var(--glass-bg-10)', 
+              border: '1px solid var(--glass-border)'
+            }}>
               <h3 className="text-base font-semibold mb-4 flex items-center" style={{color: 'var(--text-primary)'}}>
                 <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></div>
                 开发团队
@@ -116,10 +132,15 @@ const LoginPage: React.FC = () => {
             </div>
 
             {/* 服务说明 */}
-            <div className="bg-gradient-to-r from-emerald-500/10 to-blue-500/10 rounded-2xl p-5 border border-emerald-400/20">
+            <div className="rounded-2xl p-5" style={{
+              background: 'var(--glass-bg-15)',
+              border: `1px solid var(--success-color)`
+            }}>
               <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                  <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-1" style={{
+                  background: 'var(--success-color)'
+                }}>
+                  <svg className="w-4 h-4" style={{color: 'var(--text-primary)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
@@ -143,7 +164,9 @@ const LoginPage: React.FC = () => {
             {/* 登录卡片 */}
             <GlassCard className="backdrop-blur-xl bg-white/[0.08] border-white/20 shadow-2xl">
               <GlassCardHeader className="text-center pb-8">
-                <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg" style={{
+                  background: 'var(--login-button-bg)'
+                }}>
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
@@ -165,7 +188,12 @@ const LoginPage: React.FC = () => {
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       placeholder="输入用户名"
-                      className="h-12 bg-white/10 border-white/20 placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 transition-all duration-200" style={{color: 'var(--text-primary)'}}
+                      className="h-12 transition-all duration-200 glass-input"
+                      style={{
+                        color: 'var(--text-primary)',
+                        background: 'var(--glass-bg-10)',
+                        border: '1px solid var(--glass-border)'
+                      }}
                       required
                     />
                   </div>
@@ -177,14 +205,23 @@ const LoginPage: React.FC = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="输入密码"
-                      className="h-12 bg-white/10 border-white/20 placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 transition-all duration-200" style={{color: 'var(--text-primary)'}}
+                      className="h-12 transition-all duration-200 glass-input"
+                      style={{
+                        color: 'var(--text-primary)',
+                        background: 'var(--glass-bg-10)',
+                        border: '1px solid var(--glass-border)'
+                      }}
                       required
                     />
                   </div>
                   
                   {error && (
-                    <div className="bg-red-500/15 border border-red-400/30 rounded-xl p-4 text-sm flex items-center space-x-2" style={{color: 'var(--danger-color)'}}>
-                      <svg className="w-4 h-4 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="rounded-xl p-4 text-sm flex items-center space-x-2" style={{
+                      background: 'var(--error-message-bg)',
+                      border: `1px solid var(--error-message-border)`,
+                      color: 'var(--error-color)'
+                    }}>
+                      <svg className="w-4 h-4 flex-shrink-0" style={{color: 'var(--error-color)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       <span>{error}</span>
@@ -193,7 +230,18 @@ const LoginPage: React.FC = () => {
                   
                   <Button 
                     type="submit" 
-                    className="w-full h-12 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                    className="w-full h-12 font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
+                    style={{
+                      background: 'var(--login-button-bg)',
+                      color: 'var(--login-button-text)',
+                      boxShadow: 'var(--login-button-shadow)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'var(--login-button-hover-bg)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'var(--login-button-bg)';
+                    }}
                     disabled={isLoading}
                   >
                     {isLoading ? (
@@ -207,7 +255,10 @@ const LoginPage: React.FC = () => {
                   </Button>
                 </form>
                 
-                <div className="mt-8 pt-6 border-t border-white/10 text-center text-sm" style={{color: 'var(--text-tertiary)'}}>
+                <div className="mt-8 pt-6 text-center text-sm" style={{
+                  borderTop: `1px solid var(--glass-border)`,
+                  color: 'var(--text-tertiary)'
+                }}>
                   <p className="mb-1">默认管理员账号: <span className="font-medium" style={{color: 'var(--text-secondary)'}}>admin / 123456</span></p>
                   <p>忘记密码？请联系系统管理员</p>
                 </div>

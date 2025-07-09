@@ -12,12 +12,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { getCurrentTheme } = useTheme();
   const currentTheme = getCurrentTheme();
   
-  // 根据主题确定文字颜色
-  const isWarmBusiness = currentTheme.name === 'warm-business';
-  const textColor = isWarmBusiness ? 'text-slate-800' : 'text-white';
-  const textColorSecondary = isWarmBusiness ? 'text-slate-600' : 'text-white/80';
-  const textColorTertiary = isWarmBusiness ? 'text-slate-500' : 'text-white/60';
-  const textColorMuted = isWarmBusiness ? 'text-slate-400' : 'text-white/50';
+  // 检查是否为温暖商务风主题
+  const isWarmBusiness = currentTheme?.name === 'warm-business';
+  
+  // 使用CSS变量而不是硬编码颜色
+  const textStyle = { color: 'var(--text-primary)' };
+  const textStyleSecondary = { color: 'var(--text-secondary)' };
+  const textStyleTertiary = { color: 'var(--text-tertiary)' };
+  const textStyleMuted = { color: 'var(--text-secondary)' };
   
   // 背景装饰颜色
   const decorationColor = isWarmBusiness ? 'bg-slate-800/5' : 'bg-white/5';
@@ -92,9 +94,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
           {/* 公司品牌信息 */}
           <div className="mb-8">
             <div className="mb-6">
-              <h1 className={`text-4xl font-bold ${textColor} mb-3 tracking-wide`}>ultrathink</h1>
-              <p className={`${textColorSecondary} text-lg font-medium mb-2`}>唐山市无踪信息科技</p>
-              <p className={`${textColorTertiary} text-sm`}>专业软件开发 · 技术创新领航</p>
+              <h1 className="text-4xl font-bold mb-3 tracking-wide" style={textStyle}>ultrathink</h1>
+              <p className="text-lg font-medium mb-2" style={textStyleSecondary}>唐山市无踪信息科技</p>
+              <p className="text-sm" style={textStyleTertiary}>专业软件开发 · 技术创新领航</p>
             </div>
 
             {/* 特色标签 */}
@@ -113,7 +115,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
           {/* 开发者信息卡片 */}
           <div className={`${isWarmBusiness ? 'bg-white/8' : 'bg-white/5'} backdrop-blur-xl rounded-2xl p-5 border ${isWarmBusiness ? 'border-slate-800/15' : 'border-white/10'} shadow-lg mb-6`}>
-            <h3 className={`${textColor} text-base font-semibold mb-4 flex items-center justify-center`}>
+            <h3 className="text-base font-semibold mb-4 flex items-center justify-center" style={textStyle}>
               <div className="w-2 h-2 bg-emerald-400 rounded-full mr-2"></div>
               开发团队
             </h3>
@@ -126,8 +128,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
                   </svg>
                 </div>
                 <div className="flex-1 text-left">
-                  <p className={`${textColor} font-medium`}>远古牛哥</p>
-                  <p className={`${textColorTertiary} text-sm`}>首席开发工程师</p>
+                  <p className="font-medium" style={textStyle}>远古牛哥</p>
+                  <p className="text-sm" style={textStyleTertiary}>首席开发工程师</p>
                 </div>
               </div>
               
@@ -138,8 +140,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
                   </svg>
                 </div>
                 <div className="flex-1 text-left">
-                  <p className={`${textColor} font-medium`}>18833305508</p>
-                  <p className={`${textColorTertiary} text-sm`}>技术支持热线</p>
+                  <p className="font-medium" style={textStyle}>18833305508</p>
+                  <p className="text-sm" style={textStyleTertiary}>技术支持热线</p>
                 </div>
               </div>
             </div>
@@ -147,13 +149,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
           {/* 加载状态信息 */}
           <div className="text-center">
-            <h2 className={`text-xl font-bold ${textColor} mb-2`}>验证身份中...</h2>
-            <p className={`${textColorSecondary} text-sm`}>正在检查您的登录状态，请稍候</p>
+            <h2 className="text-xl font-bold mb-2" style={textStyle}>验证身份中...</h2>
+            <p className="text-sm" style={textStyleSecondary}>正在检查您的登录状态，请稍候</p>
           </div>
 
           {/* 底部提示 */}
           <div className={`mt-6 pt-4 border-t ${isWarmBusiness ? 'border-slate-800/15' : 'border-white/10'} text-center`}>
-            <p className={`${textColorMuted} text-xs`}>
+            <p className="text-xs" style={textStyleMuted}>
               如遇问题，请联系技术支持 · 免费使用 · 专业服务
             </p>
           </div>

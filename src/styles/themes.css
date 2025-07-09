@@ -116,6 +116,72 @@
   --scrollbar-track-hover-bg: oklch(0.585 0.233 277.117 / 0.15); /* 滚动条轨道悬停 */
   --scrollbar-thumb-color: oklch(0.87 0.065 274.039 / 0.4);     /* 滚动条滑块 */
   --scrollbar-thumb-hover-color: oklch(0.87 0.065 274.039 / 0.6); /* 滚动条滑块悬停 */
+
+  /* ===== 加载动画变量 ===== */
+  --loading-background: linear-gradient(135deg, oklch(0.585 0.233 277.117) 0%, oklch(0.511 0.262 276.966) 100%);
+  --loading-container-bg: oklch(100% 0.00011 271.152 / 0.1);
+  --loading-container-border: oklch(100% 0.00011 271.152 / 0.2);
+  --loading-container-shadow: 0 25px 80px oklch(0.257 0.09 281.288 / 0.15);
+  --loading-spinner-track: oklch(100% 0.00011 271.152 / 0.3);
+  --loading-spinner-fill: oklch(100% 0.00011 271.152);
+  --loading-text-primary: oklch(100% 0.00011 271.152);
+  --loading-text-secondary: oklch(100% 0.00011 271.152 / 0.9);
+  --loading-progress-bg: oklch(100% 0.00011 271.152 / 0.2);
+  --loading-progress-fill: linear-gradient(90deg, oklch(0.7 0.15 230), oklch(0.75 0.2 180));
+  --loading-tips-bg: oklch(100% 0.00011 271.152 / 0.1);
+  --loading-tips-border: oklch(100% 0.00011 271.152 / 0.2);
+
+  /* ===== 错误状态变量 ===== */
+  --error-background: var(--loading-background);
+  --error-container-bg: var(--loading-container-bg);
+  --error-container-border: var(--loading-container-border);
+  --error-container-shadow: var(--loading-container-shadow);
+  --error-text-primary: oklch(100% 0.00011 271.152);
+  --error-text-secondary: oklch(100% 0.00011 271.152 / 0.9);
+  --error-message-bg: oklch(0.637 0.237 25.331 / 0.2);
+  --error-message-border: oklch(0.637 0.237 25.331 / 0.3);
+  --error-button-bg: linear-gradient(45deg, oklch(0.63 0.24 25), oklch(0.58 0.22 20));
+  --error-button-shadow: 0 4px 15px oklch(0.63 0.24 25 / 0.4);
+  --error-button-hover-shadow: 0 8px 25px oklch(0.63 0.24 25 / 0.5);
+
+  /* ===== 通用半透明背景 ===== */
+  --glass-bg-10: oklch(100% 0.00011 271.152 / 0.1);
+  --glass-bg-15: oklch(100% 0.00011 271.152 / 0.15);
+  --glass-bg-20: oklch(100% 0.00011 271.152 / 0.2);
+  --glass-bg-25: oklch(100% 0.00011 271.152 / 0.25);
+  --glass-bg-30: oklch(100% 0.00011 271.152 / 0.3);
+  --glass-bg-dark-10: oklch(0.257 0.09 281.288 / 0.1);
+  --glass-bg-dark-15: oklch(0.257 0.09 281.288 / 0.15);
+  --glass-bg-dark-20: oklch(0.257 0.09 281.288 / 0.2);
+  --glass-bg-dark-25: oklch(0.257 0.09 281.288 / 0.25);
+  --glass-bg-dark-30: oklch(0.257 0.09 281.288 / 0.3);
+
+  /* ===== Shadcn/ui 兼容变量 ===== */
+  --shadcn-background: 220 20% 14%;
+  --shadcn-foreground: 220 8% 95%;
+  --shadcn-card: 220 20% 10%;
+  --shadcn-card-foreground: 220 8% 95%;
+  --shadcn-popover: 220 20% 10%;
+  --shadcn-popover-foreground: 220 8% 95%;
+  --shadcn-primary: 220 8% 95%;
+  --shadcn-primary-foreground: 220 20% 14%;
+  --shadcn-secondary: 220 20% 14%;
+  --shadcn-secondary-foreground: 220 8% 95%;
+  --shadcn-muted: 220 20% 14%;
+  --shadcn-muted-foreground: 220 8% 65%;
+  --shadcn-accent: 220 20% 14%;
+  --shadcn-accent-foreground: 220 8% 95%;
+  --shadcn-destructive: 0 84% 60%;
+  --shadcn-destructive-foreground: 0 0% 98%;
+  --shadcn-border: 220 13% 18%;
+  --shadcn-input: 220 13% 18%;
+  --shadcn-ring: 220 8% 95%;
+
+  /* ===== 登录按钮变量 ===== */
+  --login-button-bg: linear-gradient(135deg, oklch(0.585 0.233 277.117), oklch(0.511 0.262 276.966));
+  --login-button-hover-bg: linear-gradient(135deg, oklch(0.511 0.262 276.966), oklch(0.457 0.24 277.023));
+  --login-button-text: oklch(100% 0.00011 271.152);
+  --login-button-shadow: 0 4px 16px oklch(0.257 0.09 281.288 / 0.3);
 }
 
 /* ===== 玻璃未来风主题 - 基于 Indigo 色块系列重构 ===== */
@@ -550,14 +616,14 @@
   --table-header-blur: blur(20px);
   --table-cell-border: oklch(0.414 0.112 45.904 / 0.15);
   --table-cell-hover: oklch(0.924 0.12 95.746 / 0.3);
-  --table-header-text: oklch(0.414 0.112 45.904 / 0.95);
-  --table-header-text-secondary: oklch(0.473 0.137 46.201 / 0.8);
+  --table-header-text: oklch(0.25 0.02 258.065);
+  --table-header-text-secondary: oklch(0.35 0.03 258.065);
 
   /* 主题文字颜色 - 深灰色文字，适合浅色背景 */
   --text-primary: oklch(0.25 0.02 258.065);
   --text-secondary: oklch(0.35 0.03 258.065);
   --text-tertiary: oklch(0.45 0.03 258.065);
-  --text-accent: oklch(0.279 0.077 45.635);
+  --text-accent: oklch(0.25 0.02 258.065);
 
   /* 弹出窗体背景系统 - amber-50 系列，高可读性 */
   --popup-background: oklch(0.987 0.022 95.277 / 0.85);
@@ -615,6 +681,72 @@
   --scrollbar-track-hover-bg: oklch(0.828 0.189 84.429 / 0.15); /* 滚动条轨道悬停 */
   --scrollbar-thumb-color: oklch(0.924 0.12 95.746 / 0.4);     /* 滚动条滑块 */
   --scrollbar-thumb-hover-color: oklch(0.924 0.12 95.746 / 0.6); /* 滚动条滑块悬停 */
+
+  /* ===== 加载动画变量 - 温暖商务风主题 ===== */
+  --loading-background: linear-gradient(135deg, oklch(0.828 0.189 84.429) 0%, oklch(0.769 0.188 70.08) 100%);
+  --loading-container-bg: oklch(0.987 0.022 95.277 / 0.7);
+  --loading-container-border: oklch(0.924 0.12 95.746 / 0.4);
+  --loading-container-shadow: 0 25px 80px oklch(0.279 0.077 45.635 / 0.2);
+  --loading-spinner-track: oklch(0.924 0.12 95.746 / 0.4);
+  --loading-spinner-fill: oklch(0.25 0.02 258.065);
+  --loading-text-primary: oklch(0.25 0.02 258.065);
+  --loading-text-secondary: oklch(0.35 0.03 258.065);
+  --loading-progress-bg: oklch(0.962 0.059 95.617 / 0.4);
+  --loading-progress-fill: linear-gradient(90deg, oklch(0.828 0.189 84.429), oklch(0.769 0.188 70.08));
+  --loading-tips-bg: oklch(0.987 0.022 95.277 / 0.7);
+  --loading-tips-border: oklch(0.924 0.12 95.746 / 0.4);
+
+  /* ===== 错误状态变量 - 温暖商务风主题 ===== */
+  --error-background: var(--loading-background);
+  --error-container-bg: var(--loading-container-bg);
+  --error-container-border: var(--loading-container-border);
+  --error-container-shadow: var(--loading-container-shadow);
+  --error-text-primary: oklch(0.25 0.02 258.065);
+  --error-text-secondary: oklch(0.35 0.03 258.065);
+  --error-message-bg: oklch(0.637 0.237 25.331 / 0.15);
+  --error-message-border: oklch(0.637 0.237 25.331 / 0.3);
+  --error-button-bg: linear-gradient(45deg, oklch(0.63 0.24 25), oklch(0.58 0.22 20));
+  --error-button-shadow: 0 4px 15px oklch(0.63 0.24 25 / 0.3);
+  --error-button-hover-shadow: 0 8px 25px oklch(0.63 0.24 25 / 0.4);
+
+  /* ===== 通用半透明背景 - 温暖商务风主题 ===== */
+  --glass-bg-10: oklch(0.987 0.022 95.277 / 0.1);
+  --glass-bg-15: oklch(0.987 0.022 95.277 / 0.15);
+  --glass-bg-20: oklch(0.987 0.022 95.277 / 0.2);
+  --glass-bg-25: oklch(0.987 0.022 95.277 / 0.25);
+  --glass-bg-30: oklch(0.987 0.022 95.277 / 0.3);
+  --glass-bg-dark-10: oklch(0.279 0.077 45.635 / 0.1);
+  --glass-bg-dark-15: oklch(0.279 0.077 45.635 / 0.15);
+  --glass-bg-dark-20: oklch(0.279 0.077 45.635 / 0.2);
+  --glass-bg-dark-25: oklch(0.279 0.077 45.635 / 0.25);
+  --glass-bg-dark-30: oklch(0.279 0.077 45.635 / 0.3);
+
+  /* ===== Shadcn/ui 兼容变量 - 温暖商务风主题 ===== */
+  --shadcn-background: 50 20% 93%;
+  --shadcn-foreground: 258 8% 25%;
+  --shadcn-card: 50 20% 95%;
+  --shadcn-card-foreground: 258 8% 25%;
+  --shadcn-popover: 50 20% 95%;
+  --shadcn-popover-foreground: 258 8% 25%;
+  --shadcn-primary: 258 8% 25%;
+  --shadcn-primary-foreground: 50 20% 93%;
+  --shadcn-secondary: 96 20% 90%;
+  --shadcn-secondary-foreground: 258 8% 25%;
+  --shadcn-muted: 96 20% 90%;
+  --shadcn-muted-foreground: 258 8% 45%;
+  --shadcn-accent: 84 20% 83%;
+  --shadcn-accent-foreground: 258 8% 25%;
+  --shadcn-destructive: 0 84% 60%;
+  --shadcn-destructive-foreground: 0 0% 98%;
+  --shadcn-border: 96 13% 85%;
+  --shadcn-input: 96 13% 85%;
+  --shadcn-ring: 84 20% 83%;
+
+  /* ===== 登录按钮变量 - 温暖商务风主题 ===== */
+  --login-button-bg: linear-gradient(135deg, oklch(0.828 0.189 84.429), oklch(0.769 0.188 70.08));
+  --login-button-hover-bg: linear-gradient(135deg, oklch(0.769 0.188 70.08), oklch(0.715 0.169 55.729));
+  --login-button-text: oklch(100% 0.00011 271.152);
+  --login-button-shadow: 0 4px 16px oklch(0.279 0.077 45.635 / 0.3);
 }
 
 /* 温暖商务风主题专用控件样式 */
@@ -634,7 +766,7 @@
 /* 温暖商务风主题下拉框选项样式 */
 [data-theme="warm-business"] .glass-select option {
   background: oklch(0.987 0.022 95.277 / 0.95) !important;
-  color: oklch(0.414 0.112 45.904) !important;
+  color: oklch(0.25 0.02 258.065) !important;
   padding: 8px 12px;
   border: none;
   font-weight: 500;
@@ -643,7 +775,7 @@
 [data-theme="warm-business"] .glass-select option:checked,
 [data-theme="warm-business"] .glass-select option:hover {
   background: oklch(0.962 0.059 95.617 / 0.98) !important;
-  color: oklch(0.414 0.112 45.904) !important;
+  color: oklch(0.25 0.02 258.065) !important;
 }
 
 /* 温暖商务风主题弹出下拉框样式 */
@@ -655,23 +787,23 @@
 }
 
 [data-theme="warm-business"] .theme-dropdown-header h3 {
-  color: oklch(0.414 0.112 45.904) !important;
+  color: oklch(0.25 0.02 258.065) !important;
   text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9) !important;
 }
 
 [data-theme="warm-business"] .theme-option {
   background: oklch(0.962 0.059 95.617 / 0.15) !important;
-  color: oklch(0.414 0.112 45.904) !important;
+  color: oklch(0.25 0.02 258.065) !important;
   border: 1px solid oklch(0.924 0.12 95.746 / 0.4) !important;
 }
 
 [data-theme="warm-business"] .theme-option h4 {
-  color: oklch(0.414 0.112 45.904) !important;
+  color: oklch(0.25 0.02 258.065) !important;
   text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9);
 }
 
 [data-theme="warm-business"] .theme-option p {
-  color: oklch(0.473 0.137 46.201) !important;
+  color: oklch(0.35 0.03 258.065) !important;
   text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.7);
 }
 
@@ -686,7 +818,7 @@
 }
 
 [data-theme="warm-business"] .close-button {
-  color: oklch(0.473 0.137 46.201) !important;
+  color: oklch(0.35 0.03 258.065) !important;
   background: oklch(0.962 0.059 95.617 / 0.4);
   border: 1px solid oklch(0.924 0.12 95.746 / 0.6);
   text-shadow: 0 1px 3px oklch(0.987 0.022 95.277 / 0.9);
