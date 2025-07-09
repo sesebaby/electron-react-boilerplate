@@ -8,15 +8,23 @@ import { ConcurrencyManager } from '../../utils/concurrency';
 import { ValidationError, BusinessError } from '../../utils/errors';
 import { logger } from '../../utils/secureLogger';
 import fifoInventoryService from './fifoInventoryService';
+import { ElectronDatabase } from '../database/electronDatabase';
 
 export class InventoryStockService {
   private stocks: Map<string, InventoryStock> = new Map();
   private transactions: Map<string, InventoryTransaction> = new Map();
   private stockIndex: Map<string, string> = new Map(); // "productId:warehouseId" -> stockId
   private useFifo: boolean = true; // 启用FIFO模式
+  private database: ElectronDatabase = new ElectronDatabase();
 
   async initialize(): Promise<void> {
-    console.log('Inventory stock service initialized');
+    try {
+      await this.database.initialize();
+      console.log('Inventory stock service initialized with database connection');
+    } catch (error) {
+      console.error('Failed to initialize database:', error);
+      console.log('Inventory stock service initialized without database (fallback to memory)');
+    }
   }
 
   /**
@@ -157,7 +165,33 @@ export class InventoryStockService {
   // =============== 库存流水管理 ===============
 
   async findAllTransactions(): Promise<InventoryTransaction[]> {
-    return Array.from(this.transactions.values());
+    try {
+      // 优先从数据库获取
+      const dbTransactions = await this.database.getAllTransactions();
+      
+      // 将数据库字段映射到标准格式
+      const normalizedTransactions = dbTransactions.map((dbTx: any) => ({
+        id: dbTx.id,
+        transactionNo: dbTx.reference_no,
+        productId: dbTx.item_id,
+        warehouseId: dbTx.warehouse_id || '', // 可能需要从其他地方获取
+        transactionType: dbTx.transaction_type as TransactionType,
+        quantity: dbTx.quantity,
+        unitPrice: dbTx.unit_price,
+        totalAmount: dbTx.total_value,
+        referenceType: dbTx.reference_type,
+        referenceId: dbTx.reference_id,
+        remark: dbTx.reason,
+        operator: dbTx.created_by,
+        createdAt: new Date(dbTx.created_at),
+        updatedAt: new Date(dbTx.created_at) // 使用created_at作为updatedAt
+      }));
+      
+      return normalizedTransactions;
+    } catch (error) {
+      console.warn('Failed to get transactions from database, falling back to memory:', error);
+      return Array.from(this.transactions.values());
+    }
   }
 
   async findTransactionById(id: string): Promise<InventoryTransaction | null> {
@@ -439,8 +473,28 @@ export class InventoryStockService {
       lastOutDate: params.transactionType === TransactionType.OUT ? new Date() : stock.lastOutDate
     });
 
-    // 保存流水记录
+    // 保存流水记录到内存
     this.transactions.set(transaction.id, transaction);
+
+    // 同时保存到数据库
+    try {
+      await this.database.addTransaction({
+        id: transaction.id,
+        item_id: transaction.productId,
+        transaction_type: transaction.transactionType,
+        quantity: transaction.quantity,
+        unit_price: transaction.unitPrice,
+        total_value: transaction.totalAmount,
+        reason: transaction.remark,
+        reference_no: transaction.transactionNo,
+        created_at: transaction.createdAt.toISOString(),
+        created_by: transaction.operator
+      });
+      console.log('Transaction saved to database:', transaction.id);
+    } catch (error) {
+      console.error('Failed to save transaction to database:', error);
+      // 不抛出错误，以免影响业务流程
+    }
 
     return { stock: updatedStock, transaction };
   }
@@ -689,8 +743,28 @@ export class InventoryStockService {
       throw new Error(`库存流水数据验证失败: ${transactionValidation.errors?.join(', ')}`);
     }
 
-    // 保存事务记录
+    // 保存事务记录到内存
     this.transactions.set(transaction.id, transaction);
+
+    // 同时保存到数据库
+    try {
+      await this.database.addTransaction({
+        id: transaction.id,
+        item_id: transaction.productId,
+        transaction_type: transaction.transactionType,
+        quantity: transaction.quantity,
+        unit_price: transaction.unitPrice,
+        total_value: transaction.totalAmount,
+        reason: transaction.remark,
+        reference_no: transaction.transactionNo,
+        created_at: transaction.createdAt.toISOString(),
+        created_by: transaction.operator
+      });
+      console.log('Transaction saved to database:', transaction.id);
+    } catch (error) {
+      console.error('Failed to save transaction to database:', error);
+      // 不抛出错误，以免影响业务流程
+    }
 
     return transaction;
   }

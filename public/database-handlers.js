@@ -486,6 +486,42 @@ function setupDatabaseHandlers(ipcMain, db) {
     }
   });
 
+  // Add inventory transaction
+  ipcMain.handle('db-add-transaction', async (event, transaction) => {
+    try {
+      if (!db) {
+        return { success: false, error: 'Database not initialized' };
+      }
+
+      const query = `
+        INSERT INTO inventory_transactions (
+          id, item_id, transaction_type, quantity, unit_price, total_value,
+          reason, reference_no, created_at, created_by
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `;
+      
+      const stmt = db.prepare(query);
+      const now = new Date().toISOString();
+      
+      stmt.run(
+        transaction.id,
+        transaction.item_id || transaction.productId, // 兼容不同的字段名
+        transaction.transaction_type || transaction.transactionType,
+        transaction.quantity,
+        transaction.unit_price || transaction.unitPrice,
+        transaction.total_value || transaction.totalAmount,
+        transaction.reason || transaction.remark,
+        transaction.reference_no || transaction.transactionNo,
+        transaction.created_at || now,
+        transaction.created_by || transaction.operator
+      );
+
+      return { success: true, data: transaction };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
   // Get all inventory transactions
   ipcMain.handle('db-get-all-transactions', async () => {
     try {

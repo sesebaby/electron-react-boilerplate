@@ -52,6 +52,15 @@ export class ElectronDatabase {
     return result.data || null;
   }
 
+  async addTransaction(transaction: any): Promise<any> {
+    this.checkInitialized();
+    const result = await window.electronAPI.dbAddTransaction(transaction);
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to add transaction');
+    }
+    return result.data;
+  }
+
   async createItem(item: Omit<InventoryItem, 'id' | 'lastUpdated'>): Promise<InventoryItem> {
     const result = await window.electronAPI.dbCreateItem(item);
     if (!result.success) {

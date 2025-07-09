@@ -37,6 +37,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbGetAllCategories: () => ipcRenderer.invoke('db-get-all-categories'),
   dbGetAllSuppliers: () => ipcRenderer.invoke('db-get-all-suppliers'),
   dbGetAllTransactions: () => ipcRenderer.invoke('db-get-all-transactions'),
+  dbAddTransaction: (transaction) => ipcRenderer.invoke('db-add-transaction', transaction),
   
   // Warehouse operations
   dbGetAllWarehouses: () => ipcRenderer.invoke('db-get-all-warehouses'),
