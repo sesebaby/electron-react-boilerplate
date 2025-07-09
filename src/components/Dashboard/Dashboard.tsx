@@ -63,10 +63,16 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
       <div className={`${className || ''}`}>
         <div className="flex items-center justify-center min-h-96">
           <div className="flex flex-col items-center gap-6">
-            <div className="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+            <div
+              className="w-16 h-16 border-4 rounded-full animate-spin"
+              style={{
+                borderColor: 'var(--loading-spinner-track)',
+                borderTopColor: 'var(--loading-spinner-active)'
+              }}
+            ></div>
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-white mb-2">正在初始化仪表盘...</h2>
-              <p className="text-white/70">正在加载系统数据和服务</p>
+              <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>正在初始化仪表盘...</h2>
+              <p style={{ color: 'var(--text-secondary)' }}>正在加载系统数据和服务</p>
             </div>
           </div>
         </div>
@@ -78,9 +84,9 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
     return (
       <div className={`${className || ''}`}>
         <GlassCard className="text-center">
-          <div className="text-red-400 text-6xl mb-4">❌</div>
-          <h2 className="text-2xl font-bold text-white mb-2">仪表盘加载失败</h2>
-          <p className="text-red-400 mb-6">{error}</p>
+          <div className="text-6xl mb-4" style={{ color: 'var(--error-color)' }}>❌</div>
+          <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>仪表盘加载失败</h2>
+          <p className="mb-6" style={{ color: 'var(--error-color)' }}>{error}</p>
           <GlassButton onClick={initializeDashboard} variant="primary">
             重试
           </GlassButton>
@@ -96,8 +102,8 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
           <div className="flex flex-col items-center gap-6">
             <div className="text-6xl">⏳</div>
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-white mb-2">系统准备中</h2>
-              <p className="text-white/70">请稍等片刻...</p>
+              <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>系统准备中</h2>
+              <p style={{ color: 'var(--text-secondary)' }}>请稍等片刻...</p>
             </div>
           </div>
         </div>
@@ -115,12 +121,30 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
               <button
                 key={tab.key}
                 className={`
-                  flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all
-                  ${activeTab === tab.key 
-                    ? 'bg-white/20 text-white border border-white/30 shadow-lg' 
-                    : 'text-white/80 hover:text-white hover:bg-white/10 border border-transparent'
-                  }
+                  flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all border
+                  ${activeTab === tab.key ? 'tab-active' : 'tab-inactive'}
                 `}
+                style={activeTab === tab.key ? {
+                  background: 'var(--tab-active-bg)',
+                  color: 'var(--text-primary)',
+                  borderColor: 'var(--tab-active-border)',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                } : {
+                  color: 'var(--tab-inactive-text)',
+                  borderColor: 'transparent'
+                }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== tab.key) {
+                    e.currentTarget.style.color = 'var(--text-primary)';
+                    e.currentTarget.style.background = 'var(--hover-overlay)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== tab.key) {
+                    e.currentTarget.style.color = 'var(--tab-inactive-text)';
+                    e.currentTarget.style.background = 'transparent';
+                  }
+                }}
                 onClick={() => setActiveTab(tab.key as any)}
               >
                 <span className="text-lg">{tab.icon}</span>
@@ -130,9 +154,18 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
           </div>
           
           {/* 系统状态指示器 */}
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-white/80 text-sm font-medium">系统运行正常</span>
+          <div
+            className="flex items-center gap-2 px-3 py-2 rounded-lg border"
+            style={{
+              background: 'var(--status-indicator-bg)',
+              borderColor: 'var(--status-indicator-border)'
+            }}
+          >
+            <div
+              className="w-2 h-2 rounded-full animate-pulse"
+              style={{ background: 'var(--status-indicator-active)' }}
+            ></div>
+            <span className="text-sm font-medium" style={{ color: 'var(--tab-inactive-text)' }}>系统运行正常</span>
           </div>
         </div>
       </GlassCard>

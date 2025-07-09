@@ -121,6 +121,31 @@
   --hover-overlay: oklch(100% 0.00011 271.152 / 0.1); /* 悬浮覆盖层 */
   --status-indicator: oklch(0.64 0.15 145);           /* 状态指示器颜色 */
 
+  /* 库存状态徽章颜色变量 */
+  --stock-in-bg: oklch(0.64 0.15 145 / 0.2);         /* 有库存背景 */
+  --stock-in-text: oklch(0.7 0.15 145);              /* 有库存文字 */
+  --stock-low-bg: oklch(0.8 0.15 85 / 0.2);          /* 库存不足背景 */
+  --stock-low-text: oklch(0.85 0.15 85);             /* 库存不足文字 */
+  --stock-out-bg: oklch(0.63 0.24 25 / 0.2);         /* 缺货背景 */
+  --stock-out-text: oklch(0.7 0.24 25);              /* 缺货文字 */
+  --stock-disabled-bg: oklch(0.6 0.02 260 / 0.2);    /* 停产背景 */
+  --stock-disabled-text: oklch(0.7 0.02 260);        /* 停产文字 */
+
+  /* 加载和状态指示器颜色变量 */
+  --loading-spinner-track: oklch(100% 0.00011 271.152 / 0.3); /* 加载动画轨道 */
+  --loading-spinner-active: oklch(100% 0.00011 271.152);      /* 加载动画活动部分 */
+  --status-indicator-active: oklch(0.64 0.15 145);            /* 活动状态指示器 */
+  --status-indicator-bg: oklch(100% 0.00011 271.152 / 0.05);  /* 状态指示器背景 */
+  --status-indicator-border: oklch(100% 0.00011 271.152 / 0.1); /* 状态指示器边框 */
+  --tab-active-bg: oklch(100% 0.00011 271.152 / 0.2);         /* 激活标签背景 */
+  --tab-active-border: oklch(100% 0.00011 271.152 / 0.3);     /* 激活标签边框 */
+  --tab-inactive-text: oklch(100% 0.00011 271.152 / 0.8);     /* 非激活标签文字 */
+
+  /* 表格组件颜色变量 */
+  --table-border: oklch(100% 0.00011 271.152 / 0.1);          /* 表格边框颜色 */
+  --table-footer-border: oklch(100% 0.00011 271.152 / 0.2);   /* 表格底部边框 */
+  --table-row-border: oklch(100% 0.00011 271.152 / 0.05);     /* 表格行边框 */
+
   /* 财务状态颜色 */
   --financial-positive: oklch(0.64 0.15 145);  /* 正值/收入 - 绿色 */
   --financial-negative: oklch(0.63 0.24 25);   /* 负值/支出 - 红色 */
@@ -526,6 +551,21 @@
   --form-error-ring: 0 0 0 2px oklch(0.7 0.24 25 / 0.2); /* 错误光晕 */
   --form-required-color: oklch(0.7 0.24 25);   /* 必填标记颜色 */
 
+  /* 加载和状态指示器颜色变量 - 深色科技风主题 */
+  --loading-spinner-track: oklch(0.968 0.007 247.896 / 0.3); /* 加载动画轨道 */
+  --loading-spinner-active: oklch(0.968 0.007 247.896);      /* 加载动画活动部分 */
+  --status-indicator-active: oklch(0.7 0.15 145);            /* 活动状态指示器 */
+  --status-indicator-bg: oklch(0.968 0.007 247.896 / 0.05);  /* 状态指示器背景 */
+  --status-indicator-border: oklch(0.968 0.007 247.896 / 0.1); /* 状态指示器边框 */
+  --tab-active-bg: oklch(0.968 0.007 247.896 / 0.2);         /* 激活标签背景 */
+  --tab-active-border: oklch(0.968 0.007 247.896 / 0.3);     /* 激活标签边框 */
+  --tab-inactive-text: oklch(0.968 0.007 247.896 / 0.8);     /* 非激活标签文字 */
+
+  /* 表格组件颜色变量 - 深色科技风主题 */
+  --table-border: oklch(0.968 0.007 247.896 / 0.1);          /* 表格边框颜色 */
+  --table-footer-border: oklch(0.968 0.007 247.896 / 0.2);   /* 表格底部边框 */
+  --table-row-border: oklch(0.968 0.007 247.896 / 0.05);     /* 表格行边框 */
+
   /* 表格固定表头系统变量 - 深色科技风主题 */
   --table-header-fixed-bg: oklch(0.279 0.041 260.031 / 0.95);  /* slate-800/95% - 高不透明度 */
   --table-header-blur: blur(25px);
@@ -741,6 +781,21 @@
   --form-error-border: 1px solid oklch(0.5 0.24 25); /* 错误边框 */
   --form-error-ring: 0 0 0 2px oklch(0.5 0.24 25 / 0.2); /* 错误光晕 */
   --form-required-color: oklch(0.5 0.24 25);   /* 必填标记颜色 */
+
+  /* 加载和状态指示器颜色变量 - 温暖商务风主题 */
+  --loading-spinner-track: oklch(0.414 0.112 45.904 / 0.3); /* 加载动画轨道 */
+  --loading-spinner-active: oklch(0.414 0.112 45.904);      /* 加载动画活动部分 */
+  --status-indicator-active: oklch(0.5 0.15 145);           /* 活动状态指示器 */
+  --status-indicator-bg: oklch(0.414 0.112 45.904 / 0.05);  /* 状态指示器背景 */
+  --status-indicator-border: oklch(0.414 0.112 45.904 / 0.1); /* 状态指示器边框 */
+  --tab-active-bg: oklch(0.414 0.112 45.904 / 0.2);         /* 激活标签背景 */
+  --tab-active-border: oklch(0.414 0.112 45.904 / 0.3);     /* 激活标签边框 */
+  --tab-inactive-text: oklch(0.414 0.112 45.904 / 0.8);     /* 非激活标签文字 */
+
+  /* 表格组件颜色变量 - 温暖商务风主题 */
+  --table-border: oklch(0.414 0.112 45.904 / 0.1);          /* 表格边框颜色 */
+  --table-footer-border: oklch(0.414 0.112 45.904 / 0.2);   /* 表格底部边框 */
+  --table-row-border: oklch(0.414 0.112 45.904 / 0.05);     /* 表格行边框 */
 
   /* 表格固定表头系统变量 - 温暖商务风主题 */
   --table-header-fixed-bg: oklch(0.987 0.022 95.277 / 0.95);  /* amber-50/95% - 高不透明度 */
@@ -1638,6 +1693,40 @@
   background: var(--notification-default-bg) !important;
 }
 
+/* 库存状态徽章样式类 */
+.stock-status-in {
+  background: var(--stock-in-bg) !important;
+  color: var(--stock-in-text) !important;
+}
+
+.stock-status-low {
+  background: var(--stock-low-bg) !important;
+  color: var(--stock-low-text) !important;
+}
+
+.stock-status-out {
+  background: var(--stock-out-bg) !important;
+  color: var(--stock-out-text) !important;
+}
+
+.stock-status-disabled {
+  background: var(--stock-disabled-bg) !important;
+  color: var(--stock-disabled-text) !important;
+}
+
+/* 表格组件样式类 */
+.table-border {
+  border-color: var(--table-border) !important;
+}
+
+.table-footer-border {
+  border-color: var(--table-footer-border) !important;
+}
+
+.table-row-border {
+  border-color: var(--table-row-border) !important;
+}
+
 /* 动画效果 */
 @keyframes glass-shimmer {
   0% { transform: translateX(-100%); }
@@ -2338,6 +2427,21 @@
   --form-error-border: 1px solid oklch(0.637 0.237 25.331); /* 错误边框 */
   --form-error-ring: 0 0 0 2px oklch(0.637 0.237 25.331 / 0.2); /* 错误光晕 */
   --form-required-color: oklch(0.637 0.237 25.331); /* 必填标记颜色 */
+
+  /* 加载和状态指示器颜色变量 - 黑白精简风主题 */
+  --loading-spinner-track: oklch(1 0 0 / 0.3);  /* 加载动画轨道 */
+  --loading-spinner-active: oklch(1 0 0 / 0.9); /* 加载动画活动部分 */
+  --status-indicator-active: oklch(0.64 0.15 145); /* 活动状态指示器 */
+  --status-indicator-bg: oklch(1 0 0 / 0.05);   /* 状态指示器背景 */
+  --status-indicator-border: oklch(1 0 0 / 0.1); /* 状态指示器边框 */
+  --tab-active-bg: oklch(1 0 0 / 0.2);          /* 激活标签背景 */
+  --tab-active-border: oklch(1 0 0 / 0.3);      /* 激活标签边框 */
+  --tab-inactive-text: oklch(1 0 0 / 0.8);      /* 非激活标签文字 */
+
+  /* 表格组件颜色变量 - 黑白精简风主题 */
+  --table-border: oklch(1 0 0 / 0.1);           /* 表格边框颜色 */
+  --table-footer-border: oklch(1 0 0 / 0.2);    /* 表格底部边框 */
+  --table-row-border: oklch(1 0 0 / 0.05);      /* 表格行边框 */
 }
 
 /* 黑白精简风主题专用控件样式 - 纯白背景+黑色文字+indigo装饰 */

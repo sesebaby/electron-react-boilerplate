@@ -119,7 +119,7 @@ const TableHeader = React.forwardRef<
   <thead 
     ref={ref} 
     className={cn(
-      "[&_tr]:border-b [&_tr]:border-white/10",
+      "[&_tr]:border-b [&_tr]:table-border",
       sticky && "table-header-sticky",
       className
     )} 
@@ -153,7 +153,7 @@ const TableFooter = React.forwardRef<
   <tfoot
     ref={ref}
     className={cn(
-      "border-t border-white/20 table-footer-background font-medium [&>tr]:last:border-b-0",
+      "border-t table-footer-border table-footer-background font-medium [&>tr]:last:border-b-0",
       className
     )}
     {...props}
@@ -171,7 +171,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      "table-row-hover border-b border-white/5 transition-colors data-[state=selected]:table-row-selected",
+      "table-row-hover border-b table-row-border transition-colors data-[state=selected]:table-row-selected",
       className
     )}
     {...props}
@@ -308,9 +308,9 @@ const TableEmpty: React.FC<TableEmptyProps> = ({
 }) => (
   <div className={cn("text-center py-12", className)}>
     <div className="text-4xl mb-4">{icon}</div>
-    <p className="text-lg mb-2 text-white/70">{message}</p>
+    <p className="text-lg mb-2" style={{ color: 'var(--text-secondary)' }}>{message}</p>
     {description && (
-      <p className="text-sm text-white/50">{description}</p>
+      <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>{description}</p>
     )}
   </div>
 )
@@ -328,8 +328,11 @@ const TableLoading: React.FC<TableLoadingProps> = ({
   className
 }) => (
   <div className={cn("flex items-center justify-center py-12", className)}>
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white/70"></div>
-    <span className="ml-3 text-white/80">{message}</span>
+    <div
+      className="animate-spin rounded-full h-8 w-8 border-b-2"
+      style={{ borderBottomColor: 'var(--loading-spinner-active)' }}
+    ></div>
+    <span className="ml-3" style={{ color: 'var(--text-secondary)' }}>{message}</span>
   </div>
 )
 

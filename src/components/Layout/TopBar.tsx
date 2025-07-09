@@ -448,11 +448,19 @@ export const TopBar: React.FC<TopBarProps> = ({
                       <button
                         key={item.id}
                         type="button"
-                        className="w-full p-3 text-left hover:bg-white/10 transition-colors border-b border-white/5 last:border-b-0"
+                        className="w-full p-3 text-left transition-colors border-b last:border-b-0"
+                        style={{
+                          borderColor: 'var(--divider-color)'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = 'var(--hover-overlay)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                         onClick={() => handleSearchResultClick(item)}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-sm" style={{ color: 'var(--popup-text-tertiary)' }}>
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style={{
+                            background: 'var(--hover-overlay)',
+                            color: 'var(--popup-text-tertiary)'
+                          }}>
                             📦
                           </div>
                           <div className="flex-1 min-w-0">
@@ -465,10 +473,10 @@ export const TopBar: React.FC<TopBarProps> = ({
                             </div>
                           </div>
                           <div className={`px-2 py-1 rounded text-xs font-medium ${
-                            item.status === 'in-stock' ? 'bg-green-500/20 text-green-300' :
-                            item.status === 'low-stock' ? 'bg-yellow-500/20 text-yellow-300' :
-                            item.status === 'out-of-stock' ? 'bg-red-500/20 text-red-300' :
-                            'bg-gray-500/20 text-gray-300'
+                            item.status === 'in-stock' ? 'stock-status-in' :
+                            item.status === 'low-stock' ? 'stock-status-low' :
+                            item.status === 'out-of-stock' ? 'stock-status-out' :
+                            'stock-status-disabled'
                           }`}>
                             {item.status === 'in-stock' ? '有库存' :
                              item.status === 'low-stock' ? '库存不足' :
@@ -525,11 +533,13 @@ export const TopBar: React.FC<TopBarProps> = ({
             {showNotifications && (
               <>
                 <div className="absolute top-12 right-0 w-80 popup-dropdown z-50">
-                  <div className="flex items-center justify-between p-4 border-b border-white/10">
+                  <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: 'var(--divider-color)' }}>
                     <h3 className="text-lg font-semibold" style={{ color: 'var(--popup-text-primary)' }}>通知消息</h3>
                     <button
                       type="button"
-                      className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 transition-colors"
+                      className="w-6 h-6 flex items-center justify-center rounded transition-colors"
+                      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--hover-overlay)'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                       style={{ color: 'var(--popup-text-secondary)' }}
                       onClick={() => setShowNotifications(false)}
                     >
