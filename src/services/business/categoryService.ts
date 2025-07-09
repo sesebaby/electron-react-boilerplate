@@ -10,9 +10,9 @@ export class CategoryService {
     console.log('Category service initializing...');
     try {
       // 从数据库加载分类数据
-      const _dbCategories = await electronDatabase.getAllCategories();
+      const dbCategories = await electronDatabase.getAllCategories();
       console.log('Loaded categories from database:', dbCategories.length);
-      
+
       // 转换数据库数据到内存存储
       for (const dbCategory of dbCategories) {
         const category: Category = {
@@ -68,9 +68,9 @@ export class CategoryService {
   }
 
   async buildCategoryTree(): Promise<Category[]> {
-    const _allCategories = await this.findAll();
-    const _categoryMap = new Map<string, Category>();
-    
+    const allCategories = await this.findAll();
+    const categoryMap = new Map<string, Category>();
+
     // 创建包含children的分类对象
     allCategories.forEach(category => {
       categoryMap.set(category.id, { ...category, children: [] });
@@ -81,7 +81,7 @@ export class CategoryService {
     // 构建树形结构
     categoryMap.forEach(category => {
       if (category.parentId) {
-        const _parent = categoryMap.get(category.parentId);
+        const parent = categoryMap.get(category.parentId);
         if (parent) {
           parent.children = parent.children || [];
           parent.children.push(category);
@@ -92,7 +92,7 @@ export class CategoryService {
     });
 
     // 按sortOrder排序
-    const _sortCategories = (categories: Category[]) => {
+    const sortCategories = (categories: Category[]) => {
       categories.sort((a, b) => a.sortOrder - b.sortOrder);
       categories.forEach(category => {
         if (category.children) {
@@ -108,7 +108,7 @@ export class CategoryService {
   async create(data: Omit<Category, 'id' | 'createdAt' | 'updatedAt'>): Promise<Category> {
     // 验证父分类存在性和层级
     if (data.parentId) {
-      const _parent = await this.findById(data.parentId);
+      const parent = await this.findById(data.parentId);
       if (!parent) {
         throw new Error(`父分类不存在: ${data.parentId}`);
       }
@@ -132,13 +132,13 @@ export class CategoryService {
     };
 
     // 验证数据
-    const _validation = validateEntity(CategorySchema, category);
+    const validation = validateEntity(CategorySchema, category);
     if (!validation.success) {
       throw new Error(`分类数据验证失败: ${validation.errors?.join(', ')}`);
     }
 
     // 检查名称在同级别下的唯一性
-    const _siblings = await this.findByParentId(data.parentId);
+    const siblings = await this.findByParentId(data.parentId);
     if (siblings.some(sibling => sibling.name === data.name)) {
       throw new Error(`同级分类名称已存在: ${data.name}`);
     }
@@ -148,7 +148,7 @@ export class CategoryService {
   }
 
   async update(id: string, data: Partial<Omit<Category, 'id' | 'createdAt' | 'updatedAt'>>): Promise<Category> {
-    const _existingCategory = this.categories.get(id);
+    const existingCategory = this.categories.get(id);
     if (!existingCategory) {
       throw new Error(`分类不存在: ${id}`);
     }
@@ -172,14 +172,14 @@ export class CategoryService {
     };
 
     // 验证更新后的数据
-    const _validation = validateEntity(CategorySchema, updatedCategory);
+    const validation = validateEntity(CategorySchema, updatedCategory);
     if (!validation.success) {
       throw new Error(`分类数据验证失败: ${validation.errors?.join(', ')}`);
     }
 
     // 检查名称在同级别下的唯一性
     if (data.name && data.name !== existingCategory.name) {
-      const _siblings = await this.findByParentId(updatedCategory.parentId);
+      const siblings = await this.findByParentId(updatedCategory.parentId);
       if (siblings.some(sibling => sibling.name === data.name && sibling.id !== id)) {
         throw new Error(`同级分类名称已存在: ${data.name}`);
       }
@@ -190,13 +190,13 @@ export class CategoryService {
   }
 
   async delete(id: string): Promise<boolean> {
-    const _category = this.categories.get(id);
+    const category = this.categories.get(id);
     if (!category) {
       return false;
     }
 
     // 检查是否有子分类
-    const _children = await this.findByParentId(id);
+    const children = await this.findByParentId(id);
     if (children.length > 0) {
       throw new Error('存在子分类，无法删除');
     }
@@ -212,7 +212,7 @@ export class CategoryService {
   private async wouldCreateCycle(categoryId: string, newParentId?: string): Promise<boolean> {
     if (!newParentId) return false;
 
-    const _visited = new Set<string>();
+    const visited = new Set<string>();
     let currentId: string | undefined = newParentId;
 
     while (currentId && !visited.has(currentId)) {
@@ -220,7 +220,7 @@ export class CategoryService {
         return true;
       }
       visited.add(currentId);
-      const _current = await this.findById(currentId);
+      const current = await this.findById(currentId);
       currentId = current?.parentId;
     }
 
@@ -228,19 +228,19 @@ export class CategoryService {
   }
 
   async moveCategory(id: string, newParentId?: string): Promise<Category> {
-    const _category = await this.findById(id);
+    const category = await this.findById(id);
     if (!category) {
       throw new Error(`分类不存在: ${id}`);
     }
 
-    const _newLevel = 1;
+    let newLevel = 1;
     if (newParentId) {
-      const _newParent = await this.findById(newParentId);
+      const newParent = await this.findById(newParentId);
       if (!newParent) {
         throw new Error(`新父分类不存在: ${newParentId}`);
       }
       newLevel = newParent.level + 1;
-      
+
       if (newLevel > 5) {
         throw new Error('移动后分类层级将超过5级');
       }
@@ -257,7 +257,7 @@ export class CategoryService {
 
     for (const { id, sortOrder } of updates) {
       try {
-        const _updated = await this.update(id, { sortOrder });
+        const updated = await this.update(id, { sortOrder });
         results.push(updated);
       } catch (error) {
         console.error(`Failed to update sort order for category ${id}:`, error);
@@ -269,7 +269,7 @@ export class CategoryService {
   }
 
   async toggleActive(id: string): Promise<Category> {
-    const _category = await this.findById(id);
+    const category = await this.findById(id);
     if (!category) {
       throw new Error(`分类不存在: ${id}`);
     }
@@ -282,7 +282,7 @@ export class CategoryService {
     let currentId: string | undefined = id;
 
     while (currentId) {
-      const _category = await this.findById(currentId);
+      const category = await this.findById(currentId);
       if (!category) break;
       
       path.unshift(category);
@@ -300,16 +300,16 @@ export class CategoryService {
     roots: number;
     maxLevel: number;
   }> {
-    const _categories = await this.findAll();
+    const categories = await this.findAll();
     const byLevel: Record<number, number> = {};
-    const _maxLevel = 0;
+    let maxLevel = 0;
 
     categories.forEach(category => {
       byLevel[category.level] = (byLevel[category.level] || 0) + 1;
       maxLevel = Math.max(maxLevel, category.level);
     });
 
-    const _roots = categories.filter(c => !c.parentId).length;
+    const roots = categories.filter(c => !c.parentId).length;
 
     return {
       total: categories.length,
