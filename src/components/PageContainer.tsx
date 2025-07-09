@@ -37,6 +37,7 @@ import SystemSettings from './System/SystemSettings';
 import OperationLogs from './System/OperationLogs';
 import NotificationsPage from './Notifications/NotificationsPage';
 import ConversionRulesManagement from './Settings/ConversionRulesManagement';
+import UnitManagement from './Settings/UnitManagement';
 
 interface PageContainerProps {
   currentPage: string;
@@ -135,6 +136,7 @@ const allPageComponents: Record<string, React.ComponentType> = {
   'notifications': NotificationsPage,
   
   // 通用设置
+  'units': UnitManagement,
   'conversion-rules': ConversionRulesManagement
 };
 

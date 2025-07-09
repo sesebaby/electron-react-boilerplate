@@ -47,6 +47,7 @@ const menuItems: MenuItem[] = [
       { id: 'products', label: '商品管理', icon: '🏷️' },
       { id: 'categories', label: '分类管理', icon: '📂' },
       { id: 'customers', label: '客户管理', icon: '👥' },
+      { id: 'units', label: '单位管理', icon: '📏' },
       { id: 'conversion-rules', label: '换算规则管理', icon: '⚖️' }
     ]
   },
