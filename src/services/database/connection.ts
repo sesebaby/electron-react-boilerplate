@@ -17,16 +17,16 @@ class DatabaseConnection {
       const _dbPath = this.config.path;
       
       // 确保数据库目录存在
-      const _dbDir = path.dirname(dbPath);
-      if (!fs.existsSync(dbDir)) {
-        fs.mkdirSync(dbDir, { recursive: true });
+      const _dbDir = path.dirname(_dbPath);
+      if (!fs.existsSync(_dbDir)) {
+        fs.mkdirSync(_dbDir, { recursive: true });
       }
 
-      this.db = new sqlite3.Database(dbPath, (err) => {
+      this.db = new sqlite3.Database(_dbPath, (err) => {
         if (err) {
           reject(new Error(`Failed to connect to database: ${err.message}`));
         } else {
-          console.log(`Connected to SQLite database at ${dbPath}`);
+          console.log(`Connected to SQLite database at ${_dbPath}`);
           resolve();
         }
       });
@@ -144,7 +144,7 @@ class DatabaseManager {
       await this.connection.disconnect();
     }
 
-    this.connection = new DatabaseConnection(finalConfig);
+    this.connection = new DatabaseConnection(_finalConfig);
     await this.connection.connect();
     
     // 初始化数据库表结构
@@ -293,12 +293,12 @@ class DatabaseManager {
       `;
       
       // 拆分SQL语句并执行
-      const _statements = schema
+      const _statements = _schema
         .split(';')
         .map(stmt => stmt.trim())
         .filter(stmt => stmt.length > 0);
 
-      for (const statement of statements) {
+      for (const statement of _statements) {
         await this.connection!.run(statement);
       }
       
