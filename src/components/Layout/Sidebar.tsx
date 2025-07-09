@@ -234,18 +234,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       <li key={child.id}>
                         <button
                           type="button"
-                          className={`
-                            w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left
-                            transition-all duration-200 text-sm border
-                            ${currentPage === child.id ? 'border-opacity-20' : 'border-transparent hover:border-transparent'}
-                          `}
+                          className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left transition-all duration-200 text-sm border ${currentPage === child.id ? 'border-opacity-20' : 'border-transparent hover:border-transparent'}`}
                           style={{
-                            backgroundColor: currentPage === child.id
-                              ? 'var(--hover-background, rgba(255, 255, 255, 0.15))'
-                              : 'transparent',
-                            borderColor: currentPage === child.id
-                              ? 'var(--glass-border, rgba(255, 255, 255, 0.2))'
-                              : 'transparent',
+                            backgroundColor: currentPage === child.id ? 'var(--hover-background, rgba(255, 255, 255, 0.15))' : 'transparent',
+                            borderColor: currentPage === child.id ? 'var(--glass-border, rgba(255, 255, 255, 0.2))' : 'transparent',
                             color: currentPage === child.id ? 'var(--text-primary)' : 'var(--text-secondary)',
                             '--hover-color': 'var(--text-primary)'
                           } as React.CSSProperties}
