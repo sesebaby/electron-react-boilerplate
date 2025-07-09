@@ -41,30 +41,57 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
   return (
     <div className="h-screen overflow-hidden">
-      {/* 左侧导航栏 */}
-      <Sidebar 
-        collapsed={sidebarCollapsed}
-        onToggle={toggleSidebar}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
-      
-      {/* 顶部导航栏 */}
-      <TopBar 
-        currentPage={currentPage}
-        onToggleSidebar={toggleSidebar}
-        sidebarCollapsed={sidebarCollapsed}
-      />
-      
-      {/* 主内容区 */}
-      <main className={`
-        fixed top-20 bottom-0 right-0 overflow-auto transition-all duration-300
-        ${sidebarCollapsed ? 'left-16' : 'left-64'}
-      `}>
-        <div className="p-6">
-          {children}
+      {/* 移动端遮罩层 */}
+      {!sidebarCollapsed && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30 md:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
+
+      {/* Table布局容器 */}
+      <div className="table-layout-container">
+        {/* 第一行: 左侧导航栏 + 顶部栏 */}
+        <div className="table-row-topbar">
+          {/* 左侧导航栏单元格 */}
+          <div className={`table-cell-sidebar ${!sidebarCollapsed ? 'expanded' : ''}`}>
+            <div className="sidebar-container">
+              <Sidebar
+                collapsed={sidebarCollapsed}
+                onToggle={toggleSidebar}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </div>
+          
+          {/* 顶部栏 */}
+          <div className="table-cell-topbar">
+            <div className="topbar-container">
+              <TopBar
+                currentPage={currentPage}
+                onToggleSidebar={toggleSidebar}
+                sidebarCollapsed={sidebarCollapsed}
+              />
+            </div>
+          </div>
         </div>
-      </main>
+
+        {/* 第二行: 主内容区 */}
+        <div className="table-row-main">
+          {/* 跳过左侧导航栏列 - 留空 */}
+          <div className="table-cell-sidebar"></div>
+          
+          {/* 主内容区 */}
+          <div className="table-cell-main">
+            <main className="main-content">
+              <div className="p-3 sm:p-4 md:p-6">
+                {children}
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

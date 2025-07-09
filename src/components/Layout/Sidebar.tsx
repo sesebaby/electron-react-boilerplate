@@ -146,12 +146,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div className={`
-      fixed left-0 top-0 h-full z-40 transition-all duration-300 flex flex-col
+      w-full h-full transition-all duration-300 flex flex-col
       ${collapsed ? 'w-16' : 'w-64'}
-      glass-surface border-r border-white/10
-    `}>
+      glass-surface
+    `}
+      style={{
+        borderRightColor: 'var(--divider-color, rgba(255, 255, 255, 0.1))'
+      }}>
       {/* Logo和标题区域 */}
-      <div className="h-16 flex-shrink-0 flex items-center justify-center px-4 border-b border-white/10">
+      <div className="h-16 flex-shrink-0 flex items-center justify-center px-4 border-b"
+        style={{ borderBottomColor: 'var(--divider-color, rgba(255, 255, 255, 0.1))' }}>
         <div className="flex items-center gap-3">
           <div className="text-2xl">📦</div>
           {!collapsed && (
@@ -172,16 +176,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 type="button"
                 className={`
                   w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left
-                  transition-all duration-200 group
-                  ${isMenuActive(item)
-                    ? 'bg-white/20 border border-white/30'
-                    : 'hover:bg-white/10 border border-transparent'
-                  }
+                  transition-all duration-200 group border
+                  ${isMenuActive(item) ? 'border-opacity-30' : 'border-transparent hover:border-transparent'}
                 `}
                 style={{
+                  backgroundColor: isMenuActive(item)
+                    ? 'var(--active-background, rgba(255, 255, 255, 0.2))'
+                    : 'transparent',
+                  borderColor: isMenuActive(item)
+                    ? 'var(--glass-border, rgba(255, 255, 255, 0.3))'
+                    : 'transparent',
                   color: isMenuActive(item) ? 'var(--text-primary)' : 'var(--text-secondary)',
                   '--hover-color': 'var(--text-primary)'
                 } as React.CSSProperties}
+                onMouseEnter={(e) => {
+                  if (!isMenuActive(item)) {
+                    e.currentTarget.style.backgroundColor = 'var(--hover-background, rgba(255, 255, 255, 0.1))';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isMenuActive(item)) {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }
+                }}
                 onClick={() => handleMenuClick(item)}
                 title={collapsed ? item.label : undefined}
               >
@@ -219,16 +236,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
                           type="button"
                           className={`
                             w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left
-                            transition-all duration-200 text-sm
-                            ${currentPage === child.id
-                              ? 'bg-white/15 border border-white/20'
-                              : 'hover:bg-white/8 border border-transparent'
-                            }
+                            transition-all duration-200 text-sm border
+                            ${currentPage === child.id ? 'border-opacity-20' : 'border-transparent hover:border-transparent'}
                           `}
                           style={{
+                            backgroundColor: currentPage === child.id
+                              ? 'var(--hover-background, rgba(255, 255, 255, 0.15))'
+                              : 'transparent',
+                            borderColor: currentPage === child.id
+                              ? 'var(--glass-border, rgba(255, 255, 255, 0.2))'
+                              : 'transparent',
                             color: currentPage === child.id ? 'var(--text-primary)' : 'var(--text-secondary)',
                             '--hover-color': 'var(--text-primary)'
                           } as React.CSSProperties}
+                          onMouseEnter={(e) => {
+                            if (currentPage !== child.id) {
+                              e.currentTarget.style.backgroundColor = 'var(--surface-background, rgba(255, 255, 255, 0.08))';
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (currentPage !== child.id) {
+                              e.currentTarget.style.backgroundColor = 'transparent';
+                            }
+                          }}
                           onClick={() => onPageChange(child.id)}
                         >
                           <span className="text-base flex-shrink-0">{child.icon}</span>

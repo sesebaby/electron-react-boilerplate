@@ -334,11 +334,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   return (
-    <header className={`
-      fixed top-0 right-0 z-50 h-20 transition-all duration-300
-      ${sidebarCollapsed ? 'left-16' : 'left-64'}
-      topbar-surface
-    `}
+    <header className="w-full h-16 sm:h-20 topbar-surface"
       style={{ 
         borderBottom: '1px solid var(--glass-border)',
         color: 'var(--text-primary)' 
@@ -346,14 +342,14 @@ export const TopBar: React.FC<TopBarProps> = ({
       <div className="h-full px-4 flex items-center justify-between">
         
         {/* 左侧区域 */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {/* 移动端菜单按钮 */}
           <button
             type="button"
-            className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg transition-colors"
-            style={{ 
+            className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg transition-colors touch-manipulation"
+            style={{
               color: 'var(--text-primary)',
-              background: 'var(--hover-background)' 
+              background: 'var(--hover-background)'
             }}
             onMouseEnter={(e) => e.currentTarget.style.background = 'var(--active-background)'}
             onMouseLeave={(e) => e.currentTarget.style.background = 'var(--hover-background)'}

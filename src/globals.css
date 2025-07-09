@@ -456,3 +456,123 @@
 [data-theme="warm-business"] .glass-button {
   color: var(--text-primary) !important;
 }
+
+/* Table布局样式 */
+.table-layout-container {
+  display: table;
+  width: 100%;
+  height: 100vh;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.table-row-topbar {
+  display: table-row;
+  height: auto; /* 自动调整高度 */
+}
+
+.table-row-main {
+  display: table-row;
+  height: 100%; /* 主内容区占据剩余空间 */
+}
+
+.table-cell-sidebar {
+  display: table-cell;
+  vertical-align: top;
+  position: relative;
+  width: 64px; /* 默认收缩状态宽度 */
+  transition: width 0.3s ease;
+  border-right: 1px solid var(--glass-border);
+}
+
+.table-cell-sidebar.expanded {
+  width: 256px; /* 展开状态宽度 */
+}
+
+.table-cell-topbar {
+  display: table-cell;
+  vertical-align: top;
+  width: 100%;
+  position: relative;
+  height: auto; /* 自动调整高度 */
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.table-cell-main {
+  display: table-cell;
+  vertical-align: top;
+  width: 100%;
+  position: relative;
+  height: 100%;
+}
+
+.sidebar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh; /* 跨行效果：占据整个屏幕高度 */
+  z-index: 40;
+}
+
+.topbar-container {
+  position: relative;
+  height: 100%;
+  z-index: 50;
+}
+
+.main-content {
+  height: 100%;
+  overflow: auto;
+  position: relative;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .table-layout-container {
+    display: block; /* 在小屏幕上回退到块级布局 */
+  }
+  
+  .table-row-topbar,
+  .table-row-main {
+    display: block;
+  }
+  
+  .table-cell-sidebar,
+  .table-cell-topbar,
+  .table-cell-main {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  
+  .table-cell-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 40;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .table-cell-sidebar.expanded {
+    transform: translateX(0);
+  }
+  
+  .sidebar-container {
+    height: 100vh;
+    position: relative;
+  }
+  
+  .table-cell-topbar {
+    position: relative;
+    z-index: 30;
+  }
+  
+  .table-cell-main {
+    position: relative;
+    z-index: 20;
+  }
+}
