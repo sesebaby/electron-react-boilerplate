@@ -4,7 +4,6 @@
  */
 
 import { LogLevel, LogEntry } from '../../utils/logger';
-import { logRotation } from '../../utils/logRotation';
 import { ElectronAPI, DatabaseResult, FileOperationResult } from '../../types/electronAPI';
 
 export interface FileLoggerConfig {
@@ -463,15 +462,8 @@ class FileLoggerService {
    * 检查是否需要轮转日志
    */
   private async rotateLogsIfNeeded(): Promise<void> {
-    try {
-      await logRotation.rotateIfNeeded(this.config.logDirectory, {
-        maxFileSize: this.config.maxFileSize,
-        maxFiles: this.config.maxFiles,
-        enableCompression: this.config.enableCompression
-      });
-    } catch (error) {
-      console.error('文件日志服务: 日志轮转失败', error);
-    }
+    // 日志轮转功能已禁用
+    console.log('文件日志服务: 日志轮转功能已禁用');
   }
 
   /**
@@ -505,11 +497,8 @@ class FileLoggerService {
       return;
     }
 
-    try {
-      await logRotation.cleanupOldLogs(this.config.logDirectory, maxAgeInDays);
-    } catch (error) {
-      console.error('文件日志服务: 清理过期日志失败', error);
-    }
+    // 清理过期日志功能已禁用
+    console.log('文件日志服务: 清理过期日志功能已禁用');
   }
 
   /**

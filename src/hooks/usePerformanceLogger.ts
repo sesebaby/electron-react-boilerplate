@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { _performanceMonitor as performanceMonitor } from '../utils/performanceMonitor';
+import { performanceMonitor } from '../utils/performanceMonitor';
 
 export interface ComponentPerformanceStats {
   mountCount: number;
@@ -38,11 +38,11 @@ export function usePerformanceLogger(
     trackProps = false
   } = options;
 
-  const _renderIdRef = useRef<string>('');
-  const _mountTimeRef = useRef<number>(0);
-  const _renderCountRef = useRef<number>(0);
-  const _propsRef = useRef<any>(null);
-  const _statsRef = useRef<ComponentPerformanceStats>({
+  const renderIdRef = useRef<string>('');
+  const mountTimeRef = useRef<number>(0);
+  const renderCountRef = useRef<number>(0);
+  const propsRef = useRef<any>(null);
+  const statsRef = useRef<ComponentPerformanceStats>({
     mountCount: 0,
     updateCount: 0,
     unmountCount: 0,
@@ -53,12 +53,12 @@ export function usePerformanceLogger(
   });
 
   // 检查是否应该启用监控
-  const _isEnabled = process.env.NODE_ENV === 'development' || enableInProduction;
+  const isEnabled = process.env.NODE_ENV === 'development' || enableInProduction;
 
   /**
    * 开始渲染监控
    */
-  const _startRender = useCallback((phase: 'mount' | 'update') => {
+  const startRender = useCallback((phase: 'mount' | 'update') => {
     if (!isEnabled) return;
 
     renderIdRef.current = performanceMonitor.startRender(componentName, phase);
@@ -68,14 +68,14 @@ export function usePerformanceLogger(
   /**
    * 结束渲染监控
    */
-  const _endRender = useCallback((phase: 'mount' | 'update') => {
+  const endRender = useCallback((phase: 'mount' | 'update') => {
     if (!isEnabled || !renderIdRef.current) return;
 
-    const _renderTime = performance.now() - mountTimeRef.current;
+    const renderTime = performance.now() - mountTimeRef.current;
     performanceMonitor.endRender(renderIdRef.current, componentName, phase);
 
     // 更新统计信息
-    const _stats = statsRef.current;
+    const stats = statsRef.current;
     stats.totalRenderTime += renderTime;
     stats.lastRenderTime = renderTime;
     
@@ -98,13 +98,13 @@ export function usePerformanceLogger(
   /**
    * 检查Props变化
    */
-  const _checkPropsChange = useCallback((newProps: any) => {
+  const checkPropsChange = useCallback((newProps: any) => {
     if (!isEnabled || !trackProps || !propsRef.current) {
       propsRef.current = newProps;
       return;
     }
 
-    const _oldProps = propsRef.current;
+    const oldProps = propsRef.current;
     const changedProps: string[] = [];
 
     // 检查哪些props发生了变化
@@ -156,7 +156,7 @@ export function usePerformanceLogger(
     return () => {
       if (!isEnabled) return;
       
-      const _unmountRenderId = performanceMonitor.startRender(componentName, 'unmount');
+      const unmountRenderId = performanceMonitor.startRender(componentName, 'unmount');
       performanceMonitor.endRender(unmountRenderId, componentName, 'unmount');
       
       statsRef.current.unmountCount++;
@@ -179,9 +179,9 @@ export function withPerformanceLogger<P extends object>(
   componentName?: string,
   options: UsePerformanceLoggerOptions = {}
 ): React.ComponentType<P> {
-  const _displayName = componentName || WrappedComponent.displayName || WrappedComponent.name || 'Component';
+  const displayName = componentName || WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
-  const _MemoizedComponent = React.memo<P>((props: P) => {
+  const MemoizedComponent = React.memo<P>((props: P) => {
     const { checkPropsChange } = usePerformanceLogger(displayName, options);
     
     // 检查props变化
@@ -201,7 +201,7 @@ export function withPerformanceLogger<P extends object>(
  * React Profiler性能监控Hook
  */
 export function useProfiler(componentName: string, phase?: string) {
-  const _onRenderCallback = useCallback((
+  const onRenderCallback = useCallback((
     id: string,
     phase: 'mount' | 'update',
     actualDuration: number,
@@ -230,9 +230,9 @@ export function useProfiler(componentName: string, phase?: string) {
 export function useAsyncPerformance(operationName: string) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const _startTimeRef = useRef<number>(0);
+  const startTimeRef = useRef<number>(0);
 
-  const _executeAsync = useCallback(async <T>(
+  const executeAsync = useCallback(async <T>(
     asyncOperation: () => Promise<T>
   ): Promise<T> => {
     setIsLoading(true);
@@ -240,8 +240,8 @@ export function useAsyncPerformance(operationName: string) {
     startTimeRef.current = performance.now();
 
     try {
-      const _result = await asyncOperation();
-      const _duration = performance.now() - startTimeRef.current;
+      const result = await asyncOperation();
+      const duration = performance.now() - startTimeRef.current;
 
       console.log('Async operation completed:', {
         operationName,
@@ -251,8 +251,8 @@ export function useAsyncPerformance(operationName: string) {
 
       return result;
     } catch (err) {
-      const _duration = performance.now() - startTimeRef.current;
-      const _error = err as Error;
+      const duration = performance.now() - startTimeRef.current;
+      const error = err as Error;
 
       console.log('Async operation failed:', {
         operationName,
@@ -279,8 +279,8 @@ export function useAsyncPerformance(operationName: string) {
  * 内存泄漏检测Hook
  */
 export function useMemoryLeakDetection(componentName: string) {
-  const _mountTimeRef = useRef<number>(Date.now());
-  const _intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const mountTimeRef = useRef<number>(Date.now());
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // 每30秒检查一次内存使用

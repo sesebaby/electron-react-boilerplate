@@ -10,6 +10,8 @@ const _STORAGE_KEYS = {
   FILTERS: 'inventory-movement-filters'
 } as const;
 
+const STORAGE_KEYS = _STORAGE_KEYS;
+
 /**
  * 保存列显示配置到本地存储
  */
@@ -53,7 +55,7 @@ export const _getDefaultColumnDisplayConfig = (): ColumnDisplayConfig => {
  */
 export const _saveMovementConfig = (config: MovementSummaryConfig): void => {
   try {
-    localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config));
+    localStorage.setItem(_STORAGE_KEYS.CONFIG, JSON.stringify(config));
   } catch (error) {
     console.warn('Failed to save movement config:', error);
   }
@@ -64,9 +66,9 @@ export const _saveMovementConfig = (config: MovementSummaryConfig): void => {
  */
 export const _loadMovementConfig = (): MovementSummaryConfig | null => {
   try {
-    const _stored = localStorage.getItem(STORAGE_KEYS.CONFIG);
-    if (stored) {
-      return JSON.parse(stored);
+    const _stored = localStorage.getItem(_STORAGE_KEYS.CONFIG);
+    if (_stored) {
+      return JSON.parse(_stored);
     }
   } catch (error) {
     console.warn('Failed to load movement config:', error);
@@ -80,7 +82,7 @@ export const _loadMovementConfig = (): MovementSummaryConfig | null => {
 export const _saveMovementFilters = (filters: Partial<MovementSummaryFilters>): void => {
   try {
     // 只保存非时间相关的筛选条件
-    const _filtersToSave = {
+    const filtersToSave = {
       productId: filters.productId,
       categoryId: filters.categoryId,
       warehouseId: filters.warehouseId,
@@ -95,9 +97,9 @@ export const _saveMovementFilters = (filters: Partial<MovementSummaryFilters>): 
 /**
  * 从本地存储加载筛选条件
  */
-export const _loadMovementFilters = (): Partial<MovementSummaryFilters> | null => {
+export const loadMovementFilters = (): Partial<MovementSummaryFilters> | null => {
   try {
-    const _stored = localStorage.getItem(STORAGE_KEYS.FILTERS);
+    const stored = localStorage.getItem(STORAGE_KEYS.FILTERS);
     if (stored) {
       return JSON.parse(stored);
     }
@@ -110,9 +112,9 @@ export const _loadMovementFilters = (): Partial<MovementSummaryFilters> | null =
 /**
  * 清除所有本地存储的配置
  */
-export const _clearAllStoredConfig = (): void => {
+export const clearAllStoredConfig = (): void => {
   try {
-    Object.values(_STORAGE_KEYS).forEach(key => {
+    Object.values(STORAGE_KEYS).forEach(key => {
       localStorage.removeItem(key);
     });
   } catch (error) {

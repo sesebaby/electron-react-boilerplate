@@ -157,9 +157,9 @@ export class Logger {
   }
 
   private outputToConsole(entry: LogEntry): void {
-    const _timestamp = entry.timestamp.toISOString();
-    const _levelName = LogLevel[entry.level];
-    const _prefix = `[${timestamp}] [${levelName}]`;
+    const timestamp = entry.timestamp.toISOString();
+    const levelName = LogLevel[entry.level];
+    const prefix = `[${timestamp}] [${levelName}]`;
 
     // 使用原始的console方法，避免与其他模块的console重写产生循环调用
     switch (entry.level) {
@@ -216,7 +216,7 @@ export class Logger {
     }));
 
     // 过滤日志级别
-    const _filteredEntries = logEntries.filter(entry => entry.level >= this.config.level);
+    const filteredEntries = logEntries.filter(entry => entry.level >= this.config.level);
 
     // 添加到内存缓存
     this.logs.push(...filteredEntries);
@@ -295,11 +295,11 @@ export class Logger {
     };
 
     this.logs.forEach(log => {
-      const _levelName = LogLevel[log.level];
+      const levelName = LogLevel[log.level];
       logsByLevel[levelName] = (logsByLevel[levelName] || 0) + 1;
     });
 
-    const _sortedLogs = [...this.logs].sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+    const sortedLogs = [...this.logs].sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
 
     return {
       totalLogs: this.logs.length,

@@ -67,10 +67,10 @@ class SecureLogger {
 
       const sanitized: any = {};
       for (const [key, value] of Object.entries(data)) {
-        const _lowerKey = key.toLowerCase();
-        
+        const lowerKey = key.toLowerCase();
+
         // Check if field contains sensitive information
-        const _isSensitive = this.config.sensitiveFields.some(field => 
+        const isSensitive = this.config.sensitiveFields.some(field =>
           lowerKey.includes(field.toLowerCase())
         );
 
@@ -119,7 +119,7 @@ class SecureLogger {
       return '[number]';
     }
 
-    const _strValue = String(value);
+    const strValue = String(value);
     if (strValue.length <= 4) {
       return '***';
     }
@@ -167,7 +167,7 @@ class SecureLogger {
    * Debug level logging
    */
   debug(message: string, data?: any) {
-    const _entry = this.createLogEntry('debug', message, data);
+    const entry = this.createLogEntry('debug', message, data);
     this.writeToAudit(entry);
 
     if (this.shouldLog() && process.env.NODE_ENV === 'development') {
@@ -179,7 +179,7 @@ class SecureLogger {
    * Info level logging
    */
   info(message: string, data?: any) {
-    const _entry = this.createLogEntry('info', message, data);
+    const entry = this.createLogEntry('info', message, data);
     this.writeToAudit(entry);
 
     if (this.shouldLog()) {
@@ -191,7 +191,7 @@ class SecureLogger {
    * Warning level logging
    */
   warn(message: string, data?: any) {
-    const _entry = this.createLogEntry('warn', message, data);
+    const entry = this.createLogEntry('warn', message, data);
     this.writeToAudit(entry);
 
     if (this.shouldLog()) {
@@ -203,7 +203,7 @@ class SecureLogger {
    * Error level logging
    */
   error(message: string, data?: any) {
-    const _entry = this.createLogEntry('error', message, data);
+    const entry = this.createLogEntry('error', message, data);
     this.writeToAudit(entry);
 
     if (this.shouldLog()) {
@@ -215,8 +215,8 @@ class SecureLogger {
    * Security-specific logging for audit purposes
    */
   security(action: string, details?: any) {
-    const _message = `SECURITY: ${action}`;
-    const _entry = this.createLogEntry('warn', message, details);
+    const message = `SECURITY: ${action}`;
+    const entry = this.createLogEntry('warn', message, details);
     this.writeToAudit(entry);
 
     // Security events are always logged
@@ -227,8 +227,8 @@ class SecureLogger {
    * User action logging for audit trail
    */
   audit(action: string, resource: string, details?: any) {
-    const _message = `AUDIT: User ${this.currentUser || 'anonymous'} performed ${action} on ${resource}`;
-    const _entry = this.createLogEntry('info', message, details);
+    const message = `AUDIT: User ${this.currentUser || 'anonymous'} performed ${action} on ${resource}`;
+    const entry = this.createLogEntry('info', message, details);
     this.writeToAudit(entry);
 
     if (this.shouldLog()) {
@@ -240,7 +240,7 @@ class SecureLogger {
    * Get audit trail (for security monitoring)
    */
   getAuditTrail(startDate?: Date, endDate?: Date): LogEntry[] {
-    const _filtered = this.auditTrail;
+    let filtered = this.auditTrail;
 
     if (startDate) {
       filtered = filtered.filter(entry => entry.timestamp >= startDate);
@@ -257,9 +257,9 @@ class SecureLogger {
    * Get security events only
    */
   getSecurityEvents(hours: number = 24): LogEntry[] {
-    const _since = new Date(Date.now() - hours * 60 * 60 * 1000);
-    return this.auditTrail.filter(entry => 
-      entry.timestamp >= since && 
+    const since = new Date(Date.now() - hours * 60 * 60 * 1000);
+    return this.auditTrail.filter(entry =>
+      entry.timestamp >= since &&
       (entry.message.includes('SECURITY:') || entry.level === 'error')
     );
   }
@@ -274,10 +274,10 @@ class SecureLogger {
 }
 
 // Create default instance
-const _secureLogger = new SecureLogger();
+const secureLogger = new SecureLogger();
 
 // Enhanced console replacement
-export const _logger = {
+export const logger = {
   debug: (message: string, data?: any) => secureLogger.debug(message, data),
   info: (message: string, data?: any) => secureLogger.info(message, data),
   warn: (message: string, data?: any) => secureLogger.warn(message, data),

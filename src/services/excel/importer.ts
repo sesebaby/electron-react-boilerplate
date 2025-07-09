@@ -10,7 +10,7 @@ export class ExcelImporter {
 
   async importFromFile(filePath: string, options: ExcelImportOptions = {}): Promise<ImportResult> {
     try {
-      const _workbook = XLSX.readFile(filePath);
+      const workbook = XLSX.readFile(filePath);
       return this.processWorkbook(workbook, options);
     } catch (error) {
       return {

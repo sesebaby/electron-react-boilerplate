@@ -8,9 +8,9 @@ import {
   PurchaseOrder 
 } from '../../types/entities';
 import { 
-  AccountsPayableSchema, 
-  PaymentSchema,
-  validateEntity 
+  _AccountsPayableSchema, 
+  _PaymentSchema,
+  _validateEntity 
 } from '../../schemas/validation';
 
 export class AccountsPayableService {
@@ -38,7 +38,7 @@ export class AccountsPayableService {
 
   // 创建应付账款
   async create(data: Omit<AccountsPayable, 'id' | 'createdAt' | 'updatedAt'>): Promise<AccountsPayable> {
-    const _validation = validateEntity(AccountsPayableSchema, data);
+    const validation = _validateEntity(_AccountsPayableSchema, data);
     if (!validation.success) {
       throw new Error(`应付账款数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -64,7 +64,7 @@ export class AccountsPayableService {
 
   // 更新应付账款
   async update(id: string, data: Partial<Omit<AccountsPayable, 'id' | 'createdAt' | 'updatedAt'>>): Promise<AccountsPayable> {
-    const _existing = this.payables.get(id);
+    const existing = this.payables.get(id);
     if (!existing) {
       throw new Error(`应付账款不存在: ${id}`);
     }
@@ -84,7 +84,7 @@ export class AccountsPayableService {
       updatedAt: new Date()
     };
 
-    const _validation = validateEntity(AccountsPayableSchema, updated);
+    const validation = _validateEntity(_AccountsPayableSchema, updated);
     if (!validation.success) {
       throw new Error(`应付账款数据验证失败: ${validation.errors?.join(', ')}`);
     }
@@ -95,13 +95,13 @@ export class AccountsPayableService {
 
   // 删除应付账款
   async delete(id: string): Promise<void> {
-    const _payable = this.payables.get(id);
+    const payable = this.payables.get(id);
     if (!payable) {
       throw new Error(`应付账款不存在: ${id}`);
     }
 
     // 检查是否有关联的付款记录
-    const _payments = this.paymentsByPayable.get(id) || [];
+    const payments = this.paymentsByPayable.get(id) || [];
     if (payments.length > 0) {
       throw new Error('无法删除已有付款记录的应付账款');
     }
@@ -125,7 +125,7 @@ export class AccountsPayableService {
 
   // 根据账单编号查找应付账款
   async findByBillNo(billNo: string): Promise<AccountsPayable | null> {
-    const _id = this.billNoIndex.get(billNo);
+    const id = this.billNoIndex.get(billNo);
     return id ? this.payables.get(id) || null : null;
   }
 

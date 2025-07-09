@@ -171,7 +171,7 @@ export class UnitConversionService {
   // =============== 测试数据初始化 ===============
 
   private initializeTestData(): void {
-    const _testConversions = [
+    const testConversions = [
       {
         productId: 'product-001', // iPhone 15 Pro
         baseUnitId: 'unit-002',   // 台
@@ -206,7 +206,7 @@ export class UnitConversionService {
       }
     ];
 
-    _testConversions.forEach(data => {
+    testConversions.forEach(data => {
       const conversion: UnitConversion = {
         ...data,
         id: uuidv4(),

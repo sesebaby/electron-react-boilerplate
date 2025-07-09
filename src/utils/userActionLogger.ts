@@ -3,7 +3,7 @@
  * 记录用户的关键业务操作和UI交互
  */
 
-import { _logger as logger } from './logger';
+import { logger } from './logger';
 
 export enum UserActionType {
   // 认证相关
@@ -103,7 +103,14 @@ class UserActionLogger {
   private sessionId: string;
   private actionCounts: Map<string, number> = new Map();
   private lastActionTime: number = Date.now();
-  private pendingActions: Map<string, { startTime: Date; event: Partial<UserActionEvent> }> = new Map();
+  private pendingActions: Map<string, {
+    startTime: Date;
+    type: UserActionType;
+    context: ActionContext;
+    description: string;
+    target?: string;
+    details?: Record<string, any>;
+  }> = new Map();
 
   constructor(config?: Partial<UserActionConfig>) {
     this.config = {
@@ -599,33 +606,33 @@ class UserActionLogger {
       ActionContext.SETTINGS
     ];
 
-    const _typeMatch = sensitiveTypes.includes(event.type);
-    const _contextMatch = sensitiveContexts.includes(event.context);
-    const _descriptionMatch = event.description && typeof event.description === 'string' && 
+    const typeMatch = sensitiveTypes.includes(event.type);
+    const contextMatch = sensitiveContexts.includes(event.context);
+    const descriptionMatch = event.description && typeof event.description === 'string' && 
                             event.description.toLowerCase().includes('password');
     
-    return _typeMatch || _contextMatch || Boolean(_descriptionMatch);
+    return typeMatch || contextMatch || Boolean(descriptionMatch);
   }
 
   /**
    * 记录操作到日志系统
    */
   private recordAction(event: UserActionEvent): void {
-    const _logLevel = this.getLogLevel(event);
-    const _message = `User Action: ${event.type} - ${event.description}`;
+    const logLevel = this.getLogLevel(event);
+    const message = `User Action: ${event.type} - ${event.description}`;
 
-    switch (_logLevel) {
+    switch (logLevel) {
       case 'info':
-        logger.info(_message, event, 'UserAction');
+        logger.info(message, event, 'UserAction');
         break;
       case 'warn':
-        logger.warn(_message, event, 'UserAction');
+        logger.warn(message, event, 'UserAction');
         break;
       case 'error':
-        logger.error(_message, event, 'UserAction');
+        logger.error(message, event, 'UserAction');
         break;
       default:
-        logger.info(_message, event, 'UserAction');
+        logger.info(message, event, 'UserAction');
     }
   }
 

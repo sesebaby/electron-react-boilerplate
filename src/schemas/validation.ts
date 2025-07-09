@@ -530,3 +530,34 @@ export const _NotificationConfigSchema = z.object({
   createdAt: _dateSchema.optional(),
   updatedAt: _dateSchema.optional()
 });
+
+// Non-underscore exports for backward compatibility
+export const BaseEntitySchema = _BaseEntitySchema;
+export const UnitConversionSchema = _UnitConversionSchema;
+export const ProductSchema = _ProductSchema;
+export const CategorySchema = _CategorySchema;
+export const UnitSchema = _UnitSchema;
+export const WarehouseSchema = _WarehouseSchema;
+export const InventoryStockSchema = _InventoryStockSchema;
+export const InventoryTransactionSchema = _InventoryTransactionSchema;
+export const SupplierSchema = _SupplierSchema;
+export const PurchaseOrderSchema = _PurchaseOrderSchema;
+export const PurchaseOrderItemSchema = _PurchaseOrderItemSchema;
+export const CustomerSchema = _CustomerSchema;
+export const SalesOrderSchema = _SalesOrderSchema;
+export const SalesOrderItemSchema = _SalesOrderItemSchema;
+export const SalesDeliverySchema = _SalesDeliverySchema;
+export const SalesDeliveryItemSchema = _SalesDeliveryItemSchema;
+export const AccountsPayableSchema = _AccountsPayableSchema;
+export const AccountsReceivableSchema = _AccountsReceivableSchema;
+export const PaymentSchema = _PaymentSchema;
+export const ReceiptSchema = _ReceiptSchema;
+export const UserSchema = _UserSchema;
+export const SystemConfigSchema = _SystemConfigSchema;
+export const ExcelRowSchema = _ExcelRowSchema;
+export const InventoryItemSchema = _InventoryItemSchema;
+export const validateEntity = _validateEntity;
+export const validateExcelRow = _validateExcelRow;
+export const validateInventoryItem = _validateInventoryItem;
+export const NotificationSchema = _NotificationSchema;
+export const NotificationConfigSchema = _NotificationConfigSchema;
