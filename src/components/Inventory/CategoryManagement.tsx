@@ -554,6 +554,14 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
               <div className="bg-white/5 backdrop-blur-sm border-t border-white/10 px-4 sm:px-6 py-3 sm:py-4 shrink-0">
                 <div className="flex gap-3 sm:gap-4">
                   <GlassButton
+                    type="button"
+                    variant="secondary"
+                    onClick={handleCancel}
+                    className="flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation"
+                  >
+                    取消
+                  </GlassButton>
+                  <GlassButton
                     type="submit"
                     variant="primary"
                     loading={isSubmitting}
@@ -561,14 +569,6 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
                   >
                     <span className="mr-2">{editingCategory ? '💾' : '✨'}</span>
                     {editingCategory ? '更新分类' : '创建分类'}
-                  </GlassButton>
-                  <GlassButton
-                    type="button"
-                    variant="secondary"
-                    onClick={handleCancel}
-                    className="flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation"
-                  >
-                    取消
                   </GlassButton>
                 </div>
               </div>
