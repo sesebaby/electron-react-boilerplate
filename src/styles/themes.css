@@ -2576,11 +2576,11 @@
   /* 应用整体背景 - 主窗口背景渐变色 */
   --app-background: linear-gradient(135deg, oklch(0.646 0.026 252.894) 0%, oklch(0.583 0.024 252.894) 100%);  /* gray-600 到 gray-700 深灰色渐变，专业商务感 */
 
-  /* 表面和卡片背景 - 各种面板、卡片、对话框背景 */
-  --surface-background: oklch(0.85 0.01 258.065 / 0.98);  /* 浅灰色/98% - 用于主要内容区域背景 */
-  --card-background: oklch(0.85 0.01 258.065 / 0.98);  /* 浅灰色/98% - 用于表单输入框、下拉框、卡片等背景 */
-  --hover-background: oklch(44.6% 0.03 256.802 / 1);  /* 悬浮状态背景 - 用于按钮、列表项悬浮时的背景色 */
-  --active-background: oklch(0.85 0.01 258.065 / 1);  /* 激活状态背景 - 用于选中的菜单项、按钮等背景 */
+  /* 表面和卡片背景 - 与主题背景色保持一致 */
+  --surface-background: oklch(0.583 0.024 252.894 / 0.98);  /* 深灰色/98% - 与主题背景色保持一致 */
+  --card-background: oklch(0.583 0.024 252.894 / 0.98);  /* 深灰色/98% - 与主题背景色保持一致 */
+  --hover-background: oklch(0.646 0.026 252.894 / 1);  /* 悬浮状态背景 - 使用主题渐变起始色 */
+  --active-background: oklch(0.646 0.026 252.894 / 1);  /* 激活状态背景 - 使用主题渐变起始色 */
 
   /* TopBar顶部导航栏背景 */
   --topbar-background: oklch(0.583 0.024 252.894 / 0.95);  /* gray-700/95% - 顶部导航栏深灰色背景 */
@@ -2590,14 +2590,14 @@
   --navigation-background: var(--topbar-background);  /* 使用与TopBar相同的深色背景 */
   --navigation-shadow: var(--topbar-shadow);
 
-  /* 表格固定列背景 - 用于锁定列的背景效果 */
-  --table-fixed-background: oklch(0.85 0.01 258.065 / 0.98);  /* 固定列背景 - 与表格内容保持一致 */
-  --table-fixed-background-hover: oklch(44.6% 0.03 256.802 / 1);  /* 固定列悬浮状态背景 */
+  /* 表格固定列背景 - 与主题背景色保持一致 */
+  --table-fixed-background: oklch(0.583 0.024 252.894 / 0.98);  /* 固定列背景 - 与主题背景色保持一致 */
+  --table-fixed-background-hover: oklch(0.646 0.026 252.894 / 1);  /* 固定列悬浮状态背景 */
 
-  /* 弹出窗体背景系统 - 浅灰色系，indigo装饰边框 */
-  --popup-background: oklch(0.85 0.01 258.065 / 0.98);  /* 浅灰色/98% */
-  --popup-header-background: oklch(0.85 0.01 258.065 / 1);  /* 浅灰色/100% */
-  --popup-content-background: oklch(0.85 0.01 258.065 / 0.98);  /* 浅灰色/98% */
+  /* 弹出窗体背景系统 - 与主题背景色保持一致 */
+  --popup-background: oklch(0.583 0.024 252.894 / 0.98);  /* 深灰色/98% - 与主题背景色保持一致 */
+  --popup-header-background: oklch(0.583 0.024 252.894 / 1);  /* 深灰色/100% - 与主题背景色保持一致 */
+  --popup-content-background: oklch(0.583 0.024 252.894 / 0.98);  /* 深灰色/98% - 与主题背景色保持一致 */
   --popup-blur: blur(10px);  /* 轻微模糊 */
   --popup-border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo-500边框装饰 */
   --popup-shadow: 0 20px 60px oklch(0.583 0.024 252.894 / 0.3);  /* 深灰色阴影 */
@@ -2698,25 +2698,25 @@
 
 /* 黑白精简风主题专用控件样式 - 纯白背景+黑色文字+indigo装饰 */
 [data-theme="minimal-monochrome"] .glass-select {
-  background: oklch(0.85 0.01 258.065 / 1);  /* 浅灰色背景，与输入框一致 */
+  background: oklch(0.583 0.024 252.894 / 0.98);  /* 深灰色背景，与主题背景色保持一致 */
   backdrop-filter: var(--popup-blur);
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo-500边框 */
-  color: oklch(0.208 0.042 265.755);  /* 纯黑色文字 */
+  color: oklch(1 0 0 / 0.9);  /* 白色文字适配深色背景 */
   text-shadow: none;  /* 移除阴影保持纯净 */
   box-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.1);  /* 轻微灰色阴影 */
 }
 
 [data-theme="minimal-monochrome"] .glass-select:focus,
 [data-theme="minimal-monochrome"] .glass-select:hover {
-  background: oklch(44.6% 0.03 256.802 / 1);  /* 使用tailwind css推荐颜色 */
+  background: oklch(0.646 0.026 252.894 / 1);  /* 使用主题渐变起始色 */
   border-color: oklch(0.585 0.233 277.117 / 0.7);  /* 加强indigo边框 */
   box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1);  /* indigo焦点环 */
 }
 
-/* 黑白精简风主题下拉框选项样式 - 纯白+黑字 */
+/* 黑白精简风主题下拉框选项样式 - 深灰色背景+白色文字 */
 [data-theme="minimal-monochrome"] .glass-select option {
-  background: oklch(0.85 0.01 258.065 / 1) !important;  /* 浅灰色背景，与输入框一致 */
-  color: oklch(0.208 0.042 265.755) !important;  /* 纯黑色文字 */
+  background: oklch(0.583 0.024 252.894 / 0.98) !important;  /* 深灰色背景，与主题背景色保持一致 */
+  color: oklch(1 0 0 / 0.9) !important;  /* 白色文字适配深色背景 */
   padding: 8px 12px;
   border: none;
   font-weight: 500;
@@ -2724,62 +2724,62 @@
 
 [data-theme="minimal-monochrome"] .glass-select option:checked,
 [data-theme="minimal-monochrome"] .glass-select option:hover {
-  background: oklch(0.554 0.02 258.065 / 0.8) !important;  /* 深灰色hover */
+  background: oklch(0.646 0.026 252.894 / 1) !important;  /* 使用主题渐变起始色 */
   color: oklch(1 0 0) !important;  /* 白色文字保证对比度 */
 }
 
-/* 黑白精简风主题输入框样式 - 统一浅灰色背景+indigo装饰 */
+/* 黑白精简风主题输入框样式 - 深灰色背景+indigo装饰 */
 [data-theme="minimal-monochrome"] .glass-input {
-  background: oklch(0.85 0.01 258.065 / 1);  /* 浅灰色背景，与其他输入框一致 */
+  background: oklch(0.583 0.024 252.894 / 0.98);  /* 深灰色背景，与主题背景色保持一致 */
   backdrop-filter: var(--popup-blur);
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo-500边框 */
-  color: oklch(0.208 0.042 265.755);  /* 纯黑色文字 */
+  color: oklch(1 0 0 / 0.9);  /* 白色文字适配深色背景 */
   text-shadow: none;  /* 移除阴影保持纯净 */
   box-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.1);  /* 轻微灰色阴影 */
 }
 
 [data-theme="minimal-monochrome"] .glass-input:focus,
 [data-theme="minimal-monochrome"] .glass-input:hover {
-  background: oklch(44.6% 0.03 256.802 / 1);  /* 使用tailwind css推荐颜色 */
+  background: oklch(0.646 0.026 252.894 / 1);  /* 使用主题渐变起始色 */
   border-color: oklch(0.585 0.233 277.117 / 0.7);  /* 加强indigo边框 */
   box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1);  /* indigo焦点环 */
 }
 
 [data-theme="minimal-monochrome"] .glass-input::placeholder {
-  color: oklch(0.446 0.043 257.281);  /* 中灰色占位符 */
+  color: oklch(1 0 0 / 0.5);  /* 白色占位符适配深色背景 */
 }
 
 /* 黑白精简风主题弹出下拉框样式 - 专业indigo装饰 */
 [data-theme="minimal-monochrome"] .popup-dropdown {
-  background: oklch(0.85 0.01 258.065 / 0.98) !important;  /* 浅灰色弹窗背景，与输入框一致 */
+  background: oklch(0.583 0.024 252.894 / 0.98) !important;  /* 深灰色弹窗背景，与主题背景色保持一致 */
   backdrop-filter: blur(10px) !important;
   border: 1px solid oklch(0.585 0.233 277.117 / 0.4) !important;  /* indigo-500边框 */
   box-shadow: 0 20px 60px oklch(0.583 0.024 252.894 / 0.3) !important;
 }
 
 [data-theme="minimal-monochrome"] .theme-dropdown-header h3 {
-  color: oklch(0.208 0.042 265.755) !important;  /* 纯黑色标题 */
+  color: oklch(1 0 0 / 0.9) !important;  /* 白色标题适配深色背景 */
   text-shadow: none !important;  /* 移除阴影 */
 }
 
 [data-theme="minimal-monochrome"] .theme-option {
-  background: oklch(0.85 0.01 258.065 / 0.9) !important;  /* 浅灰色背景，与输入框一致 */
-  color: oklch(0.208 0.042 265.755) !important;  /* 纯黑色文字 */
+  background: oklch(0.583 0.024 252.894 / 0.98) !important;  /* 深灰色背景，与主题背景色保持一致 */
+  color: oklch(1 0 0 / 0.9) !important;  /* 白色文字适配深色背景 */
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3) !important;  /* indigo-500边框 */
 }
 
 [data-theme="minimal-monochrome"] .theme-option h4 {
-  color: oklch(0.208 0.042 265.755) !important;  /* 纯黑色标题 */
+  color: oklch(1 0 0 / 0.9) !important;  /* 白色标题适配深色背景 */
   text-shadow: none;  /* 移除阴影 */
 }
 
 [data-theme="minimal-monochrome"] .theme-option p {
-  color: oklch(0.372 0.044 257.287) !important;  /* 深灰色描述文字 */
+  color: oklch(1 0 0 / 0.7) !important;  /* 白色描述文字适配深色背景 */
   text-shadow: none;  /* 移除阴影 */
 }
 
 [data-theme="minimal-monochrome"] .theme-option:hover {
-  background: oklch(0.554 0.02 258.065 / 0.6) !important;  /* 深灰色hover */
+  background: oklch(0.646 0.026 252.894 / 1) !important;  /* 使用主题渐变起始色 */
   border: 1px solid oklch(0.585 0.233 277.117 / 0.6) !important;  /* indigo-500边框 */
 }
 
@@ -2789,29 +2789,29 @@
 }
 
 [data-theme="minimal-monochrome"] .close-button {
-  color: oklch(0.372 0.044 257.287) !important;  /* 深灰色文字 */
-  background: oklch(0.85 0.01 258.065 / 0.9);  /* 浅灰色背景，与输入框一致 */
+  color: oklch(1 0 0 / 0.9) !important;  /* 白色文字适配深色背景 */
+  background: oklch(0.583 0.024 252.894 / 0.98);  /* 深灰色背景，与主题背景色保持一致 */
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo边框 */
   text-shadow: none;  /* 移除阴影 */
 }
 
 [data-theme="minimal-monochrome"] .close-button:hover {
-  background: oklch(0.554 0.02 258.065 / 0.7);  /* 深灰色hover */
+  background: oklch(0.646 0.026 252.894 / 1);  /* 使用主题渐变起始色 */
   border-color: oklch(0.585 0.233 277.117 / 0.6);
 }
 
 [data-theme="minimal-monochrome"] .glass-textarea {
-  background: oklch(0.85 0.01 258.065 / 0.95);  /* 浅灰色背景，与输入框一致 */
+  background: oklch(0.583 0.024 252.894 / 0.98);  /* 深灰色背景，与主题背景色保持一致 */
   backdrop-filter: blur(8px);
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3);  /* indigo-500边框 */
-  color: oklch(0.208 0.042 265.755);  /* 纯黑色文字 */
+  color: oklch(1 0 0 / 0.9);  /* 白色文字适配深色背景 */
   text-shadow: none;  /* 移除阴影 */
   box-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.1);
 }
 
 [data-theme="minimal-monochrome"] .glass-textarea:focus,
 [data-theme="minimal-monochrome"] .glass-textarea:hover {
-  background: oklch(44.6% 0.03 256.802 / 1);  /* 使用tailwind css推荐颜色 */
+  background: oklch(0.646 0.026 252.894 / 1);  /* 使用主题渐变起始色 */
   border-color: oklch(0.585 0.233 277.117 / 0.7);  /* 聚焦时加强indigo边框 */
   box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1);
 }
@@ -2886,16 +2886,16 @@
 [data-theme="minimal-monochrome"] .glass-button,
 [data-theme="minimal-monochrome"] .btn,
 [data-theme="minimal-monochrome"] button[class*="glass"] {
-  background: oklch(0.85 0.01 258.065 / 1) !important;  /* 与输入框一致的浅灰色背景 */
+  background: oklch(0.583 0.024 252.894 / 0.98) !important;  /* 深灰色背景，与主题背景色保持一致 */
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3) !important;  /* indigo边框 */
-  color: oklch(0.208 0.042 265.755) !important;  /* 纯黑色文字 */
+  color: oklch(1 0 0 / 0.9) !important;  /* 白色文字适配深色背景 */
   box-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.1) !important;
 }
 
 [data-theme="minimal-monochrome"] .glass-button:hover,
 [data-theme="minimal-monochrome"] .btn:hover,
 [data-theme="minimal-monochrome"] button[class*="glass"]:hover {
-  background: oklch(44.6% 0.03 256.802 / 1) !important;  /* 使用tailwind css推荐颜色 */
+  background: oklch(0.646 0.026 252.894 / 1) !important;  /* 使用主题渐变起始色 */
   border-color: oklch(0.585 0.233 277.117 / 0.7) !important;  /* 加强indigo边框 */
 }
 
@@ -2907,9 +2907,9 @@
 [data-theme="minimal-monochrome"] input[type="search"],
 [data-theme="minimal-monochrome"] select,
 [data-theme="minimal-monochrome"] textarea {
-  background: oklch(0.85 0.01 258.065 / 1) !important;  /* 与输入框一致的浅灰色背景 */
+  background: oklch(0.583 0.024 252.894 / 0.98) !important;  /* 深灰色背景，与主题背景色保持一致 */
   border: 1px solid oklch(0.585 0.233 277.117 / 0.3) !important;  /* indigo边框 */
-  color: oklch(0.208 0.042 265.755) !important;  /* 纯黑色文字 */
+  color: oklch(1 0 0 / 0.9) !important;  /* 白色文字适配深色背景 */
   box-shadow: 0 4px 12px oklch(0.583 0.024 252.894 / 0.1) !important;
 }
 
@@ -2920,6 +2920,7 @@
 [data-theme="minimal-monochrome"] input[type="search"]:focus,
 [data-theme="minimal-monochrome"] select:focus,
 [data-theme="minimal-monochrome"] textarea:focus {
+  background: oklch(0.646 0.026 252.894 / 1) !important;  /* 使用主题渐变起始色 */
   border-color: oklch(0.585 0.233 277.117 / 0.7) !important;  /* 加强indigo边框 */
   box-shadow: 0 8px 24px oklch(0.583 0.024 252.894 / 0.15), 0 0 0 3px oklch(0.585 0.233 277.117 / 0.1) !important;
 }
