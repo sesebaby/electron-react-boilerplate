@@ -157,6 +157,35 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
         </TableContainer>
       </div>
 
+      {/* 系统初始化说明 */}
+      <div className="glass-surface rounded-lg p-4 mb-4 bg-blue-500/10 border border-blue-500/20">
+        <div className="flex items-start gap-3">
+          <span className="text-blue-400 text-lg">ℹ️</span>
+          <div>
+            <h4 className="text-blue-300 font-medium mb-2">系统初始化说明</h4>
+            <p className="text-blue-200/80 text-sm mb-2">
+              下方是初始化系统的换算规则示意，默认为禁用状态，不会影响业务。如有需要，可以自行修改开启。
+            </p>
+            <ul className="text-blue-200/70 text-xs space-y-1">
+              <li>• 所有初始换算规则均为禁用状态，确保不会在用户不知情的情况下影响业务</li>
+              <li>• 您可以根据实际业务需要，选择性启用相关的换算规则</li>
+              <li>• 启用规则前请仔细检查换算比率是否符合您的业务要求</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* 使用说明 */}
+      <div className="glass-surface rounded-lg p-4">
+        <h4 className="text-white font-medium mb-2">使用说明</h4>
+        <ul className="text-white/70 text-sm space-y-1">
+          <li>• 这些换算规则是全局生效的，将在整个系统中保持一致</li>
+          <li>• 换算比率表示：1个源单位 = 比率数量的目标单位</li>
+          <li>• 建议为常用的单位组合创建换算规则，提高业务效率</li>
+          <li>• 禁用的规则不会在业务中显示，但保留数据便于后续启用</li>
+        </ul>
+      </div>
+
       {/* 换算规则表单弹出框 */}
       {showConversionForm && createPortal(
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">

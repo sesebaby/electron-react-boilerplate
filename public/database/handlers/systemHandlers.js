@@ -307,6 +307,22 @@ function setupSystemHandlers(ipcMain, db) {
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
 
+      -- 全局换算规则表
+      CREATE TABLE IF NOT EXISTS global_conversion_rules (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        from_unit_id TEXT NOT NULL,
+        to_unit_id TEXT NOT NULL,
+        conversion_rate REAL NOT NULL,
+        category TEXT NOT NULL,
+        description TEXT,
+        is_active BOOLEAN NOT NULL DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (from_unit_id) REFERENCES units(id),
+        FOREIGN KEY (to_unit_id) REFERENCES units(id)
+      );
+
       -- 库存交易记录表
       CREATE TABLE IF NOT EXISTS inventory_transactions (
         id TEXT PRIMARY KEY,
@@ -355,6 +371,9 @@ function setupSystemHandlers(ipcMain, db) {
       CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
       CREATE INDEX IF NOT EXISTS idx_units_symbol ON units(symbol);
       CREATE INDEX IF NOT EXISTS idx_units_type ON units(type);
+      CREATE INDEX IF NOT EXISTS idx_global_conversion_from_unit ON global_conversion_rules(from_unit_id);
+      CREATE INDEX IF NOT EXISTS idx_global_conversion_to_unit ON global_conversion_rules(to_unit_id);
+      CREATE INDEX IF NOT EXISTS idx_global_conversion_category ON global_conversion_rules(category);
       CREATE INDEX IF NOT EXISTS idx_transactions_item ON inventory_transactions(item_id);
       CREATE INDEX IF NOT EXISTS idx_transactions_type ON inventory_transactions(transaction_type);
     `;
@@ -406,7 +425,7 @@ function setupSystemHandlers(ipcMain, db) {
         
         // 获取导入后的统计信息
         const stats = {};
-        const tables = ['categories', 'suppliers', 'units', 'inventory_items', 'inventory_transactions', 'warehouses'];
+        const tables = ['categories', 'suppliers', 'units', 'global_conversion_rules', 'inventory_items', 'inventory_transactions', 'warehouses'];
         
         for (const table of tables) {
           const result = db.prepare(`SELECT COUNT(*) as count FROM ${table}`).get();
@@ -435,7 +454,7 @@ function setupSystemHandlers(ipcMain, db) {
 
     // 获取导入后的统计信息
     const stats = {};
-    const tables = ['categories', 'suppliers', 'units', 'inventory_items', 'inventory_transactions', 'warehouses'];
+    const tables = ['categories', 'suppliers', 'units', 'global_conversion_rules', 'inventory_items', 'inventory_transactions', 'warehouses'];
     
     for (const table of tables) {
       try {
