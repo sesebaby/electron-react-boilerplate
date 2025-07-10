@@ -83,7 +83,7 @@ function setupDatabaseHandlers(ipcMain, db) {
     'db-validate-integrity',
     'db-clear-database',
     'db-rebuild-schema',
-    'db-import-mock-data',
+    'db-import-builtin-data',
     'db-optimize',
     'db-get-database-info',
     'db-execute-query',

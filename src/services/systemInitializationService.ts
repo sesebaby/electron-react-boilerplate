@@ -3,7 +3,6 @@
  * 提供系统重置和初始化功能
  */
 
-import backupService, { BackupInfo, BackupProgress } from './database/backupService';
 import { dataInitializer } from './dataInitializer';
 import { businessServiceManager } from './business/businessServiceManager';
 
@@ -15,19 +14,15 @@ declare global {
 }
 
 export interface InitializationProgress {
-  stage: 'backup' | 'clearing' | 'schema' | 'data' | 'services' | 'completed' | 'error';
+  stage: 'clearing' | 'schema' | 'data' | 'services' | 'completed' | 'error';
   progress: number;
   message: string;
   error?: string;
-  backupInfo?: BackupInfo;
 }
 
 export interface InitializationOptions {
-  createBackup: boolean;
-  backupDescription?: string;
   preserveUsers: boolean;
   preserveSettings: boolean;
-  importMockData: boolean;
 }
 
 export class SystemInitializationService {
@@ -49,50 +44,12 @@ export class SystemInitializationService {
     options: InitializationOptions,
     onProgress?: (progress: InitializationProgress) => void
   ): Promise<void> {
-    let backupInfo: BackupInfo | undefined;
-
     try {
-      // 第一步：创建备份（如果需要）
-      if (options.createBackup) {
-        onProgress?.({
-          stage: 'backup',
-          progress: 5,
-          message: '正在创建数据库备份...'
-        });
 
-        try {
-          backupInfo = await backupService.createBackup(
-            options.backupDescription || '系统初始化前自动备份',
-            (backupProgress: BackupProgress) => {
-              onProgress?.({
-                stage: 'backup',
-                progress: Math.round(5 + (backupProgress.progress * 0.15)), // 5-20%
-                message: backupProgress.message
-              });
-            }
-          );
-
-          onProgress?.({
-            stage: 'backup',
-            progress: 20,
-            message: '备份创建完成',
-            backupInfo
-          });
-        } catch (backupError) {
-          console.warn('备份创建失败，但继续进行系统初始化:', backupError);
-          onProgress?.({
-            stage: 'backup',
-            progress: 20,
-            message: '备份创建失败，但继续进行初始化'
-          });
-          // 不抛出错误，允许初始化继续进行
-        }
-      }
-
-      // 第二步：清理数据库
+      // 第一步：清理数据库
       onProgress?.({
         stage: 'clearing',
-        progress: 25,
+        progress: 10,
         message: '正在清理数据库...'
       });
 
@@ -100,14 +57,14 @@ export class SystemInitializationService {
 
       onProgress?.({
         stage: 'clearing',
-        progress: 40,
+        progress: 30,
         message: '数据库清理完成'
       });
 
-      // 第三步：重建数据库结构
+      // 第二步：重建数据库结构
       onProgress?.({
         stage: 'schema',
-        progress: 45,
+        progress: 35,
         message: '正在重建数据库结构...'
       });
 
@@ -115,31 +72,29 @@ export class SystemInitializationService {
 
       onProgress?.({
         stage: 'schema',
-        progress: 60,
+        progress: 50,
         message: '数据库结构重建完成'
       });
 
-      // 第四步：导入初始数据
-      if (options.importMockData) {
-        onProgress?.({
-          stage: 'data',
-          progress: 65,
-          message: '正在导入初始数据...'
-        });
+      // 第三步：导入内置初始数据
+      onProgress?.({
+        stage: 'data',
+        progress: 55,
+        message: '正在导入初始数据...'
+      });
 
-        await this.importInitialData();
+      await this.importBuiltinData();
 
-        onProgress?.({
-          stage: 'data',
-          progress: 80,
-          message: '初始数据导入完成'
-        });
-      }
+      onProgress?.({
+        stage: 'data',
+        progress: 75,
+        message: '初始数据导入完成'
+      });
 
-      // 第五步：重新初始化服务
+      // 第四步：重新初始化服务
       onProgress?.({
         stage: 'services',
-        progress: 85,
+        progress: 80,
         message: '正在重新初始化系统服务...'
       });
 
@@ -155,8 +110,7 @@ export class SystemInitializationService {
       onProgress?.({
         stage: 'completed',
         progress: 100,
-        message: '系统初始化完成',
-        backupInfo
+        message: '系统初始化完成'
       });
 
     } catch (error) {
@@ -166,8 +120,7 @@ export class SystemInitializationService {
         stage: 'error',
         progress: 0,
         message: '系统初始化失败',
-        error: errorMessage,
-        backupInfo
+        error: errorMessage
       });
 
       throw new Error(`系统初始化失败: ${errorMessage}`);
@@ -218,21 +171,21 @@ export class SystemInitializationService {
   }
 
   /**
-   * 导入初始数据
+   * 导入内置初始数据
    */
-  private async importInitialData(): Promise<void> {
+  private async importBuiltinData(): Promise<void> {
     try {
-      if (!window.electronAPI?.dbImportMockData) {
-        throw new Error('导入初始数据功能不可用');
+      if (!window.electronAPI?.dbImportBuiltinData) {
+        throw new Error('导入内置数据功能不可用');
       }
 
-      const result = await window.electronAPI.dbImportMockData();
+      const result = await window.electronAPI.dbImportBuiltinData();
 
       if (!result.success) {
-        throw new Error(result.error || '导入初始数据失败');
+        throw new Error(result.error || '导入内置数据失败');
       }
     } catch (error) {
-      console.error('导入初始数据失败:', error);
+      console.error('导入内置数据失败:', error);
       throw error;
     }
   }

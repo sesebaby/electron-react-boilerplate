@@ -253,12 +253,16 @@ async function initializeDatabase() {
       -- 仓库表
       CREATE TABLE IF NOT EXISTS warehouses (
         id TEXT PRIMARY KEY,
-        code TEXT UNIQUE NOT NULL,
+        code TEXT UNIQUE,
         name TEXT NOT NULL,
+        location TEXT,
         address TEXT,
         manager TEXT,
         phone TEXT,
+        type TEXT CHECK(type IN ('main', 'branch', 'temporary')) DEFAULT 'branch',
+        capacity INTEGER DEFAULT 0,
         is_default BOOLEAN NOT NULL DEFAULT 0,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
@@ -288,6 +292,7 @@ async function initializeDatabase() {
         name TEXT NOT NULL,
         description TEXT,
         parent_id TEXT,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (parent_id) REFERENCES categories(id)
@@ -301,6 +306,7 @@ async function initializeDatabase() {
         phone TEXT,
         email TEXT,
         address TEXT,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
@@ -316,6 +322,20 @@ async function initializeDatabase() {
         is_active BOOLEAN NOT NULL DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      -- 全局转换规则表
+      CREATE TABLE IF NOT EXISTS global_conversion_rules (
+        id TEXT PRIMARY KEY,
+        from_unit_id TEXT NOT NULL,
+        to_unit_id TEXT NOT NULL,
+        factor REAL NOT NULL,
+        description TEXT,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (from_unit_id) REFERENCES units(id),
+        FOREIGN KEY (to_unit_id) REFERENCES units(id)
       );
 
       -- 库存交易记录表

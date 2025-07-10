@@ -83,7 +83,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbValidateBackup: (options) => ipcRenderer.invoke('db-validate-backup', options),
   dbClearDatabase: (options) => ipcRenderer.invoke('db-clear-database', options),
   dbRebuildSchema: () => ipcRenderer.invoke('db-rebuild-schema'),
-  dbImportMockData: () => ipcRenderer.invoke('db-import-mock-data'),
+  dbImportBuiltinData: () => ipcRenderer.invoke('db-import-builtin-data'),
   dbGetSystemStatus: () => ipcRenderer.invoke('db-get-system-status'),
   dbValidateIntegrity: () => ipcRenderer.invoke('db-validate-integrity'),
 

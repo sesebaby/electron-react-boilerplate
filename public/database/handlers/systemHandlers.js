@@ -393,84 +393,58 @@ function setupSystemHandlers(ipcMain, db) {
     });
   }, 'rebuild-schema'));
 
-  // 导入模拟数据
-  ipcMain.handle('db-import-mock-data', wrapIpcHandler(async () => {
+  // 导入内置初始数据
+  ipcMain.handle('db-import-builtin-data', wrapIpcHandler(async () => {
     if (!checkDatabaseInitialized(db)) {
       return errorResult('Database not initialized');
     }
 
-    const fs = require('fs');
-    const path = require('path');
-
-    // 读取模拟数据文件 - 添加路径检查和错误处理
-    const mockDataPath = path.join(__dirname, '../../mock-data.sql');
-    console.log('Mock data path:', mockDataPath);
-    console.log('Mock data path exists:', fs.existsSync(mockDataPath));
-    
-    if (!fs.existsSync(mockDataPath)) {
-      // 尝试备用路径
-      const alternativePath = path.join(__dirname, '../../../mock-data.sql');
-      console.log('Alternative mock data path:', alternativePath);
-      console.log('Alternative mock data path exists:', fs.existsSync(alternativePath));
-      
-      if (fs.existsSync(alternativePath)) {
-        const mockData = fs.readFileSync(alternativePath, 'utf-8');
-        
-        try {
-          db.exec(mockData);
-        } catch (dbError) {
-          console.error('Mock data execution error (alternative path):', dbError);
-          throw new Error(`Mock data execution failed: ${dbError.message}`);
-        }
-        
-        // 获取导入后的统计信息
-        const stats = {};
-        const tables = ['categories', 'suppliers', 'units', 'global_conversion_rules', 'inventory_items', 'inventory_transactions', 'warehouses'];
-        
-        for (const table of tables) {
-          const result = db.prepare(`SELECT COUNT(*) as count FROM ${table}`).get();
-          stats[table] = result.count;
-        }
-        
-        return successResult({
-          message: 'Mock data imported successfully (alternative path)',
-          timestamp: new Date().toISOString(),
-          stats
-        });
-      }
-      
-      throw new Error(`Mock data file not found at ${mockDataPath} or ${alternativePath}`);
-    }
-
-    const mockData = fs.readFileSync(mockDataPath, 'utf-8');
-
-    // 执行模拟数据 - 添加错误处理
     try {
-      db.exec(mockData);
-    } catch (dbError) {
-      console.error('Mock data execution error:', dbError);
-      throw new Error(`Mock data execution failed: ${dbError.message}`);
-    }
+      console.log('开始导入内置初始数据...');
 
-    // 获取导入后的统计信息
-    const stats = {};
-    const tables = ['categories', 'suppliers', 'units', 'global_conversion_rules', 'inventory_items', 'inventory_transactions', 'warehouses'];
-    
-    for (const table of tables) {
-      try {
-        const count = db.prepare(`SELECT COUNT(*) as count FROM ${table}`).get().count;
-        stats[table] = count;
-      } catch (error) {
-        stats[table] = 0;
+      // 导入单位数据
+      await importUnitsData(db);
+      console.log('单位数据导入完成');
+
+      // 导入分类数据
+      await importCategoriesData(db);
+      console.log('分类数据导入完成');
+
+      // 导入供应商数据
+      await importSuppliersData(db);
+      console.log('供应商数据导入完成');
+
+      // 导入仓库数据
+      await importWarehousesData(db);
+      console.log('仓库数据导入完成');
+
+      // 导入全局转换规则数据
+      await importGlobalConversionRulesData(db);
+      console.log('全局转换规则数据导入完成');
+
+      // 获取导入后的统计信息
+      const stats = {};
+      const tables = ['categories', 'suppliers', 'units', 'global_conversion_rules', 'warehouses'];
+
+      for (const table of tables) {
+        try {
+          const count = db.prepare(`SELECT COUNT(*) as count FROM ${table}`).get().count;
+          stats[table] = count;
+        } catch (error) {
+          stats[table] = 0;
+        }
       }
-    }
 
-    return successResult({
-      message: 'Mock data imported successfully',
-      stats,
-      timestamp: new Date().toISOString()
-    });
-  }, 'import-mock-data'));
+      return successResult({
+        message: 'Builtin data imported successfully',
+        stats,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('Error importing builtin data:', error);
+      return errorResult(`Failed to import builtin data: ${error.message}`);
+    }
+  }, 'import-builtin-data'));
 
   // 优化数据库
   ipcMain.handle('db-optimize', wrapIpcHandler(async () => {
@@ -644,6 +618,228 @@ function setupSystemHandlers(ipcMain, db) {
   }, 'get-table-schema'));
 
   console.log('System handlers registered successfully');
+}
+
+// 内置数据导入函数
+
+/**
+ * 导入单位数据
+ */
+async function importUnitsData(db) {
+  const units = [
+    // 数量单位
+    { id: 'unit-001', name: '个', symbol: '个', type: 'quantity', precision: 0, description: '基本计数单位', isActive: true },
+    { id: 'unit-002', name: '件', symbol: '件', type: 'quantity', precision: 0, description: '商品件数', isActive: true },
+    { id: 'unit-003', name: '套', symbol: '套', type: 'quantity', precision: 0, description: '成套商品', isActive: true },
+    { id: 'unit-004', name: '包', symbol: '包', type: 'quantity', precision: 0, description: '包装单位', isActive: true },
+    { id: 'unit-005', name: '箱', symbol: '箱', type: 'quantity', precision: 0, description: '箱装单位', isActive: true },
+    { id: 'unit-006', name: '盒', symbol: '盒', type: 'quantity', precision: 0, description: '盒装单位', isActive: true },
+    { id: 'unit-007', name: '瓶', symbol: '瓶', type: 'quantity', precision: 0, description: '瓶装单位', isActive: true },
+    { id: 'unit-008', name: '罐', symbol: '罐', type: 'quantity', precision: 0, description: '罐装单位', isActive: true },
+    { id: 'unit-009', name: '袋', symbol: '袋', type: 'quantity', precision: 0, description: '袋装单位', isActive: true },
+    { id: 'unit-010', name: '支', symbol: '支', type: 'quantity', precision: 0, description: '支装单位', isActive: true },
+    { id: 'unit-011', name: '打', symbol: '打', type: 'quantity', precision: 0, description: '12个为一打', isActive: true },
+    { id: 'unit-012', name: '对', symbol: '对', type: 'quantity', precision: 0, description: '成对商品', isActive: true },
+
+    // 重量单位
+    { id: 'unit-013', name: '克', symbol: 'g', type: 'weight', precision: 2, description: '基本重量单位', isActive: true },
+    { id: 'unit-014', name: '千克', symbol: 'kg', type: 'weight', precision: 3, description: '公斤', isActive: true },
+    { id: 'unit-015', name: '吨', symbol: 't', type: 'weight', precision: 3, description: '公吨', isActive: true },
+    { id: 'unit-016', name: '磅', symbol: 'lb', type: 'weight', precision: 2, description: '英制重量单位', isActive: true },
+    { id: 'unit-017', name: '两', symbol: '两', type: 'weight', precision: 2, description: '中式重量单位', isActive: true },
+    { id: 'unit-018', name: '斤', symbol: '斤', type: 'weight', precision: 2, description: '中式重量单位', isActive: true },
+
+    // 长度单位
+    { id: 'unit-019', name: '厘米', symbol: 'cm', type: 'length', precision: 2, description: '基本长度单位', isActive: true },
+    { id: 'unit-020', name: '米', symbol: 'm', type: 'length', precision: 3, description: '标准长度单位', isActive: true },
+    { id: 'unit-021', name: '毫米', symbol: 'mm', type: 'length', precision: 1, description: '精密长度单位', isActive: true },
+    { id: 'unit-022', name: '英寸', symbol: 'in', type: 'length', precision: 2, description: '英制长度单位', isActive: true },
+    { id: 'unit-023', name: '英尺', symbol: 'ft', type: 'length', precision: 2, description: '英制长度单位', isActive: true },
+    { id: 'unit-024', name: '分米', symbol: 'dm', type: 'length', precision: 2, description: '十分之一米', isActive: true },
+    { id: 'unit-025', name: '公里', symbol: 'km', type: 'length', precision: 3, description: '千米', isActive: true },
+    { id: 'unit-026', name: '码', symbol: 'yd', type: 'length', precision: 2, description: '英制长度单位', isActive: true },
+
+    // 体积单位
+    { id: 'unit-027', name: '毫升', symbol: 'ml', type: 'volume', precision: 2, description: '基本体积单位', isActive: true },
+    { id: 'unit-028', name: '升', symbol: 'L', type: 'volume', precision: 3, description: '标准体积单位', isActive: true },
+    { id: 'unit-029', name: '立方厘米', symbol: 'cm³', type: 'volume', precision: 2, description: '立方体积单位', isActive: true },
+    { id: 'unit-030', name: '立方米', symbol: 'm³', type: 'volume', precision: 3, description: '大体积单位', isActive: true },
+    { id: 'unit-031', name: '加仑', symbol: 'gal', type: 'volume', precision: 2, description: '英制体积单位', isActive: true },
+
+    // 面积单位
+    { id: 'unit-032', name: '平方厘米', symbol: 'cm²', type: 'area', precision: 2, description: '基本面积单位', isActive: true },
+    { id: 'unit-033', name: '平方米', symbol: 'm²', type: 'area', precision: 3, description: '标准面积单位', isActive: true },
+    { id: 'unit-034', name: '平方英寸', symbol: 'in²', type: 'area', precision: 2, description: '英制面积单位', isActive: true },
+    { id: 'unit-035', name: '平方英尺', symbol: 'ft²', type: 'area', precision: 2, description: '英制面积单位', isActive: true },
+
+    // 时间单位
+    { id: 'unit-036', name: '秒', symbol: 's', type: 'time', precision: 0, description: '基本时间单位', isActive: true },
+    { id: 'unit-037', name: '分钟', symbol: 'min', type: 'time', precision: 0, description: '60秒', isActive: true },
+    { id: 'unit-038', name: '小时', symbol: 'h', type: 'time', precision: 0, description: '60分钟', isActive: true },
+    { id: 'unit-039', name: '天', symbol: 'd', type: 'time', precision: 0, description: '24小时', isActive: true },
+    { id: 'unit-040', name: '月', symbol: 'month', type: 'time', precision: 0, description: '约30天', isActive: true },
+    { id: 'unit-041', name: '年', symbol: 'year', type: 'time', precision: 0, description: '12个月', isActive: true }
+  ];
+
+  const stmt = db.prepare(`
+    INSERT INTO units (id, name, symbol, type, precision, description, is_active, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+  `);
+
+  const insertMany = db.transaction((units) => {
+    for (const unit of units) {
+      stmt.run(unit.id, unit.name, unit.symbol, unit.type, unit.precision, unit.description, unit.isActive ? 1 : 0);
+    }
+  });
+
+  insertMany(units);
+  console.log(`导入了 ${units.length} 个单位数据`);
+}
+
+/**
+ * 导入分类数据
+ */
+async function importCategoriesData(db) {
+  const categories = [
+    { id: 'cat-001', name: '电子产品', description: '电子设备和配件', parentId: null, isActive: true },
+    { id: 'cat-002', name: '手机', description: '智能手机和配件', parentId: 'cat-001', isActive: true },
+    { id: 'cat-003', name: '电脑', description: '台式机和笔记本电脑', parentId: 'cat-001', isActive: true },
+    { id: 'cat-004', name: '家用电器', description: '家庭电器设备', parentId: null, isActive: true },
+    { id: 'cat-005', name: '厨房电器', description: '厨房用电器', parentId: 'cat-004', isActive: true },
+    { id: 'cat-006', name: '清洁电器', description: '清洁用电器', parentId: 'cat-004', isActive: true },
+    { id: 'cat-007', name: '服装鞋帽', description: '服装和鞋帽类商品', parentId: null, isActive: true },
+    { id: 'cat-008', name: '男装', description: '男性服装', parentId: 'cat-007', isActive: true },
+    { id: 'cat-009', name: '女装', description: '女性服装', parentId: 'cat-007', isActive: true },
+    { id: 'cat-010', name: '食品饮料', description: '食品和饮料类商品', parentId: null, isActive: true }
+  ];
+
+  const stmt = db.prepare(`
+    INSERT INTO categories (id, name, description, parent_id, is_active, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+  `);
+
+  const insertMany = db.transaction((categories) => {
+    for (const category of categories) {
+      stmt.run(category.id, category.name, category.description, category.parentId, category.isActive ? 1 : 0);
+    }
+  });
+
+  insertMany(categories);
+  console.log(`导入了 ${categories.length} 个分类数据`);
+}
+
+/**
+ * 导入供应商数据
+ */
+async function importSuppliersData(db) {
+  const suppliers = [
+    { id: 'sup-001', name: '华为技术有限公司', contactPerson: '张经理', phone: '010-12345678', email: 'zhang@huawei.com', address: '深圳市龙岗区', isActive: true },
+    { id: 'sup-002', name: '小米科技有限公司', contactPerson: '李经理', phone: '010-87654321', email: 'li@xiaomi.com', address: '北京市海淀区', isActive: true },
+    { id: 'sup-003', name: '美的集团股份有限公司', contactPerson: '王经理', phone: '0757-12345678', email: 'wang@midea.com', address: '佛山市顺德区', isActive: true },
+    { id: 'sup-004', name: '海尔智家股份有限公司', contactPerson: '赵经理', phone: '0532-87654321', email: 'zhao@haier.com', address: '青岛市崂山区', isActive: true },
+    { id: 'sup-005', name: '格力电器股份有限公司', contactPerson: '刘经理', phone: '0756-12345678', email: 'liu@gree.com', address: '珠海市香洲区', isActive: true }
+  ];
+
+  const stmt = db.prepare(`
+    INSERT INTO suppliers (id, name, contact_person, phone, email, address, is_active, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+  `);
+
+  const insertMany = db.transaction((suppliers) => {
+    for (const supplier of suppliers) {
+      stmt.run(supplier.id, supplier.name, supplier.contactPerson, supplier.phone, supplier.email, supplier.address, supplier.isActive ? 1 : 0);
+    }
+  });
+
+  insertMany(suppliers);
+  console.log(`导入了 ${suppliers.length} 个供应商数据`);
+}
+
+/**
+ * 导入仓库数据
+ */
+async function importWarehousesData(db) {
+  const warehouses = [
+    { id: 'wh-001', code: 'WH001', name: '主仓库', location: '北京市朝阳区工业园区A座', type: 'main', capacity: 10000, isActive: true },
+    { id: 'wh-002', code: 'WH002', name: '分仓库A', location: '上海市浦东新区物流园B区', type: 'branch', capacity: 5000, isActive: true },
+    { id: 'wh-003', code: 'WH003', name: '分仓库B', location: '广州市天河区仓储中心C栋', type: 'branch', capacity: 3000, isActive: true },
+    { id: 'wh-004', code: 'WH004', name: '临时仓库', location: '深圳市南山区临时存储点', type: 'temporary', capacity: 1000, isActive: true }
+  ];
+
+  const stmt = db.prepare(`
+    INSERT INTO warehouses (id, code, name, location, type, capacity, is_active, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+  `);
+
+  const insertMany = db.transaction((warehouses) => {
+    for (const warehouse of warehouses) {
+      stmt.run(warehouse.id, warehouse.code, warehouse.name, warehouse.location, warehouse.type, warehouse.capacity, warehouse.isActive ? 1 : 0);
+    }
+  });
+
+  insertMany(warehouses);
+  console.log(`导入了 ${warehouses.length} 个仓库数据`);
+}
+
+/**
+ * 导入全局转换规则数据
+ */
+async function importGlobalConversionRulesData(db) {
+  const conversionRules = [
+    // 数量转换
+    { id: 'rule-001', fromUnitId: 'unit-011', toUnitId: 'unit-001', factor: 12, description: '1打=12个' },
+    { id: 'rule-002', fromUnitId: 'unit-012', toUnitId: 'unit-001', factor: 2, description: '1对=2个' },
+    { id: 'rule-003', fromUnitId: 'unit-005', toUnitId: 'unit-001', factor: 24, description: '1箱=24个' },
+    { id: 'rule-004', fromUnitId: 'unit-004', toUnitId: 'unit-001', factor: 12, description: '1包=12个' },
+
+    // 重量转换
+    { id: 'rule-005', fromUnitId: 'unit-014', toUnitId: 'unit-013', factor: 1000, description: '1千克=1000克' },
+    { id: 'rule-006', fromUnitId: 'unit-015', toUnitId: 'unit-014', factor: 1000, description: '1吨=1000千克' },
+    { id: 'rule-007', fromUnitId: 'unit-016', toUnitId: 'unit-013', factor: 453.592, description: '1磅=453.592克' },
+    { id: 'rule-008', fromUnitId: 'unit-018', toUnitId: 'unit-013', factor: 500, description: '1斤=500克' },
+    { id: 'rule-009', fromUnitId: 'unit-017', toUnitId: 'unit-013', factor: 50, description: '1两=50克' },
+
+    // 长度转换
+    { id: 'rule-010', fromUnitId: 'unit-020', toUnitId: 'unit-019', factor: 100, description: '1米=100厘米' },
+    { id: 'rule-011', fromUnitId: 'unit-019', toUnitId: 'unit-021', factor: 10, description: '1厘米=10毫米' },
+    { id: 'rule-012', fromUnitId: 'unit-024', toUnitId: 'unit-019', factor: 10, description: '1分米=10厘米' },
+    { id: 'rule-013', fromUnitId: 'unit-025', toUnitId: 'unit-020', factor: 1000, description: '1公里=1000米' },
+    { id: 'rule-014', fromUnitId: 'unit-022', toUnitId: 'unit-019', factor: 2.54, description: '1英寸=2.54厘米' },
+    { id: 'rule-015', fromUnitId: 'unit-023', toUnitId: 'unit-022', factor: 12, description: '1英尺=12英寸' },
+    { id: 'rule-016', fromUnitId: 'unit-026', toUnitId: 'unit-023', factor: 3, description: '1码=3英尺' },
+
+    // 体积转换
+    { id: 'rule-017', fromUnitId: 'unit-028', toUnitId: 'unit-027', factor: 1000, description: '1升=1000毫升' },
+    { id: 'rule-018', fromUnitId: 'unit-029', toUnitId: 'unit-027', factor: 1, description: '1立方厘米=1毫升' },
+    { id: 'rule-019', fromUnitId: 'unit-030', toUnitId: 'unit-028', factor: 1000, description: '1立方米=1000升' },
+    { id: 'rule-020', fromUnitId: 'unit-031', toUnitId: 'unit-028', factor: 3.78541, description: '1加仑=3.78541升' },
+
+    // 面积转换
+    { id: 'rule-021', fromUnitId: 'unit-033', toUnitId: 'unit-032', factor: 10000, description: '1平方米=10000平方厘米' },
+    { id: 'rule-022', fromUnitId: 'unit-034', toUnitId: 'unit-032', factor: 6.4516, description: '1平方英寸=6.4516平方厘米' },
+    { id: 'rule-023', fromUnitId: 'unit-035', toUnitId: 'unit-034', factor: 144, description: '1平方英尺=144平方英寸' },
+
+    // 时间转换
+    { id: 'rule-024', fromUnitId: 'unit-037', toUnitId: 'unit-036', factor: 60, description: '1分钟=60秒' },
+    { id: 'rule-025', fromUnitId: 'unit-038', toUnitId: 'unit-037', factor: 60, description: '1小时=60分钟' },
+    { id: 'rule-026', fromUnitId: 'unit-039', toUnitId: 'unit-038', factor: 24, description: '1天=24小时' },
+    { id: 'rule-027', fromUnitId: 'unit-040', toUnitId: 'unit-039', factor: 30, description: '1月=30天' },
+    { id: 'rule-028', fromUnitId: 'unit-041', toUnitId: 'unit-040', factor: 12, description: '1年=12月' }
+  ];
+
+  const stmt = db.prepare(`
+    INSERT INTO global_conversion_rules (id, from_unit_id, to_unit_id, factor, description, is_active, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, 1, datetime('now'), datetime('now'))
+  `);
+
+  const insertMany = db.transaction((rules) => {
+    for (const rule of rules) {
+      stmt.run(rule.id, rule.fromUnitId, rule.toUnitId, rule.factor, rule.description);
+    }
+  });
+
+  insertMany(conversionRules);
+  console.log(`导入了 ${conversionRules.length} 个转换规则数据`);
 }
 
 module.exports = {

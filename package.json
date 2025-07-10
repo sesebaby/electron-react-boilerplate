@@ -15,7 +15,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "cleanup-data": "ts-node scripts/cleanup-data.ts",
-    "test-data-flow": "ts-node scripts/test-data-flow.ts"
+    "test-data-flow": "ts-node scripts/test-data-flow.ts",
+    "reset-db": "node simple-reset.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.53.2",
