@@ -10,6 +10,14 @@ export class UserService {
   private emailIndex: Map<string, string> = new Map(); // email -> ID mapping
   private phoneIndex: Map<string, string> = new Map(); // phone -> ID mapping
   private currentUser: User | null = null;
+  private database?: any; // 注入的数据库实例
+
+  /**
+   * 设置数据库依赖（简化的依赖注入）
+   */
+  setDatabase(database: any): void {
+    this.database = database;
+  }
 
   async initialize(): Promise<void> {
     // 检查是否已存在管理员账户，如果没有则创建默认管理员

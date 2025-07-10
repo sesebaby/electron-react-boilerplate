@@ -162,10 +162,10 @@ export class DailyConsumptionService {
 
       // 构建分类映射
       const categoryMap = new Map<string, Category>();
-      allCategories.forEach(cat => categoryMap.set(cat.id, cat));
+      allCategories.forEach((cat: Category) => categoryMap.set(cat.id, cat));
 
       const productMap = new Map<string, Product>();
-      allProducts.forEach(prod => productMap.set(prod.id, prod));
+      allProducts.forEach((prod: Product) => productMap.set(prod.id, prod));
 
       // 按产品分组事务
       const transactionsByProduct = new Map<string, InventoryTransaction[]>();
@@ -178,7 +178,7 @@ export class DailyConsumptionService {
 
       // 按分类分组产品
       const productsByCategory = new Map<string, Product[]>();
-      allProducts.forEach(product => {
+      allProducts.forEach((product: Product) => {
         if (!productsByCategory.has(product.categoryId)) {
           productsByCategory.set(product.categoryId, []);
         }
@@ -195,7 +195,7 @@ export class DailyConsumptionService {
       const categoryRows: CategoryRowData[] = [];
 
       // 获取根分类
-      const rootCategories = allCategories.filter(cat => !cat.parentId);
+      const rootCategories = allCategories.filter((cat: Category) => !cat.parentId);
 
       for (const category of rootCategories) {
         const categoryRow = await this.buildCategoryRow(

@@ -1,17 +1,32 @@
 import { Supplier, SupplierStatus, SupplierRating } from '../../types/entities';
 import { SupplierSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
-import electronDatabase from '../database/electronDatabase';
+import { ElectronDatabase } from '../database/electronDatabase';
 
 export class SupplierService {
   private suppliers: Map<string, Supplier> = new Map();
   private codeIndex: Map<string, string> = new Map(); // Code -> ID mapping
+  private database?: ElectronDatabase; // 注入的数据库实例
+
+  /**
+   * 设置数据库依赖
+   */
+  setDatabase(database: ElectronDatabase): void {
+    this.database = database;
+  }
 
   async initialize(): Promise<void> {
     console.log('Supplier service initializing...');
     try {
       // 从数据库加载供应商数据
-      const dbSuppliers = await electronDatabase.getAllSuppliers();
+      let dbSuppliers: any[] = [];
+      if (this.database) {
+        try {
+          dbSuppliers = await this.database.getAllSuppliers();
+        } catch (error) {
+          console.warn('Failed to load suppliers from database, using empty data:', error);
+        }
+      }
       console.log('Loaded suppliers from database:', dbSuppliers.length);
       
       // 转换数据库数据到内存存储
@@ -315,4 +330,5 @@ export class SupplierService {
   }
 }
 
-export default new SupplierService();
+// 移除模块级别的单例导出，改为通过容器管理
+// export default new SupplierService();

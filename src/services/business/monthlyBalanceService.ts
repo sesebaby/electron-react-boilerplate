@@ -19,8 +19,8 @@ import { InventoryBatch, BatchStatus } from '../../types/fifo';
 import { Product, Category, Unit, Warehouse } from '../../types/entities';
 import fifoInventoryService from './fifoInventoryService';
 import productService from './productService';
-import categoryService from './categoryService';
-import unitService from './unitService';
+import { getGlobalServices } from '../container/containerConfig';
+import { unitService } from './index';
 import { warehouseService } from './warehouseService';
 import { logger } from '../../utils/logger';
 import { ConcurrencyManager } from '../../utils/concurrency';
@@ -888,7 +888,8 @@ export class MonthlyBalanceService {
    * 获取所有分类
    */
   private async getAllCategories(): Promise<Category[]> {
-    return await categoryService.findAll();
+    const services = await getGlobalServices();
+    return await services.categoryService.findAll();
   }
 
   /**

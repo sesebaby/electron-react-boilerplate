@@ -1,13 +1,21 @@
 import { Unit } from '../../types/entities';
 import { UnitSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
-import electronDatabase from '../database/electronDatabase';
+// ElectronDatabase class import removed - now using dependency injection
 
 export class UnitService {
   private units: Map<string, Unit> = new Map();
   private symbolIndex: Map<string, string> = new Map(); // Symbol -> ID mapping
   private nameIndex: Map<string, string> = new Map(); // Name -> ID mapping
   private isInitialized: boolean = false; // 新增状态标记
+  private database?: any; // 注入的数据库实例
+
+  /**
+   * 设置数据库依赖（简化的依赖注入）
+   */
+  setDatabase(database: any): void {
+    this.database = database;
+  }
 
   async initialize(): Promise<void> {
     console.log('Unit service initializing...');
@@ -36,8 +44,12 @@ export class UnitService {
   }
 
   private async loadUnitsFromDatabase(): Promise<void> {
+    if (!this.database) {
+      throw new Error('Database not injected');
+    }
+    
     try {
-      const units = await electronDatabase.getAllUnits();
+      const units = await this.database.getAllUnits();
       
       for (const unit of units) {
         this.units.set(unit.id, unit);
@@ -107,8 +119,12 @@ export class UnitService {
     }
 
     // 持久化到数据库
+    if (!this.database) {
+      throw new Error('Database not injected');
+    }
+    
     try {
-      await electronDatabase.createUnit({
+      await this.database.createUnit({
         name: unit.name,
         symbol: unit.symbol,
         type: unit.type,
@@ -162,8 +178,12 @@ export class UnitService {
     }
 
     // 持久化到数据库
+    if (!this.database) {
+      throw new Error('Database not injected');
+    }
+    
     try {
-      await electronDatabase.updateUnit(id, {
+      await this.database.updateUnit(id, {
         name: updatedUnit.name,
         symbol: updatedUnit.symbol,
         type: updatedUnit.type,
@@ -202,8 +222,12 @@ export class UnitService {
     // 这里需要与ProductService配合检查
 
     // 从数据库删除
+    if (!this.database) {
+      throw new Error('Database not injected');
+    }
+    
     try {
-      await electronDatabase.deleteUnit(id);
+      await this.database.deleteUnit(id);
     } catch (error) {
       console.error('Failed to delete unit from database:', error);
       throw new Error(`删除单位数据库失败: ${error instanceof Error ? error.message : '未知错误'}`);
@@ -325,4 +349,5 @@ export class UnitService {
   }
 }
 
-export default new UnitService();
+// 移除所有导出以避免与容器配置冲突
+// UnitService 现在只通过依赖注入容器提供

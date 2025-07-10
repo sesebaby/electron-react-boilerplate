@@ -11,7 +11,7 @@ import {
 } from '../../types/entities';
 import { ProductSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
-import electronDatabase from '../database/electronDatabase';
+// import electronDatabase from '../database/electronDatabase'; // 移除直接导入，改用依赖注入
 import { PaginatedResult, PaginationParams, BatchOperationResult } from '../interfaces/IBusinessService';
 // 使用从接口导入的类型
 type ProductInventoryInfo = {
@@ -94,9 +94,17 @@ export class ProductService implements IBusinessService {
   private initialized = false;
 
   // 依赖注入的服务
+  private database?: any; // 注入的数据库实例
   private categoryService?: ICategoryService;
   private unitService?: IUnitService;
   private permissionChecker?: IPermissionChecker;
+
+  /**
+   * 设置数据库依赖（简化的依赖注入）
+   */
+  setDatabase(database: any): void {
+    this.database = database;
+  }
 
   // ==================== 依赖注入 ====================
 
@@ -136,7 +144,10 @@ export class ProductService implements IBusinessService {
     
     try {
       // 从数据库加载产品数据
-      const dbItems = await electronDatabase.getAllItems();
+      if (!this.database) {
+        throw new Error('Database not injected');
+      }
+      const dbItems = await this.database.getAllItems();
       console.log(`Loaded ${dbItems.length} products from database`);
       
       // 转换并缓存数据
@@ -287,7 +298,10 @@ export class ProductService implements IBusinessService {
 
       try {
         // 保存到数据库 - 映射到InventoryItem格式
-        const result = await electronDatabase.createItem({
+        if (!this.database) {
+          throw new Error('Database not injected');
+        }
+        const result = await this.database.createItem({
           name: product.name,
           description: product.description || '',
           sku: product.sku,
@@ -359,7 +373,10 @@ export class ProductService implements IBusinessService {
 
     try {
       // 更新数据库 - 映射到InventoryItem格式
-      const result = await electronDatabase.updateItem(id, {
+      if (!this.database) {
+        throw new Error('Database not injected');
+      }
+      const result = await this.database.updateItem(id, {
         name: updatedProduct.name,
         description: updatedProduct.description,
         sku: updatedProduct.sku,
@@ -402,7 +419,10 @@ export class ProductService implements IBusinessService {
 
     try {
       // 从数据库删除
-      const result = await electronDatabase.deleteItem(id);
+      if (!this.database) {
+        throw new Error('Database not injected');
+      }
+      const result = await this.database.deleteItem(id);
       if (!result) {
         throw new Error('删除产品失败');
       }

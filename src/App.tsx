@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { AppLayout } from './components/Layout/AppLayout';
 import PageContainer from './components/PageContainer';
-import { businessServiceManager } from './services/business';
-import { dataInitializer } from './services/dataInitializer';
-// testDataInitializer removed - using database mock data instead
+import { simpleServiceManager } from './services/SimpleServiceManager';
+// 移除复杂的依赖注入系统导入
+// import { getGlobalContainer } from './services/container/containerConfig';
+// import { dataInitializer } from './services/dataInitializer';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import GlobalDialogProvider from './components/providers/GlobalDialogProvider';
 import { AuthProvider } from './hooks/useAuth';
@@ -43,29 +44,15 @@ const App: React.FC = () => {
     // 监听哈希变化
     window.addEventListener('hashchange', handleHashChange);
 
-    // 初始化系统和数据
+    // 简化的系统初始化
     const initSystem = async () => {
       try {
-        // 首先初始化数据库
-        console.log('Initializing database...');
-        if (window.electronAPI) {
-          // 使用 electronDatabase 服务进行初始化
-          const { default: electronDatabase } = await import('./services/database/electronDatabase');
-          await electronDatabase.initialize();
-          console.log('Database initialized successfully');
-        }
+        console.log('开始初始化系统...');
 
-        // 然后初始化业务服务（会从数据库加载数据）
-        console.log('Initializing business services...');
-        await businessServiceManager.initialize();
+        // 使用简化的服务管理器进行初始化
+        await simpleServiceManager.initialize();
 
-        // 最后初始化其他数据
-        console.log('Initializing additional data...');
-        await dataInitializer.initializeData();
-
-        // TODO: 初始化库存卡片视图测试数据（暂时禁用）
-        // await testDataInitializer.initializeInventoryCardTestData();
-
+        console.log('系统初始化完成');
         setIsLoading(false);
       } catch (error) {
         console.error('系统初始化失败:', error);

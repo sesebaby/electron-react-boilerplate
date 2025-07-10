@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import monthlyBalanceService from '../../services/business/monthlyBalanceService';
 import { warehouseService } from '../../services/business/warehouseService';
-import categoryService from '../../services/business/categoryService';
+import { getGlobalServices } from '../../services/container/containerConfig';
 import { 
   MonthlyBalance, 
   MonthlyBalanceQueryParams, 
@@ -39,11 +39,12 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
 
   const loadFormData = async () => {
     try {
+      const services = await getGlobalServices();
       const [warehouseList, categoryList] = await Promise.all([
         warehouseService.findAll(),
-        categoryService.findAll()
+        services.categoryService.findAll()
       ]);
-      
+
       setWarehouses(warehouseList);
       setCategories(categoryList);
     } catch (err) {

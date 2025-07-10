@@ -2,7 +2,7 @@ import { PurchaseReceipt, PurchaseReceiptItem, ReceiptStatus } from '../../types
 import { v4 as uuidv4 } from 'uuid';
 import { logger } from '../../utils/secureLogger';
 import purchaseOrderService from './purchaseOrderService';
-import supplierService from './supplierService';
+import { getGlobalServices } from '../container/containerConfig';
 import { warehouseService } from './warehouseService';
 import productService from './productService';
 import { inventoryStockService } from './inventoryStockService';
@@ -100,7 +100,8 @@ export class PurchaseReceiptService {
     }
 
     // 验证供应商是否存在
-    const supplier = await supplierService.findById(data.supplierId);
+    const services = await getGlobalServices();
+    const supplier = await (services.supplierService as any).findById(data.supplierId);
     if (!supplier) {
       throw new Error(`供应商不存在: ${data.supplierId}`);
     }
@@ -411,8 +412,9 @@ export class PurchaseReceiptService {
 
   private async loadReceiptRelations(receipt: PurchaseReceipt): Promise<void> {
     // 加载关联数据
+    const services = await getGlobalServices();
     receipt.order = await purchaseOrderService.findById(receipt.orderId) || undefined;
-    receipt.supplier = await supplierService.findById(receipt.supplierId) || undefined;
+    receipt.supplier = await (services.supplierService as any).findById(receipt.supplierId) || undefined;
     receipt.warehouse = await warehouseService.findById(receipt.warehouseId) || undefined;
     receipt.items = await this.getReceiptItems(receipt.id);
   }

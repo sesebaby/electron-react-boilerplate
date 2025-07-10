@@ -6,7 +6,7 @@
 
 import { InventoryStock, InventoryTransaction, TransactionType, StockTransaction } from '../../types/entities';
 import { v4 as uuidv4 } from 'uuid';
-import electronDatabase from '../database/electronDatabase';
+// import electronDatabase from '../database/electronDatabase'; // 移除直接导入，改用依赖注入
 import { 
   IInventoryService,
   InventoryFilter,
@@ -34,10 +34,18 @@ export class InventoryStockService implements IInventoryService, IBusinessServic
   private initialized = false;
 
   // 依赖注入的服务
+  private database?: any; // 注入的数据库实例
   private productService?: IProductService;
   private warehouseService?: IWarehouseService;
 
   // ==================== 依赖注入 ====================
+
+  /**
+   * 设置数据库依赖（简化的依赖注入）
+   */
+  setDatabase(database: any): void {
+    this.database = database;
+  }
 
   /**
    * 注入产品服务

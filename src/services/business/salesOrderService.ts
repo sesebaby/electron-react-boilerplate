@@ -15,6 +15,14 @@ export class SalesOrderService {
   private orderItems: Map<string, SalesOrderItem> = new Map();
   private orderNoIndex: Map<string, string> = new Map(); // OrderNo -> ID mapping
   private orderItemsByOrder: Map<string, string[]> = new Map(); // OrderID -> ItemIDs
+  private database?: any; // 注入的数据库实例
+
+  /**
+   * 设置数据库依赖（简化的依赖注入）
+   */
+  setDatabase(database: any): void {
+    this.database = database;
+  }
 
   async initialize(): Promise<void> {
     logger.info('Sales order service initialized');

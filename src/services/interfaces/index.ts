@@ -60,6 +60,7 @@ export const SERVICE_TOKENS = {
   LoggingService: Symbol('LoggingService'),
   ConfigService: Symbol('ConfigService'),
   DatabaseService: Symbol('DatabaseService'),
+  ElectronDatabase: Symbol('ElectronDatabase'),
   
   // 应用服务
   DashboardService: Symbol('DashboardService'),
@@ -77,6 +78,7 @@ export interface ServiceInterfaceMap {
   [SERVICE_TOKENS.UnitService]: import('./IUnitService').IUnitService;
   [SERVICE_TOKENS.WarehouseService]: import('./IWarehouseService').IWarehouseService;
   [SERVICE_TOKENS.ProductService]: import('./IProductService').IProductService;
+  [SERVICE_TOKENS.ElectronDatabase]: import('../database/electronDatabase').ElectronDatabase;
   [SERVICE_TOKENS.InventoryService]: import('./IInventoryService').IInventoryService;
   [SERVICE_TOKENS.InventoryStockService]: import('./IInventoryService').IInventoryService;
   [SERVICE_TOKENS.PurchaseOrderService]: import('./IOrderService').IPurchaseOrderService;
@@ -259,6 +261,11 @@ export interface ServiceRegistrationConfig {
 export const SERVICE_CONFIGS: ServiceRegistrationConfig[] = [
   // 基础服务
   {
+    token: SERVICE_TOKENS.ElectronDatabase,
+    layer: 'FOUNDATION',
+    scope: 'singleton'
+  },
+  {
     token: SERVICE_TOKENS.CategoryService,
     layer: 'FOUNDATION',
     scope: 'singleton'
@@ -266,6 +273,7 @@ export const SERVICE_CONFIGS: ServiceRegistrationConfig[] = [
   {
     token: SERVICE_TOKENS.UnitService,
     layer: 'FOUNDATION',
+    dependencies: [SERVICE_TOKENS.ElectronDatabase],
     scope: 'singleton'
   },
   {

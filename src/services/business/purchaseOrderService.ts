@@ -1,7 +1,7 @@
 import { PurchaseOrder, PurchaseOrderItem, PurchaseOrderStatus, OrderItemStatus } from '../../types/entities';
 import { PurchaseOrderSchema, PurchaseOrderItemSchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
-import supplierService from './supplierService';
+// import { getGlobalServices } from '../container/containerConfig'; // 移除复杂的依赖注入导入
 import productService from './productService';
 import accountsPayableService from './accountsPayableService';
 import { notificationHelper } from '../../utils/notificationHelper';
@@ -11,6 +11,14 @@ export class PurchaseOrderService {
   private orderItems: Map<string, PurchaseOrderItem> = new Map();
   private orderNoIndex: Map<string, string> = new Map(); // OrderNo -> ID mapping
   private orderItemsByOrder: Map<string, string[]> = new Map(); // OrderID -> ItemIDs
+  private database?: any; // 注入的数据库实例
+
+  /**
+   * 设置数据库依赖（简化的依赖注入）
+   */
+  setDatabase(database: any): void {
+    this.database = database;
+  }
 
   async initialize(): Promise<void> {
     console.log('Purchase order service initialized');
@@ -81,7 +89,8 @@ export class PurchaseOrderService {
 
   async create(data: Omit<PurchaseOrder, 'id' | 'orderNo' | 'totalAmount' | 'finalAmount' | 'createdAt' | 'updatedAt'>): Promise<PurchaseOrder> {
     // 验证供应商是否存在
-    const supplier = await supplierService.findById(data.supplierId);
+    const services = await getGlobalServices();
+    const supplier = await (services.supplierService as any).findById(data.supplierId);
     if (!supplier) {
       throw new Error(`供应商不存在: ${data.supplierId}`);
     }
@@ -317,8 +326,9 @@ export class PurchaseOrderService {
 
   private async loadOrderRelations(order: PurchaseOrder): Promise<void> {
     // 加载供应商信息
-    order.supplier = await supplierService.findById(order.supplierId) || undefined;
-    
+    const services = await getGlobalServices();
+    order.supplier = await (services.supplierService as any).findById(order.supplierId) || undefined;
+
     // 加载订单项目
     order.items = await this.getOrderItems(order.id);
   }

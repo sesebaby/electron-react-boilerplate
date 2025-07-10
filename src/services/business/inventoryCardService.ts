@@ -2,7 +2,7 @@ import { WarehouseCardData, ProductStockInfo } from '../../types/inventoryCard';
 import { warehouseService } from './warehouseService';
 import productService from './productService';
 import inventoryStockService from './inventoryStockService';
-import categoryService from './categoryService';
+import { getGlobalServices } from '../container/containerConfig';
 
 /**
  * 库存卡片视图数据服务

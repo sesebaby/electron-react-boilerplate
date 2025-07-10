@@ -1,7 +1,7 @@
-import { businessServiceManager } from '../business';
+import { businessServiceManager, getGlobalServices } from '../business';
 import {
   // productService,  // 暂时注释掉
-  categoryService,
+  // categoryService,  // 改为使用 getGlobalServices
   unitService,
   warehouseService,
   // inventoryStockService,  // 暂时注释掉
@@ -176,12 +176,13 @@ export class DashboardService {
 
   async getChartData(): Promise<DashboardChartData> {
     // 暂时只获取基础服务的统计信息
+    const services = await getGlobalServices();
     const [
       categories,
       supplierStats,
       customerStats
     ] = await Promise.all([
-      categoryService.findAll(),
+      (services.categoryService as any).findAll(),
       supplierService.getSupplierStats(),
       customerService.getCustomerStats()
     ]);

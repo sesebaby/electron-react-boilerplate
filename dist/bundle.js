@@ -57173,7 +57173,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_Layout_AppLayout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Layout/AppLayout */ "./src/components/Layout/AppLayout.tsx");
 /* harmony import */ var _components_PageContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/PageContainer */ "./src/components/PageContainer.tsx");
-/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/business */ "./src/services/business/index.ts");
+/* harmony import */ var _services_container_containerConfig__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/container/containerConfig */ "./src/services/container/containerConfig.ts");
 /* harmony import */ var _services_dataInitializer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/dataInitializer */ "./src/services/dataInitializer.ts");
 /* harmony import */ var _components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/ErrorBoundary */ "./src/components/ErrorBoundary.tsx");
 /* harmony import */ var _components_providers_GlobalDialogProvider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/providers/GlobalDialogProvider */ "./src/components/providers/GlobalDialogProvider.tsx");
@@ -57244,7 +57244,7 @@ const App = () => {
                 }
                 // 然后初始化业务服务（会从数据库加载数据）
                 console.log('Initializing business services...');
-                yield _services_business__WEBPACK_IMPORTED_MODULE_4__.businessServiceManager.initialize();
+                yield (0,_services_container_containerConfig__WEBPACK_IMPORTED_MODULE_4__.getGlobalContainer)();
                 // 最后初始化其他数据
                 console.log('Initializing additional data...');
                 yield _services_dataInitializer__WEBPACK_IMPORTED_MODULE_5__.dataInitializer.initializeData();
@@ -76156,8 +76156,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inventoryStockService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./inventoryStockService */ "./src/services/business/inventoryStockService.ts");
 /* harmony import */ var _accountsPayableService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./accountsPayableService */ "./src/services/business/accountsPayableService.ts");
 /* harmony import */ var _accountsReceivableService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./accountsReceivableService */ "./src/services/business/accountsReceivableService.ts");
-/* harmony import */ var _unitService__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./unitService */ "./src/services/business/unitService.ts");
-/* harmony import */ var _warehouseService__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./warehouseService */ "./src/services/business/warehouseService.ts");
+/* harmony import */ var _warehouseService__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./warehouseService */ "./src/services/business/warehouseService.ts");
 /**
  * 业务服务层 - 统一入口
  *
@@ -76242,26 +76241,165 @@ const accountsReceivableServiceOverrides = {
 const accountsPayableService = Object.assign({}, _accountsPayableService__WEBPACK_IMPORTED_MODULE_5__.accountsPayableService, accountsPayableServiceOverrides);
 const accountsReceivableService = Object.assign({}, _accountsReceivableService__WEBPACK_IMPORTED_MODULE_6__.accountsReceivableService, accountsReceivableServiceOverrides);
 // 注意：服务的具体实现在文件末尾
-// 导入真实的服务实现
-
-// 确保unitService在导出前被初始化
-const initializeUnitService = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        console.log('Initializing unit service from business index...');
-        yield _unitService__WEBPACK_IMPORTED_MODULE_7__["default"].initialize();
+// 使用依赖注入容器的惰性加载 unitService
+// 惰性加载的 unitService 实例（通过 DI 容器）
+let _unitServiceInstance = null;
+const unitService = {
+    initialize() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // 这里不做任何事，因为 DI 容器会处理初始化
+            return Promise.resolve();
+        });
+    },
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.findAll();
+        });
+    },
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.findById(id);
+        });
+    },
+    findBySymbol(symbol) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.findBySymbol(symbol);
+        });
+    },
+    findByName(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.findByName(name);
+        });
+    },
+    search(searchTerm) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.search(searchTerm);
+        });
+    },
+    create(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.create(data);
+        });
+    },
+    update(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.update(id, data);
+        });
+    },
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.delete(id);
+        });
+    },
+    validateName(name, excludeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.validateName(name, excludeId);
+        });
+    },
+    validateSymbol(symbol, excludeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.validateSymbol(symbol, excludeId);
+        });
+    },
+    getCommonUnits() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.getCommonUnits();
+        });
+    },
+    getUnitsByPrecision(precision) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.getUnitsByPrecision(precision);
+        });
+    },
+    bulkCreate(units) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.bulkCreate(units);
+        });
+    },
+    getUnitStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.getUnitStats();
+        });
+    },
+    formatQuantity(quantity, unitId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.formatQuantity(quantity, unitId);
+        });
+    },
+    parseQuantity(quantityString) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!_unitServiceInstance) {
+                const services = yield (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
+                _unitServiceInstance = services.unitService;
+            }
+            return _unitServiceInstance.parseQuantity(quantityString);
+        });
     }
-    catch (error) {
-        console.warn('Unit service initialization failed in business index:', error);
-    }
-});
-// 立即调用初始化
-initializeUnitService();
-// 导出真实的 unitService 实例
-const unitService = _unitService__WEBPACK_IMPORTED_MODULE_7__["default"];
+};
 // 导入真实的 warehouseService 实例
 
 // 导出真实的 warehouseService 实例
-const warehouseService = _warehouseService__WEBPACK_IMPORTED_MODULE_8__.warehouseService;
+const warehouseService = _warehouseService__WEBPACK_IMPORTED_MODULE_7__.warehouseService;
 const supplierService = {
     findAll: () => __awaiter(void 0, void 0, void 0, function* () { return []; }),
     findById: (id) => __awaiter(void 0, void 0, void 0, function* () { return null; }),
@@ -76565,7 +76703,7 @@ class LegacyServiceAccessor {
     constructor() {
         this.servicesPromise = null;
     }
-    getServices() {
+    getGlobalServices() {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.servicesPromise) {
                 this.servicesPromise = (0,_container_containerConfig__WEBPACK_IMPORTED_MODULE_1__.getGlobalServices)();
@@ -76576,93 +76714,93 @@ class LegacyServiceAccessor {
     // 基础服务
     getCategoryService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.categoryService;
         });
     }
     getUnitService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.unitService;
         });
     }
     getWarehouseService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.warehouseService;
         });
     }
     getSupplierService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.supplierService;
         });
     }
     getCustomerService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.customerService;
         });
     }
     getUserService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.userService;
         });
     }
     // 业务服务
     getProductService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.productService;
         });
     }
     getInventoryService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.inventoryService;
         });
     }
     getPurchaseOrderService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.purchaseOrderService;
         });
     }
     getSalesOrderService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.salesOrderService;
         });
     }
     getPurchaseReceiptService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.purchaseReceiptService;
         });
     }
     getSalesDeliveryService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.salesDeliveryService;
         });
     }
     // 复合服务
     getAccountsPayableService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.accountsPayableService;
         });
     }
     getAccountsReceivableService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.accountsReceivableService;
         });
     }
     getPermissionService() {
         return __awaiter(this, void 0, void 0, function* () {
-            const services = yield this.getServices();
+            const services = yield this.getGlobalServices();
             return services.permissionService;
         });
     }
@@ -78295,7 +78433,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fifoInventoryService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fifoInventoryService */ "./src/services/business/fifoInventoryService.ts");
 /* harmony import */ var _productService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./productService */ "./src/services/business/productService.ts");
 /* harmony import */ var _categoryService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./categoryService */ "./src/services/business/categoryService.ts");
-/* harmony import */ var _unitService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./unitService */ "./src/services/business/unitService.ts");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./index */ "./src/services/business/index.ts");
 /* harmony import */ var _warehouseService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./warehouseService */ "./src/services/business/warehouseService.ts");
 /* harmony import */ var _utils_logger__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/logger */ "./src/utils/logger.ts");
 /* harmony import */ var _utils_concurrency__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utils/concurrency */ "./src/utils/concurrency.ts");
@@ -79072,7 +79210,7 @@ class MonthlyBalanceService {
      */
     getAllUnits() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield _unitService__WEBPACK_IMPORTED_MODULE_5__["default"].findAll();
+            return yield _index__WEBPACK_IMPORTED_MODULE_5__.unitService.findAll();
         });
     }
     /**
@@ -79893,341 +80031,6 @@ class ProductService {
 const productService = new ProductService();
 // 默认导出
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (productService);
-
-
-/***/ }),
-
-/***/ "./src/services/business/unitService.ts":
-/*!**********************************************!*\
-  !*** ./src/services/business/unitService.ts ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   UnitService: () => (/* binding */ UnitService),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _schemas_validation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../schemas/validation */ "./src/schemas/validation.ts");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
-/* harmony import */ var _database_electronDatabase__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../database/electronDatabase */ "./src/services/database/electronDatabase.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-
-class UnitService {
-    constructor() {
-        this.units = new Map();
-        this.symbolIndex = new Map(); // Symbol -> ID mapping
-        this.nameIndex = new Map(); // Name -> ID mapping
-        this.isInitialized = false; // 新增状态标记
-    }
-    initialize() {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('Unit service initializing...');
-            try {
-                yield this.loadUnitsFromDatabase();
-                this.isInitialized = true; // 设置初始化标记
-                console.log(`Unit service initialized with ${this.units.size} units`);
-            }
-            catch (error) {
-                console.error('Failed to load units from database:', error);
-                console.log('Unit service initialized with empty units (database not available)');
-                this.isInitialized = true; // 即使失败也标记为已初始化避免重复尝试
-            }
-        });
-    }
-    ensureInitialized() {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!this.isInitialized) {
-                try {
-                    yield this.loadUnitsFromDatabase();
-                    this.isInitialized = true;
-                    console.log(`Unit service lazy-initialized with ${this.units.size} units`);
-                }
-                catch (error) {
-                    console.error('Failed to lazy-initialize unit service:', error);
-                    this.isInitialized = true; // 标记为已尝试初始化
-                }
-            }
-        });
-    }
-    loadUnitsFromDatabase() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const units = yield _database_electronDatabase__WEBPACK_IMPORTED_MODULE_1__["default"].getAllUnits();
-                for (const unit of units) {
-                    this.units.set(unit.id, unit);
-                    this.nameIndex.set(unit.name, unit.id);
-                    this.symbolIndex.set(unit.symbol, unit.id);
-                }
-                console.log(`Loaded ${units.length} units from database`);
-            }
-            catch (error) {
-                console.error('Error loading units from database:', error);
-                throw error;
-            }
-        });
-    }
-    findAll() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // 防御性检查：如果内存为空且未初始化，则尝试初始化
-            if (this.units.size === 0 && !this.isInitialized) {
-                yield this.ensureInitialized();
-            }
-            return Array.from(this.units.values());
-        });
-    }
-    findById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.units.get(id) || null;
-        });
-    }
-    findBySymbol(symbol) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const id = this.symbolIndex.get(symbol);
-            return id ? this.units.get(id) || null : null;
-        });
-    }
-    findByName(name) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const id = this.nameIndex.get(name);
-            return id ? this.units.get(id) || null : null;
-        });
-    }
-    search(searchTerm) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const term = searchTerm.toLowerCase().trim();
-            if (!term)
-                return this.findAll();
-            return Array.from(this.units.values()).filter(unit => unit.name.toLowerCase().includes(term) ||
-                unit.symbol.toLowerCase().includes(term));
-        });
-    }
-    create(data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            var _a;
-            // 检查名称和符号的唯一性
-            if (this.nameIndex.has(data.name)) {
-                throw new Error(`单位名称已存在: ${data.name}`);
-            }
-            if (this.symbolIndex.has(data.symbol)) {
-                throw new Error(`单位符号已存在: ${data.symbol}`);
-            }
-            const unit = Object.assign(Object.assign({}, data), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_2__["default"])(), createdAt: new Date(), updatedAt: new Date() });
-            // 验证数据
-            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_0__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_0__.UnitSchema, unit);
-            if (!validation.success) {
-                throw new Error(`单位数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
-            }
-            // 持久化到数据库
-            try {
-                yield _database_electronDatabase__WEBPACK_IMPORTED_MODULE_1__["default"].createUnit({
-                    name: unit.name,
-                    symbol: unit.symbol,
-                    type: unit.type,
-                    precision: unit.precision,
-                    description: unit.description,
-                    isActive: unit.isActive
-                });
-            }
-            catch (error) {
-                console.error('Failed to save unit to database:', error);
-                throw new Error(`保存单位到数据库失败: ${error instanceof Error ? error.message : '未知错误'}`);
-            }
-            // 更新内存索引
-            this.units.set(unit.id, unit);
-            this.nameIndex.set(unit.name, unit.id);
-            this.symbolIndex.set(unit.symbol, unit.id);
-            return unit;
-        });
-    }
-    update(id, data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            var _a;
-            const existingUnit = this.units.get(id);
-            if (!existingUnit) {
-                throw new Error(`单位不存在: ${id}`);
-            }
-            // 检查名称唯一性（如果更新了名称）
-            if (data.name && data.name !== existingUnit.name) {
-                if (this.nameIndex.has(data.name)) {
-                    throw new Error(`单位名称已存在: ${data.name}`);
-                }
-            }
-            // 检查符号唯一性（如果更新了符号）
-            if (data.symbol && data.symbol !== existingUnit.symbol) {
-                if (this.symbolIndex.has(data.symbol)) {
-                    throw new Error(`单位符号已存在: ${data.symbol}`);
-                }
-            }
-            const updatedUnit = Object.assign(Object.assign(Object.assign({}, existingUnit), data), { updatedAt: new Date() });
-            // 验证更新后的数据
-            const validation = (0,_schemas_validation__WEBPACK_IMPORTED_MODULE_0__.validateEntity)(_schemas_validation__WEBPACK_IMPORTED_MODULE_0__.UnitSchema, updatedUnit);
-            if (!validation.success) {
-                throw new Error(`单位数据验证失败: ${(_a = validation.errors) === null || _a === void 0 ? void 0 : _a.join(', ')}`);
-            }
-            // 持久化到数据库
-            try {
-                yield _database_electronDatabase__WEBPACK_IMPORTED_MODULE_1__["default"].updateUnit(id, {
-                    name: updatedUnit.name,
-                    symbol: updatedUnit.symbol,
-                    type: updatedUnit.type,
-                    precision: updatedUnit.precision,
-                    description: updatedUnit.description,
-                    isActive: updatedUnit.isActive
-                });
-            }
-            catch (error) {
-                console.error('Failed to update unit in database:', error);
-                throw new Error(`更新单位数据库失败: ${error instanceof Error ? error.message : '未知错误'}`);
-            }
-            // 更新内存索引
-            if (data.name && data.name !== existingUnit.name) {
-                this.nameIndex.delete(existingUnit.name);
-                this.nameIndex.set(data.name, id);
-            }
-            if (data.symbol && data.symbol !== existingUnit.symbol) {
-                this.symbolIndex.delete(existingUnit.symbol);
-                this.symbolIndex.set(data.symbol, id);
-            }
-            this.units.set(id, updatedUnit);
-            return updatedUnit;
-        });
-    }
-    delete(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const unit = this.units.get(id);
-            if (!unit) {
-                return false;
-            }
-            // 检查是否有关联的产品
-            // TODO: 实现产品关联检查
-            // 这里需要与ProductService配合检查
-            // 从数据库删除
-            try {
-                yield _database_electronDatabase__WEBPACK_IMPORTED_MODULE_1__["default"].deleteUnit(id);
-            }
-            catch (error) {
-                console.error('Failed to delete unit from database:', error);
-                throw new Error(`删除单位数据库失败: ${error instanceof Error ? error.message : '未知错误'}`);
-            }
-            // 从内存删除
-            this.units.delete(id);
-            this.nameIndex.delete(unit.name);
-            this.symbolIndex.delete(unit.symbol);
-            return true;
-        });
-    }
-    validateName(name, excludeId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const existingId = this.nameIndex.get(name);
-            return !existingId || existingId === excludeId;
-        });
-    }
-    validateSymbol(symbol, excludeId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const existingId = this.symbolIndex.get(symbol);
-            return !existingId || existingId === excludeId;
-        });
-    }
-    getCommonUnits() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // 返回常用的计量单位
-            const commonSymbols = ['pcs', 'kg', 'g', 'L', 'ml', 'm', 'cm', 'box', 'pack'];
-            const commonUnits = [];
-            for (const symbol of commonSymbols) {
-                const unit = yield this.findBySymbol(symbol);
-                if (unit) {
-                    commonUnits.push(unit);
-                }
-            }
-            return commonUnits;
-        });
-    }
-    getUnitsByPrecision(precision) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return Array.from(this.units.values()).filter(unit => unit.precision === precision);
-        });
-    }
-    bulkCreate(units) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const created = [];
-            const errors = [];
-            for (let i = 0; i < units.length; i++) {
-                try {
-                    const unit = yield this.create(units[i]);
-                    created.push(unit);
-                }
-                catch (error) {
-                    errors.push({
-                        index: i,
-                        error: error instanceof Error ? error.message : '未知错误'
-                    });
-                }
-            }
-            return { created, errors };
-        });
-    }
-    getUnitStats() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const units = yield this.findAll();
-            const byPrecision = {};
-            units.forEach(unit => {
-                byPrecision[unit.precision] = (byPrecision[unit.precision] || 0) + 1;
-            });
-            const commonUnits = yield this.getCommonUnits();
-            return {
-                total: units.length,
-                byPrecision,
-                commonUnits: commonUnits.length
-            };
-        });
-    }
-    formatQuantity(quantity, unitId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const unit = yield this.findById(unitId);
-            if (!unit) {
-                return quantity.toString();
-            }
-            const formattedQuantity = quantity.toFixed(unit.precision);
-            return `${formattedQuantity} ${unit.symbol}`;
-        });
-    }
-    parseQuantity(quantityString) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const match = quantityString.trim().match(/^([\d.]+)\s*(.*)$/);
-            if (!match)
-                return null;
-            const quantity = parseFloat(match[1]);
-            if (isNaN(quantity))
-                return null;
-            const symbolOrName = match[2].trim();
-            if (!symbolOrName) {
-                return { quantity };
-            }
-            // 先尝试按符号查找，再按名称查找
-            let unit = yield this.findBySymbol(symbolOrName);
-            if (!unit) {
-                unit = yield this.findByName(symbolOrName);
-            }
-            return {
-                quantity,
-                unitId: unit === null || unit === void 0 ? void 0 : unit.id
-            };
-        });
-    }
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new UnitService());
 
 
 /***/ }),
@@ -81858,6 +81661,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _business_inventoryStockService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../business/inventoryStockService */ "./src/services/business/inventoryStockService.ts");
 /* harmony import */ var _business_accountsPayableService__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../business/accountsPayableService */ "./src/services/business/accountsPayableService.ts");
 /* harmony import */ var _business_accountsReceivableService__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../business/accountsReceivableService */ "./src/services/business/accountsReceivableService.ts");
+/* harmony import */ var _database_electronDatabase__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../database/electronDatabase */ "./src/services/database/electronDatabase.ts");
 /**
  * 服务容器配置
  *
@@ -81882,12 +81686,27 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
 /**
  * 配置服务容器
  */
 function configureContainer() {
     const container = new _ServiceContainer__WEBPACK_IMPORTED_MODULE_0__.ServiceContainer();
     // ==================== 基础服务注册 ====================
+    // 数据库服务
+    container.registerSingleton(_interfaces__WEBPACK_IMPORTED_MODULE_2__.SERVICE_TOKENS.ElectronDatabase, () => __awaiter(this, void 0, void 0, function* () {
+        yield _database_electronDatabase__WEBPACK_IMPORTED_MODULE_9__["default"].initialize();
+        return _database_electronDatabase__WEBPACK_IMPORTED_MODULE_9__["default"];
+    }), {
+        layer: _types__WEBPACK_IMPORTED_MODULE_1__.ServiceLayer.Foundation,
+        dependencies: [],
+        async: true,
+        metadata: {
+            name: 'ElectronDatabase',
+            description: '数据库服务',
+            version: '1.0.0'
+        }
+    });
     // 分类服务
     container.registerSingleton(_interfaces__WEBPACK_IMPORTED_MODULE_2__.SERVICE_TOKENS.CategoryService, () => new _business_categoryService__WEBPACK_IMPORTED_MODULE_4__.CategoryService(), {
         layer: _types__WEBPACK_IMPORTED_MODULE_1__.ServiceLayer.Foundation,
@@ -81899,18 +81718,26 @@ function configureContainer() {
             version: '1.0.0'
         }
     });
-    // 单位服务（暂时使用现有实现）
-    container.registerSingleton(_interfaces__WEBPACK_IMPORTED_MODULE_2__.SERVICE_TOKENS.UnitService, () => __awaiter(this, void 0, void 0, function* () {
-        const { default: unitService } = yield Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ../business/unitService */ "./src/services/business/unitService.ts"));
+    // 单位服务（使用依赖注入）
+    container.registerSingleton(_interfaces__WEBPACK_IMPORTED_MODULE_2__.SERVICE_TOKENS.UnitService, (c) => __awaiter(this, void 0, void 0, function* () {
+        const { UnitService } = yield __webpack_require__.e(/*! import() */ "src_services_business_unitService_ts").then(__webpack_require__.bind(__webpack_require__, /*! ../business/unitService */ "./src/services/business/unitService.ts"));
+        const database = yield c.resolveAsync(_interfaces__WEBPACK_IMPORTED_MODULE_2__.SERVICE_TOKENS.ElectronDatabase);
+        const unitService = new UnitService();
+        // 注入数据库依赖
+        unitService.database = database;
+        // 初始化服务
+        yield unitService.initialize();
         return unitService;
     }), {
         layer: _types__WEBPACK_IMPORTED_MODULE_1__.ServiceLayer.Foundation,
-        dependencies: [],
+        dependencies: [
+            { token: _interfaces__WEBPACK_IMPORTED_MODULE_2__.SERVICE_TOKENS.ElectronDatabase, optional: false }
+        ],
         async: true,
         metadata: {
             name: 'UnitService',
             description: '计量单位管理服务',
-            version: '1.0.0'
+            version: '2.0.0'
         }
     });
     // 仓库服务（暂时使用现有实现）
@@ -83926,6 +83753,7 @@ const SERVICE_TOKENS = {
     LoggingService: Symbol('LoggingService'),
     ConfigService: Symbol('ConfigService'),
     DatabaseService: Symbol('DatabaseService'),
+    ElectronDatabase: Symbol('ElectronDatabase'),
     // 应用服务
     DashboardService: Symbol('DashboardService'),
     ReportService: Symbol('ReportService'),
@@ -84064,6 +83892,11 @@ const CIRCULAR_DEPENDENCY_SOLUTIONS = {
 const SERVICE_CONFIGS = [
     // 基础服务
     {
+        token: SERVICE_TOKENS.ElectronDatabase,
+        layer: 'FOUNDATION',
+        scope: 'singleton'
+    },
+    {
         token: SERVICE_TOKENS.CategoryService,
         layer: 'FOUNDATION',
         scope: 'singleton'
@@ -84071,6 +83904,7 @@ const SERVICE_CONFIGS = [
     {
         token: SERVICE_TOKENS.UnitService,
         layer: 'FOUNDATION',
+        dependencies: [SERVICE_TOKENS.ElectronDatabase],
         scope: 'singleton'
     },
     {

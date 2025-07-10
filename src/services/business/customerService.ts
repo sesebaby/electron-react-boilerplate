@@ -8,6 +8,14 @@ import userService from './userService';
 export class CustomerService {
   private customers: Map<string, Customer> = new Map();
   private codeIndex: Map<string, string> = new Map(); // Code -> ID mapping
+  private database?: any; // 注入的数据库实例
+
+  /**
+   * 设置数据库依赖（简化的依赖注入）
+   */
+  setDatabase(database: any): void {
+    this.database = database;
+  }
 
   async initialize(): Promise<void> {
     console.log('Customer service initialized');

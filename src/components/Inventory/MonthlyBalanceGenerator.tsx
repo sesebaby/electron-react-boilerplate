@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import monthlyBalanceService from '../../services/business/monthlyBalanceService';
 import { warehouseService } from '../../services/business/warehouseService';
-import categoryService from '../../services/business/categoryService';
+import { getGlobalServices } from '../../services/container/containerConfig';
 import { MonthlyBalanceGenerateParams, MonthlyBalanceGenerateResult } from '../../types/monthlyBalance';
 import { Warehouse, Category } from '../../types/entities';
 import { GlassButton, GlassCard } from '../ui/FormControls';
@@ -38,11 +38,12 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
 
   const loadFormData = async () => {
     try {
+      const services = await getGlobalServices();
       const [warehouseList, categoryList] = await Promise.all([
         warehouseService.findAll(),
-        categoryService.findAll()
+        services.categoryService.findAll()
       ]);
-      
+
       setWarehouses(warehouseList);
       setCategories(categoryList);
     } catch (err) {

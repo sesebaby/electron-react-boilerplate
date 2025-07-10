@@ -7,7 +7,7 @@
 import { Category, CategoryStatus } from '../../types/entities';
 import { CategorySchema, validateEntity } from '../../schemas/validation';
 import { v4 as uuidv4 } from 'uuid';
-import electronDatabase from '../database/electronDatabase';
+import { ElectronDatabase } from '../database/electronDatabase';
 import {
   ICategoryService,
   CategoryFilter,
@@ -31,8 +31,16 @@ export class CategoryService implements ICategoryService, IBusinessService {
   private parentChildMap: Map<string, string[]> = new Map(); // 父子关系映射
   private codeIndex: Map<string, string> = new Map(); // 编码索引
   private initialized = false;
+  private database?: ElectronDatabase; // 注入的数据库实例
 
   // ==================== 生命周期管理 ====================
+
+  /**
+   * 设置数据库依赖
+   */
+  setDatabase(database: ElectronDatabase): void {
+    this.database = database;
+  }
 
   /**
    * 初始化服务
@@ -47,8 +55,14 @@ export class CategoryService implements ICategoryService, IBusinessService {
     
     try {
       // 从数据库加载分类数据
-      // 临时实现：直接初始化空数据，避免数据库方法不存在错误
-      const dbCategories: any[] = [];
+      let dbCategories: any[] = [];
+      if (this.database) {
+        try {
+          dbCategories = await this.database.getAllCategories();
+        } catch (error) {
+          console.warn('Failed to load categories from database, using empty data:', error);
+        }
+      }
       console.log(`Loaded ${dbCategories.length} categories from database`);
       
       // 转换并缓存数据
@@ -1001,8 +1015,6 @@ export class CategoryService implements ICategoryService, IBusinessService {
   }
 }
 
-// 创建并导出服务实例
-export const categoryService = new CategoryService();
-
-// 默认导出
-export default categoryService;
+// 移除模块级别的单例导出，改为通过容器管理
+// export const categoryService = new CategoryService();
+// export default categoryService;
