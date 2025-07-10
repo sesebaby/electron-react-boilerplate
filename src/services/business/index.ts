@@ -113,6 +113,19 @@ export const accountsReceivableService = Object.assign({}, arService, accountsRe
 // 导入真实的服务实现
 import unitServiceImpl from './unitService';
 
+// 确保unitService在导出前被初始化
+const initializeUnitService = async () => {
+  try {
+    console.log('Initializing unit service from business index...');
+    await unitServiceImpl.initialize();
+  } catch (error) {
+    console.warn('Unit service initialization failed in business index:', error);
+  }
+};
+
+// 立即调用初始化
+initializeUnitService();
+
 // 导出真实的 unitService 实例
 export const unitService = unitServiceImpl;
 

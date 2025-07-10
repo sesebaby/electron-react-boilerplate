@@ -7,15 +7,31 @@ export class UnitService {
   private units: Map<string, Unit> = new Map();
   private symbolIndex: Map<string, string> = new Map(); // Symbol -> ID mapping
   private nameIndex: Map<string, string> = new Map(); // Name -> ID mapping
+  private isInitialized: boolean = false; // 新增状态标记
 
   async initialize(): Promise<void> {
     console.log('Unit service initializing...');
     try {
       await this.loadUnitsFromDatabase();
+      this.isInitialized = true; // 设置初始化标记
       console.log(`Unit service initialized with ${this.units.size} units`);
     } catch (error) {
       console.error('Failed to load units from database:', error);
       console.log('Unit service initialized with empty units (database not available)');
+      this.isInitialized = true; // 即使失败也标记为已初始化避免重复尝试
+    }
+  }
+
+  private async ensureInitialized(): Promise<void> {
+    if (!this.isInitialized) {
+      try {
+        await this.loadUnitsFromDatabase();
+        this.isInitialized = true;
+        console.log(`Unit service lazy-initialized with ${this.units.size} units`);
+      } catch (error) {
+        console.error('Failed to lazy-initialize unit service:', error);
+        this.isInitialized = true; // 标记为已尝试初始化
+      }
     }
   }
 
@@ -36,6 +52,10 @@ export class UnitService {
   }
 
   async findAll(): Promise<Unit[]> {
+    // 防御性检查：如果内存为空且未初始化，则尝试初始化
+    if (this.units.size === 0 && !this.isInitialized) {
+      await this.ensureInitialized();
+    }
     return Array.from(this.units.values());
   }
 

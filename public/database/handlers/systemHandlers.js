@@ -277,6 +277,9 @@ function setupSystemHandlers(ipcMain, db) {
         name TEXT NOT NULL,
         description TEXT,
         parent_id TEXT,
+        level INTEGER DEFAULT 0,
+        sort_order INTEGER DEFAULT 0,
+        is_active BOOLEAN DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (parent_id) REFERENCES categories(id)
@@ -323,22 +326,7 @@ function setupSystemHandlers(ipcMain, db) {
         FOREIGN KEY (to_unit_id) REFERENCES units(id)
       );
 
-      -- 库存交易记录表
-      CREATE TABLE IF NOT EXISTS inventory_transactions (
-        id TEXT PRIMARY KEY,
-        item_id TEXT NOT NULL,
-        transaction_type TEXT NOT NULL CHECK(transaction_type IN ('in', 'out', 'adjustment')),
-        quantity INTEGER NOT NULL,
-        unit_price REAL,
-        total_amount REAL,
-        reference_number TEXT,
-        notes TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        created_by TEXT,
-        FOREIGN KEY (item_id) REFERENCES inventory_items(id)
-      );
-
-      -- 库存物品表
+      -- 库存物品表（必须在 inventory_transactions 之前创建）
       CREATE TABLE IF NOT EXISTS inventory_items (
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
@@ -357,6 +345,21 @@ function setupSystemHandlers(ipcMain, db) {
         max_stock INTEGER DEFAULT 0,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      -- 库存交易记录表
+      CREATE TABLE IF NOT EXISTS inventory_transactions (
+        id TEXT PRIMARY KEY,
+        item_id TEXT NOT NULL,
+        transaction_type TEXT NOT NULL CHECK(transaction_type IN ('in', 'out', 'adjustment')),
+        quantity INTEGER NOT NULL,
+        unit_price REAL,
+        total_amount REAL,
+        reference_number TEXT,
+        notes TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        created_by TEXT,
+        FOREIGN KEY (item_id) REFERENCES inventory_items(id)
       );
 
       CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
@@ -378,9 +381,164 @@ function setupSystemHandlers(ipcMain, db) {
       CREATE INDEX IF NOT EXISTS idx_transactions_type ON inventory_transactions(transaction_type);
     `;
 
-    // 执行架构 - 添加错误处理
+    // 执行架构 - 添加错误处理和详细日志
     try {
-      db.exec(schema);
+      console.log('开始执行数据库架构创建...');
+
+      // 首先删除所有现有表（除了系统表）
+      const tables = db.prepare(`
+        SELECT name FROM sqlite_master
+        WHERE type='table' AND name NOT LIKE 'sqlite_%'
+      `).all();
+
+      console.log(`发现 ${tables.length} 个现有表，准备删除...`);
+
+      // 禁用外键约束以便删除表
+      db.exec('PRAGMA foreign_keys = OFF');
+
+      // 删除所有现有表
+      for (const table of tables) {
+        try {
+          db.exec(`DROP TABLE IF EXISTS ${table.name}`);
+          console.log(`已删除表: ${table.name}`);
+        } catch (error) {
+          console.warn(`删除表 ${table.name} 失败:`, error.message);
+        }
+      }
+
+      // 分离表创建语句和索引创建语句
+      // 使用更智能的方式分离SQL语句
+      const statements = [];
+      let currentStatement = '';
+      let inCreateTable = false;
+      
+      const lines = schema.split('\n');
+      
+      for (const line of lines) {
+        const trimmedLine = line.trim();
+        
+        // 跳过空行和注释
+        if (trimmedLine.length === 0 || trimmedLine.startsWith('--')) {
+          continue;
+        }
+        
+        // 检查是否开始一个新的CREATE TABLE语句
+        if (trimmedLine.toUpperCase().includes('CREATE TABLE')) {
+          if (currentStatement.trim()) {
+            statements.push(currentStatement.trim());
+          }
+          currentStatement = trimmedLine;
+          inCreateTable = true;
+          continue;
+        }
+        
+        // 检查是否开始一个新的CREATE INDEX语句
+        if (trimmedLine.toUpperCase().includes('CREATE INDEX')) {
+          if (currentStatement.trim()) {
+            statements.push(currentStatement.trim());
+          }
+          currentStatement = trimmedLine;
+          inCreateTable = false;
+          continue;
+        }
+        
+        // 如果在CREATE TABLE内部，检查是否结束
+        if (inCreateTable && trimmedLine.endsWith(');')) {
+          currentStatement += ' ' + trimmedLine;
+          statements.push(currentStatement.trim());
+          currentStatement = '';
+          inCreateTable = false;
+          continue;
+        }
+        
+        // 如果是CREATE INDEX且以分号结束
+        if (!inCreateTable && trimmedLine.endsWith(';')) {
+          currentStatement += ' ' + trimmedLine;
+          statements.push(currentStatement.trim());
+          currentStatement = '';
+          continue;
+        }
+        
+        // 继续拼接当前语句
+        currentStatement += ' ' + trimmedLine;
+      }
+      
+      // 处理最后一个语句
+      if (currentStatement.trim()) {
+        statements.push(currentStatement.trim());
+      }
+
+      const tableStatements = statements.filter(stmt =>
+        stmt.toUpperCase().includes('CREATE TABLE')
+      );
+
+      const indexStatements = statements.filter(stmt =>
+        stmt.toUpperCase().includes('CREATE INDEX')
+      );
+
+      console.log(`准备执行 ${tableStatements.length} 个表创建语句和 ${indexStatements.length} 个索引创建语句`);
+      console.log('表创建语句:', tableStatements.map(s => s.substring(0, 50) + '...'));
+      console.log('索引创建语句:', indexStatements.map(s => s.substring(0, 50) + '...'));
+
+      // 先创建所有表
+      for (let i = 0; i < tableStatements.length; i++) {
+        const statement = tableStatements[i];
+        try {
+          console.log(`正在创建表 ${i + 1}/${tableStatements.length}...`);
+          db.exec(statement);
+          const tableName = statement.match(/CREATE TABLE(?:\s+IF\s+NOT\s+EXISTS)?\s+(\w+)/i)?.[1];
+          console.log(`✓ 表 ${tableName} 创建成功`);
+
+          // 验证表是否真的创建成功
+          const tableExists = db.prepare(`
+            SELECT name FROM sqlite_master
+            WHERE type='table' AND name=?
+          `).get(tableName);
+
+          if (!tableExists) {
+            throw new Error(`表 ${tableName} 创建后验证失败`);
+          }
+        } catch (stmtError) {
+          console.error(`创建表时出错:`, statement.substring(0, 100) + '...');
+          console.error('错误详情:', stmtError.message);
+          throw stmtError;
+        }
+      }
+
+      // 再创建所有索引
+      console.log(`\n开始创建索引...`);
+      for (let i = 0; i < indexStatements.length; i++) {
+        const statement = indexStatements[i];
+        try {
+          console.log(`正在创建索引 ${i + 1}/${indexStatements.length}...`);
+
+          // 检查索引依赖的表是否存在
+          const tableMatch = statement.match(/ON\s+(\w+)\s*\(/);
+          if (tableMatch) {
+            const tableName = tableMatch[1];
+            const tableExists = db.prepare(`
+              SELECT name FROM sqlite_master
+              WHERE type='table' AND name=?
+            `).get(tableName);
+
+            if (!tableExists) {
+              throw new Error(`索引依赖的表 ${tableName} 不存在`);
+            }
+          }
+
+          db.exec(statement);
+          const indexName = statement.match(/CREATE INDEX(?:\s+IF\s+NOT\s+EXISTS)?\s+(\w+)/i)?.[1];
+          console.log(`✓ 索引 ${indexName} 创建成功`);
+        } catch (stmtError) {
+          console.error(`创建索引时出错:`, statement.substring(0, 100) + '...');
+          console.error('错误详情:', stmtError.message);
+          throw stmtError;
+        }
+      }
+
+      // 重新启用外键约束
+      db.exec('PRAGMA foreign_keys = ON');
+
       console.log('Database schema rebuilt successfully using embedded schema');
     } catch (dbError) {
       console.error('Database schema execution error:', dbError);
@@ -741,13 +899,13 @@ async function importSuppliersData(db) {
   ];
 
   const stmt = db.prepare(`
-    INSERT INTO suppliers (id, name, contact_person, phone, email, address, is_active, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+    INSERT INTO suppliers (id, name, contact_person, phone, email, address, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
   `);
 
   const insertMany = db.transaction((suppliers) => {
     for (const supplier of suppliers) {
-      stmt.run(supplier.id, supplier.name, supplier.contactPerson, supplier.phone, supplier.email, supplier.address, supplier.isActive ? 1 : 0);
+      stmt.run(supplier.id, supplier.name, supplier.contactPerson, supplier.phone, supplier.email, supplier.address);
     }
   });
 
@@ -760,20 +918,20 @@ async function importSuppliersData(db) {
  */
 async function importWarehousesData(db) {
   const warehouses = [
-    { id: 'wh-001', code: 'WH001', name: '主仓库', location: '北京市朝阳区工业园区A座', type: 'main', capacity: 10000, isActive: true },
-    { id: 'wh-002', code: 'WH002', name: '分仓库A', location: '上海市浦东新区物流园B区', type: 'branch', capacity: 5000, isActive: true },
-    { id: 'wh-003', code: 'WH003', name: '分仓库B', location: '广州市天河区仓储中心C栋', type: 'branch', capacity: 3000, isActive: true },
-    { id: 'wh-004', code: 'WH004', name: '临时仓库', location: '深圳市南山区临时存储点', type: 'temporary', capacity: 1000, isActive: true }
+    { id: 'wh-001', code: 'WH001', name: '主仓库', address: '北京市朝阳区工业园区A座', manager: '张经理', phone: '010-12345678', isDefault: true },
+    { id: 'wh-002', code: 'WH002', name: '分仓库A', address: '上海市浦东新区物流园B区', manager: '李经理', phone: '021-87654321', isDefault: false },
+    { id: 'wh-003', code: 'WH003', name: '分仓库B', address: '广州市天河区仓储中心C栋', manager: '王经理', phone: '020-11223344', isDefault: false },
+    { id: 'wh-004', code: 'WH004', name: '临时仓库', address: '深圳市南山区临时存储点', manager: '赵经理', phone: '0755-88776655', isDefault: false }
   ];
 
   const stmt = db.prepare(`
-    INSERT INTO warehouses (id, code, name, location, type, capacity, is_active, created_at, updated_at)
+    INSERT INTO warehouses (id, code, name, address, manager, phone, is_default, created_at, updated_at)
     VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
   `);
 
   const insertMany = db.transaction((warehouses) => {
     for (const warehouse of warehouses) {
-      stmt.run(warehouse.id, warehouse.code, warehouse.name, warehouse.location, warehouse.type, warehouse.capacity, warehouse.isActive ? 1 : 0);
+      stmt.run(warehouse.id, warehouse.code, warehouse.name, warehouse.address, warehouse.manager, warehouse.phone, warehouse.isDefault ? 1 : 0);
     }
   });
 
@@ -787,54 +945,54 @@ async function importWarehousesData(db) {
 async function importGlobalConversionRulesData(db) {
   const conversionRules = [
     // 数量转换
-    { id: 'rule-001', fromUnitId: 'unit-011', toUnitId: 'unit-001', factor: 12, description: '1打=12个' },
-    { id: 'rule-002', fromUnitId: 'unit-012', toUnitId: 'unit-001', factor: 2, description: '1对=2个' },
-    { id: 'rule-003', fromUnitId: 'unit-005', toUnitId: 'unit-001', factor: 24, description: '1箱=24个' },
-    { id: 'rule-004', fromUnitId: 'unit-004', toUnitId: 'unit-001', factor: 12, description: '1包=12个' },
+    { id: 'rule-001', name: '打到个转换', fromUnitId: 'unit-011', toUnitId: 'unit-001', conversionRate: 12, category: 'quantity', description: '1打=12个' },
+    { id: 'rule-002', name: '对到个转换', fromUnitId: 'unit-012', toUnitId: 'unit-001', conversionRate: 2, category: 'quantity', description: '1对=2个' },
+    { id: 'rule-003', name: '箱到个转换', fromUnitId: 'unit-005', toUnitId: 'unit-001', conversionRate: 24, category: 'quantity', description: '1箱=24个' },
+    { id: 'rule-004', name: '包到个转换', fromUnitId: 'unit-004', toUnitId: 'unit-001', conversionRate: 12, category: 'quantity', description: '1包=12个' },
 
     // 重量转换
-    { id: 'rule-005', fromUnitId: 'unit-014', toUnitId: 'unit-013', factor: 1000, description: '1千克=1000克' },
-    { id: 'rule-006', fromUnitId: 'unit-015', toUnitId: 'unit-014', factor: 1000, description: '1吨=1000千克' },
-    { id: 'rule-007', fromUnitId: 'unit-016', toUnitId: 'unit-013', factor: 453.592, description: '1磅=453.592克' },
-    { id: 'rule-008', fromUnitId: 'unit-018', toUnitId: 'unit-013', factor: 500, description: '1斤=500克' },
-    { id: 'rule-009', fromUnitId: 'unit-017', toUnitId: 'unit-013', factor: 50, description: '1两=50克' },
+    { id: 'rule-005', name: '千克到克转换', fromUnitId: 'unit-014', toUnitId: 'unit-013', conversionRate: 1000, category: 'weight', description: '1千克=1000克' },
+    { id: 'rule-006', name: '吨到千克转换', fromUnitId: 'unit-015', toUnitId: 'unit-014', conversionRate: 1000, category: 'weight', description: '1吨=1000千克' },
+    { id: 'rule-007', name: '磅到克转换', fromUnitId: 'unit-016', toUnitId: 'unit-013', conversionRate: 453.592, category: 'weight', description: '1磅=453.592克' },
+    { id: 'rule-008', name: '斤到克转换', fromUnitId: 'unit-018', toUnitId: 'unit-013', conversionRate: 500, category: 'weight', description: '1斤=500克' },
+    { id: 'rule-009', name: '两到克转换', fromUnitId: 'unit-017', toUnitId: 'unit-013', conversionRate: 50, category: 'weight', description: '1两=50克' },
 
     // 长度转换
-    { id: 'rule-010', fromUnitId: 'unit-020', toUnitId: 'unit-019', factor: 100, description: '1米=100厘米' },
-    { id: 'rule-011', fromUnitId: 'unit-019', toUnitId: 'unit-021', factor: 10, description: '1厘米=10毫米' },
-    { id: 'rule-012', fromUnitId: 'unit-024', toUnitId: 'unit-019', factor: 10, description: '1分米=10厘米' },
-    { id: 'rule-013', fromUnitId: 'unit-025', toUnitId: 'unit-020', factor: 1000, description: '1公里=1000米' },
-    { id: 'rule-014', fromUnitId: 'unit-022', toUnitId: 'unit-019', factor: 2.54, description: '1英寸=2.54厘米' },
-    { id: 'rule-015', fromUnitId: 'unit-023', toUnitId: 'unit-022', factor: 12, description: '1英尺=12英寸' },
-    { id: 'rule-016', fromUnitId: 'unit-026', toUnitId: 'unit-023', factor: 3, description: '1码=3英尺' },
+    { id: 'rule-010', name: '米到厘米转换', fromUnitId: 'unit-020', toUnitId: 'unit-019', conversionRate: 100, category: 'length', description: '1米=100厘米' },
+    { id: 'rule-011', name: '厘米到毫米转换', fromUnitId: 'unit-019', toUnitId: 'unit-021', conversionRate: 10, category: 'length', description: '1厘米=10毫米' },
+    { id: 'rule-012', name: '分米到厘米转换', fromUnitId: 'unit-024', toUnitId: 'unit-019', conversionRate: 10, category: 'length', description: '1分米=10厘米' },
+    { id: 'rule-013', name: '公里到米转换', fromUnitId: 'unit-025', toUnitId: 'unit-020', conversionRate: 1000, category: 'length', description: '1公里=1000米' },
+    { id: 'rule-014', name: '英寸到厘米转换', fromUnitId: 'unit-022', toUnitId: 'unit-019', conversionRate: 2.54, category: 'length', description: '1英寸=2.54厘米' },
+    { id: 'rule-015', name: '英尺到英寸转换', fromUnitId: 'unit-023', toUnitId: 'unit-022', conversionRate: 12, category: 'length', description: '1英尺=12英寸' },
+    { id: 'rule-016', name: '码到英尺转换', fromUnitId: 'unit-026', toUnitId: 'unit-023', conversionRate: 3, category: 'length', description: '1码=3英尺' },
 
     // 体积转换
-    { id: 'rule-017', fromUnitId: 'unit-028', toUnitId: 'unit-027', factor: 1000, description: '1升=1000毫升' },
-    { id: 'rule-018', fromUnitId: 'unit-029', toUnitId: 'unit-027', factor: 1, description: '1立方厘米=1毫升' },
-    { id: 'rule-019', fromUnitId: 'unit-030', toUnitId: 'unit-028', factor: 1000, description: '1立方米=1000升' },
-    { id: 'rule-020', fromUnitId: 'unit-031', toUnitId: 'unit-028', factor: 3.78541, description: '1加仑=3.78541升' },
+    { id: 'rule-017', name: '升到毫升转换', fromUnitId: 'unit-028', toUnitId: 'unit-027', conversionRate: 1000, category: 'volume', description: '1升=1000毫升' },
+    { id: 'rule-018', name: '立方厘米到毫升转换', fromUnitId: 'unit-029', toUnitId: 'unit-027', conversionRate: 1, category: 'volume', description: '1立方厘米=1毫升' },
+    { id: 'rule-019', name: '立方米到升转换', fromUnitId: 'unit-030', toUnitId: 'unit-028', conversionRate: 1000, category: 'volume', description: '1立方米=1000升' },
+    { id: 'rule-020', name: '加仑到升转换', fromUnitId: 'unit-031', toUnitId: 'unit-028', conversionRate: 3.78541, category: 'volume', description: '1加仑=3.78541升' },
 
     // 面积转换
-    { id: 'rule-021', fromUnitId: 'unit-033', toUnitId: 'unit-032', factor: 10000, description: '1平方米=10000平方厘米' },
-    { id: 'rule-022', fromUnitId: 'unit-034', toUnitId: 'unit-032', factor: 6.4516, description: '1平方英寸=6.4516平方厘米' },
-    { id: 'rule-023', fromUnitId: 'unit-035', toUnitId: 'unit-034', factor: 144, description: '1平方英尺=144平方英寸' },
+    { id: 'rule-021', name: '平方米到平方厘米转换', fromUnitId: 'unit-033', toUnitId: 'unit-032', conversionRate: 10000, category: 'area', description: '1平方米=10000平方厘米' },
+    { id: 'rule-022', name: '平方英寸到平方厘米转换', fromUnitId: 'unit-034', toUnitId: 'unit-032', conversionRate: 6.4516, category: 'area', description: '1平方英寸=6.4516平方厘米' },
+    { id: 'rule-023', name: '平方英尺到平方英寸转换', fromUnitId: 'unit-035', toUnitId: 'unit-034', conversionRate: 144, category: 'area', description: '1平方英尺=144平方英寸' },
 
     // 时间转换
-    { id: 'rule-024', fromUnitId: 'unit-037', toUnitId: 'unit-036', factor: 60, description: '1分钟=60秒' },
-    { id: 'rule-025', fromUnitId: 'unit-038', toUnitId: 'unit-037', factor: 60, description: '1小时=60分钟' },
-    { id: 'rule-026', fromUnitId: 'unit-039', toUnitId: 'unit-038', factor: 24, description: '1天=24小时' },
-    { id: 'rule-027', fromUnitId: 'unit-040', toUnitId: 'unit-039', factor: 30, description: '1月=30天' },
-    { id: 'rule-028', fromUnitId: 'unit-041', toUnitId: 'unit-040', factor: 12, description: '1年=12月' }
+    { id: 'rule-024', name: '分钟到秒转换', fromUnitId: 'unit-037', toUnitId: 'unit-036', conversionRate: 60, category: 'time', description: '1分钟=60秒' },
+    { id: 'rule-025', name: '小时到分钟转换', fromUnitId: 'unit-038', toUnitId: 'unit-037', conversionRate: 60, category: 'time', description: '1小时=60分钟' },
+    { id: 'rule-026', name: '天到小时转换', fromUnitId: 'unit-039', toUnitId: 'unit-038', conversionRate: 24, category: 'time', description: '1天=24小时' },
+    { id: 'rule-027', name: '月到天转换', fromUnitId: 'unit-040', toUnitId: 'unit-039', conversionRate: 30, category: 'time', description: '1月=30天' },
+    { id: 'rule-028', name: '年到月转换', fromUnitId: 'unit-041', toUnitId: 'unit-040', conversionRate: 12, category: 'time', description: '1年=12月' }
   ];
 
   const stmt = db.prepare(`
-    INSERT INTO global_conversion_rules (id, from_unit_id, to_unit_id, factor, description, is_active, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, 1, datetime('now'), datetime('now'))
+    INSERT INTO global_conversion_rules (id, name, from_unit_id, to_unit_id, conversion_rate, category, description, is_active, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, 1, datetime('now'), datetime('now'))
   `);
 
   const insertMany = db.transaction((rules) => {
     for (const rule of rules) {
-      stmt.run(rule.id, rule.fromUnitId, rule.toUnitId, rule.factor, rule.description);
+      stmt.run(rule.id, rule.name, rule.fromUnitId, rule.toUnitId, rule.conversionRate, rule.category, rule.description);
     }
   });
 
