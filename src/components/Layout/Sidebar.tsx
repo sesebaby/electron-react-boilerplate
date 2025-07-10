@@ -93,15 +93,6 @@ const menuItems: MenuItem[] = [
     ]
   },
   {
-    id: 'common-settings',
-    label: '通用设置',
-    icon: '🔧',
-    children: [
-      { id: 'units', label: '单位管理', icon: '📏' },
-      { id: 'conversion-rules', label: '换算规则', icon: '🔄' }
-    ]
-  },
-  {
     id: 'system',
     label: '系统管理',
     icon: '⚙️',
