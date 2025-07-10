@@ -60,23 +60,33 @@ export class SystemInitializationService {
           message: '正在创建数据库备份...'
         });
 
-        backupInfo = await backupService.createBackup(
-          options.backupDescription || '系统初始化前自动备份',
-          (backupProgress: BackupProgress) => {
-            onProgress?.({
-              stage: 'backup',
-              progress: Math.round(5 + (backupProgress.progress * 0.15)), // 5-20%
-              message: backupProgress.message
-            });
-          }
-        );
+        try {
+          backupInfo = await backupService.createBackup(
+            options.backupDescription || '系统初始化前自动备份',
+            (backupProgress: BackupProgress) => {
+              onProgress?.({
+                stage: 'backup',
+                progress: Math.round(5 + (backupProgress.progress * 0.15)), // 5-20%
+                message: backupProgress.message
+              });
+            }
+          );
 
-        onProgress?.({
-          stage: 'backup',
-          progress: 20,
-          message: '备份创建完成',
-          backupInfo
-        });
+          onProgress?.({
+            stage: 'backup',
+            progress: 20,
+            message: '备份创建完成',
+            backupInfo
+          });
+        } catch (backupError) {
+          console.warn('备份创建失败，但继续进行系统初始化:', backupError);
+          onProgress?.({
+            stage: 'backup',
+            progress: 20,
+            message: '备份创建失败，但继续进行初始化'
+          });
+          // 不抛出错误，允许初始化继续进行
+        }
       }
 
       // 第二步：清理数据库

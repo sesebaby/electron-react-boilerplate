@@ -61,7 +61,7 @@ export class DatabaseBackupService {
 
       // 检查Electron API是否可用
       if (!window.electronAPI?.dbBackup) {
-        throw new Error('数据库备份功能不可用');
+        throw new Error('数据库备份功能不可用：Electron API未初始化');
       }
 
       // 执行备份
@@ -77,7 +77,14 @@ export class DatabaseBackupService {
       });
 
       if (!result.success) {
-        throw new Error(result.error || '备份失败');
+        const errorMessage = result.error || '备份失败：未知错误';
+        console.error('数据库备份失败:', {
+          filename,
+          description,
+          error: errorMessage,
+          result
+        });
+        throw new Error(errorMessage);
       }
 
       // 压缩阶段

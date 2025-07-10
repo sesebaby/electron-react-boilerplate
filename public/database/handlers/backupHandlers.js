@@ -20,12 +20,45 @@ const { wrapIpcHandler } = require('../utils/errorHandler');
  * @param {Object} db - 数据库实例
  */
 function setupBackupHandlers(ipcMain, db) {
-  
+
+  // 确保备份表存在
+  function ensureBackupTableExists() {
+    try {
+      if (!checkDatabaseInitialized(db)) {
+        console.error('Cannot create backup table: Database not initialized');
+        return false;
+      }
+
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS backups (
+          id TEXT PRIMARY KEY,
+          filename TEXT NOT NULL,
+          filepath TEXT NOT NULL,
+          timestamp TEXT NOT NULL,
+          size INTEGER NOT NULL,
+          description TEXT,
+          type TEXT DEFAULT 'manual',
+          created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+      return true;
+    } catch (error) {
+      console.error('Failed to create backup table:', error);
+      return false;
+    }
+  }
+
+  // 在初始化时创建备份表
+  ensureBackupTableExists();
+
   // 创建数据库备份
   ipcMain.handle('db-backup', wrapIpcHandler(async (event, { filename, description }) => {
     if (!checkDatabaseInitialized(db)) {
       return errorResult('Database not initialized');
     }
+
+    // 确保备份表存在
+    ensureBackupTableExists();
 
     const fs = require('fs');
     const path = require('path');
@@ -51,14 +84,31 @@ function setupBackupHandlers(ipcMain, db) {
 
     // 创建备份
     try {
+      console.log('开始创建数据库备份:', {
+        source: currentDbPath,
+        target: backupPath,
+        filename: backupFilename,
+        description
+      });
+
+      // 检查源文件是否存在
+      if (!fs.existsSync(currentDbPath)) {
+        throw new Error(`Source database file not found: ${currentDbPath}`);
+      }
+
       // 使用SQLite的备份API或简单的文件复制
       fs.copyFileSync(currentDbPath, backupPath);
-      
+
       // 验证备份文件
       const backupStats = fs.statSync(backupPath);
       if (backupStats.size === 0) {
         throw new Error('Backup file is empty');
       }
+
+      console.log('备份文件创建成功:', {
+        path: backupPath,
+        size: backupStats.size
+      });
 
       // 创建备份记录
       const backupInfo = {
@@ -71,19 +121,7 @@ function setupBackupHandlers(ipcMain, db) {
         type: 'manual'
       };
 
-      // 确保备份表存在
-      db.exec(`
-        CREATE TABLE IF NOT EXISTS backups (
-          id TEXT PRIMARY KEY,
-          filename TEXT NOT NULL,
-          filepath TEXT NOT NULL,
-          timestamp TEXT NOT NULL,
-          size INTEGER NOT NULL,
-          description TEXT,
-          type TEXT DEFAULT 'manual',
-          created_at TEXT DEFAULT CURRENT_TIMESTAMP
-        )
-      `);
+      // 备份表已在初始化时创建
 
       // 保存备份信息
       const stmt = db.prepare(`
@@ -110,15 +148,26 @@ function setupBackupHandlers(ipcMain, db) {
         timestamp: backupInfo.timestamp
       });
     } catch (error) {
+      console.error('数据库备份失败:', {
+        filename: backupFilename,
+        backupPath,
+        currentDbPath,
+        error: error.message,
+        stack: error.stack
+      });
+
       // 清理失败的备份文件
       if (fs.existsSync(backupPath)) {
         try {
           fs.unlinkSync(backupPath);
+          console.log('已清理失败的备份文件:', backupPath);
         } catch (cleanupError) {
           console.warn('Failed to cleanup backup file:', cleanupError);
         }
       }
-      throw error;
+
+      // 重新抛出更详细的错误
+      throw new Error(`数据库备份失败: ${error.message}`);
     }
   }, 'backup-database'));
 
