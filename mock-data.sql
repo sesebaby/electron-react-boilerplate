@@ -33,6 +33,47 @@ INSERT INTO warehouses (id, code, name, address, manager, phone, is_default, cre
 
 
 -- ===============================================
+-- 3. 商品分类数据 (categories) - 商品分类
+-- ===============================================
+INSERT INTO categories (id, name, description, parent_id, created_at, updated_at) VALUES
+('cat-001', '电子产品', '电子设备和配件', NULL, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('cat-002', '办公用品', '办公室日常用品', NULL, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('cat-003', '食品饮料', '食品和饮料类商品', NULL, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('cat-004', '服装鞋帽', '服装、鞋子、帽子等', NULL, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('cat-005', '家居用品', '家庭日用品', NULL, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('cat-006', '手机数码', '手机和数码产品', 'cat-001', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('cat-007', '电脑配件', '电脑及其配件', 'cat-001', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('cat-008', '文具用品', '笔、纸张等文具', 'cat-002', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('cat-009', '办公设备', '打印机、复印机等', 'cat-002', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('cat-010', '零食小食', '各类零食', 'cat-003', '2024-01-01 10:00:00', '2024-01-01 10:00:00');
+
+-- ===============================================
+-- 4. 供应商数据 (suppliers) - 供应商信息
+-- ===============================================
+INSERT INTO suppliers (id, code, name, contact_person, phone, email, address, created_at, updated_at) VALUES
+('sup-001', 'SUP001', '华为技术有限公司', '张经理', '010-12345678', 'zhang@huawei.com', '深圳市龙岗区华为基地', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('sup-002', 'SUP002', '小米科技有限公司', '李经理', '010-87654321', 'li@xiaomi.com', '北京市海淀区小米科技园', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('sup-003', 'SUP003', '得力集团有限公司', '王经理', '0574-12345678', 'wang@deli.com', '宁波市鄞州区得力工业园', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('sup-004', 'SUP004', '联想集团有限公司', '赵经理', '010-11223344', 'zhao@lenovo.com', '北京市海淀区联想大厦', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('sup-005', 'SUP005', '三只松鼠股份有限公司', '钱经理', '0553-55667788', 'qian@3songshu.com', '安徽省芜湖市三只松鼠总部', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('sup-006', 'SUP006', '宜家家居有限公司', '孙经理', '021-99887766', 'sun@ikea.com', '上海市徐汇区宜家中国总部', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('sup-007', 'SUP007', '苹果电子产品商贸有限公司', '周经理', '021-44556677', 'zhou@apple.com', '上海市浦东新区苹果大厦', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('sup-008', 'SUP008', '戴尔科技集团', '吴经理', '010-33445566', 'wu@dell.com', '北京市朝阳区戴尔中国总部', '2024-01-01 10:00:00', '2024-01-01 10:00:00');
+
+-- ===============================================
+-- 5. 示例商品数据 (inventory_items) - 库存商品
+-- ===============================================
+INSERT INTO inventory_items (id, name, description, sku, category, supplier, stock_quantity, reserved_quantity, unit_price, total_value, status, location, reorder_level, max_stock, last_updated, created_at, updated_at) VALUES
+('item-001', 'iPhone 15 Pro', '苹果iPhone 15 Pro 256GB 深空黑色', 'IPHONE15PRO256', 'cat-006', 'sup-007', 50, 0, 8999.00, 449950.00, 'in-stock', 'A区-01-01', 10, 200, '2024-01-01 10:00:00', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('item-002', '小米13 Ultra', '小米13 Ultra 512GB 陶瓷黑', 'MI13ULTRA512', 'cat-006', 'sup-002', 30, 0, 5999.00, 179970.00, 'in-stock', 'A区-01-02', 5, 100, '2024-01-01 10:00:00', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('item-003', '得力文具套装', '得力学生文具套装 包含笔、橡皮、尺子等', 'DELI_SET_001', 'cat-008', 'sup-003', 100, 0, 29.90, 2990.00, 'in-stock', 'B区-02-01', 20, 500, '2024-01-01 10:00:00', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('item-004', 'ThinkPad X1 Carbon', 'ThinkPad X1 Carbon 14英寸商务笔记本', 'THINKPAD_X1C', 'cat-007', 'sup-004', 15, 0, 12999.00, 194985.00, 'in-stock', 'A区-02-01', 3, 50, '2024-01-01 10:00:00', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('item-005', '三只松鼠坚果礼盒', '三只松鼠混合坚果礼盒装 1kg', 'SQUIRREL_NUTS_1KG', 'cat-010', 'sup-005', 80, 0, 168.00, 13440.00, 'in-stock', 'C区-01-01', 15, 300, '2024-01-01 10:00:00', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('item-006', '华为MateBook X Pro', '华为MateBook X Pro 13.9英寸触控笔记本', 'HUAWEI_MATEBOOK_XP', 'cat-007', 'sup-001', 20, 0, 9999.00, 199980.00, 'in-stock', 'A区-02-02', 5, 80, '2024-01-01 10:00:00', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('item-007', '得力办公椅', '得力人体工学办公椅 可升降旋转', 'DELI_CHAIR_001', 'cat-009', 'sup-003', 25, 0, 899.00, 22475.00, 'in-stock', 'D区-01-01', 5, 100, '2024-01-01 10:00:00', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('item-008', '宜家书桌', '宜家简约现代书桌 120cm*60cm', 'IKEA_DESK_120', 'cat-005', 'sup-006', 12, 0, 599.00, 7188.00, 'in-stock', 'D区-02-01', 3, 50, '2024-01-01 10:00:00', '2024-01-01 10:00:00', '2024-01-01 10:00:00');
+
+-- ===============================================
 -- 6. 计量单位数据 (units) - 常用计量单位
 -- ===============================================
 INSERT INTO units (id, name, symbol, type, precision, description, is_active, created_at, updated_at) VALUES
@@ -156,6 +197,12 @@ SELECT 'users' as table_name, COUNT(*) as record_count FROM users
 UNION ALL
 SELECT 'warehouses' as table_name, COUNT(*) as record_count FROM warehouses
 UNION ALL
+SELECT 'categories' as table_name, COUNT(*) as record_count FROM categories
+UNION ALL
+SELECT 'suppliers' as table_name, COUNT(*) as record_count FROM suppliers
+UNION ALL
+SELECT 'inventory_items' as table_name, COUNT(*) as record_count FROM inventory_items
+UNION ALL
 SELECT 'units' as table_name, COUNT(*) as record_count FROM units
 UNION ALL
 SELECT 'global_conversion_rules' as table_name, COUNT(*) as record_count FROM global_conversion_rules;
@@ -171,6 +218,24 @@ SELECT
     COUNT(*) as value,
     '个仓库' as unit
 FROM warehouses
+UNION ALL
+SELECT
+    '商品分类数量' as metric,
+    COUNT(*) as value,
+    '个分类' as unit
+FROM categories
+UNION ALL
+SELECT
+    '供应商数量' as metric,
+    COUNT(*) as value,
+    '个供应商' as unit
+FROM suppliers
+UNION ALL
+SELECT
+    '库存商品数量' as metric,
+    COUNT(*) as value,
+    '个商品' as unit
+FROM inventory_items
 UNION ALL
 SELECT
     '计量单位数量' as metric,
