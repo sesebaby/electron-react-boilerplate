@@ -90,7 +90,9 @@ export class ConsumptionCalculator {
       
       return {
         ...consumptionData,
-        convertedQuantity: convertedQuantity || consumptionData.quantity
+        convertedQuantity: (typeof convertedQuantity === 'object' && convertedQuantity?.quantity) 
+          ? convertedQuantity.quantity 
+          : (typeof convertedQuantity === 'number' ? convertedQuantity : consumptionData.quantity)
       };
     } catch (error) {
       console.warn(`单位转换失败 (产品ID: ${productId}):`, error);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import accountsReceivableService from '../../services/business/accountsReceivableService';
+import { accountsReceivableService } from '../../services/business';
 import { customerService } from '../../services/business';
 import { AccountsReceivable, Receipt, ReceivableStatus, PaymentMethod, Customer } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
@@ -125,7 +125,10 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
           ...receivableFormData,
           billDate: new Date(receivableFormData.billDate),
           dueDate: new Date(receivableFormData.dueDate),
+          amount: receivableFormData.totalAmount,
+          totalAmount: receivableFormData.totalAmount,
           balanceAmount: receivableFormData.totalAmount,
+          remainingAmount: receivableFormData.totalAmount,
           receivedAmount: 0,
           status: ReceivableStatus.UNPAID
         });
@@ -145,10 +148,12 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     e.preventDefault();
     
     try {
-      await accountsReceivableService.addReceipt({
-        ...receiptFormData,
-        receiptDate: new Date(receiptFormData.receiptDate)
-      });
+      await accountsReceivableService.addReceipt(
+        receiptFormData.receivableId,
+        parseFloat(receiptFormData.amount.toString()),
+        new Date(receiptFormData.receiptDate),
+        receiptFormData.remark
+      );
       
       await loadData();
       setShowReceiptForm(false);

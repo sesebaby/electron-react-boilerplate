@@ -21,9 +21,9 @@ export class UnitConversionHelper {
     try {
       const conversion = await unitConversionService.findByProductId(productId);
       
-      if (!conversion || !conversion.isActive) {
+      if (!conversion || !('isActive' in conversion) || !conversion.isActive) {
         // 没有转换规则，直接显示基础单位
-        const baseUnitName = await this.getUnitName(conversion?.baseUnitId || 'unit-001');
+        const baseUnitName = await this.getUnitName(conversion && 'baseUnitId' in conversion ? conversion.baseUnitId : 'unit-001');
         return `${baseQuantity}${baseUnitName}`;
       }
 
@@ -62,8 +62,8 @@ export class UnitConversionHelper {
     try {
       const conversion = await unitConversionService.findByProductId(productId);
       
-      if (!conversion || !conversion.isActive) {
-        const baseUnitName = await this.getUnitName(conversion?.baseUnitId || 'unit-001');
+      if (!conversion || !('isActive' in conversion) || !conversion.isActive) {
+        const baseUnitName = await this.getUnitName(conversion && 'baseUnitId' in conversion ? conversion.baseUnitId : 'unit-001');
         return {
           baseDisplay: `${baseQuantity}${baseUnitName}`,
           packageDisplay: null,
@@ -74,11 +74,12 @@ export class UnitConversionHelper {
       const baseUnitName = await this.getUnitName(conversion.baseUnitId);
       const packageUnitName = await this.getUnitName(conversion.packageUnitId);
       
-      const packageQuantity = await unitConversionService.convertToPackageUnit(productId, baseQuantity);
+      const packageQuantityResult = await unitConversionService.convertToPackageUnit(productId, baseQuantity);
+      const packageQuantity = packageQuantityResult && typeof packageQuantityResult.quantity === 'number' ? packageQuantityResult.quantity : 0;
       
       return {
         baseDisplay: `${baseQuantity}${baseUnitName}`,
-        packageDisplay: packageQuantity ? `${packageQuantity.toFixed(1)}${packageUnitName}` : null,
+        packageDisplay: packageQuantity > 0 ? `${packageQuantity.toFixed(1)}${packageUnitName}` : null,
         hasConversion: true
       };
     } catch (error) {
@@ -99,7 +100,7 @@ export class UnitConversionHelper {
   static async hasConversionRule(productId: string): Promise<boolean> {
     try {
       const conversion = await unitConversionService.findByProductId(productId);
-      return conversion !== null && conversion.isActive;
+      return conversion !== null && ('isActive' in conversion) && conversion.isActive;
     } catch (error) {
       console.error('检查转换规则失败:', error);
       return false;
@@ -121,19 +122,21 @@ export class UnitConversionHelper {
     try {
       const conversion = await unitConversionService.findByProductId(productId);
       
-      if (!conversion || !conversion.isActive) {
+      if (!conversion || !('isActive' in conversion) || !conversion.isActive) {
         return null;
       }
 
-      const baseUnitName = await this.getUnitName(conversion.baseUnitId);
-      const packageUnitName = await this.getUnitName(conversion.packageUnitId);
+      const baseUnitName = await this.getUnitName((conversion as any).baseUnitId || 'unit-001');
+      const packageUnitName = await this.getUnitName((conversion as any).packageUnitId || 'unit-004');
+      const conversionRate = (conversion as any).conversionRate || 1;
+      const description = (conversion as any).description;
 
       return {
         hasRule: true,
         baseUnitName,
         packageUnitName,
-        conversionRate: conversion.conversionRate,
-        description: conversion.description || `1${packageUnitName} = ${conversion.conversionRate}${baseUnitName}`
+        conversionRate,
+        description: description || `1${packageUnitName} = ${conversionRate}${baseUnitName}`
       };
     } catch (error) {
       console.error('获取转换规则信息失败:', error);
@@ -151,12 +154,13 @@ export class UnitConversionHelper {
     try {
       const conversion = await unitConversionService.findByProductId(productId);
       
-      if (!conversion || !conversion.isActive) {
+      if (!conversion || !('isActive' in conversion) || !conversion.isActive) {
         return 'base';
       }
 
-      const packageQuantity = Math.floor(baseQuantity / conversion.conversionRate);
-      const remainder = baseQuantity % conversion.conversionRate;
+      const conversionRate = (conversion as any).conversionRate || 1;
+      const packageQuantity = Math.floor(baseQuantity / conversionRate);
+      const remainder = baseQuantity % conversionRate;
 
       if (packageQuantity === 0) {
         return 'base'; // 不足一个包装单位，显示基础单位

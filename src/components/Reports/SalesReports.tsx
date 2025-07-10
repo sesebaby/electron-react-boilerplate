@@ -101,8 +101,8 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
   const generateReport = async () => {
     try {
       const [orders, deliveries] = await Promise.all([
-        salesOrderService.findAll(),
-        salesDeliveryService.findAll()
+        salesOrderService.findAll() as Promise<SalesOrder[]>,
+        salesDeliveryService.findAll() as Promise<SalesDelivery[]>
       ]);
 
       // 过滤日期范围

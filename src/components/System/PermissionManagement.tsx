@@ -64,7 +64,7 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
       if (rolesData.length > 0) {
         setSelectedRole(rolesData[0]);
         const permissions = await permissionService.getRolePermissions(rolesData[0]);
-        setRolePermissions(permissions);
+        setRolePermissions(permissions.length > 0 ? permissions[0] : null);
       }
     } catch (error) {
       console.error('Failed to load permission data:', error);
@@ -77,8 +77,12 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
   const handleRoleSelect = async (role: UserRole) => {
     try {
       setSelectedRole(role);
-      const permissions = await permissionService.getRolePermissions(role);
-      setRolePermissions(permissions);
+      const permissionsData = await permissionService.getRolePermissions(role);
+      // Convert array to PermissionConfig format
+      const permissionConfig = Array.isArray(permissionsData) && permissionsData.length > 0 
+        ? permissionsData[0] 
+        : null;
+      setRolePermissions(permissionConfig);
     } catch (error) {
       console.error('Failed to load role permissions:', error);
       setMessage({ type: 'error', text: '加载角色权限失败' });
@@ -110,7 +114,11 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
 
     try {
       setSaving(true);
-      await permissionService.updateRolePermissions(selectedRole, rolePermissions.permissions);
+      // Convert permissions object to string array format expected by service
+      const permissionStrings = Object.entries(rolePermissions || {}).flatMap(([module, actions]) => 
+        Array.isArray(actions) ? actions.map(action => `${module}:${action.name}`) : []
+      );
+      await permissionService.updateRolePermissions(selectedRole, permissionStrings);
       setMessage({ type: 'success', text: '权限保存成功' });
     } catch (error) {
       console.error('Failed to save permissions:', error);

@@ -145,13 +145,49 @@ export enum ProductStatus {
   DISCONTINUED = 'discontinued'
 }
 
+// 库存商品类型别名（兼容性）
+export type InventoryItem = Product;
+
+// 分类状态枚举
+export enum CategoryStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  ARCHIVED = 'archived'
+}
+
+// 仓库状态枚举
+export enum WarehouseStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  MAINTENANCE = 'maintenance'
+}
+
+// 仓库类型枚举
+export enum WarehouseType {
+  MAIN = 'main',
+  BRANCH = 'branch',
+  VIRTUAL = 'virtual'
+}
+
+// 订单状态枚举（通用）
+export enum OrderStatus {
+  DRAFT = 'draft',
+  CONFIRMED = 'confirmed',
+  PROCESSING = 'processing',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled'
+}
+
 // 商品分类实体
 export interface Category extends BaseEntity {
   name: string;                   // 分类名称
+  code?: string;                  // 分类编码
+  description?: string;           // 分类描述
   parentId?: string;              // 父分类ID
   level: number;                  // 分类层级
   sortOrder: number;              // 排序
   isActive: boolean;              // 是否启用
+  status?: string;                // 状态
   children?: Category[];          // 子分类
 }
 
@@ -176,10 +212,16 @@ export interface InventoryStock extends BaseEntity {
   minStock: number;               // 最小库存
   maxStock: number;               // 最大库存
   avgCost: number;                // 平均成本
+  unitCost: number;               // 单位成本
   unitPrice: number;              // 单价
+  totalValue: number;             // 总价值
+  safetyStock?: number;           // 安全库存（兼容字段）
+  isLowStock?: boolean;           // 是否低库存（兼容字段）
+  isOutOfStock?: boolean;         // 是否缺货（兼容字段）
   lastInDate?: Date;              // 最后入库日期
   lastOutDate?: Date;             // 最后出库日期
   lastMovementDate?: Date;        // 最后库存变动日期
+  lastUpdated?: Date;             // 最后更新时间（兼容字段）
   
   // 关联实体
   product?: Product;
@@ -191,24 +233,103 @@ export interface InventoryTransaction extends BaseEntity {
   transactionNo: string;          // 流水单号
   productId: string;              // 商品ID
   warehouseId: string;            // 仓库ID
+  type: TransactionType;          // 操作类型（兼容字段）
   transactionType: TransactionType; // 操作类型
   quantity: number;               // 数量(正负数)
   unitPrice: number;              // 单价
+  unitCost: number;               // 单位成本（兼容字段）
   totalAmount: number;            // 金额
+  totalCost: number;              // 总成本（兼容字段）
   referenceType?: string;         // 关联单据类型
   referenceId?: string;           // 关联单据ID
   remark?: string;                // 备注
+  notes?: string;                 // 备注（兼容字段）
   operator: string;               // 操作人
-  
+  createdBy: string;              // 创建人（兼容字段）
+
   // 关联实体
   product?: Product;
   warehouse?: Warehouse;
+}
+
+// 库存交易记录（用于库存服务）
+export interface StockTransaction {
+  id: string;
+  productId: string;
+  warehouseId: string;
+  type: TransactionType;
+  quantity: number;
+  unitCost: number;
+  totalCost: number;
+  referenceId?: string;
+  referenceType?: string;
+  notes?: string;
+  createdAt: Date;
+  createdBy: string;
 }
 
 export enum TransactionType {
   IN = 'in',                      // 入库
   OUT = 'out',                    // 出库
   ADJUST = 'adjust'               // 调整
+}
+
+// 批量操作结果类型
+export interface BatchOperationResult<T = any> {
+  total: number;
+  successful: number;
+  failed: number;
+  successfulItems: T[];
+  failedItems: { item: T; error: string }[];
+}
+
+// 产品库存信息类型
+export interface ProductInventoryInfo {
+  productId: string;
+  totalStock: number;
+  availableStock: number;
+  reservedStock: number;
+  warehouses: Array<{
+    warehouseId: string;
+    stock: number;
+    available: number;
+    reserved: number;
+  }>;
+}
+
+// 产品价格历史类型
+export interface ProductPriceHistory {
+  productId: string;
+  priceType: 'purchase' | 'sale';
+  price: number;
+  effectiveDate: Date;
+  operator: string;
+  reason?: string;
+}
+
+// 财务统计接口
+export interface FinancialStatistics {
+  totalCount: number;
+  totalAmount: number;
+  paidAmount: number;
+  receivedAmount: number;
+  remainingAmount: number;
+  overdueAmount: number;
+  overdueCount: number;
+  lastUpdated: Date;
+}
+
+// 财务过滤器接口
+export interface FinancialFilter {
+  supplierId?: string;
+  customerId?: string;
+  startDate?: Date;
+  endDate?: Date;
+  status?: string;
+  amountRange?: {
+    min?: number;
+    max?: number;
+  };
 }
 
 // 供应商实体
@@ -391,7 +512,10 @@ export enum SalesOrderStatus {
 export enum PaymentStatus {
   UNPAID = 'unpaid',
   PARTIAL = 'partial',
-  PAID = 'paid'
+  PAID = 'paid',
+  PENDING = 'pending',
+  OVERDUE = 'overdue',
+  CANCELLED = 'cancelled'
 }
 
 // 销售订单明细实体
@@ -458,13 +582,17 @@ export interface AccountsPayable extends BaseEntity {
   billNo: string;                 // 账单编号
   supplierId: string;             // 供应商ID
   orderId?: string;               // 采购订单ID
+  purchaseOrderId?: string;       // 采购订单ID（兼容字段）
   billDate: Date;                 // 账单日期
   dueDate: Date;                  // 到期日期
   totalAmount: number;            // 账单总额
+  amount?: number;                // 金额（兼容字段）
   paidAmount: number;             // 已付金额
   balanceAmount: number;          // 余额
+  remainingAmount?: number;       // 剩余金额（兼容字段）
   status: PayableStatus;          // 状态
-  
+  description?: string;           // 描述
+
   // 关联实体
   supplier?: Supplier;
   order?: PurchaseOrder;
@@ -483,13 +611,17 @@ export interface AccountsReceivable extends BaseEntity {
   billNo: string;                 // 账单编号
   customerId: string;             // 客户ID
   orderId?: string;               // 销售订单ID
+  salesOrderId?: string;          // 销售订单ID（兼容字段）
   billDate: Date;                 // 账单日期
   dueDate: Date;                  // 到期日期
   totalAmount: number;            // 账单总额
+  amount?: number;                // 金额（兼容字段）
   receivedAmount: number;         // 已收金额
   balanceAmount: number;          // 余额
+  remainingAmount?: number;       // 剩余金额（兼容字段）
   status: ReceivableStatus;       // 状态
-  
+  description?: string;           // 描述
+
   // 关联实体
   customer?: Customer;
   order?: SalesOrder;
@@ -500,7 +632,10 @@ export enum ReceivableStatus {
   UNPAID = 'unpaid',
   PARTIAL = 'partial',
   PAID = 'paid',
-  OVERDUE = 'overdue'
+  PENDING = 'pending',
+  OVERDUE = 'overdue',
+  CANCELLED = 'cancelled',
+  RECEIVED = 'received'
 }
 
 // 付款记录实体

@@ -170,16 +170,13 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
       // 逐个处理出库项目
       const results = [];
       for (const item of formData.items) {
-        const result = await inventoryStockService.stockOut({
-          productId: item.productId,
-          warehouseId: item.warehouseId,
-          quantity: item.quantity,
-          unitPrice: item.unitPrice,
-          referenceType: formData.referenceType || '手工出库',
-          referenceId: formData.referenceId || `MANUAL_${Date.now()}`,
-          remark: item.remark || formData.remark,
-          operator: formData.operator
-        });
+        const result = await inventoryStockService.stockOut(
+          item.productId,
+          item.warehouseId,
+          item.quantity,
+          formData.referenceId || `MANUAL_${Date.now()}`,
+          formData.referenceType || '手工出库',
+        );
         results.push(result);
       }
       

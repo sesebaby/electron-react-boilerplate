@@ -34,7 +34,19 @@ const InventoryCardView: React.FC = () => {
       setState(prev => ({ ...prev, loading: true, error: null }));
 
       // 获取真实的仓库卡片数据
-      const warehouses = await inventoryCardService.getWarehouseCardData();
+      const warehousesData = await inventoryCardService.getWarehouseCardData('default');
+      
+      // Transform service data to WarehouseCardData format
+      const warehouses: WarehouseCardData[] = [{
+        warehouseId: warehousesData.warehouseId || 'default',
+        warehouseName: '默认仓库',
+        warehouseCode: 'WH001',
+        products: warehousesData.items || [],
+        totalProducts: (warehousesData.items || []).length,
+        totalValue: warehousesData.totalValue || 0,
+        lowStockCount: 0,
+        outOfStockCount: 0
+      }];
 
       setState(prev => ({
         ...prev,

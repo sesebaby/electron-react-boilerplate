@@ -182,7 +182,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
         // 更新订单项目（简化：删除所有重新添加）
         const existingItems = await purchaseOrderService.getOrderItems(editingOrder.id);
         for (const item of existingItems) {
-          await purchaseOrderService.removeOrderItem(item.id);
+          await purchaseOrderService.removeOrderItem(item.id, editingOrder.id);
         }
       } else {
         // 创建新订单
@@ -224,7 +224,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     setEditingOrder(order);
     
     // 加载订单项目
-    const items = await purchaseOrderService.getOrderItems(order.id);
+    const items = (await purchaseOrderService.getOrderItems(order.id)) as any[];
     
     reset({
       supplierId: order.supplierId,

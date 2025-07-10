@@ -397,6 +397,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
             label="客户类型"
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value as CustomerType)}
+            title="仅用于筛选和标记，不与实际业务挂钩"
           >
             <option value="">全部类型</option>
             <option value={CustomerType.COMPANY}>企业客户</option>
@@ -407,6 +408,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
             label="客户等级"
             value={selectedLevel}
             onChange={(e) => setSelectedLevel(e.target.value as CustomerLevel)}
+            title="仅用于筛选和标记，不与实际业务挂钩"
           >
             <option value="">全部等级</option>
             <option value={CustomerLevel.VIP}>VIP</option>
@@ -445,7 +447,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                 <TableRow>
                   <TableHead className="min-w-[200px]">客户信息</TableHead>
                   <TableHead className="min-w-[200px]">联系方式</TableHead>
-                  <TableHead className="min-w-[120px]">类型/等级</TableHead>
+                  <TableHead className="min-w-[120px]" title="仅用于筛选和标记，不与实际业务挂钩">类型/等级</TableHead>
                   <TableHead className="min-w-[120px]">信用额度</TableHead>
                   <TableHead className="min-w-[100px]">折扣率</TableHead>
                   <TableHead className="min-w-[100px]">状态</TableHead>
@@ -488,8 +490,8 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                     </TableCell>
                     <TableCell className="py-3 px-4">
                       <div className="space-y-1">
-                        <div className="text-white/80 text-sm">{getTypeText(customer.customerType)}</div>
-                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getLevelStyles(customer.level)}`}>
+                        <div className="text-white/80 text-sm" title="仅用于筛选和标记，不与实际业务挂钩">{getTypeText(customer.customerType)}</div>
+                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getLevelStyles(customer.level)}`} title="仅用于筛选和标记，不与实际业务挂钩">
                           {getLevelText(customer.level)}
                         </span>
                       </div>
@@ -498,7 +500,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                       <div>
                         <div className="font-semibold text-white">¥{customer.creditLimit.toLocaleString()}</div>
                         {customer.paymentTerms && (
-                          <div className="text-white/70 text-sm">{customer.paymentTerms}</div>
+                          <div className="text-white/70 text-sm" title="仅用于筛选和标记，不与实际业务挂钩">{customer.paymentTerms}</div>
                         )}
                       </div>
                     </TableCell>
@@ -625,6 +627,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                   label="客户类型"
                   register={register('customerType')}
                   error={errors.customerType?.message}
+                  title="仅用于筛选和标记，不与实际业务挂钩"
                 >
                   <option value={CustomerType.COMPANY}>企业客户</option>
                   <option value={CustomerType.INDIVIDUAL}>个人客户</option>
@@ -634,6 +637,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                   label="客户等级"
                   register={register('level')}
                   error={errors.level?.message}
+                  title="仅用于筛选和标记，不与实际业务挂钩"
                 >
                   <option value={CustomerLevel.BRONZE}>铜牌</option>
                   <option value={CustomerLevel.SILVER}>银牌</option>
@@ -681,6 +685,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                   register={register('paymentTerms')}
                   error={errors.paymentTerms?.message}
                   placeholder="如：月结30天"
+                  title="仅用于筛选和标记，不与实际业务挂钩"
                 />
               </div>
 

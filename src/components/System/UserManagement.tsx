@@ -178,9 +178,22 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const loadCurrentUser = () => {
-    const user = userService.getCurrentUser();
-    setCurrentUser(user);
+  const loadCurrentUser = async () => {
+    const userData = await userService.getCurrentUser();
+    if (userData) {
+      // Transform to full User type
+      const user: User = {
+        id: userData.id,
+        username: userData.username,
+        password: '', // Don't expose password
+        nickname: userData.username,
+        role: UserRole.ADMIN, // Default role
+        status: (userData.status as UserStatus) || UserStatus.ACTIVE,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      setCurrentUser(user);
+    }
   };
 
   const handleCreate = () => {
@@ -277,7 +290,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
       
       if (currentUser?.role === UserRole.ADMIN && currentUser.id !== selectedUser.id) {
         // Admin can reset password without old password
-        await userService.resetPassword(selectedUser.id, data.newPassword);
+        await userService.resetPassword(selectedUser.id);
       } else {
         // User changing own password needs old password
         await userService.changePassword(selectedUser.id, data.oldPassword, data.newPassword);

@@ -5,6 +5,8 @@ export interface InventoryItem {
   sku: string;
   category: string;
   supplier: string;
+  brand?: string;
+  model?: string;
   stockQuantity: number;
   reservedQuantity: number;
   unitPrice: number;

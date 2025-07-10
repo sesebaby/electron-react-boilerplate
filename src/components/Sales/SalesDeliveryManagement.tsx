@@ -106,7 +106,7 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     }
 
     try {
-      const orderItems = await salesOrderService.getOrderItems(orderId);
+      const orderItems = (await salesOrderService.getOrderItems(orderId)) as any[];
       setAvailableOrderItems(orderItems);
     } catch (err) {
       console.error('Failed to load order items:', err);
@@ -156,9 +156,9 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
         });
         
         // 更新出库项目（简化：删除所有重新添加）
-        const existingItems = await salesDeliveryService.getDeliveryItems(editingDelivery.id);
+        const existingItems = (await salesDeliveryService.getDeliveryItems(editingDelivery.id)) as any[];
         for (const item of existingItems) {
-          await salesDeliveryService.removeDeliveryItem(item.id);
+          await salesDeliveryService.removeDeliveryItem(editingDelivery.id, item.id);
         }
       } else {
         // 创建新出库单
@@ -204,8 +204,8 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     
     // 加载订单项目和出库项目
     await loadOrderItems(delivery.orderId);
-    const items = await salesDeliveryService.getDeliveryItems(delivery.id);
-    setFormItems(items.map(item => ({
+    const items = (await salesDeliveryService.getDeliveryItems(delivery.id)) as any[];
+    setFormItems(items.map((item: any) => ({
       id: item.id,
       productId: item.productId,
       orderItemId: item.orderItemId,

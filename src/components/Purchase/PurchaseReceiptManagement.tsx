@@ -95,13 +95,13 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     }
 
     try {
-      const { orderItems } = await purchaseReceiptService.getPendingReceiptsForOrder(orderId);
+      const orderItems = (await purchaseReceiptService.getPendingReceiptsForOrder(orderId)) as any[];
       setAvailableOrderItems(orderItems);
-      
+
       // 自动添加可收货的项目
       const newFormItems: ReceiptItemForm[] = orderItems
-        .filter(item => item.canReceive)
-        .map(item => ({
+        .filter((item: any) => item.canReceive)
+        .map((item: any) => ({
           id: Date.now().toString() + Math.random(),
           productId: item.productId,
           orderItemId: item.id,
@@ -162,9 +162,9 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
         });
         
         // 更新收货项目（简化：删除所有重新添加）
-        const existingItems = await purchaseReceiptService.getReceiptItems(editingReceipt.id);
+        const existingItems = (await purchaseReceiptService.getReceiptItems(editingReceipt.id)) as any[];
         for (const item of existingItems) {
-          await purchaseReceiptService.removeReceiptItem(item.id);
+          await purchaseReceiptService.removeReceiptItem(editingReceipt.id, item.id);
         }
       } else {
         // 创建新收货单
@@ -209,10 +209,10 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     });
     
     // 加载收货项目
-    const items = await purchaseReceiptService.getReceiptItems(receipt.id);
+    const items = (await purchaseReceiptService.getReceiptItems(receipt.id)) as any[];
     await handleOrderChange(receipt.orderId);
-    
-    setFormItems(items.map(item => ({
+
+    setFormItems(items.map((item: any) => ({
       id: item.id,
       productId: item.productId,
       orderItemId: item.orderItemId,

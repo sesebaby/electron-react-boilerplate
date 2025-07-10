@@ -5,7 +5,7 @@ import purchaseOrderService from './purchaseOrderService';
 import supplierService from './supplierService';
 import { warehouseService } from './warehouseService';
 import productService from './productService';
-import inventoryStockService from './inventoryStockService';
+import { inventoryStockService } from './inventoryStockService';
 
 export class PurchaseReceiptService {
   private receipts: Map<string, PurchaseReceipt> = new Map();
@@ -305,16 +305,14 @@ export class PurchaseReceiptService {
     try {
       // 尝试处理所有项目的库存入库
       for (const item of receipt.items) {
-        await inventoryStockService.stockIn({
-          productId: item.productId,
-          warehouseId: receipt.warehouseId,
-          quantity: item.quantity,
-          unitPrice: item.unitPrice,
-          referenceType: 'purchase_receipt',
-          referenceId: receiptId,
-          remark: `采购收货 - ${receipt.receiptNo}`,
-          operator: receipt.receiver
-        });
+        await inventoryStockService.stockIn(
+          item.productId,
+          receipt.warehouseId,
+          item.quantity,
+          item.unitPrice,
+          receiptId,
+          'purchase_receipt',
+        );
 
         // 记录成功的入库操作，以备回滚
         successfulTransactions.push({
@@ -347,16 +345,13 @@ export class PurchaseReceiptService {
         // 逐个回滚，记录失败
         for (const transaction of successfulTransactions) {
           try {
-            await inventoryStockService.stockOut({
-              productId: transaction.productId,
-              warehouseId: transaction.warehouseId,
-              quantity: transaction.quantity,
-              unitPrice: transaction.unitPrice,
-              referenceType: 'purchase_receipt_rollback',
-              referenceId: receiptId,
-              remark: `采购收货回滚 - ${receipt.receiptNo}`,
-              operator: 'system'
-            });
+            await inventoryStockService.stockOut(
+              transaction.productId,
+              transaction.warehouseId,
+              transaction.quantity,
+              receiptId,
+              'purchase_receipt_rollback',
+            );
             logger.info(`Successfully rolled back inventory for item ${transaction.itemId}`);
           } catch (rollbackError) {
             const errorMsg = rollbackError instanceof Error ? rollbackError.message : '未知错误';

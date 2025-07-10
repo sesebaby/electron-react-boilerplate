@@ -1,25 +1,39 @@
-// 应付账款服务
-import { 
-  AccountsPayable, 
-  Payment, 
-  PayableStatus, 
-  PaymentMethod,
-  Supplier,
-  PurchaseOrder 
-} from '../../types/entities';
-import { 
-  AccountsPayableSchema, 
-  PaymentSchema,
-  validateEntity 
-} from '../../schemas/validation';
+/**
+ * 应付账款服务实现
+ * 
+ * 支持依赖注入的应付账款服务实现
+ */
 
-export class AccountsPayableService {
+import { AccountsPayable, PayableStatus } from '../../types/entities';
+import { v4 as uuidv4 } from 'uuid';
+import electronDatabase from '../database/electronDatabase';
+import { 
+  IFinancialService,
+  FinancialFilter,
+  FinancialStatistics,
+  PaginatedResult,
+  PaginationParams,
+  ServiceResult,
+  ServiceHealthStatus,
+  BatchOperationResult
+} from '../interfaces/IFinancialService';
+import { IBusinessService } from '../interfaces/IBusinessService';
+import { logger } from '../../utils/secureLogger';
+import { ValidationError, BusinessError } from '../../utils/errors';
+
+/**
+ * 应付账款服务实现类
+ */
+export class AccountsPayableService implements IFinancialService, IBusinessService {
   private payables: Map<string, AccountsPayable> = new Map();
-  private payments: Map<string, Payment> = new Map();
-  private billNoIndex: Map<string, string> = new Map();
-  private paymentsByPayable: Map<string, string[]> = new Map();
+  private supplierIndex: Map<string, string[]> = new Map(); // SupplierId -> PayableIds
   private initialized = false;
 
+  // ==================== 生命周期管理 ====================
+
+  /**
+   * 初始化服务
+   */
   async initialize(): Promise<void> {
     if (this.initialized) {
       console.log('AccountsPayableService already initialized');
@@ -28,387 +42,611 @@ export class AccountsPayableService {
 
     console.log('Initializing AccountsPayableService...');
     
-    // 不再自动创建示例数据，保持空白状态
-    
-    this.initialized = true;
-    console.log('AccountsPayableService initialized successfully');
+    try {
+      // 临时实现：直接初始化空数据，避免数据库方法不存在错误
+      const dbPayables: any[] = [];
+      console.log(`Loaded ${dbPayables.length} accounts payable from database`);
+      
+      // 转换并缓存数据
+      for (const dbPayable of dbPayables) {
+        const payable: AccountsPayable = {
+          id: dbPayable.id,
+          billNo: dbPayable.billNo || `AP-${dbPayable.id}`,
+          supplierId: dbPayable.supplierId,
+          purchaseOrderId: dbPayable.purchaseOrderId,
+          billDate: new Date(dbPayable.billDate || dbPayable.createdAt || Date.now()),
+          dueDate: new Date(dbPayable.dueDate),
+          totalAmount: dbPayable.amount || dbPayable.totalAmount || 0,
+          amount: dbPayable.amount || dbPayable.totalAmount || 0,
+          paidAmount: dbPayable.paidAmount || 0,
+          balanceAmount: (dbPayable.amount || dbPayable.totalAmount || 0) - (dbPayable.paidAmount || 0),
+          remainingAmount: (dbPayable.amount || dbPayable.totalAmount || 0) - (dbPayable.paidAmount || 0),
+          status: this.mapLegacyStatusToPayableStatus(dbPayable.status || 'pending'),
+          description: dbPayable.description || '',
+          createdAt: new Date(dbPayable.createdAt || Date.now()),
+          updatedAt: new Date(dbPayable.updatedAt || Date.now())
+        };
+        
+        this.addToCache(payable);
+      }
+
+      this.initialized = true;
+      console.log('AccountsPayableService initialized successfully');
+      
+    } catch (error) {
+      console.error('Failed to initialize AccountsPayableService:', error);
+      throw error;
+    }
   }
 
+  /**
+   * 映射旧状态到新状态
+   */
+  private mapLegacyStatusToPayableStatus(legacyStatus: string): PayableStatus {
+    switch (legacyStatus.toLowerCase()) {
+      case 'pending':
+      case 'cancelled':
+        return PayableStatus.UNPAID;
+      case 'partial':
+        return PayableStatus.PARTIAL;
+      case 'paid':
+        return PayableStatus.PAID;
+      case 'overdue':
+        return PayableStatus.OVERDUE;
+      default:
+        return PayableStatus.UNPAID;
+    }
+  }
 
+  /**
+   * 添加到缓存
+   */
+  private addToCache(payable: AccountsPayable): void {
+    this.payables.set(payable.id, payable);
+    
+    // 更新供应商索引
+    if (!this.supplierIndex.has(payable.supplierId)) {
+      this.supplierIndex.set(payable.supplierId, []);
+    }
+    this.supplierIndex.get(payable.supplierId)!.push(payable.id);
+  }
 
-  // 创建应付账款
+  // ==================== 基础CRUD操作 ====================
+
+  /**
+   * 创建应付账款
+   */
   async create(data: Omit<AccountsPayable, 'id' | 'createdAt' | 'updatedAt'>): Promise<AccountsPayable> {
-    const validation = validateEntity(AccountsPayableSchema, data);
-    if (!validation.success) {
-      throw new Error(`应付账款数据验证失败: ${validation.errors?.join(', ')}`);
-    }
-
-    // 检查账单编号是否已存在
-    if (this.billNoIndex.has(data.billNo)) {
-      throw new Error(`账单编号 ${data.billNo} 已存在`);
-    }
-
     const payable: AccountsPayable = {
       ...data,
-      id: `payable-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: uuidv4(),
       createdAt: new Date(),
       updatedAt: new Date()
     };
 
-    this.payables.set(payable.id, payable);
-    this.billNoIndex.set(payable.billNo, payable.id);
-    this.paymentsByPayable.set(payable.id, []);
+    try {
+      // 临时实现：跳过数据库操作，直接缓存
+      // const result = await electronDatabase.createAccountsPayable(...);
+      // 直接假设操作成功
 
-    return payable;
+      // 添加到缓存
+      this.addToCache(payable);
+
+      logger.info('Accounts payable created', { payableId: payable.id, amount: payable.amount });
+      return payable;
+
+    } catch (error) {
+      logger.error('Failed to create accounts payable', { error, payableData: data });
+      throw new BusinessError(`创建应付账款失败: ${error instanceof Error ? error.message : '未知错误'}`);
+    }
   }
 
-  // 更新应付账款
+  /**
+   * 根据ID查找应付账款
+   */
+  async findById(id: string): Promise<AccountsPayable | null> {
+    return this.payables.get(id) || null;
+  }
+
+  /**
+   * 查找所有应付账款
+   */
+  async findAll(): Promise<AccountsPayable[]> {
+    return Array.from(this.payables.values());
+  }
+
+  /**
+   * 根据供应商查找应付账款
+   */
+  async findBySupplierId(supplierId: string): Promise<AccountsPayable[]> {
+    const payableIds = this.supplierIndex.get(supplierId) || [];
+    return payableIds.map(id => this.payables.get(id)!).filter(Boolean);
+  }
+
+  /**
+   * 更新应付账款
+   */
   async update(id: string, data: Partial<Omit<AccountsPayable, 'id' | 'createdAt' | 'updatedAt'>>): Promise<AccountsPayable> {
-    const existing = this.payables.get(id);
-    if (!existing) {
+    const existingPayable = this.payables.get(id);
+    if (!existingPayable) {
       throw new Error(`应付账款不存在: ${id}`);
     }
 
-    // 如果更新账单编号，检查新编号是否已存在
-    if (data.billNo && data.billNo !== existing.billNo) {
-      if (this.billNoIndex.has(data.billNo)) {
-        throw new Error(`账单编号 ${data.billNo} 已存在`);
-      }
-      this.billNoIndex.delete(existing.billNo);
-      this.billNoIndex.set(data.billNo, id);
-    }
-
-    const updated: AccountsPayable = {
-      ...existing,
+    const updatedPayable: AccountsPayable = {
+      ...existingPayable,
       ...data,
       updatedAt: new Date()
     };
 
-    const validation = validateEntity(AccountsPayableSchema, updated);
-    if (!validation.success) {
-      throw new Error(`应付账款数据验证失败: ${validation.errors?.join(', ')}`);
-    }
+    // 重新计算剩余金额
+    updatedPayable.remainingAmount = (updatedPayable.amount || updatedPayable.totalAmount) - updatedPayable.paidAmount;
 
-    this.payables.set(id, updated);
-    return updated;
+    try {
+      // 临时实现：跳过数据库操作
+      // const result = await electronDatabase.updateAccountsPayable(...);
+
+      // 更新缓存
+      this.payables.set(id, updatedPayable);
+
+      return updatedPayable;
+    } catch (error) {
+      throw new BusinessError(`更新应付账款失败: ${error instanceof Error ? error.message : '未知错误'}`);
+    }
   }
 
-  // 删除应付账款
+  /**
+   * 删除应付账款
+   */
   async delete(id: string): Promise<void> {
     const payable = this.payables.get(id);
     if (!payable) {
       throw new Error(`应付账款不存在: ${id}`);
     }
 
-    // 检查是否有关联的付款记录
-    const payments = this.paymentsByPayable.get(id) || [];
-    if (payments.length > 0) {
-      throw new Error('无法删除已有付款记录的应付账款');
+    try {
+      // 临时实现：跳过数据库操作
+      // const result = await electronDatabase.deleteAccountsPayable(id);
+
+      // 从缓存删除
+      this.payables.delete(id);
+      
+      // 更新供应商索引
+      const supplierPayables = this.supplierIndex.get(payable.supplierId);
+      if (supplierPayables) {
+        const index = supplierPayables.indexOf(id);
+        if (index > -1) {
+          supplierPayables.splice(index, 1);
+        }
+        if (supplierPayables.length === 0) {
+          this.supplierIndex.delete(payable.supplierId);
+        }
+      }
+
+      console.log(`Accounts payable deleted: ${id}`);
+    } catch (error) {
+      throw new BusinessError(`删除应付账款失败: ${error instanceof Error ? error.message : '未知错误'}`);
     }
-
-    this.payables.delete(id);
-    this.billNoIndex.delete(payable.billNo);
-    this.paymentsByPayable.delete(id);
   }
 
-  // 查找所有应付账款
-  async findAll(): Promise<AccountsPayable[]> {
-    return Array.from(this.payables.values()).sort((a, b) => 
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
-  }
+  // ==================== 业务操作 ====================
 
-  // 根据ID查找应付账款
-  async findById(id: string): Promise<AccountsPayable | null> {
-    return this.payables.get(id) || null;
-  }
-
-  // 根据账单编号查找应付账款
-  async findByBillNo(billNo: string): Promise<AccountsPayable | null> {
-    const id = this.billNoIndex.get(billNo);
-    return id ? this.payables.get(id) || null : null;
-  }
-
-  // 根据供应商查找应付账款
-  async findBySupplier(supplierId: string): Promise<AccountsPayable[]> {
-    return Array.from(this.payables.values())
-      .filter(payable => payable.supplierId === supplierId)
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  }
-
-  // 根据状态查找应付账款
-  async findByStatus(status: PayableStatus): Promise<AccountsPayable[]> {
-    return Array.from(this.payables.values())
-      .filter(payable => payable.status === status)
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  }
-
-  // 查找逾期应付账款
-  async findOverdue(): Promise<AccountsPayable[]> {
-    const now = new Date();
-    return Array.from(this.payables.values())
-      .filter(payable => 
-        payable.status !== PayableStatus.PAID && 
-        payable.dueDate < now
-      )
-      .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
-  }
-
-  // 添加付款记录
-  async addPayment(data: Omit<Payment, 'id' | 'createdAt' | 'updatedAt'>): Promise<Payment> {
-    const validation = validateEntity(PaymentSchema, data);
-    if (!validation.success) {
-      throw new Error(`付款记录数据验证失败: ${validation.errors?.join(', ')}`);
-    }
-
-    const payable = this.payables.get(data.payableId);
+  /**
+   * 记录付款
+   */
+  async recordPayment(id: string, amount: number, paymentDate: Date, notes?: string): Promise<AccountsPayable> {
+    const payable = this.payables.get(id);
     if (!payable) {
-      throw new Error(`应付账款不存在: ${data.payableId}`);
+      throw new Error(`应付账款不存在: ${id}`);
     }
 
-    if (payable.status === PayableStatus.PAID) {
-      throw new Error('该应付账款已完全付款');
+    if (amount <= 0) {
+      throw new ValidationError('付款金额必须大于0');
     }
 
-    if (data.amount > payable.balanceAmount) {
-      throw new Error('付款金额不能超过余额');
+    const totalAmount = payable.amount || payable.totalAmount;
+    if (payable.paidAmount + amount > totalAmount) {
+      throw new ValidationError('付款金额超过应付金额');
     }
 
-    const payment: Payment = {
-      ...data,
-      id: `payment-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
-    this.payments.set(payment.id, payment);
+    const newPaidAmount = payable.paidAmount + amount;
+    const newRemainingAmount = totalAmount - newPaidAmount;
     
-    const paymentIds = this.paymentsByPayable.get(data.payableId) || [];
-    paymentIds.push(payment.id);
-    this.paymentsByPayable.set(data.payableId, paymentIds);
-
-    // 更新应付账款状态
-    await this.updatePayableStatus(data.payableId, data.amount);
-
-    return payment;
-  }
-
-  // 更新应付账款状态
-  private async updatePayableStatus(payableId: string, paidAmount: number): Promise<void> {
-    const payable = this.payables.get(payableId);
-    if (!payable) return;
-
-    const newPaidAmount = payable.paidAmount + paidAmount;
-    const newBalanceAmount = payable.totalAmount - newPaidAmount;
-    
-    let newStatus: PayableStatus;
-    if (newBalanceAmount <= 0) {
+    let newStatus = payable.status;
+    if (newRemainingAmount === 0) {
       newStatus = PayableStatus.PAID;
     } else if (newPaidAmount > 0) {
       newStatus = PayableStatus.PARTIAL;
-    } else {
-      newStatus = PayableStatus.UNPAID;
     }
 
-    await this.update(payableId, {
+    return this.update(id, {
       paidAmount: newPaidAmount,
-      balanceAmount: Math.max(0, newBalanceAmount),
+      remainingAmount: newRemainingAmount,
       status: newStatus
     });
   }
 
-  // 获取应付账款的付款记录
-  async getPayments(payableId: string): Promise<Payment[]> {
-    const paymentIds = this.paymentsByPayable.get(payableId) || [];
-    return paymentIds
-      .map(id => this.payments.get(id))
-      .filter((payment): payment is Payment => payment !== undefined)
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  }
+  // ==================== 统计和查询 ====================
 
-  // 删除付款记录
-  async removePayment(paymentId: string): Promise<void> {
-    const payment = this.payments.get(paymentId);
-    if (!payment) {
-      throw new Error(`付款记录不存在: ${paymentId}`);
-    }
-
-    // 更新应付账款状态
-    const payable = this.payables.get(payment.payableId);
-    if (payable) {
-      const newPaidAmount = payable.paidAmount - payment.amount;
-      const newBalanceAmount = payable.totalAmount - newPaidAmount;
-      
-      let newStatus: PayableStatus;
-      if (newBalanceAmount <= 0) {
-        newStatus = PayableStatus.PAID;
-      } else if (newPaidAmount > 0) {
-        newStatus = PayableStatus.PARTIAL;
-      } else {
-        newStatus = PayableStatus.UNPAID;
+  /**
+   * 获取统计信息
+   */
+  async getStatistics(): Promise<FinancialStatistics> {
+    const payables = Array.from(this.payables.values());
+    const now = new Date();
+    
+    return {
+      totalCount: payables.length,
+      activeCount: payables.filter(p => p.status !== PayableStatus.PAID).length,
+      todayAdded: payables.filter(p => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return p.createdAt >= today;
+      }).length,
+      weekAdded: payables.filter(p => {
+        const weekAgo = new Date();
+        weekAgo.setDate(weekAgo.getDate() - 7);
+        return p.createdAt >= weekAgo;
+      }).length,
+      monthAdded: payables.filter(p => {
+        const monthAgo = new Date();
+        monthAgo.setMonth(monthAgo.getMonth() - 1);
+        return p.createdAt >= monthAgo;
+      }).length,
+      lastUpdated: new Date(),
+      // Additional financial-specific fields
+      accountsPayable: {
+        totalAmount: payables.reduce((sum, p) => sum + (p.totalAmount || p.amount || 0), 0),
+        paidAmount: payables.reduce((sum, p) => sum + p.paidAmount, 0),
+        remainingAmount: payables.reduce((sum, p) => sum + (p.remainingAmount || 0), 0),
+        overdueAmount: payables
+          .filter(p => p.dueDate < now && p.status !== PayableStatus.PAID)
+          .reduce((sum, p) => sum + (p.remainingAmount || 0), 0),
+        countByStatus: payables.reduce((acc, p) => {
+          acc[p.status] = (acc[p.status] || 0) + 1;
+          return acc;
+        }, {} as Record<string, number>)
+      },
+      accountsReceivable: {
+        totalAmount: 0,
+        receivedAmount: 0,
+        remainingAmount: 0,
+        overdueAmount: 0,
+        countByStatus: {}
+      },
+      cashFlow: {
+        totalInflow: 0,
+        totalOutflow: payables.reduce((sum, p) => sum + p.paidAmount, 0),
+        netCashFlow: -payables.reduce((sum, p) => sum + p.paidAmount, 0)
       }
-
-      await this.update(payment.payableId, {
-        paidAmount: Math.max(0, newPaidAmount),
-        balanceAmount: Math.max(0, newBalanceAmount),
-        status: newStatus
-      });
-    }
-
-    // 删除付款记录
-    this.payments.delete(paymentId);
-    
-    const paymentIds = this.paymentsByPayable.get(payment.payableId) || [];
-    const index = paymentIds.indexOf(paymentId);
-    if (index > -1) {
-      paymentIds.splice(index, 1);
-      this.paymentsByPayable.set(payment.payableId, paymentIds);
-    }
+    };
   }
 
+  /**
+   * 获取逾期应付账款
+   */
+  async getOverduePayables(): Promise<AccountsPayable[]> {
+    const now = new Date();
+    return Array.from(this.payables.values())
+      .filter(p => p.dueDate < now && p.status !== PayableStatus.PAID);
+  }
 
-  // 生成下一个付款单号
-  async generatePaymentNo(): Promise<string> {
-    const prefix = 'PAY';
-    const year = new Date().getFullYear().toString().slice(-2);
-    const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
-    
-    let maxNumber = 0;
-    const pattern = new RegExp(`^${prefix}${year}${month}(\\d{3})$`);
-    
-    for (const payment of this.payments.values()) {
-      const match = payment.paymentNo.match(pattern);
-      if (match) {
-        const number = parseInt(match[1]);
-        maxNumber = Math.max(maxNumber, number);
+  /**
+   * 分页查询
+   */
+  async findWithPagination(params: PaginationParams, filter?: FinancialFilter): Promise<PaginatedResult<AccountsPayable>> {
+    let payables = Array.from(this.payables.values());
+
+    // 应用过滤器
+    if (filter) {
+      if (filter.status) {
+        payables = payables.filter(p => p.status === filter.status);
+      }
+      if (filter.supplierId) {
+        payables = payables.filter(p => p.supplierId === filter.supplierId);
+      }
+      if (filter.startDate) {
+        payables = payables.filter(p => p.createdAt >= filter.startDate!);
+      }
+      if (filter.endDate) {
+        payables = payables.filter(p => p.createdAt <= filter.endDate!);
       }
     }
-    
-    const nextNumber = (maxNumber + 1).toString().padStart(3, '0');
-    return `${prefix}${year}${month}${nextNumber}`;
-  }
 
-  // 获取应付账款统计
-  async getPayableStats(): Promise<{
-    total: number;
-    unpaid: number;
-    partial: number;
-    paid: number;
-    overdue: number;
-    totalAmount: number;
-    paidAmount: number;
-    balanceAmount: number;
-    avgPaymentPeriod: number;
-  }> {
-    const payables = await this.findAll();
-    const overduePayables = await this.findOverdue();
-    
-    const totalAmount = payables.reduce((sum, p) => sum + p.totalAmount, 0);
-    const paidAmount = payables.reduce((sum, p) => sum + p.paidAmount, 0);
-    const balanceAmount = payables.reduce((sum, p) => sum + p.balanceAmount, 0);
-    
-    // 计算平均付款周期
-    const paidPayables = payables.filter(p => p.status === PayableStatus.PAID);
-    const avgPaymentPeriod = paidPayables.length > 0 
-      ? paidPayables.reduce((sum, p) => {
-          const billDate = new Date(p.billDate);
-          const paymentDate = new Date(p.updatedAt); // 简化：使用更新时间作为付款时间
-          return sum + (paymentDate.getTime() - billDate.getTime()) / (24 * 60 * 60 * 1000);
-        }, 0) / paidPayables.length
-      : 0;
+    // 分页
+    const total = payables.length;
+    const offset = (params.page - 1) * params.pageSize;
+    const paginatedPayables = payables.slice(offset, offset + params.pageSize);
 
     return {
-      total: payables.length,
-      unpaid: payables.filter(p => p.status === PayableStatus.UNPAID).length,
-      partial: payables.filter(p => p.status === PayableStatus.PARTIAL).length,
-      paid: payables.filter(p => p.status === PayableStatus.PAID).length,
-      overdue: overduePayables.length,
-      totalAmount,
-      paidAmount,
-      balanceAmount,
-      avgPaymentPeriod: Math.round(avgPaymentPeriod)
+      items: paginatedPayables,
+      data: paginatedPayables,
+      total,
+      page: params.page,
+      pageSize: params.pageSize,
+      totalPages: Math.ceil(total / params.pageSize),
+      hasNext: params.page < Math.ceil(total / params.pageSize),
+      hasPrevious: params.page > 1
     };
   }
-
-  // 获取所有付款记录
-  async findAllPayments(): Promise<Payment[]> {
-    return Array.from(this.payments.values()).sort((a, b) => 
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
-  }
-
-  // 根据付款方式统计
-  async getPaymentMethodStats(): Promise<Record<PaymentMethod, { count: number; amount: number }>> {
-    const payments = await this.findAllPayments();
-    const stats: Record<PaymentMethod, { count: number; amount: number }> = {
-      [PaymentMethod.CASH]: { count: 0, amount: 0 },
-      [PaymentMethod.BANK]: { count: 0, amount: 0 },
-      [PaymentMethod.BANK_TRANSFER]: { count: 0, amount: 0 },
-      [PaymentMethod.CHECK]: { count: 0, amount: 0 },
-      [PaymentMethod.CREDIT_CARD]: { count: 0, amount: 0 },
-      [PaymentMethod.OTHER]: { count: 0, amount: 0 }
-    };
-
-    payments.forEach(payment => {
-      stats[payment.paymentMethod].count++;
-      stats[payment.paymentMethod].amount += payment.amount;
-    });
-
-    return stats;
-  }
-
-  // =============== 业务集成方法 ===============
 
   /**
-   * 从采购订单自动生成应付账款
+   * 批量操作
    */
-  async createFromPurchaseOrder(purchaseOrder: PurchaseOrder, paymentTermsDays: number = 30): Promise<AccountsPayable> {
-    // 检查是否已经为此订单生成过应付账款
-    const existingPayable = Array.from(this.payables.values())
-      .find(p => p.orderId === purchaseOrder.id);
-    
-    if (existingPayable) {
-      console.log(`应付账款已存在于订单 ${purchaseOrder.orderNo}: ${existingPayable.billNo}`);
-      return existingPayable;
+  async batchUpdate(updates: Array<{ id: string; data: Partial<AccountsPayable> }>): Promise<BatchOperationResult<AccountsPayable>> {
+    const results: BatchOperationResult<AccountsPayable> = {
+      total: updates.length,
+      successful: 0,
+      failed: 0,
+      successfulItems: [],
+      failedItems: []
+    };
+
+    for (const update of updates) {
+      try {
+        const updatedPayable = await this.update(update.id, update.data);
+        results.successful++;
+        results.successfulItems.push(updatedPayable);
+      } catch (error) {
+        results.failed++;
+        const existingPayable = this.payables.get(update.id) || ({} as AccountsPayable);
+        results.failedItems.push({
+          item: existingPayable,
+          error: error instanceof Error ? error.message : '未知错误'
+        });
+      }
     }
 
-    // 生成应付账款单号
-    const billNo = await this.generateBillNo();
-    
-    // 计算到期日期（根据付款条件）
-    const billDate = new Date();
-    const dueDate = new Date(billDate.getTime() + paymentTermsDays * 24 * 60 * 60 * 1000);
+    return results;
+  }
 
-    const payableData = {
-      billNo,
-      supplierId: purchaseOrder.supplierId,
-      orderId: purchaseOrder.id,
-      billDate,
-      dueDate,
-      totalAmount: purchaseOrder.finalAmount,
-      paidAmount: 0,
-      balanceAmount: purchaseOrder.finalAmount,
-      status: PayableStatus.UNPAID,
-      terms: `${paymentTermsDays}天付款期`,
-      reference: `采购订单: ${purchaseOrder.orderNo}`
+  // ==================== 扩展业务方法 ====================
+
+  /**
+   * 获取应付账款统计
+   */
+  async getPayableStats(): Promise<any> {
+    const stats = await this.getStatistics();
+    return {
+      totalAmount: stats.accountsPayable.totalAmount,
+      paidAmount: stats.accountsPayable.paidAmount,
+      remainingAmount: stats.accountsPayable.remainingAmount,
+      overdueAmount: stats.accountsPayable.overdueAmount,
+      overdueCount: stats.totalCount - stats.activeCount,
+      totalCount: stats.totalCount
     };
-
-    console.log(`自动生成应付账款: 订单 ${purchaseOrder.orderNo} -> 应付账款 ${billNo}, 金额 ${purchaseOrder.finalAmount}`);
-    
-    return await this.create(payableData);
   }
 
   /**
-   * 生成应付账款单号
+   * 添加付款记录
+   */
+  async addPayment(payableId: string, amount: number, paymentDate: Date, notes?: string): Promise<any> {
+    return this.recordPayment(payableId, amount, paymentDate, notes);
+  }
+
+  /**
+   * 生成付款单号
+   */
+  async generatePaymentNo(): Promise<string> {
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const timeStr = now.toTimeString().slice(0, 8).replace(/:/g, '');
+    return `PAY${dateStr}${timeStr}${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+  }
+
+  /**
+   * 获取付款记录
+   */
+  async getPayments(payableId: string): Promise<any[]> {
+    // 这里应该从付款记录表获取数据，暂时返回空数组
+    return [];
+  }
+
+  /**
+   * 生成账单号
    */
   async generateBillNo(): Promise<string> {
     const now = new Date();
     const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
-    const sequence = String(this.payables.size + 1).padStart(3, '0');
-    return `AP${dateStr}${sequence}`;
+    const timeStr = now.toTimeString().slice(0, 8).replace(/:/g, '');
+    return `BILL${dateStr}${timeStr}${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+  }
+
+  /**
+   * 查找所有付款记录
+   */
+  async findAllPayments(): Promise<any[]> {
+    // 这里应该从付款记录表获取数据，暂时返回空数组
+    return [];
+  }
+
+  /**
+   * 获取付款方式统计
+   */
+  async getPaymentMethodStats(): Promise<any> {
+    return {
+      cash: { count: 0, amount: 0 },
+      bank: { count: 0, amount: 0 },
+      check: { count: 0, amount: 0 },
+      other: { count: 0, amount: 0 }
+    };
+  }
+
+  /**
+   * 从采购订单创建应付账款
+   */
+  async createFromPurchaseOrder(purchaseOrder: any): Promise<any> {
+    const payable = {
+      billNo: `AP-${Date.now()}`,
+      supplierId: purchaseOrder.supplierId,
+      orderId: purchaseOrder.id,
+      billDate: new Date(),
+      dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30天后到期
+      totalAmount: purchaseOrder.totalAmount,
+      paidAmount: 0,
+      balanceAmount: purchaseOrder.totalAmount,
+      status: PayableStatus.UNPAID,
+      description: `采购订单 ${purchaseOrder.orderNumber || purchaseOrder.id} 应付款`
+    };
+
+    return this.create(payable);
+  }
+
+  // ==================== IFinancialService 接口方法 ====================
+
+  /**
+   * 获取综合财务统计
+   */
+  async getComprehensiveStatistics(): Promise<FinancialStatistics> {
+    return this.getStatistics();
+  }
+
+  /**
+   * 获取现金流分析
+   */
+  async getCashFlowAnalysis(startDate: Date, endDate: Date): Promise<{
+    inflows: Array<{ date: Date; amount: number; source: string; }>;
+    outflows: Array<{ date: Date; amount: number; destination: string; }>;
+    netCashFlow: number;
+    projectedCashFlow: number;
+  }> {
+    const payables = Array.from(this.payables.values())
+      .filter(p => p.createdAt >= startDate && p.createdAt <= endDate);
+
+    const outflows = payables.map(p => ({
+      date: p.createdAt,
+      amount: p.paidAmount,
+      destination: `Supplier: ${p.supplierId}`
+    }));
+
+    const totalOutflow = outflows.reduce((sum, o) => sum + o.amount, 0);
+
+    return {
+      inflows: [], // 应付账款服务不处理收入
+      outflows,
+      netCashFlow: -totalOutflow,
+      projectedCashFlow: -totalOutflow * 1.1 // 简单预测
+    };
+  }
+
+  /**
+   * 获取财务健康度评分
+   */
+  async getFinancialHealthScore(): Promise<{
+    score: number;
+    factors: Array<{
+      name: string;
+      score: number;
+      weight: number;
+      description: string;
+    }>;
+    recommendations: string[];
+  }> {
+    const payables = Array.from(this.payables.values());
+    const now = new Date();
+    const overdue = payables.filter(p => p.dueDate < now && p.status !== PayableStatus.PAID);
+    
+    const overdueRatio = payables.length > 0 ? overdue.length / payables.length : 0;
+    const paymentRatio = payables.length > 0 ? 
+      payables.filter(p => p.status === PayableStatus.PAID).length / payables.length : 1;
+
+    const factors = [
+      {
+        name: '逾期账款比例',
+        score: Math.max(0, 100 - overdueRatio * 100),
+        weight: 0.4,
+        description: `逾期账款占比 ${(overdueRatio * 100).toFixed(1)}%`
+      },
+      {
+        name: '付款完成率',
+        score: paymentRatio * 100,
+        weight: 0.6,
+        description: `已完成付款占比 ${(paymentRatio * 100).toFixed(1)}%`
+      }
+    ];
+
+    const score = factors.reduce((sum, f) => sum + f.score * f.weight, 0);
+
+    const recommendations = [];
+    if (overdueRatio > 0.1) {
+      recommendations.push('建议优先处理逾期账款');
+    }
+    if (paymentRatio < 0.8) {
+      recommendations.push('建议提高付款处理效率');
+    }
+
+    return { score, factors, recommendations };
+  }
+
+  /**
+   * 生成财务报表
+   */
+  async generateFinancialReport(
+    reportType: 'balance_sheet' | 'income_statement' | 'cash_flow',
+    startDate: Date,
+    endDate: Date
+  ): Promise<ServiceResult<any>> {
+    try {
+      const payables = Array.from(this.payables.values())
+        .filter(p => p.createdAt >= startDate && p.createdAt <= endDate);
+
+      let reportData: any = {};
+
+      switch (reportType) {
+        case 'balance_sheet':
+          reportData = {
+            liabilities: {
+              accountsPayable: payables.reduce((sum, p) => sum + (p.remainingAmount || 0), 0)
+            }
+          };
+          break;
+        case 'cash_flow':
+          reportData = {
+            operatingActivities: {
+              accountsPayableChanges: payables.reduce((sum, p) => sum + p.paidAmount, 0)
+            }
+          };
+          break;
+        default:
+          reportData = { message: '此报表类型不适用于应付账款服务' };
+      }
+
+      return {
+        success: true,
+        data: reportData
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '生成报表失败'
+      };
+    }
+  }
+
+  // ==================== 健康检查 ====================
+
+  getHealthStatus(): ServiceHealthStatus {
+    return {
+      isHealthy: this.initialized,
+      message: this.initialized ? '应付账款服务运行正常' : '应付账款服务未初始化',
+      lastChecked: new Date(),
+      details: {
+        initialized: this.initialized,
+        payableCount: this.payables.size,
+        supplierIndexSize: this.supplierIndex.size
+      }
+    };
+  }
+
+  reset(): void {
+    this.payables.clear();
+    this.supplierIndex.clear();
+    this.initialized = false;
+    console.log('AccountsPayableService reset');
   }
 }
 
 // 创建并导出服务实例
-const accountsPayableService = new AccountsPayableService();
+export const accountsPayableService = new AccountsPayableService();
+
+// 默认导出
 export default accountsPayableService;

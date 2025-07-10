@@ -5,7 +5,7 @@
 
 import backupService, { BackupInfo, BackupProgress } from './database/backupService';
 import { dataInitializer } from './dataInitializer';
-import { businessServiceManager } from './business';
+import { businessServiceManager } from './business/businessServiceManager';
 
 // 类型断言以确保 ElectronAPI 方法可用
 declare global {
@@ -133,7 +133,7 @@ export class SystemInitializationService {
         message: '正在重新初始化系统服务...'
       });
 
-      await this.reinitializeServices();
+      await this.reinitializeServices(onProgress);
 
       onProgress?.({
         stage: 'services',
@@ -230,22 +230,50 @@ export class SystemInitializationService {
   /**
    * 重新初始化系统服务
    */
-  private async reinitializeServices(): Promise<void> {
+  private async reinitializeServices(onProgress?: (progress: InitializationProgress) => void): Promise<void> {
     try {
+      console.log('开始重新初始化系统服务...');
+
       // 重置所有业务服务状态
       businessServiceManager.reset();
-      
-      // 重新初始化数据服务
-      await dataInitializer.initializeData();
-      
-      // 确保业务服务管理器也重新初始化
-      await businessServiceManager.initialize();
-      
-      // 特别处理仓库服务，确保默认仓库被创建
-      const { warehouseService } = await import('./business');
-      await warehouseService.forceReinitialize();
-      
+      dataInitializer.reset();
+
+      // 重新初始化数据服务（使用新的依赖注入系统）
+      await dataInitializer.initializeData({
+        forceReinitialize: true
+      }, (progress) => {
+        // 将数据初始化进度转换为系统初始化进度
+        onProgress?.({
+          stage: 'services',
+          progress: 85 + (progress.progress * 0.1), // 85-95%
+          message: `服务初始化: ${progress.message}`
+        });
+      });
+
+      // 验证服务状态
+      const systemStatus = await businessServiceManager.getSystemStatus();
+      if (!systemStatus.initialized) {
+        throw new Error('业务服务管理器初始化失败');
+      }
+
+      if (systemStatus.services.failed > 0) {
+        console.warn(`${systemStatus.services.failed} 个服务初始化失败，但系统继续运行`);
+      }
+
+      // 验证数据完整性
+      const integrityResult = await businessServiceManager.validateSystemIntegrity();
+      if (!integrityResult.isValid) {
+        const errorIssues = integrityResult.issues.filter(issue => issue.type === 'error');
+        if (errorIssues.length > 0) {
+          console.warn('发现数据完整性问题:', errorIssues);
+        }
+      }
+
       console.log('系统服务重新初始化完成');
+      console.log(`- 总服务数: ${systemStatus.services.total}`);
+      console.log(`- 健康服务: ${systemStatus.services.healthy}`);
+      console.log(`- 失败服务: ${systemStatus.services.failed}`);
+
     } catch (error) {
       console.error('重新初始化系统服务失败:', error);
       throw error;

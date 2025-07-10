@@ -176,9 +176,9 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
         order = await salesOrderService.update(editingOrder.id, orderFields);
         
         // 更新订单项目（简化：删除所有重新添加）
-        const existingItems = await salesOrderService.getOrderItems(editingOrder.id);
+        const existingItems = (await salesOrderService.getOrderItems(editingOrder.id)) as any[];
         for (const item of existingItems) {
-          await salesOrderService.removeOrderItem(item.id);
+          await salesOrderService.removeOrderItem(item.id, editingOrder.id);
         }
       } else {
         // 创建新订单
@@ -211,8 +211,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     setEditingOrder(order);
     
     // 加载订单项目
-    const items = await salesOrderService.getOrderItems(order.id);
-    
+    const items = (await salesOrderService.getOrderItems(order.id)) as any[];
+
     reset({
       customerId: order.customerId,
       orderDate: order.orderDate.toISOString().split('T')[0],
@@ -223,7 +223,7 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
       taxAmount: order.taxAmount,
       remark: order.remark || '',
       creator: order.creator,
-      items: items.map(item => ({
+      items: items.map((item: any) => ({
         id: item.id,
         productId: item.productId,
         quantity: item.quantity,

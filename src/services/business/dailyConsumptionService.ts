@@ -356,7 +356,7 @@ export class DailyConsumptionService {
       data: productData,
       rowTotal,
       hasUnitConversion: !!unitConversion,
-      baseUnit: baseUnit?.symbol || '个',
+      baseUnit: (baseUnit as any)?.symbol || '个',
       convertedUnit: unitConversion?.packageUnitId,
       conversionRate: unitConversion?.conversionRate
     };

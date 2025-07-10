@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import accountsPayableService from '../../services/business/accountsPayableService';
+import { accountsPayableService } from '../../services/business';
 import { supplierService } from '../../services/business';
 import { AccountsPayable, Payment, PayableStatus, PaymentMethod, Supplier } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
@@ -137,6 +137,8 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
           dueDate: new Date(payableFormData.dueDate),
           balanceAmount: payableFormData.totalAmount,
           paidAmount: 0,
+          amount: payableFormData.totalAmount,
+          remainingAmount: payableFormData.totalAmount,
           status: PayableStatus.UNPAID
         });
       }
@@ -155,10 +157,12 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     e.preventDefault();
     
     try {
-      await accountsPayableService.addPayment({
-        ...paymentFormData,
-        paymentDate: new Date(paymentFormData.paymentDate)
-      });
+      await accountsPayableService.addPayment(
+        paymentFormData.payableId,
+        parseFloat(paymentFormData.amount.toString()),
+        new Date(paymentFormData.paymentDate),
+        paymentFormData.remark
+      );
       
       await loadData();
       setShowPaymentForm(false);

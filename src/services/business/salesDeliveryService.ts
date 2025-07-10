@@ -4,7 +4,7 @@ import salesOrderService from './salesOrderService';
 import customerService from './customerService';
 import { warehouseService } from './warehouseService';
 import productService from './productService';
-import inventoryStockService from './inventoryStockService';
+import { inventoryStockService } from './inventoryStockService';
 
 export class SalesDeliveryService {
   private deliveries: Map<string, SalesDelivery> = new Map();
@@ -278,15 +278,13 @@ export class SalesDeliveryService {
 
     for (const item of delivery.items) {
       try {
-        await inventoryStockService.stockOut({
-          productId: item.productId,
-          warehouseId: delivery.warehouseId,
-          quantity: item.quantity,
-          unitPrice: item.unitPrice,
-          referenceId: deliveryId,
-          remark: `销售出库 - ${delivery.deliveryNo}`,
-          operator: delivery.deliveryPerson
-        });
+        await inventoryStockService.stockOut(
+          item.productId,
+          delivery.warehouseId,
+          item.quantity,
+          'sales_delivery',
+          `销售出库 - ${delivery.deliveryNo}`
+        );
       } catch (error) {
         console.error(`Failed to update inventory for item ${item.id}:`, error);
       }

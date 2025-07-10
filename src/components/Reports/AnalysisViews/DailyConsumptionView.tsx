@@ -66,8 +66,25 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
     
     try {
       console.log('开始加载消耗数据...', config);
-      const result = await dailyConsumptionService.getConsumptionData(config);
-      setData(result);
+      const result = await dailyConsumptionService.getConsumptionData(config.dateRange.startDate, config.dateRange.endDate);
+      // Transform service result to ConsumptionTableData format
+      const consumptionData: ConsumptionTableData = {
+        categories: [],
+        dateColumns: [],
+        config: config,
+        totals: {
+          categoryTotals: new Map(),
+          dateTotals: new Map(),
+          timeSlotTotals: {
+            morning: { quantity: 0, convertedQuantity: 0, amount: 0, transactionCount: 0 },
+            afternoon: { quantity: 0, convertedQuantity: 0, amount: 0, transactionCount: 0 },
+            evening: { quantity: 0, convertedQuantity: 0, amount: 0, transactionCount: 0 }
+          },
+          grandTotal: { quantity: result.summary?.total || 0, convertedQuantity: 0, amount: 0, transactionCount: 0 }
+        },
+        lastUpdated: new Date()
+      };
+      setData(consumptionData);
       console.log('消耗数据加载完成', result);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '加载数据失败';

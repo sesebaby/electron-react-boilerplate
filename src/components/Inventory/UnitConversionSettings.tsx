@@ -78,7 +78,7 @@ export const UnitConversionSettings: React.FC<UnitConversionSettingsProps> = ({
       setError(null);
       
       const [rulesData, unitsData] = await Promise.all([
-        globalConversionService.findAll(true),
+        globalConversionService.findAll(),
         unitService.findAll()
       ]);
       

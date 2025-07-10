@@ -25,7 +25,7 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
   'calendar-overview': { title: '日历总览', breadcrumb: ['库存管理', '日历总览'] },
   'daily-consumption': { title: '逐日消耗视图', breadcrumb: ['库存管理', '逐日消耗视图'] },
   'products': { title: '商品管理', breadcrumb: ['库存管理', '商品管理'] },
-  'categories': { title: '分类管理', breadcrumb: ['库存管理', '分类管理'] },
+  'categories': { title: '商品分类', breadcrumb: ['库存管理', '商品分类'] },
   'warehouses': { title: '仓库管理', breadcrumb: ['库存管理', '仓库管理'] },
   'stock-in': { title: '入库管理', breadcrumb: ['库存管理', '入库管理'] },
   'stock-out': { title: '出库管理', breadcrumb: ['库存管理', '出库管理'] },

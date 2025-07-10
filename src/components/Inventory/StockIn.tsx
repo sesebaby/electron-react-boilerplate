@@ -13,6 +13,7 @@ interface StockInItem {
   warehouseId: string;
   quantity: number;
   unitPrice: number;
+  unitCost: number;
   remark?: string;
 }
 
@@ -37,6 +38,7 @@ const emptyItem: Omit<StockInItem, 'id'> = {
   warehouseId: '',
   quantity: 0,
   unitPrice: 0,
+  unitCost: 0,
   remark: ''
 };
 
@@ -123,16 +125,15 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
       // 逐个处理入库项目
       const results = [];
       for (const item of formData.items) {
-        const result = await inventoryStockService.stockIn({
-          productId: item.productId,
-          warehouseId: item.warehouseId,
-          quantity: item.quantity,
-          unitPrice: item.unitPrice,
-          referenceType: formData.referenceType || '手工入库',
-          referenceId: formData.referenceId || `MANUAL_${Date.now()}`,
-          remark: item.remark || formData.remark,
-          operator: formData.operator
-        });
+        const result = await inventoryStockService.stockIn(
+          item.productId,
+          item.warehouseId,
+          item.quantity,
+          item.unitCost || 0,
+          formData.referenceId || `MANUAL_${Date.now()}`,
+          formData.referenceType || '手工入库',
+          item.remark || formData.remark
+        );
         results.push(result);
       }
       

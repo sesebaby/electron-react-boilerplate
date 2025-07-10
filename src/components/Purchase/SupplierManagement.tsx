@@ -476,12 +476,12 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                       <div>
                         <div className="font-semibold text-white">¥{supplier.creditLimit.toLocaleString()}</div>
                         {supplier.paymentTerms && (
-                          <div className="text-white/70 text-sm">{supplier.paymentTerms}</div>
+                          <div className="text-white/70 text-sm" title="仅用于筛选和标记，不与实际业务挂钩">{supplier.paymentTerms}</div>
                         )}
                       </div>
                     </TableCell>
                     <TableCell className="min-w-[100px]">
-                      <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getRatingStyles(supplier.rating)}`}>
+                      <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getRatingStyles(supplier.rating)}`} title="仅用于筛选和标记，不与实际业务挂钩">
                         {supplier.rating}级
                       </span>
                     </TableCell>
@@ -606,6 +606,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                   register={register('paymentTerms')}
                   error={errors.paymentTerms?.message}
                   placeholder="如：30天付款"
+                  title="仅用于筛选和标记，不与实际业务挂钩"
                 />
 
                 <GlassInput
@@ -625,6 +626,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                   label="供应商评级"
                   register={register('rating')}
                   error={errors.rating?.message}
+                  title="仅用于筛选和标记，不与实际业务挂钩"
                 >
                   <option value={SupplierRating.A}>A级 - 优秀</option>
                   <option value={SupplierRating.B}>B级 - 良好</option>

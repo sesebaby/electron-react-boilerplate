@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext, createContext } from 'react';
-import { User, UserRole } from '../types/entities';
+import { User, UserRole, UserStatus } from '../types/entities';
 import { userService } from '../services/business';
 import { dialogService } from '../services/dialogService';
 
@@ -77,18 +77,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       
       // Use UserService for authentication
-      const authenticatedUser = await userService.authenticate(username.trim(), password);
+      const authResult = await userService.authenticate(username.trim(), password);
 
-      if (authenticatedUser) {
-        // Store user data in localStorage for session persistence
-        localStorage.setItem('_auth_user', JSON.stringify(authenticatedUser));
+      if (authResult && authResult.success && authResult.user) {
+        // Transform to full User type
+        const fullUser: User = {
+          id: authResult.user.id,
+          username: authResult.user.username,
+          password: '', // Don't expose password
+          nickname: authResult.user.username,
+          role: UserRole.ADMIN, // Default role
+          status: UserStatus.ACTIVE,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
         
-        setUser(authenticatedUser);
+        // Store user data in localStorage for session persistence
+        localStorage.setItem('_auth_user', JSON.stringify(fullUser));
+        
+        setUser(fullUser);
         setSessionStartTime(Date.now());
         setLastActivity(Date.now());
         
         // Log successful login (without sensitive data)
-        console.log(`User logged in: ${authenticatedUser.id}`);
+        console.log(`User logged in: ${fullUser.id}`);
         
         return true;
       }
@@ -221,7 +233,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             // Verify user still exists in the system
             const currentUser = await userService.findById(parsedUser.id);
             
-            if (currentUser && currentUser.status === 'active') {
+            if (currentUser && (currentUser as any).status === UserStatus.ACTIVE) {
               setUser(currentUser);
               setSessionStartTime(Date.now());
               setLastActivity(Date.now());

@@ -235,7 +235,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
         {/* 页面头部 */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">分类管理</h1>
+            <h1 className="text-3xl font-bold text-white mb-2">商品分类</h1>
             <p className="text-white/70">管理商品分类、层级关系和分类属性</p>
           </div>
         </div>
@@ -253,7 +253,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       {/* 页面头部 */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">分类管理</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">商品分类</h1>
           <p className="text-white/70">管理商品分类、层级关系和分类属性</p>
         </div>
         <GlassButton

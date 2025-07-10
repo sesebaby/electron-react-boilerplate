@@ -3,7 +3,7 @@ import { SalesOrderSchema, SalesOrderItemSchema, validateEntity } from '../../sc
 import { v4 as uuidv4 } from 'uuid';
 import customerService from './customerService';
 import productService from './productService';
-import inventoryStockService from './inventoryStockService';
+import { inventoryStockService } from './inventoryStockService';
 import accountsReceivableService from './accountsReceivableService';
 import { notificationHelper } from '../../utils/notificationHelper';
 import { logger } from '../../utils/secureLogger';
@@ -689,7 +689,7 @@ export class SalesOrderService {
       [SalesOrderStatus.CANCELLED]: 0
     };
 
-    const byPaymentStatus: Record<PaymentStatus, number> = {
+    const byPaymentStatus = {
       [PaymentStatus.UNPAID]: 0,
       [PaymentStatus.PARTIAL]: 0,
       [PaymentStatus.PAID]: 0
@@ -702,7 +702,11 @@ export class SalesOrderService {
 
     orders.forEach(order => {
       byStatus[order.status]++;
-      byPaymentStatus[order.paymentStatus]++;
+      if (order.paymentStatus === PaymentStatus.UNPAID || 
+          order.paymentStatus === PaymentStatus.PARTIAL || 
+          order.paymentStatus === PaymentStatus.PAID) {
+        byPaymentStatus[order.paymentStatus]++;
+      }
       totalValue += order.finalAmount;
       
       if (order.status === SalesOrderStatus.CONFIRMED || order.status === SalesOrderStatus.SHIPPED) {
@@ -716,7 +720,7 @@ export class SalesOrderService {
     return {
       total: orders.length,
       byStatus,
-      byPaymentStatus,
+      byPaymentStatus: byPaymentStatus as any,
       totalValue,
       averageOrderValue: orders.length > 0 ? totalValue / orders.length : 0,
       pendingOrders,
@@ -917,16 +921,13 @@ export class SalesOrderService {
 
     try {
       // 从预留库存中扣减（这会自动释放预留并扣减实际库存）
-      await inventoryStockService.stockOut({
-        productId: orderItem.productId,
+      await inventoryStockService.stockOut(
+        orderItem.productId,
         warehouseId,
-        quantity: deliveredQuantity,
-        unitPrice: orderItem.unitPrice,
-        referenceType: 'sales_order_delivery',
-        referenceId: orderItem.orderId,
-        remark: `销售订单发货: ${orderItem.orderId}`,
-        operator: currentUserId || 'system'
-      });
+        deliveredQuantity,
+        orderItem.orderId,
+        `销售订单发货: ${orderItem.orderId}`
+      );
 
       // 同时释放对应的预留库存
       await inventoryStockService.releaseReservedStock(
