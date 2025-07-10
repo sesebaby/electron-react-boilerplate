@@ -1,101 +1,126 @@
 /**
- * 业务服务层 - 统一入口
- *
- * 使用简化的服务管理器替换复杂的依赖注入系统
+ * 业务服务兼容性层
+ * 为旧组件提供兼容接口，重新导出核心服务
  */
 
-// 使用简化的服务管理器
-import { simpleServiceManager, getServices } from '../SimpleServiceManager';
-import { getGlobalServices } from '../globalServices';
+import { serviceManager } from '../core';
 
-// 导出简化的服务管理器
-export { simpleServiceManager as businessServiceManager };
+// 重新导出核心服务类型
+export * from '../core/types';
 
-// 导出服务访问器
-export const getBusinessServices = getServices;
+// 重新导出实体类型
+export * from '../../types/entities';
 
-// 导出服务类（用于类型定义）
-export { CategoryService } from './categoryService';
-export { ProductService } from './productService';
-export { UnitService } from './unitService';
-export { WarehouseService } from './warehouseService';
-export { SupplierService } from './supplierService';
-export { CustomerService } from './customerService';
-export { InventoryStockService } from './inventoryStockService';
-export { PurchaseOrderService } from './purchaseOrderService';
-export { SalesOrderService } from './salesOrderService';
-export { UserService } from './userService';
+// 兼容性服务实例获取器
+export const getProductService = () => serviceManager.getInventoryService();
+export const getCategoryService = () => serviceManager.getInventoryService();
+export const getInventoryStockService = () => serviceManager.getInventoryService();
+export const getWarehouseService = () => serviceManager.getInventoryService();
+export const getUnitService = () => serviceManager.getInventoryService();
 
-/**
- * 初始化业务服务
- * 
- * 使用简化的服务管理器进行初始化
- */
-export async function initializeBusinessServices(): Promise<void> {
-  console.log('Initializing business services with simplified service manager...');
-  await simpleServiceManager.initialize();
-  console.log('Business services initialized successfully');
-}
+export const getPurchaseOrderService = () => serviceManager.getOrderService();
+export const getSalesOrderService = () => serviceManager.getOrderService();
+export const getPurchaseReceiptService = () => serviceManager.getOrderService();
+export const getSalesDeliveryService = () => serviceManager.getOrderService();
 
-/**
- * 获取系统状态
- */
-export async function getSystemStatus() {
-  return simpleServiceManager.getStatus();
-}
+export const getAccountsPayableService = () => serviceManager.getFinancialService();
+export const getAccountsReceivableService = () => serviceManager.getFinancialService();
 
-/**
- * 重置所有业务服务
- */
-export function resetBusinessServices(): void {
-  simpleServiceManager.reset();
-}
+export const getUserService = () => serviceManager.getSystemService();
+export const getCustomerService = () => serviceManager.getSystemService();
+export const getSupplierService = () => serviceManager.getSystemService();
+export const getPermissionService = () => serviceManager.getSystemService();
 
-/**
- * 简化的服务访问器
- * 提供同步访问已初始化的服务
- */
-export const services = {
-  get categoryService() {
-    return simpleServiceManager.getService('categoryService');
-  },
-  
-  get unitService() {
-    return simpleServiceManager.getService('unitService');
-  },
-  
-  get warehouseService() {
-    return simpleServiceManager.getService('warehouseService');
-  },
-  
-  get productService() {
-    return simpleServiceManager.getService('productService');
-  },
-  
-  get supplierService() {
-    return simpleServiceManager.getService('supplierService');
-  },
-  
-  get customerService() {
-    return simpleServiceManager.getService('customerService');
-  },
-  
-  get inventoryStockService() {
-    return simpleServiceManager.getService('inventoryStockService');
-  },
-  
-  get purchaseOrderService() {
-    return simpleServiceManager.getService('purchaseOrderService');
-  },
-  
-  get salesOrderService() {
-    return simpleServiceManager.getService('salesOrderService');
-  },
-  
-  get userService() {
-    return simpleServiceManager.getService('userService');
-  }
+export const getReportService = () => serviceManager.getReportService();
+export const getInventoryCardService = () => serviceManager.getReportService();
+export const getDailyConsumptionService = () => serviceManager.getReportService();
+export const getCalendarDataService = () => serviceManager.getReportService();
+
+// 简化的服务管理器
+export const businessServiceManager = {
+  getProductService,
+  getCategoryService,
+  getInventoryStockService,
+  getWarehouseService,
+  getUnitService,
+  getPurchaseOrderService,
+  getSalesOrderService,
+  getPurchaseReceiptService,
+  getSalesDeliveryService,
+  getAccountsPayableService,
+  getAccountsReceivableService,
+  getUserService,
+  getCustomerService,
+  getSupplierService,
+  getPermissionService,
+  getReportService,
+  getInventoryCardService,
+  getDailyConsumptionService,
+  getCalendarDataService
 };
 
-// 默认导出简化的服务管理器
-export default simpleServiceManager;
+// 直接服务实例导出 (向后兼容)
+export const productService = serviceManager.getInventoryService();
+export const categoryService = serviceManager.getInventoryService();
+export const inventoryStockService = serviceManager.getInventoryService();
+export const warehouseService = serviceManager.getInventoryService();
+export const unitService = serviceManager.getInventoryService();
+
+export const purchaseOrderService = serviceManager.getOrderService();
+export const salesOrderService = serviceManager.getOrderService();
+export const purchaseReceiptService = serviceManager.getOrderService();
+export const salesDeliveryService = serviceManager.getOrderService();
+
+export const accountsPayableService = serviceManager.getFinancialService();
+export const accountsReceivableService = serviceManager.getFinancialService();
+
+export const userService = serviceManager.getSystemService();
+export const customerService = serviceManager.getSystemService();
+export const supplierService = serviceManager.getSystemService();
+export const permissionService = serviceManager.getSystemService();
+
+export const reportService = serviceManager.getReportService();
+export const inventoryCardService = serviceManager.getReportService();
+export const dailyConsumptionService = serviceManager.getReportService();
+export const calendarDataService = serviceManager.getReportService();
+
+// 日历数据服务工具类
+export class CalendarDataService {
+  /**
+   * 获取周的开始日期（周一）
+   */
+  static getWeekStart(date: Date): Date {
+    const d = new Date(date);
+    const day = d.getDay(); // 0 = 周日, 1 = 周一, ..., 6 = 周六
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // 调整为周一
+    return new Date(d.setDate(diff));
+  }
+
+  /**
+   * 获取周的结束日期（周日）
+   */
+  static getWeekEnd(date: Date): Date {
+    const weekStart = this.getWeekStart(date);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+    return weekEnd;
+  }
+
+  /**
+   * 格式化日期为字符串
+   */
+  static formatDate(date: Date): string {
+    return date.toISOString().split('T')[0];
+  }
+
+  /**
+   * 获取两个日期之间的天数
+   */
+  static getDaysBetween(startDate: Date, endDate: Date): number {
+    const timeDiff = endDate.getTime() - startDate.getTime();
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
+  }
+}
+
+// 默认导出
+export default businessServiceManager;

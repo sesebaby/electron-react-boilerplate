@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import monthlyBalanceService from '../../services/business/monthlyBalanceService';
+import { serviceManager } from '../../services/core';
 import { 
   MonthlyBalanceStatistics, 
   MonthlyBalanceGenerateParams,
@@ -44,7 +44,8 @@ export const MonthlyBalanceOverview: React.FC<MonthlyBalanceOverviewProps> = ({ 
       setError(null);
       
       // 获取服务统计
-      const serviceStats = await monthlyBalanceService.getServiceStats();
+      const reportService = serviceManager.getReportService();
+      const serviceStats = await reportService.getMonthlyBalanceStats();
       
       // 这里可以添加更多统计逻辑，比如获取最新期间的数据
       const currentDate = new Date();
@@ -57,7 +58,7 @@ export const MonthlyBalanceOverview: React.FC<MonthlyBalanceOverviewProps> = ({ 
       
       let latestPeriod = undefined;
       try {
-        const queryResult = await monthlyBalanceService.queryMonthlyBalance({
+        const queryResult = await reportService.queryMonthlyBalance({
           year: lastYear,
           month: lastMonth
         });

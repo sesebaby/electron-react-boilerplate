@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-// 使用新的依赖注入系统
-import { businessServiceManager } from '../../services/business/businessServiceManager';
-import { getGlobalServices } from '../../services/container/containerConfig';
+// 使用简化的服务管理器
+import { serviceManager } from '../../services/core';
 import { Product, Category, Unit, ProductStatus, ProductConversionSetting } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { Card, CardContent } from '../ui/card';
@@ -142,16 +141,16 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
         setServicesLoading(true);
         setServicesError(null);
 
-        // 确保业务服务管理器已初始化
-        if (!businessServiceManager.isInitialized) {
-          await businessServiceManager.initialize();
-        }
-
         // 获取服务实例
-        const globalServices = await getGlobalServices();
-        setServices(globalServices);
+        await serviceManager.initialize();
+        const inventoryService = serviceManager.getInventoryService();
+        setServices({
+          productService: inventoryService,
+          categoryService: inventoryService,
+          unitService: inventoryService
+        });
 
-        console.log('服务初始化成功:', globalServices);
+        console.log('服务初始化成功');
 
       } catch (error) {
         console.error('服务初始化失败:', error);
@@ -182,9 +181,9 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       setError(null);
 
       const [productsData, categoriesData, unitsData] = await Promise.all([
-        services.productService.findAll(),
-        services.categoryService.findAll(),
-        services.unitService.findAll()
+        services.productService.findAllProducts(),
+        services.categoryService.findAllCategories(),
+        services.unitService.findAllUnits()
       ]);
 
       setProducts(productsData);
@@ -231,7 +230,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       let productId: string;
 
       if (editingProduct) {
-        await services.productService.update(editingProduct.id, submitData);
+        await services.productService.updateProduct(editingProduct.id, submitData);
         productId = editingProduct.id;
         
         // 记录更新成功
@@ -248,7 +247,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
           success: true
         });
       } else {
-        const newProduct = await services.productService.create(submitData);
+        const newProduct = await services.productService.createProduct(submitData);
         productId = newProduct.id;
         
         // 记录创建成功
@@ -407,7 +406,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     const productToDelete = products.find(p => p.id === deleteTargetId);
 
     try {
-      await services.productService.delete(deleteTargetId);
+      await services.productService.deleteProduct(deleteTargetId);
       
       // 记录删除成功
       userActionLogger.logBusinessAction({

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { productService, warehouseService, inventoryStockService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Product, Warehouse } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 
@@ -60,9 +60,10 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
       setLoading(true);
       setError(null);
       
+      const inventoryService = serviceManager.getInventoryService();
       const [productsData, warehousesData] = await Promise.all([
-        productService.findAll(),
-        warehouseService.findAll()
+        inventoryService.findAllProducts(),
+        inventoryService.findAllWarehouses()
       ]);
 
       setProducts(productsData);
@@ -125,7 +126,7 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
       // 逐个处理入库项目
       const results = [];
       for (const item of formData.items) {
-        const result = await inventoryStockService.stockIn(
+        const result = await inventoryService.stockIn(
           item.productId,
           item.warehouseId,
           item.quantity,

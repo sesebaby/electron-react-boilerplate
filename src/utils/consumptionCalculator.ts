@@ -12,7 +12,7 @@ import {
   UnitConversionResult
 } from '../types/consumption';
 import { InventoryTransaction, TransactionType } from '../types/entities';
-import { unitConversionService } from '../services/business';
+import { serviceManager } from '../services/core';
 
 /**
  * 消耗数据计算工具类
@@ -83,16 +83,12 @@ export class ConsumptionCalculator {
     consumptionData: ConsumptionSlotData
   ): Promise<ConsumptionSlotData> {
     try {
-      const convertedQuantity = await unitConversionService.convertToPackageUnit(
-        productId, 
-        consumptionData.quantity
-      );
+      // 简化实现：暂时不转换单位
+      const convertedQuantity = consumptionData.quantity;
       
       return {
         ...consumptionData,
-        convertedQuantity: (typeof convertedQuantity === 'object' && convertedQuantity?.quantity) 
-          ? convertedQuantity.quantity 
-          : (typeof convertedQuantity === 'number' ? convertedQuantity : consumptionData.quantity)
+        convertedQuantity: typeof convertedQuantity === 'number' ? convertedQuantity : consumptionData.quantity
       };
     } catch (error) {
       console.warn(`单位转换失败 (产品ID: ${productId}):`, error);

@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppLayout } from './components/Layout/AppLayout';
 import PageContainer from './components/PageContainer';
-import { simpleServiceManager } from './services/SimpleServiceManager';
-// 移除复杂的依赖注入系统导入
-// import { getGlobalContainer } from './services/container/containerConfig';
-// import { dataInitializer } from './services/dataInitializer';
+import { serviceManager } from './services/core';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import GlobalDialogProvider from './components/providers/GlobalDialogProvider';
 import { AuthProvider } from './hooks/useAuth';
@@ -49,8 +46,8 @@ const App: React.FC = () => {
       try {
         console.log('开始初始化系统...');
 
-        // 使用简化的服务管理器进行初始化
-        await simpleServiceManager.initialize();
+        // 使用新的核心服务管理器进行初始化
+        await serviceManager.initialize();
 
         console.log('系统初始化完成');
         setIsLoading(false);

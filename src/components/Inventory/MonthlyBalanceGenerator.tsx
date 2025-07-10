@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import monthlyBalanceService from '../../services/business/monthlyBalanceService';
-import { warehouseService } from '../../services/business/warehouseService';
-import { getGlobalServices } from '../../services/container/containerConfig';
+import { serviceManager } from '../../services/core';
 import { MonthlyBalanceGenerateParams, MonthlyBalanceGenerateResult } from '../../types/monthlyBalance';
 import { Warehouse, Category } from '../../types/entities';
 import { GlassButton, GlassCard } from '../ui/FormControls';
@@ -38,11 +36,14 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
 
   const loadFormData = async () => {
     try {
-      const services = await getGlobalServices();
-      const [warehouseList, categoryList] = await Promise.all([
-        warehouseService.findAll(),
-        services.categoryService.findAll()
+      const inventoryService = serviceManager.getInventoryService();
+      const [warehouseResult, categoryResult] = await Promise.all([
+        inventoryService.getWarehouses(),
+        inventoryService.getCategories()
       ]);
+
+      const warehouseList = warehouseResult.success ? warehouseResult.data : [];
+      const categoryList = categoryResult.success ? categoryResult.data : [];
 
       setWarehouses(warehouseList);
       setCategories(categoryList);
@@ -64,7 +65,9 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
         return;
       }
 
-      const generateResult = await monthlyBalanceService.generateMonthlyBalance(params);
+      // 注意：月度结余功能需要从报表服务中获取
+      const reportService = serviceManager.getReportService();
+      const generateResult = await reportService.generateMonthlyBalance(params);
 
       if (!generateResult.success) {
         setError(generateResult.error?.message || '生成失败');

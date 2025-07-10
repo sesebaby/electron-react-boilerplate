@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import monthlyBalanceService from '../../services/business/monthlyBalanceService';
+import { serviceManager } from '../../services/core';
 import { MonthlyBalanceStatistics } from '../../types/monthlyBalance';
 import { GlassButton, GlassCard } from '../ui/FormControls';
 
@@ -34,7 +34,8 @@ export const MonthlyBalanceStatisticsView: React.FC<MonthlyBalanceStatisticsView
       setLoading(true);
       setError(null);
 
-      const result = await monthlyBalanceService.getMonthlyBalanceStatistics(selectedYear, selectedMonth);
+      const reportService = serviceManager.getReportService();
+      const result = await reportService.getMonthlyBalanceStatistics(selectedYear, selectedMonth);
 
       if (!result.success) {
         setError(result.error?.message || '获取统计数据失败');

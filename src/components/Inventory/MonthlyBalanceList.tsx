@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import monthlyBalanceService from '../../services/business/monthlyBalanceService';
-import { warehouseService } from '../../services/business/warehouseService';
-import { getGlobalServices } from '../../services/container/containerConfig';
+import { serviceManager } from '../../services/core';
 import { 
   MonthlyBalance, 
   MonthlyBalanceQueryParams, 
@@ -39,10 +37,10 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
 
   const loadFormData = async () => {
     try {
-      const services = await getGlobalServices();
+      const inventoryService = serviceManager.getInventoryService();
       const [warehouseList, categoryList] = await Promise.all([
-        warehouseService.findAll(),
-        services.categoryService.findAll()
+        inventoryService.findAllWarehouses(),
+        inventoryService.findAllCategories()
       ]);
 
       setWarehouses(warehouseList);
@@ -57,7 +55,8 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
       setLoading(true);
       setError(null);
 
-      const result = await monthlyBalanceService.queryMonthlyBalance(queryParams);
+      const reportService = serviceManager.getReportService();
+      const result = await reportService.queryMonthlyBalance(queryParams);
 
       if (!result.success) {
         setError(result.error?.message || '查询失败');

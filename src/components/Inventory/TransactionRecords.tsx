@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { productService, warehouseService, inventoryStockService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Product, Warehouse, InventoryTransaction, TransactionType } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { Card, CardContent } from '../ui/card';
@@ -63,10 +63,11 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
       setLoading(true);
       setError(null);
       
+      const inventoryService = serviceManager.getInventoryService();
       const [transactionsData, productsData, warehousesData] = await Promise.all([
-        inventoryStockService.findAllTransactions(),
-        productService.findAll(),
-        warehouseService.findAll()
+        inventoryService.findAllTransactions(),
+        inventoryService.findAllProducts(),
+        inventoryService.findAllWarehouses()
       ]);
 
       // 按创建时间降序排序

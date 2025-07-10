@@ -20,6 +20,25 @@ export class ElectronDatabase {
     this.isInitialized = true;
   }
 
+  async close(): Promise<void> {
+    if (!this.isInitialized) {
+      return;
+    }
+    
+    try {
+      if (window.electronAPI?.dbClose) {
+        const result = await window.electronAPI.dbClose();
+        if (!result.success) {
+          console.warn('Database close warning:', result.error);
+        }
+      }
+    } catch (error) {
+      console.warn('Database close error:', error);
+    } finally {
+      this.isInitialized = false;
+    }
+  }
+
   private checkInitialized(): void {
     if (!this.isInitialized) {
       throw new Error('Database not initialized');
@@ -324,6 +343,7 @@ export class ElectronDatabase {
     console.warn('getStocksByWarehouseId method not implemented yet', { warehouseId });
     return [];
   }
+
 }
 
 export default new ElectronDatabase();

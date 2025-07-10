@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import DashboardOverview from './DashboardOverview';
 import DashboardCharts from './DashboardCharts';
 import DashboardQuickActions from './DashboardQuickActions';
-import { businessServiceManager } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { GlassCard, GlassButton } from '../ui/FormControls';
 
 interface DashboardProps {
@@ -21,10 +21,7 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
       setError(null);
 
       // 确保业务服务已初始化
-      if (!businessServiceManager.isInitialized) {
-        console.log('Initializing business services...');
-        await businessServiceManager.initialize();
-      }
+      console.log('Dashboard using core services...');
 
       setInitialized(true);
     } catch (error) {

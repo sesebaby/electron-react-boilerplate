@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { warehouseService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Warehouse } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -85,11 +85,12 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       console.log('WarehouseManagement: Starting to load data...');
       
       // Force reinitialize warehouse service to ensure data consistency
-      await warehouseService.forceReinitialize();
+      const inventoryService = serviceManager.getInventoryService();
+      await inventoryService.initialize();
       
       const [warehousesData, statsData] = await Promise.all([
-        warehouseService.findAll(),
-        warehouseService.getWarehouseStats()
+        inventoryService.findAllWarehouses(),
+        inventoryService.getWarehouseStats()
       ]);
       
       console.log('WarehouseManagement: Loaded warehouses:', warehousesData);
@@ -113,9 +114,9 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       };
       
       if (editingWarehouse) {
-        await warehouseService.update(editingWarehouse.id, submitData);
+        await inventoryService.updateWarehouse(editingWarehouse.id, submitData);
       } else {
-        await warehouseService.create(submitData);
+        await inventoryService.createWarehouse(submitData);
       }
       
       await loadData();
@@ -156,7 +157,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     if (!deleteTargetId) return;
 
     try {
-      await warehouseService.delete(deleteTargetId);
+      await inventoryService.deleteWarehouse(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除仓库失败');
@@ -181,7 +182,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     if (!defaultTargetId) return;
 
     try {
-      await warehouseService.setDefault(defaultTargetId);
+      await inventoryService.setDefaultWarehouse(defaultTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '设置默认仓库失败');

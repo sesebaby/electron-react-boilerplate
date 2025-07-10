@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useContext, createContext } from 'react';
 import { User, UserRole, UserStatus } from '../types/entities';
-import { userService } from '../services/business';
+import { getService } from '../services/globalServices';
 import { dialogService } from '../services/dialogService';
 
 interface AuthContextType {
@@ -77,6 +77,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       
       // Use UserService for authentication
+      const userService = getService('userService');
+      if (!userService) {
+        throw new Error('用户服务不可用');
+      }
       const authResult = await userService.authenticate(username.trim(), password);
 
       if (authResult && authResult.success && authResult.user) {
