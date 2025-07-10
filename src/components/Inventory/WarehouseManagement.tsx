@@ -54,6 +54,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
   const [showDefaultDialog, setShowDefaultDialog] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const [defaultTargetId, setDefaultTargetId] = useState<string | null>(null);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   // React Hook Form setup
   const {
@@ -197,20 +198,32 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
   };
 
   const handleCancel = () => {
+    console.log('WarehouseManagement: Canceling form');
     setShowForm(false);
     setEditingWarehouse(null);
     reset(emptyForm);
     clearErrors();
+    setError(null); // 清除错误信息
+    console.log('WarehouseManagement: Form closed, showForm state:', false);
   };
 
   const handleCreateNew = () => {
+    console.log('WarehouseManagement: Creating new warehouse, user:', user);
+    
+    // 设置按钮被点击的状态，提供即时反馈
+    setButtonClicked(true);
+    setTimeout(() => setButtonClicked(false), 300);
+    
     const newFormData = {
       ...emptyForm,
       creator: user?.nickname || user?.username || ''
     };
+    console.log('WarehouseManagement: New form data:', newFormData);
     reset(newFormData);
     clearErrors();
+    setEditingWarehouse(null); // 确保清空编辑状态
     setShowForm(true);
+    console.log('WarehouseManagement: Form visibility set to true, showForm state:', true);
   };
 
   const generateWarehouseCode = () => {
@@ -270,14 +283,22 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
           <h1 className="text-3xl font-bold text-white mb-2">仓库管理</h1>
           <p className="text-white/70">管理仓库信息、位置和仓库配置</p>
         </div>
-        <GlassButton
-          variant="primary"
-          onClick={handleCreateNew}
-          className="self-start lg:self-auto"
-        >
-          <span className="mr-2">🏭</span>
-          新建仓库
-        </GlassButton>
+        <div className="flex flex-col items-end gap-2">
+          <GlassButton
+            variant="primary"
+            onClick={handleCreateNew}
+            className={`self-start lg:self-auto ${buttonClicked ? 'transform scale-95' : ''}`}
+          >
+            <span className="mr-2">🏭</span>
+            新建仓库
+            {buttonClicked && <span className="ml-2">✨</span>}
+          </GlassButton>
+          {buttonClicked && (
+            <p className="text-white/60 text-xs animate-pulse">
+              正在打开新建仓库表单...
+            </p>
+          )}
+        </div>
       </div>
 
       {/* 错误消息 */}
@@ -346,13 +367,26 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           
-          <GlassSelect
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-          >
-            <option value="">全部仓库</option>
-            <option value="default">默认仓库</option>
-          </GlassSelect>
+          <div className="flex gap-2">
+            <GlassSelect
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="flex-1"
+            >
+              <option value="">全部仓库</option>
+              <option value="default">默认仓库</option>
+            </GlassSelect>
+            
+            {/* 备用新建按钮 */}
+            <GlassButton
+              variant="secondary"
+              onClick={handleCreateNew}
+              className="px-4"
+              title="新建仓库"
+            >
+              ➕
+            </GlassButton>
+          </div>
         </div>
       </GlassCard>
 
@@ -472,9 +506,36 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
         </CardContent>
       </Card>
 
+      {/* 调试信息 */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="fixed top-4 right-4 bg-black/80 text-white p-4 rounded-lg text-xs z-[9999]">
+          <div>showForm: {showForm.toString()}</div>
+          <div>editingWarehouse: {editingWarehouse ? editingWarehouse.name : 'null'}</div>
+          <div>user: {user?.username || 'null'}</div>
+          <div>warehouses: {warehouses.length}</div>
+        </div>
+      )}
+
       {/* 仓库表单模态框 */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]">
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]"
+          style={{ 
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9998,
+            display: 'flex'
+          }}
+          onClick={(e) => {
+            // 只有点击背景时才关闭
+            if (e.target === e.currentTarget) {
+              handleCancel();
+            }
+          }}
+        >
           <div className="glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-4">

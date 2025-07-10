@@ -302,6 +302,27 @@ export function configureContainer(): ServiceContainer {
     }
   );
 
+  // 全局转换服务（暂时使用现有实现）
+  container.registerSingleton(
+    SERVICE_TOKENS.GlobalConversionService,
+    async () => {
+      const { default: globalConversionService } = await import('../business/globalConversionService');
+      return globalConversionService;
+    },
+    {
+      layer: ServiceLayer.Composite,
+      dependencies: [
+        { token: SERVICE_TOKENS.UnitService, optional: false }
+      ],
+      async: true,
+      metadata: {
+        name: 'GlobalConversionService',
+        description: '全局单位转换服务',
+        version: '1.0.0'
+      }
+    }
+  );
+
   // 权限服务（暂时使用现有实现）
   container.registerSingleton(
     SERVICE_TOKENS.PermissionService,
@@ -432,6 +453,10 @@ export function createServiceAccessor(container: ServiceContainer) {
 
     get permissionService() {
       return container.resolve(SERVICE_TOKENS.PermissionService);
+    },
+
+    get globalConversionService() {
+      return container.resolve(SERVICE_TOKENS.GlobalConversionService);
     },
     
     // 异步获取服务

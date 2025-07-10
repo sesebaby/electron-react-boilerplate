@@ -110,30 +110,17 @@ export const accountsReceivableService = Object.assign({}, arService, accountsRe
 
 // 注意：服务的具体实现在文件末尾
 
-// 创建基础服务的占位符（这些服务需要在其他地方实现）
-export const unitService = {
-  findAll: async () => [],
-  findById: async (id: string) => null,
-  create: async (data: any) => ({ id: 'default', ...data }),
-  update: async (id: string, data: any) => ({ id, ...data }),
-  delete: async (id: string) => {},
-  getStatistics: async () => ({ totalCount: 0, activeCount: 0, lastUpdated: new Date() }),
-  findByProductId: async (productId: string) => null,
-  convertToPackageUnit: async (productId: string, quantity: number) => ({ quantity, packageUnit: 'default' }),
-  getFormattedQuantity: async (productId: string, quantity: number) => `${quantity} 个`
-};
+// 导入真实的服务实现
+import unitServiceImpl from './unitService';
 
-export const warehouseService = {
-  findAll: async () => [],
-  findById: async (id: string) => null,
-  create: async (data: any) => ({ id: 'default', ...data }),
-  update: async (id: string, data: any) => ({ id, ...data }),
-  delete: async (id: string) => {},
-  getStatistics: async () => ({ totalCount: 0, activeCount: 0, lastUpdated: new Date() }),
-  forceReinitialize: async () => {},
-  getWarehouseStats: async () => ({ totalCount: 0, activeCount: 0, defaultWarehouse: null, total: 0 }),
-  setDefault: async (id: string) => ({ id, isDefault: true })
-};
+// 导出真实的 unitService 实例
+export const unitService = unitServiceImpl;
+
+// 导入真实的 warehouseService 实例
+import { warehouseService as warehouseServiceImpl } from './warehouseService';
+
+// 导出真实的 warehouseService 实例
+export const warehouseService = warehouseServiceImpl;
 
 export const supplierService = {
   findAll: async () => [],

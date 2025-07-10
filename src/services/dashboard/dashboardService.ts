@@ -119,7 +119,7 @@ export class DashboardService {
       totalProducts: 0, // 暂时设为0
       totalSuppliers: supplierStats.totalCount,
       totalCustomers: customerStats.totalCount,
-      totalWarehouses: warehouseStats.totalCount,
+      totalWarehouses: warehouseStats.total,
       lowStockItems: 0, // 暂时设为0
       outOfStockItems: 0, // 暂时设为0
       totalInventoryValue: 0, // 暂时设为0
