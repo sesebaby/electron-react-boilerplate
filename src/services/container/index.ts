@@ -1,8 +1,10 @@
 /**
  * 服务容器依赖注入系统 - 统一入口
- * 
+ *
  * 导出所有容器相关的类型、类和工具函数
  */
+
+import 'reflect-metadata';
 
 // 核心类型定义
 export * from './types';

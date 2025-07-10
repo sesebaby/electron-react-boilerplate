@@ -76244,6 +76244,18 @@ const accountsReceivableService = Object.assign({}, _accountsReceivableService__
 // 注意：服务的具体实现在文件末尾
 // 导入真实的服务实现
 
+// 确保unitService在导出前被初始化
+const initializeUnitService = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log('Initializing unit service from business index...');
+        yield _unitService__WEBPACK_IMPORTED_MODULE_7__["default"].initialize();
+    }
+    catch (error) {
+        console.warn('Unit service initialization failed in business index:', error);
+    }
+});
+// 立即调用初始化
+initializeUnitService();
 // 导出真实的 unitService 实例
 const unitService = _unitService__WEBPACK_IMPORTED_MODULE_7__["default"];
 // 导入真实的 warehouseService 实例
@@ -79917,17 +79929,35 @@ class UnitService {
         this.units = new Map();
         this.symbolIndex = new Map(); // Symbol -> ID mapping
         this.nameIndex = new Map(); // Name -> ID mapping
+        this.isInitialized = false; // 新增状态标记
     }
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Unit service initializing...');
             try {
                 yield this.loadUnitsFromDatabase();
+                this.isInitialized = true; // 设置初始化标记
                 console.log(`Unit service initialized with ${this.units.size} units`);
             }
             catch (error) {
                 console.error('Failed to load units from database:', error);
                 console.log('Unit service initialized with empty units (database not available)');
+                this.isInitialized = true; // 即使失败也标记为已初始化避免重复尝试
+            }
+        });
+    }
+    ensureInitialized() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!this.isInitialized) {
+                try {
+                    yield this.loadUnitsFromDatabase();
+                    this.isInitialized = true;
+                    console.log(`Unit service lazy-initialized with ${this.units.size} units`);
+                }
+                catch (error) {
+                    console.error('Failed to lazy-initialize unit service:', error);
+                    this.isInitialized = true; // 标记为已尝试初始化
+                }
             }
         });
     }
@@ -79950,6 +79980,10 @@ class UnitService {
     }
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
+            // 防御性检查：如果内存为空且未初始化，则尝试初始化
+            if (this.units.size === 0 && !this.isInitialized) {
+                yield this.ensureInitialized();
+            }
             return Array.from(this.units.values());
         });
     }
