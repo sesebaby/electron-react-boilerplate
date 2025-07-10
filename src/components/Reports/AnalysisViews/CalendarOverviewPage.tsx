@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { WeeklyCalendarData, DailyBusinessSummary } from '../../../types/entities';
-import { calendarDataService, CalendarDataService } from '../../../services/business';
+import { serviceManager } from '../../../services/core';
 import WeeklyCalendarView from './WeeklyCalendarView';
 import DayDetailModal from './DayDetailModal';
 
@@ -19,8 +19,12 @@ const CalendarOverviewPage: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await calendarDataService.getWeeklyData(weekStart);
-      setWeekData(data);
+      const dataResult = await calendarDataService.getWeeklyData(weekStart);
+      if (dataResult.success && dataResult.data) {
+        setWeekData(dataResult.data as any);
+      } else {
+        setWeekData(null);
+      }
     } catch (err) {
       setError('加载日历数据失败');
       console.error('加载日历数据失败:', err);

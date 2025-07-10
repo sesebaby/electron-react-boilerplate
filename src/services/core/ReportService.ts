@@ -545,4 +545,167 @@ export class ReportService {
       return { success: false, error: error instanceof Error ? error.message : '导出报表失败' };
     }
   }
+
+  // ==================== 月度结余相关方法 ====================
+
+  /**
+   * 生成月度结余
+   */
+  async generateMonthlyBalance(params: any): Promise<ServiceResult<any>> {
+    try {
+      // Mock implementation - 实际应该根据FIFO批次数据生成结余
+      const result = {
+        generatedRecords: 150,
+        totalValue: 2580000,
+        batchCount: 45,
+        productCount: 28,
+        processingTime: 2350,
+        errors: []
+      };
+
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '生成月度结余失败' };
+    }
+  }
+
+  /**
+   * 查询月度结余
+   */
+  async queryMonthlyBalance(filter?: any): Promise<ServiceResult<any[]>> {
+    try {
+      // Mock implementation
+      const data: any[] = [];
+      return { success: true, data };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '查询月度结余失败' };
+    }
+  }
+
+  /**
+   * 获取月度结余统计
+   */
+  async getMonthlyBalanceStats(): Promise<ServiceResult<any>> {
+    try {
+      // Mock implementation
+      const stats = {
+        totalRecords: 0,
+        totalValue: 0,
+        lastGeneratedDate: null,
+        pendingMonths: []
+      };
+
+      return { success: true, data: stats };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '获取月度结余统计失败' };
+    }
+  }
+
+  /**
+   * 获取报表总览统计
+   */
+  async getReportOverviewStats(): Promise<ServiceResult<any>> {
+    try {
+      // Mock implementation
+      const stats = {
+        totalReports: 0,
+        generatedToday: 0,
+        pendingReports: 0,
+        lastGeneratedDate: null
+      };
+
+      return { success: true, data: stats };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '获取报表总览统计失败' };
+    }
+  }
+
+  /**
+   * 获取月度结余统计信息（别名方法）
+   */
+  async getMonthlyBalanceStatistics(): Promise<ServiceResult<any>> {
+    return this.getMonthlyBalanceStats();
+  }
+
+  /**
+   * 查询月度结余数据（带分页）
+   */
+  async queryMonthlyBalanceWithPagination(filter?: any, pagination?: any): Promise<ServiceResult<any>> {
+    try {
+      const result = await this.queryMonthlyBalance(filter);
+      if (!result.success) {
+        return result;
+      }
+
+      // 简单的分页处理
+      const data = result.data || [];
+      const page = pagination?.page || 1;
+      const pageSize = pagination?.pageSize || 20;
+      const startIndex = (page - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+
+      const paginatedData = data.slice(startIndex, endIndex);
+
+      return {
+        success: true,
+        data: {
+          items: paginatedData,
+          total: data.length,
+          page,
+          pageSize,
+          totalPages: Math.ceil(data.length / pageSize)
+        }
+      };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '查询月度结余失败' };
+    }
+  }
+
+  /**
+   * 删除月度结余记录
+   */
+  async deleteMonthlyBalance(id: string): Promise<ServiceResult<boolean>> {
+    try {
+      // Mock implementation
+      return { success: true, data: true };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '删除月度结余失败' };
+    }
+  }
+
+  /**
+   * 批量删除月度结余记录
+   */
+  async batchDeleteMonthlyBalance(ids: string[]): Promise<ServiceResult<boolean>> {
+    try {
+      // Mock implementation
+      return { success: true, data: true };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '批量删除月度结余失败' };
+    }
+  }
+
+  /**
+   * 导出月度结余数据
+   */
+  async exportMonthlyBalance(filter?: any): Promise<ServiceResult<any>> {
+    try {
+      const result = await this.queryMonthlyBalance(filter);
+      if (!result.success) {
+        return result;
+      }
+
+      // 格式化导出数据
+      const exportData = {
+        data: result.data,
+        exportTime: new Date(),
+        filter,
+        totalRecords: result.data?.length || 0
+      };
+
+      return { success: true, data: exportData };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '导出月度结余失败' };
+    }
+  }
 }

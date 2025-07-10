@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { salesDeliveryService, salesOrderService, customerService, warehouseService, productService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { SalesDelivery, SalesDeliveryItem, DeliveryStatus, SalesOrder, SalesOrderStatus, Customer, Warehouse, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -76,20 +76,32 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
       setLoading(true);
       setError(null);
       
-      const [deliveriesData, ordersData, customersData, warehousesData, productsData, statsData] = await Promise.all([
+      const [deliveriesResult, ordersResult, customersResult, warehousesResult, productsResult, statsResult] = await Promise.all([
         salesDeliveryService.findAll(),
         salesOrderService.findAll(),
         customerService.findAll(),
         warehouseService.findAll(),
         productService.findAll(),
-        salesDeliveryService.getDeliveryStats()
+        Promise.resolve({ success: true, data: {} }) // 临时使用空统计数据
       ]);
-      
-      setDeliveries(deliveriesData);
-      setOrders(ordersData);
-      setCustomers(customersData);
-      setWarehouses(warehousesData);
-      setProducts(productsData);
+
+      const deliveriesData = deliveriesResult.success ? 
+        (Array.isArray(deliveriesResult.data) ? deliveriesResult.data : deliveriesResult.data?.items || []) : [];
+      const ordersData = ordersResult.success ? 
+        (Array.isArray(ordersResult.data) ? ordersResult.data : ordersResult.data?.items || []) : [];
+      const customersData = customersResult.success ? 
+        (Array.isArray(customersResult.data) ? customersResult.data : customersResult.data?.items || []) : [];
+      const warehousesData = warehousesResult.success ? 
+        (Array.isArray(warehousesResult.data) ? warehousesResult.data : warehousesResult.data?.items || []) : [];
+      const productsData = productsResult.success ? 
+        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const statsData = statsResult.success ? (statsResult.data || {}) : {};
+
+      setDeliveries((Array.isArray(deliveriesData) ? deliveriesData : []) as SalesDelivery[]);
+      setOrders((Array.isArray(ordersData) ? ordersData : []) as SalesOrder[]);
+      setCustomers((Array.isArray(customersData) ? customersData : []) as Customer[]);
+      setWarehouses((Array.isArray(warehousesData) ? warehousesData : []) as Warehouse[]);
+      setProducts((Array.isArray(productsData) ? productsData : []) as Product[]);
       setStats(statsData);
     } catch (err) {
       setError('加载销售出库数据失败');
@@ -106,7 +118,8 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     }
 
     try {
-      const orderItems = (await salesOrderService.getOrderItems(orderId)) as any[];
+      const orderItemsResult = await salesOrderService.getOrderItems(orderId);
+      const orderItems = orderItemsResult.success ? (orderItemsResult.data || []) : [];
       setAvailableOrderItems(orderItems);
     } catch (err) {
       console.error('Failed to load order items:', err);
@@ -150,22 +163,31 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
       
       if (editingDelivery) {
         // 更新出库单
-        delivery = await salesDeliveryService.update(editingDelivery.id, {
+        const updateResult = await salesDeliveryService.update(editingDelivery.id, {
           ...formData,
           deliveryDate: new Date(formData.deliveryDate)
         });
+        if (!updateResult.success) {
+          throw new Error(updateResult.error || '更新出库单失败');
+        }
+        delivery = updateResult.data as SalesDelivery;
         
         // 更新出库项目（简化：删除所有重新添加）
-        const existingItems = (await salesDeliveryService.getDeliveryItems(editingDelivery.id)) as any[];
+        const existingItemsResult = await salesDeliveryService.getDeliveryItems(editingDelivery.id);
+        const existingItems = existingItemsResult.success ? (existingItemsResult.data || []) : [];
         for (const item of existingItems) {
-          await salesDeliveryService.removeDeliveryItem(editingDelivery.id, item.id);
+          await salesDeliveryService.removeDeliveryItem(item.id);
         }
       } else {
         // 创建新出库单
-        delivery = await salesDeliveryService.create({
+        const createResult = await salesDeliveryService.create({
           ...formData,
           deliveryDate: new Date(formData.deliveryDate)
         });
+        if (!createResult.success) {
+          throw new Error(createResult.error || '创建出库单失败');
+        }
+        delivery = createResult.data as SalesDelivery;
       }
       
       // 添加出库项目
@@ -204,7 +226,8 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     
     // 加载订单项目和出库项目
     await loadOrderItems(delivery.orderId);
-    const items = (await salesDeliveryService.getDeliveryItems(delivery.id)) as any[];
+    const itemsResult = await salesDeliveryService.getDeliveryItems(delivery.id);
+    const items = itemsResult.success ? (itemsResult.data || []) : [];
     setFormItems(items.map((item: any) => ({
       id: item.id,
       productId: item.productId,

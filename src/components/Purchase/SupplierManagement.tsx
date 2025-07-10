@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { supplierService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Supplier, SupplierStatus, SupplierRating } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -99,11 +99,16 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
       setLoading(true);
       setError(null);
       
-      const [suppliersData, statsData] = await Promise.all([
-        supplierService.findAll(),
-        supplierService.getSupplierStats()
+      const systemService = serviceManager.getSystemService();
+      const [suppliersResult, statsResult] = await Promise.all([
+        systemService.getSuppliers(),
+        systemService.getSupplierStats()
       ]);
-      
+
+      const suppliersData = suppliersResult.success ? 
+        (Array.isArray(suppliersResult.data) ? suppliersResult.data : suppliersResult.data?.items || []) : [];
+      const statsData = statsResult.success ? (statsResult.data || {}) : {};
+
       setSuppliers(suppliersData);
       setStats(statsData);
     } catch (err) {
@@ -126,14 +131,16 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
         paymentTerms: data.paymentTerms || undefined
       };
       
+      const systemService = serviceManager.getSystemService();
       if (editingSupplier) {
-        await supplierService.update(editingSupplier.id, submitData);
+        await systemService.updateSupplier(editingSupplier.id, submitData);
       } else {
         // 如果code为空，自动生成
         if (!submitData.code) {
-          submitData.code = await supplierService.generateSupplierCode();
+          const codeResult = await systemService.generateSupplierCode();
+          submitData.code = codeResult.success && codeResult.data ? codeResult.data : `SUP${Date.now()}`;
         }
-        await supplierService.create(submitData);
+        await systemService.createSupplier(submitData);
       }
       
       await loadData();
@@ -174,7 +181,8 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     if (!deleteTargetId) return;
 
     try {
-      await supplierService.delete(deleteTargetId);
+      const systemService = serviceManager.getSystemService();
+      await systemService.deleteSupplier(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除供应商失败');
@@ -204,8 +212,10 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     setShowForm(true);
     // 自动生成供应商编码
     try {
-      const newCode = await supplierService.generateSupplierCode();
-      setValue('code', newCode);
+      const systemService = serviceManager.getSystemService();
+      const codeResult = await systemService.generateSupplierCode();
+      const newCode = codeResult.success && codeResult.data ? codeResult.data : `SUP${Date.now()}`;
+      setValue('code', newCode || '');
     } catch (err) {
       console.error('Failed to generate supplier code:', err);
     }
@@ -213,8 +223,10 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
 
   const generateSupplierCode = async () => {
     try {
-      const newCode = await supplierService.generateSupplierCode();
-      setValue('code', newCode);
+      const systemService = serviceManager.getSystemService();
+      const codeResult = await systemService.generateSupplierCode();
+      const newCode = codeResult.success && codeResult.data ? codeResult.data : `SUP${Date.now()}`;
+      setValue('code', newCode || '');
       clearErrors('code');
     } catch (err) {
       console.error('Failed to generate supplier code:', err);

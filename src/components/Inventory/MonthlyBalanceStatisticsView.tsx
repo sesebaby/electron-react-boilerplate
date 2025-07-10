@@ -35,10 +35,10 @@ export const MonthlyBalanceStatisticsView: React.FC<MonthlyBalanceStatisticsView
       setError(null);
 
       const reportService = serviceManager.getReportService();
-      const result = await reportService.getMonthlyBalanceStatistics(selectedYear, selectedMonth);
+      const result = await reportService.getMonthlyBalanceStats();
 
       if (!result.success) {
-        setError(result.error?.message || '获取统计数据失败');
+        setError(result.error || '获取统计数据失败');
         setStatistics(null);
         return;
       }

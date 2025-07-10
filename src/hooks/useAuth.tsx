@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useContext, createContext } from 'react';
 import { User, UserRole, UserStatus } from '../types/entities';
-import { getService } from '../services/globalServices';
+import { serviceManager } from '../services/core';
 import { dialogService } from '../services/dialogService';
 
 interface AuthContextType {
@@ -77,19 +77,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       
       // Use UserService for authentication
-      const userService = getService('userService');
-      if (!userService) {
-        throw new Error('用户服务不可用');
+      await serviceManager.initialize();
+      const systemService = serviceManager.getSystemService();
+      if (!systemService) {
+        throw new Error('系统服务不可用');
       }
-      const authResult = await userService.authenticate(username.trim(), password);
+      const authResult = await systemService.authenticateUser(username.trim(), password);
 
-      if (authResult && authResult.success && authResult.user) {
+      if (authResult && authResult.success && authResult.data) {
         // Transform to full User type
         const fullUser: User = {
-          id: authResult.user.id,
-          username: authResult.user.username,
+          id: authResult.data.id,
+          username: authResult.data.username,
           password: '', // Don't expose password
-          nickname: authResult.user.username,
+          nickname: authResult.data.username,
           role: UserRole.ADMIN, // Default role
           status: UserStatus.ACTIVE,
           createdAt: new Date(),
@@ -122,8 +123,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
       
-      // Use UserService for logout
-      userService.logout();
+      // Use SystemService for logout
+      const systemService = serviceManager.getSystemService();
+      if (systemService && systemService.logout) {
+        systemService.logout();
+      }
       
       // Clear local session data
       localStorage.removeItem('_auth_user');
@@ -235,7 +239,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           try {
             const parsedUser = JSON.parse(userData);
             // Verify user still exists in the system
-            const currentUser = await userService.findById(parsedUser.id);
+            const systemService = serviceManager.getSystemService();
+            const userResult = await systemService.getUser(parsedUser.id);
+            const currentUser = userResult.success ? userResult.data : null;
             
             if (currentUser && (currentUser as any).status === UserStatus.ACTIVE) {
               setUser(currentUser);

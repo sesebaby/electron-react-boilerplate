@@ -180,15 +180,22 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       setLoading(true);
       setError(null);
 
-      const [productsData, categoriesData, unitsData] = await Promise.all([
+      const [productsResult, categoriesResult, unitsResult] = await Promise.all([
         services.productService.findAllProducts(),
         services.categoryService.findAllCategories(),
         services.unitService.findAllUnits()
       ]);
 
-      setProducts(productsData);
-      setCategories(categoriesData);
-      setUnits(unitsData);
+      const productsData = productsResult.success ? 
+        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const categoriesData = categoriesResult.success ? 
+        (Array.isArray(categoriesResult.data) ? categoriesResult.data : []) : [];
+      const unitsData = unitsResult.success ? 
+        (Array.isArray(unitsResult.data) ? unitsResult.data : []) : [];
+
+      setProducts(Array.isArray(productsData) ? productsData : []);
+      setCategories(Array.isArray(categoriesData) ? categoriesData : []);
+      setUnits(Array.isArray(unitsData) ? unitsData : []);
     } catch (err) {
       setError('加载数据失败');
       console.error('Failed to load product data:', err);

@@ -11,7 +11,7 @@ import {
   TimeSlot
 } from '../../../types/consumption';
 import { DEFAULT_TIME_SLOT_CONFIG } from '../../../utils/timeSlotHelper';
-import { dailyConsumptionService } from '../../../services/business';
+import { serviceManager } from '../../../services/core';
 import ConsumptionControls from './ConsumptionControls';
 import ConsumptionTable from './ConsumptionTable';
 import ConsumptionSummary from './ConsumptionSummary';
@@ -67,6 +67,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
     try {
       console.log('开始加载消耗数据...', config);
       const result = await dailyConsumptionService.getConsumptionData(config.dateRange.startDate, config.dateRange.endDate);
+      const consumptionServiceData = result.success ? result.data : null;
       // Transform service result to ConsumptionTableData format
       const consumptionData: ConsumptionTableData = {
         categories: [],
@@ -80,7 +81,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
             afternoon: { quantity: 0, convertedQuantity: 0, amount: 0, transactionCount: 0 },
             evening: { quantity: 0, convertedQuantity: 0, amount: 0, transactionCount: 0 }
           },
-          grandTotal: { quantity: result.summary?.total || 0, convertedQuantity: 0, amount: 0, transactionCount: 0 }
+          grandTotal: { quantity: consumptionServiceData?.summary?.totalItems || 0, convertedQuantity: 0, amount: 0, transactionCount: 0 }
         },
         lastUpdated: new Date()
       };
@@ -109,8 +110,7 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
    * 处理刷新
    */
   const handleRefresh = useCallback(() => {
-    // 清除缓存并重新加载
-    dailyConsumptionService.clearCache();
+    // 重新加载数据
     loadData();
   }, [loadData]);
 

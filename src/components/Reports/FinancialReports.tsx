@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  accountsPayableService,
-  // accountsReceivableService,
-  salesOrderService,
-  purchaseOrderService,
-  salesDeliveryService,
-  purchaseReceiptService
-} from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { 
   AccountsPayable, 
   AccountsReceivable, 
@@ -67,21 +60,26 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
         salesData,
         purchaseData
       ] = await Promise.all([
-        accountsPayableService.findAll(),
-        // accountsReceivableService.findAll(),
-        accountsPayableService.findAllPayments(),
-        // accountsReceivableService.findAllReceipts(),
+        accountsPayableService.getPayables(),
+        // accountsReceivableService.getReceivables(),
+        accountsPayableService.getPaymentRecords(),
+        // accountsReceivableService.getPaymentRecords(),
         salesOrderService.findAll(),
         purchaseOrderService.findAll()
       ]);
       
       // 设置财务数据（部分启用）
-      setPayables(payablesData);
+      const payablesResult = payablesData.success ? (payablesData.data?.items || payablesData.data || []) : [];
+      const paymentsResult = paymentsData.success ? (paymentsData.data || []) : [];
+      const salesResult = salesData.success ? (salesData.data?.items || salesData.data || []) : [];
+      const purchaseResult = purchaseData.success ? (purchaseData.data?.items || purchaseData.data || []) : [];
+      
+      setPayables(Array.isArray(payablesResult) ? payablesResult : []);
       // setReceivables(receivablesData);
-      setPayments(paymentsData);
+      setPayments(Array.isArray(paymentsResult) ? paymentsResult as any[] as Payment[] : []);
       // setReceipts(receiptsData);
-      setSalesOrders(salesData);
-      setPurchaseOrders(purchaseData);
+      setSalesOrders(Array.isArray(salesResult) ? salesResult as SalesOrder[] : []);
+      setPurchaseOrders(Array.isArray(purchaseResult) ? purchaseResult as PurchaseOrder[] : []);
     } catch (err) {
       setError('加载财务报表数据失败');
       console.error('Failed to load financial reports data:', err);

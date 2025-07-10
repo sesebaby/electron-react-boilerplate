@@ -204,12 +204,13 @@ export class FinancialService {
         receivables = receivables.filter(receivable => {
           if (filter.customerId && receivable.customerId !== filter.customerId) return false;
           if (filter.receivableStatus && receivable.status !== filter.receivableStatus) return false;
-          if (filter.amountFrom && receivable.amount < filter.amountFrom) return false;
-          if (filter.amountTo && receivable.amount > filter.amountTo) return false;
+          const amount = receivable.amount || receivable.totalAmount;
+          if (filter.amountFrom && amount < filter.amountFrom) return false;
+          if (filter.amountTo && amount > filter.amountTo) return false;
           if (filter.overdue && new Date(receivable.dueDate) > new Date()) return false;
           if (filter.keyword) {
             const keyword = filter.keyword.toLowerCase();
-            if (!receivable.orderNo?.toLowerCase().includes(keyword) &&
+            if (!receivable.orderId?.toLowerCase().includes(keyword) &&
                 !receivable.description?.toLowerCase().includes(keyword)) return false;
           }
           return true;
@@ -247,15 +248,17 @@ export class FinancialService {
         return { success: false, error: '收款金额必须大于0' };
       }
 
-      if (receivable.paidAmount + amount > receivable.amount) {
+      const currentAmount = receivable.amount || receivable.totalAmount;
+      if (receivable.receivedAmount + amount > currentAmount) {
         return { success: false, error: '收款金额超过应收金额' };
       }
 
       // 更新应收账款
       const updatedReceivable: AccountsReceivable = {
         ...receivable,
-        paidAmount: receivable.paidAmount + amount,
-        status: (receivable.paidAmount + amount >= receivable.amount) ? ReceivableStatus.PAID : ReceivableStatus.PARTIAL,
+        receivedAmount: receivable.receivedAmount + amount,
+        balanceAmount: currentAmount - (receivable.receivedAmount + amount),
+        status: (receivable.receivedAmount + amount >= currentAmount) ? ReceivableStatus.PAID : ReceivableStatus.PARTIAL,
         updatedAt: new Date()
       };
 
@@ -354,12 +357,13 @@ export class FinancialService {
         payables = payables.filter(payable => {
           if (filter.supplierId && payable.supplierId !== filter.supplierId) return false;
           if (filter.payableStatus && payable.status !== filter.payableStatus) return false;
-          if (filter.amountFrom && payable.amount < filter.amountFrom) return false;
-          if (filter.amountTo && payable.amount > filter.amountTo) return false;
+          const amount = payable.amount || payable.totalAmount || 0;
+          if (filter.amountFrom && amount < filter.amountFrom) return false;
+          if (filter.amountTo && amount > filter.amountTo) return false;
           if (filter.overdue && new Date(payable.dueDate) > new Date()) return false;
           if (filter.keyword) {
             const keyword = filter.keyword.toLowerCase();
-            if (!payable.orderNo?.toLowerCase().includes(keyword) &&
+            if (!payable.orderId?.toLowerCase().includes(keyword) &&
                 !payable.description?.toLowerCase().includes(keyword)) return false;
           }
           return true;
@@ -397,7 +401,8 @@ export class FinancialService {
         return { success: false, error: '付款金额必须大于0' };
       }
 
-      if (payable.paidAmount + amount > payable.amount) {
+      const currentAmount = payable.amount || payable.totalAmount;
+      if (payable.paidAmount + amount > currentAmount) {
         return { success: false, error: '付款金额超过应付金额' };
       }
 
@@ -405,7 +410,8 @@ export class FinancialService {
       const updatedPayable: AccountsPayable = {
         ...payable,
         paidAmount: payable.paidAmount + amount,
-        status: (payable.paidAmount + amount >= payable.amount) ? PayableStatus.PAID : PayableStatus.PARTIAL,
+        balanceAmount: currentAmount - (payable.paidAmount + amount),
+        status: (payable.paidAmount + amount >= currentAmount) ? PayableStatus.PAID : PayableStatus.PARTIAL,
         updatedAt: new Date()
       };
 
@@ -448,14 +454,14 @@ export class FinancialService {
       const now = new Date();
 
       // 应收账款统计
-      const totalReceivableAmount = receivables.reduce((sum, r) => sum + r.amount, 0);
+      const totalReceivableAmount = receivables.reduce((sum, r) => sum + (r.amount || r.totalAmount), 0);
       const overdueReceivables = receivables.filter(r => new Date(r.dueDate) < now && r.status !== ReceivableStatus.PAID);
-      const overdueReceivableAmount = overdueReceivables.reduce((sum, r) => sum + (r.amount - r.paidAmount), 0);
+      const overdueReceivableAmount = overdueReceivables.reduce((sum, r) => sum + ((r.amount || r.totalAmount) - r.receivedAmount), 0);
 
       // 应付账款统计
-      const totalPayableAmount = payables.reduce((sum, p) => sum + p.amount, 0);
+      const totalPayableAmount = payables.reduce((sum, p) => sum + (p.amount || p.totalAmount), 0);
       const overduePayables = payables.filter(p => new Date(p.dueDate) < now && p.status !== PayableStatus.PAID);
-      const overduePayableAmount = overduePayables.reduce((sum, p) => sum + (p.amount - p.paidAmount), 0);
+      const overduePayableAmount = overduePayables.reduce((sum, p) => sum + ((p.amount || p.totalAmount) - p.paidAmount), 0);
 
       const statistics: FinancialStatistics = {
         totalReceivables: receivables.length,

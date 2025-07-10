@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { inventoryStockService, productService, categoryService, warehouseService } from '../../services/business';
-import { Product, Category, Warehouse } from '../../types/entities';
+// 移除直接导入服务实例，改为使用 serviceManager
+import { serviceManager } from '../../services/core';
+import { Product, Category, Warehouse, InventoryStock } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { 
   Table, 
@@ -74,13 +75,19 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
       setLoading(true);
       setError(null);
       
-      const [categoriesData, warehousesData] = await Promise.all([
-        categoryService.findAll(),
-        warehouseService.findAll()
+      const inventoryService = serviceManager.getInventoryService();
+      const [categoriesResult, warehousesResult] = await Promise.all([
+        inventoryService.findAllCategories(),
+        inventoryService.findAllWarehouses()
       ]);
-      
-      setCategories(categoriesData);
-      setWarehouses(warehousesData);
+
+      const categoriesData = categoriesResult.success ? 
+        (Array.isArray(categoriesResult.data) ? categoriesResult.data : categoriesResult.data?.items || []) : [];
+      const warehousesData = warehousesResult.success ? 
+        (Array.isArray(warehousesResult.data) ? warehousesResult.data : warehousesResult.data?.items || []) : [];
+
+      setCategories(Array.isArray(categoriesData) ? categoriesData as Category[] : []);
+      setWarehouses(Array.isArray(warehousesData) ? warehousesData as Warehouse[] : []);
       
       await generateReport();
     } catch (err) {
@@ -93,10 +100,14 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
 
   const generateReport = async () => {
     try {
-      const [products, stocks] = await Promise.all([
-        productService.findAll(),
-        inventoryStockService.findAllStocks()
+      const inventoryService = serviceManager.getInventoryService();
+      const [productsResult, stocksResult] = await Promise.all([
+        inventoryService.findAllProducts(),
+        inventoryService.findAllInventoryStocks()
       ]);
+
+      const products = (productsResult.success ? (productsResult.data?.items || productsResult.data || []) : []) as Product[];
+      const stocks = (stocksResult.success ? (stocksResult.data?.items || stocksResult.data || []) : []) as any[];
 
       const reportItems: InventoryReportData[] = [];
 

@@ -122,6 +122,13 @@ export class ServiceManager {
   }
 
   /**
+   * 检查服务管理器是否已初始化
+   */
+  isInitialized(): boolean {
+    return this.initialized;
+  }
+
+  /**
    * 清理资源
    */
   async dispose(): Promise<void> {

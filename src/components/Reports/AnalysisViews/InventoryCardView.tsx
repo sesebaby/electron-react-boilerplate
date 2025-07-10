@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { WarehouseCardData, InventoryFilterOptions, InventoryCardViewState } from '../../../types/inventoryCard';
+import { WarehouseCardData, InventoryFilterOptions, InventoryCardViewState, ProductStockInfo } from '../../../types/inventoryCard';
 import WarehouseCard from './WarehouseCard';
 import InventoryFilter from '../../Inventory/InventoryFilter';
 import InventorySearch from '../../Inventory/InventorySearch';
@@ -7,7 +7,7 @@ import WarehouseSelector from '../../Inventory/WarehouseSelector';
 import WarehouseDetailModal from '../../Inventory/WarehouseDetailModal';
 import WarehouseCardSkeleton from './WarehouseCardSkeleton';
 import { notificationHelper } from '../../../utils/notificationHelper';
-import { inventoryCardService } from '../../../services/business';
+import { serviceManager } from '../../../services/core';
 
 const InventoryCardView: React.FC = () => {
   const [state, setState] = useState<InventoryCardViewState>({
@@ -34,18 +34,37 @@ const InventoryCardView: React.FC = () => {
       setState(prev => ({ ...prev, loading: true, error: null }));
 
       // 获取真实的仓库卡片数据
-      const warehousesData = await inventoryCardService.getWarehouseCardData('default');
+      const warehousesResult = await inventoryCardService.getWarehouseCardData('default');
+      const warehousesData = warehousesResult.success ? warehousesResult.data : null;
       
       // Transform service data to WarehouseCardData format
+      const productStockInfos: ProductStockInfo[] = Array.isArray(warehousesData) 
+        ? warehousesData.map((item: any) => ({
+            productId: item.id || 'unknown',
+            productName: item.name || '未知商品',
+            sku: item.sku || '',
+            currentStock: item.currentStock || 0,
+            minStock: item.minStock || 0,
+            maxStock: item.maxStock || 0,
+            unit: item.unit || '个',
+            unitPrice: item.unitPrice || 0,
+            totalValue: (item.currentStock || 0) * (item.unitPrice || 0),
+            isLowStock: (item.currentStock || 0) <= (item.minStock || 0),
+            isOutOfStock: (item.currentStock || 0) === 0,
+            lastUpdated: new Date(item.updatedAt || Date.now()),
+            category: item.category || '未分类'
+          }))
+        : [];
+
       const warehouses: WarehouseCardData[] = [{
-        warehouseId: warehousesData.warehouseId || 'default',
+        warehouseId: 'default',
         warehouseName: '默认仓库',
         warehouseCode: 'WH001',
-        products: warehousesData.items || [],
-        totalProducts: (warehousesData.items || []).length,
-        totalValue: warehousesData.totalValue || 0,
-        lowStockCount: 0,
-        outOfStockCount: 0
+        products: productStockInfos,
+        totalProducts: productStockInfos.length,
+        totalValue: productStockInfos.reduce((sum, p) => sum + p.totalValue, 0),
+        lowStockCount: productStockInfos.filter(p => p.isLowStock).length,
+        outOfStockCount: productStockInfos.filter(p => p.isOutOfStock).length
       }];
 
       setState(prev => ({
@@ -55,14 +74,14 @@ const InventoryCardView: React.FC = () => {
         loading: false
       }));
 
-      // 检查是否有库存预警
-      const lowStockWarnings = await inventoryCardService.getLowStockWarnings();
-      if (lowStockWarnings.length > 0) {
-        notificationHelper.showWarning(
-          '库存预警',
-          `发现 ${lowStockWarnings.length} 个商品库存不足，请及时补货`
-        );
-      }
+      // 检查是否有库存预警（暂时跳过，因为方法不存在）
+      // const lowStockWarnings = await inventoryCardService.getLowStockWarnings();
+      // if (lowStockWarnings.length > 0) {
+      //   notificationHelper.showWarning(
+      //     '库存预警',
+      //     `发现 ${lowStockWarnings.length} 个商品库存不足，请及时补货`
+      //   );
+      // }
 
     } catch (error: any) {
       console.error('加载仓库数据失败:', error);

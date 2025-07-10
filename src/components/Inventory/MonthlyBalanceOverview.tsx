@@ -77,10 +77,10 @@ export const MonthlyBalanceOverview: React.FC<MonthlyBalanceOverviewProps> = ({ 
       }
 
       setStats({
-        totalPeriods: serviceStats.totalPeriods,
-        totalValue: serviceStats.totalValue,
-        totalBatches: serviceStats.totalBalances,
-        totalProducts: serviceStats.totalProducts,
+        totalPeriods: serviceStats.success ? serviceStats.data?.totalRecords || 0 : 0,
+        totalValue: serviceStats.success ? serviceStats.data?.totalValue || 0 : 0,
+        totalBatches: serviceStats.success ? serviceStats.data?.totalRecords || 0 : 0,
+        totalProducts: serviceStats.success ? serviceStats.data?.totalRecords || 0 : 0,
         latestPeriod
       });
     } catch (err) {

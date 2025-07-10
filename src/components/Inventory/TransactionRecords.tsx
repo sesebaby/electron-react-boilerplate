@@ -64,20 +64,28 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
       setError(null);
       
       const inventoryService = serviceManager.getInventoryService();
-      const [transactionsData, productsData, warehousesData] = await Promise.all([
+      const [transactionsResult, productsResult, warehousesResult] = await Promise.all([
         inventoryService.findAllTransactions(),
         inventoryService.findAllProducts(),
         inventoryService.findAllWarehouses()
       ]);
 
+      const transactionsData = transactionsResult.success ? 
+        (Array.isArray(transactionsResult.data) ? transactionsResult.data : transactionsResult.data?.items || []) : [];
+      const productsData = productsResult.success ? 
+        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const warehousesData = warehousesResult.success ? 
+        (Array.isArray(warehousesResult.data) ? warehousesResult.data : []) : [];
+
       // 按创建时间降序排序
-      const sortedTransactions = transactionsData.sort((a: any, b: any) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
+      const sortedTransactions = Array.isArray(transactionsData) ? 
+        transactionsData.sort((a: any, b: any) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        ) : [];
 
       setTransactions(sortedTransactions);
-      setProducts(productsData);
-      setWarehouses(warehousesData);
+      setProducts(Array.isArray(productsData) ? productsData : []);
+      setWarehouses(Array.isArray(warehousesData) ? warehousesData : []);
       
     } catch (err) {
       setError('加载交易记录失败');

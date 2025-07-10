@@ -852,4 +852,264 @@ export class OrderService {
       };
     }
   }
+
+  // ==================== 向后兼容的方法别名 ====================
+
+  // 通用查询方法
+  async findAll(filter?: OrderFilter, pagination?: PaginationParams): Promise<ServiceResult<PaginatedResult<any>>> {
+    // 默认返回采购订单，可以根据filter类型判断
+    return this.getPurchaseOrders(filter, pagination);
+  }
+
+  // 订单统计别名
+  async getOrderStats(): Promise<ServiceResult<OrderStatistics>> {
+    return this.getStatistics();
+  }
+
+  // 通用CRUD操作
+  async create(data: any, items?: any[]): Promise<ServiceResult<any>> {
+    if (data.supplierId) {
+      return this.createPurchaseOrder(data, items || []);
+    } else if (data.customerId) {
+      return this.createSalesOrder(data, items || []);
+    }
+    return { success: false, error: '无法识别的订单类型' };
+  }
+
+  async update(id: string, data: any): Promise<ServiceResult<any>> {
+    // 先尝试更新采购订单
+    if (this.purchaseOrders.has(id)) {
+      return this.updatePurchaseOrder(id, data);
+    }
+    // 再尝试更新销售订单
+    if (this.salesOrders.has(id)) {
+      // 需要实现 updateSalesOrder 方法
+      return { success: false, error: '销售订单更新功能暂未实现' };
+    }
+    return { success: false, error: '找不到指定的订单' };
+  }
+
+  async delete(id: string): Promise<ServiceResult<boolean>> {
+    // 先尝试删除采购订单
+    if (this.purchaseOrders.has(id)) {
+      return this.deletePurchaseOrder(id);
+    }
+    // 再尝试删除销售订单
+    if (this.salesOrders.has(id)) {
+      // 需要实现 deleteSalesOrder 方法
+      return { success: false, error: '销售订单删除功能暂未实现' };
+    }
+    return { success: false, error: '找不到指定的订单' };
+  }
+
+  // 订单明细相关方法
+  async getOrderItems(orderId: string): Promise<ServiceResult<any[]>> {
+    try {
+      // 先检查采购订单
+      if (this.purchaseOrders.has(orderId)) {
+        const items = Array.from(this.purchaseOrderItems.values()).filter(
+          item => item.orderId === orderId
+        );
+        return { success: true, data: items };
+      }
+
+      // 再检查销售订单
+      if (this.salesOrders.has(orderId)) {
+        const items = Array.from(this.salesOrderItems.values()).filter(
+          item => item.orderId === orderId
+        );
+        return { success: true, data: items };
+      }
+
+      return { success: false, error: '找不到指定的订单' };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '获取订单明细失败' };
+    }
+  }
+
+  async addOrderItem(orderId: string, itemData: any): Promise<ServiceResult<any>> {
+    try {
+      // 简化实现，实际应该根据订单类型创建对应的明细
+      const item = {
+        ...itemData,
+        id: uuidv4(),
+        orderId,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      if (this.purchaseOrders.has(orderId)) {
+        this.purchaseOrderItems.set(item.id, item);
+      } else if (this.salesOrders.has(orderId)) {
+        this.salesOrderItems.set(item.id, item);
+      } else {
+        return { success: false, error: '找不到指定的订单' };
+      }
+
+      return { success: true, data: item };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '添加订单明细失败' };
+    }
+  }
+
+  async removeOrderItem(itemId: string): Promise<ServiceResult<boolean>> {
+    try {
+      if (this.purchaseOrderItems.has(itemId)) {
+        this.purchaseOrderItems.delete(itemId);
+        return { success: true, data: true };
+      }
+
+      if (this.salesOrderItems.has(itemId)) {
+        this.salesOrderItems.delete(itemId);
+        return { success: true, data: true };
+      }
+
+      return { success: false, error: '找不到指定的订单明细' };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '删除订单明细失败' };
+    }
+  }
+
+  // 状态更新方法
+  async updateStatus(id: string, status: string): Promise<ServiceResult<any>> {
+    try {
+      if (this.purchaseOrders.has(id)) {
+        return this.updatePurchaseOrder(id, { status: status as PurchaseOrderStatus });
+      }
+
+      if (this.salesOrders.has(id)) {
+        // 需要实现销售订单状态更新
+        return { success: false, error: '销售订单状态更新功能暂未实现' };
+      }
+
+      return { success: false, error: '找不到指定的订单' };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '更新订单状态失败' };
+    }
+  }
+
+  async updatePaymentStatus(id: string, paymentStatus: PaymentStatus): Promise<ServiceResult<any>> {
+    try {
+      if (this.purchaseOrders.has(id)) {
+        // 采购订单暂不支持支付状态字段，使用status字段代替
+        return { success: false, error: '采购订单支付状态更新功能需要扩展字段' };
+      }
+
+      if (this.salesOrders.has(id)) {
+        // 需要实现销售订单支付状态更新
+        return { success: false, error: '销售订单支付状态更新功能暂未实现' };
+      }
+
+      return { success: false, error: '找不到指定的订单' };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '更新支付状态失败' };
+    }
+  }
+
+  // 收发货相关方法别名
+  async getReceiptStats(): Promise<ServiceResult<any>> {
+    try {
+      const stats = {
+        totalReceipts: this.purchaseReceipts.size,
+        pendingReceipts: Array.from(this.purchaseReceipts.values()).filter(r => r.status === ReceiptStatus.DRAFT).length,
+        confirmedReceipts: Array.from(this.purchaseReceipts.values()).filter(r => r.status === ReceiptStatus.CONFIRMED).length,
+        totalAmount: Array.from(this.purchaseReceipts.values()).reduce((sum, receipt) => sum + receipt.totalAmount, 0)
+      };
+      return { success: true, data: stats };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '获取收货统计失败' };
+    }
+  }
+
+  async getPendingReceiptsForOrder(orderId: string): Promise<ServiceResult<any[]>> {
+    try {
+      const receipts = Array.from(this.purchaseReceipts.values()).filter(
+        receipt => receipt.orderId === orderId && receipt.status === ReceiptStatus.DRAFT
+      );
+      return { success: true, data: receipts };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '获取待收货单失败' };
+    }
+  }
+
+  async getReceiptItems(receiptId: string): Promise<ServiceResult<any[]>> {
+    try {
+      const items = Array.from(this.purchaseReceiptItems.values()).filter(
+        item => item.receiptId === receiptId
+      );
+      return { success: true, data: items };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '获取收货明细失败' };
+    }
+  }
+
+  async addReceiptItem(receiptId: string, itemData: any): Promise<ServiceResult<any>> {
+    try {
+      const item = {
+        ...itemData,
+        id: uuidv4(),
+        receiptId,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      this.purchaseReceiptItems.set(item.id, item);
+      return { success: true, data: item };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '添加收货明细失败' };
+    }
+  }
+
+  async removeReceiptItem(itemId: string): Promise<ServiceResult<boolean>> {
+    try {
+      if (this.purchaseReceiptItems.has(itemId)) {
+        this.purchaseReceiptItems.delete(itemId);
+        return { success: true, data: true };
+      }
+      return { success: false, error: '找不到指定的收货明细' };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '删除收货明细失败' };
+    }
+  }
+
+  // 发货相关方法（销售）
+  async getDeliveryItems(deliveryId: string): Promise<ServiceResult<any[]>> {
+    try {
+      const items = Array.from(this.salesDeliveryItems.values()).filter(
+        item => item.deliveryId === deliveryId
+      );
+      return { success: true, data: items };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '获取发货明细失败' };
+    }
+  }
+
+  async addDeliveryItem(deliveryId: string, itemData: any): Promise<ServiceResult<any>> {
+    try {
+      const item = {
+        ...itemData,
+        id: uuidv4(),
+        deliveryId,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      this.salesDeliveryItems.set(item.id, item);
+      return { success: true, data: item };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '添加发货明细失败' };
+    }
+  }
+
+  async removeDeliveryItem(itemId: string): Promise<ServiceResult<boolean>> {
+    try {
+      if (this.salesDeliveryItems.has(itemId)) {
+        this.salesDeliveryItems.delete(itemId);
+        return { success: true, data: true };
+      }
+      return { success: false, error: '找不到指定的发货明细' };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : '删除发货明细失败' };
+    }
+  }
 }

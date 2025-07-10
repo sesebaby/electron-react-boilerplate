@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { 
-  inventoryStockService, 
-  productService, 
-  categoryService, 
-  warehouseService 
-} from '../../services/business';
+// 移除直接导入服务实例，改为使用 serviceManager
+import { serviceManager } from '../../services/core';
 import { Product, Category, Warehouse, InventoryTransaction } from '../../types/entities';
 import { 
   InventoryMovementSummaryData,
@@ -96,15 +92,20 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
   // =============== 数据获取 ===============
   const loadBasicData = useCallback(async () => {
     try {
-      const [productsData, categoriesData, warehousesData] = await Promise.all([
-        productService.findAll(),
-        categoryService.findAll(),
-        warehouseService.findAll()
+      const inventoryService = serviceManager.getInventoryService();
+      const [productsResult, categoriesResult, warehousesResult] = await Promise.all([
+        inventoryService.findAllProducts(),
+        inventoryService.findAllCategories(),
+        inventoryService.findAllWarehouses()
       ]);
 
-      setProducts(productsData);
-      setCategories(categoriesData);
-      setWarehouses(warehousesData);
+      const productsData = productsResult.success ? (productsResult.data?.items || productsResult.data || []) : [];
+      const categoriesData = categoriesResult.success ? (categoriesResult.data?.items || categoriesResult.data || []) : [];
+      const warehousesData = warehousesResult.success ? (warehousesResult.data?.items || warehousesResult.data || []) : [];
+
+      setProducts(productsData as Product[]);
+      setCategories(categoriesData as unknown as Category[]);
+      setWarehouses(warehousesData as unknown as Warehouse[]);
     } catch (err) {
       console.error('加载基础数据失败:', err);
       setError('加载基础数据失败，请稍后重试');
@@ -114,17 +115,23 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
   const calculateMovementSummary = useCallback(async (): Promise<InventoryMovementSummaryData[]> => {
     const { timeRange } = filters;
     
-    // 获取所有相关的库存事务
-    const transactions = await inventoryStockService.findTransactionsByDateRange(
-      timeRange.startDate,
-      timeRange.endDate
-    );
+    // 获取所有相关的库存事务（使用现有方法）
+    const inventoryService = serviceManager.getInventoryService();
+    const transactionsResult = await inventoryService.findAllTransactions();
+    const allTransactions = transactionsResult.success ? 
+      (Array.isArray(transactionsResult.data) ? transactionsResult.data : transactionsResult.data?.items || []) : [];
+
+    // 过滤时间范围内的事务
+    const transactions = allTransactions.filter((t: any) => {
+      const transactionDate = new Date(t.createdAt || t.date);
+      return transactionDate >= timeRange.startDate && transactionDate <= timeRange.endDate;
+    });
 
     // 获取期初库存（时间范围开始前的库存状态）
-    const openingStockTransactions = await inventoryStockService.findTransactionsByDateRange(
-      new Date('2000-01-01'), // 从很早的日期开始
-      new Date(timeRange.startDate.getTime() - 1) // 到开始日期前一天
-    );
+    const openingStockTransactions = allTransactions.filter((t: any) => {
+      const transactionDate = new Date(t.createdAt || t.date);
+      return transactionDate < timeRange.startDate;
+    });
 
     // 按产品分组计算
     const productGroups = new Map<string, {

@@ -42,11 +42,11 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
         inventoryService.getCategories()
       ]);
 
-      const warehouseList = warehouseResult.success ? warehouseResult.data : [];
-      const categoryList = categoryResult.success ? categoryResult.data : [];
+      const warehouseList = warehouseResult.success ? (warehouseResult.data || []) : [];
+      const categoryList = categoryResult.success ? (categoryResult.data || []) : [];
 
-      setWarehouses(warehouseList);
-      setCategories(categoryList);
+      setWarehouses(warehouseList as any[]);
+      setCategories(categoryList as any[]);
     } catch (err) {
       console.error('Failed to load form data:', err);
       setError('加载表单数据失败');
@@ -70,7 +70,7 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
       const generateResult = await reportService.generateMonthlyBalance(params);
 
       if (!generateResult.success) {
-        setError(generateResult.error?.message || '生成失败');
+        setError(generateResult.error || '生成失败');
         return;
       }
 

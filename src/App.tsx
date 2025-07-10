@@ -41,7 +41,7 @@ const App: React.FC = () => {
     // 监听哈希变化
     window.addEventListener('hashchange', handleHashChange);
 
-    // 简化的系统初始化
+    // 简化的系统初始化 - 立即执行，不延迟
     const initSystem = async () => {
       try {
         console.log('开始初始化系统...');
@@ -57,12 +57,12 @@ const App: React.FC = () => {
         setIsLoading(false);
       }
     };
-    
-    const initTimer = setTimeout(initSystem, 1000);
+
+    // 立即执行初始化，不使用延迟
+    initSystem();
 
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
-      clearTimeout(initTimer);
     };
   }, []);
 

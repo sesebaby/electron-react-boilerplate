@@ -6,10 +6,40 @@
 import { serviceManager } from '../core';
 
 // 重新导出核心服务类型
-export * from '../core/types';
+export type {
+  ServiceResult,
+  PaginatedResult,
+  PaginationParams,
+  BaseFilter,
+  ServiceStatistics
+} from '../core/types';
 
-// 重新导出实体类型
-export * from '../../types/entities';
+// 重新导出实体类型，避免 BatchOperationResult 冲突
+export type {
+  Product,
+  ProductStatus,
+  Category,
+  Unit,
+  UnitType,
+  Warehouse,
+  InventoryItem,
+  InventoryStock,
+  InventoryTransaction,
+  TransactionType,
+  Supplier,
+  Customer,
+  User,
+  UserRole,
+  UserStatus,
+  PurchaseOrder,
+  PurchaseOrderStatus,
+  SalesOrderStatus,
+  AccountsPayable,
+  AccountsReceivable,
+  ReceivableStatus,
+  PaymentStatus,
+} from '../../types/entities';
+
 
 // 兼容性服务实例获取器
 export const getProductService = () => serviceManager.getInventoryService();
@@ -59,30 +89,34 @@ export const businessServiceManager = {
   getCalendarDataService
 };
 
-// 直接服务实例导出 (向后兼容)
-export const productService = serviceManager.getInventoryService();
-export const categoryService = serviceManager.getInventoryService();
-export const inventoryStockService = serviceManager.getInventoryService();
-export const warehouseService = serviceManager.getInventoryService();
-export const unitService = serviceManager.getInventoryService();
+// 简化的服务实例导出 (向后兼容)
+// 注释掉直接导出，推荐使用 getXXXService() 函数
 
-export const purchaseOrderService = serviceManager.getOrderService();
-export const salesOrderService = serviceManager.getOrderService();
-export const purchaseReceiptService = serviceManager.getOrderService();
-export const salesDeliveryService = serviceManager.getOrderService();
+// 注意：不要直接导出服务实例，因为会在模块加载时立即调用 serviceManager
+// 推荐使用上面的 getXXXService() 函数或直接调用 serviceManager.getXXXService()
 
-export const accountsPayableService = serviceManager.getFinancialService();
-export const accountsReceivableService = serviceManager.getFinancialService();
+// 注释掉直接服务实例导出，避免在模块加载时调用未初始化的 serviceManager
+// export const productService = serviceManager.getInventoryService();
+// export const categoryService = serviceManager.getInventoryService();
+// export const inventoryStockService = serviceManager.getInventoryService();
+// export const warehouseService = serviceManager.getInventoryService();
+// export const unitService = serviceManager.getInventoryService();
+// export const purchaseOrderService = serviceManager.getOrderService();
 
-export const userService = serviceManager.getSystemService();
-export const customerService = serviceManager.getSystemService();
-export const supplierService = serviceManager.getSystemService();
-export const permissionService = serviceManager.getSystemService();
+// export const salesOrderService = serviceManager.getOrderService();
+// export const purchaseReceiptService = serviceManager.getOrderService();
+// export const salesDeliveryService = serviceManager.getOrderService();
+// export const accountsPayableService = serviceManager.getFinancialService();
+// export const accountsReceivableService = serviceManager.getFinancialService();
+// export const userService = serviceManager.getSystemService();
+// export const customerService = serviceManager.getSystemService();
+// export const supplierService = serviceManager.getSystemService();
+// export const permissionService = serviceManager.getSystemService();
 
-export const reportService = serviceManager.getReportService();
-export const inventoryCardService = serviceManager.getReportService();
-export const dailyConsumptionService = serviceManager.getReportService();
-export const calendarDataService = serviceManager.getReportService();
+// export const reportService = serviceManager.getReportService();
+// export const inventoryCardService = serviceManager.getReportService();
+// export const dailyConsumptionService = serviceManager.getReportService();
+// export const calendarDataService = serviceManager.getReportService();
 
 // 日历数据服务工具类
 export class CalendarDataService {

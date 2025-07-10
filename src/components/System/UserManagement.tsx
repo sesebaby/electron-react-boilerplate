@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { userService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { User, UserRole, UserStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -168,8 +168,11 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
       setLoading(true);
       setError(null);
       
-      const usersData = await userService.findAll();
-      setUsers(usersData);
+      const systemService = serviceManager.getSystemService();
+      const usersResult = await systemService.getUsers();
+      const usersData = usersResult.success ? 
+        (Array.isArray(usersResult.data) ? usersResult.data : usersResult.data?.items || []) : [];
+      setUsers((Array.isArray(usersData) ? usersData : []) as User[]);
     } catch (err) {
       setError('加载用户数据失败');
       console.error('Failed to load users:', err);
@@ -179,20 +182,25 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
   };
 
   const loadCurrentUser = async () => {
-    const userData = await userService.getCurrentUser();
-    if (userData) {
-      // Transform to full User type
-      const user: User = {
-        id: userData.id,
-        username: userData.username,
-        password: '', // Don't expose password
-        nickname: userData.username,
-        role: UserRole.ADMIN, // Default role
-        status: (userData.status as UserStatus) || UserStatus.ACTIVE,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-      setCurrentUser(user);
+    try {
+      const systemService = serviceManager.getSystemService();
+      const userData = await systemService.getCurrentUser();
+      if (userData) {
+        // Transform to full User type
+        const user: User = {
+          id: userData.id,
+          username: userData.username,
+          password: '', // Don't expose password
+          nickname: userData.nickname || userData.username,
+          role: userData.role || UserRole.ADMIN, // Default role
+          status: userData.status || UserStatus.ACTIVE,
+          createdAt: userData.createdAt || new Date(),
+          updatedAt: userData.updatedAt || new Date()
+        };
+        setCurrentUser(user);
+      }
+    } catch (err) {
+      console.error('Failed to load current user:', err);
     }
   };
 

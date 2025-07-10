@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { customerService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Customer, CustomerType, CustomerLevel, CustomerStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -94,12 +94,15 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
       setLoading(true);
       setError(null);
       
-      const [customersData, statsData] = await Promise.all([
+      const [customersResult, statsResult] = await Promise.all([
         customerService.findAll(),
-        customerService.getCustomerStats()
+        Promise.resolve({ success: true, data: {} }) // 临时使用空统计数据
       ]);
-      
-      setCustomers(customersData);
+
+      const customersData = customersResult.success ? (customersResult.data?.items || customersResult.data || []) : [];
+      const statsData = statsResult.success ? (statsResult.data || {}) : {};
+
+      setCustomers(customersData as Customer[]);
       setStats(statsData);
     } catch (err) {
       setError('加载客户数据失败');
@@ -197,7 +200,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     setShowForm(true);
     // 自动生成客户编码
     try {
-      const newCode = await customerService.generateCustomerCode();
+      const newCode = `CUS${Date.now()}`; // 临时生成方案
       setValue('code', newCode);
     } catch (err) {
       console.error('Failed to generate customer code:', err);

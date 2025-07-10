@@ -79,21 +79,16 @@ export const InventoryEntryRegistration: React.FC = () => {
       try {
         const result = await inventoryEntryRegistrationService.getInventoryEntryData({
           startDate: timeRange.startDate,
-          endDate: timeRange.endDate,
-          displayMode
+          endDate: timeRange.endDate
         });
-        // 按一级分类、二级分类排序
+        // 按分类、商品名称排序
         const sortedData = result.sort((a, b) => {
-          // 首先按一级分类排序
-          if (a.primaryCategory !== b.primaryCategory) {
-            return a.primaryCategory.localeCompare(b.primaryCategory, 'zh-CN');
+          // 首先按分类排序
+          if (a.category !== b.category) {
+            return a.category.localeCompare(b.category, 'zh-CN');
           }
-          // 然后按二级分类排序
-          if (a.secondaryCategory !== b.secondaryCategory) {
-            return a.secondaryCategory.localeCompare(b.secondaryCategory, 'zh-CN');
-          }
-          // 最后按物品名称排序
-          return a.name.localeCompare(b.name, 'zh-CN');
+          // 然后按商品名称排序
+          return a.productName.localeCompare(b.productName, 'zh-CN');
         });
         setData(sortedData);
       } catch (error) {
@@ -354,7 +349,7 @@ export const InventoryEntryRegistration: React.FC = () => {
                       fixedOffset="60px"
                       className="min-w-[120px] text-left border-r"
                     >
-                      {item.primaryCategory}
+                      {item.category}
                     </TableCell>
                     <TableCell 
                       fixed 
@@ -362,7 +357,7 @@ export const InventoryEntryRegistration: React.FC = () => {
                       fixedOffset="180px"
                       className="min-w-[120px] text-left border-r"
                     >
-                      {item.secondaryCategory}
+                      {item.category}
                     </TableCell>
                     <TableCell 
                       fixed 
@@ -370,7 +365,7 @@ export const InventoryEntryRegistration: React.FC = () => {
                       fixedOffset="300px"
                       className="min-w-[150px] text-left border-r"
                     >
-                      {item.name}
+                      {item.productName}
                     </TableCell>
                     <TableCell 
                       fixed 
@@ -379,11 +374,11 @@ export const InventoryEntryRegistration: React.FC = () => {
                       className="min-w-[100px] text-center border-r"
                     >
                       <span className="financial-value-accent">
-                        {item.totalOut}
+                        {item.amount || 0}
                       </span>
                     </TableCell>
                     {filteredDates.map(date => {
-                      const dayData = item.dailyData[date];
+                      const dayData = { in: 0, out: 0, stockIn: 0, morning: 0, noon: 0, evening: 0, stock: 0 }; // TODO: Implement daily data logic
                       return (
                         <React.Fragment key={date}>
                           <TableCell className="text-center border-r min-w-[60px]">

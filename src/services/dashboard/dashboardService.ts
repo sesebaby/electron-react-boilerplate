@@ -95,27 +95,47 @@ export class DashboardService {
   // =============== 概览数据 ===============
 
   async getOverview(): Promise<DashboardOverview> {
-    // 临时返回模拟数据，避免依赖问题
-    const [
-      supplierStats,
-      customerStats,
-      warehouseStats
-    ] = await Promise.all([
-      supplierService.getSupplierStats(),
-      customerService.getCustomerStats(),
-      warehouseService.getWarehouseStats()
-    ]);
+    try {
+      await serviceManager.initialize();
+      const systemService = serviceManager.getSystemService();
+      const inventoryService = serviceManager.getInventoryService();
+      
+      const [
+        supplierResult,
+        customerResult,
+        warehouseResult,
+        inventoryStats
+      ] = await Promise.all([
+        systemService.getSuppliers(),
+        systemService.getCustomers(), 
+        inventoryService.getWarehouses(),
+        inventoryService.getStatistics()
+      ]);
 
-    return {
-      totalProducts: 0, // 暂时设为0
-      totalSuppliers: supplierStats.totalCount,
-      totalCustomers: customerStats.totalCount,
-      totalWarehouses: warehouseStats.total,
-      lowStockItems: 0, // 暂时设为0
-      outOfStockItems: 0, // 暂时设为0
-      totalInventoryValue: 0, // 暂时设为0
-      recentTransactions: 0 // 暂时设为0
-    };
+      return {
+        totalProducts: inventoryStats.success ? inventoryStats.data?.totalProducts || 0 : 0,
+        totalSuppliers: supplierResult.success ? supplierResult.data?.total || 0 : 0,
+        totalCustomers: customerResult.success ? customerResult.data?.total || 0 : 0,
+        totalWarehouses: warehouseResult.success ? warehouseResult.data?.length || 0 : 0,
+        lowStockItems: inventoryStats.success ? inventoryStats.data?.lowStockCount || 0 : 0,
+        outOfStockItems: inventoryStats.success ? inventoryStats.data?.outOfStockCount || 0 : 0,
+        totalInventoryValue: inventoryStats.success ? inventoryStats.data?.totalInventoryValue || 0 : 0,
+        recentTransactions: 0 // 暂时设为0
+      };
+    } catch (error) {
+      console.error('Failed to get dashboard overview:', error);
+      // 返回默认值
+      return {
+        totalProducts: 0,
+        totalSuppliers: 0,
+        totalCustomers: 0,
+        totalWarehouses: 0,
+        lowStockItems: 0,
+        outOfStockItems: 0,
+        totalInventoryValue: 0,
+        recentTransactions: 0
+      };
+    }
   }
 
   async getQuickStats(): Promise<QuickStats> {
@@ -155,8 +175,8 @@ export class DashboardService {
         stockTurnover: await this.calculateStockTurnover()
       },
       businessStats: {
-        suppliers: supplierStats.totalCount,
-        customers: customerStats.totalCount,
+        suppliers: supplierStats.total,
+        customers: customerStats.total,
         vipCustomers: vipCustomers.length,
         topSuppliers: topSuppliers.length
       }

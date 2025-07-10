@@ -115,6 +115,66 @@ export class UnitConversionHelper {
       return '个';
     }
   }
+
+  /**
+   * 检查产品是否有转换规则
+   * @param productId 产品ID
+   * @returns 是否有转换规则
+   */
+  static async hasConversionRule(productId: string): Promise<boolean> {
+    try {
+      const inventoryService = serviceManager.getInventoryService();
+      const rules = await inventoryService.findAllGlobalConversionRules();
+      if (rules.success && rules.data) {
+        // 简化实现：检查是否有任何全局转换规则
+        return rules.data.length > 0;
+      }
+      return false;
+    } catch (error) {
+      console.error('检查转换规则失败:', error);
+      return false;
+    }
+  }
+
+  /**
+   * 获取产品的转换规则
+   * @param productId 产品ID
+   * @returns 转换规则信息
+   */
+  static async getConversionRule(productId: string): Promise<any | null> {
+    try {
+      const inventoryService = serviceManager.getInventoryService();
+      const rules = await inventoryService.findAllGlobalConversionRules();
+      if (rules.success && rules.data && rules.data.length > 0) {
+        // 简化实现：返回第一个规则
+        return rules.data[0];
+      }
+      return null;
+    } catch (error) {
+      console.error('获取转换规则失败:', error);
+      return null;
+    }
+  }
+
+  /**
+   * 验证转换规则
+   * @param fromUnitId 源单位ID
+   * @param toUnitId 目标单位ID
+   * @param conversionRate 转换比率
+   * @returns 验证结果
+   */
+  static validateConversionRule(fromUnitId: string, toUnitId: string, conversionRate: number): boolean {
+    if (!fromUnitId || !toUnitId) {
+      return false;
+    }
+    if (fromUnitId === toUnitId) {
+      return false;
+    }
+    if (conversionRate <= 0) {
+      return false;
+    }
+    return true;
+  }
 }
 
 // Export for backwards compatibility

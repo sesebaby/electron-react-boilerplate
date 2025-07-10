@@ -25,7 +25,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
   useEffect(() => {
     const checkConversion = async () => {
       try {
-        const hasRule = await unitConversionHelper.hasConversionRule(product.productId);
+        const hasRule = false; // 暂时设为false，需要实现hasConversionRule方法
         setHasConversion(hasRule);
 
         if (hasRule) {

@@ -32,6 +32,7 @@ export interface InventoryFilter extends BaseFilter {
   categoryId?: string;
   unitId?: string;
   warehouseId?: string;
+  productId?: string;
   sku?: string;
   status?: ProductStatus;
   hasStock?: boolean;
@@ -119,7 +120,8 @@ export class InventoryService {
         id: 'default',
         name: '默认分类',
         description: '系统默认分类',
-        parentId: null,
+        parentId: '',
+        level: 1,
         sortOrder: 0,
         isActive: true,
         createdAt: new Date(),
@@ -143,9 +145,9 @@ export class InventoryService {
         id: 'default',
         name: '个',
         symbol: '个',
+        type: 'quantity' as any,
+        precision: 0,
         description: '默认单位',
-        baseUnit: null,
-        conversionFactor: 1,
         isActive: true,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -166,12 +168,11 @@ export class InventoryService {
       // 如果加载失败，创建默认仓库
       const defaultWarehouse: Warehouse = {
         id: 'default',
+        code: 'DEFAULT',
         name: '默认仓库',
-        description: '系统默认仓库',
         address: '',
         manager: '',
-        phone: '',
-        isActive: true,
+        isDefault: true,
         createdAt: new Date(),
         updatedAt: new Date()
       };
@@ -715,17 +716,22 @@ export class InventoryService {
       // 创建库存事务记录
       const transaction: InventoryTransaction = {
         id: uuidv4(),
+        transactionNo: `TXN-${Date.now()}`,
         productId,
         warehouseId,
         type,
+        transactionType: type,
         quantity,
-        beforeStock: oldStock,
-        afterStock: stock.currentStock,
+        unitPrice: stock.unitCost,
         unitCost: stock.unitCost,
+        totalAmount: quantity * stock.unitCost,
         totalCost: quantity * stock.unitCost,
-        reason: reason || '',
+        remark: reason || '',
+        notes: reason || '',
         operator: 'system',
-        createdAt: new Date()
+        createdBy: 'system',
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
 
       // 保存到数据库
@@ -799,5 +805,453 @@ export class InventoryService {
         error: error instanceof Error ? error.message : '获取统计信息失败'
       };
     }
+  }
+
+  // ==================== 向后兼容的方法别名 ====================
+
+  // 产品相关别名
+  async findAllProducts(filter?: InventoryFilter, pagination?: PaginationParams): Promise<ServiceResult<PaginatedResult<Product>>> {
+    return this.getProducts(filter, pagination);
+  }
+
+  async findAll(filter?: InventoryFilter, pagination?: PaginationParams): Promise<ServiceResult<PaginatedResult<Product>>> {
+    return this.getProducts(filter, pagination);
+  }
+
+  // 分类相关别名
+  async findAllCategories(): Promise<ServiceResult<Category[]>> {
+    return this.getCategories();
+  }
+
+  // 单位相关别名
+  async findAllUnits(): Promise<ServiceResult<Unit[]>> {
+    return this.getUnits();
+  }
+
+  // 仓库相关别名
+  async findAllWarehouses(): Promise<ServiceResult<Warehouse[]>> {
+    return this.getWarehouses();
+  }
+
+  // 库存相关别名
+  async findAllInventoryStocks(filter?: InventoryFilter, pagination?: PaginationParams): Promise<ServiceResult<PaginatedResult<InventoryStock>>> {
+    return this.getInventoryStocks(filter, pagination);
+  }
+
+  // 交易记录别名
+  async findAllTransactions(filter?: InventoryFilter, pagination?: PaginationParams): Promise<ServiceResult<PaginatedResult<InventoryTransaction>>> {
+    return this.getTransactions(filter, pagination);
+  }
+
+  // 全局转换规则别名（暂时返回空数组，需要实现具体逻辑）
+  async findAllGlobalConversionRules(): Promise<ServiceResult<any[]>> {
+    return { success: true, data: [] };
+  }
+
+  // 仓库统计别名
+  async getWarehouseStats(): Promise<ServiceResult<any>> {
+    try {
+      const warehouses = Array.from(this.warehouses.values());
+      const stats = warehouses.map(warehouse => ({
+        warehouseId: warehouse.id,
+        warehouseName: warehouse.name,
+        totalProducts: Array.from(this.inventoryStocks.values())
+          .filter(stock => stock.warehouseId === warehouse.id).length,
+        totalValue: Array.from(this.inventoryStocks.values())
+          .filter(stock => stock.warehouseId === warehouse.id)
+          .reduce((sum, stock) => sum + stock.totalValue, 0)
+      }));
+
+      return { success: true, data: stats };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '获取仓库统计失败'
+      };
+    }
+  }
+
+  // ==================== 缺失的方法实现 ====================
+
+  async getInventoryStocks(filter?: InventoryFilter, pagination?: PaginationParams): Promise<ServiceResult<PaginatedResult<InventoryStock>>> {
+    try {
+      let stocks = Array.from(this.inventoryStocks.values());
+
+      // 应用过滤器
+      if (filter) {
+        stocks = stocks.filter(stock => {
+          if (filter.warehouseId && stock.warehouseId !== filter.warehouseId) {
+            return false;
+          }
+          if (filter.productId && stock.productId !== filter.productId) {
+            return false;
+          }
+          if (filter.lowStock && stock.currentStock > stock.minStock) {
+            return false;
+          }
+          if (filter.outOfStock && stock.currentStock !== 0) {
+            return false;
+          }
+          return true;
+        });
+      }
+
+      // 分页
+      const page = pagination?.page || 1;
+      const pageSize = pagination?.pageSize || 20;
+      const total = stocks.length;
+      const totalPages = Math.ceil(total / pageSize);
+      const offset = (page - 1) * pageSize;
+      const items = stocks.slice(offset, offset + pageSize);
+
+      return {
+        success: true,
+        data: {
+          items,
+          total,
+          page,
+          pageSize,
+          totalPages
+        }
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '获取库存列表失败'
+      };
+    }
+  }
+
+  async getTransactions(filter?: InventoryFilter, pagination?: PaginationParams): Promise<ServiceResult<PaginatedResult<InventoryTransaction>>> {
+    try {
+      let transactions = Array.from(this.transactions.values());
+
+      // 应用过滤器
+      if (filter) {
+        transactions = transactions.filter(tx => {
+          if (filter.warehouseId && tx.warehouseId !== filter.warehouseId) {
+            return false;
+          }
+          if (filter.productId && tx.productId !== filter.productId) {
+            return false;
+          }
+          return true;
+        });
+      }
+
+      // 分页
+      const page = pagination?.page || 1;
+      const pageSize = pagination?.pageSize || 20;
+      const total = transactions.length;
+      const totalPages = Math.ceil(total / pageSize);
+      const offset = (page - 1) * pageSize;
+      const items = transactions.slice(offset, offset + pageSize);
+
+      return {
+        success: true,
+        data: {
+          items,
+          total,
+          page,
+          pageSize,
+          totalPages
+        }
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '获取交易记录失败'
+      };
+    }
+  }
+
+  async findTransactionsByDateRange(startDate: Date, endDate: Date): Promise<ServiceResult<InventoryTransaction[]>> {
+    try {
+      const transactions = Array.from(this.transactions.values()).filter(tx => {
+        const txDate = new Date(tx.createdAt);
+        return txDate >= startDate && txDate <= endDate;
+      });
+
+      return {
+        success: true,
+        data: transactions
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '获取日期范围内交易记录失败'
+      };
+    }
+  }
+
+  async updateCategory(id: string, updateData: Partial<Category>): Promise<ServiceResult<Category>> {
+    try {
+      const existingCategory = this.categories.get(id);
+      if (!existingCategory) {
+        return {
+          success: false,
+          error: '分类不存在'
+        };
+      }
+
+      const updatedCategory: Category = {
+        ...existingCategory,
+        ...updateData,
+        updatedAt: new Date()
+      };
+
+      await this.database.updateCategory(id, updatedCategory);
+      this.categories.set(id, updatedCategory);
+
+      return {
+        success: true,
+        data: updatedCategory
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '更新分类失败'
+      };
+    }
+  }
+
+  async deleteCategory(id: string): Promise<ServiceResult<boolean>> {
+    try {
+      const category = this.categories.get(id);
+      if (!category) {
+        return {
+          success: false,
+          error: '分类不存在'
+        };
+      }
+
+      // 检查是否有产品使用此分类
+      const hasProducts = Array.from(this.products.values()).some(
+        product => product.categoryId === id
+      );
+      
+      if (hasProducts) {
+        return {
+          success: false,
+          error: '分类下有产品，无法删除'
+        };
+      }
+
+      await this.database.deleteCategory(id);
+      this.categories.delete(id);
+
+      return {
+        success: true,
+        data: true
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '删除分类失败'
+      };
+    }
+  }
+
+  async updateUnit(id: string, updateData: Partial<Unit>): Promise<ServiceResult<Unit>> {
+    try {
+      const existingUnit = this.units.get(id);
+      if (!existingUnit) {
+        return {
+          success: false,
+          error: '单位不存在'
+        };
+      }
+
+      const updatedUnit: Unit = {
+        ...existingUnit,
+        ...updateData,
+        updatedAt: new Date()
+      };
+
+      await this.database.updateUnit(id, updatedUnit);
+      this.units.set(id, updatedUnit);
+
+      return {
+        success: true,
+        data: updatedUnit
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '更新单位失败'
+      };
+    }
+  }
+
+  async deleteUnit(id: string): Promise<ServiceResult<boolean>> {
+    try {
+      const unit = this.units.get(id);
+      if (!unit) {
+        return {
+          success: false,
+          error: '单位不存在'
+        };
+      }
+
+      await this.database.deleteUnit(id);
+      this.units.delete(id);
+
+      return {
+        success: true,
+        data: true
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '删除单位失败'
+      };
+    }
+  }
+
+  async updateWarehouse(id: string, updateData: Partial<Warehouse>): Promise<ServiceResult<Warehouse>> {
+    try {
+      const existingWarehouse = this.warehouses.get(id);
+      if (!existingWarehouse) {
+        return {
+          success: false,
+          error: '仓库不存在'
+        };
+      }
+
+      const updatedWarehouse: Warehouse = {
+        ...existingWarehouse,
+        ...updateData,
+        updatedAt: new Date()
+      };
+
+      await this.database.updateWarehouse(id, updatedWarehouse);
+      this.warehouses.set(id, updatedWarehouse);
+
+      return {
+        success: true,
+        data: updatedWarehouse
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '更新仓库失败'
+      };
+    }
+  }
+
+  async deleteWarehouse(id: string): Promise<ServiceResult<boolean>> {
+    try {
+      const warehouse = this.warehouses.get(id);
+      if (!warehouse) {
+        return {
+          success: false,
+          error: '仓库不存在'
+        };
+      }
+
+      // 检查是否有库存
+      const hasStock = Array.from(this.inventoryStocks.values()).some(
+        stock => stock.warehouseId === id && stock.currentStock > 0
+      );
+      
+      if (hasStock) {
+        return {
+          success: false,
+          error: '仓库有库存，无法删除'
+        };
+      }
+
+      await this.database.deleteWarehouse(id);
+      this.warehouses.delete(id);
+
+      return {
+        success: true,
+        data: true
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '删除仓库失败'
+      };
+    }
+  }
+
+  async setDefaultWarehouse(id: string): Promise<ServiceResult<boolean>> {
+    try {
+      const warehouse = this.warehouses.get(id);
+      if (!warehouse) {
+        return {
+          success: false,
+          error: '仓库不存在'
+        };
+      }
+
+      // 清除所有仓库的默认状态
+      for (const [warehouseId, w] of this.warehouses) {
+        if (w.isDefault) {
+          const updatedWarehouse = { ...w, isDefault: false, updatedAt: new Date() };
+          this.warehouses.set(warehouseId, updatedWarehouse);
+          await this.database.updateWarehouse(warehouseId, updatedWarehouse);
+        }
+      }
+
+      // 设置新的默认仓库
+      const updatedWarehouse = { ...warehouse, isDefault: true, updatedAt: new Date() };
+      this.warehouses.set(id, updatedWarehouse);
+      await this.database.updateWarehouse(id, updatedWarehouse);
+
+      return {
+        success: true,
+        data: true
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '设置默认仓库失败'
+      };
+    }
+  }
+
+  // CRUD 操作别名
+  async create(data: any): Promise<ServiceResult<any>> {
+    // 根据数据类型判断创建什么
+    if (data.sku || data.name) {
+      return this.createProduct(data);
+    } else if (data.categoryName) {
+      return this.createCategory(data);
+    } else if (data.unitName) {
+      return this.createUnit(data);
+    } else if (data.warehouseName || data.address) {
+      return this.createWarehouse(data);
+    }
+    return { success: false, error: '无法识别的数据类型' };
+  }
+
+  async update(id: string, data: any): Promise<ServiceResult<any>> {
+    // 根据ID和数据类型判断更新什么
+    if (this.products.has(id)) {
+      return this.updateProduct(id, data);
+    } else if (this.categories.has(id)) {
+      return this.updateCategory(id, data);
+    } else if (this.units.has(id)) {
+      return this.updateUnit(id, data);
+    } else if (this.warehouses.has(id)) {
+      return this.updateWarehouse(id, data);
+    }
+    return { success: false, error: '找不到指定的记录' };
+  }
+
+  async delete(id: string): Promise<ServiceResult<boolean>> {
+    // 根据ID判断删除什么
+    if (this.products.has(id)) {
+      return this.deleteProduct(id);
+    } else if (this.categories.has(id)) {
+      return this.deleteCategory(id);
+    } else if (this.units.has(id)) {
+      return this.deleteUnit(id);
+    } else if (this.warehouses.has(id)) {
+      return this.deleteWarehouse(id);
+    }
+    return { success: false, error: '找不到指定的记录' };
   }
 }

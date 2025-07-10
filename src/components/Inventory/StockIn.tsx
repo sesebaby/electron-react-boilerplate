@@ -61,10 +61,15 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
       setError(null);
       
       const inventoryService = serviceManager.getInventoryService();
-      const [productsData, warehousesData] = await Promise.all([
+      const [productsResult, warehousesResult] = await Promise.all([
         inventoryService.findAllProducts(),
         inventoryService.findAllWarehouses()
       ]);
+
+      const productsData = productsResult.success ? 
+        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const warehousesData = warehousesResult.success ? 
+        (Array.isArray(warehousesResult.data) ? warehousesResult.data : []) : [];
 
       setProducts(productsData);
       setWarehouses(warehousesData);
@@ -124,16 +129,15 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
       setError(null);
       
       // 逐个处理入库项目
+      const inventoryService = serviceManager.getInventoryService();
       const results = [];
       for (const item of formData.items) {
-        const result = await inventoryService.stockIn(
+        const result = await inventoryService.updateStock(
           item.productId,
           item.warehouseId,
           item.quantity,
-          item.unitCost || 0,
-          formData.referenceId || `MANUAL_${Date.now()}`,
-          formData.referenceType || '手工入库',
-          item.remark || formData.remark
+          'IN' as any,
+          `${formData.referenceType || '手工入库'}: ${item.remark || '无备注'}`
         );
         results.push(result);
       }

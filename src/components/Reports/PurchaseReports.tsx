@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { purchaseOrderService, purchaseReceiptService, supplierService, productService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { PurchaseOrder, PurchaseReceipt, Supplier, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { 
@@ -43,17 +43,22 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
       setLoading(true);
       setError(null);
       
-      const [ordersData, receiptsData, suppliersData, productsData] = await Promise.all([
+      const [ordersResult, receiptsResult, suppliersResult, productsResult] = await Promise.all([
         purchaseOrderService.findAll(),
         purchaseReceiptService.findAll(),
         supplierService.findAll(),
         productService.findAll()
       ]);
-      
-      setPurchaseOrders(ordersData);
-      setPurchaseReceipts(receiptsData);
-      setSuppliers(suppliersData);
-      setProducts(productsData);
+
+      const ordersData = ordersResult.success ? (ordersResult.data?.items || ordersResult.data || []) : [];
+      const receiptsData = receiptsResult.success ? (receiptsResult.data?.items || receiptsResult.data || []) : [];
+      const suppliersData = suppliersResult.success ? (suppliersResult.data?.items || suppliersResult.data || []) : [];
+      const productsData = productsResult.success ? (productsResult.data?.items || productsResult.data || []) : [];
+
+      setPurchaseOrders(ordersData as PurchaseOrder[]);
+      setPurchaseReceipts(receiptsData as PurchaseReceipt[]);
+      setSuppliers(suppliersData as Supplier[]);
+      setProducts(productsData as Product[]);
     } catch (err) {
       setError('加载采购报表数据失败');
       console.error('Failed to load purchase reports data:', err);

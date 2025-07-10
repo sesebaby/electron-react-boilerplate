@@ -109,10 +109,11 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
       ]);
       
       if (payablesResult.success && suppliersResult.success && payablesResult.data && suppliersResult.data) {
-        setPayables(payablesResult.data.items);
-        setSuppliers(suppliersResult.data.items);
+        const payablesData = Array.isArray(payablesResult.data) ? payablesResult.data : payablesResult.data.items || [];
+        const suppliersData = Array.isArray(suppliersResult.data) ? suppliersResult.data : suppliersResult.data.items || [];
+        setPayables(payablesData);
+        setSuppliers(suppliersData);
         // Calculate stats from payables data
-        const payablesData = payablesResult.data.items;
         const statsData = {
           total: payablesData.length,
           unpaid: payablesData.filter(p => p.status === PayableStatus.UNPAID).length,

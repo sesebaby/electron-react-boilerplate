@@ -88,14 +88,17 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       const inventoryService = serviceManager.getInventoryService();
       await inventoryService.initialize();
       
-      const [warehousesData, statsData] = await Promise.all([
+      const [warehousesResult, statsResult] = await Promise.all([
         inventoryService.findAllWarehouses(),
         inventoryService.getWarehouseStats()
       ]);
-      
+
+      const warehousesData = warehousesResult.success ? (warehousesResult.data || []) : [];
+      const statsData = statsResult.success ? (statsResult.data || {}) : {};
+
       console.log('WarehouseManagement: Loaded warehouses:', warehousesData);
       console.log('WarehouseManagement: Loaded stats:', statsData);
-      
+
       setWarehouses(warehousesData);
       setStats(statsData);
     } catch (err) {
@@ -113,6 +116,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
         manager: data.creator
       };
       
+      const inventoryService = serviceManager.getInventoryService();
       if (editingWarehouse) {
         await inventoryService.updateWarehouse(editingWarehouse.id, submitData);
       } else {
@@ -157,6 +161,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     if (!deleteTargetId) return;
 
     try {
+      const inventoryService = serviceManager.getInventoryService();
       await inventoryService.deleteWarehouse(deleteTargetId);
       await loadData();
     } catch (err) {
@@ -182,8 +187,14 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     if (!defaultTargetId) return;
 
     try {
-      await inventoryService.setDefaultWarehouse(defaultTargetId);
-      await loadData();
+      const inventoryService = serviceManager.getInventoryService();
+      // 临时实现：通过更新仓库来设置默认状态
+      const result = await inventoryService.updateWarehouse(defaultTargetId, { isDefault: true });
+      if (result.success) {
+        await loadData();
+      } else {
+        setError(result.error || '设置默认仓库失败');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : '设置默认仓库失败');
       console.error('Failed to set default warehouse:', err);

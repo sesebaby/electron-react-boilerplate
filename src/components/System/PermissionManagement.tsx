@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { UserRole, PermissionModule, PermissionAction, PermissionConfig } from '../../types/entities';
-import { permissionService } from '../../services/business';
+import { UserRole, PermissionModule, PermissionAction, PermissionConfig, RolePermission } from '../../types/entities';
+import { serviceManager } from '../../services/core';
 import { GlassCard } from '../ui/FormControls';
 import { Button } from '../ui/button';
 
@@ -50,21 +50,48 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
   const loadData = async () => {
     try {
       setLoading(true);
-      const [rolesData, modulesData, actionsData] = await Promise.all([
+      const [rolesResult, modulesResult, actionsResult] = await Promise.all([
         permissionService.getAllRoles(),
         permissionService.getAllModules(),
         permissionService.getAllActions()
       ]);
 
-      setRoles(rolesData);
+      const rolesData = rolesResult.success ? (rolesResult.data || []) : [];
+      const modulesRawData = modulesResult.success ? (modulesResult.data || []) : [];
+      const actionsRawData = actionsResult.success ? (actionsResult.data || []) : [];
+
+      // Transform string arrays to structured objects
+      const modulesData: ModuleInfo[] = Array.isArray(modulesRawData) ?
+        modulesRawData.map((module: any) => ({
+          module: (typeof module === 'string' ? module : module.module || 'unknown') as PermissionModule,
+          name: typeof module === 'string' ? module : module.name || 'unknown',
+          description: typeof module === 'string' ? `${module}模块权限` : module.description || '未知模块权限'
+        })) : [];
+
+      const actionsData: ActionInfo[] = Array.isArray(actionsRawData) ?
+        actionsRawData.map((action: any) => ({
+          action: (typeof action === 'string' ? action : action.action || 'unknown') as PermissionAction,
+          name: typeof action === 'string' ? action : action.name || 'unknown',
+          description: typeof action === 'string' ? `${action}操作权限` : action.description || '未知操作权限'
+        })) : [];
+
+      setRoles(rolesData as UserRole[]);
       setModules(modulesData);
       setActions(actionsData);
 
       // 默认选择第一个角色
       if (rolesData.length > 0) {
         setSelectedRole(rolesData[0]);
-        const permissions = await permissionService.getRolePermissions(rolesData[0]);
-        setRolePermissions(permissions.length > 0 ? permissions[0] : null);
+        const permissionsResult = await permissionService.getRolePermissions(rolesData[0]);
+        const permissions = permissionsResult.success ? (permissionsResult.data || []) : [];
+        // Convert Permission array to PermissionConfig if needed
+        const permissionConfig = Array.isArray(permissions) && permissions.length > 0
+          ? {
+              role: rolesData[0],
+              permissions: permissions
+            } as PermissionConfig
+          : null;
+        setRolePermissions(permissionConfig);
       }
     } catch (error) {
       console.error('Failed to load permission data:', error);
@@ -77,10 +104,14 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
   const handleRoleSelect = async (role: UserRole) => {
     try {
       setSelectedRole(role);
-      const permissionsData = await permissionService.getRolePermissions(role);
+      const permissionsResult = await permissionService.getRolePermissions(role);
+      const permissionsData = permissionsResult.success ? (permissionsResult.data || []) : [];
       // Convert array to PermissionConfig format
-      const permissionConfig = Array.isArray(permissionsData) && permissionsData.length > 0 
-        ? permissionsData[0] 
+      const permissionConfig = Array.isArray(permissionsData) && permissionsData.length > 0
+        ? {
+            role: role,
+            permissions: permissionsData
+          } as PermissionConfig
         : null;
       setRolePermissions(permissionConfig);
     } catch (error) {
@@ -114,11 +145,9 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
 
     try {
       setSaving(true);
-      // Convert permissions object to string array format expected by service
-      const permissionStrings = Object.entries(rolePermissions || {}).flatMap(([module, actions]) => 
-        Array.isArray(actions) ? actions.map(action => `${module}:${action.name}`) : []
-      );
-      await permissionService.updateRolePermissions(selectedRole, permissionStrings);
+      // Convert permissions object to Permission array format expected by service
+      const permissionArray = rolePermissions?.permissions || [];
+      await permissionService.updateRolePermissions(selectedRole, permissionArray as any);
       setMessage({ type: 'success', text: '权限保存成功' });
     } catch (error) {
       console.error('Failed to save permissions:', error);

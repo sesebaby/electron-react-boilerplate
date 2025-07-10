@@ -43,8 +43,8 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
         inventoryService.findAllCategories()
       ]);
 
-      setWarehouses(warehouseList);
-      setCategories(categoryList);
+      setWarehouses(warehouseList.success ? warehouseList.data || [] : []);
+      setCategories(categoryList.success ? categoryList.data || [] : []);
     } catch (err) {
       console.error('Failed to load form data:', err);
     }
@@ -59,7 +59,7 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
       const result = await reportService.queryMonthlyBalance(queryParams);
 
       if (!result.success) {
-        setError(result.error?.message || '查询失败');
+        setError(result.error || '查询失败');
         return;
       }
 

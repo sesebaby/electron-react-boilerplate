@@ -72,12 +72,13 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
         inventoryService.findAllInventoryStocks()
       ]);
 
-      setProducts(productsData);
-      setWarehouses(warehousesData);
+      setProducts(productsData.success ? productsData.data?.items || [] : []);
+      setWarehouses(warehousesData.success ? warehousesData.data || [] : []);
       
       // 创建库存数据映射 (productId:warehouseId -> stock)
       const stockMap = new Map<string, InventoryStock>();
-      stocksData.forEach((stock: InventoryStock) => {
+      const stocksArray = stocksData.success ? stocksData.data?.items || [] : [];
+      stocksArray.forEach((stock: InventoryStock) => {
         const key = `${stock.productId}:${stock.warehouseId}`;
         stockMap.set(key, stock);
       });
@@ -201,14 +202,19 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
       // 逐个处理调整项目
       const results = [];
       for (const item of formData.items) {
-        const result = await inventoryService.stockAdjust({
-          productId: item.productId,
-          warehouseId: item.warehouseId,
-          newQuantity: item.adjustedStock,
-          unitPrice: item.unitPrice,
-          remark: `${formData.reason} - ${item.remark || formData.remark || '库存调整'}`,
-          operator: formData.operator
-        });
+        const inventoryService = serviceManager.getInventoryService();
+        // 计算调整数量
+        const currentStock = stockData.get(`${item.productId}:${item.warehouseId}`)?.currentStock || 0;
+        const adjustmentQuantity = item.adjustedStock - currentStock;
+        const transactionType = adjustmentQuantity > 0 ? 'IN' : 'OUT';
+        
+        const result = await inventoryService.updateStock(
+          item.productId,
+          item.warehouseId,
+          Math.abs(adjustmentQuantity),
+          transactionType as any,
+          `库存调整: ${item.remark || '无备注'}`
+        );
         results.push(result);
       }
       

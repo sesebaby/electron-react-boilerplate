@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { salesOrderService, salesDeliveryService, customerService, productService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { SalesOrder, SalesDelivery, Customer, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { 
@@ -81,13 +81,16 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
       setLoading(true);
       setError(null);
       
-      const [customersData, productsData] = await Promise.all([
+      const [customersResult, productsResult] = await Promise.all([
         customerService.findAll(),
         productService.findAll()
       ]);
-      
-      setCustomers(customersData);
-      setProducts(productsData);
+
+      const customersData = customersResult.success ? (customersResult.data?.items || customersResult.data || []) : [];
+      const productsData = productsResult.success ? (productsResult.data?.items || productsResult.data || []) : [];
+
+      setCustomers(customersData as Customer[]);
+      setProducts(productsData as Product[]);
       
       await generateReport();
     } catch (err) {
@@ -100,10 +103,13 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
 
   const generateReport = async () => {
     try {
-      const [orders, deliveries] = await Promise.all([
-        salesOrderService.findAll() as Promise<SalesOrder[]>,
-        salesDeliveryService.findAll() as Promise<SalesDelivery[]>
+      const [ordersResult, deliveriesResult] = await Promise.all([
+        salesOrderService.findAll(),
+        salesDeliveryService.findAll()
       ]);
+
+      const orders = (ordersResult.success ? (ordersResult.data?.items || ordersResult.data || []) : []) as SalesOrder[];
+      const deliveries = (deliveriesResult.success ? (deliveriesResult.data?.items || deliveriesResult.data || []) : []) as SalesDelivery[];
 
       // 过滤日期范围
       const cutoffDate = new Date();

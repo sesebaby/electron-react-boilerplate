@@ -99,10 +99,11 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
       ]);
       
       if (receivablesResult.success && customersResult.success && receivablesResult.data && customersResult.data) {
-        setReceivables(receivablesResult.data.items);
-        setCustomers(customersResult.data.items);
+        const receivablesData = Array.isArray(receivablesResult.data) ? receivablesResult.data : receivablesResult.data.items || [];
+        const customersData = Array.isArray(customersResult.data) ? customersResult.data : customersResult.data.items || [];
+        setReceivables(receivablesData);
+        setCustomers(customersData);
         // Calculate stats from receivables data
-        const receivablesData = receivablesResult.data.items;
         const statsData = {
           total: receivablesData.length,
           unpaid: receivablesData.filter(r => r.status === ReceivableStatus.UNPAID).length,

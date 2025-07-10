@@ -64,21 +64,30 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
       setError(null);
       
       const inventoryService = serviceManager.getInventoryService();
-      const [productsData, warehousesData, stocksData] = await Promise.all([
+      const [productsResult, warehousesResult, stocksResult] = await Promise.all([
         inventoryService.findAllProducts(),
         inventoryService.findAllWarehouses(),
         inventoryService.findAllInventoryStocks()
       ]);
 
+      const productsData = productsResult.success ? 
+        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const warehousesData = warehousesResult.success ? 
+        (Array.isArray(warehousesResult.data) ? warehousesResult.data : []) : [];
+      const stocksData = stocksResult.success ? 
+        (Array.isArray(stocksResult.data) ? stocksResult.data : stocksResult.data?.items || []) : [];
+
       setProducts(productsData);
       setWarehouses(warehousesData);
-      
+
       // 创建库存数据映射 (productId:warehouseId -> stock)
       const stockMap = new Map<string, InventoryStock>();
-      stocksData.forEach((stock: InventoryStock) => {
-        const key = `${stock.productId}:${stock.warehouseId}`;
-        stockMap.set(key, stock);
-      });
+      if (Array.isArray(stocksData)) {
+        stocksData.forEach((stock: InventoryStock) => {
+          const key = `${stock.productId}:${stock.warehouseId}`;
+          stockMap.set(key, stock);
+        });
+      }
       setStockData(stockMap);
       
     } catch (err) {
@@ -171,12 +180,13 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
       // 逐个处理出库项目
       const results = [];
       for (const item of formData.items) {
-        const result = await inventoryService.stockOut(
+        const inventoryService = serviceManager.getInventoryService();
+        const result = await inventoryService.updateStock(
           item.productId,
           item.warehouseId,
           item.quantity,
-          formData.referenceId || `MANUAL_${Date.now()}`,
-          formData.referenceType || '手工出库',
+          'OUT' as any,
+          `${formData.referenceType || '手工出库'}: ${item.remark || '无备注'}`
         );
         results.push(result);
       }

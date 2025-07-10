@@ -78,11 +78,14 @@ export const UnitConversionSettings: React.FC<UnitConversionSettingsProps> = ({
       setError(null);
       
       const inventoryService = serviceManager.getInventoryService();
-      const [rulesData, unitsData] = await Promise.all([
+      const [rulesResult, unitsResult] = await Promise.all([
         inventoryService.findAllGlobalConversionRules(),
         inventoryService.findAllUnits()
       ]);
-      
+
+      const rulesData = rulesResult.success ? (rulesResult.data || []) : [];
+      const unitsData = unitsResult.success ? (unitsResult.data || []) : [];
+
       setGlobalRules(rulesData);
       setUnits(unitsData);
     } catch (err) {

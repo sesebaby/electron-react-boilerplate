@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { salesOrderService, customerService, productService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { SalesOrder, SalesOrderItem, SalesOrderStatus, PaymentStatus, Customer, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -137,16 +137,24 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
       setLoading(true);
       setError(null);
       
-      const [ordersData, customersData, productsData, statsData] = await Promise.all([
+      const [ordersResult, customersResult, productsResult, statsResult] = await Promise.all([
         salesOrderService.findAll(),
         customerService.findAll(),
         productService.findAll(),
         salesOrderService.getOrderStats()
       ]);
-      
-      setOrders(ordersData);
-      setCustomers(customersData);
-      setProducts(productsData);
+
+      const ordersData = ordersResult.success ? 
+        (Array.isArray(ordersResult.data) ? ordersResult.data : ordersResult.data?.items || []) : [];
+      const customersData = customersResult.success ? 
+        (Array.isArray(customersResult.data) ? customersResult.data : customersResult.data?.items || []) : [];
+      const productsData = productsResult.success ? 
+        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const statsData = statsResult.success ? (statsResult.data || {}) : {};
+
+      setOrders((Array.isArray(ordersData) ? ordersData : []) as SalesOrder[]);
+      setCustomers((Array.isArray(customersData) ? customersData : []) as Customer[]);
+      setProducts((Array.isArray(productsData) ? productsData : []) as Product[]);
       setStats(statsData);
     } catch (err) {
       setError('加载销售订单数据失败');
@@ -173,16 +181,26 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
       
       if (editingOrder) {
         // 更新订单
-        order = await salesOrderService.update(editingOrder.id, orderFields);
-        
+        const orderResult = await salesOrderService.update(editingOrder.id, orderFields);
+        if (!orderResult.success) {
+          setError(orderResult.error || '更新订单失败');
+          return;
+        }
+        order = orderResult.data as SalesOrder;
+
         // 更新订单项目（简化：删除所有重新添加）
-        const existingItems = (await salesOrderService.getOrderItems(editingOrder.id)) as any[];
+        const existingItemsResult = await salesOrderService.getOrderItems(editingOrder.id);
+        const existingItems = existingItemsResult.success ? (existingItemsResult.data || []) : [];
         for (const item of existingItems) {
-          await salesOrderService.removeOrderItem(item.id, editingOrder.id);
+          await salesOrderService.removeOrderItem(item.id);
         }
       } else {
         // 创建新订单
-        order = await salesOrderService.create(orderFields);
+        const createResult = await salesOrderService.create(orderFields);
+        if (!createResult.success) {
+          throw new Error(createResult.error || '创建订单失败');
+        }
+        order = createResult.data as SalesOrder;
       }
       
       // 添加订单项目
@@ -211,7 +229,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     setEditingOrder(order);
     
     // 加载订单项目
-    const items = (await salesOrderService.getOrderItems(order.id)) as any[];
+    const itemsResult = await salesOrderService.getOrderItems(order.id);
+    const items = itemsResult.success ? (itemsResult.data || []) : [];
 
     reset({
       customerId: order.customerId,

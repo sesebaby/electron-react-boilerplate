@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GlassCard, GlassButton } from '../ui/FormControls';
-import { unitService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Unit, UnitType } from '../../types/entities';
 import UnitManagementTab from '../System/UnitManagementTab';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -47,8 +47,10 @@ const UnitManagement: React.FC = () => {
 
   const loadUnits = async () => {
     try {
-      const allUnits = await unitService.findAll();
-      setUnits(allUnits);
+      const result = await unitService.findAll();
+      const allUnits = result.success ?
+        (Array.isArray(result.data) ? result.data : result.data?.items || []) : [];
+      setUnits((Array.isArray(allUnits) ? allUnits : []) as Unit[]);
     } catch (error) {
       console.error('加载单位失败:', error);
     }

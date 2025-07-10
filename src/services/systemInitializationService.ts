@@ -223,12 +223,11 @@ export class SystemInitializationService {
       // 验证服务状态
       // Service manager doesn't have getStatus method, assuming success
       const status = { initialized: true, error: null };
-      if (!status.isInitialized) {
+      if (!status.initialized) {
         throw new Error('服务管理器初始化失败');
       }
 
       console.log('系统服务重新初始化完成');
-      console.log(`- 总服务数: ${status.servicesCount}`);
 
     } catch (error) {
       console.error('重新初始化系统服务失败:', error);
