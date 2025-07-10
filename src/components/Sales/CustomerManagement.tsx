@@ -191,10 +191,17 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     setError(null); // 清除错误信息
   };
 
-  const handleCreateNew = () => {
+  const handleCreateNew = async () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
+    // 自动生成客户编码
+    try {
+      const newCode = await customerService.generateCustomerCode();
+      setValue('code', newCode);
+    } catch (err) {
+      console.error('Failed to generate customer code:', err);
+    }
   };
 
   const generateCustomerCode = () => {

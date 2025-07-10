@@ -259,6 +259,19 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
     }
   };
 
+  const handleCreateNew = async () => {
+    setShowPayableForm(true);
+    setEditingPayable(null);
+    setPayableFormData(emptyPayableForm);
+    // 自动生成应付账款编号
+    try {
+      const billNo = await accountsPayableService.generateBillNo();
+      setPayableFormData(prev => ({ ...prev, billNo }));
+    } catch (err) {
+      console.error('Failed to generate bill number:', err);
+    }
+  };
+
   const getStatusText = (status: PayableStatus): string => {
     switch (status) {
       case PayableStatus.UNPAID: return '未付款';
@@ -359,7 +372,7 @@ export const AccountsPayableManagement: React.FC<AccountsPayableManagementProps>
             </p>
           </div>
           <GlassButton 
-            onClick={() => setShowPayableForm(true)}
+            onClick={handleCreateNew}
             variant="primary"
           >
             <span className="mr-2">💰</span>

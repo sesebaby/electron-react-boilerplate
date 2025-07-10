@@ -198,10 +198,17 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     setError(null); // 清除错误信息
   };
 
-  const handleCreateNew = () => {
+  const handleCreateNew = async () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
+    // 自动生成供应商编码
+    try {
+      const newCode = await supplierService.generateSupplierCode();
+      setValue('code', newCode);
+    } catch (err) {
+      console.error('Failed to generate supplier code:', err);
+    }
   };
 
   const generateSupplierCode = async () => {

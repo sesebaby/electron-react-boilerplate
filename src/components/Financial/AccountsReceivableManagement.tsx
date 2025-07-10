@@ -249,6 +249,19 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
     }
   };
 
+  const handleCreateNew = async () => {
+    setShowReceivableForm(true);
+    setEditingReceivable(null);
+    setReceivableFormData(emptyReceivableForm);
+    // 自动生成应收账款编号
+    try {
+      const billNo = await accountsReceivableService.generateInvoiceNo();
+      setReceivableFormData(prev => ({ ...prev, billNo }));
+    } catch (err) {
+      console.error('Failed to generate invoice number:', err);
+    }
+  };
+
   const getStatusText = (status: ReceivableStatus): string => {
     switch (status) {
       case ReceivableStatus.UNPAID: return '未收款';
@@ -328,7 +341,7 @@ export const AccountsReceivableManagement: React.FC<AccountsReceivableManagement
             <p className="mt-1 financial-subtitle">管理客户应收账款和收款记录</p>
           </div>
           <GlassButton
-            onClick={() => setShowReceivableForm(true)}
+            onClick={handleCreateNew}
             variant="primary"
           >
             <span className="mr-2">💰</span>
