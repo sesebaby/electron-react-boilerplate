@@ -242,12 +242,16 @@ function setupSystemHandlers(ipcMain, db) {
       -- 仓库表
       CREATE TABLE IF NOT EXISTS warehouses (
         id TEXT PRIMARY KEY,
-        code TEXT UNIQUE NOT NULL,
+        code TEXT UNIQUE,
         name TEXT NOT NULL,
+        location TEXT,
         address TEXT,
         manager TEXT,
         phone TEXT,
+        type TEXT CHECK(type IN ('main', 'branch', 'temporary')) DEFAULT 'branch',
+        capacity INTEGER DEFAULT 0,
         is_default BOOLEAN NOT NULL DEFAULT 0,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
@@ -990,7 +994,7 @@ async function importGlobalConversionRulesData(db) {
 
   const stmt = db.prepare(`
     INSERT INTO global_conversion_rules (id, name, from_unit_id, to_unit_id, conversion_rate, category, description, is_active, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, 1, datetime('now'), datetime('now'))
+    VALUES (?, ?, ?, ?, ?, ?, ?, 0, datetime('now'), datetime('now'))
   `);
 
   const insertMany = db.transaction((rules) => {
@@ -1063,6 +1067,230 @@ function addUserAndCustomerHandlers(ipcMain, db) {
 
     return successResult(customers);
   }, 'get-all-customers'));
+
+  // 根据ID获取客户
+  ipcMain.handle('db-get-customer-by-id', wrapIpcHandler(async (event, id) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    validateRequiredFields({ id }, ['id']);
+
+    const query = `
+      SELECT
+        id, code, name, contact_person as contactPerson, phone, email, address,
+        customer_type as customerType, credit_limit as creditLimit,
+        payment_terms as paymentTerms, discount_rate as discountRate,
+        level, status,
+        created_at as createdAt,
+        updated_at as updatedAt
+      FROM customers
+      WHERE id = ?
+    `;
+    const stmt = db.prepare(query);
+    const row = stmt.get(id);
+
+    if (!row) {
+      return successResult(null);
+    }
+
+    const customer = {
+      ...row,
+      creditLimit: parseFloat(row.creditLimit) || 0,
+      discountRate: parseFloat(row.discountRate) || 0,
+      createdAt: new Date(row.createdAt),
+      updatedAt: new Date(row.updatedAt)
+    };
+
+    return successResult(customer);
+  }, 'get-customer-by-id'));
+
+  // 创建客户
+  ipcMain.handle('db-create-customer', wrapIpcHandler(async (event, customerData) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    validateRequiredFields(customerData, ['code', 'name']);
+
+    const id = generateId();
+    const now = getCurrentTimestamp();
+
+    const stmt = db.prepare(`
+      INSERT INTO customers (
+        id, code, name, contact_person, phone, email, address,
+        customer_type, credit_limit, payment_terms, discount_rate,
+        level, status, created_at, updated_at
+      ) VALUES (
+        ?, ?, ?, ?, ?, ?, ?,
+        ?, ?, ?, ?,
+        ?, ?, ?, ?
+      )
+    `);
+
+    stmt.run(
+      id,
+      customerData.code,
+      customerData.name,
+      customerData.contactPerson || '',
+      customerData.phone || '',
+      customerData.email || '',
+      customerData.address || '',
+      customerData.customerType || 'individual',
+      customerData.creditLimit || 0,
+      customerData.paymentTerms || '',
+      customerData.discountRate || 0,
+      customerData.level || 'Bronze',
+      customerData.status || 'active',
+      now,
+      now
+    );
+
+    // 获取创建的客户
+    const getStmt = db.prepare(`
+      SELECT
+        id, code, name, contact_person as contactPerson, phone, email, address,
+        customer_type as customerType, credit_limit as creditLimit,
+        payment_terms as paymentTerms, discount_rate as discountRate,
+        level, status,
+        created_at as createdAt,
+        updated_at as updatedAt
+      FROM customers
+      WHERE id = ?
+    `);
+    const newCustomer = getStmt.get(id);
+
+    return successResult({
+      ...newCustomer,
+      creditLimit: parseFloat(newCustomer.creditLimit) || 0,
+      discountRate: parseFloat(newCustomer.discountRate) || 0,
+      createdAt: new Date(newCustomer.createdAt),
+      updatedAt: new Date(newCustomer.updatedAt)
+    });
+  }, 'create-customer'));
+
+  // 更新客户
+  ipcMain.handle('db-update-customer', wrapIpcHandler(async (event, id, updates) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    validateRequiredFields({ id }, ['id']);
+
+    const fields = [];
+    const params = [];
+
+    const fieldMap = {
+      code: 'code',
+      name: 'name',
+      contactPerson: 'contact_person',
+      phone: 'phone',
+      email: 'email',
+      address: 'address',
+      customerType: 'customer_type',
+      creditLimit: 'credit_limit',
+      paymentTerms: 'payment_terms',
+      discountRate: 'discount_rate',
+      level: 'level',
+      status: 'status'
+    };
+
+    for (const [key, dbField] of Object.entries(fieldMap)) {
+      if (updates[key] !== undefined) {
+        fields.push(`${dbField} = ?`);
+        params.push(updates[key]);
+      }
+    }
+
+    if (fields.length === 0) {
+      throw new Error('No valid fields to update');
+    }
+
+    fields.push('updated_at = ?');
+    params.push(getCurrentTimestamp());
+    params.push(id);
+
+    const stmt = db.prepare(`UPDATE customers SET ${fields.join(', ')} WHERE id = ?`);
+    const result = stmt.run(...params);
+
+    if (result.changes === 0) {
+      throw new Error('Customer not found');
+    }
+
+    // 获取更新后的客户
+    const getStmt = db.prepare(`
+      SELECT
+        id, code, name, contact_person as contactPerson, phone, email, address,
+        customer_type as customerType, credit_limit as creditLimit,
+        payment_terms as paymentTerms, discount_rate as discountRate,
+        level, status,
+        created_at as createdAt,
+        updated_at as updatedAt
+      FROM customers
+      WHERE id = ?
+    `);
+    const updatedCustomer = getStmt.get(id);
+
+    return successResult({
+      ...updatedCustomer,
+      creditLimit: parseFloat(updatedCustomer.creditLimit) || 0,
+      discountRate: parseFloat(updatedCustomer.discountRate) || 0,
+      createdAt: new Date(updatedCustomer.createdAt),
+      updatedAt: new Date(updatedCustomer.updatedAt)
+    });
+  }, 'update-customer'));
+
+  // 删除客户
+  ipcMain.handle('db-delete-customer', wrapIpcHandler(async (event, id) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    validateRequiredFields({ id }, ['id']);
+
+    const stmt = db.prepare('DELETE FROM customers WHERE id = ?');
+    const result = stmt.run(id);
+
+    return successResult(result.changes > 0);
+  }, 'delete-customer'));
+
+  // 搜索客户
+  ipcMain.handle('db-search-customers', wrapIpcHandler(async (event, searchTerm) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    if (!searchTerm || typeof searchTerm !== 'string') {
+      return successResult([]);
+    }
+
+    const query = `
+      SELECT
+        id, code, name, contact_person as contactPerson, phone, email, address,
+        customer_type as customerType, credit_limit as creditLimit,
+        payment_terms as paymentTerms, discount_rate as discountRate,
+        level, status,
+        created_at as createdAt,
+        updated_at as updatedAt
+      FROM customers
+      WHERE name LIKE ? OR code LIKE ? OR contact_person LIKE ? OR phone LIKE ? OR email LIKE ?
+      ORDER BY name ASC
+    `;
+
+    const searchPattern = `%${searchTerm}%`;
+    const stmt = db.prepare(query);
+    const rows = stmt.all(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern);
+
+    const customers = rows.map(row => ({
+      ...row,
+      creditLimit: parseFloat(row.creditLimit) || 0,
+      discountRate: parseFloat(row.discountRate) || 0,
+      createdAt: new Date(row.createdAt),
+      updatedAt: new Date(row.updatedAt)
+    }));
+
+    return successResult(customers);
+  }, 'search-customers'));
 
   // 创建用户
   ipcMain.handle('db-create-user', wrapIpcHandler(async (event, userData) => {

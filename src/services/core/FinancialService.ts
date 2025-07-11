@@ -531,4 +531,263 @@ export class FinancialService {
       return { success: false, error: `获取付款记录失败: ${error}` };
     }
   }
+
+  // ==================== FIFO成本计算 ====================
+
+  /**
+   * 计算FIFO成本
+   * @param productId 产品ID
+   * @param warehouseId 仓库ID
+   * @param quantity 数量
+   * @param transactionType 交易类型
+   */
+  async calculateFifoCost(
+    productId: string, 
+    warehouseId: string, 
+    quantity: number,
+    transactionType: TransactionType
+  ): Promise<ServiceResult<{
+    totalCost: number;
+    averageUnitCost: number;
+    affectedTransactions: Array<{
+      id: string;
+      usedQuantity: number;
+      unitCost: number;
+    }>;
+  }>> {
+    try {
+      // 获取该产品的入库交易记录（按时间升序）
+      const transactions = await this.database.getInventoryTransactions({
+        productId,
+        warehouseId,
+        type: TransactionType.IN,
+        hasRemaining: true,
+        orderBy: 'transactionDate ASC'
+      });
+
+      if (!transactions || !transactions.data || transactions.data.length === 0) {
+        return { success: false, error: '没有找到可用的库存交易记录' };
+      }
+
+      let remainingQuantity = quantity;
+      let totalCost = 0;
+      const affectedTransactions: Array<{
+        id: string;
+        usedQuantity: number;
+        unitCost: number;
+      }> = [];
+
+      // 先检查库存是否足够
+      let checkQuantity = quantity;
+      for (const transaction of transactions.data) {
+        const availableQuantity = transaction.quantity - (transaction.usedQuantity || 0);
+        if (availableQuantity > 0) {
+          checkQuantity -= Math.min(availableQuantity, checkQuantity);
+          if (checkQuantity <= 0) break;
+        }
+      }
+      
+      if (checkQuantity > 0) {
+        return { success: false, error: '库存不足，无法完成FIFO成本计算' };
+      }
+
+      // 按FIFO原则计算成本
+      for (const transaction of transactions.data) {
+        if (remainingQuantity <= 0) break;
+
+        const availableQuantity = transaction.quantity - (transaction.usedQuantity || 0);
+        if (availableQuantity <= 0) continue;
+
+        const usedQuantity = Math.min(availableQuantity, remainingQuantity);
+        const unitCost = transaction.unitCost || transaction.unitPrice || 0;
+        
+        totalCost += usedQuantity * unitCost;
+        affectedTransactions.push({
+          id: transaction.id,
+          usedQuantity,
+          unitCost
+        });
+
+        remainingQuantity -= usedQuantity;
+
+        // 更新交易记录的已使用数量
+        await this.database.updateInventoryCost(transaction.id, {
+          usedQuantity: (transaction.usedQuantity || 0) + usedQuantity
+        });
+      }
+
+      const averageUnitCost = totalCost / quantity;
+
+      return {
+        success: true,
+        data: {
+          totalCost,
+          averageUnitCost,
+          affectedTransactions
+        }
+      };
+    } catch (error) {
+      return { success: false, error: `计算FIFO成本失败: ${error}` };
+    }
+  }
+
+  /**
+   * 生成月度财务余额报表
+   * @param year 年份
+   * @param month 月份
+   */
+  async generateMonthlyBalance(year: number, month: number): Promise<ServiceResult<{
+    year: number;
+    month: number;
+    totalSales: number;
+    totalPurchases: number;
+    totalReceivables: number;
+    totalPayables: number;
+    netAmount: number;
+    overdueReceivables: number;
+    overduePayables: number;
+    inventoryValue: number;
+    costOfGoodsSold: number;
+    grossProfit: number;
+  }>> {
+    try {
+      // 计算月度起止日期
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 0, 23, 59, 59);
+
+      // 获取月度销售总额
+      const salesResult = await this.database.query(
+        `SELECT SUM(totalAmount) as total_sales FROM sales_orders 
+         WHERE orderDate >= ? AND orderDate <= ? AND status != 'CANCELLED'`,
+        [startDate, endDate]
+      );
+      const totalSales = salesResult?.data?.[0]?.total_sales || 0;
+
+      // 获取月度采购总额
+      const purchasesResult = await this.database.query(
+        `SELECT SUM(totalAmount) as total_purchases FROM purchase_orders 
+         WHERE orderDate >= ? AND orderDate <= ? AND status != 'CANCELLED'`,
+        [startDate, endDate]
+      );
+      const totalPurchases = purchasesResult?.data?.[0]?.total_purchases || 0;
+
+      // 获取应收账款总额
+      const receivablesResult = await this.database.query(
+        `SELECT SUM(balanceAmount) as total_receivables FROM accounts_receivable 
+         WHERE billDate <= ? AND status != 'PAID'`,
+        [endDate]
+      );
+      const totalReceivables = receivablesResult?.data?.[0]?.total_receivables || 0;
+
+      // 获取应付账款总额
+      const payablesResult = await this.database.query(
+        `SELECT SUM(balanceAmount) as total_payables FROM accounts_payable 
+         WHERE billDate <= ? AND status != 'PAID'`,
+        [endDate]
+      );
+      const totalPayables = payablesResult?.data?.[0]?.total_payables || 0;
+
+      // 获取逾期应收账款
+      const overdueReceivablesResult = await this.database.query(
+        `SELECT SUM(balanceAmount) as overdue_receivables FROM accounts_receivable 
+         WHERE dueDate < ? AND status != 'PAID'`,
+        [endDate]
+      );
+      const overdueReceivables = overdueReceivablesResult?.data?.[0]?.overdue_receivables || 0;
+
+      // 获取逾期应付账款
+      const overduePayablesResult = await this.database.query(
+        `SELECT SUM(balanceAmount) as overdue_payables FROM accounts_payable 
+         WHERE dueDate < ? AND status != 'PAID'`,
+        [endDate]
+      );
+      const overduePayables = overduePayablesResult?.data?.[0]?.overdue_payables || 0;
+
+      // 计算库存价值（这里简化处理）
+      const inventoryResult = await this.database.query(
+        `SELECT SUM(quantity * unitCost) as inventory_value FROM inventory_stocks`
+      );
+      const inventoryValue = inventoryResult?.data?.[0]?.inventory_value || 0;
+
+      // 计算销售成本（这里简化处理）
+      const costOfGoodsSold = totalSales * 0.7; // 假设毛利率30%
+      const grossProfit = totalSales - costOfGoodsSold;
+
+      const netAmount = totalReceivables - totalPayables;
+
+      // 保存月度余额记录
+      await this.database.generateMonthlyBalance({
+        year,
+        month,
+        totalSales,
+        totalPurchases,
+        totalReceivables,
+        totalPayables,
+        netAmount,
+        overdueReceivables,
+        overduePayables,
+        inventoryValue,
+        costOfGoodsSold,
+        grossProfit
+      });
+
+      return {
+        success: true,
+        data: {
+          year,
+          month,
+          totalSales,
+          totalPurchases,
+          totalReceivables,
+          totalPayables,
+          netAmount,
+          overdueReceivables,
+          overduePayables,
+          inventoryValue,
+          costOfGoodsSold,
+          grossProfit
+        }
+      };
+    } catch (error) {
+      return { success: false, error: `生成月度财务余额失败: ${error}` };
+    }
+  }
+
+  /**
+   * 获取财务汇总信息
+   */
+  async getFinancialSummary(): Promise<ServiceResult<{
+    totalReceivables: number;
+    totalPayables: number;
+    overdueReceivables: number;
+    overduePayables: number;
+    netAmount: number;
+    overdueReceivableAmount: number;
+    overduePayableAmount: number;
+  }>> {
+    try {
+      const statistics = await this.getFinancialStatistics();
+      
+      if (!statistics.success || !statistics.data) {
+        return { success: false, error: '获取财务统计失败' };
+      }
+
+      const data = statistics.data;
+
+      return {
+        success: true,
+        data: {
+          totalReceivables: data.totalReceivableAmount,
+          totalPayables: data.totalPayableAmount,
+          overdueReceivables: data.overdueReceivables,
+          overduePayables: data.overduePayables,
+          netAmount: data.netAmount,
+          overdueReceivableAmount: data.overdueReceivableAmount,
+          overduePayableAmount: data.overduePayableAmount
+        }
+      };
+    } catch (error) {
+      return { success: false, error: `获取财务汇总失败: ${error}` };
+    }
+  }
 }

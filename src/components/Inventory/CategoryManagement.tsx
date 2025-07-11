@@ -104,30 +104,48 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
   };
 
   const onSubmit = async (data: CategoryForm) => {
+    console.log('=== CATEGORY FORM SUBMIT DEBUG ===');
+    console.log('Form data:', JSON.stringify(data, null, 2));
+    
     try {
       // 处理根分类的parentId：将空字符串转换为undefined
       const submitData = {
         ...data,
         parentId: data.parentId || undefined
       };
+      
+      console.log('Submit data after processing:', JSON.stringify(submitData, null, 2));
 
       if (editingCategory) {
-        // TODO: Implement updateCategory method
-        console.log('Update category:', editingCategory.id, submitData);
+        console.log('Updating existing category:', editingCategory.id);
+        const updateResult = await serviceManager.getInventoryService().updateCategory(editingCategory.id, submitData);
+        console.log('Update result:', updateResult);
+        if (!updateResult.success) {
+          throw new Error(updateResult.error || '更新分类失败');
+        }
       } else {
-        await serviceManager.getInventoryService().createCategory(submitData);
+        console.log('Creating new category');
+        const createResult = await serviceManager.getInventoryService().createCategory(submitData);
+        console.log('Create result:', createResult);
+        if (!createResult.success) {
+          throw new Error(createResult.error || '创建分类失败');
+        }
       }
 
+      console.log('Category saved successfully, reloading data...');
       await loadData();
       setShowForm(false);
       setEditingCategory(null);
       reset(emptyForm);
       clearErrors();
+      console.log('=== END CATEGORY FORM SUBMIT DEBUG ===');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '保存分类失败';
+      console.error('Category save error:', err);
+      console.error('Error message:', errorMessage);
       setError(errorMessage);
       notificationHelper.showError('分类保存失败', errorMessage);
-      console.error('Failed to save category:', err);
+      console.log('=== END CATEGORY FORM SUBMIT DEBUG (ERROR) ===');
     }
   };
 
@@ -153,8 +171,10 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     if (!deleteTargetId) return;
 
     try {
-      // TODO: Implement deleteCategory method
-      console.log('Delete category:', deleteTargetId);
+      const deleteResult = await serviceManager.getInventoryService().deleteCategory(deleteTargetId);
+      if (!deleteResult.success) {
+        throw new Error(deleteResult.error || '删除分类失败');
+      }
       await loadData();
       notificationHelper.showSuccess('删除成功', '分类已成功删除');
     } catch (err) {
@@ -547,6 +567,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
                     register={register('isActive', {
                       setValueAs: (value) => value === 'true'
                     })}
+                    value={_formData.isActive ? 'true' : 'false'}
                     error={errors.isActive?.message}
                   >
                     <option value="true">启用</option>

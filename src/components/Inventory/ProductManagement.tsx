@@ -237,7 +237,10 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       let productId: string;
 
       if (editingProduct) {
-        await services.productService.updateProduct(editingProduct.id, submitData);
+        const updateResult = await services.productService.updateProduct(editingProduct.id, submitData);
+        if (!updateResult.success) {
+          throw new Error(updateResult.error || '更新商品失败');
+        }
         productId = editingProduct.id;
         
         // 记录更新成功
@@ -254,8 +257,11 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
           success: true
         });
       } else {
-        const newProduct = await services.productService.createProduct(submitData);
-        productId = newProduct.id;
+        const createResult = await services.productService.createProduct(submitData);
+        if (!createResult.success) {
+          throw new Error(createResult.error || '创建商品失败');
+        }
+        productId = createResult.data.id;
         
         // 记录创建成功
         userActionLogger.logBusinessAction({
@@ -413,7 +419,10 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     const productToDelete = products.find(p => p.id === deleteTargetId);
 
     try {
-      await services.productService.deleteProduct(deleteTargetId);
+      const deleteResult = await services.productService.deleteProduct(deleteTargetId);
+      if (!deleteResult.success) {
+        throw new Error(deleteResult.error || '删除商品失败');
+      }
       
       // 记录删除成功
       userActionLogger.logBusinessAction({

@@ -88,9 +88,15 @@ const UnitManagement: React.FC = () => {
     try {
       const inventoryService = serviceManager.getInventoryService();
       if (editingUnit) {
-        await inventoryService.updateUnit(editingUnit.id, unitForm);
+        const updateResult = await inventoryService.updateUnit(editingUnit.id, unitForm);
+        if (!updateResult.success) {
+          throw new Error(updateResult.error || '更新单位失败');
+        }
       } else {
-        await inventoryService.createUnit(unitForm);
+        const createResult = await inventoryService.createUnit(unitForm);
+        if (!createResult.success) {
+          throw new Error(createResult.error || '创建单位失败');
+        }
       }
       await loadUnits();
       setShowUnitForm(false);
@@ -126,7 +132,10 @@ const UnitManagement: React.FC = () => {
       showConfirm('确定要删除这个单位吗？', async () => {
         try {
           const inventoryService = serviceManager.getInventoryService();
-          await inventoryService.deleteUnit(unitId);
+          const deleteResult = await inventoryService.deleteUnit(unitId);
+          if (!deleteResult.success) {
+            throw new Error(deleteResult.error || '删除单位失败');
+          }
           await loadUnits();
           resolve();
         } catch (error) {

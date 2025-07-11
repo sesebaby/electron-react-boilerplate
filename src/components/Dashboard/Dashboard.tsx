@@ -109,7 +109,7 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({ className }) => {
   }
 
   return (
-    <div className={`space-y-6 ${className || ''}`}>
+    <div className={`space-y-6 ${className || ''}`} data-testid="dashboard">
       {/* 标签页导航 */}
       <GlassCard className="p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

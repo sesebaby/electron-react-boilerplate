@@ -19,7 +19,6 @@ import {
 import { ServiceResult, PaginatedResult, PaginationParams, BaseFilter } from './types';
 import { DatabaseManager } from './database';
 import { v4 as uuidv4 } from 'uuid';
-import { hash, compare } from 'bcryptjs';
 
 // 系统过滤器
 interface SystemFilter extends BaseFilter {
@@ -174,11 +173,11 @@ export class SystemService {
    */
   private async createDefaultAdmin(): Promise<void> {
     try {
-      const hashedPassword = await hash('123456', 10);
+      // 对于单机版应用，简化密码验证逻辑，直接使用明文密码
       const admin: User = {
         id: uuidv4(),
         username: 'admin',
-        password: hashedPassword,
+        password: '123456', // 单机版使用明文密码
         nickname: '系统管理员',
         email: 'admin@system.com',
         role: UserRole.ADMIN,
@@ -213,13 +212,11 @@ export class SystemService {
         return { success: false, error: '邮箱已存在' };
       }
 
-      // 加密密码
-      const hashedPassword = await hash(userData.password, 10);
-
+      // 对于单机版应用，直接使用明文密码
       const user: User = {
         id: uuidv4(),
         ...userData,
-        password: hashedPassword,
+        password: userData.password, // 单机版使用明文密码
         createdAt: new Date(),
         updatedAt: new Date()
       };
@@ -260,8 +257,8 @@ export class SystemService {
         return { success: false, error: '账户已被禁用' };
       }
 
-      const isPasswordValid = await compare(password, user.password);
-      if (!isPasswordValid) {
+      // 对于单机版应用，简化密码验证逻辑
+      if (user.password !== password) {
         return { success: false, error: '用户名或密码错误' };
       }
 
@@ -692,11 +689,10 @@ export class SystemService {
       }
 
       const password = newPassword || this.generateRandomPassword();
-      const hashedPassword = await hash(password, 10);
 
       const updatedUser = {
         ...user,
-        password: hashedPassword,
+        password: password, // 单机版使用明文密码
         updatedAt: new Date()
       };
 
@@ -714,17 +710,15 @@ export class SystemService {
         return { success: false, error: '用户不存在' };
       }
 
-      // 验证旧密码
-      const isValidOldPassword = await compare(oldPassword, user.password);
-      if (!isValidOldPassword) {
+      // 验证旧密码（明文比较）
+      if (user.password !== oldPassword) {
         return { success: false, error: '原密码错误' };
       }
 
       // 设置新密码
-      const hashedNewPassword = await hash(newPassword, 10);
       const updatedUser = {
         ...user,
-        password: hashedNewPassword,
+        password: newPassword, // 单机版使用明文密码
         updatedAt: new Date()
       };
 

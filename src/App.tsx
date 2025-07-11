@@ -79,7 +79,7 @@ const App: React.FC = () => {
   // 加载状态
   if (isLoading) {
     return (
-      <div className="min-h-screen relative overflow-hidden" style={{background: 'var(--app-background)'}}>
+      <div className="min-h-screen relative overflow-hidden" style={{background: 'var(--app-background)'}} data-testid="loading-screen">
         {/* 现代化背景效果 */}
         <div className="absolute inset-0">
           <div className="absolute w-72 h-72 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-1/4 top-1/3"></div>
@@ -285,7 +285,7 @@ const App: React.FC = () => {
       <AuthProvider>
         <GlobalDialogProvider>
           <ProtectedRoute>
-            <div className="min-h-screen">
+            <div className="min-h-screen" data-testid="app-loaded">
               <AppLayout>
                 <PageContainer currentPage={currentPage} />
               </AppLayout>

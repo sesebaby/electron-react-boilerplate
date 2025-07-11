@@ -215,6 +215,9 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
           transactionType as any,
           `库存调整: ${item.remark || '无备注'}`
         );
+        if (!result.success) {
+          throw new Error(result.error || '库存调整失败');
+        }
         results.push(result);
       }
       

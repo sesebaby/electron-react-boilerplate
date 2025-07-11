@@ -277,15 +277,27 @@ function setupInventoryHandlers(ipcMain, db) {
     return successResult(categories);
   }, 'get-categories'));
 
-  // 获取所有分类（别名，与 db-get-categories 相同）
+  // 获取所有分类（从categories表）
   ipcMain.handle('db-get-all-categories', wrapIpcHandler(async () => {
     if (!checkDatabaseInitialized(db)) {
       return errorResult('Database not initialized');
     }
 
-    const stmt = db.prepare('SELECT DISTINCT category FROM inventory_items WHERE category IS NOT NULL AND category != \'\' ORDER BY category');
+    const stmt = db.prepare(`
+      SELECT 
+        id, name, description, parent_id as parentId,
+        level, sort_order as sortOrder, is_active as isActive,
+        created_at as createdAt, updated_at as updatedAt
+      FROM categories 
+      ORDER BY sort_order, name
+    `);
     const rows = stmt.all();
-    const categories = rows.map(row => row.category);
+    
+    // 转换布尔值
+    const categories = rows.map(row => ({
+      ...row,
+      isActive: row.isActive === 1
+    }));
 
     return successResult(categories);
   }, 'get-all-categories'));
@@ -376,6 +388,272 @@ function setupInventoryHandlers(ipcMain, db) {
       totalSuppliers: stats.totalSuppliers || 0
     });
   }, 'get-inventory-stats'));
+
+  // ===== Category CRUD Operations =====
+  
+  // Create category
+  ipcMain.handle('db-create-category', wrapIpcHandler(async (event, category) => {
+    console.log('=== CREATE CATEGORY DEBUG ===');
+    console.log('Received category data:', JSON.stringify(category, null, 2));
+    
+    if (!checkDatabaseInitialized(db)) {
+      console.error('Database not initialized');
+      return errorResult('Database not initialized');
+    }
+    
+    try {
+      validateRequiredFields(category, ['name']);
+      console.log('Validation passed for category:', category.name);
+      
+      const id = generateId();
+      const now = getCurrentTimestamp();
+      
+      console.log('Generated ID:', id);
+      console.log('Timestamp:', now);
+      
+      const stmt = db.prepare(`
+        INSERT INTO categories (id, name, description, parent_id, level, sort_order, is_active, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `);
+      
+      const insertParams = [
+        id,
+        category.name,
+        category.description || '',
+        category.parentId || null,
+        category.level || 1,
+        category.sortOrder || 1,
+        category.isActive !== undefined ? (category.isActive ? 1 : 0) : 1,
+        now,
+        now
+      ];
+      
+      console.log('Insert parameters:', insertParams);
+      
+      const result = stmt.run(...insertParams);
+      console.log('Database insert result:', result);
+      
+      const newCategory = {
+        id,
+        name: category.name,
+        description: category.description || '',
+        parentId: category.parentId || null,
+        level: category.level || 1,
+        sortOrder: category.sortOrder || 1,
+        isActive: category.isActive !== undefined ? category.isActive : true,
+        createdAt: now,
+        updatedAt: now
+      };
+      
+      console.log('Created category object:', JSON.stringify(newCategory, null, 2));
+      console.log('=== END CREATE CATEGORY DEBUG ===');
+      
+      return successResult(newCategory);
+    } catch (error) {
+      console.error('Error creating category:', error);
+      console.log('=== END CREATE CATEGORY DEBUG (ERROR) ===');
+      throw error;
+    }
+  }, 'create-category'));
+
+  // Update category
+  ipcMain.handle('db-update-category', wrapIpcHandler(async (event, id, updates) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+    
+    validateRequiredFields({ id }, ['id']);
+    
+    const fields = [];
+    const params = [];
+    
+    if (updates.name !== undefined) {
+      fields.push('name = ?');
+      params.push(updates.name);
+    }
+    
+    if (updates.description !== undefined) {
+      fields.push('description = ?');
+      params.push(updates.description);
+    }
+    
+    if (updates.parentId !== undefined) {
+      fields.push('parent_id = ?');
+      params.push(updates.parentId || null);
+    }
+    
+    if (updates.level !== undefined) {
+      fields.push('level = ?');
+      params.push(updates.level);
+    }
+    
+    if (updates.sortOrder !== undefined) {
+      fields.push('sort_order = ?');
+      params.push(updates.sortOrder);
+    }
+    
+    if (updates.isActive !== undefined) {
+      fields.push('is_active = ?');
+      params.push(updates.isActive ? 1 : 0);
+    }
+    
+    if (fields.length === 0) {
+      throw new Error('No valid fields to update');
+    }
+    
+    fields.push('updated_at = ?');
+    params.push(getCurrentTimestamp());
+    params.push(id);
+    
+    const stmt = db.prepare(`UPDATE categories SET ${fields.join(', ')} WHERE id = ?`);
+    const result = stmt.run(...params);
+    
+    if (result.changes === 0) {
+      throw new Error('Category not found');
+    }
+    
+    const getStmt = db.prepare('SELECT * FROM categories WHERE id = ?');
+    const category = getStmt.get(id);
+    
+    return successResult({
+      id: category.id,
+      name: category.name,
+      description: category.description,
+      parentId: category.parent_id,
+      level: category.level,
+      sortOrder: category.sort_order,
+      isActive: category.is_active === 1,
+      createdAt: category.created_at,
+      updatedAt: category.updated_at
+    });
+  }, 'update-category'));
+
+  // Delete category
+  ipcMain.handle('db-delete-category', wrapIpcHandler(async (event, id) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+    
+    validateRequiredFields({ id }, ['id']);
+    
+    const stmt = db.prepare('DELETE FROM categories WHERE id = ?');
+    const result = stmt.run(id);
+    
+    return successResult(result.changes > 0);
+  }, 'delete-category'));
+
+  // ===== Supplier CRUD Operations =====
+  
+  // Create supplier
+  ipcMain.handle('db-create-supplier', wrapIpcHandler(async (event, supplier) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+    
+    validateRequiredFields(supplier, ['name']);
+    
+    const id = generateId();
+    const now = getCurrentTimestamp();
+    
+    const stmt = db.prepare(`
+      INSERT INTO suppliers (id, name, contact_person, phone, email, address, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+    
+    stmt.run(
+      id, 
+      supplier.name, 
+      supplier.contactPerson || '', 
+      supplier.phone || '', 
+      supplier.email || '', 
+      supplier.address || '', 
+      now, 
+      now
+    );
+    
+    const newSupplier = {
+      id,
+      name: supplier.name,
+      contactPerson: supplier.contactPerson || '',
+      phone: supplier.phone || '',
+      email: supplier.email || '',
+      address: supplier.address || '',
+      createdAt: now,
+      updatedAt: now
+    };
+    
+    return successResult(newSupplier);
+  }, 'create-supplier'));
+
+  // Update supplier
+  ipcMain.handle('db-update-supplier', wrapIpcHandler(async (event, id, updates) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+    
+    validateRequiredFields({ id }, ['id']);
+    
+    const fields = [];
+    const params = [];
+    
+    const fieldMap = {
+      name: 'name',
+      contactPerson: 'contact_person',
+      phone: 'phone',
+      email: 'email',
+      address: 'address'
+    };
+    
+    for (const [key, dbField] of Object.entries(fieldMap)) {
+      if (updates[key] !== undefined) {
+        fields.push(`${dbField} = ?`);
+        params.push(updates[key]);
+      }
+    }
+    
+    if (fields.length === 0) {
+      throw new Error('No valid fields to update');
+    }
+    
+    fields.push('updated_at = ?');
+    params.push(getCurrentTimestamp());
+    params.push(id);
+    
+    const stmt = db.prepare(`UPDATE suppliers SET ${fields.join(', ')} WHERE id = ?`);
+    const result = stmt.run(...params);
+    
+    if (result.changes === 0) {
+      throw new Error('Supplier not found');
+    }
+    
+    const getStmt = db.prepare('SELECT * FROM suppliers WHERE id = ?');
+    const supplier = getStmt.get(id);
+    
+    return successResult({
+      id: supplier.id,
+      name: supplier.name,
+      contactPerson: supplier.contact_person,
+      phone: supplier.phone,
+      email: supplier.email,
+      address: supplier.address,
+      createdAt: supplier.created_at,
+      updatedAt: supplier.updated_at
+    });
+  }, 'update-supplier'));
+
+  // Delete supplier
+  ipcMain.handle('db-delete-supplier', wrapIpcHandler(async (event, id) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+    
+    validateRequiredFields({ id }, ['id']);
+    
+    const stmt = db.prepare('DELETE FROM suppliers WHERE id = ?');
+    const result = stmt.run(id);
+    
+    return successResult(result.changes > 0);
+  }, 'delete-supplier'));
 
   console.log('Inventory handlers registered successfully');
 }

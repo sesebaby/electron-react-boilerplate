@@ -34,6 +34,12 @@ function setupDatabaseHandlers(ipcMain, db) {
     'db-get-low-stock-items',
     'db-get-categories',
     'db-get-suppliers',
+    'db-create-category',
+    'db-update-category', 
+    'db-delete-category',
+    'db-create-supplier',
+    'db-update-supplier',
+    'db-delete-supplier',
     'db-batch-update-stock',
     'db-get-inventory-stats',
     
@@ -111,7 +117,12 @@ function setupDatabaseHandlers(ipcMain, db) {
     
     // 其他处理器
     'db-get-all-categories',
-    'db-get-all-suppliers'
+    'db-get-all-suppliers',
+    'db-get-customer-by-id',
+    'db-create-customer',
+    'db-update-customer', 
+    'db-delete-customer',
+    'db-search-customers'
   ];
 
   // 移除已存在的处理器

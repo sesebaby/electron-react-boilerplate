@@ -269,8 +269,8 @@ export class InventoryService {
         updatedAt: new Date()
       };
 
-      // 保存到数据库 - 产品实际上是库存项目
-      const result = await this.database.createItem(product);
+      // 保存到数据库
+      const result = await this.database.createProduct(product);
 
       if (!result.success) {
         return {

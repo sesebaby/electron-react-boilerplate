@@ -13,6 +13,6 @@ module.exports = {
     '!src/index.tsx',
   ],
   coverageReporters: ['text', 'lcov', 'html'],
-  testMatch: ['**/ServiceInitialization.simple.test.ts'],
+  testMatch: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
   testTimeout: 10000,
 };

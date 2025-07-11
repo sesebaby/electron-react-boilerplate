@@ -232,7 +232,7 @@ const LoginPage: React.FC = () => {
               </GlassCardHeader>
               
               <GlassCardContent className="pt-0">
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5" data-testid="login-form">
                   <div className="space-y-2">
                     <label className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>用户名</label>
                     <Input
@@ -246,6 +246,7 @@ const LoginPage: React.FC = () => {
                         background: 'var(--glass-bg-10)',
                         border: '1px solid var(--glass-border)'
                       }}
+                      data-testid="username-input"
                       required
                     />
                   </div>
@@ -263,6 +264,7 @@ const LoginPage: React.FC = () => {
                         background: 'var(--glass-bg-10)',
                         border: '1px solid var(--glass-border)'
                       }}
+                      data-testid="password-input"
                       required
                     />
                   </div>
@@ -300,7 +302,8 @@ const LoginPage: React.FC = () => {
                         background: 'var(--error-message-bg)',
                         border: `1px solid var(--error-message-border)`,
                         color: 'var(--error-color)'
-                      }}>
+                      }}
+                      data-testid="error-message">
                         <div className="flex items-center space-x-2">
                           <svg className="w-4 h-4 flex-shrink-0" style={{color: 'var(--error-color)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -345,6 +348,7 @@ const LoginPage: React.FC = () => {
                       }
                     }}
                     disabled={buttonDisabled}
+                    data-testid="login-button"
                   >
                     {isLoading ? (
                       <div className="flex items-center justify-center">

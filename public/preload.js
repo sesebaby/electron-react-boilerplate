@@ -36,10 +36,17 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbGetSuppliers: () => ipcRenderer.invoke('db-get-suppliers'),
   dbGetAllCategories: () => ipcRenderer.invoke('db-get-all-categories'),
   dbGetAllSuppliers: () => ipcRenderer.invoke('db-get-all-suppliers'),
+  dbCreateCategory: (category) => ipcRenderer.invoke('db-create-category', category),
+  dbUpdateCategory: (id, updates) => ipcRenderer.invoke('db-update-category', id, updates),
+  dbDeleteCategory: (id) => ipcRenderer.invoke('db-delete-category', id),
+  dbCreateSupplier: (supplier) => ipcRenderer.invoke('db-create-supplier', supplier),
+  dbUpdateSupplier: (id, updates) => ipcRenderer.invoke('db-update-supplier', id, updates),
+  dbDeleteSupplier: (id) => ipcRenderer.invoke('db-delete-supplier', id),
   dbGetAllTransactions: () => ipcRenderer.invoke('db-get-all-transactions'),
   dbAddTransaction: (transaction) => ipcRenderer.invoke('db-add-transaction', transaction),
   
   // Warehouse operations
+  dbGetWarehouses: () => ipcRenderer.invoke('db-get-warehouses'),
   dbGetAllWarehouses: () => ipcRenderer.invoke('db-get-all-warehouses'),
   dbGetWarehouseById: (id) => ipcRenderer.invoke('db-get-warehouse-by-id', id),
   dbGetWarehouseByCode: (code) => ipcRenderer.invoke('db-get-warehouse-by-code', code),
@@ -52,6 +59,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbSearchWarehouses: (searchTerm) => ipcRenderer.invoke('db-search-warehouses', searchTerm),
   
   // Unit operations
+  dbGetUnits: () => ipcRenderer.invoke('db-get-units'),
   dbGetAllUnits: () => ipcRenderer.invoke('db-get-all-units'),
   dbGetUnitById: (id) => ipcRenderer.invoke('db-get-unit-by-id', id),
   dbGetUnitBySymbol: (symbol) => ipcRenderer.invoke('db-get-unit-by-symbol', symbol),
@@ -78,6 +86,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbDeleteProductConversion: (options) => ipcRenderer.invoke('db-delete-product-conversion', options),
 
   // User operations
+  dbGetUsers: () => ipcRenderer.invoke('db-get-users'),
   dbGetAllUsers: () => ipcRenderer.invoke('db-get-all-users'),
   dbCreateUser: (user) => ipcRenderer.invoke('db-create-user', user),
   dbUpdateUser: (id, updates) => ipcRenderer.invoke('db-update-user', id, updates),
@@ -86,6 +95,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // Customer operations
   dbGetAllCustomers: () => ipcRenderer.invoke('db-get-all-customers'),
+  dbGetCustomerById: (id) => ipcRenderer.invoke('db-get-customer-by-id', id),
+  dbCreateCustomer: (customer) => ipcRenderer.invoke('db-create-customer', customer),
+  dbUpdateCustomer: (id, updates) => ipcRenderer.invoke('db-update-customer', id, updates),
+  dbDeleteCustomer: (id) => ipcRenderer.invoke('db-delete-customer', id),
+  dbSearchCustomers: (searchTerm) => ipcRenderer.invoke('db-search-customers', searchTerm),
 
   // Financial operations
   dbGetAccountsReceivable: () => ipcRenderer.invoke('db-get-accounts-receivable'),
@@ -95,6 +109,17 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Inventory stock operations
   dbGetAllInventoryStocks: () => ipcRenderer.invoke('db-get-all-inventory-stocks'),
 
+  // 底层数据库操作（注意：后续应该移除这些直接访问方法）
+  dbQuery: (sql, params) => ipcRenderer.invoke('db-query', sql, params),
+  dbRun: (sql, params) => ipcRenderer.invoke('db-run', sql, params),
+  dbGet: (sql, params) => ipcRenderer.invoke('db-get', sql, params),
+  dbAll: (sql, params) => ipcRenderer.invoke('db-all', sql, params),
+  
+  // 事务操作
+  dbBeginTransaction: () => ipcRenderer.invoke('db-begin-transaction'),
+  dbCommit: () => ipcRenderer.invoke('db-commit'),
+  dbRollback: () => ipcRenderer.invoke('db-rollback'),
+  
   // System initialization and backup operations
   dbBackup: (options) => ipcRenderer.invoke('db-backup', options),
   dbGetBackupList: () => ipcRenderer.invoke('db-get-backup-list'),

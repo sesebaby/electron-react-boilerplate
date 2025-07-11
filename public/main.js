@@ -1,7 +1,8 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs').promises;
-const Database = require('better-sqlite3');
+// const Database = require('better-sqlite3');
+const SmartDatabase = require('./database/smart-database');
 const { setupDatabaseHandlers } = require('./database');
 
 let db = null;
@@ -247,25 +248,23 @@ async function initializeDatabase() {
     const dbDir = path.dirname(dbPath);
     await fs.mkdir(dbDir, { recursive: true });
     
-    try {
-      db = new Database(dbPath);
-    } catch (dbError) {
-      console.error('Failed to create database instance:', dbError);
-      console.error('Error details:', {
-        code: dbError.code,
-        message: dbError.message,
-        stack: dbError.stack
+    // 使用智能数据库适配器
+    const smartDb = new SmartDatabase();
+    db = await smartDb.initialize(dbPath);
+    
+    // 显示数据库信息
+    const dbInfo = smartDb.getInfo();
+    console.log('Database initialized:', dbInfo);
+    
+    // 在开发模式下显示警告
+    if (dbInfo.type === 'mock' && !app.isPackaged) {
+      dialog.showMessageBox({
+        type: 'warning',
+        title: '数据库警告',
+        message: '应用正在使用模拟数据库',
+        detail: '由于原生数据库模块加载失败，当前使用的是内存模拟数据库。\n\n数据将不会被保存！',
+        buttons: ['我知道了']
       });
-      
-      // Try alternative approach - use fallback in-memory database
-      console.warn('Attempting to use in-memory database as fallback...');
-      try {
-        db = new Database(':memory:');
-        console.log('Using in-memory database (data will not persist)');
-      } catch (memError) {
-        console.error('Failed to create in-memory database:', memError);
-        throw memError;
-      }
     }
     console.log('Connected to SQLite database');
     
@@ -449,8 +448,8 @@ async function runDatabaseMigrations() {
     console.log('Running database migrations...');
 
     // 检查 warehouses 表是否有 is_active 字段
-    const tableInfo = db.prepare("PRAGMA table_info(warehouses)").all();
-    const hasIsActiveField = tableInfo.some(column => column.name === 'is_active');
+    const warehouseTableInfo = db.prepare("PRAGMA table_info(warehouses)").all();
+    const hasIsActiveField = warehouseTableInfo.some(column => column.name === 'is_active');
 
     if (!hasIsActiveField) {
       console.log('Adding is_active field to warehouses table...');
@@ -458,6 +457,34 @@ async function runDatabaseMigrations() {
       console.log('is_active field added successfully');
     } else {
       console.log('warehouses table already has is_active field');
+    }
+
+    // 检查 categories 表字段
+    const categoryTableInfo = db.prepare("PRAGMA table_info(categories)").all();
+    const categoryColumns = categoryTableInfo.map(col => col.name);
+    
+    // 添加缺失的 level 字段
+    if (!categoryColumns.includes('level')) {
+      console.log('Adding level field to categories table...');
+      db.exec('ALTER TABLE categories ADD COLUMN level INTEGER DEFAULT 1');
+      console.log('level field added successfully');
+    }
+    
+    // 添加缺失的 sort_order 字段
+    if (!categoryColumns.includes('sort_order')) {
+      console.log('Adding sort_order field to categories table...');
+      db.exec('ALTER TABLE categories ADD COLUMN sort_order INTEGER DEFAULT 0');
+      console.log('sort_order field added successfully');
+    }
+    
+    // 检查 suppliers 表是否有 is_active 字段
+    const supplierTableInfo = db.prepare("PRAGMA table_info(suppliers)").all();
+    const supplierHasIsActive = supplierTableInfo.some(column => column.name === 'is_active');
+    
+    if (!supplierHasIsActive) {
+      console.log('Adding is_active field to suppliers table...');
+      db.exec('ALTER TABLE suppliers ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT 1');
+      console.log('is_active field added to suppliers table successfully');
     }
 
     console.log('Database migrations completed');

@@ -383,13 +383,13 @@ function setupTransactionHandlers(ipcMain, db) {
     
     const query = `
       ${TRANSACTION_BASE_QUERY}
-      WHERE reason LIKE ? OR reference_number LIKE ? OR notes LIKE ?
+      WHERE notes LIKE ? OR reference_number LIKE ?
       ORDER BY created_at DESC
     `;
     
     const searchPattern = `%${searchTerm}%`;
     const stmt = db.prepare(query);
-    const rows = stmt.all(searchPattern, searchPattern, searchPattern);
+    const rows = stmt.all(searchPattern, searchPattern);
     
     const transactions = transformRows(rows, TRANSACTION_FIELD_MAP);
     return successResult(transactions);
