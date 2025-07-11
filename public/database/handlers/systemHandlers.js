@@ -775,6 +775,9 @@ function setupSystemHandlers(ipcMain, db) {
     });
   }, 'get-table-schema'));
 
+  // 添加用户和客户相关的处理器
+  addUserAndCustomerHandlers(ipcMain, db);
+
   console.log('System handlers registered successfully');
 }
 
@@ -998,6 +1001,137 @@ async function importGlobalConversionRulesData(db) {
 
   insertMany(conversionRules);
   console.log(`导入了 ${conversionRules.length} 个转换规则数据`);
+}
+
+// 添加用户和客户相关的处理器
+function addUserAndCustomerHandlers(ipcMain, db) {
+  // 获取所有用户
+  ipcMain.handle('db-get-all-users', wrapIpcHandler(async () => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    const query = `
+      SELECT
+        id, username, nickname, email, phone, avatar, role, status,
+        last_login_at as lastLoginAt,
+        created_at as createdAt,
+        updated_at as updatedAt
+      FROM users
+      ORDER BY created_at DESC
+    `;
+    const stmt = db.prepare(query);
+    const rows = stmt.all();
+
+    const users = rows.map(row => ({
+      ...row,
+      lastLoginAt: row.lastLoginAt ? new Date(row.lastLoginAt) : null,
+      createdAt: new Date(row.createdAt),
+      updatedAt: new Date(row.updatedAt)
+    }));
+
+    return successResult(users);
+  }, 'get-all-users'));
+
+  // 获取所有客户
+  ipcMain.handle('db-get-all-customers', wrapIpcHandler(async () => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    const query = `
+      SELECT
+        id, code, name, contact_person as contactPerson, phone, email, address,
+        customer_type as customerType, credit_limit as creditLimit,
+        payment_terms as paymentTerms, discount_rate as discountRate,
+        level, status,
+        created_at as createdAt,
+        updated_at as updatedAt
+      FROM customers
+      ORDER BY name ASC
+    `;
+    const stmt = db.prepare(query);
+    const rows = stmt.all();
+
+    const customers = rows.map(row => ({
+      ...row,
+      creditLimit: parseFloat(row.creditLimit) || 0,
+      discountRate: parseFloat(row.discountRate) || 0,
+      createdAt: new Date(row.createdAt),
+      updatedAt: new Date(row.updatedAt)
+    }));
+
+    return successResult(customers);
+  }, 'get-all-customers'));
+
+  // 创建用户
+  ipcMain.handle('db-create-user', wrapIpcHandler(async (event, userData) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    validateRequiredFields(userData, ['username', 'nickname', 'role', 'password']);
+
+    const id = generateId();
+    const timestamp = getCurrentTimestamp();
+
+    const stmt = db.prepare(`
+      INSERT INTO users (
+        id, username, password, nickname, email, phone, avatar, role, status,
+        created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    stmt.run(
+      id,
+      userData.username,
+      userData.password, // 应该已经加密
+      userData.nickname,
+      userData.email || null,
+      userData.phone || null,
+      userData.avatar || null,
+      userData.role,
+      userData.status || 'active',
+      timestamp,
+      timestamp
+    );
+
+    return successResult({ id, ...userData, createdAt: timestamp, updatedAt: timestamp });
+  }, 'create-user'));
+
+  // 财务相关的占位符处理器（返回空数组，避免错误）
+  ipcMain.handle('db-get-accounts-receivable', wrapIpcHandler(async () => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+    // 暂时返回空数组，避免服务初始化失败
+    return successResult([]);
+  }, 'get-accounts-receivable'));
+
+  ipcMain.handle('db-get-accounts-payable', wrapIpcHandler(async () => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+    // 暂时返回空数组，避免服务初始化失败
+    return successResult([]);
+  }, 'get-accounts-payable'));
+
+  ipcMain.handle('db-get-payment-records', wrapIpcHandler(async () => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+    // 暂时返回空数组，避免服务初始化失败
+    return successResult([]);
+  }, 'get-payment-records'));
+
+  // 库存相关的占位符处理器
+  ipcMain.handle('db-get-all-inventory-stocks', wrapIpcHandler(async () => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+    // 暂时返回空数组，避免服务初始化失败
+    return successResult([]);
+  }, 'get-all-inventory-stocks'));
 }
 
 module.exports = {

@@ -62,8 +62,18 @@ function createWindow() {
   });
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   console.log('App ready, creating window...');
+
+  // 立即初始化数据库和注册处理器
+  try {
+    await initializeDatabase();
+    setupDatabaseHandlers(ipcMain, db);
+    console.log('Database and handlers initialized on app startup');
+  } catch (error) {
+    console.error('Failed to initialize database on startup:', error);
+  }
+
   createWindow();
 }).catch(err => {
   console.error('App failed to start:', err);
@@ -222,6 +232,14 @@ ipcMain.handle('unlink', async (event, filePath) => {
 // Database initialization
 async function initializeDatabase() {
   try {
+    // Log environment info for debugging
+    console.log('Environment info:', {
+      platform: process.platform,
+      arch: process.arch,
+      nodeVersion: process.version,
+      electronVersion: process.versions.electron
+    });
+    
     const dbPath = path.join(app.getPath('userData'), 'inventory.db');
     console.log('Database path:', dbPath);
     
@@ -229,7 +247,26 @@ async function initializeDatabase() {
     const dbDir = path.dirname(dbPath);
     await fs.mkdir(dbDir, { recursive: true });
     
-    db = new Database(dbPath);
+    try {
+      db = new Database(dbPath);
+    } catch (dbError) {
+      console.error('Failed to create database instance:', dbError);
+      console.error('Error details:', {
+        code: dbError.code,
+        message: dbError.message,
+        stack: dbError.stack
+      });
+      
+      // Try alternative approach - use fallback in-memory database
+      console.warn('Attempting to use in-memory database as fallback...');
+      try {
+        db = new Database(':memory:');
+        console.log('Using in-memory database (data will not persist)');
+      } catch (memError) {
+        console.error('Failed to create in-memory database:', memError);
+        throw memError;
+      }
+    }
     console.log('Connected to SQLite database');
     
     // Create tables
@@ -463,9 +500,11 @@ ipcMain.removeHandler('db-reimport-units');
 
 ipcMain.handle('db-initialize', async () => {
   try {
-    await initializeDatabase();
-    // Setup all database handlers
-    setupDatabaseHandlers(ipcMain, db);
+    // 数据库已在应用启动时初始化，这里只需要确认状态
+    if (!db) {
+      await initializeDatabase();
+      setupDatabaseHandlers(ipcMain, db);
+    }
     return { success: true };
   } catch (error) {
     console.error('Database initialization failed:', error);

@@ -5,12 +5,8 @@ const webpack = require('webpack');
 module.exports = {
   mode: 'development', // 设置为开发模式以获取详细错误信息
   entry: './src/index.tsx',
-  target: 'electron-renderer', // 改为 electron-renderer target
+  target: 'web', // Change to 'web' for proper browser environment
   devtool: 'source-map', // 启用source map以便调试
-  node: {
-    __dirname: false,
-    __filename: false,
-  },
   module: {
     rules: [
       {
@@ -44,23 +40,13 @@ module.exports = {
     }
   },
   externals: {
-    // 排除 Node.js 原生模块，防止打包到浏览器代码中
-    'sqlite3': 'commonjs sqlite3',
-    'better-sqlite3': 'commonjs better-sqlite3',
-    'fs': 'commonjs fs',
-    'path': 'commonjs path',
-    'util': 'commonjs util',
-    'crypto': 'commonjs crypto',
-    'stream': 'commonjs stream',
-    'buffer': 'commonjs buffer',
-    'process': 'commonjs process',
-    'os': 'commonjs os',
-    'zlib': 'commonjs zlib'
+    // Since we're using IPC for database operations, we don't need these in the renderer
   },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
+    globalObject: 'this',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -69,9 +55,10 @@ module.exports = {
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer'],
+      global: 'window',
     }),
     new webpack.DefinePlugin({
-      global: 'globalThis',
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
     }),
   ],
   devServer: {

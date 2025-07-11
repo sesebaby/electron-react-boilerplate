@@ -269,26 +269,52 @@ function setupInventoryHandlers(ipcMain, db) {
     if (!checkDatabaseInitialized(db)) {
       return errorResult('Database not initialized');
     }
-    
-    const stmt = db.prepare('SELECT DISTINCT category FROM inventory_items WHERE category IS NOT NULL AND category != "" ORDER BY category');
+
+    const stmt = db.prepare('SELECT DISTINCT category FROM inventory_items WHERE category IS NOT NULL AND category != \'\' ORDER BY category');
     const rows = stmt.all();
     const categories = rows.map(row => row.category);
-    
+
     return successResult(categories);
   }, 'get-categories'));
+
+  // 获取所有分类（别名，与 db-get-categories 相同）
+  ipcMain.handle('db-get-all-categories', wrapIpcHandler(async () => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    const stmt = db.prepare('SELECT DISTINCT category FROM inventory_items WHERE category IS NOT NULL AND category != \'\' ORDER BY category');
+    const rows = stmt.all();
+    const categories = rows.map(row => row.category);
+
+    return successResult(categories);
+  }, 'get-all-categories'));
 
   // 获取供应商列表
   ipcMain.handle('db-get-suppliers', wrapIpcHandler(async () => {
     if (!checkDatabaseInitialized(db)) {
       return errorResult('Database not initialized');
     }
-    
-    const stmt = db.prepare('SELECT DISTINCT supplier FROM inventory_items WHERE supplier IS NOT NULL AND supplier != "" ORDER BY supplier');
+
+    const stmt = db.prepare('SELECT DISTINCT supplier FROM inventory_items WHERE supplier IS NOT NULL AND supplier != \'\' ORDER BY supplier');
     const rows = stmt.all();
     const suppliers = rows.map(row => row.supplier);
-    
+
     return successResult(suppliers);
   }, 'get-suppliers'));
+
+  // 获取所有供应商（别名，与 db-get-suppliers 相同）
+  ipcMain.handle('db-get-all-suppliers', wrapIpcHandler(async () => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    const stmt = db.prepare('SELECT DISTINCT supplier FROM inventory_items WHERE supplier IS NOT NULL AND supplier != \'\' ORDER BY supplier');
+    const rows = stmt.all();
+    const suppliers = rows.map(row => row.supplier);
+
+    return successResult(suppliers);
+  }, 'get-all-suppliers'));
 
   // 批量更新库存数量
   ipcMain.handle('db-batch-update-stock', wrapIpcHandler(async (event, updates) => {

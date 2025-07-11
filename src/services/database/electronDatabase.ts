@@ -16,25 +16,37 @@ declare global {
       dbDeleteItem: (id: string) => Promise<any>;
       dbSearchItems: (params: any) => Promise<any>;
       dbGetCategories: () => Promise<any>;
+      dbGetAllCategories: () => Promise<any>;
       dbCreateCategory: (category: any) => Promise<any>;
       dbUpdateCategory: (id: string, updates: any) => Promise<any>;
       dbDeleteCategory: (id: string) => Promise<any>;
       dbGetSuppliers: () => Promise<any>;
+      dbGetAllSuppliers: () => Promise<any>;
       dbCreateSupplier: (supplier: any) => Promise<any>;
       dbUpdateSupplier: (id: string, updates: any) => Promise<any>;
       dbDeleteSupplier: (id: string) => Promise<any>;
       dbGetWarehouses: () => Promise<any>;
+      dbGetAllWarehouses: () => Promise<any>;
       dbCreateWarehouse: (warehouse: any) => Promise<any>;
       dbUpdateWarehouse: (id: string, updates: any) => Promise<any>;
       dbDeleteWarehouse: (id: string) => Promise<any>;
       dbGetUsers: () => Promise<any>;
+      dbGetAllUsers: () => Promise<any>;
       dbCreateUser: (user: any) => Promise<any>;
       dbUpdateUser: (id: string, updates: any) => Promise<any>;
       dbDeleteUser: (id: string) => Promise<any>;
       dbGetUnits: () => Promise<any>;
+      dbGetAllUnits: () => Promise<any>;
       dbCreateUnit: (unit: any) => Promise<any>;
       dbUpdateUnit: (id: string, updates: any) => Promise<any>;
       dbDeleteUnit: (id: string) => Promise<any>;
+      // 额外的数据库方法
+      dbGetAllInventoryStocks: () => Promise<any>;
+      dbGetAllTransactions: () => Promise<any>;
+      dbGetAllCustomers: () => Promise<any>;
+      dbGetAccountsReceivable: () => Promise<any>;
+      dbGetAccountsPayable: () => Promise<any>;
+      dbGetPaymentRecords: () => Promise<any>;
       // 通用查询
       dbQuery: (sql: string, params?: any[]) => Promise<any>;
       dbRun: (sql: string, params?: any[]) => Promise<any>;
@@ -159,7 +171,13 @@ export class ElectronDatabase {
 
   // 分类
   async getCategories(): Promise<any> {
-    return window.electronAPI.dbGetCategories();
+    const result = await window.electronAPI.dbGetCategories();
+    return result.success ? result.data : [];
+  }
+
+  async getAllCategories(): Promise<any> {
+    const result = await window.electronAPI.dbGetAllCategories();
+    return result.success ? result.data : [];
   }
 
   async createCategory(category: any): Promise<any> {
@@ -176,7 +194,13 @@ export class ElectronDatabase {
 
   // 供应商
   async getSuppliers(): Promise<any> {
-    return window.electronAPI.dbGetSuppliers();
+    const result = await window.electronAPI.dbGetSuppliers();
+    return result.success ? result.data : [];
+  }
+
+  async getAllSuppliers(): Promise<any> {
+    const result = await window.electronAPI.dbGetAllSuppliers();
+    return result.success ? result.data : [];
   }
 
   async createSupplier(supplier: any): Promise<any> {
@@ -196,6 +220,11 @@ export class ElectronDatabase {
     return window.electronAPI.dbGetWarehouses();
   }
 
+  async getAllWarehouses(): Promise<any> {
+    const result = await window.electronAPI.dbGetAllWarehouses();
+    return result.success ? result.data : [];
+  }
+
   async createWarehouse(warehouse: any): Promise<any> {
     return window.electronAPI.dbCreateWarehouse(warehouse);
   }
@@ -211,6 +240,11 @@ export class ElectronDatabase {
   // 用户
   async getUsers(): Promise<any> {
     return window.electronAPI.dbGetUsers();
+  }
+
+  async getAllUsers(): Promise<any> {
+    const result = await window.electronAPI.dbGetAllUsers();
+    return result.success ? result.data : [];
   }
 
   async createUser(user: any): Promise<any> {
@@ -230,6 +264,11 @@ export class ElectronDatabase {
     return window.electronAPI.dbGetUnits();
   }
 
+  async getAllUnits(): Promise<any> {
+    const result = await window.electronAPI.dbGetAllUnits();
+    return result.success ? result.data : [];
+  }
+
   async createUnit(unit: any): Promise<any> {
     return window.electronAPI.dbCreateUnit(unit);
   }
@@ -240,6 +279,46 @@ export class ElectronDatabase {
 
   async deleteUnit(id: string): Promise<any> {
     return window.electronAPI.dbDeleteUnit(id);
+  }
+
+  // 产品
+  async getAllProducts(): Promise<any> {
+    const result = await window.electronAPI.dbGetAllItems();
+    return result.success ? result.data : [];
+  }
+
+  // 库存
+  async getAllInventoryStocks(): Promise<any> {
+    const result = await window.electronAPI.dbGetAllInventoryStocks();
+    return result.success ? result.data : [];
+  }
+
+  // 交易记录
+  async getInventoryTransactions(): Promise<any> {
+    const result = await window.electronAPI.dbGetAllTransactions();
+    return result.success ? result.data : [];
+  }
+
+  // 客户
+  async getAllCustomers(): Promise<any> {
+    const result = await window.electronAPI.dbGetAllCustomers();
+    return result.success ? result.data : [];
+  }
+
+  // 财务相关方法
+  async getAccountsReceivable(): Promise<any> {
+    const result = await window.electronAPI.dbGetAccountsReceivable();
+    return result.success ? result.data : [];
+  }
+
+  async getAccountsPayable(): Promise<any> {
+    const result = await window.electronAPI.dbGetAccountsPayable();
+    return result.success ? result.data : [];
+  }
+
+  async getPaymentRecords(): Promise<any> {
+    const result = await window.electronAPI.dbGetPaymentRecords();
+    return result.success ? result.data : [];
   }
 }
 

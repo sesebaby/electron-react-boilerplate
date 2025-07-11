@@ -175,41 +175,41 @@ function setupLegacyHandlers(ipcMain, db) {
   
   // 添加一些可能缺失的处理器
   
-  // 获取所有分类（从categories表）
-  if (!ipcMain.listenerCount('db-get-all-categories')) {
-    ipcMain.handle('db-get-all-categories', async () => {
-      try {
-        if (!db) {
-          return { success: false, error: 'Database not initialized' };
-        }
-        
-        const stmt = db.prepare('SELECT * FROM categories ORDER BY name');
-        const rows = stmt.all();
-        
-        return { success: true, data: rows };
-      } catch (error) {
-        return { success: false, error: error.message };
-      }
-    });
-  }
+  // 获取所有分类（从categories表）- 已在 inventoryHandlers 中注册，跳过
+  // if (!ipcMain.listenerCount('db-get-all-categories')) {
+  //   ipcMain.handle('db-get-all-categories', async () => {
+  //     try {
+  //       if (!db) {
+  //         return { success: false, error: 'Database not initialized' };
+  //       }
+  //
+  //       const stmt = db.prepare('SELECT * FROM categories ORDER BY name');
+  //       const rows = stmt.all();
+  //
+  //       return { success: true, data: rows };
+  //     } catch (error) {
+  //       return { success: false, error: error.message };
+  //     }
+  //   });
+  // }
   
-  // 获取所有供应商（从suppliers表）
-  if (!ipcMain.listenerCount('db-get-all-suppliers')) {
-    ipcMain.handle('db-get-all-suppliers', async () => {
-      try {
-        if (!db) {
-          return { success: false, error: 'Database not initialized' };
-        }
-        
-        const stmt = db.prepare('SELECT * FROM suppliers ORDER BY name');
-        const rows = stmt.all();
-        
-        return { success: true, data: rows };
-      } catch (error) {
-        return { success: false, error: error.message };
-      }
-    });
-  }
+  // 获取所有供应商（从suppliers表）- 已在 inventoryHandlers 中注册，跳过
+  // if (!ipcMain.listenerCount('db-get-all-suppliers')) {
+  //   ipcMain.handle('db-get-all-suppliers', async () => {
+  //     try {
+  //       if (!db) {
+  //         return { success: false, error: 'Database not initialized' };
+  //       }
+  //
+  //       const stmt = db.prepare('SELECT * FROM suppliers ORDER BY name');
+  //       const rows = stmt.all();
+  //
+  //       return { success: true, data: rows };
+  //     } catch (error) {
+  //       return { success: false, error: error.message };
+  //     }
+  //   });
+  // }
   
   console.log('Legacy compatibility handlers registered');
 }

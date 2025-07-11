@@ -16,7 +16,9 @@
     "test:e2e:ui": "playwright test --ui",
     "cleanup-data": "ts-node scripts/cleanup-data.ts",
     "test-data-flow": "ts-node scripts/test-data-flow.ts",
-    "reset-db": "node simple-reset.js"
+    "reset-db": "node simple-reset.js",
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
+    "postinstall": "electron-rebuild -f -w better-sqlite3"
   },
   "devDependencies": {
     "@playwright/test": "^1.53.2",

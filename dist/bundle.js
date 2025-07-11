@@ -1448,7 +1448,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   setRandomFallback: () => (/* binding */ setRandomFallback),
 /* harmony export */   truncates: () => (/* binding */ truncates)
 /* harmony export */ });
-/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! crypto */ "crypto");
+/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! crypto */ "?62e0");
 /* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
 /*
  Copyright (c) 2012 Nevins Bartolomeo <nevins.bartolomeo@gmail.com>
@@ -47409,1431 +47409,6 @@ if (false) // removed by dead control flow
 
 /***/ }),
 
-/***/ "./node_modules/reflect-metadata/Reflect.js":
-/*!**************************************************!*\
-  !*** ./node_modules/reflect-metadata/Reflect.js ***!
-  \**************************************************/
-/***/ (() => {
-
-/*! *****************************************************************************
-Copyright (C) Microsoft. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
-
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
-
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
-var Reflect;
-(function (Reflect) {
-    // Metadata Proposal
-    // https://rbuckton.github.io/reflect-metadata/
-    (function (factory) {
-        var root = typeof globalThis === "object" ? globalThis :
-            typeof globalThis === "object" ? globalThis :
-                typeof self === "object" ? self :
-                    typeof this === "object" ? this :
-                        sloppyModeThis();
-        var exporter = makeExporter(Reflect);
-        if (typeof root.Reflect !== "undefined") {
-            exporter = makeExporter(root.Reflect, exporter);
-        }
-        factory(exporter, root);
-        if (typeof root.Reflect === "undefined") {
-            root.Reflect = Reflect;
-        }
-        function makeExporter(target, previous) {
-            return function (key, value) {
-                Object.defineProperty(target, key, { configurable: true, writable: true, value: value });
-                if (previous)
-                    previous(key, value);
-            };
-        }
-        function functionThis() {
-            try {
-                return Function("return this;")();
-            }
-            catch (_) { }
-        }
-        function indirectEvalThis() {
-            try {
-                return (void 0, eval)("(function() { return this; })()");
-            }
-            catch (_) { }
-        }
-        function sloppyModeThis() {
-            return functionThis() || indirectEvalThis();
-        }
-    })(function (exporter, root) {
-        var hasOwn = Object.prototype.hasOwnProperty;
-        // feature test for Symbol support
-        var supportsSymbol = typeof Symbol === "function";
-        var toPrimitiveSymbol = supportsSymbol && typeof Symbol.toPrimitive !== "undefined" ? Symbol.toPrimitive : "@@toPrimitive";
-        var iteratorSymbol = supportsSymbol && typeof Symbol.iterator !== "undefined" ? Symbol.iterator : "@@iterator";
-        var supportsCreate = typeof Object.create === "function"; // feature test for Object.create support
-        var supportsProto = { __proto__: [] } instanceof Array; // feature test for __proto__ support
-        var downLevel = !supportsCreate && !supportsProto;
-        var HashMap = {
-            // create an object in dictionary mode (a.k.a. "slow" mode in v8)
-            create: supportsCreate
-                ? function () { return MakeDictionary(Object.create(null)); }
-                : supportsProto
-                    ? function () { return MakeDictionary({ __proto__: null }); }
-                    : function () { return MakeDictionary({}); },
-            has: downLevel
-                ? function (map, key) { return hasOwn.call(map, key); }
-                : function (map, key) { return key in map; },
-            get: downLevel
-                ? function (map, key) { return hasOwn.call(map, key) ? map[key] : undefined; }
-                : function (map, key) { return map[key]; },
-        };
-        // Load global or shim versions of Map, Set, and WeakMap
-        var functionPrototype = Object.getPrototypeOf(Function);
-        var _Map = typeof Map === "function" && typeof Map.prototype.entries === "function" ? Map : CreateMapPolyfill();
-        var _Set = typeof Set === "function" && typeof Set.prototype.entries === "function" ? Set : CreateSetPolyfill();
-        var _WeakMap = typeof WeakMap === "function" ? WeakMap : CreateWeakMapPolyfill();
-        var registrySymbol = supportsSymbol ? Symbol.for("@reflect-metadata:registry") : undefined;
-        var metadataRegistry = GetOrCreateMetadataRegistry();
-        var metadataProvider = CreateMetadataProvider(metadataRegistry);
-        /**
-         * Applies a set of decorators to a property of a target object.
-         * @param decorators An array of decorators.
-         * @param target The target object.
-         * @param propertyKey (Optional) The property key to decorate.
-         * @param attributes (Optional) The property descriptor for the target key.
-         * @remarks Decorators are applied in reverse order.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     Example = Reflect.decorate(decoratorsArray, Example);
-         *
-         *     // property (on constructor)
-         *     Reflect.decorate(decoratorsArray, Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     Reflect.decorate(decoratorsArray, Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     Object.defineProperty(Example, "staticMethod",
-         *         Reflect.decorate(decoratorsArray, Example, "staticMethod",
-         *             Object.getOwnPropertyDescriptor(Example, "staticMethod")));
-         *
-         *     // method (on prototype)
-         *     Object.defineProperty(Example.prototype, "method",
-         *         Reflect.decorate(decoratorsArray, Example.prototype, "method",
-         *             Object.getOwnPropertyDescriptor(Example.prototype, "method")));
-         *
-         */
-        function decorate(decorators, target, propertyKey, attributes) {
-            if (!IsUndefined(propertyKey)) {
-                if (!IsArray(decorators))
-                    throw new TypeError();
-                if (!IsObject(target))
-                    throw new TypeError();
-                if (!IsObject(attributes) && !IsUndefined(attributes) && !IsNull(attributes))
-                    throw new TypeError();
-                if (IsNull(attributes))
-                    attributes = undefined;
-                propertyKey = ToPropertyKey(propertyKey);
-                return DecorateProperty(decorators, target, propertyKey, attributes);
-            }
-            else {
-                if (!IsArray(decorators))
-                    throw new TypeError();
-                if (!IsConstructor(target))
-                    throw new TypeError();
-                return DecorateConstructor(decorators, target);
-            }
-        }
-        exporter("decorate", decorate);
-        // 4.1.2 Reflect.metadata(metadataKey, metadataValue)
-        // https://rbuckton.github.io/reflect-metadata/#reflect.metadata
-        /**
-         * A default metadata decorator factory that can be used on a class, class member, or parameter.
-         * @param metadataKey The key for the metadata entry.
-         * @param metadataValue The value for the metadata entry.
-         * @returns A decorator function.
-         * @remarks
-         * If `metadataKey` is already defined for the target and target key, the
-         * metadataValue for that key will be overwritten.
-         * @example
-         *
-         *     // constructor
-         *     @Reflect.metadata(key, value)
-         *     class Example {
-         *     }
-         *
-         *     // property (on constructor, TypeScript only)
-         *     class Example {
-         *         @Reflect.metadata(key, value)
-         *         static staticProperty;
-         *     }
-         *
-         *     // property (on prototype, TypeScript only)
-         *     class Example {
-         *         @Reflect.metadata(key, value)
-         *         property;
-         *     }
-         *
-         *     // method (on constructor)
-         *     class Example {
-         *         @Reflect.metadata(key, value)
-         *         static staticMethod() { }
-         *     }
-         *
-         *     // method (on prototype)
-         *     class Example {
-         *         @Reflect.metadata(key, value)
-         *         method() { }
-         *     }
-         *
-         */
-        function metadata(metadataKey, metadataValue) {
-            function decorator(target, propertyKey) {
-                if (!IsObject(target))
-                    throw new TypeError();
-                if (!IsUndefined(propertyKey) && !IsPropertyKey(propertyKey))
-                    throw new TypeError();
-                OrdinaryDefineOwnMetadata(metadataKey, metadataValue, target, propertyKey);
-            }
-            return decorator;
-        }
-        exporter("metadata", metadata);
-        /**
-         * Define a unique metadata entry on the target.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param metadataValue A value that contains attached metadata.
-         * @param target The target object on which to define metadata.
-         * @param propertyKey (Optional) The property key for the target.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     Reflect.defineMetadata("custom:annotation", options, Example);
-         *
-         *     // property (on constructor)
-         *     Reflect.defineMetadata("custom:annotation", options, Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     Reflect.defineMetadata("custom:annotation", options, Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     Reflect.defineMetadata("custom:annotation", options, Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     Reflect.defineMetadata("custom:annotation", options, Example.prototype, "method");
-         *
-         *     // decorator factory as metadata-producing annotation.
-         *     function MyAnnotation(options): Decorator {
-         *         return (target, key?) => Reflect.defineMetadata("custom:annotation", options, target, key);
-         *     }
-         *
-         */
-        function defineMetadata(metadataKey, metadataValue, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryDefineOwnMetadata(metadataKey, metadataValue, target, propertyKey);
-        }
-        exporter("defineMetadata", defineMetadata);
-        /**
-         * Gets a value indicating whether the target object or its prototype chain has the provided metadata key defined.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns `true` if the metadata key was defined on the target object or its prototype chain; otherwise, `false`.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.hasMetadata("custom:annotation", Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.hasMetadata("custom:annotation", Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.hasMetadata("custom:annotation", Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.hasMetadata("custom:annotation", Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.hasMetadata("custom:annotation", Example.prototype, "method");
-         *
-         */
-        function hasMetadata(metadataKey, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryHasMetadata(metadataKey, target, propertyKey);
-        }
-        exporter("hasMetadata", hasMetadata);
-        /**
-         * Gets a value indicating whether the target object has the provided metadata key defined.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns `true` if the metadata key was defined on the target object; otherwise, `false`.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.hasOwnMetadata("custom:annotation", Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.hasOwnMetadata("custom:annotation", Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.hasOwnMetadata("custom:annotation", Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.hasOwnMetadata("custom:annotation", Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.hasOwnMetadata("custom:annotation", Example.prototype, "method");
-         *
-         */
-        function hasOwnMetadata(metadataKey, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryHasOwnMetadata(metadataKey, target, propertyKey);
-        }
-        exporter("hasOwnMetadata", hasOwnMetadata);
-        /**
-         * Gets the metadata value for the provided metadata key on the target object or its prototype chain.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns The metadata value for the metadata key if found; otherwise, `undefined`.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.getMetadata("custom:annotation", Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.getMetadata("custom:annotation", Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.getMetadata("custom:annotation", Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.getMetadata("custom:annotation", Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.getMetadata("custom:annotation", Example.prototype, "method");
-         *
-         */
-        function getMetadata(metadataKey, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryGetMetadata(metadataKey, target, propertyKey);
-        }
-        exporter("getMetadata", getMetadata);
-        /**
-         * Gets the metadata value for the provided metadata key on the target object.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns The metadata value for the metadata key if found; otherwise, `undefined`.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.getOwnMetadata("custom:annotation", Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.getOwnMetadata("custom:annotation", Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.getOwnMetadata("custom:annotation", Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.getOwnMetadata("custom:annotation", Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.getOwnMetadata("custom:annotation", Example.prototype, "method");
-         *
-         */
-        function getOwnMetadata(metadataKey, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryGetOwnMetadata(metadataKey, target, propertyKey);
-        }
-        exporter("getOwnMetadata", getOwnMetadata);
-        /**
-         * Gets the metadata keys defined on the target object or its prototype chain.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns An array of unique metadata keys.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.getMetadataKeys(Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.getMetadataKeys(Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.getMetadataKeys(Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.getMetadataKeys(Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.getMetadataKeys(Example.prototype, "method");
-         *
-         */
-        function getMetadataKeys(target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryMetadataKeys(target, propertyKey);
-        }
-        exporter("getMetadataKeys", getMetadataKeys);
-        /**
-         * Gets the unique metadata keys defined on the target object.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns An array of unique metadata keys.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.getOwnMetadataKeys(Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.getOwnMetadataKeys(Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.getOwnMetadataKeys(Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.getOwnMetadataKeys(Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.getOwnMetadataKeys(Example.prototype, "method");
-         *
-         */
-        function getOwnMetadataKeys(target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryOwnMetadataKeys(target, propertyKey);
-        }
-        exporter("getOwnMetadataKeys", getOwnMetadataKeys);
-        /**
-         * Deletes the metadata entry from the target object with the provided key.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns `true` if the metadata entry was found and deleted; otherwise, false.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.deleteMetadata("custom:annotation", Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.deleteMetadata("custom:annotation", Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.deleteMetadata("custom:annotation", Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.deleteMetadata("custom:annotation", Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.deleteMetadata("custom:annotation", Example.prototype, "method");
-         *
-         */
-        function deleteMetadata(metadataKey, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            var provider = GetMetadataProvider(target, propertyKey, /*Create*/ false);
-            if (IsUndefined(provider))
-                return false;
-            return provider.OrdinaryDeleteMetadata(metadataKey, target, propertyKey);
-        }
-        exporter("deleteMetadata", deleteMetadata);
-        function DecorateConstructor(decorators, target) {
-            for (var i = decorators.length - 1; i >= 0; --i) {
-                var decorator = decorators[i];
-                var decorated = decorator(target);
-                if (!IsUndefined(decorated) && !IsNull(decorated)) {
-                    if (!IsConstructor(decorated))
-                        throw new TypeError();
-                    target = decorated;
-                }
-            }
-            return target;
-        }
-        function DecorateProperty(decorators, target, propertyKey, descriptor) {
-            for (var i = decorators.length - 1; i >= 0; --i) {
-                var decorator = decorators[i];
-                var decorated = decorator(target, propertyKey, descriptor);
-                if (!IsUndefined(decorated) && !IsNull(decorated)) {
-                    if (!IsObject(decorated))
-                        throw new TypeError();
-                    descriptor = decorated;
-                }
-            }
-            return descriptor;
-        }
-        // 3.1.1.1 OrdinaryHasMetadata(MetadataKey, O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinaryhasmetadata
-        function OrdinaryHasMetadata(MetadataKey, O, P) {
-            var hasOwn = OrdinaryHasOwnMetadata(MetadataKey, O, P);
-            if (hasOwn)
-                return true;
-            var parent = OrdinaryGetPrototypeOf(O);
-            if (!IsNull(parent))
-                return OrdinaryHasMetadata(MetadataKey, parent, P);
-            return false;
-        }
-        // 3.1.2.1 OrdinaryHasOwnMetadata(MetadataKey, O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinaryhasownmetadata
-        function OrdinaryHasOwnMetadata(MetadataKey, O, P) {
-            var provider = GetMetadataProvider(O, P, /*Create*/ false);
-            if (IsUndefined(provider))
-                return false;
-            return ToBoolean(provider.OrdinaryHasOwnMetadata(MetadataKey, O, P));
-        }
-        // 3.1.3.1 OrdinaryGetMetadata(MetadataKey, O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinarygetmetadata
-        function OrdinaryGetMetadata(MetadataKey, O, P) {
-            var hasOwn = OrdinaryHasOwnMetadata(MetadataKey, O, P);
-            if (hasOwn)
-                return OrdinaryGetOwnMetadata(MetadataKey, O, P);
-            var parent = OrdinaryGetPrototypeOf(O);
-            if (!IsNull(parent))
-                return OrdinaryGetMetadata(MetadataKey, parent, P);
-            return undefined;
-        }
-        // 3.1.4.1 OrdinaryGetOwnMetadata(MetadataKey, O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinarygetownmetadata
-        function OrdinaryGetOwnMetadata(MetadataKey, O, P) {
-            var provider = GetMetadataProvider(O, P, /*Create*/ false);
-            if (IsUndefined(provider))
-                return;
-            return provider.OrdinaryGetOwnMetadata(MetadataKey, O, P);
-        }
-        // 3.1.5.1 OrdinaryDefineOwnMetadata(MetadataKey, MetadataValue, O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinarydefineownmetadata
-        function OrdinaryDefineOwnMetadata(MetadataKey, MetadataValue, O, P) {
-            var provider = GetMetadataProvider(O, P, /*Create*/ true);
-            provider.OrdinaryDefineOwnMetadata(MetadataKey, MetadataValue, O, P);
-        }
-        // 3.1.6.1 OrdinaryMetadataKeys(O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinarymetadatakeys
-        function OrdinaryMetadataKeys(O, P) {
-            var ownKeys = OrdinaryOwnMetadataKeys(O, P);
-            var parent = OrdinaryGetPrototypeOf(O);
-            if (parent === null)
-                return ownKeys;
-            var parentKeys = OrdinaryMetadataKeys(parent, P);
-            if (parentKeys.length <= 0)
-                return ownKeys;
-            if (ownKeys.length <= 0)
-                return parentKeys;
-            var set = new _Set();
-            var keys = [];
-            for (var _i = 0, ownKeys_1 = ownKeys; _i < ownKeys_1.length; _i++) {
-                var key = ownKeys_1[_i];
-                var hasKey = set.has(key);
-                if (!hasKey) {
-                    set.add(key);
-                    keys.push(key);
-                }
-            }
-            for (var _a = 0, parentKeys_1 = parentKeys; _a < parentKeys_1.length; _a++) {
-                var key = parentKeys_1[_a];
-                var hasKey = set.has(key);
-                if (!hasKey) {
-                    set.add(key);
-                    keys.push(key);
-                }
-            }
-            return keys;
-        }
-        // 3.1.7.1 OrdinaryOwnMetadataKeys(O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinaryownmetadatakeys
-        function OrdinaryOwnMetadataKeys(O, P) {
-            var provider = GetMetadataProvider(O, P, /*create*/ false);
-            if (!provider) {
-                return [];
-            }
-            return provider.OrdinaryOwnMetadataKeys(O, P);
-        }
-        // 6 ECMAScript Data Types and Values
-        // https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values
-        function Type(x) {
-            if (x === null)
-                return 1 /* Null */;
-            switch (typeof x) {
-                case "undefined": return 0 /* Undefined */;
-                case "boolean": return 2 /* Boolean */;
-                case "string": return 3 /* String */;
-                case "symbol": return 4 /* Symbol */;
-                case "number": return 5 /* Number */;
-                case "object": return x === null ? 1 /* Null */ : 6 /* Object */;
-                default: return 6 /* Object */;
-            }
-        }
-        // 6.1.1 The Undefined Type
-        // https://tc39.github.io/ecma262/#sec-ecmascript-language-types-undefined-type
-        function IsUndefined(x) {
-            return x === undefined;
-        }
-        // 6.1.2 The Null Type
-        // https://tc39.github.io/ecma262/#sec-ecmascript-language-types-null-type
-        function IsNull(x) {
-            return x === null;
-        }
-        // 6.1.5 The Symbol Type
-        // https://tc39.github.io/ecma262/#sec-ecmascript-language-types-symbol-type
-        function IsSymbol(x) {
-            return typeof x === "symbol";
-        }
-        // 6.1.7 The Object Type
-        // https://tc39.github.io/ecma262/#sec-object-type
-        function IsObject(x) {
-            return typeof x === "object" ? x !== null : typeof x === "function";
-        }
-        // 7.1 Type Conversion
-        // https://tc39.github.io/ecma262/#sec-type-conversion
-        // 7.1.1 ToPrimitive(input [, PreferredType])
-        // https://tc39.github.io/ecma262/#sec-toprimitive
-        function ToPrimitive(input, PreferredType) {
-            switch (Type(input)) {
-                case 0 /* Undefined */: return input;
-                case 1 /* Null */: return input;
-                case 2 /* Boolean */: return input;
-                case 3 /* String */: return input;
-                case 4 /* Symbol */: return input;
-                case 5 /* Number */: return input;
-            }
-            var hint = PreferredType === 3 /* String */ ? "string" : PreferredType === 5 /* Number */ ? "number" : "default";
-            var exoticToPrim = GetMethod(input, toPrimitiveSymbol);
-            if (exoticToPrim !== undefined) {
-                var result = exoticToPrim.call(input, hint);
-                if (IsObject(result))
-                    throw new TypeError();
-                return result;
-            }
-            return OrdinaryToPrimitive(input, hint === "default" ? "number" : hint);
-        }
-        // 7.1.1.1 OrdinaryToPrimitive(O, hint)
-        // https://tc39.github.io/ecma262/#sec-ordinarytoprimitive
-        function OrdinaryToPrimitive(O, hint) {
-            if (hint === "string") {
-                var toString_1 = O.toString;
-                if (IsCallable(toString_1)) {
-                    var result = toString_1.call(O);
-                    if (!IsObject(result))
-                        return result;
-                }
-                var valueOf = O.valueOf;
-                if (IsCallable(valueOf)) {
-                    var result = valueOf.call(O);
-                    if (!IsObject(result))
-                        return result;
-                }
-            }
-            else {
-                var valueOf = O.valueOf;
-                if (IsCallable(valueOf)) {
-                    var result = valueOf.call(O);
-                    if (!IsObject(result))
-                        return result;
-                }
-                var toString_2 = O.toString;
-                if (IsCallable(toString_2)) {
-                    var result = toString_2.call(O);
-                    if (!IsObject(result))
-                        return result;
-                }
-            }
-            throw new TypeError();
-        }
-        // 7.1.2 ToBoolean(argument)
-        // https://tc39.github.io/ecma262/2016/#sec-toboolean
-        function ToBoolean(argument) {
-            return !!argument;
-        }
-        // 7.1.12 ToString(argument)
-        // https://tc39.github.io/ecma262/#sec-tostring
-        function ToString(argument) {
-            return "" + argument;
-        }
-        // 7.1.14 ToPropertyKey(argument)
-        // https://tc39.github.io/ecma262/#sec-topropertykey
-        function ToPropertyKey(argument) {
-            var key = ToPrimitive(argument, 3 /* String */);
-            if (IsSymbol(key))
-                return key;
-            return ToString(key);
-        }
-        // 7.2 Testing and Comparison Operations
-        // https://tc39.github.io/ecma262/#sec-testing-and-comparison-operations
-        // 7.2.2 IsArray(argument)
-        // https://tc39.github.io/ecma262/#sec-isarray
-        function IsArray(argument) {
-            return Array.isArray
-                ? Array.isArray(argument)
-                : argument instanceof Object
-                    ? argument instanceof Array
-                    : Object.prototype.toString.call(argument) === "[object Array]";
-        }
-        // 7.2.3 IsCallable(argument)
-        // https://tc39.github.io/ecma262/#sec-iscallable
-        function IsCallable(argument) {
-            // NOTE: This is an approximation as we cannot check for [[Call]] internal method.
-            return typeof argument === "function";
-        }
-        // 7.2.4 IsConstructor(argument)
-        // https://tc39.github.io/ecma262/#sec-isconstructor
-        function IsConstructor(argument) {
-            // NOTE: This is an approximation as we cannot check for [[Construct]] internal method.
-            return typeof argument === "function";
-        }
-        // 7.2.7 IsPropertyKey(argument)
-        // https://tc39.github.io/ecma262/#sec-ispropertykey
-        function IsPropertyKey(argument) {
-            switch (Type(argument)) {
-                case 3 /* String */: return true;
-                case 4 /* Symbol */: return true;
-                default: return false;
-            }
-        }
-        function SameValueZero(x, y) {
-            return x === y || x !== x && y !== y;
-        }
-        // 7.3 Operations on Objects
-        // https://tc39.github.io/ecma262/#sec-operations-on-objects
-        // 7.3.9 GetMethod(V, P)
-        // https://tc39.github.io/ecma262/#sec-getmethod
-        function GetMethod(V, P) {
-            var func = V[P];
-            if (func === undefined || func === null)
-                return undefined;
-            if (!IsCallable(func))
-                throw new TypeError();
-            return func;
-        }
-        // 7.4 Operations on Iterator Objects
-        // https://tc39.github.io/ecma262/#sec-operations-on-iterator-objects
-        function GetIterator(obj) {
-            var method = GetMethod(obj, iteratorSymbol);
-            if (!IsCallable(method))
-                throw new TypeError(); // from Call
-            var iterator = method.call(obj);
-            if (!IsObject(iterator))
-                throw new TypeError();
-            return iterator;
-        }
-        // 7.4.4 IteratorValue(iterResult)
-        // https://tc39.github.io/ecma262/2016/#sec-iteratorvalue
-        function IteratorValue(iterResult) {
-            return iterResult.value;
-        }
-        // 7.4.5 IteratorStep(iterator)
-        // https://tc39.github.io/ecma262/#sec-iteratorstep
-        function IteratorStep(iterator) {
-            var result = iterator.next();
-            return result.done ? false : result;
-        }
-        // 7.4.6 IteratorClose(iterator, completion)
-        // https://tc39.github.io/ecma262/#sec-iteratorclose
-        function IteratorClose(iterator) {
-            var f = iterator["return"];
-            if (f)
-                f.call(iterator);
-        }
-        // 9.1 Ordinary Object Internal Methods and Internal Slots
-        // https://tc39.github.io/ecma262/#sec-ordinary-object-internal-methods-and-internal-slots
-        // 9.1.1.1 OrdinaryGetPrototypeOf(O)
-        // https://tc39.github.io/ecma262/#sec-ordinarygetprototypeof
-        function OrdinaryGetPrototypeOf(O) {
-            var proto = Object.getPrototypeOf(O);
-            if (typeof O !== "function" || O === functionPrototype)
-                return proto;
-            // TypeScript doesn't set __proto__ in ES5, as it's non-standard.
-            // Try to determine the superclass constructor. Compatible implementations
-            // must either set __proto__ on a subclass constructor to the superclass constructor,
-            // or ensure each class has a valid `constructor` property on its prototype that
-            // points back to the constructor.
-            // If this is not the same as Function.[[Prototype]], then this is definately inherited.
-            // This is the case when in ES6 or when using __proto__ in a compatible browser.
-            if (proto !== functionPrototype)
-                return proto;
-            // If the super prototype is Object.prototype, null, or undefined, then we cannot determine the heritage.
-            var prototype = O.prototype;
-            var prototypeProto = prototype && Object.getPrototypeOf(prototype);
-            if (prototypeProto == null || prototypeProto === Object.prototype)
-                return proto;
-            // If the constructor was not a function, then we cannot determine the heritage.
-            var constructor = prototypeProto.constructor;
-            if (typeof constructor !== "function")
-                return proto;
-            // If we have some kind of self-reference, then we cannot determine the heritage.
-            if (constructor === O)
-                return proto;
-            // we have a pretty good guess at the heritage.
-            return constructor;
-        }
-        // Global metadata registry
-        // - Allows `import "reflect-metadata"` and `import "reflect-metadata/no-conflict"` to interoperate.
-        // - Uses isolated metadata if `Reflect` is frozen before the registry can be installed.
-        /**
-         * Creates a registry used to allow multiple `reflect-metadata` providers.
-         */
-        function CreateMetadataRegistry() {
-            var fallback;
-            if (!IsUndefined(registrySymbol) &&
-                typeof root.Reflect !== "undefined" &&
-                !(registrySymbol in root.Reflect) &&
-                typeof root.Reflect.defineMetadata === "function") {
-                // interoperate with older version of `reflect-metadata` that did not support a registry.
-                fallback = CreateFallbackProvider(root.Reflect);
-            }
-            var first;
-            var second;
-            var rest;
-            var targetProviderMap = new _WeakMap();
-            var registry = {
-                registerProvider: registerProvider,
-                getProvider: getProvider,
-                setProvider: setProvider,
-            };
-            return registry;
-            function registerProvider(provider) {
-                if (!Object.isExtensible(registry)) {
-                    throw new Error("Cannot add provider to a frozen registry.");
-                }
-                switch (true) {
-                    case fallback === provider: break;
-                    case IsUndefined(first):
-                        first = provider;
-                        break;
-                    case first === provider: break;
-                    case IsUndefined(second):
-                        second = provider;
-                        break;
-                    case second === provider: break;
-                    default:
-                        if (rest === undefined)
-                            rest = new _Set();
-                        rest.add(provider);
-                        break;
-                }
-            }
-            function getProviderNoCache(O, P) {
-                if (!IsUndefined(first)) {
-                    if (first.isProviderFor(O, P))
-                        return first;
-                    if (!IsUndefined(second)) {
-                        if (second.isProviderFor(O, P))
-                            return first;
-                        if (!IsUndefined(rest)) {
-                            var iterator = GetIterator(rest);
-                            while (true) {
-                                var next = IteratorStep(iterator);
-                                if (!next) {
-                                    return undefined;
-                                }
-                                var provider = IteratorValue(next);
-                                if (provider.isProviderFor(O, P)) {
-                                    IteratorClose(iterator);
-                                    return provider;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (!IsUndefined(fallback) && fallback.isProviderFor(O, P)) {
-                    return fallback;
-                }
-                return undefined;
-            }
-            function getProvider(O, P) {
-                var providerMap = targetProviderMap.get(O);
-                var provider;
-                if (!IsUndefined(providerMap)) {
-                    provider = providerMap.get(P);
-                }
-                if (!IsUndefined(provider)) {
-                    return provider;
-                }
-                provider = getProviderNoCache(O, P);
-                if (!IsUndefined(provider)) {
-                    if (IsUndefined(providerMap)) {
-                        providerMap = new _Map();
-                        targetProviderMap.set(O, providerMap);
-                    }
-                    providerMap.set(P, provider);
-                }
-                return provider;
-            }
-            function hasProvider(provider) {
-                if (IsUndefined(provider))
-                    throw new TypeError();
-                return first === provider || second === provider || !IsUndefined(rest) && rest.has(provider);
-            }
-            function setProvider(O, P, provider) {
-                if (!hasProvider(provider)) {
-                    throw new Error("Metadata provider not registered.");
-                }
-                var existingProvider = getProvider(O, P);
-                if (existingProvider !== provider) {
-                    if (!IsUndefined(existingProvider)) {
-                        return false;
-                    }
-                    var providerMap = targetProviderMap.get(O);
-                    if (IsUndefined(providerMap)) {
-                        providerMap = new _Map();
-                        targetProviderMap.set(O, providerMap);
-                    }
-                    providerMap.set(P, provider);
-                }
-                return true;
-            }
-        }
-        /**
-         * Gets or creates the shared registry of metadata providers.
-         */
-        function GetOrCreateMetadataRegistry() {
-            var metadataRegistry;
-            if (!IsUndefined(registrySymbol) && IsObject(root.Reflect) && Object.isExtensible(root.Reflect)) {
-                metadataRegistry = root.Reflect[registrySymbol];
-            }
-            if (IsUndefined(metadataRegistry)) {
-                metadataRegistry = CreateMetadataRegistry();
-            }
-            if (!IsUndefined(registrySymbol) && IsObject(root.Reflect) && Object.isExtensible(root.Reflect)) {
-                Object.defineProperty(root.Reflect, registrySymbol, {
-                    enumerable: false,
-                    configurable: false,
-                    writable: false,
-                    value: metadataRegistry
-                });
-            }
-            return metadataRegistry;
-        }
-        function CreateMetadataProvider(registry) {
-            // [[Metadata]] internal slot
-            // https://rbuckton.github.io/reflect-metadata/#ordinary-object-internal-methods-and-internal-slots
-            var metadata = new _WeakMap();
-            var provider = {
-                isProviderFor: function (O, P) {
-                    var targetMetadata = metadata.get(O);
-                    if (IsUndefined(targetMetadata))
-                        return false;
-                    return targetMetadata.has(P);
-                },
-                OrdinaryDefineOwnMetadata: OrdinaryDefineOwnMetadata,
-                OrdinaryHasOwnMetadata: OrdinaryHasOwnMetadata,
-                OrdinaryGetOwnMetadata: OrdinaryGetOwnMetadata,
-                OrdinaryOwnMetadataKeys: OrdinaryOwnMetadataKeys,
-                OrdinaryDeleteMetadata: OrdinaryDeleteMetadata,
-            };
-            metadataRegistry.registerProvider(provider);
-            return provider;
-            function GetOrCreateMetadataMap(O, P, Create) {
-                var targetMetadata = metadata.get(O);
-                var createdTargetMetadata = false;
-                if (IsUndefined(targetMetadata)) {
-                    if (!Create)
-                        return undefined;
-                    targetMetadata = new _Map();
-                    metadata.set(O, targetMetadata);
-                    createdTargetMetadata = true;
-                }
-                var metadataMap = targetMetadata.get(P);
-                if (IsUndefined(metadataMap)) {
-                    if (!Create)
-                        return undefined;
-                    metadataMap = new _Map();
-                    targetMetadata.set(P, metadataMap);
-                    if (!registry.setProvider(O, P, provider)) {
-                        targetMetadata.delete(P);
-                        if (createdTargetMetadata) {
-                            metadata.delete(O);
-                        }
-                        throw new Error("Wrong provider for target.");
-                    }
-                }
-                return metadataMap;
-            }
-            // 3.1.2.1 OrdinaryHasOwnMetadata(MetadataKey, O, P)
-            // https://rbuckton.github.io/reflect-metadata/#ordinaryhasownmetadata
-            function OrdinaryHasOwnMetadata(MetadataKey, O, P) {
-                var metadataMap = GetOrCreateMetadataMap(O, P, /*Create*/ false);
-                if (IsUndefined(metadataMap))
-                    return false;
-                return ToBoolean(metadataMap.has(MetadataKey));
-            }
-            // 3.1.4.1 OrdinaryGetOwnMetadata(MetadataKey, O, P)
-            // https://rbuckton.github.io/reflect-metadata/#ordinarygetownmetadata
-            function OrdinaryGetOwnMetadata(MetadataKey, O, P) {
-                var metadataMap = GetOrCreateMetadataMap(O, P, /*Create*/ false);
-                if (IsUndefined(metadataMap))
-                    return undefined;
-                return metadataMap.get(MetadataKey);
-            }
-            // 3.1.5.1 OrdinaryDefineOwnMetadata(MetadataKey, MetadataValue, O, P)
-            // https://rbuckton.github.io/reflect-metadata/#ordinarydefineownmetadata
-            function OrdinaryDefineOwnMetadata(MetadataKey, MetadataValue, O, P) {
-                var metadataMap = GetOrCreateMetadataMap(O, P, /*Create*/ true);
-                metadataMap.set(MetadataKey, MetadataValue);
-            }
-            // 3.1.7.1 OrdinaryOwnMetadataKeys(O, P)
-            // https://rbuckton.github.io/reflect-metadata/#ordinaryownmetadatakeys
-            function OrdinaryOwnMetadataKeys(O, P) {
-                var keys = [];
-                var metadataMap = GetOrCreateMetadataMap(O, P, /*Create*/ false);
-                if (IsUndefined(metadataMap))
-                    return keys;
-                var keysObj = metadataMap.keys();
-                var iterator = GetIterator(keysObj);
-                var k = 0;
-                while (true) {
-                    var next = IteratorStep(iterator);
-                    if (!next) {
-                        keys.length = k;
-                        return keys;
-                    }
-                    var nextValue = IteratorValue(next);
-                    try {
-                        keys[k] = nextValue;
-                    }
-                    catch (e) {
-                        try {
-                            IteratorClose(iterator);
-                        }
-                        finally {
-                            throw e;
-                        }
-                    }
-                    k++;
-                }
-            }
-            function OrdinaryDeleteMetadata(MetadataKey, O, P) {
-                var metadataMap = GetOrCreateMetadataMap(O, P, /*Create*/ false);
-                if (IsUndefined(metadataMap))
-                    return false;
-                if (!metadataMap.delete(MetadataKey))
-                    return false;
-                if (metadataMap.size === 0) {
-                    var targetMetadata = metadata.get(O);
-                    if (!IsUndefined(targetMetadata)) {
-                        targetMetadata.delete(P);
-                        if (targetMetadata.size === 0) {
-                            metadata.delete(targetMetadata);
-                        }
-                    }
-                }
-                return true;
-            }
-        }
-        function CreateFallbackProvider(reflect) {
-            var defineMetadata = reflect.defineMetadata, hasOwnMetadata = reflect.hasOwnMetadata, getOwnMetadata = reflect.getOwnMetadata, getOwnMetadataKeys = reflect.getOwnMetadataKeys, deleteMetadata = reflect.deleteMetadata;
-            var metadataOwner = new _WeakMap();
-            var provider = {
-                isProviderFor: function (O, P) {
-                    var metadataPropertySet = metadataOwner.get(O);
-                    if (!IsUndefined(metadataPropertySet) && metadataPropertySet.has(P)) {
-                        return true;
-                    }
-                    if (getOwnMetadataKeys(O, P).length) {
-                        if (IsUndefined(metadataPropertySet)) {
-                            metadataPropertySet = new _Set();
-                            metadataOwner.set(O, metadataPropertySet);
-                        }
-                        metadataPropertySet.add(P);
-                        return true;
-                    }
-                    return false;
-                },
-                OrdinaryDefineOwnMetadata: defineMetadata,
-                OrdinaryHasOwnMetadata: hasOwnMetadata,
-                OrdinaryGetOwnMetadata: getOwnMetadata,
-                OrdinaryOwnMetadataKeys: getOwnMetadataKeys,
-                OrdinaryDeleteMetadata: deleteMetadata,
-            };
-            return provider;
-        }
-        /**
-         * Gets the metadata provider for an object. If the object has no metadata provider and this is for a create operation,
-         * then this module's metadata provider is assigned to the object.
-         */
-        function GetMetadataProvider(O, P, Create) {
-            var registeredProvider = metadataRegistry.getProvider(O, P);
-            if (!IsUndefined(registeredProvider)) {
-                return registeredProvider;
-            }
-            if (Create) {
-                if (metadataRegistry.setProvider(O, P, metadataProvider)) {
-                    return metadataProvider;
-                }
-                throw new Error("Illegal state.");
-            }
-            return undefined;
-        }
-        // naive Map shim
-        function CreateMapPolyfill() {
-            var cacheSentinel = {};
-            var arraySentinel = [];
-            var MapIterator = /** @class */ (function () {
-                function MapIterator(keys, values, selector) {
-                    this._index = 0;
-                    this._keys = keys;
-                    this._values = values;
-                    this._selector = selector;
-                }
-                MapIterator.prototype["@@iterator"] = function () { return this; };
-                MapIterator.prototype[iteratorSymbol] = function () { return this; };
-                MapIterator.prototype.next = function () {
-                    var index = this._index;
-                    if (index >= 0 && index < this._keys.length) {
-                        var result = this._selector(this._keys[index], this._values[index]);
-                        if (index + 1 >= this._keys.length) {
-                            this._index = -1;
-                            this._keys = arraySentinel;
-                            this._values = arraySentinel;
-                        }
-                        else {
-                            this._index++;
-                        }
-                        return { value: result, done: false };
-                    }
-                    return { value: undefined, done: true };
-                };
-                MapIterator.prototype.throw = function (error) {
-                    if (this._index >= 0) {
-                        this._index = -1;
-                        this._keys = arraySentinel;
-                        this._values = arraySentinel;
-                    }
-                    throw error;
-                };
-                MapIterator.prototype.return = function (value) {
-                    if (this._index >= 0) {
-                        this._index = -1;
-                        this._keys = arraySentinel;
-                        this._values = arraySentinel;
-                    }
-                    return { value: value, done: true };
-                };
-                return MapIterator;
-            }());
-            var Map = /** @class */ (function () {
-                function Map() {
-                    this._keys = [];
-                    this._values = [];
-                    this._cacheKey = cacheSentinel;
-                    this._cacheIndex = -2;
-                }
-                Object.defineProperty(Map.prototype, "size", {
-                    get: function () { return this._keys.length; },
-                    enumerable: true,
-                    configurable: true
-                });
-                Map.prototype.has = function (key) { return this._find(key, /*insert*/ false) >= 0; };
-                Map.prototype.get = function (key) {
-                    var index = this._find(key, /*insert*/ false);
-                    return index >= 0 ? this._values[index] : undefined;
-                };
-                Map.prototype.set = function (key, value) {
-                    var index = this._find(key, /*insert*/ true);
-                    this._values[index] = value;
-                    return this;
-                };
-                Map.prototype.delete = function (key) {
-                    var index = this._find(key, /*insert*/ false);
-                    if (index >= 0) {
-                        var size = this._keys.length;
-                        for (var i = index + 1; i < size; i++) {
-                            this._keys[i - 1] = this._keys[i];
-                            this._values[i - 1] = this._values[i];
-                        }
-                        this._keys.length--;
-                        this._values.length--;
-                        if (SameValueZero(key, this._cacheKey)) {
-                            this._cacheKey = cacheSentinel;
-                            this._cacheIndex = -2;
-                        }
-                        return true;
-                    }
-                    return false;
-                };
-                Map.prototype.clear = function () {
-                    this._keys.length = 0;
-                    this._values.length = 0;
-                    this._cacheKey = cacheSentinel;
-                    this._cacheIndex = -2;
-                };
-                Map.prototype.keys = function () { return new MapIterator(this._keys, this._values, getKey); };
-                Map.prototype.values = function () { return new MapIterator(this._keys, this._values, getValue); };
-                Map.prototype.entries = function () { return new MapIterator(this._keys, this._values, getEntry); };
-                Map.prototype["@@iterator"] = function () { return this.entries(); };
-                Map.prototype[iteratorSymbol] = function () { return this.entries(); };
-                Map.prototype._find = function (key, insert) {
-                    if (!SameValueZero(this._cacheKey, key)) {
-                        this._cacheIndex = -1;
-                        for (var i = 0; i < this._keys.length; i++) {
-                            if (SameValueZero(this._keys[i], key)) {
-                                this._cacheIndex = i;
-                                break;
-                            }
-                        }
-                    }
-                    if (this._cacheIndex < 0 && insert) {
-                        this._cacheIndex = this._keys.length;
-                        this._keys.push(key);
-                        this._values.push(undefined);
-                    }
-                    return this._cacheIndex;
-                };
-                return Map;
-            }());
-            return Map;
-            function getKey(key, _) {
-                return key;
-            }
-            function getValue(_, value) {
-                return value;
-            }
-            function getEntry(key, value) {
-                return [key, value];
-            }
-        }
-        // naive Set shim
-        function CreateSetPolyfill() {
-            var Set = /** @class */ (function () {
-                function Set() {
-                    this._map = new _Map();
-                }
-                Object.defineProperty(Set.prototype, "size", {
-                    get: function () { return this._map.size; },
-                    enumerable: true,
-                    configurable: true
-                });
-                Set.prototype.has = function (value) { return this._map.has(value); };
-                Set.prototype.add = function (value) { return this._map.set(value, value), this; };
-                Set.prototype.delete = function (value) { return this._map.delete(value); };
-                Set.prototype.clear = function () { this._map.clear(); };
-                Set.prototype.keys = function () { return this._map.keys(); };
-                Set.prototype.values = function () { return this._map.keys(); };
-                Set.prototype.entries = function () { return this._map.entries(); };
-                Set.prototype["@@iterator"] = function () { return this.keys(); };
-                Set.prototype[iteratorSymbol] = function () { return this.keys(); };
-                return Set;
-            }());
-            return Set;
-        }
-        // naive WeakMap shim
-        function CreateWeakMapPolyfill() {
-            var UUID_SIZE = 16;
-            var keys = HashMap.create();
-            var rootKey = CreateUniqueKey();
-            return /** @class */ (function () {
-                function WeakMap() {
-                    this._key = CreateUniqueKey();
-                }
-                WeakMap.prototype.has = function (target) {
-                    var table = GetOrCreateWeakMapTable(target, /*create*/ false);
-                    return table !== undefined ? HashMap.has(table, this._key) : false;
-                };
-                WeakMap.prototype.get = function (target) {
-                    var table = GetOrCreateWeakMapTable(target, /*create*/ false);
-                    return table !== undefined ? HashMap.get(table, this._key) : undefined;
-                };
-                WeakMap.prototype.set = function (target, value) {
-                    var table = GetOrCreateWeakMapTable(target, /*create*/ true);
-                    table[this._key] = value;
-                    return this;
-                };
-                WeakMap.prototype.delete = function (target) {
-                    var table = GetOrCreateWeakMapTable(target, /*create*/ false);
-                    return table !== undefined ? delete table[this._key] : false;
-                };
-                WeakMap.prototype.clear = function () {
-                    // NOTE: not a real clear, just makes the previous data unreachable
-                    this._key = CreateUniqueKey();
-                };
-                return WeakMap;
-            }());
-            function CreateUniqueKey() {
-                var key;
-                do
-                    key = "@@WeakMap@@" + CreateUUID();
-                while (HashMap.has(keys, key));
-                keys[key] = true;
-                return key;
-            }
-            function GetOrCreateWeakMapTable(target, create) {
-                if (!hasOwn.call(target, rootKey)) {
-                    if (!create)
-                        return undefined;
-                    Object.defineProperty(target, rootKey, { value: HashMap.create() });
-                }
-                return target[rootKey];
-            }
-            function FillRandomBytes(buffer, size) {
-                for (var i = 0; i < size; ++i)
-                    buffer[i] = Math.random() * 0xff | 0;
-                return buffer;
-            }
-            function GenRandomBytes(size) {
-                if (typeof Uint8Array === "function") {
-                    var array = new Uint8Array(size);
-                    if (typeof crypto !== "undefined") {
-                        crypto.getRandomValues(array);
-                    }
-                    else if (typeof msCrypto !== "undefined") {
-                        msCrypto.getRandomValues(array);
-                    }
-                    else {
-                        FillRandomBytes(array, size);
-                    }
-                    return array;
-                }
-                return FillRandomBytes(new Array(size), size);
-            }
-            function CreateUUID() {
-                var data = GenRandomBytes(UUID_SIZE);
-                // mark as random - RFC 4122 § 4.4
-                data[6] = data[6] & 0x4f | 0x40;
-                data[8] = data[8] & 0xbf | 0x80;
-                var result = "";
-                for (var offset = 0; offset < UUID_SIZE; ++offset) {
-                    var byte = data[offset];
-                    if (offset === 4 || offset === 6 || offset === 8)
-                        result += "-";
-                    if (byte < 16)
-                        result += "0";
-                    result += byte.toString(16).toLowerCase();
-                }
-                return result;
-            }
-        }
-        // uses a heuristic used by v8 and chakra to force an object into dictionary mode.
-        function MakeDictionary(obj) {
-            obj.__ = undefined;
-            delete obj.__;
-            return obj;
-        }
-    });
-})(Reflect || (Reflect = {}));
-
-
-/***/ }),
-
 /***/ "./node_modules/scheduler/cjs/scheduler.development.js":
 /*!*************************************************************!*\
   !*** ./node_modules/scheduler/cjs/scheduler.development.js ***!
@@ -65728,8 +64303,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _services_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/core */ "./src/services/core/index.ts");
-/* harmony import */ var _WeeklyCalendarView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./WeeklyCalendarView */ "./src/components/Reports/AnalysisViews/WeeklyCalendarView.tsx");
-/* harmony import */ var _DayDetailModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./DayDetailModal */ "./src/components/Reports/AnalysisViews/DayDetailModal.tsx");
+/* harmony import */ var _services_business__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/business */ "./src/services/business/index.ts");
+/* harmony import */ var _WeeklyCalendarView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./WeeklyCalendarView */ "./src/components/Reports/AnalysisViews/WeeklyCalendarView.tsx");
+/* harmony import */ var _DayDetailModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./DayDetailModal */ "./src/components/Reports/AnalysisViews/DayDetailModal.tsx");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -65744,15 +64320,14 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-// Helper function to get week start
-const getWeekStart = (date) => {
-    const day = date.getDay();
-    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(date.getFullYear(), date.getMonth(), diff);
-};
+
 const CalendarOverviewPage = () => {
     const [currentWeekStart, setCurrentWeekStart] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(() => {
-        return getWeekStart(new Date());
+        // 临时实现获取周开始日期
+        const date = new Date();
+        const day = date.getDay();
+        const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+        return new Date(date.setDate(diff));
     });
     const [weekData, setWeekData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
     const [selectedDay, setSelectedDay] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
@@ -65764,7 +64339,9 @@ const CalendarOverviewPage = () => {
         try {
             setLoading(true);
             setError(null);
-            const dataResult = yield _services_core__WEBPACK_IMPORTED_MODULE_2__.serviceManager.getReportService().getWeeklyData(weekStart);
+            yield _services_core__WEBPACK_IMPORTED_MODULE_2__.serviceManager.initialize();
+            const reportService = _services_core__WEBPACK_IMPORTED_MODULE_2__.serviceManager.getReportService();
+            const dataResult = yield reportService.getWeeklyData(weekStart);
             if (dataResult.success && dataResult.data) {
                 setWeekData(dataResult.data);
             }
@@ -65798,7 +64375,7 @@ const CalendarOverviewPage = () => {
     };
     // 导航到当前周
     const goToCurrentWeek = () => {
-        const currentWeek = getWeekStart(new Date());
+        const currentWeek = _services_business__WEBPACK_IMPORTED_MODULE_3__.CalendarDataService.getWeekStart(new Date());
         setCurrentWeekStart(currentWeek);
     };
     // 处理日期点击
@@ -65819,16 +64396,16 @@ const CalendarOverviewPage = () => {
     };
     // 检查是否是当前周
     const isCurrentWeek = () => {
-        const currentWeek = getWeekStart(new Date());
+        const currentWeek = _services_business__WEBPACK_IMPORTED_MODULE_3__.CalendarDataService.getWeekStart(new Date());
         return currentWeekStart.getTime() === currentWeek.getTime();
     };
     if (loading) {
-        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center h-64", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center glass-surface backdrop-blur-lg rounded-xl p-8 border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "animate-spin rounded-full h-12 w-12 border-b-2 border-white/60 mx-auto mb-4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white drop-shadow-lg", children: "\u52A0\u8F7D\u65E5\u5386\u6570\u636E\u4E2D..." })] }) }));
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center h-64", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-8 text-center border glass-surface backdrop-blur-lg rounded-xl border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 mx-auto mb-4 border-b-2 rounded-full animate-spin border-white/60" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white drop-shadow-lg", children: "\u52A0\u8F7D\u65E5\u5386\u6570\u636E\u4E2D..." })] }) }));
     }
     if (error) {
-        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center h-64", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center glass-surface backdrop-blur-lg rounded-xl p-8 border border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-red-300 mb-4 drop-shadow-lg", children: ["\u274C ", error] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => loadWeekData(currentWeekStart), className: "px-4 py-2 glass-surface backdrop-blur-md text-white rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 drop-shadow-md", children: "\u91CD\u65B0\u52A0\u8F7D" })] }) }));
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center h-64", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-8 text-center border glass-surface backdrop-blur-lg rounded-xl border-white/20", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mb-4 text-red-300 drop-shadow-lg", children: ["\u274C ", error] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => loadWeekData(currentWeekStart), className: "px-4 py-2 text-white transition-all duration-200 border rounded-lg glass-surface backdrop-blur-md hover:bg-white/20 border-white/30 drop-shadow-md", children: "\u91CD\u65B0\u52A0\u8F7D" })] }) }));
     }
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-2xl font-bold text-white drop-shadow-lg", children: "\u65E5\u5386\u5F0F\u6574\u4F53\u89C6\u56FE" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/80 mt-1 drop-shadow-md", children: "\u67E5\u770B\u6BCF\u65E5\u91C7\u8D2D\u3001\u9500\u552E\u548C\u5E93\u5B58\u53D8\u5316\u8D8B\u52BF" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: goToPreviousWeek, className: "p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200 glass-surface backdrop-blur-md border border-white/30", title: "\u4E0A\u4E00\u5468", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M15 19l-7-7 7-7" }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "px-4 py-2 glass-surface backdrop-blur-lg rounded-lg text-sm font-medium text-white min-w-[200px] text-center border border-white/30 drop-shadow-md", children: weekData && formatWeekRange(weekData.weekStart, weekData.weekEnd) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: goToNextWeek, className: "p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200 glass-surface backdrop-blur-md border border-white/30", title: "\u4E0B\u4E00\u5468", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M9 5l7 7-7 7" }) }) }), !isCurrentWeek() && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: goToCurrentWeek, className: "ml-2 px-3 py-2 glass-surface backdrop-blur-md text-white text-sm rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 drop-shadow-md", children: "\u56DE\u5230\u672C\u5468" }))] })] }), weekData && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-blue-300 text-sm font-medium drop-shadow-md", children: "\u672C\u5468\u91C7\u8D2D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-2xl font-bold text-blue-200 drop-shadow-lg", children: ["\u00A5", weekData.weeklyTotals.purchases.toLocaleString()] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-blue-300 text-3xl drop-shadow-lg", children: "\uD83D\uDCE6" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-green-300 text-sm font-medium drop-shadow-md", children: "\u672C\u5468\u9500\u552E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-2xl font-bold text-green-200 drop-shadow-lg", children: ["\u00A5", weekData.weeklyTotals.sales.toLocaleString()] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-green-300 text-3xl drop-shadow-lg", children: "\uD83D\uDCB0" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `text-sm font-medium drop-shadow-md ${weekData.weeklyTotals.netChange > 0
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-2xl font-bold text-white drop-shadow-lg", children: "\u65E5\u5386\u5F0F\u6574\u4F53\u89C6\u56FE" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "mt-1 text-white/80 drop-shadow-md", children: "\u67E5\u770B\u6BCF\u65E5\u91C7\u8D2D\u3001\u9500\u552E\u548C\u5E93\u5B58\u53D8\u5316\u8D8B\u52BF" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: goToPreviousWeek, className: "p-2 transition-all duration-200 border rounded-lg text-white/80 hover:text-white hover:bg-white/20 glass-surface backdrop-blur-md border-white/30", title: "\u4E0A\u4E00\u5468", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M15 19l-7-7 7-7" }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "px-4 py-2 glass-surface backdrop-blur-lg rounded-lg text-sm font-medium text-white min-w-[200px] text-center border border-white/30 drop-shadow-md", children: weekData && formatWeekRange(weekData.weekStart, weekData.weekEnd) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: goToNextWeek, className: "p-2 transition-all duration-200 border rounded-lg text-white/80 hover:text-white hover:bg-white/20 glass-surface backdrop-blur-md border-white/30", title: "\u4E0B\u4E00\u5468", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M9 5l7 7-7 7" }) }) }), !isCurrentWeek() && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: goToCurrentWeek, className: "px-3 py-2 ml-2 text-sm text-white transition-all duration-200 border rounded-lg glass-surface backdrop-blur-md hover:bg-white/20 border-white/30 drop-shadow-md", children: "\u56DE\u5230\u672C\u5468" }))] })] }), weekData && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 gap-4 md:grid-cols-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 border glass-surface backdrop-blur-lg rounded-xl border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm font-medium text-blue-300 drop-shadow-md", children: "\u672C\u5468\u91C7\u8D2D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-2xl font-bold text-blue-200 drop-shadow-lg", children: ["\u00A5", weekData.weeklyTotals.purchases.toLocaleString()] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl text-blue-300 drop-shadow-lg", children: "\uD83D\uDCE6" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 border glass-surface backdrop-blur-lg rounded-xl border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-sm font-medium text-green-300 drop-shadow-md", children: "\u672C\u5468\u9500\u552E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-2xl font-bold text-green-200 drop-shadow-lg", children: ["\u00A5", weekData.weeklyTotals.sales.toLocaleString()] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-3xl text-green-300 drop-shadow-lg", children: "\uD83D\uDCB0" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "p-4 border glass-surface backdrop-blur-lg rounded-xl border-white/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `text-sm font-medium drop-shadow-md ${weekData.weeklyTotals.netChange > 0
                                                 ? 'text-green-300'
                                                 : weekData.weeklyTotals.netChange < 0
                                                     ? 'text-red-300'
@@ -65840,7 +64417,7 @@ const CalendarOverviewPage = () => {
                                         ? 'text-green-300'
                                         : weekData.weeklyTotals.netChange < 0
                                             ? 'text-red-300'
-                                            : 'text-white/60'}`, children: weekData.weeklyTotals.netChange > 0 ? '📈' : weekData.weeklyTotals.netChange < 0 ? '📉' : '📊' })] }) })] })), weekData && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_WeeklyCalendarView__WEBPACK_IMPORTED_MODULE_3__["default"], { weekData: weekData, selectedDate: selectedDay === null || selectedDay === void 0 ? void 0 : selectedDay.date, onDayClick: handleDayClick })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_DayDetailModal__WEBPACK_IMPORTED_MODULE_4__["default"], { isOpen: isDetailModalOpen, onClose: closeDetailModal, data: selectedDay }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface backdrop-blur-lg border border-white/20 rounded-xl p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-blue-300 font-medium mb-2 drop-shadow-lg", children: "\uD83D\uDCA1 \u4F7F\u7528\u8BF4\u660E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", { className: "text-white/80 text-sm space-y-1 drop-shadow-md", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u70B9\u51FB\u4EFB\u610F\u65E5\u671F\u67E5\u770B\u5F53\u65E5\u8BE6\u7EC6\u4E1A\u52A1\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u53F3\u4E0A\u89D2\u7684\u5F69\u8272\u5706\u70B9\u8868\u793A\u5F53\u65E5\u6D3B\u52A8\u5F3A\u5EA6\uFF08\u7EFF\u8272=\u9AD8\uFF0C\u9EC4\u8272=\u4E2D\uFF0C\u7070\u8272=\u4F4E\uFF09" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u4F7F\u7528\u5DE6\u53F3\u7BAD\u5934\u5BFC\u822A\u4E0D\u540C\u5468\u4EFD\uFF0C\u70B9\u51FB\"\u56DE\u5230\u672C\u5468\"\u5FEB\u901F\u8FD4\u56DE\u5F53\u524D\u5468" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u5468\u6C47\u603B\u663E\u793A\u672C\u5468\u7684\u91C7\u8D2D\u3001\u9500\u552E\u603B\u989D\u548C\u5E93\u5B58\u51C0\u53D8\u5316" })] })] })] }));
+                                            : 'text-white/60'}`, children: weekData.weeklyTotals.netChange > 0 ? '📈' : weekData.weeklyTotals.netChange < 0 ? '📉' : '📊' })] }) })] })), weekData && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_WeeklyCalendarView__WEBPACK_IMPORTED_MODULE_4__["default"], { weekData: weekData, selectedDate: selectedDay === null || selectedDay === void 0 ? void 0 : selectedDay.date, onDayClick: handleDayClick })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_DayDetailModal__WEBPACK_IMPORTED_MODULE_5__["default"], { isOpen: isDetailModalOpen, onClose: closeDetailModal, data: selectedDay }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 border glass-surface backdrop-blur-lg border-white/20 rounded-xl", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "mb-2 font-medium text-blue-300 drop-shadow-lg", children: "\uD83D\uDCA1 \u4F7F\u7528\u8BF4\u660E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", { className: "space-y-1 text-sm text-white/80 drop-shadow-md", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u70B9\u51FB\u4EFB\u610F\u65E5\u671F\u67E5\u770B\u5F53\u65E5\u8BE6\u7EC6\u4E1A\u52A1\u6570\u636E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u53F3\u4E0A\u89D2\u7684\u5F69\u8272\u5706\u70B9\u8868\u793A\u5F53\u65E5\u6D3B\u52A8\u5F3A\u5EA6\uFF08\u7EFF\u8272=\u9AD8\uFF0C\u9EC4\u8272=\u4E2D\uFF0C\u7070\u8272=\u4F4E\uFF09" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u4F7F\u7528\u5DE6\u53F3\u7BAD\u5934\u5BFC\u822A\u4E0D\u540C\u5468\u4EFD\uFF0C\u70B9\u51FB\"\u56DE\u5230\u672C\u5468\"\u5FEB\u901F\u8FD4\u56DE\u5F53\u524D\u5468" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u5468\u6C47\u603B\u663E\u793A\u672C\u5468\u7684\u91C7\u8D2D\u3001\u9500\u552E\u603B\u989D\u548C\u5E93\u5B58\u51C0\u53D8\u5316" })] })] })] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CalendarOverviewPage);
 
@@ -74614,6 +73191,150 @@ const NotificationConfigSchema = zod__WEBPACK_IMPORTED_MODULE_1__.object({
 
 /***/ }),
 
+/***/ "./src/services/business/index.ts":
+/*!****************************************!*\
+  !*** ./src/services/business/index.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   CalendarDataService: () => (/* binding */ CalendarDataService),
+/* harmony export */   businessServiceManager: () => (/* binding */ businessServiceManager),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   getAccountsPayableService: () => (/* binding */ getAccountsPayableService),
+/* harmony export */   getAccountsReceivableService: () => (/* binding */ getAccountsReceivableService),
+/* harmony export */   getCalendarDataService: () => (/* binding */ getCalendarDataService),
+/* harmony export */   getCategoryService: () => (/* binding */ getCategoryService),
+/* harmony export */   getCustomerService: () => (/* binding */ getCustomerService),
+/* harmony export */   getDailyConsumptionService: () => (/* binding */ getDailyConsumptionService),
+/* harmony export */   getInventoryCardService: () => (/* binding */ getInventoryCardService),
+/* harmony export */   getInventoryStockService: () => (/* binding */ getInventoryStockService),
+/* harmony export */   getPermissionService: () => (/* binding */ getPermissionService),
+/* harmony export */   getProductService: () => (/* binding */ getProductService),
+/* harmony export */   getPurchaseOrderService: () => (/* binding */ getPurchaseOrderService),
+/* harmony export */   getPurchaseReceiptService: () => (/* binding */ getPurchaseReceiptService),
+/* harmony export */   getReportService: () => (/* binding */ getReportService),
+/* harmony export */   getSalesDeliveryService: () => (/* binding */ getSalesDeliveryService),
+/* harmony export */   getSalesOrderService: () => (/* binding */ getSalesOrderService),
+/* harmony export */   getSupplierService: () => (/* binding */ getSupplierService),
+/* harmony export */   getUnitService: () => (/* binding */ getUnitService),
+/* harmony export */   getUserService: () => (/* binding */ getUserService),
+/* harmony export */   getWarehouseService: () => (/* binding */ getWarehouseService)
+/* harmony export */ });
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core */ "./src/services/core/index.ts");
+/**
+ * 业务服务兼容性层
+ * 为旧组件提供兼容接口，重新导出核心服务
+ */
+
+// 兼容性服务实例获取器
+const getProductService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getInventoryService();
+const getCategoryService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getInventoryService();
+const getInventoryStockService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getInventoryService();
+const getWarehouseService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getInventoryService();
+const getUnitService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getInventoryService();
+const getPurchaseOrderService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getOrderService();
+const getSalesOrderService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getOrderService();
+const getPurchaseReceiptService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getOrderService();
+const getSalesDeliveryService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getOrderService();
+const getAccountsPayableService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getFinancialService();
+const getAccountsReceivableService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getFinancialService();
+const getUserService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getSystemService();
+const getCustomerService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getSystemService();
+const getSupplierService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getSystemService();
+const getPermissionService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getSystemService();
+const getReportService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getReportService();
+const getInventoryCardService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getReportService();
+const getDailyConsumptionService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getReportService();
+const getCalendarDataService = () => _core__WEBPACK_IMPORTED_MODULE_0__.serviceManager.getReportService();
+// 简化的服务管理器
+const businessServiceManager = {
+    getProductService,
+    getCategoryService,
+    getInventoryStockService,
+    getWarehouseService,
+    getUnitService,
+    getPurchaseOrderService,
+    getSalesOrderService,
+    getPurchaseReceiptService,
+    getSalesDeliveryService,
+    getAccountsPayableService,
+    getAccountsReceivableService,
+    getUserService,
+    getCustomerService,
+    getSupplierService,
+    getPermissionService,
+    getReportService,
+    getInventoryCardService,
+    getDailyConsumptionService,
+    getCalendarDataService
+};
+// 简化的服务实例导出 (向后兼容)
+// 注释掉直接导出，推荐使用 getXXXService() 函数
+// 注意：不要直接导出服务实例，因为会在模块加载时立即调用 serviceManager
+// 推荐使用上面的 getXXXService() 函数或直接调用 serviceManager.getXXXService()
+// 注释掉直接服务实例导出，避免在模块加载时调用未初始化的 serviceManager
+// export const productService = serviceManager.getInventoryService();
+// export const categoryService = serviceManager.getInventoryService();
+// export const inventoryStockService = serviceManager.getInventoryService();
+// export const warehouseService = serviceManager.getInventoryService();
+// export const unitService = serviceManager.getInventoryService();
+// export const purchaseOrderService = serviceManager.getOrderService();
+// export const salesOrderService = serviceManager.getOrderService();
+// export const purchaseReceiptService = serviceManager.getOrderService();
+// export const salesDeliveryService = serviceManager.getOrderService();
+// export const accountsPayableService = serviceManager.getFinancialService();
+// export const accountsReceivableService = serviceManager.getFinancialService();
+// export const userService = serviceManager.getSystemService();
+// export const customerService = serviceManager.getSystemService();
+// export const supplierService = serviceManager.getSystemService();
+// export const permissionService = serviceManager.getSystemService();
+// export const reportService = serviceManager.getReportService();
+// export const inventoryCardService = serviceManager.getReportService();
+// export const dailyConsumptionService = serviceManager.getReportService();
+// export const calendarDataService = serviceManager.getReportService();
+// 日历数据服务工具类
+class CalendarDataService {
+    /**
+     * 获取周的开始日期（周一）
+     */
+    static getWeekStart(date) {
+        const d = new Date(date);
+        const day = d.getDay(); // 0 = 周日, 1 = 周一, ..., 6 = 周六
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1); // 调整为周一
+        return new Date(d.setDate(diff));
+    }
+    /**
+     * 获取周的结束日期（周日）
+     */
+    static getWeekEnd(date) {
+        const weekStart = this.getWeekStart(date);
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekEnd.getDate() + 6);
+        return weekEnd;
+    }
+    /**
+     * 格式化日期为字符串
+     */
+    static formatDate(date) {
+        return date.toISOString().split('T')[0];
+    }
+    /**
+     * 获取两个日期之间的天数
+     */
+    static getDaysBetween(startDate, endDate) {
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        return Math.ceil(timeDiff / (1000 * 3600 * 24));
+    }
+}
+// 默认导出
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (businessServiceManager);
+
+
+/***/ }),
+
 /***/ "./src/services/business/inventoryEntryRegistrationService.ts":
 /*!********************************************************************!*\
   !*** ./src/services/business/inventoryEntryRegistrationService.ts ***!
@@ -80193,7 +78914,14 @@ class ElectronDatabase {
     // 分类
     getCategories() {
         return __awaiter(this, void 0, void 0, function* () {
-            return window.electronAPI.dbGetCategories();
+            const result = yield window.electronAPI.dbGetCategories();
+            return result.success ? result.data : [];
+        });
+    }
+    getAllCategories() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetAllCategories();
+            return result.success ? result.data : [];
         });
     }
     createCategory(category) {
@@ -80214,7 +78942,14 @@ class ElectronDatabase {
     // 供应商
     getSuppliers() {
         return __awaiter(this, void 0, void 0, function* () {
-            return window.electronAPI.dbGetSuppliers();
+            const result = yield window.electronAPI.dbGetSuppliers();
+            return result.success ? result.data : [];
+        });
+    }
+    getAllSuppliers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetAllSuppliers();
+            return result.success ? result.data : [];
         });
     }
     createSupplier(supplier) {
@@ -80238,6 +78973,12 @@ class ElectronDatabase {
             return window.electronAPI.dbGetWarehouses();
         });
     }
+    getAllWarehouses() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetAllWarehouses();
+            return result.success ? result.data : [];
+        });
+    }
     createWarehouse(warehouse) {
         return __awaiter(this, void 0, void 0, function* () {
             return window.electronAPI.dbCreateWarehouse(warehouse);
@@ -80257,6 +78998,12 @@ class ElectronDatabase {
     getUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             return window.electronAPI.dbGetUsers();
+        });
+    }
+    getAllUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetAllUsers();
+            return result.success ? result.data : [];
         });
     }
     createUser(user) {
@@ -80280,6 +79027,12 @@ class ElectronDatabase {
             return window.electronAPI.dbGetUnits();
         });
     }
+    getAllUnits() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetAllUnits();
+            return result.success ? result.data : [];
+        });
+    }
     createUnit(unit) {
         return __awaiter(this, void 0, void 0, function* () {
             return window.electronAPI.dbCreateUnit(unit);
@@ -80293,6 +79046,53 @@ class ElectronDatabase {
     deleteUnit(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return window.electronAPI.dbDeleteUnit(id);
+        });
+    }
+    // 产品
+    getAllProducts() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetAllItems();
+            return result.success ? result.data : [];
+        });
+    }
+    // 库存
+    getAllInventoryStocks() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetAllInventoryStocks();
+            return result.success ? result.data : [];
+        });
+    }
+    // 交易记录
+    getInventoryTransactions() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetAllTransactions();
+            return result.success ? result.data : [];
+        });
+    }
+    // 客户
+    getAllCustomers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetAllCustomers();
+            return result.success ? result.data : [];
+        });
+    }
+    // 财务相关方法
+    getAccountsReceivable() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetAccountsReceivable();
+            return result.success ? result.data : [];
+        });
+    }
+    getAccountsPayable() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetAccountsPayable();
+            return result.success ? result.data : [];
+        });
+    }
+    getPaymentRecords() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield window.electronAPI.dbGetPaymentRecords();
+            return result.success ? result.data : [];
         });
     }
 }
@@ -82729,12 +81529,17 @@ class Logger {
      */
     initializeFileLogging() {
         return __awaiter(this, void 0, void 0, function* () {
+            // Disable file logging in renderer process (Electron with contextIsolation)
+            if (typeof window !== 'undefined') {
+                this.config.enableFileLogging = false;
+                return;
+            }
             if (!this.config.enableFileLogging) {
                 return;
             }
             try {
                 // 动态导入文件日志服务
-                const { fileLoggerService } = yield __webpack_require__.e(/*! import() */ "src_services_logging_fileLoggerService_ts").then(__webpack_require__.bind(__webpack_require__, /*! ../services/logging/fileLoggerService */ "./src/services/logging/fileLoggerService.ts"));
+                const { fileLoggerService } = yield Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_path-browserify_index_js"), __webpack_require__.e("src_services_logging_fileLoggerService_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ../services/logging/fileLoggerService */ "./src/services/logging/fileLoggerService.ts"));
                 this.fileLoggerService = fileLoggerService;
             }
             catch (error) {
@@ -85299,14 +84104,13 @@ if (typeof window !== 'undefined') {
 
 /***/ }),
 
-/***/ "crypto":
-/*!*************************!*\
-  !*** external "crypto" ***!
-  \*************************/
-/***/ ((module) => {
+/***/ "?62e0":
+/*!************************!*\
+  !*** crypto (ignored) ***!
+  \************************/
+/***/ (() => {
 
-"use strict";
-module.exports = require("crypto");
+/* (ignored) */
 
 /***/ }),
 
@@ -85318,50 +84122,6 @@ module.exports = require("crypto");
 
 "use strict";
 module.exports = "data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276,9 12,15 18,9%27%3e%3c/polyline%3e%3c/svg%3e";
-
-/***/ }),
-
-/***/ "fs":
-/*!*********************!*\
-  !*** external "fs" ***!
-  \*********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("fs");
-
-/***/ }),
-
-/***/ "os":
-/*!*********************!*\
-  !*** external "os" ***!
-  \*********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("os");
-
-/***/ }),
-
-/***/ "path":
-/*!***********************!*\
-  !*** external "path" ***!
-  \***********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("path");
-
-/***/ }),
-
-/***/ "zlib":
-/*!***********************!*\
-  !*** external "zlib" ***!
-  \***********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("zlib");
 
 /***/ })
 
@@ -85635,7 +84395,7 @@ module.exports = require("zlib");
 /******/ 		
 /******/ 		}
 /******/ 		
-/******/ 		var chunkLoadingGlobal = global["webpackChunkinventory_management"] = global["webpackChunkinventory_management"] || [];
+/******/ 		var chunkLoadingGlobal = this["webpackChunkinventory_management"] = this["webpackChunkinventory_management"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	})();
@@ -85655,18 +84415,15 @@ var __webpack_exports__ = {};
   \***********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-/* harmony import */ var reflect_metadata__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! reflect-metadata */ "./node_modules/reflect-metadata/Reflect.js");
-/* harmony import */ var reflect_metadata__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(reflect_metadata__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
-/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./App */ "./src/App.tsx");
-/* harmony import */ var _utils_globalErrorHandler__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/globalErrorHandler */ "./src/utils/globalErrorHandler.ts");
-/* harmony import */ var _utils_userActionLogger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/userActionLogger */ "./src/utils/userActionLogger.ts");
-/* harmony import */ var _utils_performanceMonitor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/performanceMonitor */ "./src/utils/performanceMonitor.ts");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./App */ "./src/App.tsx");
+/* harmony import */ var _utils_globalErrorHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/globalErrorHandler */ "./src/utils/globalErrorHandler.ts");
+/* harmony import */ var _utils_userActionLogger__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/userActionLogger */ "./src/utils/userActionLogger.ts");
+/* harmony import */ var _utils_performanceMonitor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/performanceMonitor */ "./src/utils/performanceMonitor.ts");
 
 /// <reference path="./types/electron.d.ts" />
-
 
 
 
@@ -85676,8 +84433,8 @@ __webpack_require__.r(__webpack_exports__);
 
 // 导入性能监控器以初始化
 
-const root = react_dom_client__WEBPACK_IMPORTED_MODULE_3__.createRoot(document.getElementById('root'));
-root.render((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)((react__WEBPACK_IMPORTED_MODULE_2___default().StrictMode), { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_App__WEBPACK_IMPORTED_MODULE_4__["default"], {}) }));
+const root = react_dom_client__WEBPACK_IMPORTED_MODULE_2__.createRoot(document.getElementById('root'));
+root.render((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)((react__WEBPACK_IMPORTED_MODULE_1___default().StrictMode), { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_App__WEBPACK_IMPORTED_MODULE_3__["default"], {}) }));
 
 })();
 

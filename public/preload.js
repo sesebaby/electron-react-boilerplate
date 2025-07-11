@@ -75,6 +75,23 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbUpdateProductConversion: (options) => ipcRenderer.invoke('db-update-product-conversion', options),
   dbDeleteProductConversion: (options) => ipcRenderer.invoke('db-delete-product-conversion', options),
 
+  // User operations
+  dbGetAllUsers: () => ipcRenderer.invoke('db-get-all-users'),
+  dbCreateUser: (user) => ipcRenderer.invoke('db-create-user', user),
+  dbUpdateUser: (id, updates) => ipcRenderer.invoke('db-update-user', id, updates),
+  dbDeleteUser: (id) => ipcRenderer.invoke('db-delete-user', id),
+
+  // Customer operations
+  dbGetAllCustomers: () => ipcRenderer.invoke('db-get-all-customers'),
+
+  // Financial operations
+  dbGetAccountsReceivable: () => ipcRenderer.invoke('db-get-accounts-receivable'),
+  dbGetAccountsPayable: () => ipcRenderer.invoke('db-get-accounts-payable'),
+  dbGetPaymentRecords: () => ipcRenderer.invoke('db-get-payment-records'),
+
+  // Inventory stock operations
+  dbGetAllInventoryStocks: () => ipcRenderer.invoke('db-get-all-inventory-stocks'),
+
   // System initialization and backup operations
   dbBackup: (options) => ipcRenderer.invoke('db-backup', options),
   dbGetBackupList: () => ipcRenderer.invoke('db-get-backup-list'),

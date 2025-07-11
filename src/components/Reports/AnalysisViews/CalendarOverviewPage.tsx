@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { WeeklyCalendarData, DailyBusinessSummary } from '../../../types/entities';
 import { serviceManager } from '../../../services/core';
+import { CalendarDataService } from '../../../services/business';
 import WeeklyCalendarView from './WeeklyCalendarView';
 import DayDetailModal from './DayDetailModal';
 
-// Helper function to get week start
-const getWeekStart = (date: Date): Date => {
-  const day = date.getDay();
-  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-  return new Date(date.getFullYear(), date.getMonth(), diff);
-};
-
 const CalendarOverviewPage: React.FC = () => {
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(() => {
-    return getWeekStart(new Date());
+    // 临时实现获取周开始日期
+    const date = new Date();
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(date.setDate(diff));
   });
   const [weekData, setWeekData] = useState<WeeklyCalendarData | null>(null);
   const [selectedDay, setSelectedDay] = useState<DailyBusinessSummary | null>(null);
@@ -26,7 +24,9 @@ const CalendarOverviewPage: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const dataResult = await serviceManager.getReportService().getWeeklyData(weekStart);
+      await serviceManager.initialize();
+      const reportService = serviceManager.getReportService();
+      const dataResult = await reportService.getWeeklyData(weekStart);
       if (dataResult.success && dataResult.data) {
         setWeekData(dataResult.data as any);
       } else {
@@ -61,7 +61,7 @@ const CalendarOverviewPage: React.FC = () => {
 
   // 导航到当前周
   const goToCurrentWeek = () => {
-    const currentWeek = getWeekStart(new Date());
+    const currentWeek = CalendarDataService.getWeekStart(new Date());
     setCurrentWeekStart(currentWeek);
   };
 
@@ -86,15 +86,15 @@ const CalendarOverviewPage: React.FC = () => {
 
   // 检查是否是当前周
   const isCurrentWeek = (): boolean => {
-    const currentWeek = getWeekStart(new Date());
+    const currentWeek = CalendarDataService.getWeekStart(new Date());
     return currentWeekStart.getTime() === currentWeek.getTime();
   };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-center glass-surface backdrop-blur-lg rounded-xl p-8 border border-white/20">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/60 mx-auto mb-4"></div>
+        <div className="p-8 text-center border glass-surface backdrop-blur-lg rounded-xl border-white/20">
+          <div className="w-12 h-12 mx-auto mb-4 border-b-2 rounded-full animate-spin border-white/60"></div>
           <div className="text-white drop-shadow-lg">加载日历数据中...</div>
         </div>
       </div>
@@ -104,11 +104,11 @@ const CalendarOverviewPage: React.FC = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-center glass-surface backdrop-blur-lg rounded-xl p-8 border border-white/20">
-          <div className="text-red-300 mb-4 drop-shadow-lg">❌ {error}</div>
+        <div className="p-8 text-center border glass-surface backdrop-blur-lg rounded-xl border-white/20">
+          <div className="mb-4 text-red-300 drop-shadow-lg">❌ {error}</div>
           <button
             onClick={() => loadWeekData(currentWeekStart)}
-            className="px-4 py-2 glass-surface backdrop-blur-md text-white rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 drop-shadow-md"
+            className="px-4 py-2 text-white transition-all duration-200 border rounded-lg glass-surface backdrop-blur-md hover:bg-white/20 border-white/30 drop-shadow-md"
           >
             重新加载
           </button>
@@ -120,17 +120,17 @@ const CalendarOverviewPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* 页面标题和导航 */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold text-white drop-shadow-lg">日历式整体视图</h1>
-          <p className="text-white/80 mt-1 drop-shadow-md">查看每日采购、销售和库存变化趋势</p>
+          <p className="mt-1 text-white/80 drop-shadow-md">查看每日采购、销售和库存变化趋势</p>
         </div>
 
         {/* 周导航 */}
         <div className="flex items-center gap-2">
           <button
             onClick={goToPreviousWeek}
-            className="p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200 glass-surface backdrop-blur-md border border-white/30"
+            className="p-2 transition-all duration-200 border rounded-lg text-white/80 hover:text-white hover:bg-white/20 glass-surface backdrop-blur-md border-white/30"
             title="上一周"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,7 +144,7 @@ const CalendarOverviewPage: React.FC = () => {
 
           <button
             onClick={goToNextWeek}
-            className="p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200 glass-surface backdrop-blur-md border border-white/30"
+            className="p-2 transition-all duration-200 border rounded-lg text-white/80 hover:text-white hover:bg-white/20 glass-surface backdrop-blur-md border-white/30"
             title="下一周"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +155,7 @@ const CalendarOverviewPage: React.FC = () => {
           {!isCurrentWeek() && (
             <button
               onClick={goToCurrentWeek}
-              className="ml-2 px-3 py-2 glass-surface backdrop-blur-md text-white text-sm rounded-lg hover:bg-white/20 transition-all duration-200 border border-white/30 drop-shadow-md"
+              className="px-3 py-2 ml-2 text-sm text-white transition-all duration-200 border rounded-lg glass-surface backdrop-blur-md hover:bg-white/20 border-white/30 drop-shadow-md"
             >
               回到本周
             </button>
@@ -165,32 +165,32 @@ const CalendarOverviewPage: React.FC = () => {
 
       {/* 快速统计 */}
       {weekData && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="p-4 border glass-surface backdrop-blur-lg rounded-xl border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-blue-300 text-sm font-medium drop-shadow-md">本周采购</div>
+                <div className="text-sm font-medium text-blue-300 drop-shadow-md">本周采购</div>
                 <div className="text-2xl font-bold text-blue-200 drop-shadow-lg">
                   ¥{weekData.weeklyTotals.purchases.toLocaleString()}
                 </div>
               </div>
-              <div className="text-blue-300 text-3xl drop-shadow-lg">📦</div>
+              <div className="text-3xl text-blue-300 drop-shadow-lg">📦</div>
             </div>
           </div>
 
-          <div className="glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20">
+          <div className="p-4 border glass-surface backdrop-blur-lg rounded-xl border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-green-300 text-sm font-medium drop-shadow-md">本周销售</div>
+                <div className="text-sm font-medium text-green-300 drop-shadow-md">本周销售</div>
                 <div className="text-2xl font-bold text-green-200 drop-shadow-lg">
                   ¥{weekData.weeklyTotals.sales.toLocaleString()}
                 </div>
               </div>
-              <div className="text-green-300 text-3xl drop-shadow-lg">💰</div>
+              <div className="text-3xl text-green-300 drop-shadow-lg">💰</div>
             </div>
           </div>
 
-          <div className="glass-surface backdrop-blur-lg p-4 rounded-xl border border-white/20">
+          <div className="p-4 border glass-surface backdrop-blur-lg rounded-xl border-white/20">
             <div className="flex items-center justify-between">
               <div>
                 <div className={`text-sm font-medium drop-shadow-md ${
@@ -243,9 +243,9 @@ const CalendarOverviewPage: React.FC = () => {
       />
 
       {/* 使用说明 */}
-      <div className="glass-surface backdrop-blur-lg border border-white/20 rounded-xl p-4">
-        <h3 className="text-blue-300 font-medium mb-2 drop-shadow-lg">💡 使用说明</h3>
-        <ul className="text-white/80 text-sm space-y-1 drop-shadow-md">
+      <div className="p-4 border glass-surface backdrop-blur-lg border-white/20 rounded-xl">
+        <h3 className="mb-2 font-medium text-blue-300 drop-shadow-lg">💡 使用说明</h3>
+        <ul className="space-y-1 text-sm text-white/80 drop-shadow-md">
           <li>• 点击任意日期查看当日详细业务数据</li>
           <li>• 右上角的彩色圆点表示当日活动强度（绿色=高，黄色=中，灰色=低）</li>
           <li>• 使用左右箭头导航不同周份，点击"回到本周"快速返回当前周</li>
