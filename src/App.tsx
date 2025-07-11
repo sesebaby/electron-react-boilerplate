@@ -32,6 +32,10 @@ const App: React.FC = () => {
       const hash = window.location.hash.replace('#', '');
       if (hash) {
         setCurrentPage(hash);
+      } else {
+        // 如果没有hash，默认设置为dashboard
+        setCurrentPage('dashboard');
+        window.location.hash = 'dashboard';
       }
     };
 

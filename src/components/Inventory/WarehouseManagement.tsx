@@ -519,15 +519,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
         </CardContent>
       </Card>
 
-      {/* 调试信息 */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="fixed top-4 right-4 bg-black/80 text-white p-4 rounded-lg text-xs z-[9999]">
-          <div>showForm: {showForm.toString()}</div>
-          <div>editingWarehouse: {editingWarehouse ? editingWarehouse.name : 'null'}</div>
-          <div>user: {user?.username || 'null'}</div>
-          <div>warehouses: {warehouses.length}</div>
-        </div>
-      )}
+
 
       {/* 仓库表单模态框 */}
       {showForm && (

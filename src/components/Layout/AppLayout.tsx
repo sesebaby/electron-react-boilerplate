@@ -16,6 +16,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       const hash = window.location.hash.replace('#', '');
       if (hash) {
         setCurrentPage(hash);
+      } else {
+        // 如果没有hash，默认设置为dashboard
+        setCurrentPage('dashboard');
       }
     };
 

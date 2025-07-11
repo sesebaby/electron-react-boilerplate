@@ -1101,10 +1101,7 @@ function addUserAndCustomerHandlers(ipcMain, db) {
 
   // 用户认证
   ipcMain.handle('db-authenticate-user', wrapIpcHandler(async (event, username, password) => {
-    console.log('🔐 IPC Handler: db-authenticate-user called with:', { username, hasPassword: !!password });
-
     if (!checkDatabaseInitialized(db)) {
-      console.log('🔐 IPC Handler: Database not initialized');
       return errorResult('Database not initialized');
     }
 
@@ -1123,31 +1120,12 @@ function addUserAndCustomerHandlers(ipcMain, db) {
     const stmt = db.prepare(query);
     const user = stmt.get(username);
 
-    console.log('🔐 IPC Handler: User found in database:', !!user);
-    if (user) {
-      console.log('🔐 IPC Handler: User details:', {
-        id: user.id,
-        username: user.username,
-        hasPassword: !!user.password,
-        passwordLength: user.password ? user.password.length : 0,
-        status: user.status
-      });
-    }
-
     if (!user) {
-      console.log('🔐 IPC Handler: User not found');
       return errorResult('用户名或密码错误');
     }
 
     // 简化的密码验证 - 支持明文密码（用于默认账户）
-    console.log('🔐 IPC Handler: Comparing passwords:', {
-      inputPassword: password,
-      storedPassword: user.password,
-      match: user.password === password
-    });
-
     if (user.password !== password) {
-      console.log('🔐 IPC Handler: Password mismatch');
       return errorResult('用户名或密码错误');
     }
 

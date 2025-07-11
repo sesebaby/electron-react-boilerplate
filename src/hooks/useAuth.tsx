@@ -7,12 +7,14 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  error: string | null;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => Promise<void>;
   refreshToken: () => Promise<boolean>;
   hasPermission: (permission: string) => boolean;
   hasRole: (role: UserRole) => boolean;
   sessionTimeRemaining: number;
+  clearError: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -73,8 +75,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return user?.role === role;
   }, [user]);
 
+  const clearError = useCallback(() => {
+    setError(null);
+  }, []);
+
   const login = useCallback(async (username: string, password: string): Promise<boolean> => {
     try {
+      // 批量更新状态，减少重新渲染次数
       setIsLoading(true);
       setError(null);
 
@@ -102,24 +109,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         
         // Store user data in localStorage for session persistence
         localStorage.setItem('_auth_user', JSON.stringify(fullUser));
-        
+
+        // 批量更新状态，减少重新渲染
+        const now = Date.now();
         setUser(fullUser);
-        setSessionStartTime(Date.now());
-        setLastActivity(Date.now());
-        
+        setSessionStartTime(now);
+        setLastActivity(now);
+        setIsLoading(false);
+
         // Log successful login (without sensitive data)
         console.log(`User logged in: ${fullUser.id}`);
+
+        // 登录成功后跳转到仪表板
+        window.location.hash = 'dashboard';
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
 
         return true;
       }
 
+      // 认证失败，批量更新状态
+      setError('用户名或密码错误');
+      setIsLoading(false);
       return false;
     } catch (error) {
       console.error('Login failed:', error);
+      // 批量更新错误状态
       setError(error instanceof Error ? error.message : '登录失败');
-      return false;
-    } finally {
       setIsLoading(false);
+      return false;
     }
   }, []);
 
@@ -275,12 +292,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     user,
     isAuthenticated: !!user,
     isLoading,
+    error,
     login,
     logout,
     refreshToken,
     hasPermission,
     hasRole,
-    sessionTimeRemaining
+    sessionTimeRemaining,
+    clearError
   };
 
   return (

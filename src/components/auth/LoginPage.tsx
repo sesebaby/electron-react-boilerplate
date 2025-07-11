@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { GlassCard, GlassCardContent, GlassCardDescription, GlassCardHeader, GlassCardTitle } from '../ui/GlassCard';
 import { Input } from '../ui/input';
@@ -8,9 +8,8 @@ const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
   const [rememberPassword, setRememberPassword] = useState(true);
-  const { login } = useAuth();
+  const { login, error, clearError } = useAuth();
 
   const STORAGE_KEY = 'login_credentials';
 
@@ -27,9 +26,28 @@ const LoginPage: React.FC = () => {
     }
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // 当用户开始输入时清除错误信息 - 使用 useCallback 优化，减少不必要的错误清除
+  const handleUsernameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setUsername(newValue);
+    // 只在有错误且用户实际输入内容时才清除错误
+    if (error && newValue.trim()) {
+      clearError();
+    }
+  }, [error, clearError]);
+
+  const handlePasswordChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setPassword(newValue);
+    // 只在有错误且用户实际输入内容时才清除错误
+    if (error && newValue.trim()) {
+      clearError();
+    }
+  }, [error, clearError]);
+
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    clearError(); // 清除之前的错误
     setIsLoading(true);
 
     try {
@@ -43,15 +61,24 @@ const LoginPage: React.FC = () => {
         } else {
           localStorage.removeItem(STORAGE_KEY);
         }
-      } else {
-        setError('用户名或密码错误');
       }
+      // 如果登录失败，错误信息会由 useAuth 自动设置
     } catch (err) {
-      setError('登录失败，请稍后重试');
+      // 额外的错误处理（如网络错误等）
+      console.error('Login error:', err);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [username, password, rememberPassword, login, clearError]);
+
+  // 使用 useMemo 优化计算值
+  const isFormValid = useMemo(() => {
+    return username.trim() && password.trim();
+  }, [username, password]);
+
+  const buttonDisabled = useMemo(() => {
+    return isLoading || !isFormValid;
+  }, [isLoading, isFormValid]);
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{background: 'var(--app-background)'}}>
@@ -211,7 +238,7 @@ const LoginPage: React.FC = () => {
                     <Input
                       type="text"
                       value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={handleUsernameChange}
                       placeholder="输入用户名"
                       className="h-12 transition-all duration-200 glass-input"
                       style={{
@@ -228,7 +255,7 @@ const LoginPage: React.FC = () => {
                     <Input
                       type="password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={handlePasswordChange}
                       placeholder="输入密码"
                       className="h-12 transition-all duration-200 glass-input"
                       style={{
@@ -266,42 +293,71 @@ const LoginPage: React.FC = () => {
                     </div>
                   </div>
                   
-                  {error && (
-                    <div className="rounded-xl p-4 text-sm flex items-center space-x-2" style={{
-                      background: 'var(--error-message-bg)',
-                      border: `1px solid var(--error-message-border)`,
-                      color: 'var(--error-color)'
-                    }}>
-                      <svg className="w-4 h-4 flex-shrink-0" style={{color: 'var(--error-color)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span>{error}</span>
-                    </div>
-                  )}
+                  {/* 固定高度的错误信息容器，避免布局跳动 */}
+                  <div className="min-h-[60px] flex items-center">
+                    {error && (
+                      <div className="w-full rounded-xl p-4 text-sm flex items-center justify-between animate-in slide-in-from-top-2 duration-300" style={{
+                        background: 'var(--error-message-bg)',
+                        border: `1px solid var(--error-message-border)`,
+                        color: 'var(--error-color)'
+                      }}>
+                        <div className="flex items-center space-x-2">
+                          <svg className="w-4 h-4 flex-shrink-0" style={{color: 'var(--error-color)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span className="flex-1">{error}</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={clearError}
+                          className="ml-2 p-1 rounded-md hover:bg-white/10 transition-colors duration-200"
+                          style={{color: 'var(--error-color)'}}
+                          aria-label="关闭错误提示"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                   
-                  <Button 
-                    type="submit" 
-                    className="w-full h-12 font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
+                  <Button
+                    type="submit"
+                    className={`w-full h-12 font-medium rounded-xl transition-all duration-200 transform ${
+                      buttonDisabled
+                        ? 'opacity-60 cursor-not-allowed'
+                        : 'hover:scale-[1.02] active:scale-[0.98]'
+                    }`}
                     style={{
-                      background: 'var(--login-button-bg)',
+                      background: isLoading ? 'var(--glass-bg-20)' : 'var(--login-button-bg)',
                       color: 'var(--login-button-text)',
-                      boxShadow: 'var(--login-button-shadow)'
+                      boxShadow: isLoading ? 'none' : 'var(--login-button-shadow)'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'var(--login-button-hover-bg)';
+                      if (!buttonDisabled) {
+                        e.currentTarget.style.background = 'var(--login-button-hover-bg)';
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'var(--login-button-bg)';
+                      if (!isLoading) {
+                        e.currentTarget.style.background = 'var(--login-button-bg)';
+                      }
                     }}
-                    disabled={isLoading}
+                    disabled={buttonDisabled}
                   >
                     {isLoading ? (
                       <div className="flex items-center justify-center">
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
-                        登录中...
+                        <span>登录中...</span>
                       </div>
                     ) : (
-                      '登录系统'
+                      <div className="flex items-center justify-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                        </svg>
+                        <span>登录系统</span>
+                      </div>
                     )}
                   </Button>
                 </form>
@@ -322,4 +378,5 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+// 使用 React.memo 优化组件重新渲染
+export default React.memo(LoginPage);

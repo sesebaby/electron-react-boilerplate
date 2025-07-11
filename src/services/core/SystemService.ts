@@ -930,10 +930,8 @@ export class SystemService {
 
   async authenticateUser(username: string, password: string): Promise<ServiceResult<User>> {
     try {
-      console.log('🔐 SystemService.authenticateUser called:', { username, hasPassword: !!password });
       // 使用数据库认证
       const authResult = await this.database.authenticateUser(username, password);
-      console.log('🔐 Database authentication result:', { success: authResult?.success, hasData: !!authResult?.data, error: authResult?.error });
 
       if (!authResult.success) {
         return {
