@@ -23,13 +23,24 @@ const { wrapIpcHandler } = require('../utils/errorHandler');
 const INVENTORY_FIELD_MAP = {
   stock_quantity: 'stockQuantity',
   reserved_quantity: 'reservedQuantity', 
-  unit_price: 'unitPrice',
+  unit_price: 'salePrice',        // 修正：unit_price 对应销售价格
   total_value: 'totalValue',
   last_updated: 'lastUpdated',
-  reorder_level: 'reorderLevel',
+  reorder_level: 'minStock',       // 修正：reorder_level 对应最小库存
   max_stock: 'maxStock',
   created_at: 'createdAt',
-  updated_at: 'updatedAt'
+  updated_at: 'updatedAt',
+  category: 'categoryId',          // 映射 category 到 categoryId
+  supplier: 'supplierId',          // 新增：supplier 到 supplierId
+  location: 'location',            // 新增：location 字段
+  status: 'status',                // 新增：status 字段
+  unit_id: 'unitId',               // 新增：unit_id 字段
+  brand: 'brand',                  // 新增：brand 字段
+  model: 'model',                  // 新增：model 字段
+  barcode: 'barcode',              // 新增：barcode 字段
+  purchase_price: 'purchasePrice', // 新增：purchase_price 字段
+  is_active: 'isActive',           // 新增：is_active 字段
+  images: 'images'                 // 新增：images 字段
 };
 
 /**
@@ -37,15 +48,22 @@ const INVENTORY_FIELD_MAP = {
  */
 const INVENTORY_BASE_QUERY = `
   SELECT 
-    id, name, description, sku, category, supplier,
+    id, name, description, sku, 
+    category as categoryId,           -- 修正：映射为 categoryId
+    supplier as supplierId,           -- 修正：映射为 supplierId
+    unit_id as unitId,                -- 新增：unit_id 字段
+    brand, model, barcode,            -- 新增：品牌、型号、条码字段
     stock_quantity as stockQuantity,
     reserved_quantity as reservedQuantity,
-    unit_price as unitPrice,
+    unit_price as salePrice,          -- 修正：映射为 salePrice
+    purchase_price as purchasePrice,  -- 新增：采购价格
     total_value as totalValue,
     last_updated as lastUpdated,
     status, location,
-    reorder_level as reorderLevel,
+    reorder_level as minStock,        -- 修正：映射为 minStock
     max_stock as maxStock,
+    is_active as isActive,            -- 新增：是否启用
+    images,                           -- 新增：图片字段
     created_at as createdAt,
     updated_at as updatedAt
   FROM inventory_items
@@ -118,6 +136,11 @@ function setupInventoryHandlers(ipcMain, db) {
       return errorResult('Database not initialized');
     }
     
+    // 字段映射：前端发送的是 categoryId，数据库需要的是 category
+    if (item.categoryId && !item.category) {
+      item.category = item.categoryId;
+    }
+    
     validateRequiredFields(item, ['name', 'sku', 'category']);
     
     const id = generateId();
@@ -125,11 +148,13 @@ function setupInventoryHandlers(ipcMain, db) {
     
     const query = `
       INSERT INTO inventory_items (
-        id, name, description, sku, category, supplier,
-        stock_quantity, reserved_quantity, unit_price, total_value,
+        id, name, description, sku, category, supplier, unit_id,
+        brand, model, barcode,
+        stock_quantity, reserved_quantity, unit_price, purchase_price, total_value,
         status, location, reorder_level, max_stock, 
+        is_active, images,
         last_updated, created_at, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     
     const stmt = db.prepare(query);
@@ -138,16 +163,23 @@ function setupInventoryHandlers(ipcMain, db) {
       item.name, 
       item.description || '', 
       item.sku, 
-      item.category, 
-      item.supplier || '',
+      item.category || item.categoryId,              // 支持两种字段名
+      item.supplier || item.supplierId || '',        // 支持两种字段名
+      item.unitId || '',                              // 单位ID
+      item.brand || '',                               // 品牌
+      item.model || '',                               // 型号
+      item.barcode || '',                             // 条码
       item.stockQuantity || 0, 
       item.reservedQuantity || 0, 
-      item.unitPrice || 0, 
+      item.unitPrice || item.salePrice || 0,         // 支持两种字段名
+      item.purchasePrice || 0,                        // 采购价格
       item.totalValue || 0,
       item.status || 'in-stock', 
       item.location || '', 
-      item.reorderLevel || 0, 
+      item.reorderLevel || item.minStock || 0,       // 支持两种字段名
       item.maxStock || 0, 
+      item.isActive !== undefined ? item.isActive : true,  // 是否启用，默认true
+      JSON.stringify(item.images || []),              // 图片数组转JSON
       now, now, now
     );
     
@@ -170,6 +202,12 @@ function setupInventoryHandlers(ipcMain, db) {
     
     if (!updates || Object.keys(updates).length === 0) {
       throw new Error('No valid fields to update');
+    }
+    
+    // 字段映射：前端发送的是 categoryId，数据库需要的是 category
+    if (updates.categoryId && !updates.category) {
+      updates.category = updates.categoryId;
+      delete updates.categoryId; // 删除categoryId避免buildUpdateQuery处理未知字段
     }
     
     const { query, params } = buildUpdateQuery('inventory_items', updates, INVENTORY_FIELD_MAP);

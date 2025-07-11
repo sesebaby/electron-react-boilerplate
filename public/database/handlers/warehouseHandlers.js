@@ -24,7 +24,10 @@ const WAREHOUSE_FIELD_MAP = {
   is_default: 'isDefault',
   is_active: 'isActive',
   created_at: 'createdAt',
-  updated_at: 'updatedAt'
+  updated_at: 'updatedAt',
+  location: 'location',    // 新增：位置字段映射
+  type: 'type',           // 新增：类型字段映射
+  capacity: 'capacity'    // 新增：容量字段映射
 };
 
 /**
@@ -32,7 +35,7 @@ const WAREHOUSE_FIELD_MAP = {
  */
 const WAREHOUSE_BASE_QUERY = `
   SELECT
-    id, code, name, address, manager, phone,
+    id, code, name, location, address, manager, phone, type, capacity,
     is_default as isDefault,
     is_active as isActive,
     created_at as createdAt,

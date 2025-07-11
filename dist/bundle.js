@@ -1425,1196 +1425,6 @@ var useLayoutEffect2 = globalThis?.document ? react__WEBPACK_IMPORTED_MODULE_0__
 
 /***/ }),
 
-/***/ "./node_modules/bcryptjs/index.js":
-/*!****************************************!*\
-  !*** ./node_modules/bcryptjs/index.js ***!
-  \****************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   compare: () => (/* binding */ compare),
-/* harmony export */   compareSync: () => (/* binding */ compareSync),
-/* harmony export */   decodeBase64: () => (/* binding */ decodeBase64),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   encodeBase64: () => (/* binding */ encodeBase64),
-/* harmony export */   genSalt: () => (/* binding */ genSalt),
-/* harmony export */   genSaltSync: () => (/* binding */ genSaltSync),
-/* harmony export */   getRounds: () => (/* binding */ getRounds),
-/* harmony export */   getSalt: () => (/* binding */ getSalt),
-/* harmony export */   hash: () => (/* binding */ hash),
-/* harmony export */   hashSync: () => (/* binding */ hashSync),
-/* harmony export */   setRandomFallback: () => (/* binding */ setRandomFallback),
-/* harmony export */   truncates: () => (/* binding */ truncates)
-/* harmony export */ });
-/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! crypto */ "?62e0");
-/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
-/*
- Copyright (c) 2012 Nevins Bartolomeo <nevins.bartolomeo@gmail.com>
- Copyright (c) 2012 Shane Girish <shaneGirish@gmail.com>
- Copyright (c) 2025 Daniel Wirtz <dcode@dcode.io>
-
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
- 1. Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- 2. Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- 3. The name of the author may not be used to endorse or promote products
- derived from this software without specific prior written permission.
-
- THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
- IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
- INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-// The Node.js crypto module is used as a fallback for the Web Crypto API. When
-// building for the browser, inclusion of the crypto module should be disabled,
-// which the package hints at in its package.json for bundlers that support it.
-
-
-/**
- * The random implementation to use as a fallback.
- * @type {?function(number):!Array.<number>}
- * @inner
- */
-var randomFallback = null;
-
-/**
- * Generates cryptographically secure random bytes.
- * @function
- * @param {number} len Bytes length
- * @returns {!Array.<number>} Random bytes
- * @throws {Error} If no random implementation is available
- * @inner
- */
-function randomBytes(len) {
-  // Web Crypto API. Globally available in the browser and in Node.js >=23.
-  try {
-    return crypto.getRandomValues(new Uint8Array(len));
-  } catch {}
-  // Node.js crypto module for non-browser environments.
-  try {
-    return crypto__WEBPACK_IMPORTED_MODULE_0__.randomBytes(len);
-  } catch {}
-  // Custom fallback specified with `setRandomFallback`.
-  if (!randomFallback) {
-    throw Error(
-      "Neither WebCryptoAPI nor a crypto module is available. Use bcrypt.setRandomFallback to set an alternative",
-    );
-  }
-  return randomFallback(len);
-}
-
-/**
- * Sets the pseudo random number generator to use as a fallback if neither node's `crypto` module nor the Web Crypto
- *  API is available. Please note: It is highly important that the PRNG used is cryptographically secure and that it
- *  is seeded properly!
- * @param {?function(number):!Array.<number>} random Function taking the number of bytes to generate as its
- *  sole argument, returning the corresponding array of cryptographically secure random byte values.
- * @see http://nodejs.org/api/crypto.html
- * @see http://www.w3.org/TR/WebCryptoAPI/
- */
-function setRandomFallback(random) {
-  randomFallback = random;
-}
-
-/**
- * Synchronously generates a salt.
- * @param {number=} rounds Number of rounds to use, defaults to 10 if omitted
- * @param {number=} seed_length Not supported.
- * @returns {string} Resulting salt
- * @throws {Error} If a random fallback is required but not set
- */
-function genSaltSync(rounds, seed_length) {
-  rounds = rounds || GENSALT_DEFAULT_LOG2_ROUNDS;
-  if (typeof rounds !== "number")
-    throw Error(
-      "Illegal arguments: " + typeof rounds + ", " + typeof seed_length,
-    );
-  if (rounds < 4) rounds = 4;
-  else if (rounds > 31) rounds = 31;
-  var salt = [];
-  salt.push("$2b$");
-  if (rounds < 10) salt.push("0");
-  salt.push(rounds.toString());
-  salt.push("$");
-  salt.push(base64_encode(randomBytes(BCRYPT_SALT_LEN), BCRYPT_SALT_LEN)); // May throw
-  return salt.join("");
-}
-
-/**
- * Asynchronously generates a salt.
- * @param {(number|function(Error, string=))=} rounds Number of rounds to use, defaults to 10 if omitted
- * @param {(number|function(Error, string=))=} seed_length Not supported.
- * @param {function(Error, string=)=} callback Callback receiving the error, if any, and the resulting salt
- * @returns {!Promise} If `callback` has been omitted
- * @throws {Error} If `callback` is present but not a function
- */
-function genSalt(rounds, seed_length, callback) {
-  if (typeof seed_length === "function")
-    (callback = seed_length), (seed_length = undefined); // Not supported.
-  if (typeof rounds === "function") (callback = rounds), (rounds = undefined);
-  if (typeof rounds === "undefined") rounds = GENSALT_DEFAULT_LOG2_ROUNDS;
-  else if (typeof rounds !== "number")
-    throw Error("illegal arguments: " + typeof rounds);
-
-  function _async(callback) {
-    nextTick(function () {
-      // Pretty thin, but salting is fast enough
-      try {
-        callback(null, genSaltSync(rounds));
-      } catch (err) {
-        callback(err);
-      }
-    });
-  }
-
-  if (callback) {
-    if (typeof callback !== "function")
-      throw Error("Illegal callback: " + typeof callback);
-    _async(callback);
-  } else
-    return new Promise(function (resolve, reject) {
-      _async(function (err, res) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(res);
-      });
-    });
-}
-
-/**
- * Synchronously generates a hash for the given password.
- * @param {string} password Password to hash
- * @param {(number|string)=} salt Salt length to generate or salt to use, default to 10
- * @returns {string} Resulting hash
- */
-function hashSync(password, salt) {
-  if (typeof salt === "undefined") salt = GENSALT_DEFAULT_LOG2_ROUNDS;
-  if (typeof salt === "number") salt = genSaltSync(salt);
-  if (typeof password !== "string" || typeof salt !== "string")
-    throw Error("Illegal arguments: " + typeof password + ", " + typeof salt);
-  return _hash(password, salt);
-}
-
-/**
- * Asynchronously generates a hash for the given password.
- * @param {string} password Password to hash
- * @param {number|string} salt Salt length to generate or salt to use
- * @param {function(Error, string=)=} callback Callback receiving the error, if any, and the resulting hash
- * @param {function(number)=} progressCallback Callback successively called with the percentage of rounds completed
- *  (0.0 - 1.0), maximally once per `MAX_EXECUTION_TIME = 100` ms.
- * @returns {!Promise} If `callback` has been omitted
- * @throws {Error} If `callback` is present but not a function
- */
-function hash(password, salt, callback, progressCallback) {
-  function _async(callback) {
-    if (typeof password === "string" && typeof salt === "number")
-      genSalt(salt, function (err, salt) {
-        _hash(password, salt, callback, progressCallback);
-      });
-    else if (typeof password === "string" && typeof salt === "string")
-      _hash(password, salt, callback, progressCallback);
-    else
-      nextTick(
-        callback.bind(
-          this,
-          Error("Illegal arguments: " + typeof password + ", " + typeof salt),
-        ),
-      );
-  }
-
-  if (callback) {
-    if (typeof callback !== "function")
-      throw Error("Illegal callback: " + typeof callback);
-    _async(callback);
-  } else
-    return new Promise(function (resolve, reject) {
-      _async(function (err, res) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(res);
-      });
-    });
-}
-
-/**
- * Compares two strings of the same length in constant time.
- * @param {string} known Must be of the correct length
- * @param {string} unknown Must be the same length as `known`
- * @returns {boolean}
- * @inner
- */
-function safeStringCompare(known, unknown) {
-  var diff = known.length ^ unknown.length;
-  for (var i = 0; i < known.length; ++i) {
-    diff |= known.charCodeAt(i) ^ unknown.charCodeAt(i);
-  }
-  return diff === 0;
-}
-
-/**
- * Synchronously tests a password against a hash.
- * @param {string} password Password to compare
- * @param {string} hash Hash to test against
- * @returns {boolean} true if matching, otherwise false
- * @throws {Error} If an argument is illegal
- */
-function compareSync(password, hash) {
-  if (typeof password !== "string" || typeof hash !== "string")
-    throw Error("Illegal arguments: " + typeof password + ", " + typeof hash);
-  if (hash.length !== 60) return false;
-  return safeStringCompare(
-    hashSync(password, hash.substring(0, hash.length - 31)),
-    hash,
-  );
-}
-
-/**
- * Asynchronously tests a password against a hash.
- * @param {string} password Password to compare
- * @param {string} hashValue Hash to test against
- * @param {function(Error, boolean)=} callback Callback receiving the error, if any, otherwise the result
- * @param {function(number)=} progressCallback Callback successively called with the percentage of rounds completed
- *  (0.0 - 1.0), maximally once per `MAX_EXECUTION_TIME = 100` ms.
- * @returns {!Promise} If `callback` has been omitted
- * @throws {Error} If `callback` is present but not a function
- */
-function compare(password, hashValue, callback, progressCallback) {
-  function _async(callback) {
-    if (typeof password !== "string" || typeof hashValue !== "string") {
-      nextTick(
-        callback.bind(
-          this,
-          Error(
-            "Illegal arguments: " + typeof password + ", " + typeof hashValue,
-          ),
-        ),
-      );
-      return;
-    }
-    if (hashValue.length !== 60) {
-      nextTick(callback.bind(this, null, false));
-      return;
-    }
-    hash(
-      password,
-      hashValue.substring(0, 29),
-      function (err, comp) {
-        if (err) callback(err);
-        else callback(null, safeStringCompare(comp, hashValue));
-      },
-      progressCallback,
-    );
-  }
-
-  if (callback) {
-    if (typeof callback !== "function")
-      throw Error("Illegal callback: " + typeof callback);
-    _async(callback);
-  } else
-    return new Promise(function (resolve, reject) {
-      _async(function (err, res) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(res);
-      });
-    });
-}
-
-/**
- * Gets the number of rounds used to encrypt the specified hash.
- * @param {string} hash Hash to extract the used number of rounds from
- * @returns {number} Number of rounds used
- * @throws {Error} If `hash` is not a string
- */
-function getRounds(hash) {
-  if (typeof hash !== "string")
-    throw Error("Illegal arguments: " + typeof hash);
-  return parseInt(hash.split("$")[2], 10);
-}
-
-/**
- * Gets the salt portion from a hash. Does not validate the hash.
- * @param {string} hash Hash to extract the salt from
- * @returns {string} Extracted salt part
- * @throws {Error} If `hash` is not a string or otherwise invalid
- */
-function getSalt(hash) {
-  if (typeof hash !== "string")
-    throw Error("Illegal arguments: " + typeof hash);
-  if (hash.length !== 60)
-    throw Error("Illegal hash length: " + hash.length + " != 60");
-  return hash.substring(0, 29);
-}
-
-/**
- * Tests if a password will be truncated when hashed, that is its length is
- * greater than 72 bytes when converted to UTF-8.
- * @param {string} password The password to test
- * @returns {boolean} `true` if truncated, otherwise `false`
- */
-function truncates(password) {
-  if (typeof password !== "string")
-    throw Error("Illegal arguments: " + typeof password);
-  return utf8Length(password) > 72;
-}
-
-/**
- * Continues with the callback on the next tick.
- * @function
- * @param {function(...[*])} callback Callback to execute
- * @inner
- */
-var nextTick =
-  typeof process !== "undefined" &&
-  process &&
-  typeof process.nextTick === "function"
-    ? typeof setImmediate === "function"
-      ? setImmediate
-      : process.nextTick
-    : setTimeout;
-
-/** Calculates the byte length of a string encoded as UTF8. */
-function utf8Length(string) {
-  var len = 0,
-    c = 0;
-  for (var i = 0; i < string.length; ++i) {
-    c = string.charCodeAt(i);
-    if (c < 128) len += 1;
-    else if (c < 2048) len += 2;
-    else if (
-      (c & 0xfc00) === 0xd800 &&
-      (string.charCodeAt(i + 1) & 0xfc00) === 0xdc00
-    ) {
-      ++i;
-      len += 4;
-    } else len += 3;
-  }
-  return len;
-}
-
-/** Converts a string to an array of UTF8 bytes. */
-function utf8Array(string) {
-  var offset = 0,
-    c1,
-    c2;
-  var buffer = new Array(utf8Length(string));
-  for (var i = 0, k = string.length; i < k; ++i) {
-    c1 = string.charCodeAt(i);
-    if (c1 < 128) {
-      buffer[offset++] = c1;
-    } else if (c1 < 2048) {
-      buffer[offset++] = (c1 >> 6) | 192;
-      buffer[offset++] = (c1 & 63) | 128;
-    } else if (
-      (c1 & 0xfc00) === 0xd800 &&
-      ((c2 = string.charCodeAt(i + 1)) & 0xfc00) === 0xdc00
-    ) {
-      c1 = 0x10000 + ((c1 & 0x03ff) << 10) + (c2 & 0x03ff);
-      ++i;
-      buffer[offset++] = (c1 >> 18) | 240;
-      buffer[offset++] = ((c1 >> 12) & 63) | 128;
-      buffer[offset++] = ((c1 >> 6) & 63) | 128;
-      buffer[offset++] = (c1 & 63) | 128;
-    } else {
-      buffer[offset++] = (c1 >> 12) | 224;
-      buffer[offset++] = ((c1 >> 6) & 63) | 128;
-      buffer[offset++] = (c1 & 63) | 128;
-    }
-  }
-  return buffer;
-}
-
-// A base64 implementation for the bcrypt algorithm. This is partly non-standard.
-
-/**
- * bcrypt's own non-standard base64 dictionary.
- * @type {!Array.<string>}
- * @const
- * @inner
- **/
-var BASE64_CODE =
-  "./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split("");
-
-/**
- * @type {!Array.<number>}
- * @const
- * @inner
- **/
-var BASE64_INDEX = [
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, 0, 1, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
-  -1, -1, -1, -1, -1, -1, -1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-  16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, -1, -1, -1, -1, -1, -1, 28,
-  29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
-  48, 49, 50, 51, 52, 53, -1, -1, -1, -1, -1,
-];
-
-/**
- * Encodes a byte array to base64 with up to len bytes of input.
- * @param {!Array.<number>} b Byte array
- * @param {number} len Maximum input length
- * @returns {string}
- * @inner
- */
-function base64_encode(b, len) {
-  var off = 0,
-    rs = [],
-    c1,
-    c2;
-  if (len <= 0 || len > b.length) throw Error("Illegal len: " + len);
-  while (off < len) {
-    c1 = b[off++] & 0xff;
-    rs.push(BASE64_CODE[(c1 >> 2) & 0x3f]);
-    c1 = (c1 & 0x03) << 4;
-    if (off >= len) {
-      rs.push(BASE64_CODE[c1 & 0x3f]);
-      break;
-    }
-    c2 = b[off++] & 0xff;
-    c1 |= (c2 >> 4) & 0x0f;
-    rs.push(BASE64_CODE[c1 & 0x3f]);
-    c1 = (c2 & 0x0f) << 2;
-    if (off >= len) {
-      rs.push(BASE64_CODE[c1 & 0x3f]);
-      break;
-    }
-    c2 = b[off++] & 0xff;
-    c1 |= (c2 >> 6) & 0x03;
-    rs.push(BASE64_CODE[c1 & 0x3f]);
-    rs.push(BASE64_CODE[c2 & 0x3f]);
-  }
-  return rs.join("");
-}
-
-/**
- * Decodes a base64 encoded string to up to len bytes of output.
- * @param {string} s String to decode
- * @param {number} len Maximum output length
- * @returns {!Array.<number>}
- * @inner
- */
-function base64_decode(s, len) {
-  var off = 0,
-    slen = s.length,
-    olen = 0,
-    rs = [],
-    c1,
-    c2,
-    c3,
-    c4,
-    o,
-    code;
-  if (len <= 0) throw Error("Illegal len: " + len);
-  while (off < slen - 1 && olen < len) {
-    code = s.charCodeAt(off++);
-    c1 = code < BASE64_INDEX.length ? BASE64_INDEX[code] : -1;
-    code = s.charCodeAt(off++);
-    c2 = code < BASE64_INDEX.length ? BASE64_INDEX[code] : -1;
-    if (c1 == -1 || c2 == -1) break;
-    o = (c1 << 2) >>> 0;
-    o |= (c2 & 0x30) >> 4;
-    rs.push(String.fromCharCode(o));
-    if (++olen >= len || off >= slen) break;
-    code = s.charCodeAt(off++);
-    c3 = code < BASE64_INDEX.length ? BASE64_INDEX[code] : -1;
-    if (c3 == -1) break;
-    o = ((c2 & 0x0f) << 4) >>> 0;
-    o |= (c3 & 0x3c) >> 2;
-    rs.push(String.fromCharCode(o));
-    if (++olen >= len || off >= slen) break;
-    code = s.charCodeAt(off++);
-    c4 = code < BASE64_INDEX.length ? BASE64_INDEX[code] : -1;
-    o = ((c3 & 0x03) << 6) >>> 0;
-    o |= c4;
-    rs.push(String.fromCharCode(o));
-    ++olen;
-  }
-  var res = [];
-  for (off = 0; off < olen; off++) res.push(rs[off].charCodeAt(0));
-  return res;
-}
-
-/**
- * @type {number}
- * @const
- * @inner
- */
-var BCRYPT_SALT_LEN = 16;
-
-/**
- * @type {number}
- * @const
- * @inner
- */
-var GENSALT_DEFAULT_LOG2_ROUNDS = 10;
-
-/**
- * @type {number}
- * @const
- * @inner
- */
-var BLOWFISH_NUM_ROUNDS = 16;
-
-/**
- * @type {number}
- * @const
- * @inner
- */
-var MAX_EXECUTION_TIME = 100;
-
-/**
- * @type {Array.<number>}
- * @const
- * @inner
- */
-var P_ORIG = [
-  0x243f6a88, 0x85a308d3, 0x13198a2e, 0x03707344, 0xa4093822, 0x299f31d0,
-  0x082efa98, 0xec4e6c89, 0x452821e6, 0x38d01377, 0xbe5466cf, 0x34e90c6c,
-  0xc0ac29b7, 0xc97c50dd, 0x3f84d5b5, 0xb5470917, 0x9216d5d9, 0x8979fb1b,
-];
-
-/**
- * @type {Array.<number>}
- * @const
- * @inner
- */
-var S_ORIG = [
-  0xd1310ba6, 0x98dfb5ac, 0x2ffd72db, 0xd01adfb7, 0xb8e1afed, 0x6a267e96,
-  0xba7c9045, 0xf12c7f99, 0x24a19947, 0xb3916cf7, 0x0801f2e2, 0x858efc16,
-  0x636920d8, 0x71574e69, 0xa458fea3, 0xf4933d7e, 0x0d95748f, 0x728eb658,
-  0x718bcd58, 0x82154aee, 0x7b54a41d, 0xc25a59b5, 0x9c30d539, 0x2af26013,
-  0xc5d1b023, 0x286085f0, 0xca417918, 0xb8db38ef, 0x8e79dcb0, 0x603a180e,
-  0x6c9e0e8b, 0xb01e8a3e, 0xd71577c1, 0xbd314b27, 0x78af2fda, 0x55605c60,
-  0xe65525f3, 0xaa55ab94, 0x57489862, 0x63e81440, 0x55ca396a, 0x2aab10b6,
-  0xb4cc5c34, 0x1141e8ce, 0xa15486af, 0x7c72e993, 0xb3ee1411, 0x636fbc2a,
-  0x2ba9c55d, 0x741831f6, 0xce5c3e16, 0x9b87931e, 0xafd6ba33, 0x6c24cf5c,
-  0x7a325381, 0x28958677, 0x3b8f4898, 0x6b4bb9af, 0xc4bfe81b, 0x66282193,
-  0x61d809cc, 0xfb21a991, 0x487cac60, 0x5dec8032, 0xef845d5d, 0xe98575b1,
-  0xdc262302, 0xeb651b88, 0x23893e81, 0xd396acc5, 0x0f6d6ff3, 0x83f44239,
-  0x2e0b4482, 0xa4842004, 0x69c8f04a, 0x9e1f9b5e, 0x21c66842, 0xf6e96c9a,
-  0x670c9c61, 0xabd388f0, 0x6a51a0d2, 0xd8542f68, 0x960fa728, 0xab5133a3,
-  0x6eef0b6c, 0x137a3be4, 0xba3bf050, 0x7efb2a98, 0xa1f1651d, 0x39af0176,
-  0x66ca593e, 0x82430e88, 0x8cee8619, 0x456f9fb4, 0x7d84a5c3, 0x3b8b5ebe,
-  0xe06f75d8, 0x85c12073, 0x401a449f, 0x56c16aa6, 0x4ed3aa62, 0x363f7706,
-  0x1bfedf72, 0x429b023d, 0x37d0d724, 0xd00a1248, 0xdb0fead3, 0x49f1c09b,
-  0x075372c9, 0x80991b7b, 0x25d479d8, 0xf6e8def7, 0xe3fe501a, 0xb6794c3b,
-  0x976ce0bd, 0x04c006ba, 0xc1a94fb6, 0x409f60c4, 0x5e5c9ec2, 0x196a2463,
-  0x68fb6faf, 0x3e6c53b5, 0x1339b2eb, 0x3b52ec6f, 0x6dfc511f, 0x9b30952c,
-  0xcc814544, 0xaf5ebd09, 0xbee3d004, 0xde334afd, 0x660f2807, 0x192e4bb3,
-  0xc0cba857, 0x45c8740f, 0xd20b5f39, 0xb9d3fbdb, 0x5579c0bd, 0x1a60320a,
-  0xd6a100c6, 0x402c7279, 0x679f25fe, 0xfb1fa3cc, 0x8ea5e9f8, 0xdb3222f8,
-  0x3c7516df, 0xfd616b15, 0x2f501ec8, 0xad0552ab, 0x323db5fa, 0xfd238760,
-  0x53317b48, 0x3e00df82, 0x9e5c57bb, 0xca6f8ca0, 0x1a87562e, 0xdf1769db,
-  0xd542a8f6, 0x287effc3, 0xac6732c6, 0x8c4f5573, 0x695b27b0, 0xbbca58c8,
-  0xe1ffa35d, 0xb8f011a0, 0x10fa3d98, 0xfd2183b8, 0x4afcb56c, 0x2dd1d35b,
-  0x9a53e479, 0xb6f84565, 0xd28e49bc, 0x4bfb9790, 0xe1ddf2da, 0xa4cb7e33,
-  0x62fb1341, 0xcee4c6e8, 0xef20cada, 0x36774c01, 0xd07e9efe, 0x2bf11fb4,
-  0x95dbda4d, 0xae909198, 0xeaad8e71, 0x6b93d5a0, 0xd08ed1d0, 0xafc725e0,
-  0x8e3c5b2f, 0x8e7594b7, 0x8ff6e2fb, 0xf2122b64, 0x8888b812, 0x900df01c,
-  0x4fad5ea0, 0x688fc31c, 0xd1cff191, 0xb3a8c1ad, 0x2f2f2218, 0xbe0e1777,
-  0xea752dfe, 0x8b021fa1, 0xe5a0cc0f, 0xb56f74e8, 0x18acf3d6, 0xce89e299,
-  0xb4a84fe0, 0xfd13e0b7, 0x7cc43b81, 0xd2ada8d9, 0x165fa266, 0x80957705,
-  0x93cc7314, 0x211a1477, 0xe6ad2065, 0x77b5fa86, 0xc75442f5, 0xfb9d35cf,
-  0xebcdaf0c, 0x7b3e89a0, 0xd6411bd3, 0xae1e7e49, 0x00250e2d, 0x2071b35e,
-  0x226800bb, 0x57b8e0af, 0x2464369b, 0xf009b91e, 0x5563911d, 0x59dfa6aa,
-  0x78c14389, 0xd95a537f, 0x207d5ba2, 0x02e5b9c5, 0x83260376, 0x6295cfa9,
-  0x11c81968, 0x4e734a41, 0xb3472dca, 0x7b14a94a, 0x1b510052, 0x9a532915,
-  0xd60f573f, 0xbc9bc6e4, 0x2b60a476, 0x81e67400, 0x08ba6fb5, 0x571be91f,
-  0xf296ec6b, 0x2a0dd915, 0xb6636521, 0xe7b9f9b6, 0xff34052e, 0xc5855664,
-  0x53b02d5d, 0xa99f8fa1, 0x08ba4799, 0x6e85076a, 0x4b7a70e9, 0xb5b32944,
-  0xdb75092e, 0xc4192623, 0xad6ea6b0, 0x49a7df7d, 0x9cee60b8, 0x8fedb266,
-  0xecaa8c71, 0x699a17ff, 0x5664526c, 0xc2b19ee1, 0x193602a5, 0x75094c29,
-  0xa0591340, 0xe4183a3e, 0x3f54989a, 0x5b429d65, 0x6b8fe4d6, 0x99f73fd6,
-  0xa1d29c07, 0xefe830f5, 0x4d2d38e6, 0xf0255dc1, 0x4cdd2086, 0x8470eb26,
-  0x6382e9c6, 0x021ecc5e, 0x09686b3f, 0x3ebaefc9, 0x3c971814, 0x6b6a70a1,
-  0x687f3584, 0x52a0e286, 0xb79c5305, 0xaa500737, 0x3e07841c, 0x7fdeae5c,
-  0x8e7d44ec, 0x5716f2b8, 0xb03ada37, 0xf0500c0d, 0xf01c1f04, 0x0200b3ff,
-  0xae0cf51a, 0x3cb574b2, 0x25837a58, 0xdc0921bd, 0xd19113f9, 0x7ca92ff6,
-  0x94324773, 0x22f54701, 0x3ae5e581, 0x37c2dadc, 0xc8b57634, 0x9af3dda7,
-  0xa9446146, 0x0fd0030e, 0xecc8c73e, 0xa4751e41, 0xe238cd99, 0x3bea0e2f,
-  0x3280bba1, 0x183eb331, 0x4e548b38, 0x4f6db908, 0x6f420d03, 0xf60a04bf,
-  0x2cb81290, 0x24977c79, 0x5679b072, 0xbcaf89af, 0xde9a771f, 0xd9930810,
-  0xb38bae12, 0xdccf3f2e, 0x5512721f, 0x2e6b7124, 0x501adde6, 0x9f84cd87,
-  0x7a584718, 0x7408da17, 0xbc9f9abc, 0xe94b7d8c, 0xec7aec3a, 0xdb851dfa,
-  0x63094366, 0xc464c3d2, 0xef1c1847, 0x3215d908, 0xdd433b37, 0x24c2ba16,
-  0x12a14d43, 0x2a65c451, 0x50940002, 0x133ae4dd, 0x71dff89e, 0x10314e55,
-  0x81ac77d6, 0x5f11199b, 0x043556f1, 0xd7a3c76b, 0x3c11183b, 0x5924a509,
-  0xf28fe6ed, 0x97f1fbfa, 0x9ebabf2c, 0x1e153c6e, 0x86e34570, 0xeae96fb1,
-  0x860e5e0a, 0x5a3e2ab3, 0x771fe71c, 0x4e3d06fa, 0x2965dcb9, 0x99e71d0f,
-  0x803e89d6, 0x5266c825, 0x2e4cc978, 0x9c10b36a, 0xc6150eba, 0x94e2ea78,
-  0xa5fc3c53, 0x1e0a2df4, 0xf2f74ea7, 0x361d2b3d, 0x1939260f, 0x19c27960,
-  0x5223a708, 0xf71312b6, 0xebadfe6e, 0xeac31f66, 0xe3bc4595, 0xa67bc883,
-  0xb17f37d1, 0x018cff28, 0xc332ddef, 0xbe6c5aa5, 0x65582185, 0x68ab9802,
-  0xeecea50f, 0xdb2f953b, 0x2aef7dad, 0x5b6e2f84, 0x1521b628, 0x29076170,
-  0xecdd4775, 0x619f1510, 0x13cca830, 0xeb61bd96, 0x0334fe1e, 0xaa0363cf,
-  0xb5735c90, 0x4c70a239, 0xd59e9e0b, 0xcbaade14, 0xeecc86bc, 0x60622ca7,
-  0x9cab5cab, 0xb2f3846e, 0x648b1eaf, 0x19bdf0ca, 0xa02369b9, 0x655abb50,
-  0x40685a32, 0x3c2ab4b3, 0x319ee9d5, 0xc021b8f7, 0x9b540b19, 0x875fa099,
-  0x95f7997e, 0x623d7da8, 0xf837889a, 0x97e32d77, 0x11ed935f, 0x16681281,
-  0x0e358829, 0xc7e61fd6, 0x96dedfa1, 0x7858ba99, 0x57f584a5, 0x1b227263,
-  0x9b83c3ff, 0x1ac24696, 0xcdb30aeb, 0x532e3054, 0x8fd948e4, 0x6dbc3128,
-  0x58ebf2ef, 0x34c6ffea, 0xfe28ed61, 0xee7c3c73, 0x5d4a14d9, 0xe864b7e3,
-  0x42105d14, 0x203e13e0, 0x45eee2b6, 0xa3aaabea, 0xdb6c4f15, 0xfacb4fd0,
-  0xc742f442, 0xef6abbb5, 0x654f3b1d, 0x41cd2105, 0xd81e799e, 0x86854dc7,
-  0xe44b476a, 0x3d816250, 0xcf62a1f2, 0x5b8d2646, 0xfc8883a0, 0xc1c7b6a3,
-  0x7f1524c3, 0x69cb7492, 0x47848a0b, 0x5692b285, 0x095bbf00, 0xad19489d,
-  0x1462b174, 0x23820e00, 0x58428d2a, 0x0c55f5ea, 0x1dadf43e, 0x233f7061,
-  0x3372f092, 0x8d937e41, 0xd65fecf1, 0x6c223bdb, 0x7cde3759, 0xcbee7460,
-  0x4085f2a7, 0xce77326e, 0xa6078084, 0x19f8509e, 0xe8efd855, 0x61d99735,
-  0xa969a7aa, 0xc50c06c2, 0x5a04abfc, 0x800bcadc, 0x9e447a2e, 0xc3453484,
-  0xfdd56705, 0x0e1e9ec9, 0xdb73dbd3, 0x105588cd, 0x675fda79, 0xe3674340,
-  0xc5c43465, 0x713e38d8, 0x3d28f89e, 0xf16dff20, 0x153e21e7, 0x8fb03d4a,
-  0xe6e39f2b, 0xdb83adf7, 0xe93d5a68, 0x948140f7, 0xf64c261c, 0x94692934,
-  0x411520f7, 0x7602d4f7, 0xbcf46b2e, 0xd4a20068, 0xd4082471, 0x3320f46a,
-  0x43b7d4b7, 0x500061af, 0x1e39f62e, 0x97244546, 0x14214f74, 0xbf8b8840,
-  0x4d95fc1d, 0x96b591af, 0x70f4ddd3, 0x66a02f45, 0xbfbc09ec, 0x03bd9785,
-  0x7fac6dd0, 0x31cb8504, 0x96eb27b3, 0x55fd3941, 0xda2547e6, 0xabca0a9a,
-  0x28507825, 0x530429f4, 0x0a2c86da, 0xe9b66dfb, 0x68dc1462, 0xd7486900,
-  0x680ec0a4, 0x27a18dee, 0x4f3ffea2, 0xe887ad8c, 0xb58ce006, 0x7af4d6b6,
-  0xaace1e7c, 0xd3375fec, 0xce78a399, 0x406b2a42, 0x20fe9e35, 0xd9f385b9,
-  0xee39d7ab, 0x3b124e8b, 0x1dc9faf7, 0x4b6d1856, 0x26a36631, 0xeae397b2,
-  0x3a6efa74, 0xdd5b4332, 0x6841e7f7, 0xca7820fb, 0xfb0af54e, 0xd8feb397,
-  0x454056ac, 0xba489527, 0x55533a3a, 0x20838d87, 0xfe6ba9b7, 0xd096954b,
-  0x55a867bc, 0xa1159a58, 0xcca92963, 0x99e1db33, 0xa62a4a56, 0x3f3125f9,
-  0x5ef47e1c, 0x9029317c, 0xfdf8e802, 0x04272f70, 0x80bb155c, 0x05282ce3,
-  0x95c11548, 0xe4c66d22, 0x48c1133f, 0xc70f86dc, 0x07f9c9ee, 0x41041f0f,
-  0x404779a4, 0x5d886e17, 0x325f51eb, 0xd59bc0d1, 0xf2bcc18f, 0x41113564,
-  0x257b7834, 0x602a9c60, 0xdff8e8a3, 0x1f636c1b, 0x0e12b4c2, 0x02e1329e,
-  0xaf664fd1, 0xcad18115, 0x6b2395e0, 0x333e92e1, 0x3b240b62, 0xeebeb922,
-  0x85b2a20e, 0xe6ba0d99, 0xde720c8c, 0x2da2f728, 0xd0127845, 0x95b794fd,
-  0x647d0862, 0xe7ccf5f0, 0x5449a36f, 0x877d48fa, 0xc39dfd27, 0xf33e8d1e,
-  0x0a476341, 0x992eff74, 0x3a6f6eab, 0xf4f8fd37, 0xa812dc60, 0xa1ebddf8,
-  0x991be14c, 0xdb6e6b0d, 0xc67b5510, 0x6d672c37, 0x2765d43b, 0xdcd0e804,
-  0xf1290dc7, 0xcc00ffa3, 0xb5390f92, 0x690fed0b, 0x667b9ffb, 0xcedb7d9c,
-  0xa091cf0b, 0xd9155ea3, 0xbb132f88, 0x515bad24, 0x7b9479bf, 0x763bd6eb,
-  0x37392eb3, 0xcc115979, 0x8026e297, 0xf42e312d, 0x6842ada7, 0xc66a2b3b,
-  0x12754ccc, 0x782ef11c, 0x6a124237, 0xb79251e7, 0x06a1bbe6, 0x4bfb6350,
-  0x1a6b1018, 0x11caedfa, 0x3d25bdd8, 0xe2e1c3c9, 0x44421659, 0x0a121386,
-  0xd90cec6e, 0xd5abea2a, 0x64af674e, 0xda86a85f, 0xbebfe988, 0x64e4c3fe,
-  0x9dbc8057, 0xf0f7c086, 0x60787bf8, 0x6003604d, 0xd1fd8346, 0xf6381fb0,
-  0x7745ae04, 0xd736fccc, 0x83426b33, 0xf01eab71, 0xb0804187, 0x3c005e5f,
-  0x77a057be, 0xbde8ae24, 0x55464299, 0xbf582e61, 0x4e58f48f, 0xf2ddfda2,
-  0xf474ef38, 0x8789bdc2, 0x5366f9c3, 0xc8b38e74, 0xb475f255, 0x46fcd9b9,
-  0x7aeb2661, 0x8b1ddf84, 0x846a0e79, 0x915f95e2, 0x466e598e, 0x20b45770,
-  0x8cd55591, 0xc902de4c, 0xb90bace1, 0xbb8205d0, 0x11a86248, 0x7574a99e,
-  0xb77f19b6, 0xe0a9dc09, 0x662d09a1, 0xc4324633, 0xe85a1f02, 0x09f0be8c,
-  0x4a99a025, 0x1d6efe10, 0x1ab93d1d, 0x0ba5a4df, 0xa186f20f, 0x2868f169,
-  0xdcb7da83, 0x573906fe, 0xa1e2ce9b, 0x4fcd7f52, 0x50115e01, 0xa70683fa,
-  0xa002b5c4, 0x0de6d027, 0x9af88c27, 0x773f8641, 0xc3604c06, 0x61a806b5,
-  0xf0177a28, 0xc0f586e0, 0x006058aa, 0x30dc7d62, 0x11e69ed7, 0x2338ea63,
-  0x53c2dd94, 0xc2c21634, 0xbbcbee56, 0x90bcb6de, 0xebfc7da1, 0xce591d76,
-  0x6f05e409, 0x4b7c0188, 0x39720a3d, 0x7c927c24, 0x86e3725f, 0x724d9db9,
-  0x1ac15bb4, 0xd39eb8fc, 0xed545578, 0x08fca5b5, 0xd83d7cd3, 0x4dad0fc4,
-  0x1e50ef5e, 0xb161e6f8, 0xa28514d9, 0x6c51133c, 0x6fd5c7e7, 0x56e14ec4,
-  0x362abfce, 0xddc6c837, 0xd79a3234, 0x92638212, 0x670efa8e, 0x406000e0,
-  0x3a39ce37, 0xd3faf5cf, 0xabc27737, 0x5ac52d1b, 0x5cb0679e, 0x4fa33742,
-  0xd3822740, 0x99bc9bbe, 0xd5118e9d, 0xbf0f7315, 0xd62d1c7e, 0xc700c47b,
-  0xb78c1b6b, 0x21a19045, 0xb26eb1be, 0x6a366eb4, 0x5748ab2f, 0xbc946e79,
-  0xc6a376d2, 0x6549c2c8, 0x530ff8ee, 0x468dde7d, 0xd5730a1d, 0x4cd04dc6,
-  0x2939bbdb, 0xa9ba4650, 0xac9526e8, 0xbe5ee304, 0xa1fad5f0, 0x6a2d519a,
-  0x63ef8ce2, 0x9a86ee22, 0xc089c2b8, 0x43242ef6, 0xa51e03aa, 0x9cf2d0a4,
-  0x83c061ba, 0x9be96a4d, 0x8fe51550, 0xba645bd6, 0x2826a2f9, 0xa73a3ae1,
-  0x4ba99586, 0xef5562e9, 0xc72fefd3, 0xf752f7da, 0x3f046f69, 0x77fa0a59,
-  0x80e4a915, 0x87b08601, 0x9b09e6ad, 0x3b3ee593, 0xe990fd5a, 0x9e34d797,
-  0x2cf0b7d9, 0x022b8b51, 0x96d5ac3a, 0x017da67d, 0xd1cf3ed6, 0x7c7d2d28,
-  0x1f9f25cf, 0xadf2b89b, 0x5ad6b472, 0x5a88f54c, 0xe029ac71, 0xe019a5e6,
-  0x47b0acfd, 0xed93fa9b, 0xe8d3c48d, 0x283b57cc, 0xf8d56629, 0x79132e28,
-  0x785f0191, 0xed756055, 0xf7960e44, 0xe3d35e8c, 0x15056dd4, 0x88f46dba,
-  0x03a16125, 0x0564f0bd, 0xc3eb9e15, 0x3c9057a2, 0x97271aec, 0xa93a072a,
-  0x1b3f6d9b, 0x1e6321f5, 0xf59c66fb, 0x26dcf319, 0x7533d928, 0xb155fdf5,
-  0x03563482, 0x8aba3cbb, 0x28517711, 0xc20ad9f8, 0xabcc5167, 0xccad925f,
-  0x4de81751, 0x3830dc8e, 0x379d5862, 0x9320f991, 0xea7a90c2, 0xfb3e7bce,
-  0x5121ce64, 0x774fbe32, 0xa8b6e37e, 0xc3293d46, 0x48de5369, 0x6413e680,
-  0xa2ae0810, 0xdd6db224, 0x69852dfd, 0x09072166, 0xb39a460a, 0x6445c0dd,
-  0x586cdecf, 0x1c20c8ae, 0x5bbef7dd, 0x1b588d40, 0xccd2017f, 0x6bb4e3bb,
-  0xdda26a7e, 0x3a59ff45, 0x3e350a44, 0xbcb4cdd5, 0x72eacea8, 0xfa6484bb,
-  0x8d6612ae, 0xbf3c6f47, 0xd29be463, 0x542f5d9e, 0xaec2771b, 0xf64e6370,
-  0x740e0d8d, 0xe75b1357, 0xf8721671, 0xaf537d5d, 0x4040cb08, 0x4eb4e2cc,
-  0x34d2466a, 0x0115af84, 0xe1b00428, 0x95983a1d, 0x06b89fb4, 0xce6ea048,
-  0x6f3f3b82, 0x3520ab82, 0x011a1d4b, 0x277227f8, 0x611560b1, 0xe7933fdc,
-  0xbb3a792b, 0x344525bd, 0xa08839e1, 0x51ce794b, 0x2f32c9b7, 0xa01fbac9,
-  0xe01cc87e, 0xbcc7d1f6, 0xcf0111c3, 0xa1e8aac7, 0x1a908749, 0xd44fbd9a,
-  0xd0dadecb, 0xd50ada38, 0x0339c32a, 0xc6913667, 0x8df9317c, 0xe0b12b4f,
-  0xf79e59b7, 0x43f5bb3a, 0xf2d519ff, 0x27d9459c, 0xbf97222c, 0x15e6fc2a,
-  0x0f91fc71, 0x9b941525, 0xfae59361, 0xceb69ceb, 0xc2a86459, 0x12baa8d1,
-  0xb6c1075e, 0xe3056a0c, 0x10d25065, 0xcb03a442, 0xe0ec6e0e, 0x1698db3b,
-  0x4c98a0be, 0x3278e964, 0x9f1f9532, 0xe0d392df, 0xd3a0342b, 0x8971f21e,
-  0x1b0a7441, 0x4ba3348c, 0xc5be7120, 0xc37632d8, 0xdf359f8d, 0x9b992f2e,
-  0xe60b6f47, 0x0fe3f11d, 0xe54cda54, 0x1edad891, 0xce6279cf, 0xcd3e7e6f,
-  0x1618b166, 0xfd2c1d05, 0x848fd2c5, 0xf6fb2299, 0xf523f357, 0xa6327623,
-  0x93a83531, 0x56cccd02, 0xacf08162, 0x5a75ebb5, 0x6e163697, 0x88d273cc,
-  0xde966292, 0x81b949d0, 0x4c50901b, 0x71c65614, 0xe6c6c7bd, 0x327a140a,
-  0x45e1d006, 0xc3f27b9a, 0xc9aa53fd, 0x62a80f00, 0xbb25bfe2, 0x35bdd2f6,
-  0x71126905, 0xb2040222, 0xb6cbcf7c, 0xcd769c2b, 0x53113ec0, 0x1640e3d3,
-  0x38abbd60, 0x2547adf0, 0xba38209c, 0xf746ce76, 0x77afa1c5, 0x20756060,
-  0x85cbfe4e, 0x8ae88dd8, 0x7aaaf9b0, 0x4cf9aa7e, 0x1948c25c, 0x02fb8a8c,
-  0x01c36ae4, 0xd6ebe1f9, 0x90d4f869, 0xa65cdea0, 0x3f09252d, 0xc208e69f,
-  0xb74e6132, 0xce77e25b, 0x578fdfe3, 0x3ac372e6,
-];
-
-/**
- * @type {Array.<number>}
- * @const
- * @inner
- */
-var C_ORIG = [
-  0x4f727068, 0x65616e42, 0x65686f6c, 0x64657253, 0x63727944, 0x6f756274,
-];
-
-/**
- * @param {Array.<number>} lr
- * @param {number} off
- * @param {Array.<number>} P
- * @param {Array.<number>} S
- * @returns {Array.<number>}
- * @inner
- */
-function _encipher(lr, off, P, S) {
-  // This is our bottleneck: 1714/1905 ticks / 90% - see profile.txt
-  var n,
-    l = lr[off],
-    r = lr[off + 1];
-
-  l ^= P[0];
-
-  /*
-    for (var i=0, k=BLOWFISH_NUM_ROUNDS-2; i<=k;)
-        // Feistel substitution on left word
-        n  = S[l >>> 24],
-        n += S[0x100 | ((l >> 16) & 0xff)],
-        n ^= S[0x200 | ((l >> 8) & 0xff)],
-        n += S[0x300 | (l & 0xff)],
-        r ^= n ^ P[++i],
-        // Feistel substitution on right word
-        n  = S[r >>> 24],
-        n += S[0x100 | ((r >> 16) & 0xff)],
-        n ^= S[0x200 | ((r >> 8) & 0xff)],
-        n += S[0x300 | (r & 0xff)],
-        l ^= n ^ P[++i];
-    */
-
-  //The following is an unrolled version of the above loop.
-  //Iteration 0
-  n = S[l >>> 24];
-  n += S[0x100 | ((l >> 16) & 0xff)];
-  n ^= S[0x200 | ((l >> 8) & 0xff)];
-  n += S[0x300 | (l & 0xff)];
-  r ^= n ^ P[1];
-  n = S[r >>> 24];
-  n += S[0x100 | ((r >> 16) & 0xff)];
-  n ^= S[0x200 | ((r >> 8) & 0xff)];
-  n += S[0x300 | (r & 0xff)];
-  l ^= n ^ P[2];
-  //Iteration 1
-  n = S[l >>> 24];
-  n += S[0x100 | ((l >> 16) & 0xff)];
-  n ^= S[0x200 | ((l >> 8) & 0xff)];
-  n += S[0x300 | (l & 0xff)];
-  r ^= n ^ P[3];
-  n = S[r >>> 24];
-  n += S[0x100 | ((r >> 16) & 0xff)];
-  n ^= S[0x200 | ((r >> 8) & 0xff)];
-  n += S[0x300 | (r & 0xff)];
-  l ^= n ^ P[4];
-  //Iteration 2
-  n = S[l >>> 24];
-  n += S[0x100 | ((l >> 16) & 0xff)];
-  n ^= S[0x200 | ((l >> 8) & 0xff)];
-  n += S[0x300 | (l & 0xff)];
-  r ^= n ^ P[5];
-  n = S[r >>> 24];
-  n += S[0x100 | ((r >> 16) & 0xff)];
-  n ^= S[0x200 | ((r >> 8) & 0xff)];
-  n += S[0x300 | (r & 0xff)];
-  l ^= n ^ P[6];
-  //Iteration 3
-  n = S[l >>> 24];
-  n += S[0x100 | ((l >> 16) & 0xff)];
-  n ^= S[0x200 | ((l >> 8) & 0xff)];
-  n += S[0x300 | (l & 0xff)];
-  r ^= n ^ P[7];
-  n = S[r >>> 24];
-  n += S[0x100 | ((r >> 16) & 0xff)];
-  n ^= S[0x200 | ((r >> 8) & 0xff)];
-  n += S[0x300 | (r & 0xff)];
-  l ^= n ^ P[8];
-  //Iteration 4
-  n = S[l >>> 24];
-  n += S[0x100 | ((l >> 16) & 0xff)];
-  n ^= S[0x200 | ((l >> 8) & 0xff)];
-  n += S[0x300 | (l & 0xff)];
-  r ^= n ^ P[9];
-  n = S[r >>> 24];
-  n += S[0x100 | ((r >> 16) & 0xff)];
-  n ^= S[0x200 | ((r >> 8) & 0xff)];
-  n += S[0x300 | (r & 0xff)];
-  l ^= n ^ P[10];
-  //Iteration 5
-  n = S[l >>> 24];
-  n += S[0x100 | ((l >> 16) & 0xff)];
-  n ^= S[0x200 | ((l >> 8) & 0xff)];
-  n += S[0x300 | (l & 0xff)];
-  r ^= n ^ P[11];
-  n = S[r >>> 24];
-  n += S[0x100 | ((r >> 16) & 0xff)];
-  n ^= S[0x200 | ((r >> 8) & 0xff)];
-  n += S[0x300 | (r & 0xff)];
-  l ^= n ^ P[12];
-  //Iteration 6
-  n = S[l >>> 24];
-  n += S[0x100 | ((l >> 16) & 0xff)];
-  n ^= S[0x200 | ((l >> 8) & 0xff)];
-  n += S[0x300 | (l & 0xff)];
-  r ^= n ^ P[13];
-  n = S[r >>> 24];
-  n += S[0x100 | ((r >> 16) & 0xff)];
-  n ^= S[0x200 | ((r >> 8) & 0xff)];
-  n += S[0x300 | (r & 0xff)];
-  l ^= n ^ P[14];
-  //Iteration 7
-  n = S[l >>> 24];
-  n += S[0x100 | ((l >> 16) & 0xff)];
-  n ^= S[0x200 | ((l >> 8) & 0xff)];
-  n += S[0x300 | (l & 0xff)];
-  r ^= n ^ P[15];
-  n = S[r >>> 24];
-  n += S[0x100 | ((r >> 16) & 0xff)];
-  n ^= S[0x200 | ((r >> 8) & 0xff)];
-  n += S[0x300 | (r & 0xff)];
-  l ^= n ^ P[16];
-
-  lr[off] = r ^ P[BLOWFISH_NUM_ROUNDS + 1];
-  lr[off + 1] = l;
-  return lr;
-}
-
-/**
- * @param {Array.<number>} data
- * @param {number} offp
- * @returns {{key: number, offp: number}}
- * @inner
- */
-function _streamtoword(data, offp) {
-  for (var i = 0, word = 0; i < 4; ++i)
-    (word = (word << 8) | (data[offp] & 0xff)),
-      (offp = (offp + 1) % data.length);
-  return { key: word, offp: offp };
-}
-
-/**
- * @param {Array.<number>} key
- * @param {Array.<number>} P
- * @param {Array.<number>} S
- * @inner
- */
-function _key(key, P, S) {
-  var offset = 0,
-    lr = [0, 0],
-    plen = P.length,
-    slen = S.length,
-    sw;
-  for (var i = 0; i < plen; i++)
-    (sw = _streamtoword(key, offset)),
-      (offset = sw.offp),
-      (P[i] = P[i] ^ sw.key);
-  for (i = 0; i < plen; i += 2)
-    (lr = _encipher(lr, 0, P, S)), (P[i] = lr[0]), (P[i + 1] = lr[1]);
-  for (i = 0; i < slen; i += 2)
-    (lr = _encipher(lr, 0, P, S)), (S[i] = lr[0]), (S[i + 1] = lr[1]);
-}
-
-/**
- * Expensive key schedule Blowfish.
- * @param {Array.<number>} data
- * @param {Array.<number>} key
- * @param {Array.<number>} P
- * @param {Array.<number>} S
- * @inner
- */
-function _ekskey(data, key, P, S) {
-  var offp = 0,
-    lr = [0, 0],
-    plen = P.length,
-    slen = S.length,
-    sw;
-  for (var i = 0; i < plen; i++)
-    (sw = _streamtoword(key, offp)), (offp = sw.offp), (P[i] = P[i] ^ sw.key);
-  offp = 0;
-  for (i = 0; i < plen; i += 2)
-    (sw = _streamtoword(data, offp)),
-      (offp = sw.offp),
-      (lr[0] ^= sw.key),
-      (sw = _streamtoword(data, offp)),
-      (offp = sw.offp),
-      (lr[1] ^= sw.key),
-      (lr = _encipher(lr, 0, P, S)),
-      (P[i] = lr[0]),
-      (P[i + 1] = lr[1]);
-  for (i = 0; i < slen; i += 2)
-    (sw = _streamtoword(data, offp)),
-      (offp = sw.offp),
-      (lr[0] ^= sw.key),
-      (sw = _streamtoword(data, offp)),
-      (offp = sw.offp),
-      (lr[1] ^= sw.key),
-      (lr = _encipher(lr, 0, P, S)),
-      (S[i] = lr[0]),
-      (S[i + 1] = lr[1]);
-}
-
-/**
- * Internaly crypts a string.
- * @param {Array.<number>} b Bytes to crypt
- * @param {Array.<number>} salt Salt bytes to use
- * @param {number} rounds Number of rounds
- * @param {function(Error, Array.<number>=)=} callback Callback receiving the error, if any, and the resulting bytes. If
- *  omitted, the operation will be performed synchronously.
- *  @param {function(number)=} progressCallback Callback called with the current progress
- * @returns {!Array.<number>|undefined} Resulting bytes if callback has been omitted, otherwise `undefined`
- * @inner
- */
-function _crypt(b, salt, rounds, callback, progressCallback) {
-  var cdata = C_ORIG.slice(),
-    clen = cdata.length,
-    err;
-
-  // Validate
-  if (rounds < 4 || rounds > 31) {
-    err = Error("Illegal number of rounds (4-31): " + rounds);
-    if (callback) {
-      nextTick(callback.bind(this, err));
-      return;
-    } else throw err;
-  }
-  if (salt.length !== BCRYPT_SALT_LEN) {
-    err = Error(
-      "Illegal salt length: " + salt.length + " != " + BCRYPT_SALT_LEN,
-    );
-    if (callback) {
-      nextTick(callback.bind(this, err));
-      return;
-    } else throw err;
-  }
-  rounds = (1 << rounds) >>> 0;
-
-  var P,
-    S,
-    i = 0,
-    j;
-
-  //Use typed arrays when available - huge speedup!
-  if (typeof Int32Array === "function") {
-    P = new Int32Array(P_ORIG);
-    S = new Int32Array(S_ORIG);
-  } else {
-    P = P_ORIG.slice();
-    S = S_ORIG.slice();
-  }
-
-  _ekskey(salt, b, P, S);
-
-  /**
-   * Calcualtes the next round.
-   * @returns {Array.<number>|undefined} Resulting array if callback has been omitted, otherwise `undefined`
-   * @inner
-   */
-  function next() {
-    if (progressCallback) progressCallback(i / rounds);
-    if (i < rounds) {
-      var start = Date.now();
-      for (; i < rounds; ) {
-        i = i + 1;
-        _key(b, P, S);
-        _key(salt, P, S);
-        if (Date.now() - start > MAX_EXECUTION_TIME) break;
-      }
-    } else {
-      for (i = 0; i < 64; i++)
-        for (j = 0; j < clen >> 1; j++) _encipher(cdata, j << 1, P, S);
-      var ret = [];
-      for (i = 0; i < clen; i++)
-        ret.push(((cdata[i] >> 24) & 0xff) >>> 0),
-          ret.push(((cdata[i] >> 16) & 0xff) >>> 0),
-          ret.push(((cdata[i] >> 8) & 0xff) >>> 0),
-          ret.push((cdata[i] & 0xff) >>> 0);
-      if (callback) {
-        callback(null, ret);
-        return;
-      } else return ret;
-    }
-    if (callback) nextTick(next);
-  }
-
-  // Async
-  if (typeof callback !== "undefined") {
-    next();
-
-    // Sync
-  } else {
-    var res;
-    while (true) if (typeof (res = next()) !== "undefined") return res || [];
-  }
-}
-
-/**
- * Internally hashes a password.
- * @param {string} password Password to hash
- * @param {?string} salt Salt to use, actually never null
- * @param {function(Error, string=)=} callback Callback receiving the error, if any, and the resulting hash. If omitted,
- *  hashing is performed synchronously.
- *  @param {function(number)=} progressCallback Callback called with the current progress
- * @returns {string|undefined} Resulting hash if callback has been omitted, otherwise `undefined`
- * @inner
- */
-function _hash(password, salt, callback, progressCallback) {
-  var err;
-  if (typeof password !== "string" || typeof salt !== "string") {
-    err = Error("Invalid string / salt: Not a string");
-    if (callback) {
-      nextTick(callback.bind(this, err));
-      return;
-    } else throw err;
-  }
-
-  // Validate the salt
-  var minor, offset;
-  if (salt.charAt(0) !== "$" || salt.charAt(1) !== "2") {
-    err = Error("Invalid salt version: " + salt.substring(0, 2));
-    if (callback) {
-      nextTick(callback.bind(this, err));
-      return;
-    } else throw err;
-  }
-  if (salt.charAt(2) === "$") (minor = String.fromCharCode(0)), (offset = 3);
-  else {
-    minor = salt.charAt(2);
-    if (
-      (minor !== "a" && minor !== "b" && minor !== "y") ||
-      salt.charAt(3) !== "$"
-    ) {
-      err = Error("Invalid salt revision: " + salt.substring(2, 4));
-      if (callback) {
-        nextTick(callback.bind(this, err));
-        return;
-      } else throw err;
-    }
-    offset = 4;
-  }
-
-  // Extract number of rounds
-  if (salt.charAt(offset + 2) > "$") {
-    err = Error("Missing salt rounds");
-    if (callback) {
-      nextTick(callback.bind(this, err));
-      return;
-    } else throw err;
-  }
-  var r1 = parseInt(salt.substring(offset, offset + 1), 10) * 10,
-    r2 = parseInt(salt.substring(offset + 1, offset + 2), 10),
-    rounds = r1 + r2,
-    real_salt = salt.substring(offset + 3, offset + 25);
-  password += minor >= "a" ? "\x00" : "";
-
-  var passwordb = utf8Array(password),
-    saltb = base64_decode(real_salt, BCRYPT_SALT_LEN);
-
-  /**
-   * Finishes hashing.
-   * @param {Array.<number>} bytes Byte array
-   * @returns {string}
-   * @inner
-   */
-  function finish(bytes) {
-    var res = [];
-    res.push("$2");
-    if (minor >= "a") res.push(minor);
-    res.push("$");
-    if (rounds < 10) res.push("0");
-    res.push(rounds.toString());
-    res.push("$");
-    res.push(base64_encode(saltb, saltb.length));
-    res.push(base64_encode(bytes, C_ORIG.length * 4 - 1));
-    return res.join("");
-  }
-
-  // Sync
-  if (typeof callback == "undefined")
-    return finish(_crypt(passwordb, saltb, rounds));
-  // Async
-  else {
-    _crypt(
-      passwordb,
-      saltb,
-      rounds,
-      function (err, bytes) {
-        if (err) callback(err, null);
-        else callback(null, finish(bytes));
-      },
-      progressCallback,
-    );
-  }
-}
-
-/**
- * Encodes a byte array to base64 with up to len bytes of input, using the custom bcrypt alphabet.
- * @function
- * @param {!Array.<number>} bytes Byte array
- * @param {number} length Maximum input length
- * @returns {string}
- */
-function encodeBase64(bytes, length) {
-  return base64_encode(bytes, length);
-}
-
-/**
- * Decodes a base64 encoded string to up to len bytes of output, using the custom bcrypt alphabet.
- * @function
- * @param {string} string String to decode
- * @param {number} length Maximum output length
- * @returns {!Array.<number>}
- */
-function decodeBase64(string, length) {
-  return base64_decode(string, length);
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  setRandomFallback,
-  genSaltSync,
-  genSalt,
-  hashSync,
-  hash,
-  compareSync,
-  compare,
-  getRounds,
-  getSalt,
-  truncates,
-  encodeBase64,
-  decodeBase64,
-});
-
-
-/***/ }),
-
 /***/ "./node_modules/class-variance-authority/dist/index.mjs":
 /*!**************************************************************!*\
   !*** ./node_modules/class-variance-authority/dist/index.mjs ***!
@@ -4410,6 +3220,9 @@ video {
 .border-red-400\\/50 {
   border-color: rgb(248 113 113 / 0.5);
 }
+.border-red-500\\/20 {
+  border-color: rgb(239 68 68 / 0.2);
+}
 .border-red-500\\/30 {
   border-color: rgb(239 68 68 / 0.3);
 }
@@ -4466,9 +3279,6 @@ video {
 }
 .border-yellow-500\\/30 {
   border-color: rgb(234 179 8 / 0.3);
-}
-.border-red-500\\/20 {
-  border-color: rgb(239 68 68 / 0.2);
 }
 .border-b-white {
   --tw-border-opacity: 1;
@@ -7039,7 +5849,7 @@ video {
 }
 .\\[\\&_tr\\]\\:border-b tr {
   border-bottom-width: 1px;
-}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"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A;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AA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AnB,uBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,+BAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,4DAAmB;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EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB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","sourcesContent":["@tailwind base;\r\n@tailwind components;\r\n@tailwind utilities;\r\n\r\n/* 导入主题样式 */\r\n@import './styles/themes.css';\r\n@import './styles/theme-adaptations.css';\r\n\r\n@layer base {\r\n  :root {\r\n    /* Shadcn/ui base variables */\r\n    --background: var(--shadcn-background);\r\n    --foreground: var(--shadcn-foreground);\r\n    --card: var(--shadcn-card);\r\n    --card-foreground: var(--shadcn-card-foreground);\r\n    --popover: var(--shadcn-popover);\r\n    --popover-foreground: var(--shadcn-popover-foreground);\r\n    --primary: var(--shadcn-primary);\r\n    --primary-foreground: var(--shadcn-primary-foreground);\r\n    --secondary: var(--shadcn-secondary);\r\n    --secondary-foreground: var(--shadcn-secondary-foreground);\r\n    --muted: var(--shadcn-muted);\r\n    --muted-foreground: var(--shadcn-muted-foreground);\r\n    --accent: var(--shadcn-accent);\r\n    --accent-foreground: var(--shadcn-accent-foreground);\r\n    --destructive: var(--shadcn-destructive);\r\n    --destructive-foreground: var(--shadcn-destructive-foreground);\r\n    --border: var(--shadcn-border);\r\n    --input: var(--shadcn-input);\r\n    --ring: var(--shadcn-ring);\r\n    --radius: 0.5rem;\r\n    \r\n    --border-radius-sm: 0.375rem;\r\n    --border-radius-md: 0.5rem;\r\n    --border-radius-lg: 0.75rem;\r\n    \r\n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\r\n    --glass-blur: var(--glass-blur);\r\n    --glass-shadow: var(--glass-shadow);\r\n  }\r\n  \r\n  /* Animation utilities */\r\n  @keyframes slide-in-right {\r\n    from {\r\n      transform: translateX(100%);\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      transform: translateX(0);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes fade-in {\r\n    from {\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes bounce-in {\r\n    0% {\r\n      transform: scale(0.3);\r\n      opacity: 0;\r\n    }\r\n    50% {\r\n      transform: scale(1.05);\r\n    }\r\n    70% {\r\n      transform: scale(0.9);\r\n    }\r\n    100% {\r\n      transform: scale(1);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  .animate-slide-in-right {\r\n    animation: slide-in-right 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-fade-in {\r\n    animation: fade-in 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-bounce-in {\r\n    animation: bounce-in 0.5s ease-out;\r\n  }\r\n  \r\n\r\n  \r\n\r\n  \r\n\r\n}\r\n\r\n@layer base {\r\n  * {\r\n    border-color: hsl(var(--border));\r\n  }\r\n  body {\r\n    background-color: hsl(var(--background));\r\n    color: var(--text-primary);\r\n    margin: 0;\r\n    padding: 0;\r\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\r\n    min-height: 100vh;\r\n    overflow-x: hidden;\r\n  }\r\n}\r\n\r\n/* Custom glassmorphism styles using theme variables */\r\n.app-bg {\r\n  background: var(--app-background);\r\n  min-height: 100vh;\r\n  position: relative;\r\n}\r\n\r\n@layer utilities {\r\n  .glass-card {\r\n    background: var(--glass-bg-10);\r\n    backdrop-filter: var(--glass-blur);\r\n    border: var(--glass-border);\r\n    border-radius: var(--border-radius-lg);\r\n    box-shadow: var(--glass-shadow);\r\n  }\r\n  \r\n  /* Popup/Dropdown Styles */\r\n  .popup-dropdown {\r\n    position: absolute;\r\n    z-index: var(--z-dropdown);\r\n    border-radius: var(--border-radius-lg);\r\n    backdrop-filter: var(--glass-blur);\r\n    -webkit-backdrop-filter: var(--glass-blur);\r\n    box-shadow: var(--loading-container-shadow);\r\n    overflow: hidden;\r\n  }\r\n  \r\n  .popup-header {\r\n    background: var(--glass-bg-10);\r\n    backdrop-filter: var(--glass-blur);\r\n    -webkit-backdrop-filter: var(--glass-blur);\r\n  }\r\n  \r\n  .popup-content {\r\n    background: transparent;\r\n  }\r\n  \r\n  .glass-card-hover {\r\n    transition: all 0.3s ease;\r\n  }\r\n  \r\n  .glass-card-hover:hover {\r\n    background: var(--glass-bg-15);\r\n    box-shadow: var(--glass-shadow-hover);\r\n    transform: translateY(-2px);\r\n  }\r\n  \r\n  .glass-input {\r\n    background: var(--glass-bg-10);\r\n    backdrop-filter: var(--glass-blur);\r\n    border: var(--glass-border);\r\n    color: var(--text-primary);\r\n    transition: var(--transition-fast);\r\n  }\r\n\r\n  .glass-input::placeholder {\r\n    color: var(--text-secondary);\r\n  }\r\n  \r\n  .glass-input:focus {\r\n    outline: none;\r\n    ring: 2px;\r\n    ring-color: var(--glass-bg-30);\r\n    ring-offset: 2px;\r\n  }\r\n  \r\n  .glass-input.border-red-400 {\r\n    border-color: rgb(248 113 113) !important;\r\n  }\r\n  \r\n  .glass-input.ring-red-400\\/20 {\r\n    box-shadow: 0 0 0 2px var(--error-message-border) !important;\r\n  }\r\n  \r\n  .text-gradient {\r\n    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);\r\n    -webkit-background-clip: text;\r\n    -webkit-text-fill-color: transparent;\r\n    background-clip: text;\r\n    text-shadow: 0 4px 20px var(--glass-bg-30);\r\n  }\r\n  \r\n  .animate-fade-in-up {\r\n    animation: fadeInUp 0.6s ease-out;\r\n  }\r\n}\r\n\r\n@keyframes fadeInUp {\r\n  from {\r\n    opacity: 0;\r\n    transform: translateY(30px);\r\n  }\r\n  to {\r\n    opacity: 1;\r\n    transform: translateY(0);\r\n  }\r\n}\r\n\r\n/* ===== App加载动画样式 ===== */\r\n.app-loading,\r\n.app-error {\r\n  width: 100vw;\r\n  height: 100vh;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  background: var(--loading-background);\r\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  z-index: var(--z-loading);\r\n}\r\n\r\n.loading-container,\r\n.error-container {\r\n  background: var(--loading-container-bg);\r\n  backdrop-filter: var(--glass-blur);\r\n  border-radius: var(--border-radius-xl);\r\n  padding: 48px;\r\n  text-align: center;\r\n  max-width: 420px;\r\n  border: var(--loading-container-border);\r\n  box-shadow: var(--loading-container-shadow);\r\n}\r\n\r\n/* 加载动画 */\r\n.loading-animation {\r\n  position: relative;\r\n  margin-bottom: 32px;\r\n}\r\n\r\n.loading-spinner {\r\n  width: 60px;\r\n  height: 60px;\r\n  border: 4px solid var(--loading-spinner-track);\r\n  border-top: 4px solid var(--loading-spinner-fill);\r\n  border-radius: 50%;\r\n  animation: spin 1s linear infinite;\r\n  margin: 0 auto 20px;\r\n}\r\n\r\n.loading-dots {\r\n  display: flex;\r\n  justify-content: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-dots span {\r\n  width: 8px;\r\n  height: 8px;\r\n  background: var(--loading-spinner-fill);\r\n  border-radius: 50%;\r\n  animation: bounce 1.4s ease-in-out infinite both;\r\n}\r\n\r\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\r\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\r\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\r\n\r\n.loading-title {\r\n  color: var(--loading-text-primary);\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 8px;\r\n  text-shadow: 0 2px 4px var(--glass-bg-dark-30);\r\n}\r\n\r\n.loading-text {\r\n  color: var(--loading-text-secondary);\r\n  font-size: 1.1rem;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.loading-progress {\r\n  width: 100%;\r\n  height: 4px;\r\n  background: var(--loading-progress-bg);\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.progress-bar {\r\n  height: 100%;\r\n  background: var(--loading-progress-fill);\r\n  border-radius: 2px;\r\n  animation: progress 2s ease-in-out infinite;\r\n}\r\n\r\n.loading-tips {\r\n  text-align: left;\r\n  background: var(--loading-tips-bg);\r\n  border-radius: var(--border-radius-md);\r\n  padding: 16px;\r\n  border: var(--loading-tips-border);\r\n}\r\n\r\n.loading-tips p {\r\n  color: var(--loading-text-secondary);\r\n  font-size: 0.9rem;\r\n  margin-bottom: 6px;\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-tips p:last-child {\r\n  margin-bottom: 0;\r\n}\r\n\r\n/* 错误状态样式 */\r\n.error-icon {\r\n  font-size: 4rem;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.error-title {\r\n  color: var(--error-text-primary);\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 12px;\r\n}\r\n\r\n.error-message {\r\n  color: var(--error-text-secondary);\r\n  font-size: 1rem;\r\n  margin-bottom: 24px;\r\n  background: var(--error-message-bg);\r\n  padding: 12px 16px;\r\n  border-radius: var(--border-radius-sm);\r\n  border: var(--error-message-border);\r\n}\r\n\r\n.error-retry {\r\n  background: var(--error-button-bg);\r\n  color: var(--error-text-primary);\r\n  border: none;\r\n  padding: 12px 24px;\r\n  border-radius: var(--border-radius-sm);\r\n  font-size: 1rem;\r\n  font-weight: 600;\r\n  cursor: pointer;\r\n  transition: var(--transition-base);\r\n  box-shadow: var(--error-button-shadow);\r\n}\r\n\r\n.error-retry:hover {\r\n  transform: translateY(-2px);\r\n  box-shadow: var(--error-button-hover-shadow);\r\n}\r\n\r\n/* 主App容器 */\r\n.app {\r\n  width: 100%;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n}\r\n\r\n/* 新增动画定义 */\r\n@keyframes spin {\r\n  0% { transform: rotate(0deg); }\r\n  100% { transform: rotate(360deg); }\r\n}\r\n\r\n@keyframes bounce {\r\n  0%, 80%, 100% {\r\n    transform: scale(0);\r\n  }\r\n  40% {\r\n    transform: scale(1);\r\n  }\r\n}\r\n\r\n@keyframes progress {\r\n  0% {\r\n    width: 0%;\r\n    opacity: 1;\r\n  }\r\n  50% {\r\n    width: 70%;\r\n    opacity: 1;\r\n  }\r\n  100% {\r\n    width: 100%;\r\n    opacity: 0;\r\n  }\r\n}\r\n\r\n/* 温暖商务风主题全局样式覆盖 */\r\n[data-theme=\"warm-business\"] .glass-input {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] .glass-input::placeholder {\r\n  color: var(--text-secondary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] body {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n/* 覆盖所有硬编码的白色文字 */\r\n[data-theme=\"warm-business\"] .text-white {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] .text-white\\/80 {\r\n  color: var(--text-secondary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] .text-white\\/70 {\r\n  color: var(--text-secondary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] .text-white\\/60 {\r\n  color: var(--text-tertiary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] .text-white\\/50 {\r\n  color: var(--text-tertiary) !important;\r\n}\r\n\r\n/* 表格文字颜色 */\r\n[data-theme=\"warm-business\"] td {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] th {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n/* 卡片和容器文字 */\r\n[data-theme=\"warm-business\"] .glass-card {\r\n  color: var(--text-primary);\r\n}\r\n\r\n[data-theme=\"warm-business\"] .glass-card * {\r\n  color: inherit;\r\n}\r\n\r\n/* 按钮文字 */\r\n[data-theme=\"warm-business\"] .glass-button {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n/* Table布局样式 */\r\n.table-layout-container {\r\n  display: table;\r\n  width: 100%;\r\n  height: 100vh;\r\n  table-layout: fixed;\r\n  border-collapse: collapse;\r\n}\r\n\r\n.table-row-topbar {\r\n  display: table-row;\r\n  height: auto; /* 自动调整高度 */\r\n}\r\n\r\n.table-row-main {\r\n  display: table-row;\r\n  height: 100%; /* 主内容区占据剩余空间 */\r\n}\r\n\r\n.table-cell-sidebar {\r\n  display: table-cell;\r\n  vertical-align: top;\r\n  position: relative;\r\n  width: 64px; /* 默认收缩状态宽度 */\r\n  transition: width 0.3s ease;\r\n  border-right: 1px solid var(--glass-border);\r\n}\r\n\r\n.table-cell-sidebar.expanded {\r\n  width: 256px; /* 展开状态宽度 */\r\n}\r\n\r\n.table-cell-topbar {\r\n  display: table-cell;\r\n  vertical-align: top;\r\n  width: 100%;\r\n  position: relative;\r\n  height: auto; /* 自动调整高度 */\r\n  border-bottom: 1px solid var(--glass-border);\r\n}\r\n\r\n.table-cell-main {\r\n  display: table-cell;\r\n  vertical-align: top;\r\n  width: 100%;\r\n  position: relative;\r\n  height: 100%;\r\n}\r\n\r\n.sidebar-container {\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  height: 100vh; /* 跨行效果：占据整个屏幕高度 */\r\n  z-index: 40;\r\n}\r\n\r\n.topbar-container {\r\n  position: relative;\r\n  height: 100%;\r\n  z-index: 50;\r\n}\r\n\r\n.main-content {\r\n  height: 100%;\r\n  overflow: auto;\r\n  position: relative;\r\n}\r\n\r\n/* 响应式调整 */\r\n@media (max-width: 768px) {\r\n  .table-layout-container {\r\n    display: block; /* 在小屏幕上回退到块级布局 */\r\n  }\r\n  \r\n  .table-row-topbar,\r\n  .table-row-main {\r\n    display: block;\r\n  }\r\n  \r\n  .table-cell-sidebar,\r\n  .table-cell-topbar,\r\n  .table-cell-main {\r\n    display: block;\r\n    width: 100%;\r\n    height: auto;\r\n  }\r\n  \r\n  .table-cell-sidebar {\r\n    position: fixed;\r\n    top: 0;\r\n    left: 0;\r\n    height: 100vh;\r\n    z-index: 40;\r\n    transform: translateX(-100%);\r\n    transition: transform 0.3s ease;\r\n  }\r\n  \r\n  .table-cell-sidebar.expanded {\r\n    transform: translateX(0);\r\n  }\r\n  \r\n  .sidebar-container {\r\n    height: 100vh;\r\n    position: relative;\r\n  }\r\n  \r\n  .table-cell-topbar {\r\n    position: relative;\r\n    z-index: 30;\r\n  }\r\n  \r\n  .table-cell-main {\r\n    position: relative;\r\n    z-index: 20;\r\n  }\r\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/globals.css"],"names":[],"mappings":"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A;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AA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AnB,uBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,+BAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,sBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,4DAAmB;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EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB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","sourcesContent":["@tailwind base;\r\n@tailwind components;\r\n@tailwind utilities;\r\n\r\n/* 导入主题样式 */\r\n@import './styles/themes.css';\r\n@import './styles/theme-adaptations.css';\r\n\r\n@layer base {\r\n  :root {\r\n    /* Shadcn/ui base variables */\r\n    --background: var(--shadcn-background);\r\n    --foreground: var(--shadcn-foreground);\r\n    --card: var(--shadcn-card);\r\n    --card-foreground: var(--shadcn-card-foreground);\r\n    --popover: var(--shadcn-popover);\r\n    --popover-foreground: var(--shadcn-popover-foreground);\r\n    --primary: var(--shadcn-primary);\r\n    --primary-foreground: var(--shadcn-primary-foreground);\r\n    --secondary: var(--shadcn-secondary);\r\n    --secondary-foreground: var(--shadcn-secondary-foreground);\r\n    --muted: var(--shadcn-muted);\r\n    --muted-foreground: var(--shadcn-muted-foreground);\r\n    --accent: var(--shadcn-accent);\r\n    --accent-foreground: var(--shadcn-accent-foreground);\r\n    --destructive: var(--shadcn-destructive);\r\n    --destructive-foreground: var(--shadcn-destructive-foreground);\r\n    --border: var(--shadcn-border);\r\n    --input: var(--shadcn-input);\r\n    --ring: var(--shadcn-ring);\r\n    --radius: 0.5rem;\r\n    \r\n    --border-radius-sm: 0.375rem;\r\n    --border-radius-md: 0.5rem;\r\n    --border-radius-lg: 0.75rem;\r\n    \r\n    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\r\n    --glass-blur: var(--glass-blur);\r\n    --glass-shadow: var(--glass-shadow);\r\n  }\r\n  \r\n  /* Animation utilities */\r\n  @keyframes slide-in-right {\r\n    from {\r\n      transform: translateX(100%);\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      transform: translateX(0);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes fade-in {\r\n    from {\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  @keyframes bounce-in {\r\n    0% {\r\n      transform: scale(0.3);\r\n      opacity: 0;\r\n    }\r\n    50% {\r\n      transform: scale(1.05);\r\n    }\r\n    70% {\r\n      transform: scale(0.9);\r\n    }\r\n    100% {\r\n      transform: scale(1);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  .animate-slide-in-right {\r\n    animation: slide-in-right 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-fade-in {\r\n    animation: fade-in 0.3s ease-out;\r\n  }\r\n  \r\n  .animate-bounce-in {\r\n    animation: bounce-in 0.5s ease-out;\r\n  }\r\n  \r\n\r\n  \r\n\r\n  \r\n\r\n}\r\n\r\n@layer base {\r\n  * {\r\n    border-color: hsl(var(--border));\r\n  }\r\n  body {\r\n    background-color: hsl(var(--background));\r\n    color: var(--text-primary);\r\n    margin: 0;\r\n    padding: 0;\r\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;\r\n    min-height: 100vh;\r\n    overflow-x: hidden;\r\n  }\r\n}\r\n\r\n/* Custom glassmorphism styles using theme variables */\r\n.app-bg {\r\n  background: var(--app-background);\r\n  min-height: 100vh;\r\n  position: relative;\r\n}\r\n\r\n@layer utilities {\r\n  .glass-card {\r\n    background: var(--glass-bg-10);\r\n    backdrop-filter: var(--glass-blur);\r\n    border: var(--glass-border);\r\n    border-radius: var(--border-radius-lg);\r\n    box-shadow: var(--glass-shadow);\r\n  }\r\n  \r\n  /* Popup/Dropdown Styles */\r\n  .popup-dropdown {\r\n    position: absolute;\r\n    z-index: var(--z-dropdown);\r\n    border-radius: var(--border-radius-lg);\r\n    backdrop-filter: var(--glass-blur);\r\n    -webkit-backdrop-filter: var(--glass-blur);\r\n    box-shadow: var(--loading-container-shadow);\r\n    overflow: hidden;\r\n  }\r\n  \r\n  .popup-header {\r\n    background: var(--glass-bg-10);\r\n    backdrop-filter: var(--glass-blur);\r\n    -webkit-backdrop-filter: var(--glass-blur);\r\n  }\r\n  \r\n  .popup-content {\r\n    background: transparent;\r\n  }\r\n  \r\n  .glass-card-hover {\r\n    transition: all 0.3s ease;\r\n  }\r\n  \r\n  .glass-card-hover:hover {\r\n    background: var(--glass-bg-15);\r\n    box-shadow: var(--glass-shadow-hover);\r\n    transform: translateY(-2px);\r\n  }\r\n  \r\n  .glass-input {\r\n    background: var(--glass-bg-10);\r\n    backdrop-filter: var(--glass-blur);\r\n    border: var(--glass-border);\r\n    color: var(--text-primary);\r\n    transition: var(--transition-fast);\r\n  }\r\n\r\n  .glass-input::placeholder {\r\n    color: var(--text-secondary);\r\n  }\r\n  \r\n  .glass-input:focus {\r\n    outline: none;\r\n    ring: 2px;\r\n    ring-color: var(--glass-bg-30);\r\n    ring-offset: 2px;\r\n  }\r\n  \r\n  .glass-input.border-red-400 {\r\n    border-color: rgb(248 113 113) !important;\r\n  }\r\n  \r\n  .glass-input.ring-red-400\\/20 {\r\n    box-shadow: 0 0 0 2px var(--error-message-border) !important;\r\n  }\r\n  \r\n  .text-gradient {\r\n    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);\r\n    -webkit-background-clip: text;\r\n    -webkit-text-fill-color: transparent;\r\n    background-clip: text;\r\n    text-shadow: 0 4px 20px var(--glass-bg-30);\r\n  }\r\n  \r\n  .animate-fade-in-up {\r\n    animation: fadeInUp 0.6s ease-out;\r\n  }\r\n}\r\n\r\n@keyframes fadeInUp {\r\n  from {\r\n    opacity: 0;\r\n    transform: translateY(30px);\r\n  }\r\n  to {\r\n    opacity: 1;\r\n    transform: translateY(0);\r\n  }\r\n}\r\n\r\n/* ===== App加载动画样式 ===== */\r\n.app-loading,\r\n.app-error {\r\n  width: 100vw;\r\n  height: 100vh;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  background: var(--loading-background);\r\n  font-family: 'Arial', 'Microsoft YaHei', sans-serif;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  z-index: var(--z-loading);\r\n}\r\n\r\n.loading-container,\r\n.error-container {\r\n  background: var(--loading-container-bg);\r\n  backdrop-filter: var(--glass-blur);\r\n  border-radius: var(--border-radius-xl);\r\n  padding: 48px;\r\n  text-align: center;\r\n  max-width: 420px;\r\n  border: var(--loading-container-border);\r\n  box-shadow: var(--loading-container-shadow);\r\n}\r\n\r\n/* 加载动画 */\r\n.loading-animation {\r\n  position: relative;\r\n  margin-bottom: 32px;\r\n}\r\n\r\n.loading-spinner {\r\n  width: 60px;\r\n  height: 60px;\r\n  border: 4px solid var(--loading-spinner-track);\r\n  border-top: 4px solid var(--loading-spinner-fill);\r\n  border-radius: 50%;\r\n  animation: spin 1s linear infinite;\r\n  margin: 0 auto 20px;\r\n}\r\n\r\n.loading-dots {\r\n  display: flex;\r\n  justify-content: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-dots span {\r\n  width: 8px;\r\n  height: 8px;\r\n  background: var(--loading-spinner-fill);\r\n  border-radius: 50%;\r\n  animation: bounce 1.4s ease-in-out infinite both;\r\n}\r\n\r\n.loading-dots span:nth-child(1) { animation-delay: -0.32s; }\r\n.loading-dots span:nth-child(2) { animation-delay: -0.16s; }\r\n.loading-dots span:nth-child(3) { animation-delay: 0s; }\r\n\r\n.loading-title {\r\n  color: var(--loading-text-primary);\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 8px;\r\n  text-shadow: 0 2px 4px var(--glass-bg-dark-30);\r\n}\r\n\r\n.loading-text {\r\n  color: var(--loading-text-secondary);\r\n  font-size: 1.1rem;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.loading-progress {\r\n  width: 100%;\r\n  height: 4px;\r\n  background: var(--loading-progress-bg);\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.progress-bar {\r\n  height: 100%;\r\n  background: var(--loading-progress-fill);\r\n  border-radius: 2px;\r\n  animation: progress 2s ease-in-out infinite;\r\n}\r\n\r\n.loading-tips {\r\n  text-align: left;\r\n  background: var(--loading-tips-bg);\r\n  border-radius: var(--border-radius-md);\r\n  padding: 16px;\r\n  border: var(--loading-tips-border);\r\n}\r\n\r\n.loading-tips p {\r\n  color: var(--loading-text-secondary);\r\n  font-size: 0.9rem;\r\n  margin-bottom: 6px;\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n}\r\n\r\n.loading-tips p:last-child {\r\n  margin-bottom: 0;\r\n}\r\n\r\n/* 错误状态样式 */\r\n.error-icon {\r\n  font-size: 4rem;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.error-title {\r\n  color: var(--error-text-primary);\r\n  font-size: 2rem;\r\n  font-weight: 700;\r\n  margin-bottom: 12px;\r\n}\r\n\r\n.error-message {\r\n  color: var(--error-text-secondary);\r\n  font-size: 1rem;\r\n  margin-bottom: 24px;\r\n  background: var(--error-message-bg);\r\n  padding: 12px 16px;\r\n  border-radius: var(--border-radius-sm);\r\n  border: var(--error-message-border);\r\n}\r\n\r\n.error-retry {\r\n  background: var(--error-button-bg);\r\n  color: var(--error-text-primary);\r\n  border: none;\r\n  padding: 12px 24px;\r\n  border-radius: var(--border-radius-sm);\r\n  font-size: 1rem;\r\n  font-weight: 600;\r\n  cursor: pointer;\r\n  transition: var(--transition-base);\r\n  box-shadow: var(--error-button-shadow);\r\n}\r\n\r\n.error-retry:hover {\r\n  transform: translateY(-2px);\r\n  box-shadow: var(--error-button-hover-shadow);\r\n}\r\n\r\n/* 主App容器 */\r\n.app {\r\n  width: 100%;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n}\r\n\r\n/* 新增动画定义 */\r\n@keyframes spin {\r\n  0% { transform: rotate(0deg); }\r\n  100% { transform: rotate(360deg); }\r\n}\r\n\r\n@keyframes bounce {\r\n  0%, 80%, 100% {\r\n    transform: scale(0);\r\n  }\r\n  40% {\r\n    transform: scale(1);\r\n  }\r\n}\r\n\r\n@keyframes progress {\r\n  0% {\r\n    width: 0%;\r\n    opacity: 1;\r\n  }\r\n  50% {\r\n    width: 70%;\r\n    opacity: 1;\r\n  }\r\n  100% {\r\n    width: 100%;\r\n    opacity: 0;\r\n  }\r\n}\r\n\r\n/* 温暖商务风主题全局样式覆盖 */\r\n[data-theme=\"warm-business\"] .glass-input {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] .glass-input::placeholder {\r\n  color: var(--text-secondary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] body {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n/* 覆盖所有硬编码的白色文字 */\r\n[data-theme=\"warm-business\"] .text-white {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] .text-white\\/80 {\r\n  color: var(--text-secondary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] .text-white\\/70 {\r\n  color: var(--text-secondary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] .text-white\\/60 {\r\n  color: var(--text-tertiary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] .text-white\\/50 {\r\n  color: var(--text-tertiary) !important;\r\n}\r\n\r\n/* 表格文字颜色 */\r\n[data-theme=\"warm-business\"] td {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n[data-theme=\"warm-business\"] th {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n/* 卡片和容器文字 */\r\n[data-theme=\"warm-business\"] .glass-card {\r\n  color: var(--text-primary);\r\n}\r\n\r\n[data-theme=\"warm-business\"] .glass-card * {\r\n  color: inherit;\r\n}\r\n\r\n/* 按钮文字 */\r\n[data-theme=\"warm-business\"] .glass-button {\r\n  color: var(--text-primary) !important;\r\n}\r\n\r\n/* Table布局样式 */\r\n.table-layout-container {\r\n  display: table;\r\n  width: 100%;\r\n  height: 100vh;\r\n  table-layout: fixed;\r\n  border-collapse: collapse;\r\n}\r\n\r\n.table-row-topbar {\r\n  display: table-row;\r\n  height: auto; /* 自动调整高度 */\r\n}\r\n\r\n.table-row-main {\r\n  display: table-row;\r\n  height: 100%; /* 主内容区占据剩余空间 */\r\n}\r\n\r\n.table-cell-sidebar {\r\n  display: table-cell;\r\n  vertical-align: top;\r\n  position: relative;\r\n  width: 64px; /* 默认收缩状态宽度 */\r\n  transition: width 0.3s ease;\r\n  border-right: 1px solid var(--glass-border);\r\n}\r\n\r\n.table-cell-sidebar.expanded {\r\n  width: 256px; /* 展开状态宽度 */\r\n}\r\n\r\n.table-cell-topbar {\r\n  display: table-cell;\r\n  vertical-align: top;\r\n  width: 100%;\r\n  position: relative;\r\n  height: auto; /* 自动调整高度 */\r\n  border-bottom: 1px solid var(--glass-border);\r\n}\r\n\r\n.table-cell-main {\r\n  display: table-cell;\r\n  vertical-align: top;\r\n  width: 100%;\r\n  position: relative;\r\n  height: 100%;\r\n}\r\n\r\n.sidebar-container {\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  height: 100vh; /* 跨行效果：占据整个屏幕高度 */\r\n  z-index: 40;\r\n}\r\n\r\n.topbar-container {\r\n  position: relative;\r\n  height: 100%;\r\n  z-index: 50;\r\n}\r\n\r\n.main-content {\r\n  height: 100%;\r\n  overflow: auto;\r\n  position: relative;\r\n}\r\n\r\n/* 响应式调整 */\r\n@media (max-width: 768px) {\r\n  .table-layout-container {\r\n    display: block; /* 在小屏幕上回退到块级布局 */\r\n  }\r\n  \r\n  .table-row-topbar,\r\n  .table-row-main {\r\n    display: block;\r\n  }\r\n  \r\n  .table-cell-sidebar,\r\n  .table-cell-topbar,\r\n  .table-cell-main {\r\n    display: block;\r\n    width: 100%;\r\n    height: auto;\r\n  }\r\n  \r\n  .table-cell-sidebar {\r\n    position: fixed;\r\n    top: 0;\r\n    left: 0;\r\n    height: 100vh;\r\n    z-index: 40;\r\n    transform: translateX(-100%);\r\n    transition: transform 0.3s ease;\r\n  }\r\n  \r\n  .table-cell-sidebar.expanded {\r\n    transform: translateX(0);\r\n  }\r\n  \r\n  .sidebar-container {\r\n    height: 100vh;\r\n    position: relative;\r\n  }\r\n  \r\n  .table-cell-topbar {\r\n    position: relative;\r\n    z-index: 30;\r\n  }\r\n  \r\n  .table-cell-main {\r\n    position: relative;\r\n    z-index: 20;\r\n  }\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -57036,7 +55846,7 @@ const App = () => {
     };
     // 加载状态
     if (isLoading) {
-        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "min-h-screen relative overflow-hidden", style: { background: 'var(--app-background)' }, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute inset-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute w-72 h-72 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-1/4 top-1/3" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute w-64 h-64 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 right-1/3 top-2/3" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute w-80 h-80 bg-gradient-to-r from-cyan-500/8 to-blue-500/8 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-2/3 top-1/4" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute inset-0 bg-gradient-to-br from-white/[0.02] to-white/[0.05]", style: {
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "min-h-screen relative overflow-hidden", style: { background: 'var(--app-background)' }, "data-testid": "loading-screen", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "absolute inset-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute w-72 h-72 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-1/4 top-1/3" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute w-64 h-64 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 right-1/3 top-2/3" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute w-80 h-80 bg-gradient-to-r from-cyan-500/8 to-blue-500/8 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-2/3 top-1/4" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "absolute inset-0 bg-gradient-to-br from-white/[0.02] to-white/[0.05]", style: {
                         backgroundImage: `
                  linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
                  linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
@@ -57052,7 +55862,7 @@ const App = () => {
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_ErrorBoundary__WEBPACK_IMPORTED_MODULE_5__.ErrorBoundary, { onError: (error, errorInfo) => {
             console.error('Application Error:', error, errorInfo);
             // 这里可以发送错误报告到监控服务
-        }, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_hooks_useAuth__WEBPACK_IMPORTED_MODULE_7__.AuthProvider, { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_providers_GlobalDialogProvider__WEBPACK_IMPORTED_MODULE_6__["default"], { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_auth_ProtectedRoute__WEBPACK_IMPORTED_MODULE_9__["default"], { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "min-h-screen", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Layout_AppLayout__WEBPACK_IMPORTED_MODULE_2__.AppLayout, { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_PageContainer__WEBPACK_IMPORTED_MODULE_3__["default"], { currentPage: currentPage }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_GlobalPasswordChangeModal__WEBPACK_IMPORTED_MODULE_10__["default"], {})] }) }) }) }) }));
+        }, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_hooks_useAuth__WEBPACK_IMPORTED_MODULE_7__.AuthProvider, { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_providers_GlobalDialogProvider__WEBPACK_IMPORTED_MODULE_6__["default"], { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_auth_ProtectedRoute__WEBPACK_IMPORTED_MODULE_9__["default"], { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "min-h-screen", "data-testid": "app-loaded", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_Layout_AppLayout__WEBPACK_IMPORTED_MODULE_2__.AppLayout, { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_PageContainer__WEBPACK_IMPORTED_MODULE_3__["default"], { currentPage: currentPage }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_GlobalPasswordChangeModal__WEBPACK_IMPORTED_MODULE_10__["default"], {})] }) }) }) }) }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
 
@@ -57146,7 +55956,7 @@ const Dashboard = react__WEBPACK_IMPORTED_MODULE_1___default().memo(({ className
     if (!initialized) {
         return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `${className || ''}`, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex items-center justify-center min-h-96", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-center gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl", children: "\u23F3" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", { className: "text-2xl font-bold mb-2", style: { color: 'var(--text-primary)' }, children: "\u7CFB\u7EDF\u51C6\u5907\u4E2D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { style: { color: 'var(--text-secondary)' }, children: "\u8BF7\u7A0D\u7B49\u7247\u523B..." })] })] }) }) }));
     }
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex flex-wrap gap-2", children: tabItems.map((tab) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { className: `
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-6 ${className || ''}`, "data-testid": "dashboard", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_5__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex flex-wrap gap-2", children: tabItems.map((tab) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", { className: `
                   flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all border
                   ${activeTab === tab.key ? 'tab-active' : 'tab-inactive'}
                 `, style: activeTab === tab.key ? {
@@ -59028,27 +57838,43 @@ const CategoryManagement = ({ className }) => {
         }
     });
     const onSubmit = (data) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log('=== CATEGORY FORM SUBMIT DEBUG ===');
+        console.log('Form data:', JSON.stringify(data, null, 2));
         try {
             // 处理根分类的parentId：将空字符串转换为undefined
             const submitData = Object.assign(Object.assign({}, data), { parentId: data.parentId || undefined });
+            console.log('Submit data after processing:', JSON.stringify(submitData, null, 2));
             if (editingCategory) {
-                // TODO: Implement updateCategory method
-                console.log('Update category:', editingCategory.id, submitData);
+                console.log('Updating existing category:', editingCategory.id);
+                const updateResult = yield _services_core__WEBPACK_IMPORTED_MODULE_3__.serviceManager.getInventoryService().updateCategory(editingCategory.id, submitData);
+                console.log('Update result:', updateResult);
+                if (!updateResult.success) {
+                    throw new Error(updateResult.error || '更新分类失败');
+                }
             }
             else {
-                yield _services_core__WEBPACK_IMPORTED_MODULE_3__.serviceManager.getInventoryService().createCategory(submitData);
+                console.log('Creating new category');
+                const createResult = yield _services_core__WEBPACK_IMPORTED_MODULE_3__.serviceManager.getInventoryService().createCategory(submitData);
+                console.log('Create result:', createResult);
+                if (!createResult.success) {
+                    throw new Error(createResult.error || '创建分类失败');
+                }
             }
+            console.log('Category saved successfully, reloading data...');
             yield loadData();
             setShowForm(false);
             setEditingCategory(null);
             reset(emptyForm);
             clearErrors();
+            console.log('=== END CATEGORY FORM SUBMIT DEBUG ===');
         }
         catch (err) {
             const errorMessage = err instanceof Error ? err.message : '保存分类失败';
+            console.error('Category save error:', err);
+            console.error('Error message:', errorMessage);
             setError(errorMessage);
             _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_7__.notificationHelper.showError('分类保存失败', errorMessage);
-            console.error('Failed to save category:', err);
+            console.log('=== END CATEGORY FORM SUBMIT DEBUG (ERROR) ===');
         }
     });
     const handleEdit = (category) => {
@@ -59071,8 +57897,10 @@ const CategoryManagement = ({ className }) => {
         if (!deleteTargetId)
             return;
         try {
-            // TODO: Implement deleteCategory method
-            console.log('Delete category:', deleteTargetId);
+            const deleteResult = yield _services_core__WEBPACK_IMPORTED_MODULE_3__.serviceManager.getInventoryService().deleteCategory(deleteTargetId);
+            if (!deleteResult.success) {
+                throw new Error(deleteResult.error || '删除分类失败');
+            }
             yield loadData();
             _utils_notificationHelper__WEBPACK_IMPORTED_MODULE_7__.notificationHelper.showSuccess('删除成功', '分类已成功删除');
         }
@@ -59159,7 +57987,7 @@ const CategoryManagement = ({ className }) => {
                                                         setValueAs: (value) => parseInt(value) || 1
                                                     }), error: (_d = errors.sortOrder) === null || _d === void 0 ? void 0 : _d.message, min: "1", placeholder: "\u6392\u5E8F\u53F7" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassSelect, { label: "\u72B6\u6001", register: register('isActive', {
                                                         setValueAs: (value) => value === 'true'
-                                                    }), error: (_e = errors.isActive) === null || _e === void 0 ? void 0 : _e.message, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "true", children: "\u542F\u7528" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "false", children: "\u7981\u7528" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-white/5 backdrop-blur-sm border-t border-white/10 px-4 sm:px-6 py-3 sm:py-4 shrink-0", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3 sm:gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassButton, { type: "button", variant: "secondary", onClick: handleCancel, className: "flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation", children: "\u53D6\u6D88" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassButton, { type: "submit", variant: "primary", loading: isSubmitting, className: "flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: editingCategory ? '💾' : '✨' }), editingCategory ? '更新分类' : '创建分类'] })] }) })] })] }) })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_ConfirmDialog__WEBPACK_IMPORTED_MODULE_8__["default"], { isOpen: showConfirmDialog, title: "\u5220\u9664\u5206\u7C7B", message: "\u786E\u5B9A\u8981\u5220\u9664\u8FD9\u4E2A\u5206\u7C7B\u5417\uFF1F\u5220\u9664\u540E\u65E0\u6CD5\u6062\u590D\uFF01", confirmText: "\u5220\u9664", cancelText: "\u53D6\u6D88", variant: "danger", onConfirm: confirmDelete, onCancel: cancelDelete })] }));
+                                                    }), value: _formData.isActive ? 'true' : 'false', error: (_e = errors.isActive) === null || _e === void 0 ? void 0 : _e.message, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "true", children: "\u542F\u7528" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "false", children: "\u7981\u7528" })] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "bg-white/5 backdrop-blur-sm border-t border-white/10 px-4 sm:px-6 py-3 sm:py-4 shrink-0", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3 sm:gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassButton, { type: "button", variant: "secondary", onClick: handleCancel, className: "flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation", children: "\u53D6\u6D88" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_4__.GlassButton, { type: "submit", variant: "primary", loading: isSubmitting, className: "flex-1 min-h-[44px] sm:min-h-[48px] touch-manipulation", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: editingCategory ? '💾' : '✨' }), editingCategory ? '更新分类' : '创建分类'] })] }) })] })] }) })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_ConfirmDialog__WEBPACK_IMPORTED_MODULE_8__["default"], { isOpen: showConfirmDialog, title: "\u5220\u9664\u5206\u7C7B", message: "\u786E\u5B9A\u8981\u5220\u9664\u8FD9\u4E2A\u5206\u7C7B\u5417\uFF1F\u5220\u9664\u540E\u65E0\u6CD5\u6062\u590D\uFF01", confirmText: "\u5220\u9664", cancelText: "\u53D6\u6D88", variant: "danger", onConfirm: confirmDelete, onCancel: cancelDelete })] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CategoryManagement);
 
@@ -60372,7 +59200,10 @@ const ProductManagement = ({ className }) => {
             const submitData = Object.assign(Object.assign({}, data), { description: data.description || undefined, brand: data.brand || undefined, model: data.model || undefined, barcode: data.barcode || undefined });
             let productId;
             if (editingProduct) {
-                yield services.productService.updateProduct(editingProduct.id, submitData);
+                const updateResult = yield services.productService.updateProduct(editingProduct.id, submitData);
+                if (!updateResult.success) {
+                    throw new Error(updateResult.error || '更新商品失败');
+                }
                 productId = editingProduct.id;
                 // 记录更新成功
                 _utils_userActionLogger__WEBPACK_IMPORTED_MODULE_10__.userActionLogger.logBusinessAction({
@@ -60389,8 +59220,11 @@ const ProductManagement = ({ className }) => {
                 });
             }
             else {
-                const newProduct = yield services.productService.createProduct(submitData);
-                productId = newProduct.id;
+                const createResult = yield services.productService.createProduct(submitData);
+                if (!createResult.success) {
+                    throw new Error(createResult.error || '创建商品失败');
+                }
+                productId = createResult.data.id;
                 // 记录创建成功
                 _utils_userActionLogger__WEBPACK_IMPORTED_MODULE_10__.userActionLogger.logBusinessAction({
                     type: _utils_userActionLogger__WEBPACK_IMPORTED_MODULE_10__.UserActionType.CREATE,
@@ -60538,7 +59372,10 @@ const ProductManagement = ({ className }) => {
         // 找到要删除的产品信息
         const productToDelete = products.find(p => p.id === deleteTargetId);
         try {
-            yield services.productService.deleteProduct(deleteTargetId);
+            const deleteResult = yield services.productService.deleteProduct(deleteTargetId);
+            if (!deleteResult.success) {
+                throw new Error(deleteResult.error || '删除商品失败');
+            }
             // 记录删除成功
             _utils_userActionLogger__WEBPACK_IMPORTED_MODULE_10__.userActionLogger.logBusinessAction({
                 type: _utils_userActionLogger__WEBPACK_IMPORTED_MODULE_10__.UserActionType.DELETE,
@@ -60862,6 +59699,9 @@ const StockAdjust = ({ className }) => {
                 const adjustmentQuantity = item.adjustedStock - currentStock;
                 const transactionType = adjustmentQuantity > 0 ? 'IN' : 'OUT';
                 const result = yield inventoryService.updateStock(item.productId, item.warehouseId, Math.abs(adjustmentQuantity), transactionType, `库存调整: ${item.remark || '无备注'}`);
+                if (!result.success) {
+                    throw new Error(result.error || '库存调整失败');
+                }
                 results.push(result);
             }
             setSuccessMessage(`成功处理 ${results.length} 个库存调整项目`);
@@ -68822,6 +67662,8 @@ const ConversionRulesManagement = () => {
     const [units, setUnits] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
     const [showConversionForm, setShowConversionForm] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
     const [editingConversion, setEditingConversion] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
     const [conversionForm, setConversionForm] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
         name: '',
         fromUnitId: '',
@@ -68829,162 +67671,126 @@ const ConversionRulesManagement = () => {
         conversionRate: 1,
         category: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
         description: '',
-        isActive: true
+        isActive: false
     });
-    // 初始化示例数据
+    // 初始化数据
     (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-        // 示例单位数据
-        const exampleUnits = [
-            // 数量单位
-            {
-                id: 'unit_001',
-                name: '个',
-                symbol: 'pcs',
-                type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
-                precision: 0,
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            {
-                id: 'unit_002',
-                name: '箱',
-                symbol: 'box',
-                type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
-                precision: 0,
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            {
-                id: 'unit_003',
-                name: '包',
-                symbol: 'pkg',
-                type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
-                precision: 0,
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            {
-                id: 'unit_004',
-                name: '套',
-                symbol: 'set',
-                type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
-                precision: 0,
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            // 重量单位
-            {
-                id: 'unit_005',
-                name: '千克',
-                symbol: 'kg',
-                type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.WEIGHT,
-                precision: 2,
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            {
-                id: 'unit_006',
-                name: '克',
-                symbol: 'g',
-                type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.WEIGHT,
-                precision: 0,
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            // 体积单位
-            {
-                id: 'unit_007',
-                name: '升',
-                symbol: 'L',
-                type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.VOLUME,
-                precision: 2,
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            {
-                id: 'unit_008',
-                name: '毫升',
-                symbol: 'ml',
-                type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.VOLUME,
-                precision: 0,
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            }
-        ];
-        // 示例换算规则数据
-        const exampleRules = [
-            {
-                id: 'rule_001',
-                name: '标准包装换算（箱装）',
-                fromUnitId: 'unit_002', // 箱
-                toUnitId: 'unit_001', // 个
-                conversionRate: 24,
-                category: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
-                description: '标准箱装，1箱 = 24个',
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            {
-                id: 'rule_002',
-                name: '标准包装换算（包装）',
-                fromUnitId: 'unit_003', // 包
-                toUnitId: 'unit_001', // 个
-                conversionRate: 12,
-                category: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
-                description: '标准包装，1包 = 12个',
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            {
-                id: 'rule_003',
-                name: '重量标准换算',
-                fromUnitId: 'unit_005', // 千克
-                toUnitId: 'unit_006', // 克
-                conversionRate: 1000,
-                category: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.WEIGHT,
-                description: '重量单位换算，1千克 = 1000克',
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            {
-                id: 'rule_004',
-                name: '体积标准换算',
-                fromUnitId: 'unit_007', // 升
-                toUnitId: 'unit_008', // 毫升
-                conversionRate: 1000,
-                category: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.VOLUME,
-                description: '体积单位换算，1升 = 1000毫升',
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            },
-            {
-                id: 'rule_005',
-                name: '套装换算（箱对箱特殊规格）',
-                fromUnitId: 'unit_002', // 箱
-                toUnitId: 'unit_004', // 套
-                conversionRate: 6,
-                category: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
-                description: '特殊套装规格，1箱 = 6套',
-                isActive: true,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            }
-        ];
-        setUnits(exampleUnits);
-        setConversionRules(exampleRules);
+        loadData();
     }, []);
+    // 加载数据
+    const loadData = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            setLoading(true);
+            setError(null);
+            // 加载单位数据
+            const unitsResult = yield window.electronAPI.dbGetAllUnits();
+            if (unitsResult.success) {
+                setUnits(unitsResult.data);
+            }
+            else {
+                // 如果没有单位数据，使用示例数据
+                const exampleUnits = [
+                    {
+                        id: 'unit_001',
+                        name: '个',
+                        symbol: 'pcs',
+                        type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
+                        precision: 0,
+                        isActive: true,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    },
+                    {
+                        id: 'unit_002',
+                        name: '箱',
+                        symbol: 'box',
+                        type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
+                        precision: 0,
+                        isActive: true,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    },
+                    {
+                        id: 'unit_003',
+                        name: '包',
+                        symbol: 'pkg',
+                        type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
+                        precision: 0,
+                        isActive: true,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    },
+                    {
+                        id: 'unit_004',
+                        name: '套',
+                        symbol: 'set',
+                        type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
+                        precision: 0,
+                        isActive: true,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    },
+                    {
+                        id: 'unit_005',
+                        name: '千克',
+                        symbol: 'kg',
+                        type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.WEIGHT,
+                        precision: 2,
+                        isActive: true,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    },
+                    {
+                        id: 'unit_006',
+                        name: '克',
+                        symbol: 'g',
+                        type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.WEIGHT,
+                        precision: 0,
+                        isActive: true,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    },
+                    {
+                        id: 'unit_007',
+                        name: '升',
+                        symbol: 'L',
+                        type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.VOLUME,
+                        precision: 2,
+                        isActive: true,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    },
+                    {
+                        id: 'unit_008',
+                        name: '毫升',
+                        symbol: 'ml',
+                        type: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.VOLUME,
+                        precision: 0,
+                        isActive: true,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    }
+                ];
+                setUnits(exampleUnits);
+            }
+            // 加载换算规则数据
+            const rulesResult = yield window.electronAPI.dbGetAllConversionRules();
+            if (rulesResult.success) {
+                setConversionRules(rulesResult.data);
+            }
+            else {
+                console.error('加载换算规则失败:', rulesResult.error);
+                setError('加载换算规则失败');
+            }
+        }
+        catch (err) {
+            console.error('加载数据失败:', err);
+            setError('加载数据失败');
+        }
+        finally {
+            setLoading(false);
+        }
+    });
     const unitTypeOptions = [
         { value: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.WEIGHT, label: '重量' },
         { value: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.LENGTH, label: '长度' },
@@ -69007,15 +67813,35 @@ const ConversionRulesManagement = () => {
     const onConversionSubmit = (e) => __awaiter(void 0, void 0, void 0, function* () {
         e.preventDefault();
         try {
+            setLoading(true);
+            setError(null);
             if (editingConversion) {
                 // 编辑现有规则
-                const updatedRule = Object.assign(Object.assign(Object.assign({}, editingConversion), conversionForm), { updatedAt: new Date() });
-                setConversionRules(prev => prev.map(rule => rule.id === editingConversion.id ? updatedRule : rule));
+                const result = yield window.electronAPI.dbUpdateConversionRule({
+                    id: editingConversion.id,
+                    updates: conversionForm
+                });
+                if (result.success) {
+                    // 重新加载数据
+                    yield loadData();
+                    setShowConversionForm(false);
+                    setEditingConversion(null);
+                }
+                else {
+                    setError('更新换算规则失败: ' + result.error);
+                }
             }
             else {
                 // 添加新规则
-                const newRule = Object.assign(Object.assign({ id: `rule_${Date.now()}` }, conversionForm), { createdAt: new Date(), updatedAt: new Date() });
-                setConversionRules(prev => [...prev, newRule]);
+                const result = yield window.electronAPI.dbCreateConversionRule(conversionForm);
+                if (result.success) {
+                    // 重新加载数据
+                    yield loadData();
+                    setShowConversionForm(false);
+                }
+                else {
+                    setError('创建换算规则失败: ' + result.error);
+                }
             }
             // 重置表单
             setConversionForm({
@@ -69025,13 +67851,15 @@ const ConversionRulesManagement = () => {
                 conversionRate: 1,
                 category: _types_entities__WEBPACK_IMPORTED_MODULE_4__.UnitType.QUANTITY,
                 description: '',
-                isActive: true
+                isActive: false
             });
-            setShowConversionForm(false);
-            setEditingConversion(null);
         }
         catch (error) {
             console.error('保存换算规则失败:', error);
+            setError('保存换算规则失败');
+        }
+        finally {
+            setLoading(false);
         }
     });
     const onEditConversion = (rule) => {
@@ -69049,17 +67877,35 @@ const ConversionRulesManagement = () => {
     };
     const onDeleteConversion = (ruleId) => __awaiter(void 0, void 0, void 0, function* () {
         if (window.confirm('确定要删除这个换算规则吗？')) {
-            setConversionRules(prev => prev.filter(rule => rule.id !== ruleId));
+            try {
+                setLoading(true);
+                setError(null);
+                const result = yield window.electronAPI.dbDeleteConversionRule({ id: ruleId });
+                if (result.success) {
+                    // 重新加载数据
+                    yield loadData();
+                }
+                else {
+                    setError('删除换算规则失败: ' + result.error);
+                }
+            }
+            catch (error) {
+                console.error('删除换算规则失败:', error);
+                setError('删除换算规则失败');
+            }
+            finally {
+                setLoading(false);
+            }
         }
     });
-    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "min-h-screen p-6 space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center mb-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white mb-2", children: "\u6362\u7B97\u89C4\u5219\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u7BA1\u7406\u5168\u5C40\u5355\u4F4D\u6362\u7B97\u89C4\u5219\uFF0C\u4E3A\u4E1A\u52A1\u7CFB\u7EDF\u63D0\u4F9B\u6807\u51C6\u5316\u7684\u5355\u4F4D\u8F6C\u6362" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white", children: "\u5168\u5C40\u6362\u7B97\u89C4\u5219" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70 text-sm mt-1", children: "\u8FD9\u4E9B\u6362\u7B97\u89C4\u5219\u5C06\u5E94\u7528\u4E8E\u6574\u4E2A\u7CFB\u7EDF\uFF0C\u786E\u4FDD\u5355\u4F4D\u6362\u7B97\u7684\u4E00\u81F4\u6027\u548C\u51C6\u786E\u6027" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { onClick: () => setShowConversionForm(true), variant: "primary", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\u2795" }), "\u6DFB\u52A0\u6362\u7B97\u89C4\u5219"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface rounded-lg overflow-hidden mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableContainer, { height: "500px", scrollbarClassName: "table-scrollbar", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.Table, { stickyHeader: true, minWidth: "1000px", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHeader, { sticky: true, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableRow, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[180px] text-left", children: "\u89C4\u5219\u540D\u79F0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[100px] text-left", children: "\u7C7B\u522B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[120px] text-left", children: "\u6E90\u5355\u4F4D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[120px] text-left", children: "\u76EE\u6807\u5355\u4F4D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[100px] text-left", children: "\u6BD4\u7387" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[250px] text-left", children: "\u63CF\u8FF0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[80px] text-left", children: "\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[140px] text-left", children: "\u64CD\u4F5C" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableBody, { children: conversionRules.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableRow, { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { colSpan: 8, className: "text-center py-8 text-white/60", children: "\u6682\u65E0\u6362\u7B97\u89C4\u5219\uFF0C\u8BF7\u6DFB\u52A0\u89C4\u5219" }) })) : (conversionRules.map(rule => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableRow, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[180px] text-white font-medium", children: rule.name }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[100px] text-white/80", children: getUnitTypeLabel(rule.category) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[120px] text-white/80", children: getUnitName(rule.fromUnitId) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[120px] text-white/80", children: getUnitName(rule.toUnitId) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[100px] text-white/80", children: rule.conversionRate }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[250px] text-white/70", children: rule.description || '-' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[80px]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `px-2 py-1 rounded text-xs font-medium ${rule.isActive
+    return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "min-h-screen p-6 space-y-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-center mb-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white mb-2", children: "\u6362\u7B97\u89C4\u5219\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u7BA1\u7406\u5168\u5C40\u5355\u4F4D\u6362\u7B97\u89C4\u5219\uFF0C\u4E3A\u4E1A\u52A1\u7CFB\u7EDF\u63D0\u4F9B\u6807\u51C6\u5316\u7684\u5355\u4F4D\u8F6C\u6362" })] }), error && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-red-400", children: "\u26A0\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-red-300", children: error }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => setError(null), className: "ml-auto text-red-400 hover:text-red-300", children: "\u2715" })] }) })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", { className: "text-xl font-semibold text-white", children: "\u5168\u5C40\u6362\u7B97\u89C4\u5219" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70 text-sm mt-1", children: "\u8FD9\u4E9B\u6362\u7B97\u89C4\u5219\u5C06\u5E94\u7528\u4E8E\u6574\u4E2A\u7CFB\u7EDF\uFF0C\u786E\u4FDD\u5355\u4F4D\u6362\u7B97\u7684\u4E00\u81F4\u6027\u548C\u51C6\u786E\u6027" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { onClick: () => setShowConversionForm(true), variant: "primary", disabled: loading, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\u2795" }), loading ? '加载中...' : '添加换算规则'] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface rounded-lg overflow-hidden mb-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableContainer, { height: "500px", scrollbarClassName: "table-scrollbar", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.Table, { stickyHeader: true, minWidth: "1000px", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHeader, { sticky: true, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableRow, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[180px] text-left", children: "\u89C4\u5219\u540D\u79F0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[100px] text-left", children: "\u7C7B\u522B" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[120px] text-left", children: "\u6E90\u5355\u4F4D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[120px] text-left", children: "\u76EE\u6807\u5355\u4F4D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[100px] text-left", children: "\u6BD4\u7387" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[250px] text-left", children: "\u63CF\u8FF0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[80px] text-left", children: "\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableHead, { className: "min-w-[140px] text-left", children: "\u64CD\u4F5C" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableBody, { children: loading ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableRow, { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { colSpan: 8, className: "text-center py-8 text-white/60", children: "\u52A0\u8F7D\u4E2D..." }) })) : conversionRules.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableRow, { children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { colSpan: 8, className: "text-center py-8 text-white/60", children: "\u6682\u65E0\u6362\u7B97\u89C4\u5219\uFF0C\u8BF7\u6DFB\u52A0\u89C4\u5219" }) })) : (conversionRules.map(rule => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableRow, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[180px] text-white font-medium", children: rule.name }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[100px] text-white/80", children: getUnitTypeLabel(rule.category) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[120px] text-white/80", children: getUnitName(rule.fromUnitId) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[120px] text-white/80", children: getUnitName(rule.toUnitId) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[100px] text-white/80", children: rule.conversionRate }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[250px] text-white/70", children: rule.description || '-' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[80px]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: `px-2 py-1 rounded text-xs font-medium ${rule.isActive
                                                             ? 'bg-green-500/20 text-green-300'
-                                                            : 'bg-gray-500/20 text-gray-300'}`, children: rule.isActive ? '启用' : '禁用' }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[140px]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onEditConversion(rule), className: "px-2 py-1 bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 hover:text-blue-300 rounded-md transition-all duration-200 border border-blue-500/30 hover:border-blue-400/50", title: "\u7F16\u8F91", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u270F\uFE0F" }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onDeleteConversion(rule.id), className: "px-2 py-1 bg-red-500/20 text-red-400 hover:bg-red-500/30 hover:text-red-300 rounded-md transition-all duration-200 border border-red-500/30 hover:border-red-400/50", title: "\u5220\u9664", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\uD83D\uDDD1\uFE0F" }) })] }) })] }, rule.id)))) })] }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface rounded-lg p-4 mb-4 bg-blue-500/10 border border-blue-500/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-start gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-blue-400 text-lg", children: "\u2139\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-blue-300 font-medium mb-2", children: "\u7CFB\u7EDF\u521D\u59CB\u5316\u8BF4\u660E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-blue-200/80 text-sm mb-2", children: "\u4E0A\u65B9\u662F\u521D\u59CB\u5316\u7CFB\u7EDF\u7684\u6362\u7B97\u89C4\u5219\u793A\u610F\uFF0C\u9ED8\u8BA4\u4E3A\u7981\u7528\u72B6\u6001\uFF0C\u4E0D\u4F1A\u5F71\u54CD\u4E1A\u52A1\u3002\u5982\u6709\u9700\u8981\uFF0C\u53EF\u4EE5\u81EA\u884C\u4FEE\u6539\u5F00\u542F\u3002" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", { className: "text-blue-200/70 text-xs space-y-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u6240\u6709\u521D\u59CB\u6362\u7B97\u89C4\u5219\u5747\u4E3A\u7981\u7528\u72B6\u6001\uFF0C\u786E\u4FDD\u4E0D\u4F1A\u5728\u7528\u6237\u4E0D\u77E5\u60C5\u7684\u60C5\u51B5\u4E0B\u5F71\u54CD\u4E1A\u52A1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u60A8\u53EF\u4EE5\u6839\u636E\u5B9E\u9645\u4E1A\u52A1\u9700\u8981\uFF0C\u9009\u62E9\u6027\u542F\u7528\u76F8\u5173\u7684\u6362\u7B97\u89C4\u5219" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u542F\u7528\u89C4\u5219\u524D\u8BF7\u4ED4\u7EC6\u68C0\u67E5\u6362\u7B97\u6BD4\u7387\u662F\u5426\u7B26\u5408\u60A8\u7684\u4E1A\u52A1\u8981\u6C42" })] })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-white font-medium mb-2", children: "\u4F7F\u7528\u8BF4\u660E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", { className: "text-white/70 text-sm space-y-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u8FD9\u4E9B\u6362\u7B97\u89C4\u5219\u662F\u5168\u5C40\u751F\u6548\u7684\uFF0C\u5C06\u5728\u6574\u4E2A\u7CFB\u7EDF\u4E2D\u4FDD\u6301\u4E00\u81F4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u6362\u7B97\u6BD4\u7387\u8868\u793A\uFF1A1\u4E2A\u6E90\u5355\u4F4D = \u6BD4\u7387\u6570\u91CF\u7684\u76EE\u6807\u5355\u4F4D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u5EFA\u8BAE\u4E3A\u5E38\u7528\u7684\u5355\u4F4D\u7EC4\u5408\u521B\u5EFA\u6362\u7B97\u89C4\u5219\uFF0C\u63D0\u9AD8\u4E1A\u52A1\u6548\u7387" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u7981\u7528\u7684\u89C4\u5219\u4E0D\u4F1A\u5728\u4E1A\u52A1\u4E2D\u663E\u793A\uFF0C\u4F46\u4FDD\u7559\u6570\u636E\u4FBF\u4E8E\u540E\u7EED\u542F\u7528" })] })] })] }), showConversionForm && (0,react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal)((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card w-full max-w-md mx-4 p-6 max-h-[90vh] overflow-y-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-semibold text-white", children: editingConversion ? '编辑换算规则' : '添加换算规则' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => setShowConversionForm(false), className: "text-white/60 hover:text-white transition-colors", children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", { onSubmit: onConversionSubmit, className: "space-y-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u89C4\u5219\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { type: "text", value: conversionForm.name, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { name: e.target.value }))), placeholder: "\u5982\uFF1A\u91CD\u91CF\u6807\u51C6\u6362\u7B97", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u6362\u7B97\u7C7B\u522B *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { value: conversionForm.category, onChange: (e) => {
-                                                const category = e.target.value;
-                                                setConversionForm(prev => (Object.assign(Object.assign({}, prev), { category, fromUnitId: '', toUnitId: '' })));
-                                            }, required: true, children: unitTypeOptions.map(option => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: option.value, children: option.label }, option.value))) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u6E90\u5355\u4F4D *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { value: conversionForm.fromUnitId, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { fromUnitId: e.target.value }))), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u6E90\u5355\u4F4D" }), getUnitsForCategory(conversionForm.category).map(unit => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: unit.id, children: [unit.name, "(", unit.symbol, ")"] }, unit.id)))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u76EE\u6807\u5355\u4F4D *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { value: conversionForm.toUnitId, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { toUnitId: e.target.value }))), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u76EE\u6807\u5355\u4F4D" }), getUnitsForCategory(conversionForm.category)
-                                                    .filter(unit => unit.id !== conversionForm.fromUnitId)
-                                                    .map(unit => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: unit.id, children: [unit.name, "(", unit.symbol, ")"] }, unit.id)))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u6362\u7B97\u6BD4\u7387 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { type: "number", value: conversionForm.conversionRate, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { conversionRate: parseFloat(e.target.value) || 0 }))), placeholder: "\u5982\uFF1A1000\uFF081\u5343\u514B=1000\u514B\uFF09", step: "0.01", min: "0.01", required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "text-xs text-white/60 mt-1", children: ["1\u4E2A\u6E90\u5355\u4F4D = ", conversionForm.conversionRate, "\u4E2A\u76EE\u6807\u5355\u4F4D"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-2", children: "\u63CF\u8FF0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { type: "text", value: conversionForm.description, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { description: e.target.value }))), placeholder: "\u6362\u7B97\u89C4\u5219\u7684\u8BE6\u7EC6\u63CF\u8FF0\uFF08\u53EF\u9009\uFF09" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", id: "conversionActive", checked: conversionForm.isActive, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { isActive: e.target.checked }))), className: "w-4 h-4 rounded border-white/20 bg-white/10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "conversionActive", className: "text-sm text-white/80", children: "\u542F\u7528\u6B64\u6362\u7B97\u89C4\u5219" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3 pt-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { type: "button", onClick: () => setShowConversionForm(false), variant: "secondary", className: "flex-1", children: "\u53D6\u6D88" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { type: "submit", variant: "primary", className: "flex-1", children: editingConversion ? '保存' : '添加' })] })] })] }) }), document.body)] }));
+                                                            : 'bg-gray-500/20 text-gray-300'}`, children: rule.isActive ? '启用' : '禁用' }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_5__.TableCell, { className: "min-w-[140px]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onEditConversion(rule), disabled: loading, className: "px-2 py-1 bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 hover:text-blue-300 rounded-md transition-all duration-200 border border-blue-500/30 hover:border-blue-400/50 disabled:opacity-50", title: "\u7F16\u8F91", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\u270F\uFE0F" }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => onDeleteConversion(rule.id), disabled: loading, className: "px-2 py-1 bg-red-500/20 text-red-400 hover:bg-red-500/30 hover:text-red-300 rounded-md transition-all duration-200 border border-red-500/30 hover:border-red-400/50 disabled:opacity-50", title: "\u5220\u9664", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-sm", children: "\uD83D\uDDD1\uFE0F" }) })] }) })] }, rule.id)))) })] }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "glass-surface rounded-lg p-4 mb-4 bg-blue-500/10 border border-blue-500/20", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-start gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-blue-400 text-lg", children: "\u2139\uFE0F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-blue-300 font-medium mb-2", children: "\u7CFB\u7EDF\u521D\u59CB\u5316\u8BF4\u660E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-blue-200/80 text-sm mb-2", children: "\u4E0A\u65B9\u662F\u521D\u59CB\u5316\u7CFB\u7EDF\u7684\u6362\u7B97\u89C4\u5219\u793A\u610F\uFF0C\u9ED8\u8BA4\u4E3A\u7981\u7528\u72B6\u6001\uFF0C\u4E0D\u4F1A\u5F71\u54CD\u4E1A\u52A1\u3002\u5982\u6709\u9700\u8981\uFF0C\u53EF\u4EE5\u81EA\u884C\u4FEE\u6539\u5F00\u542F\u3002" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", { className: "text-blue-200/70 text-xs space-y-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u6240\u6709\u521D\u59CB\u6362\u7B97\u89C4\u5219\u5747\u4E3A\u7981\u7528\u72B6\u6001\uFF0C\u786E\u4FDD\u4E0D\u4F1A\u5728\u7528\u6237\u4E0D\u77E5\u60C5\u7684\u60C5\u51B5\u4E0B\u5F71\u54CD\u4E1A\u52A1" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u60A8\u53EF\u4EE5\u6839\u636E\u5B9E\u9645\u4E1A\u52A1\u9700\u8981\uFF0C\u9009\u62E9\u6027\u542F\u7528\u76F8\u5173\u7684\u6362\u7B97\u89C4\u5219" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u542F\u7528\u89C4\u5219\u524D\u8BF7\u4ED4\u7EC6\u68C0\u67E5\u6362\u7B97\u6BD4\u7387\u662F\u5426\u7B26\u5408\u60A8\u7684\u4E1A\u52A1\u8981\u6C42" })] })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-surface rounded-lg p-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-white font-medium mb-2", children: "\u4F7F\u7528\u8BF4\u660E" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", { className: "text-white/70 text-sm space-y-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u8FD9\u4E9B\u6362\u7B97\u89C4\u5219\u662F\u5168\u5C40\u751F\u6548\u7684\uFF0C\u5C06\u5728\u6574\u4E2A\u7CFB\u7EDF\u4E2D\u4FDD\u6301\u4E00\u81F4" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u6362\u7B97\u6BD4\u7387\u8868\u793A\uFF1A1\u4E2A\u6E90\u5355\u4F4D = \u6BD4\u7387\u6570\u91CF\u7684\u76EE\u6807\u5355\u4F4D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u5EFA\u8BAE\u4E3A\u5E38\u7528\u7684\u5355\u4F4D\u7EC4\u5408\u521B\u5EFA\u6362\u7B97\u89C4\u5219\uFF0C\u63D0\u9AD8\u4E1A\u52A1\u6548\u7387" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", { children: "\u2022 \u7981\u7528\u7684\u89C4\u5219\u4E0D\u4F1A\u5728\u4E1A\u52A1\u4E2D\u663E\u793A\uFF0C\u4F46\u4FDD\u7559\u6570\u636E\u4FBF\u4E8E\u540E\u7EED\u542F\u7528" })] })] })] }), showConversionForm && (0,react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal)((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "glass-card w-full max-w-2xl mx-4 p-6 max-h-[90vh] overflow-y-auto", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-between mb-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "text-lg font-semibold text-white", children: editingConversion ? '编辑换算规则' : '添加换算规则' }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: () => setShowConversionForm(false), className: "text-white/60 hover:text-white transition-colors", children: "\u2715" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", { onSubmit: onConversionSubmit, className: "space-y-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-1", children: "\u89C4\u5219\u540D\u79F0 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { type: "text", value: conversionForm.name, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { name: e.target.value }))), placeholder: "\u5982\uFF1A\u91CD\u91CF\u6807\u51C6\u6362\u7B97", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-1", children: "\u6362\u7B97\u7C7B\u522B *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { value: conversionForm.category, onChange: (e) => {
+                                                        const category = e.target.value;
+                                                        setConversionForm(prev => (Object.assign(Object.assign({}, prev), { category, fromUnitId: '', toUnitId: '' })));
+                                                    }, required: true, children: unitTypeOptions.map(option => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: option.value, children: option.label }, option.value))) })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-1", children: "\u6E90\u5355\u4F4D *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { value: conversionForm.fromUnitId, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { fromUnitId: e.target.value }))), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u6E90\u5355\u4F4D" }), getUnitsForCategory(conversionForm.category).map(unit => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: unit.id, children: [unit.name, "(", unit.symbol, ")"] }, unit.id)))] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-1", children: "\u76EE\u6807\u5355\u4F4D *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { value: conversionForm.toUnitId, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { toUnitId: e.target.value }))), required: true, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u8BF7\u9009\u62E9\u76EE\u6807\u5355\u4F4D" }), getUnitsForCategory(conversionForm.category)
+                                                            .filter(unit => unit.id !== conversionForm.fromUnitId)
+                                                            .map(unit => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", { value: unit.id, children: [unit.name, "(", unit.symbol, ")"] }, unit.id)))] })] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-1", children: "\u6362\u7B97\u6BD4\u7387 *" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { type: "number", value: conversionForm.conversionRate, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { conversionRate: parseFloat(e.target.value) || 0 }))), placeholder: "\u5982\uFF1A1000\uFF081\u5343\u514B=1000\u514B\uFF09", step: "0.01", min: "0.01", required: true }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "text-xs text-white/60 mt-1", children: ["1\u4E2A\u6E90\u5355\u4F4D = ", conversionForm.conversionRate, "\u4E2A\u76EE\u6807\u5355\u4F4D"] })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "block text-sm font-medium text-white/80 mb-1", children: "\u63CF\u8FF0" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { type: "text", value: conversionForm.description, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { description: e.target.value }))), placeholder: "\u6362\u7B97\u89C4\u5219\u7684\u8BE6\u7EC6\u63CF\u8FF0\uFF08\u53EF\u9009\uFF09" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { type: "checkbox", id: "conversionActive", checked: conversionForm.isActive, onChange: (e) => setConversionForm(prev => (Object.assign(Object.assign({}, prev), { isActive: e.target.checked }))), className: "w-4 h-4 rounded border-white/20 bg-white/10" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "conversionActive", className: "text-sm text-white/80", children: "\u542F\u7528\u6B64\u6362\u7B97\u89C4\u5219" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-3 pt-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { type: "button", onClick: () => setShowConversionForm(false), variant: "secondary", className: "flex-1", disabled: loading, children: "\u53D6\u6D88" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { type: "submit", variant: "primary", className: "flex-1", disabled: loading, children: loading ? '保存中...' : (editingConversion ? '保存' : '添加') })] })] })] }) }), document.body)] }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConversionRulesManagement);
 
@@ -69182,10 +68028,16 @@ const UnitManagement = () => {
         try {
             const inventoryService = _services_core__WEBPACK_IMPORTED_MODULE_3__.serviceManager.getInventoryService();
             if (editingUnit) {
-                yield inventoryService.updateUnit(editingUnit.id, unitForm);
+                const updateResult = yield inventoryService.updateUnit(editingUnit.id, unitForm);
+                if (!updateResult.success) {
+                    throw new Error(updateResult.error || '更新单位失败');
+                }
             }
             else {
-                yield inventoryService.createUnit(unitForm);
+                const createResult = yield inventoryService.createUnit(unitForm);
+                if (!createResult.success) {
+                    throw new Error(createResult.error || '创建单位失败');
+                }
             }
             yield loadUnits();
             setShowUnitForm(false);
@@ -69220,7 +68072,10 @@ const UnitManagement = () => {
             showConfirm('确定要删除这个单位吗？', () => __awaiter(void 0, void 0, void 0, function* () {
                 try {
                     const inventoryService = _services_core__WEBPACK_IMPORTED_MODULE_3__.serviceManager.getInventoryService();
-                    yield inventoryService.deleteUnit(unitId);
+                    const deleteResult = yield inventoryService.deleteUnit(unitId);
+                    if (!deleteResult.success) {
+                        throw new Error(deleteResult.error || '删除单位失败');
+                    }
                     yield loadUnits();
                     resolve();
                 }
@@ -70812,22 +69667,22 @@ const LoginPage = () => {
                                                     background: 'var(--success-color)'
                                                 }, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-4 h-4", style: { color: 'var(--text-primary)' }, fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M5 13l4 4L19 7" }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", { className: "font-semibold text-base mb-2", style: { color: 'var(--success-color)' }, children: "\u514D\u8D39\u4F7F\u7528\u627F\u8BFA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-sm leading-relaxed mb-3", style: { color: 'var(--text-secondary)' }, children: "\u672C\u8F6F\u4EF6\u5B8C\u5168\u514D\u8D39\u4F7F\u7528\uFF0C\u65E0\u9690\u85CF\u8D39\u7528\u3002\u5982\u9700\u5B9A\u5236\u5F00\u53D1\u3001\u529F\u80FD\u6269\u5C55\u6216\u754C\u9762\u7F8E\u5316\uFF0C\u6B22\u8FCE\u8054\u7CFB\u6211\u4EEC\u7684\u4E13\u4E1A\u56E2\u961F\u3002" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-xs", style: { color: 'var(--text-tertiary)' }, children: "\u6280\u672F\u54A8\u8BE2 \u00B7 \u5B9A\u5236\u5F00\u53D1 \u00B7 \u7CFB\u7EDF\u96C6\u6210 \u00B7 \u4E3B\u9898\u8BBE\u8BA1" })] })] }) })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "lg:w-1/2 w-full flex flex-col justify-center px-8 lg:px-16 py-12", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "max-w-md w-full mx-auto", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_GlassCard__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "backdrop-blur-xl bg-white/[0.08] border-white/20 shadow-2xl", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_GlassCard__WEBPACK_IMPORTED_MODULE_3__.GlassCardHeader, { className: "text-center pb-8", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg", style: {
                                                     background: 'var(--login-button-bg)'
-                                                }, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-8 h-8 text-white", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_GlassCard__WEBPACK_IMPORTED_MODULE_3__.GlassCardTitle, { className: "text-2xl font-bold mb-2", style: { color: 'var(--text-primary)' }, children: "\u8FDB\u9500\u5B58\u7BA1\u7406\u7CFB\u7EDF" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_GlassCard__WEBPACK_IMPORTED_MODULE_3__.GlassCardDescription, { style: { color: 'var(--text-secondary)' }, children: "\u8BF7\u8F93\u5165\u60A8\u7684\u767B\u5F55\u51ED\u636E\u4EE5\u7EE7\u7EED" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_GlassCard__WEBPACK_IMPORTED_MODULE_3__.GlassCardContent, { className: "pt-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", { onSubmit: handleSubmit, className: "space-y-5", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-sm font-medium", style: { color: 'var(--text-secondary)' }, children: "\u7528\u6237\u540D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_input__WEBPACK_IMPORTED_MODULE_4__.Input, { type: "text", value: username, onChange: handleUsernameChange, placeholder: "\u8F93\u5165\u7528\u6237\u540D", className: "h-12 transition-all duration-200 glass-input", style: {
+                                                }, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-8 h-8 text-white", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" }) }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_GlassCard__WEBPACK_IMPORTED_MODULE_3__.GlassCardTitle, { className: "text-2xl font-bold mb-2", style: { color: 'var(--text-primary)' }, children: "\u8FDB\u9500\u5B58\u7BA1\u7406\u7CFB\u7EDF" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_GlassCard__WEBPACK_IMPORTED_MODULE_3__.GlassCardDescription, { style: { color: 'var(--text-secondary)' }, children: "\u8BF7\u8F93\u5165\u60A8\u7684\u767B\u5F55\u51ED\u636E\u4EE5\u7EE7\u7EED" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_GlassCard__WEBPACK_IMPORTED_MODULE_3__.GlassCardContent, { className: "pt-0", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", { onSubmit: handleSubmit, className: "space-y-5", "data-testid": "login-form", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-sm font-medium", style: { color: 'var(--text-secondary)' }, children: "\u7528\u6237\u540D" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_input__WEBPACK_IMPORTED_MODULE_4__.Input, { type: "text", value: username, onChange: handleUsernameChange, placeholder: "\u8F93\u5165\u7528\u6237\u540D", className: "h-12 transition-all duration-200 glass-input", style: {
                                                                     color: 'var(--text-primary)',
                                                                     background: 'var(--glass-bg-10)',
                                                                     border: '1px solid var(--glass-border)'
-                                                                }, required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-sm font-medium", style: { color: 'var(--text-secondary)' }, children: "\u5BC6\u7801" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_input__WEBPACK_IMPORTED_MODULE_4__.Input, { type: "password", value: password, onChange: handlePasswordChange, placeholder: "\u8F93\u5165\u5BC6\u7801", className: "h-12 transition-all duration-200 glass-input", style: {
+                                                                }, "data-testid": "username-input", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "space-y-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { className: "text-sm font-medium", style: { color: 'var(--text-secondary)' }, children: "\u5BC6\u7801" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_input__WEBPACK_IMPORTED_MODULE_4__.Input, { type: "password", value: password, onChange: handlePasswordChange, placeholder: "\u8F93\u5165\u5BC6\u7801", className: "h-12 transition-all duration-200 glass-input", style: {
                                                                     color: 'var(--text-primary)',
                                                                     background: 'var(--glass-bg-10)',
                                                                     border: '1px solid var(--glass-border)'
-                                                                }, required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center space-x-3 pt-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { id: "rememberPassword", type: "checkbox", checked: rememberPassword, onChange: (e) => setRememberPassword(e.target.checked), className: "w-4 h-4 rounded border-2 cursor-pointer transition-all duration-200 focus:ring-2 focus:ring-opacity-50", style: {
+                                                                }, "data-testid": "password-input", required: true })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center space-x-3 pt-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { id: "rememberPassword", type: "checkbox", checked: rememberPassword, onChange: (e) => setRememberPassword(e.target.checked), className: "w-4 h-4 rounded border-2 cursor-pointer transition-all duration-200 focus:ring-2 focus:ring-opacity-50", style: {
                                                                             background: rememberPassword ? 'var(--login-button-bg)' : 'var(--glass-bg-10)',
                                                                             borderColor: rememberPassword ? 'var(--login-button-bg)' : 'var(--glass-border)'
                                                                         } }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", { htmlFor: "rememberPassword", className: "ml-2 text-sm font-medium cursor-pointer select-none transition-colors duration-200", style: { color: 'var(--text-secondary)' }, children: "\u4FDD\u5B58\u5BC6\u7801" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-xs opacity-75", style: { color: 'var(--text-tertiary)' }, children: "\u4E0B\u6B21\u81EA\u52A8\u586B\u5145" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "min-h-[60px] flex items-center", children: error && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "w-full rounded-xl p-4 text-sm flex items-center justify-between animate-in slide-in-from-top-2 duration-300", style: {
                                                                 background: 'var(--error-message-bg)',
                                                                 border: `1px solid var(--error-message-border)`,
                                                                 color: 'var(--error-color)'
-                                                            }, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center space-x-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-4 h-4 flex-shrink-0", style: { color: 'var(--error-color)' }, fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "flex-1", children: error })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: clearError, className: "ml-2 p-1 rounded-md hover:bg-white/10 transition-colors duration-200", style: { color: 'var(--error-color)' }, "aria-label": "\u5173\u95ED\u9519\u8BEF\u63D0\u793A", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-4 h-4", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) }) })] })) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_button__WEBPACK_IMPORTED_MODULE_5__.Button, { type: "submit", className: `w-full h-12 font-medium rounded-xl transition-all duration-200 transform ${buttonDisabled
+                                                            }, "data-testid": "error-message", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center space-x-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-4 h-4 flex-shrink-0", style: { color: 'var(--error-color)' }, fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "flex-1", children: error })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { type: "button", onClick: clearError, className: "ml-2 p-1 rounded-md hover:bg-white/10 transition-colors duration-200", style: { color: 'var(--error-color)' }, "aria-label": "\u5173\u95ED\u9519\u8BEF\u63D0\u793A", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-4 h-4", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12" }) }) })] })) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_button__WEBPACK_IMPORTED_MODULE_5__.Button, { type: "submit", className: `w-full h-12 font-medium rounded-xl transition-all duration-200 transform ${buttonDisabled
                                                             ? 'opacity-60 cursor-not-allowed'
                                                             : 'hover:scale-[1.02] active:scale-[0.98]'}`, style: {
                                                             background: isLoading ? 'var(--glass-bg-20)' : 'var(--login-button-bg)',
@@ -70841,7 +69696,7 @@ const LoginPage = () => {
                                                             if (!isLoading) {
                                                                 e.currentTarget.style.background = 'var(--login-button-bg)';
                                                             }
-                                                        }, disabled: buttonDisabled, children: isLoading ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u767B\u5F55\u4E2D..." })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-5 h-5 mr-2", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u767B\u5F55\u7CFB\u7EDF" })] })) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mt-8 pt-6 text-center text-sm", style: {
+                                                        }, disabled: buttonDisabled, "data-testid": "login-button", children: isLoading ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u767B\u5F55\u4E2D..." })] })) : ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center justify-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("svg", { className: "w-5 h-5 mr-2", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\u767B\u5F55\u7CFB\u7EDF" })] })) })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "mt-8 pt-6 text-center text-sm", style: {
                                                     borderTop: `1px solid var(--glass-border)`,
                                                     color: 'var(--text-tertiary)'
                                                 }, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", { className: "mb-1", children: ["\u9ED8\u8BA4\u7BA1\u7406\u5458\u8D26\u53F7: ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-medium", style: { color: 'var(--text-secondary)' }, children: "admin / 123456" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { children: "\u5FD8\u8BB0\u5BC6\u7801\uFF1F\u8BF7\u8054\u7CFB\u7CFB\u7EDF\u7BA1\u7406\u5458" })] })] })] }) }) })] })] }));
@@ -74034,6 +72889,19 @@ class FinancialService {
                 let remainingQuantity = quantity;
                 let totalCost = 0;
                 const affectedTransactions = [];
+                // 先检查库存是否足够
+                let checkQuantity = quantity;
+                for (const transaction of transactions.data) {
+                    const availableQuantity = transaction.quantity - (transaction.usedQuantity || 0);
+                    if (availableQuantity > 0) {
+                        checkQuantity -= Math.min(availableQuantity, checkQuantity);
+                        if (checkQuantity <= 0)
+                            break;
+                    }
+                }
+                if (checkQuantity > 0) {
+                    return { success: false, error: '库存不足，无法完成FIFO成本计算' };
+                }
                 // 按FIFO原则计算成本
                 for (const transaction of transactions.data) {
                     if (remainingQuantity <= 0)
@@ -74054,9 +72922,6 @@ class FinancialService {
                     yield this.database.updateInventoryCost(transaction.id, {
                         usedQuantity: (transaction.usedQuantity || 0) + usedQuantity
                     });
-                }
-                if (remainingQuantity > 0) {
-                    return { success: false, error: '库存不足，无法完成FIFO成本计算' };
                 }
                 const averageUnitCost = totalCost / quantity;
                 return {
@@ -74434,8 +73299,8 @@ class InventoryService {
                     };
                 }
                 const product = Object.assign(Object.assign({}, productData), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(), createdAt: new Date(), updatedAt: new Date() });
-                // 保存到数据库 - 产品实际上是库存项目
-                const result = yield this.database.createItem(product);
+                // 保存到数据库
+                const result = yield this.database.createProduct(product);
                 if (!result.success) {
                     return {
                         success: false,
@@ -77685,8 +76550,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _types_entities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/entities */ "./src/types/entities.ts");
 /* harmony import */ var _database__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./database */ "./src/services/core/database.ts");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
-/* harmony import */ var bcryptjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bcryptjs */ "./node_modules/bcryptjs/index.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
 /**
  * 系统服务 - 整合用户、权限、基础设置
  * 整合服务: UserService, PermissionService, SupplierService, CustomerService
@@ -77711,7 +76575,6 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
         }
     return t;
 };
-
 
 
 
@@ -77828,11 +76691,11 @@ class SystemService {
     createDefaultAdmin() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const hashedPassword = yield (0,bcryptjs__WEBPACK_IMPORTED_MODULE_2__.hash)('123456', 10);
+                // 对于单机版应用，简化密码验证逻辑，直接使用明文密码
                 const admin = {
-                    id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(),
+                    id: (0,uuid__WEBPACK_IMPORTED_MODULE_2__["default"])(),
                     username: 'admin',
-                    password: hashedPassword,
+                    password: '123456', // 单机版使用明文密码
                     nickname: '系统管理员',
                     email: 'admin@system.com',
                     role: _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserRole.ADMIN,
@@ -77865,9 +76728,8 @@ class SystemService {
                 if (userData.email && this.emailIndex.has(userData.email)) {
                     return { success: false, error: '邮箱已存在' };
                 }
-                // 加密密码
-                const hashedPassword = yield (0,bcryptjs__WEBPACK_IMPORTED_MODULE_2__.hash)(userData.password, 10);
-                const user = Object.assign(Object.assign({ id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])() }, userData), { password: hashedPassword, createdAt: new Date(), updatedAt: new Date() });
+                // 对于单机版应用，直接使用明文密码
+                const user = Object.assign(Object.assign({ id: (0,uuid__WEBPACK_IMPORTED_MODULE_2__["default"])() }, userData), { password: userData.password, createdAt: new Date(), updatedAt: new Date() });
                 yield this.database.createUser(user);
                 // 更新缓存
                 this.users.set(user.id, user);
@@ -77901,8 +76763,8 @@ class SystemService {
                 if (user.status !== _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserStatus.ACTIVE) {
                     return { success: false, error: '账户已被禁用' };
                 }
-                const isPasswordValid = yield (0,bcryptjs__WEBPACK_IMPORTED_MODULE_2__.compare)(password, user.password);
-                if (!isPasswordValid) {
+                // 对于单机版应用，简化密码验证逻辑
+                if (user.password !== password) {
                     return { success: false, error: '用户名或密码错误' };
                 }
                 // 设置当前用户
@@ -78006,7 +76868,7 @@ class SystemService {
                 if (customerData.code && this.customerCodeIndex.has(customerData.code)) {
                     return { success: false, error: '客户编码已存在' };
                 }
-                const customer = Object.assign(Object.assign({ id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])() }, customerData), { createdAt: new Date(), updatedAt: new Date() });
+                const customer = Object.assign(Object.assign({ id: (0,uuid__WEBPACK_IMPORTED_MODULE_2__["default"])() }, customerData), { createdAt: new Date(), updatedAt: new Date() });
                 yield this.database.createCustomer(customer);
                 // 更新缓存
                 this.customers.set(customer.id, customer);
@@ -78075,7 +76937,7 @@ class SystemService {
                 if (supplierData.code && this.supplierCodeIndex.has(supplierData.code)) {
                     return { success: false, error: '供应商编码已存在' };
                 }
-                const supplier = Object.assign(Object.assign({ id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])() }, supplierData), { createdAt: new Date(), updatedAt: new Date() });
+                const supplier = Object.assign(Object.assign({ id: (0,uuid__WEBPACK_IMPORTED_MODULE_2__["default"])() }, supplierData), { createdAt: new Date(), updatedAt: new Date() });
                 yield this.database.createSupplier(supplier);
                 // 更新缓存
                 this.suppliers.set(supplier.id, supplier);
@@ -78335,8 +77197,7 @@ class SystemService {
                     return { success: false, error: '用户不存在' };
                 }
                 const password = newPassword || this.generateRandomPassword();
-                const hashedPassword = yield (0,bcryptjs__WEBPACK_IMPORTED_MODULE_2__.hash)(password, 10);
-                const updatedUser = Object.assign(Object.assign({}, user), { password: hashedPassword, updatedAt: new Date() });
+                const updatedUser = Object.assign(Object.assign({}, user), { password: password, updatedAt: new Date() });
                 this.users.set(userId, updatedUser);
                 return { success: true, data: password };
             }
@@ -78352,14 +77213,12 @@ class SystemService {
                 if (!user) {
                     return { success: false, error: '用户不存在' };
                 }
-                // 验证旧密码
-                const isValidOldPassword = yield (0,bcryptjs__WEBPACK_IMPORTED_MODULE_2__.compare)(oldPassword, user.password);
-                if (!isValidOldPassword) {
+                // 验证旧密码（明文比较）
+                if (user.password !== oldPassword) {
                     return { success: false, error: '原密码错误' };
                 }
                 // 设置新密码
-                const hashedNewPassword = yield (0,bcryptjs__WEBPACK_IMPORTED_MODULE_2__.hash)(newPassword, 10);
-                const updatedUser = Object.assign(Object.assign({}, user), { password: hashedNewPassword, updatedAt: new Date() });
+                const updatedUser = Object.assign(Object.assign({}, user), { password: newPassword, updatedAt: new Date() });
                 this.users.set(userId, updatedUser);
                 return { success: true, data: true };
             }
@@ -84477,16 +83336,6 @@ if (typeof window !== 'undefined') {
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UserActionLogger);
 
-
-/***/ }),
-
-/***/ "?62e0":
-/*!************************!*\
-  !*** crypto (ignored) ***!
-  \************************/
-/***/ (() => {
-
-/* (ignored) */
 
 /***/ }),
 

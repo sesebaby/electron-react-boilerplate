@@ -127,17 +127,23 @@ export interface Product extends BaseEntity {
   name: string;                   // 商品名称
   description?: string;           // 商品描述
   categoryId: string;             // 分类ID
-  unitId: string;                 // 计量单位ID
+  unitId?: string;                // 计量单位ID（可选，向后兼容）
+  supplierId?: string;            // 供应商ID（新增）
   brand?: string;                 // 品牌
   model?: string;                 // 型号规格
   barcode?: string;               // 条形码
   purchasePrice: number;          // 采购价
-  salePrice: number;              // 销售价
-  minStock: number;               // 最小库存
+  salePrice: number;              // 销售价（对应数据库unit_price）
+  minStock: number;               // 最小库存（对应数据库reorder_level）
   maxStock: number;               // 最大库存
   status: ProductStatus;          // 状态
   isActive: boolean;              // 是否启用
   images?: string[];              // 商品图片
+  location?: string;              // 库存位置（新增）
+  stockQuantity?: number;         // 当前库存（新增）
+  reservedQuantity?: number;      // 预留库存（新增）
+  totalValue?: number;            // 总价值（新增）
+  lastUpdated?: Date;             // 最后更新时间（新增）
 }
 
 export enum ProductStatus {

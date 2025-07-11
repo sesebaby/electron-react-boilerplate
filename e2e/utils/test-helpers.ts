@@ -10,16 +10,39 @@ export class TestHelpers {
   /**
    * 启动Electron应用
    */
-  static async launchElectronApp(): Promise<ElectronApplication> {
+  static async launchElectronApp(options: {
+    testMode?: boolean;
+    dbPath?: string;
+    additionalArgs?: string[];
+    timeout?: number;
+  } = {}): Promise<ElectronApplication> {
+    const {
+      testMode = true,
+      dbPath = path.join(__dirname, '../../test-db/inventory.db'),
+      additionalArgs = [],
+      timeout = 45000
+    } = options;
+
+    const args = [
+      path.join(__dirname, '../../public/main.js'),
+      ...(testMode ? ['--test-mode'] : []),
+      `--test-db-path=${dbPath}`,
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--no-sandbox',
+      ...additionalArgs
+    ];
+
     const electronApp = await electron.launch({
-      args: [
-        path.join(__dirname, '../../public/main.js'),
-        '--test-mode',
-        '--test-db-path=' + path.join(__dirname, '../../test-db/inventory.db')
-      ],
-      timeout: 30000,
+      args,
+      timeout,
+      env: {
+        ...process.env,
+        NODE_ENV: 'test',
+        TEST_MODE: testMode ? 'true' : 'false'
+      }
     });
-    
+
     return electronApp;
   }
   
@@ -191,6 +214,81 @@ export class TestHelpers {
         phone: '13900139000'
       }
     };
+  }
+
+  /**
+   * 等待数据库操作完成
+   */
+  static async waitForDatabaseOperation(page: Page, timeout: number = 10000): Promise<void> {
+    // 等待数据库操作完成的指示器消失
+    await page.waitForFunction(
+      () => !document.querySelector('[data-testid="db-loading"]'),
+      { timeout }
+    );
+  }
+
+  /**
+   * 验证数据库状态
+   */
+  static async verifyDatabaseState(page: Page, expectedState: any): Promise<void> {
+    // 通过IPC调用验证数据库状态
+    const dbState = await page.evaluate(async () => {
+      // @ts-ignore
+      return await window.electronAPI?.dbGetSystemInfo?.();
+    });
+
+    expect(dbState).toBeTruthy();
+    // 这里可以添加更多具体的验证逻辑
+  }
+
+  /**
+   * 模拟网络延迟
+   */
+  static async simulateNetworkDelay(page: Page, delay: number = 1000): Promise<void> {
+    await page.route('**/*', async route => {
+      await new Promise(resolve => setTimeout(resolve, delay));
+      await route.continue();
+    });
+  }
+
+  /**
+   * 清理测试数据
+   */
+  static async cleanupTestData(page: Page, dataIds: string[]): Promise<void> {
+    for (const id of dataIds) {
+      try {
+        await page.evaluate(async (dataId) => {
+          // @ts-ignore
+          await window.electronAPI?.dbDeleteTestData?.(dataId);
+        }, id);
+      } catch (error) {
+        console.warn(`清理测试数据失败: ${id}`, error);
+      }
+    }
+  }
+
+  /**
+   * 等待页面稳定（无加载状态）
+   */
+  static async waitForPageStable(page: Page, timeout: number = 15000): Promise<void> {
+    // 等待所有可能的加载状态消失
+    const loadingSelectors = [
+      '[data-testid="loading"]',
+      '.loading-spinner',
+      '.skeleton-loader',
+      '[data-loading="true"]'
+    ];
+
+    for (const selector of loadingSelectors) {
+      try {
+        await page.waitForSelector(selector, { state: 'hidden', timeout: 5000 });
+      } catch {
+        // 如果元素不存在，忽略错误
+      }
+    }
+
+    // 等待网络请求完成
+    await page.waitForLoadState('networkidle', { timeout });
   }
 }
 

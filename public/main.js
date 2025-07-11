@@ -487,6 +487,59 @@ async function runDatabaseMigrations() {
       console.log('is_active field added to suppliers table successfully');
     }
 
+    // 检查 inventory_items 表字段
+    const inventoryTableInfo = db.prepare("PRAGMA table_info(inventory_items)").all();
+    const inventoryColumns = inventoryTableInfo.map(col => col.name);
+    
+    // 添加缺失的 unit_id 字段
+    if (!inventoryColumns.includes('unit_id')) {
+      console.log('Adding unit_id field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN unit_id TEXT');
+      console.log('unit_id field added successfully');
+    }
+    
+    // 添加缺失的 brand 字段
+    if (!inventoryColumns.includes('brand')) {
+      console.log('Adding brand field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN brand TEXT');
+      console.log('brand field added successfully');
+    }
+    
+    // 添加缺失的 model 字段
+    if (!inventoryColumns.includes('model')) {
+      console.log('Adding model field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN model TEXT');
+      console.log('model field added successfully');
+    }
+    
+    // 添加缺失的 barcode 字段
+    if (!inventoryColumns.includes('barcode')) {
+      console.log('Adding barcode field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN barcode TEXT');
+      console.log('barcode field added successfully');
+    }
+    
+    // 添加缺失的 purchase_price 字段
+    if (!inventoryColumns.includes('purchase_price')) {
+      console.log('Adding purchase_price field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN purchase_price REAL DEFAULT 0');
+      console.log('purchase_price field added successfully');
+    }
+    
+    // 添加缺失的 is_active 字段
+    if (!inventoryColumns.includes('is_active')) {
+      console.log('Adding is_active field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT 1');
+      console.log('is_active field added successfully');
+    }
+    
+    // 添加缺失的 images 字段（使用TEXT存储JSON字符串）
+    if (!inventoryColumns.includes('images')) {
+      console.log('Adding images field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN images TEXT');
+      console.log('images field added successfully');
+    }
+
     console.log('Database migrations completed');
   } catch (error) {
     console.error('Database migration failed:', error);

@@ -68,35 +68,72 @@ export interface TestUnit {
 }
 
 /**
- * 测试数据工厂类
+ * 增强的测试数据工厂类
  */
 export class TestDataFactory {
   private static sequence = 1;
-  
+  private static createdData: Map<string, any[]> = new Map();
+
   /**
    * 获取下一个序列号
    */
   private static getNextSequence(): number {
     return this.sequence++;
   }
-  
+
   /**
    * 生成时间戳字符串
    */
   private static getTimestamp(): string {
     return Date.now().toString();
   }
+
+  /**
+   * 生成唯一ID
+   */
+  private static generateId(): string {
+    return `test_${this.getTimestamp()}_${this.getNextSequence()}`;
+  }
+
+  /**
+   * 记录创建的数据
+   */
+  private static recordCreatedData(type: string, data: any): void {
+    if (!this.createdData.has(type)) {
+      this.createdData.set(type, []);
+    }
+    this.createdData.get(type)!.push(data);
+  }
+
+  /**
+   * 获取已创建的数据
+   */
+  static getCreatedData(type?: string): any {
+    if (type) {
+      return this.createdData.get(type) || [];
+    }
+    return Object.fromEntries(this.createdData);
+  }
+
+  /**
+   * 清理所有创建的数据记录
+   */
+  static clearCreatedData(): void {
+    this.createdData.clear();
+  }
   
   /**
    * 创建测试用户
    */
   static createUser(overrides: Partial<TestUser> = {}): TestUser {
-    return {
+    const user = {
       username: 'admin',
       password: '123456',
-      role: 'ADMIN',
+      role: 'ADMIN' as const,
       ...overrides
     };
+    this.recordCreatedData('users', user);
+    return user;
   }
   
   /**
@@ -104,7 +141,7 @@ export class TestDataFactory {
    */
   static createCategory(overrides: Partial<TestCategory> = {}): TestCategory {
     const seq = this.getNextSequence();
-    return {
+    const category = {
       name: `测试分类_${seq}`,
       description: `测试分类描述_${seq}`,
       level: 1,
@@ -112,6 +149,8 @@ export class TestDataFactory {
       isActive: true,
       ...overrides
     };
+    this.recordCreatedData('categories', category);
+    return category;
   }
   
   /**
