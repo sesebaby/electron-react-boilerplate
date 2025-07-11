@@ -1099,6 +1099,72 @@ function addUserAndCustomerHandlers(ipcMain, db) {
     return successResult({ id, ...userData, createdAt: timestamp, updatedAt: timestamp });
   }, 'create-user'));
 
+  // 用户认证
+  ipcMain.handle('db-authenticate-user', wrapIpcHandler(async (event, username, password) => {
+    console.log('🔐 IPC Handler: db-authenticate-user called with:', { username, hasPassword: !!password });
+
+    if (!checkDatabaseInitialized(db)) {
+      console.log('🔐 IPC Handler: Database not initialized');
+      return errorResult('Database not initialized');
+    }
+
+    validateRequiredFields({ username, password }, ['username', 'password']);
+
+    const query = `
+      SELECT
+        id, username, nickname, email, phone, avatar, role, status, password,
+        last_login_at as lastLoginAt,
+        created_at as createdAt,
+        updated_at as updatedAt
+      FROM users
+      WHERE username = ? AND status = 'active'
+    `;
+
+    const stmt = db.prepare(query);
+    const user = stmt.get(username);
+
+    console.log('🔐 IPC Handler: User found in database:', !!user);
+    if (user) {
+      console.log('🔐 IPC Handler: User details:', {
+        id: user.id,
+        username: user.username,
+        hasPassword: !!user.password,
+        passwordLength: user.password ? user.password.length : 0,
+        status: user.status
+      });
+    }
+
+    if (!user) {
+      console.log('🔐 IPC Handler: User not found');
+      return errorResult('用户名或密码错误');
+    }
+
+    // 简化的密码验证 - 支持明文密码（用于默认账户）
+    console.log('🔐 IPC Handler: Comparing passwords:', {
+      inputPassword: password,
+      storedPassword: user.password,
+      match: user.password === password
+    });
+
+    if (user.password !== password) {
+      console.log('🔐 IPC Handler: Password mismatch');
+      return errorResult('用户名或密码错误');
+    }
+
+    // 更新最后登录时间
+    const updateStmt = db.prepare('UPDATE users SET last_login_at = ? WHERE id = ?');
+    updateStmt.run(getCurrentTimestamp(), user.id);
+
+    // 返回用户信息（不包含密码）
+    const { password: _, ...userWithoutPassword } = user;
+    return successResult({
+      ...userWithoutPassword,
+      lastLoginAt: user.lastLoginAt ? new Date(user.lastLoginAt) : null,
+      createdAt: new Date(user.createdAt),
+      updatedAt: new Date(user.updatedAt)
+    });
+  }, 'authenticate-user'));
+
   // 财务相关的占位符处理器（返回空数组，避免错误）
   ipcMain.handle('db-get-accounts-receivable', wrapIpcHandler(async () => {
     if (!checkDatabaseInitialized(db)) {

@@ -80,6 +80,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbCreateUser: (user) => ipcRenderer.invoke('db-create-user', user),
   dbUpdateUser: (id, updates) => ipcRenderer.invoke('db-update-user', id, updates),
   dbDeleteUser: (id) => ipcRenderer.invoke('db-delete-user', id),
+  dbAuthenticateUser: (username, password) => ipcRenderer.invoke('db-authenticate-user', username, password),
 
   // Customer operations
   dbGetAllCustomers: () => ipcRenderer.invoke('db-get-all-customers'),

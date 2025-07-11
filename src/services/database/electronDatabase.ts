@@ -35,6 +35,7 @@ declare global {
       dbCreateUser: (user: any) => Promise<any>;
       dbUpdateUser: (id: string, updates: any) => Promise<any>;
       dbDeleteUser: (id: string) => Promise<any>;
+      dbAuthenticateUser: (username: string, password: string) => Promise<any>;
       dbGetUnits: () => Promise<any>;
       dbGetAllUnits: () => Promise<any>;
       dbCreateUnit: (unit: any) => Promise<any>;
@@ -319,6 +320,15 @@ export class ElectronDatabase {
   async getPaymentRecords(): Promise<any> {
     const result = await window.electronAPI.dbGetPaymentRecords();
     return result.success ? result.data : [];
+  }
+
+  // 用户认证
+  async authenticateUser(username: string, password: string): Promise<any> {
+    console.log('🔐 ElectronDatabase.authenticateUser called:', { username, hasPassword: !!password });
+    console.log('🔐 Checking window.electronAPI.dbAuthenticateUser:', !!window.electronAPI.dbAuthenticateUser);
+    const result = await window.electronAPI.dbAuthenticateUser(username, password);
+    console.log('🔐 IPC authentication result:', JSON.stringify(result, null, 2));
+    return result;
   }
 }
 

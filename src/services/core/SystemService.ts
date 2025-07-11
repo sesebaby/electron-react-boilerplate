@@ -930,32 +930,46 @@ export class SystemService {
 
   async authenticateUser(username: string, password: string): Promise<ServiceResult<User>> {
     try {
-      const user = Array.from(this.users.values()).find(u => 
-        u.username === username && u.status === UserStatus.ACTIVE
-      );
+      console.log('🔐 SystemService.authenticateUser called:', { username, hasPassword: !!password });
+      // 使用数据库认证
+      const authResult = await this.database.authenticateUser(username, password);
+      console.log('🔐 Database authentication result:', { success: authResult?.success, hasData: !!authResult?.data, error: authResult?.error });
 
-      if (!user) {
+      if (!authResult.success) {
         return {
           success: false,
-          error: '用户名或密码错误'
+          error: authResult.error || '用户认证失败'
         };
       }
 
-      // 简化的密码验证（实际应该使用加密验证）
-      if (user.password !== password) {
-        return {
-          success: false,
-          error: '用户名或密码错误'
-        };
-      }
+      const userData = authResult.data;
 
-      // 更新最后登录时间
-      const updatedUser = { ...user, updatedAt: new Date() };
-      this.users.set(user.id, updatedUser);
+      // 转换为 User 类型
+      const user: User = {
+        id: userData.id,
+        username: userData.username,
+        password: '', // 不暴露密码
+        nickname: userData.nickname || userData.username,
+        email: userData.email,
+        phone: userData.phone,
+        avatar: userData.avatar,
+        role: userData.role as UserRole,
+        status: userData.status as UserStatus,
+        lastLoginAt: userData.lastLoginAt,
+        createdAt: userData.createdAt,
+        updatedAt: userData.updatedAt
+      };
+
+      // 更新缓存
+      this.users.set(user.id, user);
+      this.usernameIndex.set(user.username, user.id);
+      if (user.email) {
+        this.emailIndex.set(user.email, user.id);
+      }
 
       return {
         success: true,
-        data: updatedUser
+        data: user
       };
     } catch (error) {
       return {

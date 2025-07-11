@@ -71921,6 +71921,7 @@ const SESSION_WARNING_TIME = 5 * 60 * 1000;
 const AuthProvider = ({ children }) => {
     const [user, setUser] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
     const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+    const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
     const [sessionStartTime, setSessionStartTime] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(Date.now());
     const [lastActivity, setLastActivity] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(Date.now());
     // Calculate session time remaining
@@ -71952,6 +71953,7 @@ const AuthProvider = ({ children }) => {
     const login = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)((username, password) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             setIsLoading(true);
+            setError(null);
             // Use UserService for authentication
             yield _services_core__WEBPACK_IMPORTED_MODULE_3__.serviceManager.initialize();
             const systemService = _services_core__WEBPACK_IMPORTED_MODULE_3__.serviceManager.getSystemService();
@@ -71984,6 +71986,7 @@ const AuthProvider = ({ children }) => {
         }
         catch (error) {
             console.error('Login failed:', error);
+            setError(error instanceof Error ? error.message : '登录失败');
             return false;
         }
         finally {
@@ -78197,26 +78200,41 @@ class SystemService {
     authenticateUser(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = Array.from(this.users.values()).find(u => u.username === username && u.status === _types_entities__WEBPACK_IMPORTED_MODULE_0__.UserStatus.ACTIVE);
-                if (!user) {
+                console.log('🔐 SystemService.authenticateUser called:', { username, hasPassword: !!password });
+                // 使用数据库认证
+                const authResult = yield this.database.authenticateUser(username, password);
+                console.log('🔐 Database authentication result:', { success: authResult === null || authResult === void 0 ? void 0 : authResult.success, hasData: !!(authResult === null || authResult === void 0 ? void 0 : authResult.data), error: authResult === null || authResult === void 0 ? void 0 : authResult.error });
+                if (!authResult.success) {
                     return {
                         success: false,
-                        error: '用户名或密码错误'
+                        error: authResult.error || '用户认证失败'
                     };
                 }
-                // 简化的密码验证（实际应该使用加密验证）
-                if (user.password !== password) {
-                    return {
-                        success: false,
-                        error: '用户名或密码错误'
-                    };
+                const userData = authResult.data;
+                // 转换为 User 类型
+                const user = {
+                    id: userData.id,
+                    username: userData.username,
+                    password: '', // 不暴露密码
+                    nickname: userData.nickname || userData.username,
+                    email: userData.email,
+                    phone: userData.phone,
+                    avatar: userData.avatar,
+                    role: userData.role,
+                    status: userData.status,
+                    lastLoginAt: userData.lastLoginAt,
+                    createdAt: userData.createdAt,
+                    updatedAt: userData.updatedAt
+                };
+                // 更新缓存
+                this.users.set(user.id, user);
+                this.usernameIndex.set(user.username, user.id);
+                if (user.email) {
+                    this.emailIndex.set(user.email, user.id);
                 }
-                // 更新最后登录时间
-                const updatedUser = Object.assign(Object.assign({}, user), { updatedAt: new Date() });
-                this.users.set(user.id, updatedUser);
                 return {
                     success: true,
-                    data: updatedUser
+                    data: user
                 };
             }
             catch (error) {
@@ -79093,6 +79111,16 @@ class ElectronDatabase {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield window.electronAPI.dbGetPaymentRecords();
             return result.success ? result.data : [];
+        });
+    }
+    // 用户认证
+    authenticateUser(username, password) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('🔐 ElectronDatabase.authenticateUser called:', { username, hasPassword: !!password });
+            console.log('🔐 Checking window.electronAPI.dbAuthenticateUser:', !!window.electronAPI.dbAuthenticateUser);
+            const result = yield window.electronAPI.dbAuthenticateUser(username, password);
+            console.log('🔐 IPC authentication result:', JSON.stringify(result, null, 2));
+            return result;
         });
     }
 }

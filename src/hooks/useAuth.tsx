@@ -39,6 +39,7 @@ const SESSION_WARNING_TIME = 5 * 60 * 1000;
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [sessionStartTime, setSessionStartTime] = useState<number>(Date.now());
   const [lastActivity, setLastActivity] = useState<number>(Date.now());
 
@@ -75,13 +76,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = useCallback(async (username: string, password: string): Promise<boolean> => {
     try {
       setIsLoading(true);
-      
+      setError(null);
+
       // Use UserService for authentication
       await serviceManager.initialize();
       const systemService = serviceManager.getSystemService();
       if (!systemService) {
         throw new Error('系统服务不可用');
       }
+
       const authResult = await systemService.authenticateUser(username.trim(), password);
 
       if (authResult && authResult.success && authResult.data) {
@@ -106,13 +109,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         
         // Log successful login (without sensitive data)
         console.log(`User logged in: ${fullUser.id}`);
-        
+
         return true;
       }
-      
+
       return false;
     } catch (error) {
       console.error('Login failed:', error);
+      setError(error instanceof Error ? error.message : '登录失败');
       return false;
     } finally {
       setIsLoading(false);

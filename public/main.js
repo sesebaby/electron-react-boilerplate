@@ -456,7 +456,10 @@ async function importMockDataIfEmpty() {
     }
     
     console.log(`Database missing data (items: ${itemCount.count}, units: ${unitCount.count}, categories: ${categoryCount.count}, suppliers: ${supplierCount.count}), importing mock data...`);
-    
+
+    // 首先确保有默认管理员用户
+    await createDefaultAdminUser();
+
     // 读取mock-data.sql文件
     const mockDataPath = path.join(__dirname, '../mock-data.sql');
     
@@ -489,6 +492,51 @@ async function importMockDataIfEmpty() {
   } catch (error) {
     console.error('Failed to import mock data:', error);
     // 不抛出错误，让应用继续启动
+  }
+}
+
+// 创建默认管理员用户
+async function createDefaultAdminUser() {
+  try {
+    // 检查是否已有admin用户
+    const adminUser = db.prepare('SELECT * FROM users WHERE username = ?').get('admin');
+    if (adminUser) {
+      console.log('Admin user already exists, checking password format...');
+
+      // 如果密码是加密的（bcrypt格式），更新为明文
+      if (adminUser.password && adminUser.password.startsWith('$2b$')) {
+        console.log('Updating admin password to plain text for development...');
+        db.prepare('UPDATE users SET password = ? WHERE username = ?').run('123456', 'admin');
+        console.log('Admin password updated to plain text: admin/123456');
+      } else {
+        console.log('Admin user password is already in plain text format');
+      }
+      return;
+    }
+
+    console.log('Creating default admin user...');
+    const adminId = generateId();
+    const timestamp = new Date().toISOString();
+
+    db.prepare(`
+      INSERT INTO users (
+        id, username, password, nickname, email, role, status, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      adminId,
+      'admin',
+      '123456', // 默认密码，使用明文以便认证
+      '系统管理员',
+      'admin@system.com',
+      'admin',
+      'active',
+      timestamp,
+      timestamp
+    );
+
+    console.log('Default admin user created: admin/123456');
+  } catch (error) {
+    console.error('Failed to create default admin user:', error);
   }
 }
 
