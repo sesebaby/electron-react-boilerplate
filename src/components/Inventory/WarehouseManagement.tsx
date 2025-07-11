@@ -96,7 +96,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       const warehousesData = warehousesResult.success ? (warehousesResult.data || []) : [];
       const statsData = statsResult.success ? (statsResult.data || {}) : {};
 
-      console.log('WarehouseManagement: Loaded warehouses:', warehousesData);
+      console.log('WarehouseManagement: Loaded warehouses:', warehousesData.map(w => ({ id: w.id, name: w.name, code: w.code })));
       console.log('WarehouseManagement: Loaded stats:', statsData);
 
       setWarehouses(warehousesData);
@@ -111,10 +111,12 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
 
   const onSubmit = async (data: WarehouseForm) => {
     try {
+      // 构建提交数据，移除不存在的字段，正确映射字段
+      const { creator, ...restData } = data;
       const submitData = {
-        ...data,
-        manager: data.creator,
-        isActive: true
+        ...restData,
+        manager: creator, // 将 creator 映射到 manager 字段
+        isActive: true // 新建的仓库默认为激活状态
       };
       
       const inventoryService = serviceManager.getInventoryService();
@@ -441,7 +443,13 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 </TableHeader>
 
                 <TableBody>
-                  {filteredWarehouses.map(warehouse => (
+                  {filteredWarehouses.map(warehouse => {
+                    console.log('🔍 DEBUG: Warehouse object:', JSON.stringify(warehouse, null, 2));
+                    console.log('🔍 DEBUG: warehouse.name value:', warehouse.name);
+                    console.log('🔍 DEBUG: warehouse.name type:', typeof warehouse.name);
+                    console.log('🔍 DEBUG: warehouse.name length:', warehouse.name?.length);
+                    console.log('🔍 DEBUG: warehouse.name charCodes:', warehouse.name?.split('').map(c => c.charCodeAt(0)));
+                    return (
                     <TableRow key={warehouse.id}>
                       <TableCell 
                         fixed 
@@ -451,8 +459,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                       >
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="font-semibold text-white">{warehouse.name}</span>
-                            {warehouse.isDefault && (
+                            <span className="font-semibold text-white" data-warehouse-name={warehouse.name} title={`原始名称: "${warehouse.name}" (类型: ${typeof warehouse.name})`}>{warehouse.name}</span>
+                            {Boolean(warehouse.isDefault) && (
                               <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30">
                                 默认
                               </span>
@@ -473,7 +481,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                         </div>
                       </TableCell>
                       <TableCell className="min-w-[100px] text-center">
-                        {warehouse.isDefault && (
+                        {Boolean(warehouse.isDefault) && (
                           <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30">
                             默认
                           </span>
@@ -489,7 +497,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                           ✏️
                         </button>
                         
-                        {!warehouse.isDefault && (
+                        {!Boolean(warehouse.isDefault) && (
                           <button
                             onClick={() => handleSetDefault(warehouse.id)}
                             className="px-3 py-1 text-xs bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 rounded hover:bg-yellow-500/30 transition-colors"
@@ -499,7 +507,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                           </button>
                         )}
                         
-                        {!warehouse.isDefault && (
+                        {!Boolean(warehouse.isDefault) && (
                           <button
                             onClick={() => handleDelete(warehouse.id)}
                             className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
@@ -511,7 +519,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                         </div>
                       </TableCell>
                     </TableRow>
-                  ))}
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>

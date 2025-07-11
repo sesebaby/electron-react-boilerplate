@@ -269,8 +269,15 @@ export class InventoryService {
         updatedAt: new Date()
       };
 
-      // 保存到数据库
-      await this.database.insertProduct(product);
+      // 保存到数据库 - 产品实际上是库存项目
+      const result = await this.database.createItem(product);
+
+      if (!result.success) {
+        return {
+          success: false,
+          error: result.error || '创建商品失败'
+        };
+      }
       
       // 更新内存缓存
       this.products.set(product.id, product);
@@ -455,6 +462,26 @@ export class InventoryService {
 
   async getProducts(filter?: InventoryFilter, pagination?: PaginationParams): Promise<ServiceResult<PaginatedResult<Product>>> {
     try {
+      // 从数据库重新加载最新的产品数据
+      const allProducts = await this.database.getAllProducts();
+
+      // 更新内存中的产品数据
+      this.products.clear();
+      this.skuIndex.clear();
+      this.barcodeIndex.clear();
+
+      if (Array.isArray(allProducts)) {
+        allProducts.forEach(product => {
+          this.products.set(product.id, product);
+          if (product.sku) {
+            this.skuIndex.set(product.sku, product.id);
+          }
+          if (product.barcode) {
+            this.barcodeIndex.set(product.barcode, product.id);
+          }
+        });
+      }
+
       let products = Array.from(this.products.values());
 
       // 应用过滤器
@@ -523,12 +550,22 @@ export class InventoryService {
         updatedAt: new Date()
       };
 
-      await this.database.insertCategory(category);
-      this.categories.set(category.id, category);
+      // 使用数据库的 createCategory 方法
+      const result = await this.database.createCategory(category);
+
+      if (!result.success) {
+        return {
+          success: false,
+          error: result.error || '创建分类失败'
+        };
+      }
+
+      const createdCategory = result.data;
+      this.categories.set(createdCategory.id, createdCategory);
 
       return {
         success: true,
-        data: category
+        data: createdCategory
       };
     } catch (error) {
       logger.error('Failed to create category', error);
@@ -541,6 +578,17 @@ export class InventoryService {
 
   async getCategories(): Promise<ServiceResult<Category[]>> {
     try {
+      // 从数据库重新加载最新的分类数据
+      const categories = await this.database.getAllCategories();
+
+      // 更新内存中的分类数据
+      this.categories.clear();
+      if (Array.isArray(categories)) {
+        categories.forEach(category => {
+          this.categories.set(category.id, category);
+        });
+      }
+
       return {
         success: true,
         data: Array.from(this.categories.values())
@@ -565,12 +613,22 @@ export class InventoryService {
         updatedAt: new Date()
       };
 
-      await this.database.insertUnit(unit);
-      this.units.set(unit.id, unit);
+      // 使用数据库的 createUnit 方法
+      const result = await this.database.createUnit(unit);
+
+      if (!result.success) {
+        return {
+          success: false,
+          error: result.error || '创建单位失败'
+        };
+      }
+
+      const createdUnit = result.data;
+      this.units.set(createdUnit.id, createdUnit);
 
       return {
         success: true,
-        data: unit
+        data: createdUnit
       };
     } catch (error) {
       logger.error('Failed to create unit', error);
@@ -583,6 +641,17 @@ export class InventoryService {
 
   async getUnits(): Promise<ServiceResult<Unit[]>> {
     try {
+      // 从数据库重新加载最新的单位数据
+      const units = await this.database.getAllUnits();
+
+      // 更新内存中的单位数据
+      this.units.clear();
+      if (Array.isArray(units)) {
+        units.forEach(unit => {
+          this.units.set(unit.id, unit);
+        });
+      }
+
       return {
         success: true,
         data: Array.from(this.units.values())

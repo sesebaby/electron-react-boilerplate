@@ -22,6 +22,7 @@ const { wrapIpcHandler } = require('../utils/errorHandler');
  */
 const WAREHOUSE_FIELD_MAP = {
   is_default: 'isDefault',
+  is_active: 'isActive',
   created_at: 'createdAt',
   updated_at: 'updatedAt'
 };
@@ -30,9 +31,10 @@ const WAREHOUSE_FIELD_MAP = {
  * 仓库查询基础SQL
  */
 const WAREHOUSE_BASE_QUERY = `
-  SELECT 
+  SELECT
     id, code, name, address, manager, phone,
     is_default as isDefault,
+    is_active as isActive,
     created_at as createdAt,
     updated_at as updatedAt
   FROM warehouses
@@ -54,7 +56,7 @@ function setupWarehouseHandlers(ipcMain, db) {
     const query = `${WAREHOUSE_BASE_QUERY} ORDER BY name ASC`;
     const stmt = db.prepare(query);
     const rows = stmt.all();
-    
+
     const warehouses = transformRows(rows, WAREHOUSE_FIELD_MAP);
     return successResult(warehouses);
   }, 'get-all-warehouses'));
@@ -136,20 +138,21 @@ function setupWarehouseHandlers(ipcMain, db) {
     
     const query = `
       INSERT INTO warehouses (
-        id, code, name, address, manager, phone, is_default, created_at, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        id, code, name, address, manager, phone, is_default, is_active, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    
+
     const stmt = db.prepare(query);
     stmt.run(
-      id, 
-      warehouse.code, 
-      warehouse.name, 
-      warehouse.address || '', 
-      warehouse.manager || '', 
+      id,
+      warehouse.code,
+      warehouse.name,
+      warehouse.address || '',
+      warehouse.manager || '',
       warehouse.phone || '',
-      warehouse.isDefault ? 1 : 0, 
-      now, 
+      warehouse.isDefault ? 1 : 0,
+      warehouse.isActive !== undefined ? (warehouse.isActive ? 1 : 0) : 1, // 默认为激活状态
+      now,
       now
     );
     

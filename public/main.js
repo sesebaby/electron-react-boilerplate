@@ -429,7 +429,10 @@ async function initializeDatabase() {
     
     db.exec(schema);
     console.log('Database schema initialized');
-    
+
+    // 执行数据库迁移
+    await runDatabaseMigrations();
+
     // 检查数据库是否为空，如果是则导入mock数据
     await importMockDataIfEmpty();
     
@@ -437,6 +440,30 @@ async function initializeDatabase() {
   } catch (error) {
     console.error('Database initialization failed:', error);
     return Promise.reject(error);
+  }
+}
+
+// 执行数据库迁移
+async function runDatabaseMigrations() {
+  try {
+    console.log('Running database migrations...');
+
+    // 检查 warehouses 表是否有 is_active 字段
+    const tableInfo = db.prepare("PRAGMA table_info(warehouses)").all();
+    const hasIsActiveField = tableInfo.some(column => column.name === 'is_active');
+
+    if (!hasIsActiveField) {
+      console.log('Adding is_active field to warehouses table...');
+      db.exec('ALTER TABLE warehouses ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT 1');
+      console.log('is_active field added successfully');
+    } else {
+      console.log('warehouses table already has is_active field');
+    }
+
+    console.log('Database migrations completed');
+  } catch (error) {
+    console.error('Database migration failed:', error);
+    // 不抛出错误，让应用继续运行
   }
 }
 

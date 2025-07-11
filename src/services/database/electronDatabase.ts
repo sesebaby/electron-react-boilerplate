@@ -239,11 +239,11 @@ export class ElectronDatabase {
   }
 
   async setDefaultWarehouse(id: string): Promise<any> {
-    return window.electronAPI.dbSetDefaultWarehouse(id);
+    return (window.electronAPI as any).dbSetDefaultWarehouse(id);
   }
 
   async getWarehouseStats(): Promise<any> {
-    return window.electronAPI.dbGetWarehouseStats();
+    return (window.electronAPI as any).dbGetWarehouseStats();
   }
 
   // 用户

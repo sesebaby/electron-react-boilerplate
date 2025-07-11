@@ -61840,6 +61840,17 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 
 
 
@@ -61896,7 +61907,7 @@ const WarehouseManagement = ({ className }) => {
             ]);
             const warehousesData = warehousesResult.success ? (warehousesResult.data || []) : [];
             const statsData = statsResult.success ? (statsResult.data || {}) : {};
-            console.log('WarehouseManagement: Loaded warehouses:', warehousesData);
+            console.log('WarehouseManagement: Loaded warehouses:', warehousesData.map(w => ({ id: w.id, name: w.name, code: w.code })));
             console.log('WarehouseManagement: Loaded stats:', statsData);
             setWarehouses(warehousesData);
             setStats(statsData);
@@ -61911,7 +61922,10 @@ const WarehouseManagement = ({ className }) => {
     });
     const onSubmit = (data) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const submitData = Object.assign(Object.assign({}, data), { manager: data.creator, isActive: true });
+            // 构建提交数据，移除不存在的字段，正确映射字段
+            const { creator } = data, restData = __rest(data, ["creator"]);
+            const submitData = Object.assign(Object.assign({}, restData), { manager: creator, isActive: true // 新建的仓库默认为激活状态
+             });
             const inventoryService = _services_core__WEBPACK_IMPORTED_MODULE_2__.serviceManager.getInventoryService();
             if (editingWarehouse) {
                 yield inventoryService.updateWarehouse(editingWarehouse.id, submitData);
@@ -62058,7 +62072,15 @@ const WarehouseManagement = ({ className }) => {
     }
     return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `space-y-8 p-6 ${className || ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", { className: "text-3xl font-bold text-white mb-2", children: "\u4ED3\u5E93\u7BA1\u7406" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/70", children: "\u7BA1\u7406\u4ED3\u5E93\u4FE1\u606F\u3001\u4F4D\u7F6E\u548C\u4ED3\u5E93\u914D\u7F6E" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex flex-col items-end gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "primary", onClick: handleCreateNew, className: `self-start lg:self-auto ${buttonClicked ? 'transform scale-95' : ''}`, children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "mr-2", children: "\uD83C\uDFED" }), "\u65B0\u5EFA\u4ED3\u5E93", buttonClicked && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "ml-2", children: "\u2728" })] }), buttonClicked && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", { className: "text-white/60 text-xs animate-pulse", children: "\u6B63\u5728\u6253\u5F00\u65B0\u5EFA\u4ED3\u5E93\u8868\u5355..." }))] })] }), error && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "p-4 bg-red-500/20 border border-red-400/30 rounded-lg flex items-center gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-red-400 text-xl", children: "\u274C" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "text-red-300 flex-1", children: error }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => setError(null), className: "text-red-300 hover:text-red-200 w-6 h-6 flex items-center justify-center", children: "\u2715" })] })), stats && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\uD83C\uDFED" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: stats.total }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u603B\u4ED3\u5E93\u6570" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\u2705" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: stats.active }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u542F\u7528\u4ED3\u5E93" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { className: "p-6", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-4", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center text-2xl", children: "\u2B50" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-2xl font-bold text-white", children: stats.hasDefault ? 1 : 0 }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm", children: "\u9ED8\u8BA4\u4ED3\u5E93" })] })] }) })] })), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassCard, { title: "\u641C\u7D22\u548C\u7B5B\u9009", className: "py-4", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-3", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassInput, { type: "text", placeholder: "\u641C\u7D22\u4ED3\u5E93\u7F16\u7801\u3001\u540D\u79F0\u3001\u5730\u5740\u3001\u7BA1\u7406\u5458...", value: searchTerm, onChange: (e) => setSearchTerm(e.target.value) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassSelect, { value: selectedStatus, onChange: (e) => setSelectedStatus(e.target.value), className: "flex-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "", children: "\u5168\u90E8\u4ED3\u5E93" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", { value: "default", children: "\u9ED8\u8BA4\u4ED3\u5E93" })] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_FormControls__WEBPACK_IMPORTED_MODULE_3__.GlassButton, { variant: "secondary", onClick: handleCreateNew, className: "px-4", title: "\u65B0\u5EFA\u4ED3\u5E93", children: "\u2795" })] })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_card__WEBPACK_IMPORTED_MODULE_6__.Card, { className: "glass-card h-full flex flex-col overflow-hidden", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_card__WEBPACK_IMPORTED_MODULE_6__.CardContent, { className: "p-0 flex-1 flex flex-col", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "flex-shrink-0 p-4 border-b border-white/20 bg-white/5", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h3", { className: "text-lg font-semibold text-white/90", children: ["\u4ED3\u5E93\u5217\u8868 (", filteredWarehouses.length, ")"] }) }), filteredWarehouses.length === 0 ? ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableEmpty, { icon: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-6xl", children: "\uD83C\uDFED" }), message: "\u6CA1\u6709\u627E\u5230\u4ED3\u5E93", description: "\u8BF7\u8C03\u6574\u641C\u7D22\u6761\u4EF6\u6216\u521B\u5EFA\u65B0\u7684\u4ED3\u5E93" })) : (
                         /* 表格内容 */
-                        (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableContainer, { height: "600px", className: "flex-1", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.Table, { stickyHeader: true, minWidth: "800px", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHeader, { sticky: true, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableRow, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHead, { fixed: true, fixedPosition: "left", fixedOffset: 0, className: "min-w-[200px]", children: "\u4ED3\u5E93\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHead, { className: "min-w-[120px]", children: "\u8D1F\u8D23\u4EBA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHead, { className: "min-w-[200px]", children: "\u5730\u5740" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHead, { className: "min-w-[100px] text-center", children: "\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHead, { className: "min-w-[150px] text-center", children: "\u64CD\u4F5C" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableBody, { children: filteredWarehouses.map(warehouse => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableRow, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableCell, { fixed: true, fixedPosition: "left", fixedOffset: 0, className: "min-w-[200px]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2 mb-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold text-white", children: warehouse.name }), warehouse.isDefault && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30", children: "\u9ED8\u8BA4" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm font-mono", children: warehouse.code })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableCell, { className: "min-w-[120px]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white/80 text-sm flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: warehouse.manager || '-' })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableCell, { className: "min-w-[200px]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/80 text-sm max-w-xs truncate", children: warehouse.address || '-' }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableCell, { className: "min-w-[100px] text-center", children: warehouse.isDefault && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30", children: "\u9ED8\u8BA4" })) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableCell, { className: "min-w-[150px] text-center", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2 justify-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleEdit(warehouse), className: "px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors", title: "\u7F16\u8F91", children: "\u270F\uFE0F" }), !warehouse.isDefault && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleSetDefault(warehouse.id), className: "px-3 py-1 text-xs bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 rounded hover:bg-yellow-500/30 transition-colors", title: "\u8BBE\u4E3A\u9ED8\u8BA4", children: "\u2B50" })), !warehouse.isDefault && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleDelete(warehouse.id), className: "px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors", title: "\u5220\u9664", children: "\uD83D\uDDD1\uFE0F" }))] }) })] }, warehouse.id))) })] }) }))] }) }), showForm && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]", style: {
+                        (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableContainer, { height: "600px", className: "flex-1", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.Table, { stickyHeader: true, minWidth: "800px", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHeader, { sticky: true, children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableRow, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHead, { fixed: true, fixedPosition: "left", fixedOffset: 0, className: "min-w-[200px]", children: "\u4ED3\u5E93\u4FE1\u606F" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHead, { className: "min-w-[120px]", children: "\u8D1F\u8D23\u4EBA" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHead, { className: "min-w-[200px]", children: "\u5730\u5740" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHead, { className: "min-w-[100px] text-center", children: "\u72B6\u6001" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableHead, { className: "min-w-[150px] text-center", children: "\u64CD\u4F5C" })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableBody, { children: filteredWarehouses.map(warehouse => {
+                                            var _a, _b;
+                                            console.log('🔍 DEBUG: Warehouse object:', JSON.stringify(warehouse, null, 2));
+                                            console.log('🔍 DEBUG: warehouse.name value:', warehouse.name);
+                                            console.log('🔍 DEBUG: warehouse.name type:', typeof warehouse.name);
+                                            console.log('🔍 DEBUG: warehouse.name length:', (_a = warehouse.name) === null || _a === void 0 ? void 0 : _a.length);
+                                            console.log('🔍 DEBUG: warehouse.name charCodes:', (_b = warehouse.name) === null || _b === void 0 ? void 0 : _b.split('').map(c => c.charCodeAt(0)));
+                                            return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableRow, { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableCell, { fixed: true, fixedPosition: "left", fixedOffset: 0, className: "min-w-[200px]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex items-center gap-2 mb-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "font-semibold text-white", "data-warehouse-name": warehouse.name, title: `原始名称: "${warehouse.name}" (类型: ${typeof warehouse.name})`, children: warehouse.name }), Boolean(warehouse.isDefault) && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30", children: "\u9ED8\u8BA4" }))] }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/70 text-sm font-mono", children: warehouse.code })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableCell, { className: "min-w-[120px]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "text-white/80 text-sm flex items-center gap-1", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: "\uD83D\uDC64" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { children: warehouse.manager || '-' })] }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableCell, { className: "min-w-[200px]", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "text-white/80 text-sm max-w-xs truncate", children: warehouse.address || '-' }) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableCell, { className: "min-w-[100px] text-center", children: Boolean(warehouse.isDefault) && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", { className: "inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30", children: "\u9ED8\u8BA4" })) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_ui_table__WEBPACK_IMPORTED_MODULE_7__.TableCell, { className: "min-w-[150px] text-center", children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "flex gap-2 justify-center", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleEdit(warehouse), className: "px-3 py-1 text-xs bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded hover:bg-blue-500/30 transition-colors", title: "\u7F16\u8F91", children: "\u270F\uFE0F" }), !Boolean(warehouse.isDefault) && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleSetDefault(warehouse.id), className: "px-3 py-1 text-xs bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 rounded hover:bg-yellow-500/30 transition-colors", title: "\u8BBE\u4E3A\u9ED8\u8BA4", children: "\u2B50" })), !Boolean(warehouse.isDefault) && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { onClick: () => handleDelete(warehouse.id), className: "px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors", title: "\u5220\u9664", children: "\uD83D\uDDD1\uFE0F" }))] }) })] }, warehouse.id));
+                                        }) })] }) }))] }) }), showForm && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]", style: {
                     position: 'fixed',
                     top: 0,
                     left: 0,
@@ -74235,8 +74257,14 @@ class InventoryService {
                     };
                 }
                 const product = Object.assign(Object.assign({}, productData), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(), createdAt: new Date(), updatedAt: new Date() });
-                // 保存到数据库
-                yield this.database.insertProduct(product);
+                // 保存到数据库 - 产品实际上是库存项目
+                const result = yield this.database.createItem(product);
+                if (!result.success) {
+                    return {
+                        success: false,
+                        error: result.error || '创建商品失败'
+                    };
+                }
                 // 更新内存缓存
                 this.products.set(product.id, product);
                 // 更新索引
@@ -74405,6 +74433,23 @@ class InventoryService {
     getProducts(filter, pagination) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                // 从数据库重新加载最新的产品数据
+                const allProducts = yield this.database.getAllProducts();
+                // 更新内存中的产品数据
+                this.products.clear();
+                this.skuIndex.clear();
+                this.barcodeIndex.clear();
+                if (Array.isArray(allProducts)) {
+                    allProducts.forEach(product => {
+                        this.products.set(product.id, product);
+                        if (product.sku) {
+                            this.skuIndex.set(product.sku, product.id);
+                        }
+                        if (product.barcode) {
+                            this.barcodeIndex.set(product.barcode, product.id);
+                        }
+                    });
+                }
                 let products = Array.from(this.products.values());
                 // 应用过滤器
                 if (filter) {
@@ -74462,11 +74507,19 @@ class InventoryService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const category = Object.assign(Object.assign({}, categoryData), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(), createdAt: new Date(), updatedAt: new Date() });
-                yield this.database.insertCategory(category);
-                this.categories.set(category.id, category);
+                // 使用数据库的 createCategory 方法
+                const result = yield this.database.createCategory(category);
+                if (!result.success) {
+                    return {
+                        success: false,
+                        error: result.error || '创建分类失败'
+                    };
+                }
+                const createdCategory = result.data;
+                this.categories.set(createdCategory.id, createdCategory);
                 return {
                     success: true,
-                    data: category
+                    data: createdCategory
                 };
             }
             catch (error) {
@@ -74481,6 +74534,15 @@ class InventoryService {
     getCategories() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                // 从数据库重新加载最新的分类数据
+                const categories = yield this.database.getAllCategories();
+                // 更新内存中的分类数据
+                this.categories.clear();
+                if (Array.isArray(categories)) {
+                    categories.forEach(category => {
+                        this.categories.set(category.id, category);
+                    });
+                }
                 return {
                     success: true,
                     data: Array.from(this.categories.values())
@@ -74500,11 +74562,19 @@ class InventoryService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const unit = Object.assign(Object.assign({}, unitData), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(), createdAt: new Date(), updatedAt: new Date() });
-                yield this.database.insertUnit(unit);
-                this.units.set(unit.id, unit);
+                // 使用数据库的 createUnit 方法
+                const result = yield this.database.createUnit(unit);
+                if (!result.success) {
+                    return {
+                        success: false,
+                        error: result.error || '创建单位失败'
+                    };
+                }
+                const createdUnit = result.data;
+                this.units.set(createdUnit.id, createdUnit);
                 return {
                     success: true,
-                    data: unit
+                    data: createdUnit
                 };
             }
             catch (error) {
@@ -74519,6 +74589,15 @@ class InventoryService {
     getUnits() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                // 从数据库重新加载最新的单位数据
+                const units = yield this.database.getAllUnits();
+                // 更新内存中的单位数据
+                this.units.clear();
+                if (Array.isArray(units)) {
+                    units.forEach(unit => {
+                        this.units.set(unit.id, unit);
+                    });
+                }
                 return {
                     success: true,
                     data: Array.from(this.units.values())
