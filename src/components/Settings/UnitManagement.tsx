@@ -47,7 +47,8 @@ const UnitManagement: React.FC = () => {
 
   const loadUnits = async () => {
     try {
-      const result = await unitService.findAll();
+      const systemService = serviceManager.getSystemService();
+      const result = await systemService.getUnits();
       const allUnits = result.success ?
         (Array.isArray(result.data) ? result.data : result.data?.items || []) : [];
       setUnits((Array.isArray(allUnits) ? allUnits : []) as Unit[]);
@@ -86,10 +87,11 @@ const UnitManagement: React.FC = () => {
     }
 
     try {
+      const systemService = serviceManager.getSystemService();
       if (editingUnit) {
-        await unitService.update(editingUnit.id, unitForm);
+        await systemService.updateUnit(editingUnit.id, unitForm);
       } else {
-        await unitService.create(unitForm);
+        await systemService.createUnit(unitForm);
       }
       await loadUnits();
       setShowUnitForm(false);
@@ -124,7 +126,8 @@ const UnitManagement: React.FC = () => {
     return new Promise((resolve) => {
       showConfirm('确定要删除这个单位吗？', async () => {
         try {
-          await unitService.delete(unitId);
+          const systemService = serviceManager.getSystemService();
+          await systemService.deleteUnit(unitId);
           await loadUnits();
           resolve();
         } catch (error) {

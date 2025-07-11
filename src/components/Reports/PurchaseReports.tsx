@@ -43,11 +43,14 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
       setLoading(true);
       setError(null);
       
+      const orderService = serviceManager.getOrderService();
+      const systemService = serviceManager.getSystemService();
+      const inventoryService = serviceManager.getInventoryService();
       const [ordersResult, receiptsResult, suppliersResult, productsResult] = await Promise.all([
-        purchaseOrderService.findAll(),
-        purchaseReceiptService.findAll(),
-        supplierService.findAll(),
-        productService.findAll()
+        orderService.getPurchaseOrders(),
+        orderService.getPurchaseReceipts(),
+        systemService.getSuppliers(),
+        inventoryService.findAllProducts()
       ]);
 
       const ordersData = ordersResult.success ? (ordersResult.data?.items || ordersResult.data || []) : [];

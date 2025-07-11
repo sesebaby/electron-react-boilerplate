@@ -50,10 +50,11 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
   const loadData = async () => {
     try {
       setLoading(true);
+      const systemService = serviceManager.getSystemService();
       const [rolesResult, modulesResult, actionsResult] = await Promise.all([
-        permissionService.getAllRoles(),
-        permissionService.getAllModules(),
-        permissionService.getAllActions()
+        systemService.getAllRoles(),
+        systemService.getAllModules(),
+        systemService.getAllActions()
       ]);
 
       const rolesData = rolesResult.success ? (rolesResult.data || []) : [];
@@ -82,7 +83,8 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
       // 默认选择第一个角色
       if (rolesData.length > 0) {
         setSelectedRole(rolesData[0]);
-        const permissionsResult = await permissionService.getRolePermissions(rolesData[0]);
+        const systemService = serviceManager.getSystemService();
+        const permissionsResult = await systemService.getRolePermissions(rolesData[0]);
         const permissions = permissionsResult.success ? (permissionsResult.data || []) : [];
         // Convert Permission array to PermissionConfig if needed
         const permissionConfig = Array.isArray(permissions) && permissions.length > 0
@@ -104,7 +106,8 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
   const handleRoleSelect = async (role: UserRole) => {
     try {
       setSelectedRole(role);
-      const permissionsResult = await permissionService.getRolePermissions(role);
+      const systemService = serviceManager.getSystemService();
+      const permissionsResult = await systemService.getRolePermissions(role);
       const permissionsData = permissionsResult.success ? (permissionsResult.data || []) : [];
       // Convert array to PermissionConfig format
       const permissionConfig = Array.isArray(permissionsData) && permissionsData.length > 0
@@ -147,7 +150,8 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
       setSaving(true);
       // Convert permissions object to Permission array format expected by service
       const permissionArray = rolePermissions?.permissions || [];
-      await permissionService.updateRolePermissions(selectedRole, permissionArray as any);
+      const systemService = serviceManager.getSystemService();
+      await systemService.updateRolePermissions(selectedRole, permissionArray as any);
       setMessage({ type: 'success', text: '权限保存成功' });
     } catch (error) {
       console.error('Failed to save permissions:', error);

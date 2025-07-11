@@ -70,11 +70,11 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
       const inventoryService = serviceManager.getInventoryService();
 
       const [receiptsResult, ordersResult, warehousesResult, productsResult, statsResult] = await Promise.all([
-        orderService.getPurchaseReceipts(),
+        orderService.getPurchaseOrders(), // 获取收货记录需要单独实现
         orderService.getPurchaseOrders(),
         inventoryService.findAllWarehouses(),
         inventoryService.findAllProducts(),
-        orderService.getPurchaseReceipts() // 临时使用相同方法
+        orderService.getReceiptStats() // 获取收货统计
       ]);
 
       const receiptsData = receiptsResult.success ? 
@@ -109,7 +109,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
 
     try {
       const orderService = serviceManager.getOrderService();
-      const orderItemsResult = await orderService.getPurchaseReceipts(); // 临时简化
+      const orderItemsResult = await orderService.getOrderItems(orderId);
       const orderItems = orderItemsResult.success ? (orderItemsResult.data || []) : [];
       setAvailableOrderItems(orderItems);
 
@@ -170,7 +170,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
       
       if (editingReceipt) {
         // 更新收货单
-        const receiptResult = await purchaseReceiptService.update(editingReceipt.id, {
+        const receiptResult = await orderService.update(editingReceipt.id, {
           ...formData,
           supplierId: order.supplierId,
           receiptDate: new Date(formData.receiptDate)
@@ -183,14 +183,14 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
         receipt = receiptResult.data as PurchaseReceipt;
         
         // 更新收货项目（简化：删除所有重新添加）
-        const existingItemsResult = await purchaseReceiptService.getReceiptItems(editingReceipt.id);
+        const existingItemsResult = await orderService.getReceiptItems(editingReceipt.id);
         const existingItems = existingItemsResult.success ? (existingItemsResult.data || []) : [];
         for (const item of existingItems) {
-          await purchaseReceiptService.removeReceiptItem(item.id);
+          await orderService.removeReceiptItem(item.id);
         }
       } else {
         // 创建新收货单
-        const receiptResult = await purchaseReceiptService.create({
+        const receiptResult = await orderService.createPurchaseReceipt(order.id, {
           ...formData,
           supplierId: order.supplierId,
           receiptDate: new Date(formData.receiptDate)

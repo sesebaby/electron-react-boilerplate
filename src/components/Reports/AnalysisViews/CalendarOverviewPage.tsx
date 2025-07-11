@@ -6,7 +6,11 @@ import DayDetailModal from './DayDetailModal';
 
 const CalendarOverviewPage: React.FC = () => {
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(() => {
-    return CalendarDataService.getWeekStart(new Date());
+    // 临时实现获取周开始日期
+    const date = new Date();
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(date.setDate(diff));
   });
   const [weekData, setWeekData] = useState<WeeklyCalendarData | null>(null);
   const [selectedDay, setSelectedDay] = useState<DailyBusinessSummary | null>(null);

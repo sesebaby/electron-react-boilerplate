@@ -60,12 +60,12 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
         salesData,
         purchaseData
       ] = await Promise.all([
-        accountsPayableService.getPayables(),
+        Promise.resolve({ success: true, data: [] }), // 临时替换 accountsPayableService.getPayables()
         // accountsReceivableService.getReceivables(),
-        accountsPayableService.getPaymentRecords(),
+        Promise.resolve({ success: true, data: [] }), // 临时替换 accountsPayableService.getPaymentRecords()
         // accountsReceivableService.getPaymentRecords(),
-        salesOrderService.findAll(),
-        purchaseOrderService.findAll()
+        serviceManager.getOrderService().getSalesOrders(),
+        serviceManager.getOrderService().getPurchaseOrders()
       ]);
       
       // 设置财务数据（部分启用）

@@ -258,7 +258,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
     
     // 加载订单项目
     const orderService = serviceManager.getOrderService();
-    const itemsResult = await orderService.getPurchaseOrderItems(order.id);
+    const itemsResult = await orderService.getOrderItems(order.id);
     const items = itemsResult.success ? (itemsResult.data || []) : [];
     
     reset({
@@ -270,7 +270,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
       taxAmount: order.taxAmount,
       remark: order.remark || '',
       creator: order.creator,
-      items: items.map(item => ({
+      items: items.map((item: any) => ({
         id: item.id,
         productId: item.productId,
         quantity: item.quantity,
@@ -312,7 +312,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
   const handleStatusUpdate = async (orderId: string, newStatus: PurchaseOrderStatus) => {
     try {
       const orderService = serviceManager.getOrderService();
-      await orderService.updatePurchaseOrderStatus(orderId, newStatus);
+      await orderService.updateStatus(orderId, newStatus);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '更新订单状态失败');

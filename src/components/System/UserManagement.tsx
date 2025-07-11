@@ -263,7 +263,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
           return;
         }
         
-        await userService.create({
+        const systemService = serviceManager.getSystemService();
+        await systemService.createUser({
           username: data.username.trim(),
           nickname: data.nickname.trim(),
           email: data.email?.trim() || undefined,
@@ -273,7 +274,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
           password: data.password
         });
       } else if (modalMode === 'edit' && selectedUser) {
-        await userService.update(selectedUser.id, {
+        const systemService = serviceManager.getSystemService();
+        await systemService.updateUser(selectedUser.id, {
           username: data.username.trim(),
           nickname: data.nickname.trim(),
           email: data.email?.trim() || undefined,
@@ -298,10 +300,12 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
       
       if (currentUser?.role === UserRole.ADMIN && currentUser.id !== selectedUser.id) {
         // Admin can reset password without old password
-        await userService.resetPassword(selectedUser.id);
+        const systemService = serviceManager.getSystemService();
+        await systemService.resetUserPassword(selectedUser.id);
       } else {
         // User changing own password needs old password
-        await userService.changePassword(selectedUser.id, data.oldPassword, data.newPassword);
+        const systemService = serviceManager.getSystemService();
+        await systemService.changeUserPassword(selectedUser.id, data.oldPassword, data.newPassword);
       }
       
       setShowModal(false);
@@ -321,7 +325,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
 
     try {
       setError(null);
-      await userService.delete(deleteTargetId);
+      const systemService = serviceManager.getSystemService();
+      await systemService.deleteUser(deleteTargetId);
       loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除失败');
@@ -339,7 +344,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
   const handleStatusChange = async (user: User, newStatus: UserStatus) => {
     try {
       setError(null);
-      await userService.setStatus(user.id, newStatus);
+      const systemService = serviceManager.getSystemService();
+      await systemService.setUserStatus(user.id, newStatus);
       loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '状态修改失败');

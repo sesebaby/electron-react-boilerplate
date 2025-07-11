@@ -81,9 +81,11 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
       setLoading(true);
       setError(null);
       
+      const systemService = serviceManager.getSystemService();
+      const inventoryService = serviceManager.getInventoryService();
       const [customersResult, productsResult] = await Promise.all([
-        customerService.findAll(),
-        productService.findAll()
+        systemService.getCustomers(),
+        inventoryService.findAllProducts()
       ]);
 
       const customersData = customersResult.success ? (customersResult.data?.items || customersResult.data || []) : [];
@@ -103,9 +105,10 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
 
   const generateReport = async () => {
     try {
+      const orderService = serviceManager.getOrderService();
       const [ordersResult, deliveriesResult] = await Promise.all([
-        salesOrderService.findAll(),
-        salesDeliveryService.findAll()
+        orderService.getSalesOrders(),
+        orderService.getSalesDeliveries()
       ]);
 
       const orders = (ordersResult.success ? (ordersResult.data?.items || ordersResult.data || []) : []) as SalesOrder[];

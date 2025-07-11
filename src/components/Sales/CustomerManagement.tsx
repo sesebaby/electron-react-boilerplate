@@ -94,8 +94,9 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
       setLoading(true);
       setError(null);
       
+      const systemService = serviceManager.getSystemService();
       const [customersResult, statsResult] = await Promise.all([
-        customerService.findAll(),
+        systemService.getCustomers(),
         Promise.resolve({ success: true, data: {} }) // 临时使用空统计数据
       ]);
 
@@ -124,10 +125,11 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
         paymentTerms: data.paymentTerms || undefined
       };
       
+      const systemService = serviceManager.getSystemService();
       if (editingCustomer) {
-        await customerService.update(editingCustomer.id, submitData);
+        await systemService.updateCustomer(editingCustomer.id, submitData);
       } else {
-        await customerService.create(submitData);
+        await systemService.createCustomer(submitData);
       }
       
       await loadData();
@@ -170,7 +172,8 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     if (!deleteTargetId) return;
 
     try {
-      await customerService.delete(deleteTargetId);
+      const systemService = serviceManager.getSystemService();
+      await systemService.deleteCustomer(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除客户失败');
