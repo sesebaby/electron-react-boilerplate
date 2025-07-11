@@ -189,8 +189,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
 
     try {
       const inventoryService = serviceManager.getInventoryService();
-      // 临时实现：通过更新仓库来设置默认状态
-      const result = await inventoryService.updateWarehouse(defaultTargetId, { isDefault: true });
+      // 使用专门的 setDefaultWarehouse 方法，确保默认仓库唯一性约束
+      const result = await inventoryService.setDefaultWarehouse(defaultTargetId);
       if (result.success) {
         await loadData();
       } else {

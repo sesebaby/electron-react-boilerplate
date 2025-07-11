@@ -47,6 +47,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dbCreateWarehouse: (warehouse) => ipcRenderer.invoke('db-create-warehouse', warehouse),
   dbUpdateWarehouse: (id, updates) => ipcRenderer.invoke('db-update-warehouse', id, updates),
   dbDeleteWarehouse: (id) => ipcRenderer.invoke('db-delete-warehouse', id),
+  dbSetDefaultWarehouse: (id) => ipcRenderer.invoke('db-set-default-warehouse', id),
+  dbGetWarehouseStats: () => ipcRenderer.invoke('db-get-warehouse-stats'),
   dbSearchWarehouses: (searchTerm) => ipcRenderer.invoke('db-search-warehouses', searchTerm),
   
   // Unit operations

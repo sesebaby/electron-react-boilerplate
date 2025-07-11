@@ -238,6 +238,14 @@ export class ElectronDatabase {
     return window.electronAPI.dbDeleteWarehouse(id);
   }
 
+  async setDefaultWarehouse(id: string): Promise<any> {
+    return window.electronAPI.dbSetDefaultWarehouse(id);
+  }
+
+  async getWarehouseStats(): Promise<any> {
+    return window.electronAPI.dbGetWarehouseStats();
+  }
+
   // 用户
   async getUsers(): Promise<any> {
     return window.electronAPI.dbGetUsers();

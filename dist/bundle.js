@@ -61980,8 +61980,8 @@ const WarehouseManagement = ({ className }) => {
             return;
         try {
             const inventoryService = _services_core__WEBPACK_IMPORTED_MODULE_2__.serviceManager.getInventoryService();
-            // 临时实现：通过更新仓库来设置默认状态
-            const result = yield inventoryService.updateWarehouse(defaultTargetId, { isDefault: true });
+            // 使用专门的 setDefaultWarehouse 方法，确保默认仓库唯一性约束
+            const result = yield inventoryService.setDefaultWarehouse(defaultTargetId);
             if (result.success) {
                 yield loadData();
             }
@@ -74537,8 +74537,15 @@ class InventoryService {
     createWarehouse(warehouseData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const warehouse = Object.assign(Object.assign({}, warehouseData), { id: (0,uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(), createdAt: new Date(), updatedAt: new Date() });
-                yield this.database.insertWarehouse(warehouse);
+                // 使用数据库的 createWarehouse 方法而不是不存在的 insertWarehouse
+                const result = yield this.database.createWarehouse(warehouseData);
+                if (!result.success) {
+                    return {
+                        success: false,
+                        error: result.error || '创建仓库失败'
+                    };
+                }
+                const warehouse = result.data;
                 this.warehouses.set(warehouse.id, warehouse);
                 return {
                     success: true,
@@ -74557,6 +74564,15 @@ class InventoryService {
     getWarehouses() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                // 从数据库重新加载最新的仓库数据
+                const warehouses = yield this.database.getAllWarehouses();
+                // 更新内存中的仓库数据
+                this.warehouses.clear();
+                if (Array.isArray(warehouses)) {
+                    warehouses.forEach(warehouse => {
+                        this.warehouses.set(warehouse.id, warehouse);
+                    });
+                }
                 return {
                     success: true,
                     data: Array.from(this.warehouses.values())
@@ -74780,17 +74796,15 @@ class InventoryService {
     getWarehouseStats() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const warehouses = Array.from(this.warehouses.values());
-                const stats = warehouses.map(warehouse => ({
-                    warehouseId: warehouse.id,
-                    warehouseName: warehouse.name,
-                    totalProducts: Array.from(this.inventoryStocks.values())
-                        .filter(stock => stock.warehouseId === warehouse.id).length,
-                    totalValue: Array.from(this.inventoryStocks.values())
-                        .filter(stock => stock.warehouseId === warehouse.id)
-                        .reduce((sum, stock) => sum + stock.totalValue, 0)
-                }));
-                return { success: true, data: stats };
+                // 使用数据库的 getWarehouseStats 方法获取最新统计数据
+                const result = yield this.database.getWarehouseStats();
+                if (!result.success) {
+                    return {
+                        success: false,
+                        error: result.error || '获取仓库统计失败'
+                    };
+                }
+                return { success: true, data: result.data };
             }
             catch (error) {
                 return {
@@ -75031,8 +75045,15 @@ class InventoryService {
                         error: '仓库不存在'
                     };
                 }
-                const updatedWarehouse = Object.assign(Object.assign(Object.assign({}, existingWarehouse), updateData), { updatedAt: new Date() });
-                yield this.database.updateWarehouse(id, updatedWarehouse);
+                // 使用数据库的 updateWarehouse 方法，传递更新数据而不是完整对象
+                const result = yield this.database.updateWarehouse(id, updateData);
+                if (!result.success) {
+                    return {
+                        success: false,
+                        error: result.error || '更新仓库失败'
+                    };
+                }
+                const updatedWarehouse = result.data;
                 this.warehouses.set(id, updatedWarehouse);
                 return {
                     success: true,
@@ -75090,18 +75111,21 @@ class InventoryService {
                         error: '仓库不存在'
                     };
                 }
-                // 清除所有仓库的默认状态
+                // 使用数据库的 setDefaultWarehouse 方法，它会自动处理唯一性约束
+                const result = yield this.database.setDefaultWarehouse(id);
+                if (!result.success) {
+                    return {
+                        success: false,
+                        error: result.error || '设置默认仓库失败'
+                    };
+                }
+                // 更新内存中的仓库状态
                 for (const [warehouseId, w] of this.warehouses) {
-                    if (w.isDefault) {
-                        const updatedWarehouse = Object.assign(Object.assign({}, w), { isDefault: false, updatedAt: new Date() });
-                        this.warehouses.set(warehouseId, updatedWarehouse);
-                        yield this.database.updateWarehouse(warehouseId, updatedWarehouse);
+                    if (w.isDefault && warehouseId !== id) {
+                        this.warehouses.set(warehouseId, Object.assign(Object.assign({}, w), { isDefault: false, updatedAt: new Date() }));
                     }
                 }
-                // 设置新的默认仓库
-                const updatedWarehouse = Object.assign(Object.assign({}, warehouse), { isDefault: true, updatedAt: new Date() });
-                this.warehouses.set(id, updatedWarehouse);
-                yield this.database.updateWarehouse(id, updatedWarehouse);
+                this.warehouses.set(id, Object.assign(Object.assign({}, warehouse), { isDefault: true, updatedAt: new Date() }));
                 return {
                     success: true,
                     data: true
@@ -79071,6 +79095,16 @@ class ElectronDatabase {
     deleteWarehouse(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return window.electronAPI.dbDeleteWarehouse(id);
+        });
+    }
+    setDefaultWarehouse(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return window.electronAPI.dbSetDefaultWarehouse(id);
+        });
+    }
+    getWarehouseStats() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return window.electronAPI.dbGetWarehouseStats();
         });
     }
     // 用户

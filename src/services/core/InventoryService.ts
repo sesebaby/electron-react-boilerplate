@@ -600,14 +600,17 @@ export class InventoryService {
 
   async createWarehouse(warehouseData: Omit<Warehouse, 'id' | 'createdAt' | 'updatedAt'>): Promise<ServiceResult<Warehouse>> {
     try {
-      const warehouse: Warehouse = {
-        ...warehouseData,
-        id: uuidv4(),
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
+      // 使用数据库的 createWarehouse 方法而不是不存在的 insertWarehouse
+      const result = await this.database.createWarehouse(warehouseData);
 
-      await this.database.insertWarehouse(warehouse);
+      if (!result.success) {
+        return {
+          success: false,
+          error: result.error || '创建仓库失败'
+        };
+      }
+
+      const warehouse = result.data;
       this.warehouses.set(warehouse.id, warehouse);
 
       return {
@@ -625,6 +628,17 @@ export class InventoryService {
 
   async getWarehouses(): Promise<ServiceResult<Warehouse[]>> {
     try {
+      // 从数据库重新加载最新的仓库数据
+      const warehouses = await this.database.getAllWarehouses();
+
+      // 更新内存中的仓库数据
+      this.warehouses.clear();
+      if (Array.isArray(warehouses)) {
+        warehouses.forEach(warehouse => {
+          this.warehouses.set(warehouse.id, warehouse);
+        });
+      }
+
       return {
         success: true,
         data: Array.from(this.warehouses.values())
@@ -852,18 +866,17 @@ export class InventoryService {
   // 仓库统计别名
   async getWarehouseStats(): Promise<ServiceResult<any>> {
     try {
-      const warehouses = Array.from(this.warehouses.values());
-      const stats = warehouses.map(warehouse => ({
-        warehouseId: warehouse.id,
-        warehouseName: warehouse.name,
-        totalProducts: Array.from(this.inventoryStocks.values())
-          .filter(stock => stock.warehouseId === warehouse.id).length,
-        totalValue: Array.from(this.inventoryStocks.values())
-          .filter(stock => stock.warehouseId === warehouse.id)
-          .reduce((sum, stock) => sum + stock.totalValue, 0)
-      }));
+      // 使用数据库的 getWarehouseStats 方法获取最新统计数据
+      const result = await this.database.getWarehouseStats();
 
-      return { success: true, data: stats };
+      if (!result.success) {
+        return {
+          success: false,
+          error: result.error || '获取仓库统计失败'
+        };
+      }
+
+      return { success: true, data: result.data };
     } catch (error) {
       return {
         success: false,
@@ -1119,13 +1132,17 @@ export class InventoryService {
         };
       }
 
-      const updatedWarehouse: Warehouse = {
-        ...existingWarehouse,
-        ...updateData,
-        updatedAt: new Date()
-      };
+      // 使用数据库的 updateWarehouse 方法，传递更新数据而不是完整对象
+      const result = await this.database.updateWarehouse(id, updateData);
 
-      await this.database.updateWarehouse(id, updatedWarehouse);
+      if (!result.success) {
+        return {
+          success: false,
+          error: result.error || '更新仓库失败'
+        };
+      }
+
+      const updatedWarehouse = result.data;
       this.warehouses.set(id, updatedWarehouse);
 
       return {
@@ -1187,19 +1204,23 @@ export class InventoryService {
         };
       }
 
-      // 清除所有仓库的默认状态
-      for (const [warehouseId, w] of this.warehouses) {
-        if (w.isDefault) {
-          const updatedWarehouse = { ...w, isDefault: false, updatedAt: new Date() };
-          this.warehouses.set(warehouseId, updatedWarehouse);
-          await this.database.updateWarehouse(warehouseId, updatedWarehouse);
-        }
+      // 使用数据库的 setDefaultWarehouse 方法，它会自动处理唯一性约束
+      const result = await this.database.setDefaultWarehouse(id);
+
+      if (!result.success) {
+        return {
+          success: false,
+          error: result.error || '设置默认仓库失败'
+        };
       }
 
-      // 设置新的默认仓库
-      const updatedWarehouse = { ...warehouse, isDefault: true, updatedAt: new Date() };
-      this.warehouses.set(id, updatedWarehouse);
-      await this.database.updateWarehouse(id, updatedWarehouse);
+      // 更新内存中的仓库状态
+      for (const [warehouseId, w] of this.warehouses) {
+        if (w.isDefault && warehouseId !== id) {
+          this.warehouses.set(warehouseId, { ...w, isDefault: false, updatedAt: new Date() });
+        }
+      }
+      this.warehouses.set(id, { ...warehouse, isDefault: true, updatedAt: new Date() });
 
       return {
         success: true,

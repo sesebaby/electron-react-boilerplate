@@ -50,6 +50,8 @@ interface ElectronAPI {
   dbCreateWarehouse: (warehouse: any) => Promise<{ success: boolean; data?: any; error?: string }>;
   dbUpdateWarehouse: (id: string, updates: any) => Promise<{ success: boolean; data?: any; error?: string }>;
   dbDeleteWarehouse: (id: string) => Promise<{ success: boolean; error?: string }>;
+  dbSetDefaultWarehouse: (id: string) => Promise<{ success: boolean; data?: any; error?: string }>;
+  dbGetWarehouseStats: () => Promise<{ success: boolean; data?: any; error?: string }>;
   dbSearchWarehouses: (searchTerm: string) => Promise<{ success: boolean; data?: any[]; error?: string }>;
 
   // Unit operations
