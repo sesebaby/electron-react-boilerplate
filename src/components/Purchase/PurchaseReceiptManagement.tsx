@@ -82,15 +82,15 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
       const ordersData = ordersResult.success ? 
         (Array.isArray(ordersResult.data) ? ordersResult.data : ordersResult.data?.items || []) : [];
       const warehousesData = warehousesResult.success ? 
-        (Array.isArray(warehousesResult.data) ? warehousesResult.data : warehousesResult.data?.items || []) : [];
+        (Array.isArray(warehousesResult.data) ? warehousesResult.data : (warehousesResult.data as any)?.items || []) : [];
       const productsData = productsResult.success ? 
         (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
       const statsData = statsResult.success ? (statsResult.data || {}) : {};
 
-      setReceipts(Array.isArray(receiptsData) ? receiptsData : []);
-      setOrders(Array.isArray(ordersData) ? ordersData : []);
+      setReceipts(Array.isArray(receiptsData) ? receiptsData as PurchaseReceipt[] : []);
+      setOrders(Array.isArray(ordersData) ? ordersData as PurchaseOrder[] : []);
       setWarehouses((Array.isArray(warehousesData) ? warehousesData : []) as Warehouse[]);
-      setProducts(Array.isArray(productsData) ? productsData : []);
+      setProducts(Array.isArray(productsData) ? productsData as Product[] : []);
       setStats(statsData);
     } catch (err) {
       setError('加载采购收货数据失败');
@@ -160,6 +160,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     }
     
     try {
+      const orderService = serviceManager.getOrderService();
       const order = orders.find(o => o.id === formData.orderId);
       if (!order) {
         setError('请选择有效的采购订单');
@@ -190,10 +191,15 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
         }
       } else {
         // 创建新收货单
-        const receiptResult = await orderService.createPurchaseReceipt(order.id, {
-          ...formData,
-          supplierId: order.supplierId,
-          receiptDate: new Date(formData.receiptDate)
+        const receiptResult = await orderService.createPurchaseReceipt({
+          purchaseOrderId: order.id,
+          warehouseId: formData.warehouseId,
+          items: formItems.map(item => ({
+            purchaseOrderItemId: item.orderItemId,
+            receivedQuantity: item.quantity,
+            unitPrice: item.unitPrice
+          })),
+          receiver: formData.receiver
         });
         
         if (!receiptResult.success) {
@@ -203,15 +209,7 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
         receipt = receiptResult.data as PurchaseReceipt;
       }
       
-      // 添加收货项目
-      for (const itemData of formItems) {
-        await purchaseReceiptService.addReceiptItem(receipt.id, {
-          productId: itemData.productId,
-          orderItemId: itemData.orderItemId,
-          quantity: itemData.quantity,
-          unitPrice: itemData.unitPrice
-        });
-      }
+      // 收货单和明细已在createPurchaseReceipt中一次性创建
       
       await loadData();
       setShowForm(false);
@@ -237,7 +235,8 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     });
     
     // 加载收货项目
-    const itemsResult = await purchaseReceiptService.getReceiptItems(receipt.id);
+    const orderService = serviceManager.getOrderService();
+    const itemsResult = await orderService.getReceiptItems(receipt.id);
     const items = itemsResult.success ? (itemsResult.data || []) : [];
     await handleOrderChange(receipt.orderId);
 
@@ -262,7 +261,8 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
     if (!deleteTargetId) return;
 
     try {
-      await purchaseReceiptService.delete(deleteTargetId);
+      const orderService = serviceManager.getOrderService();
+      await orderService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除采购收货单失败');
@@ -280,7 +280,8 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
 
   const handleStatusUpdate = async (receiptId: string, newStatus: ReceiptStatus) => {
     try {
-      await purchaseReceiptService.updateStatus(receiptId, newStatus);
+      const orderService = serviceManager.getOrderService();
+      await orderService.updateStatus(receiptId, newStatus);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '更新收货状态失败');

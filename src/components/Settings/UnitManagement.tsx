@@ -47,10 +47,9 @@ const UnitManagement: React.FC = () => {
 
   const loadUnits = async () => {
     try {
-      const systemService = serviceManager.getSystemService();
-      const result = await systemService.getUnits();
-      const allUnits = result.success ?
-        (Array.isArray(result.data) ? result.data : result.data?.items || []) : [];
+      const inventoryService = serviceManager.getInventoryService();
+      const result = await inventoryService.getUnits();
+      const allUnits = result.success ? (result.data || []) : [];
       setUnits((Array.isArray(allUnits) ? allUnits : []) as Unit[]);
     } catch (error) {
       console.error('加载单位失败:', error);
@@ -87,11 +86,11 @@ const UnitManagement: React.FC = () => {
     }
 
     try {
-      const systemService = serviceManager.getSystemService();
+      const inventoryService = serviceManager.getInventoryService();
       if (editingUnit) {
-        await systemService.updateUnit(editingUnit.id, unitForm);
+        await inventoryService.updateUnit(editingUnit.id, unitForm);
       } else {
-        await systemService.createUnit(unitForm);
+        await inventoryService.createUnit(unitForm);
       }
       await loadUnits();
       setShowUnitForm(false);
@@ -126,8 +125,8 @@ const UnitManagement: React.FC = () => {
     return new Promise((resolve) => {
       showConfirm('确定要删除这个单位吗？', async () => {
         try {
-          const systemService = serviceManager.getSystemService();
-          await systemService.deleteUnit(unitId);
+          const inventoryService = serviceManager.getInventoryService();
+          await inventoryService.deleteUnit(unitId);
           await loadUnits();
           resolve();
         } catch (error) {

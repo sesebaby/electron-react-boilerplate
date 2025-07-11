@@ -34,8 +34,8 @@ const InventoryCardView: React.FC = () => {
       setState(prev => ({ ...prev, loading: true, error: null }));
 
       // 获取真实的仓库卡片数据
-      const inventoryService = serviceManager.getInventoryService();
-      const warehousesResult = await inventoryService.getWarehouseCardData('default');
+      const reportService = serviceManager.getReportService();
+      const warehousesResult = await reportService.getWarehouseCardData('default');
       const warehousesData = warehousesResult.success ? warehousesResult.data : null;
       
       // Transform service data to WarehouseCardData format

@@ -9,13 +9,8 @@
 
 // 使用服务管理器
 import { serviceManager } from './core';
-
-// 类型断言以确保 ElectronAPI 方法可用
-declare global {
-  interface Window {
-    electronAPI: any;
-  }
-}
+// 确保 ElectronAPI 类型可用
+import '../services/database/electronDatabase';
 
 export interface InitializationProgress {
   stage: 'clearing' | 'schema' | 'data' | 'services' | 'completed' | 'error';

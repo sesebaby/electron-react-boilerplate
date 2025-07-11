@@ -5,7 +5,7 @@ const webpack = require('webpack');
 module.exports = {
   mode: 'development', // 设置为开发模式以获取详细错误信息
   entry: './src/index.tsx',
-  target: 'web', // 改为web target，因为我们禁用了nodeIntegration
+  target: 'electron-renderer', // 改为 electron-renderer target
   devtool: 'source-map', // 启用source map以便调试
   node: {
     __dirname: false,
@@ -44,8 +44,18 @@ module.exports = {
     }
   },
   externals: {
-    // 移除Node.js模块的externals，因为我们现在使用web target
-    // 这些功能将通过electronAPI在preload脚本中提供
+    // 排除 Node.js 原生模块，防止打包到浏览器代码中
+    'sqlite3': 'commonjs sqlite3',
+    'better-sqlite3': 'commonjs better-sqlite3',
+    'fs': 'commonjs fs',
+    'path': 'commonjs path',
+    'util': 'commonjs util',
+    'crypto': 'commonjs crypto',
+    'stream': 'commonjs stream',
+    'buffer': 'commonjs buffer',
+    'process': 'commonjs process',
+    'os': 'commonjs os',
+    'zlib': 'commonjs zlib'
   },
   output: {
     filename: 'bundle.js',

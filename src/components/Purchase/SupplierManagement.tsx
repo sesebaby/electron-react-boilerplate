@@ -128,7 +128,8 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
         phone: data.phone || undefined,
         email: data.email || undefined,
         address: data.address || undefined,
-        paymentTerms: data.paymentTerms || undefined
+        paymentTerms: data.paymentTerms || undefined,
+        isActive: true
       };
       
       const systemService = serviceManager.getSystemService();

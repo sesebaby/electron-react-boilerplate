@@ -137,11 +137,15 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
       setLoading(true);
       setError(null);
       
+      const orderService = serviceManager.getOrderService();
+      const systemService = serviceManager.getSystemService();
+      const inventoryService = serviceManager.getInventoryService();
+      
       const [ordersResult, customersResult, productsResult, statsResult] = await Promise.all([
-        salesOrderService.findAll(),
-        customerService.findAll(),
-        productService.findAll(),
-        salesOrderService.getOrderStats()
+        orderService.getSalesOrders(),
+        systemService.getCustomers(),
+        inventoryService.findAllProducts(),
+        orderService.getOrderStats()
       ]);
 
       const ordersData = ordersResult.success ? 
@@ -181,7 +185,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
       
       if (editingOrder) {
         // 更新订单
-        const orderResult = await salesOrderService.update(editingOrder.id, orderFields);
+        const orderService = serviceManager.getOrderService();
+        const orderResult = await orderService.update(editingOrder.id, orderFields);
         if (!orderResult.success) {
           setError(orderResult.error || '更新订单失败');
           return;
@@ -189,30 +194,31 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
         order = orderResult.data as SalesOrder;
 
         // 更新订单项目（简化：删除所有重新添加）
-        const existingItemsResult = await salesOrderService.getOrderItems(editingOrder.id);
+        const existingItemsResult = await orderService.getOrderItems(editingOrder.id);
         const existingItems = existingItemsResult.success ? (existingItemsResult.data || []) : [];
         for (const item of existingItems) {
-          await salesOrderService.removeOrderItem(item.id);
+          await orderService.removeOrderItem(item.id);
         }
       } else {
         // 创建新订单
-        const createResult = await salesOrderService.create(orderFields);
+        const orderService = serviceManager.getOrderService();
+        const createResult = await orderService.createSalesOrder({
+          customerId: data.customerId,
+          deliveryDate: new Date(data.deliveryDate),
+          items: (data.items || []).map(item => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice
+          })),
+          creator: data.creator
+        });
         if (!createResult.success) {
           throw new Error(createResult.error || '创建订单失败');
         }
         order = createResult.data as SalesOrder;
       }
       
-      // 添加订单项目
-      for (const itemData of data.items) {
-        await salesOrderService.addOrderItem(order.id, {
-          productId: itemData.productId,
-          quantity: itemData.quantity,
-          unitPrice: itemData.unitPrice,
-          discountRate: itemData.discountRate,
-          deliveredQuantity: 0
-        });
-      }
+      // 订单和明细已在createSalesOrder中一次性创建
       
       await loadData();
       setShowForm(false);
@@ -229,7 +235,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     setEditingOrder(order);
     
     // 加载订单项目
-    const itemsResult = await salesOrderService.getOrderItems(order.id);
+    const orderService = serviceManager.getOrderService();
+    const itemsResult = await orderService.getOrderItems(order.id);
     const items = itemsResult.success ? (itemsResult.data || []) : [];
 
     reset({
@@ -264,7 +271,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
     if (!deleteTargetId) return;
 
     try {
-      await salesOrderService.delete(deleteTargetId);
+      const orderService = serviceManager.getOrderService();
+      await orderService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除销售订单失败');
@@ -282,7 +290,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
 
   const handleStatusUpdate = async (orderId: string, newStatus: SalesOrderStatus) => {
     try {
-      await salesOrderService.updateStatus(orderId, newStatus);
+      const orderService = serviceManager.getOrderService();
+      await orderService.updateStatus(orderId, newStatus);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '更新订单状态失败');
@@ -292,7 +301,8 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
 
   const handlePaymentStatusUpdate = async (orderId: string, newPaymentStatus: PaymentStatus) => {
     try {
-      await salesOrderService.updatePaymentStatus(orderId, newPaymentStatus);
+      const orderService = serviceManager.getOrderService();
+      await orderService.updatePaymentStatus(orderId, newPaymentStatus);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '更新付款状态失败');

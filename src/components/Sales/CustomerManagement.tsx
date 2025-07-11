@@ -122,7 +122,9 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
         phone: data.phone || undefined,
         email: data.email || undefined,
         address: data.address || undefined,
-        paymentTerms: data.paymentTerms || undefined
+        paymentTerms: data.paymentTerms || undefined,
+        discountRate: data.discountRate || 0,
+        isActive: true
       };
       
       const systemService = serviceManager.getSystemService();

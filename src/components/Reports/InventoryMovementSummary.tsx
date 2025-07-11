@@ -99,13 +99,13 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
         inventoryService.findAllWarehouses()
       ]);
 
-      const productsData = productsResult.success ? (productsResult.data?.items || productsResult.data || []) : [];
-      const categoriesData = categoriesResult.success ? (categoriesResult.data?.items || categoriesResult.data || []) : [];
-      const warehousesData = warehousesResult.success ? (warehousesResult.data?.items || warehousesResult.data || []) : [];
+      const productsData = productsResult.success ? (productsResult.data || []) : [];
+      const categoriesData = categoriesResult.success ? (categoriesResult.data || []) : [];
+      const warehousesData = warehousesResult.success ? (warehousesResult.data || []) : [];
 
       setProducts(productsData as Product[]);
-      setCategories(categoriesData as unknown as Category[]);
-      setWarehouses(warehousesData as unknown as Warehouse[]);
+      setCategories(Array.isArray(categoriesData) ? categoriesData as Category[] : []);
+      setWarehouses(Array.isArray(warehousesData) ? warehousesData as Warehouse[] : []);
     } catch (err) {
       console.error('加载基础数据失败:', err);
       setError('加载基础数据失败，请稍后重试');

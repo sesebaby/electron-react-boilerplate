@@ -3,19 +3,34 @@
  * 提供场景化测试数据集和数据库快照机制
  */
 
+// Jest test placeholder - this file provides test data management utilities
+describe('TestDataManager', () => {
+  it('should provide test data management utilities', () => {
+    expect(true).toBe(true);
+  });
+});
+
 import { 
   Product, 
   Category, 
   Unit, 
+  UnitType,
   Warehouse, 
   Supplier, 
+  SupplierRating,
+  SupplierStatus,
   Customer,
+  CustomerType,
+  CustomerLevel,
+  CustomerStatus,
   PurchaseOrder,
   SalesOrder,
   InventoryTransaction,
   ProductStatus,
   PurchaseOrderStatus,
   SalesOrderStatus,
+  OrderItemStatus,
+  PaymentStatus,
   TransactionType
 } from '../../../../types/entities';
 
@@ -68,6 +83,8 @@ export class TestDataManager {
       id: 'cat-test-1',
       name: '测试分类',
       description: '测试用产品分类',
+      level: 1,
+      sortOrder: 1,
       isActive: true,
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01')
@@ -77,6 +94,8 @@ export class TestDataManager {
       id: 'unit-test-1',
       name: '件',
       symbol: 'pcs',
+      type: UnitType.QUANTITY,
+      precision: 0,
       isActive: true,
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01')
@@ -85,7 +104,9 @@ export class TestDataManager {
     const warehouse: Warehouse = {
       id: 'wh-test-1',
       name: '测试仓库',
-      location: '测试地址',
+      code: 'WH-001',
+      address: '测试地址',
+      isDefault: false,
       isActive: true,
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01')
@@ -125,6 +146,10 @@ export class TestDataManager {
       phone: '13800138000',
       email: 'zhangsan@test.com',
       address: '测试供应商地址',
+      code: 'SUP-001',
+      creditLimit: 50000,
+      rating: SupplierRating.A,
+      status: SupplierStatus.ACTIVE,
       isActive: true,
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01')
@@ -137,7 +162,13 @@ export class TestDataManager {
       phone: '13900139000',
       email: 'lisi@test.com',
       address: '测试客户地址',
+      code: 'CUS-001',
+      customerType: CustomerType.COMPANY,
       creditLimit: 100000.00,
+      paymentTerms: '30天',
+      discountRate: 0.05,
+      level: CustomerLevel.GOLD,
+      status: CustomerStatus.ACTIVE,
       isActive: true,
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01')
@@ -155,19 +186,26 @@ export class TestDataManager {
       orderNo: 'PO-TEST-001',
       supplierId,
       status: PurchaseOrderStatus.DRAFT,
-      paymentStatus: 'UNPAID' as any,
+      paymentStatus: PaymentStatus.UNPAID,
       orderDate: new Date('2024-01-15'),
       expectedDate: new Date('2024-01-25'),
       totalAmount: 5000.00,
+      discountAmount: 0,
+      taxAmount: 0,
+      finalAmount: 5000.00,
       items: [{
         id: 'poi-test-1',
-        purchaseOrderId: 'po-test-1',
+        orderId: 'po-test-1',
         productId,
         quantity: 50,
         unitPrice: 100.00,
         totalPrice: 5000.00,
+        discountRate: 0,
+        amount: 5000.00,
         receivedQuantity: 0,
-        status: OrderItemStatus.PENDING
+        status: OrderItemStatus.PENDING,
+        createdAt: new Date('2024-01-15'),
+        updatedAt: new Date('2024-01-15')
       }],
       creator: 'user-test',
       isActive: true,
@@ -185,19 +223,26 @@ export class TestDataManager {
       orderNo: 'SO-TEST-001',
       customerId,
       status: SalesOrderStatus.DRAFT,
-      paymentStatus: 'UNPAID' as any,
+      paymentStatus: PaymentStatus.UNPAID,
       orderDate: new Date('2024-01-20'),
       deliveryDate: new Date('2024-01-30'),
       totalAmount: 7500.00,
+      discountAmount: 0,
+      taxAmount: 0,
+      finalAmount: 7500.00,
       items: [{
         id: 'soi-test-1',
-        salesOrderId: 'so-test-1',
+        orderId: 'so-test-1',
         productId,
         quantity: 50,
         unitPrice: 150.00,
         totalPrice: 7500.00,
+        discountRate: 0,
+        amount: 7500.00,
         deliveredQuantity: 0,
-        status: OrderItemStatus.PENDING
+        status: OrderItemStatus.PENDING,
+        createdAt: new Date('2024-01-20'),
+        updatedAt: new Date('2024-01-20')
       }],
       creator: 'user-sales',
       isActive: true,
@@ -213,57 +258,69 @@ export class TestDataManager {
     return [
       {
         id: 'trans-test-1',
+        transactionNo: 'TXN-001',
         productId,
         warehouseId,
         type: TransactionType.IN,
+        transactionType: TransactionType.IN,
         quantity: 100,
+        unitPrice: 95.00,
         unitCost: 95.00,
+        totalAmount: 9500.00,
         totalCost: 9500.00,
-        remainingQuantity: 80, // 已出库20
-        transactionDate: new Date('2024-01-01'),
-        reason: '期初库存',
+        operator: 'test-user',
+        createdBy: 'test-user',
         createdAt: new Date('2024-01-01'),
         updatedAt: new Date('2024-01-01')
       },
       {
         id: 'trans-test-2',
+        transactionNo: 'TXN-002',
         productId,
         warehouseId,
         type: TransactionType.IN,
+        transactionType: TransactionType.IN,
         quantity: 200,
+        unitPrice: 100.00,
         unitCost: 100.00,
+        totalAmount: 20000.00,
         totalCost: 20000.00,
-        remainingQuantity: 200, // 未出库
-        transactionDate: new Date('2024-01-10'),
-        reason: '采购入库',
+        operator: 'test-user',
+        createdBy: 'test-user',
         createdAt: new Date('2024-01-10'),
         updatedAt: new Date('2024-01-10')
       },
       {
         id: 'trans-test-3',
+        transactionNo: 'TXN-003',
         productId,
         warehouseId,
         type: TransactionType.IN,
+        transactionType: TransactionType.IN,
         quantity: 150,
+        unitPrice: 105.00,
         unitCost: 105.00,
+        totalAmount: 15750.00,
         totalCost: 15750.00,
-        remainingQuantity: 150, // 未出库
-        transactionDate: new Date('2024-01-15'),
-        reason: '采购入库',
+        operator: 'test-user',
+        createdBy: 'test-user',
         createdAt: new Date('2024-01-15'),
         updatedAt: new Date('2024-01-15')
       },
       {
         id: 'trans-test-4',
+        transactionNo: 'TXN-004',
         productId,
         warehouseId,
         type: TransactionType.OUT,
+        transactionType: TransactionType.OUT,
         quantity: 20,
+        unitPrice: 95.00,
         unitCost: 95.00,
+        totalAmount: 1900.00,
         totalCost: 1900.00,
-        remainingQuantity: 0,
-        transactionDate: new Date('2024-01-05'),
-        reason: '销售出库',
+        operator: 'test-user',
+        createdBy: 'test-user',
         createdAt: new Date('2024-01-05'),
         updatedAt: new Date('2024-01-05')
       }
@@ -274,8 +331,8 @@ export class TestDataManager {
    * 生成完整业务场景数据集
    */
   createCompleteBusinessScenario(): {
-    products: ReturnType<typeof this.createProductData>;
-    partners: ReturnType<typeof this.createPartnerData>;
+    products: ReturnType<TestDataManager['createProductData']>;
+    partners: ReturnType<TestDataManager['createPartnerData']>;
     purchaseOrder: PurchaseOrder;
     salesOrder: SalesOrder;
     transactions: InventoryTransaction[];

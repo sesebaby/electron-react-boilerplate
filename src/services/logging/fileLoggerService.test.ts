@@ -6,15 +6,17 @@ import FileLoggerService, { fileLoggerService, FileLoggerConfig, FileLogEntry } 
 import { LogLevel, LogEntry } from '../../utils/logger';
 import { mockElectronAPI, localStorageMock } from '../../../jest.setup';
 
-// Mock logRotation
-const mockLogRotation = {
-  rotateIfNeeded: jest.fn().mockResolvedValue(undefined),
-  cleanupOldLogs: jest.fn().mockResolvedValue(undefined)
-};
-
+// Mock the logRotation module with a factory function
 jest.mock('../../utils/logRotation', () => ({
-  logRotation: mockLogRotation
+  logRotation: {
+    rotateIfNeeded: jest.fn().mockResolvedValue(undefined),
+    cleanupOldLogs: jest.fn().mockResolvedValue(undefined)
+  }
 }));
+
+// Get the mocked logRotation after the mock is set up
+import { logRotation } from '../../utils/logRotation';
+const mockLogRotation = logRotation as jest.Mocked<typeof logRotation>;
 
 // Mock require for Node.js modules
 const mockFs = {

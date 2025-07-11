@@ -69,7 +69,7 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
       ]);
       
       // 设置财务数据（部分启用）
-      const payablesResult = payablesData.success ? (payablesData.data?.items || payablesData.data || []) : [];
+      const payablesResult = payablesData.success ? ((payablesData.data as any)?.items || payablesData.data || []) : [];
       const paymentsResult = paymentsData.success ? (paymentsData.data || []) : [];
       const salesResult = salesData.success ? (salesData.data?.items || salesData.data || []) : [];
       const purchaseResult = purchaseData.success ? (purchaseData.data?.items || purchaseData.data || []) : [];

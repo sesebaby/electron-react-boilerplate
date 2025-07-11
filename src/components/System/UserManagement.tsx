@@ -301,11 +301,11 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
       if (currentUser?.role === UserRole.ADMIN && currentUser.id !== selectedUser.id) {
         // Admin can reset password without old password
         const systemService = serviceManager.getSystemService();
-        await systemService.resetUserPassword(selectedUser.id);
+        await systemService.resetPassword(selectedUser.id);
       } else {
         // User changing own password needs old password
         const systemService = serviceManager.getSystemService();
-        await systemService.changeUserPassword(selectedUser.id, data.oldPassword, data.newPassword);
+        await systemService.changePassword(selectedUser.id, data.oldPassword, data.newPassword);
       }
       
       setShowModal(false);
@@ -345,7 +345,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     try {
       setError(null);
       const systemService = serviceManager.getSystemService();
-      await systemService.setUserStatus(user.id, newStatus);
+      await systemService.setStatus(user.id, newStatus);
       loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '状态修改失败');

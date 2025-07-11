@@ -113,7 +113,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     try {
       const submitData = {
         ...data,
-        manager: data.creator
+        manager: data.creator,
+        isActive: true
       };
       
       const inventoryService = serviceManager.getInventoryService();

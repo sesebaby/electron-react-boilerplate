@@ -5,7 +5,7 @@
 
 import { InventoryService } from '../InventoryService';
 import { DatabaseManager } from '../database';
-import { Product, ProductStatus, Category, Unit, Warehouse } from '../../../types/entities';
+import { Product, ProductStatus, Category, Unit, UnitType, Warehouse, TransactionType } from '../../../types/entities';
 import { ValidationError, BusinessError } from '../../../utils/errors';
 
 // Mock dependencies
@@ -55,6 +55,8 @@ describe('InventoryService - 商品生命周期管理流程', () => {
         id: 'cat-1',
         name: '电子产品',
         description: '电子设备分类',
+        level: 1,
+        sortOrder: 1,
         isActive: true,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -64,6 +66,8 @@ describe('InventoryService - 商品生命周期管理流程', () => {
         id: 'unit-1',
         name: '台',
         symbol: 'pcs',
+        type: UnitType.QUANTITY,
+        precision: 0,
         isActive: true,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -71,8 +75,10 @@ describe('InventoryService - 商品生命周期管理流程', () => {
 
       const warehouse: Warehouse = {
         id: 'wh-1',
+        code: 'WH001',
         name: '主仓库',
         location: '北京',
+        isDefault: true,
         isActive: true,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -108,34 +114,52 @@ describe('InventoryService - 商品生命周期管理流程', () => {
       // 1. 创建分类
       const categoryResult = await inventoryService.createCategory({
         name: category.name,
-        description: category.description
+        description: category.description,
+        level: 1,
+        sortOrder: 1,
+        isActive: true
       });
       expect(categoryResult.success).toBe(true);
       expect(mockDb.createCategory).toHaveBeenCalledWith(expect.objectContaining({
         name: category.name,
-        description: category.description
+        description: category.description,
+        level: 1,
+        sortOrder: 1,
+        isActive: true
       }));
 
       // 2. 创建单位
       const unitResult = await inventoryService.createUnit({
         name: unit.name,
-        symbol: unit.symbol
+        symbol: unit.symbol,
+        type: UnitType.QUANTITY,
+        precision: 0,
+        isActive: true
       });
       expect(unitResult.success).toBe(true);
       expect(mockDb.createUnit).toHaveBeenCalledWith(expect.objectContaining({
         name: unit.name,
-        symbol: unit.symbol
+        symbol: unit.symbol,
+        type: UnitType.QUANTITY,
+        precision: 0,
+        isActive: true
       }));
 
       // 3. 创建仓库
       const warehouseResult = await inventoryService.createWarehouse({
+        code: 'WH001',
         name: warehouse.name,
-        location: warehouse.location
+        location: warehouse.location,
+        isDefault: true,
+        isActive: true
       });
       expect(warehouseResult.success).toBe(true);
       expect(mockDb.createWarehouse).toHaveBeenCalledWith(expect.objectContaining({
+        code: 'WH001',
         name: warehouse.name,
-        location: warehouse.location
+        location: warehouse.location,
+        isDefault: true,
+        isActive: true
       }));
 
       // 4. 创建商品
@@ -148,7 +172,9 @@ describe('InventoryService - 商品生命周期管理流程', () => {
         purchasePrice: product.purchasePrice,
         salePrice: product.salePrice,
         minStock: product.minStock,
-        maxStock: product.maxStock
+        maxStock: product.maxStock,
+        status: ProductStatus.ACTIVE,
+        isActive: true
       });
       expect(productResult.success).toBe(true);
       expect(mockDb.createProduct).toHaveBeenCalledWith(expect.objectContaining({
@@ -157,13 +183,13 @@ describe('InventoryService - 商品生命周期管理流程', () => {
       }));
 
       // 5. 初始化库存
-      const stockResult = await inventoryService.updateStock({
-        productId: product.id,
-        warehouseId: warehouse.id,
-        quantity: 50,
-        type: 'IN',
-        reason: '初始库存'
-      });
+      const stockResult = await inventoryService.updateStock(
+        product.id,
+        warehouse.id,
+        50,
+        TransactionType.IN,
+        '初始库存'
+      );
       expect(stockResult.success).toBe(true);
       expect(mockDb.updateInventoryStock).toHaveBeenCalled();
       expect(mockDb.createInventoryTransaction).toHaveBeenCalled();
@@ -183,7 +209,11 @@ describe('InventoryService - 商品生命周期管理流程', () => {
         categoryId: 'cat-1',
         unitId: 'unit-1',
         purchasePrice: 5000,
-        salePrice: 6000
+        salePrice: 6000,
+        minStock: 10,
+        maxStock: 100,
+        status: ProductStatus.ACTIVE,
+        isActive: true
       };
 
       await expect(inventoryService.createProduct(productData))
@@ -214,13 +244,13 @@ describe('InventoryService - 商品生命周期管理流程', () => {
       mockDb.createInventoryTransaction.mockResolvedValue({ success: true });
 
       // 1. 入库操作
-      const inStockResult = await inventoryService.updateStock({
+      const inStockResult = await inventoryService.updateStock(
         productId,
         warehouseId,
-        quantity: 50,
-        type: 'IN',
-        reason: '采购入库'
-      });
+        50,
+        TransactionType.IN,
+        '采购入库'
+      );
       expect(inStockResult.success).toBe(true);
       expect(mockDb.updateInventoryStock).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -231,13 +261,13 @@ describe('InventoryService - 商品生命周期管理流程', () => {
       );
 
       // 2. 出库操作
-      const outStockResult = await inventoryService.updateStock({
+      const outStockResult = await inventoryService.updateStock(
         productId,
         warehouseId,
-        quantity: 30,
-        type: 'OUT',
-        reason: '销售出库'
-      });
+        30,
+        TransactionType.OUT,
+        '销售出库'
+      );
       expect(outStockResult.success).toBe(true);
       expect(mockDb.updateInventoryStock).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -248,13 +278,13 @@ describe('InventoryService - 商品生命周期管理流程', () => {
       );
 
       // 3. 库存调整
-      const adjustResult = await inventoryService.updateStock({
+      const adjustResult = await inventoryService.updateStock(
         productId,
         warehouseId,
-        quantity: 5,
-        type: 'ADJUST',
-        reason: '盘点调整'
-      });
+        5,
+        TransactionType.ADJUST,
+        '盘点调整'
+      );
       expect(adjustResult.success).toBe(true);
 
       // 验证所有库存变动都记录了事务
@@ -277,13 +307,13 @@ describe('InventoryService - 商品生命周期管理流程', () => {
       });
 
       // 尝试出库超过库存数量
-      await expect(inventoryService.updateStock({
+      await expect(inventoryService.updateStock(
         productId,
         warehouseId,
-        quantity: 50,
-        type: 'OUT',
-        reason: '销售出库'
-      })).rejects.toThrow(BusinessError);
+        50,
+        TransactionType.OUT,
+        '销售出库'
+      )).rejects.toThrow(BusinessError);
 
       expect(mockDb.updateInventoryStock).not.toHaveBeenCalled();
       expect(mockDb.createInventoryTransaction).not.toHaveBeenCalled();
@@ -340,12 +370,12 @@ describe('InventoryService - 商品生命周期管理流程', () => {
 
       // 模拟并发操作
       const operations = [
-        inventoryService.updateStock({
-          productId, warehouseId, quantity: 10, type: 'OUT', reason: '操作1'
-        }),
-        inventoryService.updateStock({
-          productId, warehouseId, quantity: 5, type: 'OUT', reason: '操作2'
-        })
+        inventoryService.updateStock(
+          productId, warehouseId, 10, TransactionType.OUT, '操作1'
+        ),
+        inventoryService.updateStock(
+          productId, warehouseId, 5, TransactionType.OUT, '操作2'
+        )
       ];
 
       const results = await Promise.all(operations);
@@ -375,9 +405,9 @@ describe('InventoryService - 商品生命周期管理流程', () => {
       // Mock更新失败
       mockDb.updateInventoryStock.mockRejectedValue(new Error('数据库错误'));
 
-      await expect(inventoryService.updateStock({
-        productId, warehouseId, quantity: 10, type: 'OUT', reason: '测试操作'
-      })).rejects.toThrow();
+      await expect(inventoryService.updateStock(
+        productId, warehouseId, 10, TransactionType.OUT, '测试操作'
+      )).rejects.toThrow();
 
       // 验证回滚被调用
       expect(mockDb.rollback).toHaveBeenCalled();

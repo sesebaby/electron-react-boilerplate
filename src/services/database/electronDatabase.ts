@@ -1,415 +1,246 @@
-import { InventoryItem } from '../../types/inventory';
-import { Unit } from '../../types/entities';
+/**
+ * Electron 数据库代理
+ * 通过 IPC 与主进程通信来执行数据库操作
+ */
 
-// Electron renderer process database service
-// Uses IPC to communicate with main process for database operations
-
-export class ElectronDatabase {
-  private isInitialized = false;
-
-  async initialize(): Promise<void> {
-    if (!window.electronAPI?.dbInitialize) {
-      throw new Error('Electron API not available');
-    }
-    
-    const result = await window.electronAPI.dbInitialize();
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to initialize database');
-    }
-    
-    this.isInitialized = true;
+declare global {
+  interface Window {
+    electronAPI: {
+      // 数据库操作
+      dbInitialize: () => Promise<any>;
+      dbGetAllItems: () => Promise<any>;
+      dbGetItemById: (id: string) => Promise<any>;
+      dbGetItemBySku: (sku: string) => Promise<any>;
+      dbCreateItem: (item: any) => Promise<any>;
+      dbUpdateItem: (id: string, updates: any) => Promise<any>;
+      dbDeleteItem: (id: string) => Promise<any>;
+      dbSearchItems: (params: any) => Promise<any>;
+      dbGetCategories: () => Promise<any>;
+      dbCreateCategory: (category: any) => Promise<any>;
+      dbUpdateCategory: (id: string, updates: any) => Promise<any>;
+      dbDeleteCategory: (id: string) => Promise<any>;
+      dbGetSuppliers: () => Promise<any>;
+      dbCreateSupplier: (supplier: any) => Promise<any>;
+      dbUpdateSupplier: (id: string, updates: any) => Promise<any>;
+      dbDeleteSupplier: (id: string) => Promise<any>;
+      dbGetWarehouses: () => Promise<any>;
+      dbCreateWarehouse: (warehouse: any) => Promise<any>;
+      dbUpdateWarehouse: (id: string, updates: any) => Promise<any>;
+      dbDeleteWarehouse: (id: string) => Promise<any>;
+      dbGetUsers: () => Promise<any>;
+      dbCreateUser: (user: any) => Promise<any>;
+      dbUpdateUser: (id: string, updates: any) => Promise<any>;
+      dbDeleteUser: (id: string) => Promise<any>;
+      dbGetUnits: () => Promise<any>;
+      dbCreateUnit: (unit: any) => Promise<any>;
+      dbUpdateUnit: (id: string, updates: any) => Promise<any>;
+      dbDeleteUnit: (id: string) => Promise<any>;
+      // 通用查询
+      dbQuery: (sql: string, params?: any[]) => Promise<any>;
+      dbRun: (sql: string, params?: any[]) => Promise<any>;
+      dbGet: (sql: string, params?: any[]) => Promise<any>;
+      dbAll: (sql: string, params?: any[]) => Promise<any>;
+      // 事务
+      dbBeginTransaction: () => Promise<any>;
+      dbCommit: () => Promise<any>;
+      dbRollback: () => Promise<any>;
+      
+      // 系统操作
+      dbClearDatabase: (options?: any) => Promise<any>;
+      dbRebuildSchema: () => Promise<any>;
+      dbReimportUnits: () => Promise<any>;
+      dbImportSampleData: () => Promise<any>;
+      dbImportBuiltinData: () => Promise<any>;
+      dbCheckHealth: () => Promise<any>;
+      dbValidateIntegrity: () => Promise<any>;
+      dbBackup: (path?: string) => Promise<any>;
+      dbRestore: (path: string) => Promise<any>;
+      dbValidateBackup: (path: string) => Promise<any>;
+      dbOptimize: () => Promise<any>;
+      dbGetSystemStatus: () => Promise<any>;
+      dbGetBackupList: () => Promise<any>;
+      dbDeleteBackup: (backupId: string) => Promise<any>;
+      
+      // 文件操作
+      readFile: (filePath: string) => Promise<any>;
+      writeFile: (filePath: string, data: any) => Promise<any>;
+      checkFileExists: (filePath: string) => Promise<any>;
+      mkdir: (dirPath: string, options?: any) => Promise<any>;
+      stat: (filePath: string) => Promise<any>;
+      readdir: (dirPath: string) => Promise<any>;
+      rename: (oldPath: string, newPath: string) => Promise<any>;
+      unlink: (filePath: string) => Promise<any>;
+      getAppPath: (name: string) => Promise<any>;
+      
+      // 文件对话框
+      showOpenDialog: (options: any) => Promise<any>;
+      showSaveDialog: (options: any) => Promise<any>;
+    };
   }
-
-  async close(): Promise<void> {
-    if (!this.isInitialized) {
-      return;
-    }
-    
-    try {
-      if (window.electronAPI?.dbClose) {
-        const result = await window.electronAPI.dbClose();
-        if (!result.success) {
-          console.warn('Database close warning:', result.error);
-        }
-      }
-    } catch (error) {
-      console.warn('Database close error:', error);
-    } finally {
-      this.isInitialized = false;
-    }
-  }
-
-  private checkInitialized(): void {
-    if (!this.isInitialized) {
-      throw new Error('Database not initialized');
-    }
-  }
-
-  async getAllItems(): Promise<InventoryItem[]> {
-    this.checkInitialized();
-    const result = await window.electronAPI.dbGetAllItems();
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to get items');
-    }
-    return result.data || [];
-  }
-
-  async getItemById(id: string): Promise<InventoryItem | null> {
-    this.checkInitialized();
-    const result = await window.electronAPI.dbGetItemById(id);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to get item');
-    }
-    return result.data || null;
-  }
-
-  async getItemBySku(sku: string): Promise<InventoryItem | null> {
-    const result = await window.electronAPI.dbGetItemBySku(sku);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to get item by SKU');
-    }
-    return result.data || null;
-  }
-
-  async addTransaction(transaction: any): Promise<any> {
-    this.checkInitialized();
-    const result = await window.electronAPI.dbAddTransaction(transaction);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to add transaction');
-    }
-    return result.data;
-  }
-
-  async createItem(item: Omit<InventoryItem, 'id' | 'lastUpdated'>): Promise<InventoryItem> {
-    const result = await window.electronAPI.dbCreateItem(item);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to create item');
-    }
-    if (!result.data) {
-      throw new Error('No data returned from create operation');
-    }
-    return result.data;
-  }
-
-  async updateItem(id: string, updates: Partial<InventoryItem>): Promise<InventoryItem> {
-    const result = await window.electronAPI.dbUpdateItem(id, updates);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to update item');
-    }
-    if (!result.data) {
-      throw new Error('No data returned from update operation');
-    }
-    return result.data;
-  }
-
-  async deleteItem(id: string): Promise<boolean> {
-    const result = await window.electronAPI.dbDeleteItem(id);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to delete item');
-    }
-    return true;
-  }
-
-  async searchItems(searchTerm: string): Promise<InventoryItem[]> {
-    const result = await window.electronAPI.dbSearchItems(searchTerm);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to search items');
-    }
-    return result.data || [];
-  }
-
-  async getItemsByCategory(category: string): Promise<InventoryItem[]> {
-    const result = await window.electronAPI.dbGetItemsByCategory(category);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to get items by category');
-    }
-    return result.data || [];
-  }
-
-  // getLowStockItems方法已在后面实现
-
-  async getCategories(): Promise<string[]> {
-    const result = await window.electronAPI.dbGetCategories();
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to get categories');
-    }
-    return result.data || [];
-  }
-
-  async getSuppliers(): Promise<string[]> {
-    const result = await window.electronAPI.dbGetSuppliers();
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to get suppliers');
-    }
-    return result.data || [];
-  }
-
-  // Get all categories from categories table
-  async getAllCategories(): Promise<any[]> {
-    this.checkInitialized();
-    const result = await window.electronAPI.dbGetAllCategories();
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to get all categories');
-    }
-    return result.data || [];
-  }
-
-  // Get all suppliers from suppliers table
-  async getAllSuppliers(): Promise<any[]> {
-    this.checkInitialized();
-    const result = await window.electronAPI.dbGetAllSuppliers();
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to get all suppliers');
-    }
-    return result.data || [];
-  }
-
-  // Get all inventory transactions
-  // getAllTransactions方法已在后面实现
-
-  // ========== UNIT METHODS ==========
-
-  // Get all units
-  async getAllUnits(): Promise<Unit[]> {
-    this.checkInitialized();
-    const result = await (window.electronAPI as any).dbGetAllUnits();
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to get all units');
-    }
-    return result.data || [];
-  }
-
-  // Get unit by ID
-  async getUnitById(id: string): Promise<Unit | null> {
-    this.checkInitialized();
-    const result = await (window.electronAPI as any).dbGetUnitById(id);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to get unit');
-    }
-    return result.data || null;
-  }
-
-  // Get unit by symbol
-  async getUnitBySymbol(symbol: string): Promise<Unit | null> {
-    this.checkInitialized();
-    const result = await (window.electronAPI as any).dbGetUnitBySymbol(symbol);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to get unit by symbol');
-    }
-    return result.data || null;
-  }
-
-  // Create unit
-  async createUnit(unit: Omit<Unit, 'id' | 'createdAt' | 'updatedAt'>): Promise<Unit> {
-    this.checkInitialized();
-    const result = await (window.electronAPI as any).dbCreateUnit(unit);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to create unit');
-    }
-    if (!result.data) {
-      throw new Error('No data returned from create operation');
-    }
-    return result.data;
-  }
-
-  // Update unit
-  async updateUnit(id: string, updates: Partial<Unit>): Promise<Unit> {
-    this.checkInitialized();
-    const result = await (window.electronAPI as any).dbUpdateUnit(id, updates);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to update unit');
-    }
-    if (!result.data) {
-      throw new Error('No data returned from update operation');
-    }
-    return result.data;
-  }
-
-  // Delete unit
-  async deleteUnit(id: string): Promise<boolean> {
-    this.checkInitialized();
-    const result = await (window.electronAPI as any).dbDeleteUnit(id);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to delete unit');
-    }
-    return true;
-  }
-
-  // Search units
-  async searchUnits(searchTerm: string): Promise<Unit[]> {
-    this.checkInitialized();
-    const result = await (window.electronAPI as any).dbSearchUnits(searchTerm);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to search units');
-    }
-    return result.data || [];
-  }
-
-  // ==================== 缺失的库存相关方法占位符 ====================
-
-  /**
-   * 获取所有库存记录
-   */
-  async getAllStocks(): Promise<any[]> {
-    this.checkInitialized();
-    // 临时返回空数组，避免构建错误
-    console.warn('getAllStocks method not implemented yet');
-    return [];
-  }
-
-  /**
-   * 更新库存记录
-   */
-  async updateStock(stockId: string, data: any): Promise<{ success: boolean; error?: string }> {
-    this.checkInitialized();
-    // 临时返回成功，避免构建错误
-    console.warn('updateStock method not implemented yet', { stockId, data });
-    return { success: true };
-  }
-
-  /**
-   * 创建库存记录
-   */
-  async createStock(data: any): Promise<{ success: boolean; data?: any; error?: string }> {
-    this.checkInitialized();
-    // 临时返回成功，避免构建错误
-    console.warn('createStock method not implemented yet', { data });
-    return { success: true, data: { id: `temp-${Date.now()}`, ...data } };
-  }
-
-  /**
-   * 获取所有交易记录
-   */
-  async getAllTransactions(): Promise<any[]> {
-    this.checkInitialized();
-    // 临时返回空数组，避免构建错误
-    console.warn('getAllTransactions method not implemented yet');
-    return [];
-  }
-
-  /**
-   * 创建交易记录
-   */
-  async createTransaction(data: any): Promise<{ success: boolean; data?: any; error?: string }> {
-    this.checkInitialized();
-    // 临时返回成功，避免构建错误
-    console.warn('createTransaction method not implemented yet', { data });
-    return { success: true, data: { id: `temp-txn-${Date.now()}`, ...data } };
-  }
-
-  /**
-   * 根据条件查询库存移动记录
-   */
-  async getStockMovements(
-    productId?: string,
-    warehouseId?: string,
-    startDate?: Date,
-    endDate?: Date
-  ): Promise<any[]> {
-    this.checkInitialized();
-    // 临时返回空数组，避免构建错误
-    console.warn('getStockMovements method not implemented yet', {
-      productId, warehouseId, startDate, endDate
-    });
-    return [];
-  }
-
-  // ==================== 用户管理方法 ====================
-
-  /**
-   * 创建用户
-   */
-  async createUser(user: any): Promise<any> {
-    this.checkInitialized();
-    // 临时返回成功，避免构建错误
-    console.warn('createUser method not implemented yet', { user });
-    return { success: true, data: { id: `temp-user-${Date.now()}`, ...user } };
-  }
-
-  /**
-   * 获取所有用户
-   */
-  async getAllUsers(): Promise<any[]> {
-    this.checkInitialized();
-    // 临时返回空数组，避免构建错误
-    console.warn('getAllUsers method not implemented yet');
-    return [];
-  }
-
-  /**
-   * 更新用户
-   */
-  async updateUser(id: string, updates: any): Promise<any> {
-    this.checkInitialized();
-    // 临时返回成功，避免构建错误
-    console.warn('updateUser method not implemented yet', { id, updates });
-    return { success: true, data: { id, ...updates } };
-  }
-
-  // ==================== 客户管理方法 ====================
-
-  /**
-   * 创建客户
-   */
-  async createCustomer(customer: any): Promise<any> {
-    this.checkInitialized();
-    // 临时返回成功，避免构建错误
-    console.warn('createCustomer method not implemented yet', { customer });
-    return { success: true, data: { id: `temp-customer-${Date.now()}`, ...customer } };
-  }
-
-  /**
-   * 获取所有客户
-   */
-  async getAllCustomers(): Promise<any[]> {
-    this.checkInitialized();
-    // 临时返回空数组，避免构建错误
-    console.warn('getAllCustomers method not implemented yet');
-    return [];
-  }
-
-  // ==================== 供应商管理方法 ====================
-
-  /**
-   * 创建供应商
-   */
-  async createSupplier(supplier: any): Promise<any> {
-    this.checkInitialized();
-    // 临时返回成功，避免构建错误
-    console.warn('createSupplier method not implemented yet', { supplier });
-    return { success: true, data: { id: `temp-supplier-${Date.now()}`, ...supplier } };
-  }
-
-  /**
-   * 获取低库存商品
-   */
-  async getLowStockItems(): Promise<any[]> {
-    this.checkInitialized();
-    // 临时返回空数组，避免构建错误
-    console.warn('getLowStockItems method not implemented yet');
-    return [];
-  }
-
-  /**
-   * 根据产品ID获取库存
-   */
-  async getStockByProductId(productId: string): Promise<any | null> {
-    this.checkInitialized();
-    // 临时返回null，避免构建错误
-    console.warn('getStockByProductId method not implemented yet', { productId });
-    return null;
-  }
-
-  /**
-   * 根据仓库ID获取库存列表
-   */
-  async getStocksByWarehouseId(warehouseId: string): Promise<any[]> {
-    this.checkInitialized();
-    // 临时返回空数组，避免构建错误
-    console.warn('getStocksByWarehouseId method not implemented yet', { warehouseId });
-    return [];
-  }
-
 }
 
-export default new ElectronDatabase();
+export class ElectronDatabase {
+  private static instance: ElectronDatabase;
+
+  private constructor() {}
+
+  static getInstance(): ElectronDatabase {
+    if (!ElectronDatabase.instance) {
+      ElectronDatabase.instance = new ElectronDatabase();
+    }
+    return ElectronDatabase.instance;
+  }
+
+  async initialize(): Promise<void> {
+    if (!window.electronAPI) {
+      throw new Error('Electron API not available. Make sure preload script is loaded.');
+    }
+    return window.electronAPI.dbInitialize();
+  }
+
+  // 通用查询方法
+  async query(sql: string, params: any[] = []): Promise<any> {
+    return window.electronAPI.dbQuery(sql, params);
+  }
+
+  async run(sql: string, params: any[] = []): Promise<any> {
+    return window.electronAPI.dbRun(sql, params);
+  }
+
+  async get(sql: string, params: any[] = []): Promise<any> {
+    return window.electronAPI.dbGet(sql, params);
+  }
+
+  async all(sql: string, params: any[] = []): Promise<any> {
+    return window.electronAPI.dbAll(sql, params);
+  }
+
+  // 事务支持
+  async beginTransaction(): Promise<any> {
+    return window.electronAPI.dbBeginTransaction();
+  }
+
+  async commit(): Promise<any> {
+    return window.electronAPI.dbCommit();
+  }
+
+  async rollback(): Promise<any> {
+    return window.electronAPI.dbRollback();
+  }
+
+  // 库存项目
+  async getAllItems(): Promise<any> {
+    return window.electronAPI.dbGetAllItems();
+  }
+
+  async getItemById(id: string): Promise<any> {
+    return window.electronAPI.dbGetItemById(id);
+  }
+
+  async getItemBySku(sku: string): Promise<any> {
+    return window.electronAPI.dbGetItemBySku(sku);
+  }
+
+  async createItem(item: any): Promise<any> {
+    return window.electronAPI.dbCreateItem(item);
+  }
+
+  async updateItem(id: string, updates: any): Promise<any> {
+    return window.electronAPI.dbUpdateItem(id, updates);
+  }
+
+  async deleteItem(id: string): Promise<any> {
+    return window.electronAPI.dbDeleteItem(id);
+  }
+
+  async searchItems(params: any): Promise<any> {
+    return window.electronAPI.dbSearchItems(params);
+  }
+
+  // 分类
+  async getCategories(): Promise<any> {
+    return window.electronAPI.dbGetCategories();
+  }
+
+  async createCategory(category: any): Promise<any> {
+    return window.electronAPI.dbCreateCategory(category);
+  }
+
+  async updateCategory(id: string, updates: any): Promise<any> {
+    return window.electronAPI.dbUpdateCategory(id, updates);
+  }
+
+  async deleteCategory(id: string): Promise<any> {
+    return window.electronAPI.dbDeleteCategory(id);
+  }
+
+  // 供应商
+  async getSuppliers(): Promise<any> {
+    return window.electronAPI.dbGetSuppliers();
+  }
+
+  async createSupplier(supplier: any): Promise<any> {
+    return window.electronAPI.dbCreateSupplier(supplier);
+  }
+
+  async updateSupplier(id: string, updates: any): Promise<any> {
+    return window.electronAPI.dbUpdateSupplier(id, updates);
+  }
+
+  async deleteSupplier(id: string): Promise<any> {
+    return window.electronAPI.dbDeleteSupplier(id);
+  }
+
+  // 仓库
+  async getWarehouses(): Promise<any> {
+    return window.electronAPI.dbGetWarehouses();
+  }
+
+  async createWarehouse(warehouse: any): Promise<any> {
+    return window.electronAPI.dbCreateWarehouse(warehouse);
+  }
+
+  async updateWarehouse(id: string, updates: any): Promise<any> {
+    return window.electronAPI.dbUpdateWarehouse(id, updates);
+  }
+
+  async deleteWarehouse(id: string): Promise<any> {
+    return window.electronAPI.dbDeleteWarehouse(id);
+  }
+
+  // 用户
+  async getUsers(): Promise<any> {
+    return window.electronAPI.dbGetUsers();
+  }
+
+  async createUser(user: any): Promise<any> {
+    return window.electronAPI.dbCreateUser(user);
+  }
+
+  async updateUser(id: string, updates: any): Promise<any> {
+    return window.electronAPI.dbUpdateUser(id, updates);
+  }
+
+  async deleteUser(id: string): Promise<any> {
+    return window.electronAPI.dbDeleteUser(id);
+  }
+
+  // 单位
+  async getUnits(): Promise<any> {
+    return window.electronAPI.dbGetUnits();
+  }
+
+  async createUnit(unit: any): Promise<any> {
+    return window.electronAPI.dbCreateUnit(unit);
+  }
+
+  async updateUnit(id: string, updates: any): Promise<any> {
+    return window.electronAPI.dbUpdateUnit(id, updates);
+  }
+
+  async deleteUnit(id: string): Promise<any> {
+    return window.electronAPI.dbDeleteUnit(id);
+  }
+}
+
+export default ElectronDatabase.getInstance();

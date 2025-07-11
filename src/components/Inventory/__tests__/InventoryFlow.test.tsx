@@ -27,13 +27,13 @@ const mockInventoryService = {
   getWarehouses: jest.fn(),
 };
 
-const mockUseInventory = {
+const mockUseInventory: any = {
   products: [],
   categories: [],
   units: [],
   warehouses: [],
   loading: false,
-  error: null,
+  error: null as string | null,
   refreshProducts: jest.fn(),
   createProduct: jest.fn(),
   updateProduct: jest.fn(),
@@ -71,20 +71,48 @@ describe('Inventory组件集成测试 - 用户操作流程', () => {
         minStock: 10,
         maxStock: 100,
         currentStock: 50,
-        isActive: true
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ];
 
     mockUseInventory.categories = [
-      { id: 'cat-1', name: '电子产品', isActive: true }
+      { 
+        id: 'cat-1', 
+        name: '电子产品', 
+        isActive: true,
+        level: 1,
+        sortOrder: 1,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
     ];
 
     mockUseInventory.units = [
-      { id: 'unit-1', name: '台', symbol: 'pcs', isActive: true }
+      { 
+        id: 'unit-1', 
+        name: '台', 
+        symbol: 'pcs', 
+        isActive: true,
+        type: 'quantity',
+        precision: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
     ];
 
     mockUseInventory.warehouses = [
-      { id: 'wh-1', name: '主仓库', location: '北京', isActive: true }
+      { 
+        id: 'wh-1', 
+        name: '主仓库', 
+        location: '北京', 
+        isActive: true,
+        code: 'WH001',
+        isDefault: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
     ];
   });
 

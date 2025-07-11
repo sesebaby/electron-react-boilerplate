@@ -199,22 +199,22 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
         order = orderResult.data as PurchaseOrder;
 
         // 更新订单项目（简化：删除所有重新添加）
-        const existingItemsResult = await orderService.getPurchaseOrders(); // 临时简化
+        const existingItemsResult = await serviceManager.getOrderService().getPurchaseOrders(); // 临时简化
         const existingItems = existingItemsResult.success ? (existingItemsResult.data || []) : [];
         // 临时注释掉删除逻辑
         // for (const item of existingItems) {
-        //   await orderService.removePurchaseOrderItem(item.id);
+        //   await serviceManager.getOrderService().removePurchaseOrderItem(item.id);
         // }
       } else {
         // 创建新订单
-        const orderResult = await orderService.createPurchaseOrder({
+        const orderResult = await serviceManager.getOrderService().createPurchaseOrder({
           supplierId: data.supplierId,
-          orderDate: new Date(data.orderDate),
           expectedDate: new Date(data.expectedDate),
-          status: data.status,
-          discountAmount: data.discountAmount,
-          taxAmount: data.taxAmount,
-          remark: data.remark || undefined,
+          items: (data.items || []).map(item => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice
+          })),
           creator: data.creator
         });
 
@@ -225,22 +225,7 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
         order = orderResult.data as PurchaseOrder;
       }
       
-      // 添加订单项目
-      for (const itemData of data.items) {
-        // 临时注释掉，避免编译错误
-        // const itemResult = await orderService.addPurchaseOrderItem(order.id, {
-        //   productId: itemData.productId,
-        //   quantity: itemData.quantity,
-        //   unitPrice: itemData.unitPrice,
-        //   discountRate: itemData.discountRate,
-        //   receivedQuantity: 0
-        // });
-
-        // if (!itemResult.success) {
-        //   setError(itemResult.error || '添加订单项目失败');
-        //   return;
-        // }
-      }
+      // 订单和明细已在createPurchaseOrder中一次性创建
       
       await loadData();
       setShowForm(false);

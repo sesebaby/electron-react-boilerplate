@@ -76,12 +76,16 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
       setLoading(true);
       setError(null);
       
+      const orderService = serviceManager.getOrderService();
+      const systemService = serviceManager.getSystemService();
+      const inventoryService = serviceManager.getInventoryService();
+      
       const [deliveriesResult, ordersResult, customersResult, warehousesResult, productsResult, statsResult] = await Promise.all([
-        salesDeliveryService.findAll(),
-        salesOrderService.findAll(),
-        customerService.findAll(),
-        warehouseService.findAll(),
-        productService.findAll(),
+        orderService.getSalesDeliveries(),
+        orderService.getSalesOrders(),
+        systemService.getCustomers(),
+        inventoryService.findAllWarehouses(),
+        inventoryService.findAllProducts(),
         Promise.resolve({ success: true, data: {} }) // 临时使用空统计数据
       ]);
 
@@ -92,7 +96,7 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
       const customersData = customersResult.success ? 
         (Array.isArray(customersResult.data) ? customersResult.data : customersResult.data?.items || []) : [];
       const warehousesData = warehousesResult.success ? 
-        (Array.isArray(warehousesResult.data) ? warehousesResult.data : warehousesResult.data?.items || []) : [];
+        (Array.isArray(warehousesResult.data) ? warehousesResult.data : (warehousesResult.data as any)?.items || []) : [];
       const productsData = productsResult.success ? 
         (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
       const statsData = statsResult.success ? (statsResult.data || {}) : {};
@@ -118,7 +122,8 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     }
 
     try {
-      const orderItemsResult = await salesOrderService.getOrderItems(orderId);
+      const orderService = serviceManager.getOrderService();
+      const orderItemsResult = await orderService.getOrderItems(orderId);
       const orderItems = orderItemsResult.success ? (orderItemsResult.data || []) : [];
       setAvailableOrderItems(orderItems);
     } catch (err) {
@@ -163,7 +168,8 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
       
       if (editingDelivery) {
         // 更新出库单
-        const updateResult = await salesDeliveryService.update(editingDelivery.id, {
+        const orderService = serviceManager.getOrderService();
+        const updateResult = await orderService.update(editingDelivery.id, {
           ...formData,
           deliveryDate: new Date(formData.deliveryDate)
         });
@@ -173,16 +179,22 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
         delivery = updateResult.data as SalesDelivery;
         
         // 更新出库项目（简化：删除所有重新添加）
-        const existingItemsResult = await salesDeliveryService.getDeliveryItems(editingDelivery.id);
+        const existingItemsResult = await orderService.getDeliveryItems(editingDelivery.id);
         const existingItems = existingItemsResult.success ? (existingItemsResult.data || []) : [];
         for (const item of existingItems) {
-          await salesDeliveryService.removeDeliveryItem(item.id);
+          await orderService.removeDeliveryItem(item.id);
         }
       } else {
         // 创建新出库单
-        const createResult = await salesDeliveryService.create({
-          ...formData,
-          deliveryDate: new Date(formData.deliveryDate)
+        const orderService = serviceManager.getOrderService();
+        const createResult = await orderService.createSalesDelivery({
+          salesOrderId: formData.orderId,
+          warehouseId: formData.warehouseId,
+          items: formItems.map(item => ({
+            salesOrderItemId: item.orderItemId,
+            deliveredQuantity: item.quantity
+          })),
+          deliverer: formData.deliveryPerson
         });
         if (!createResult.success) {
           throw new Error(createResult.error || '创建出库单失败');
@@ -190,15 +202,7 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
         delivery = createResult.data as SalesDelivery;
       }
       
-      // 添加出库项目
-      for (const itemData of formItems) {
-        await salesDeliveryService.addDeliveryItem(delivery.id, {
-          productId: itemData.productId,
-          orderItemId: itemData.orderItemId,
-          quantity: itemData.quantity,
-          unitPrice: itemData.unitPrice
-        });
-      }
+      // 出库单和明细已在createSalesDelivery中一次性创建
       
       await loadData();
       setShowForm(false);
@@ -226,7 +230,8 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     
     // 加载订单项目和出库项目
     await loadOrderItems(delivery.orderId);
-    const itemsResult = await salesDeliveryService.getDeliveryItems(delivery.id);
+    const orderService = serviceManager.getOrderService();
+    const itemsResult = await orderService.getDeliveryItems(delivery.id);
     const items = itemsResult.success ? (itemsResult.data || []) : [];
     setFormItems(items.map((item: any) => ({
       id: item.id,
@@ -248,7 +253,8 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     if (!deleteTargetId) return;
 
     try {
-      await salesDeliveryService.delete(deleteTargetId);
+      const orderService = serviceManager.getOrderService();
+      await orderService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除销售出库单失败');
@@ -266,7 +272,8 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
 
   const handleStatusUpdate = async (deliveryId: string, newStatus: DeliveryStatus) => {
     try {
-      await salesDeliveryService.updateStatus(deliveryId, newStatus);
+      const orderService = serviceManager.getOrderService();
+      await orderService.updateStatus(deliveryId, newStatus);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '更新出库状态失败');

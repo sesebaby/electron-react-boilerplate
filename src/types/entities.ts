@@ -136,6 +136,7 @@ export interface Product extends BaseEntity {
   minStock: number;               // 最小库存
   maxStock: number;               // 最大库存
   status: ProductStatus;          // 状态
+  isActive: boolean;              // 是否启用
   images?: string[];              // 商品图片
 }
 
@@ -198,8 +199,10 @@ export interface Warehouse extends BaseEntity {
   code: string;                   // 仓库编码
   name: string;                   // 仓库名称
   address?: string;               // 仓库地址
+  location?: string;              // 位置
   manager?: string;               // 负责人
   isDefault: boolean;             // 是否默认仓库
+  isActive: boolean;              // 是否启用
 }
 
 // 库存实体
@@ -344,6 +347,7 @@ export interface Supplier extends BaseEntity {
   creditLimit: number;            // 信用额度
   rating: SupplierRating;         // 供应商评级
   status: SupplierStatus;         // 状态
+  isActive: boolean;              // 是否启用
 }
 
 export enum SupplierRating {
@@ -371,6 +375,12 @@ export interface PurchaseOrder extends BaseEntity {
   finalAmount: number;            // 最终金额
   remark?: string;                // 备注
   creator: string;                // 创建人
+  paymentStatus: PaymentStatus;   // 付款状态
+  isActive: boolean;              // 是否启用
+  notes?: string;                 // 备注
+  cancelReason?: string;          // 取消原因
+  cancelledBy?: string;           // 取消人
+  updatedBy?: string;             // 更新人
   
   // 关联实体
   supplier?: Supplier;
@@ -393,6 +403,7 @@ export interface PurchaseOrderItem extends BaseEntity {
   unitPrice: number;              // 采购单价
   discountRate: number;           // 折扣率
   amount: number;                 // 明细金额
+  totalPrice: number;             // 总价
   receivedQuantity: number;       // 已收货数量
   status: OrderItemStatus;        // 明细状态
   
@@ -439,8 +450,10 @@ export interface PurchaseReceiptItem extends BaseEntity {
   productId: string;              // 商品ID
   orderItemId: string;            // 订单明细ID
   quantity: number;               // 收货数量
+  receivedQuantity: number;       // 收货数量
   unitPrice: number;              // 单价
   amount: number;                 // 金额
+  totalPrice: number;             // 总价
   
   // 关联实体
   receipt?: PurchaseReceipt;
@@ -462,6 +475,7 @@ export interface Customer extends BaseEntity {
   discountRate: number;           // 优惠折扣率
   level: CustomerLevel;           // 客户等级
   status: CustomerStatus;         // 状态
+  isActive: boolean;              // 是否启用
 }
 
 export enum CustomerType {
@@ -495,6 +509,8 @@ export interface SalesOrder extends BaseEntity {
   paymentStatus: PaymentStatus;   // 付款状态
   remark?: string;                // 备注
   creator: string;                // 创建人
+  isActive: boolean;              // 是否启用
+  updatedBy?: string;             // 更新人
   
   // 关联实体
   customer?: Customer;
@@ -526,6 +542,7 @@ export interface SalesOrderItem extends BaseEntity {
   unitPrice: number;              // 销售单价
   discountRate: number;           // 折扣率
   amount: number;                 // 明细金额
+  totalPrice: number;             // 总价
   deliveredQuantity: number;      // 已配送数量
   status: OrderItemStatus;        // 明细状态
   
@@ -545,6 +562,7 @@ export interface SalesDelivery extends BaseEntity {
   totalQuantity: number;          // 出库总数量
   totalAmount: number;            // 出库总金额
   deliveryPerson: string;         // 配送人
+  deliverer: string;              // 发货人
   remark?: string;                // 备注
   
   // 关联实体
@@ -568,8 +586,10 @@ export interface SalesDeliveryItem extends BaseEntity {
   productId: string;              // 商品ID
   orderItemId: string;            // 订单明细ID
   quantity: number;               // 出库数量
+  deliveredQuantity: number;      // 发货数量
   unitPrice: number;              // 单价
   amount: number;                 // 金额
+  totalPrice: number;             // 总价
   
   // 关联实体
   delivery?: SalesDelivery;

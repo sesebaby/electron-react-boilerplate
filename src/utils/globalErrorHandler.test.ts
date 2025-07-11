@@ -5,16 +5,18 @@
 import GlobalErrorHandler, { globalErrorHandler, GlobalErrorConfig, ErrorReport } from './globalErrorHandler';
 import { originalConsole } from '../../jest.setup';
 
-// Mock logger
-const mockLogger = {
-  error: jest.fn(),
-  warn: jest.fn(),
-  info: jest.fn()
-};
-
+// Mock the logger module with a factory function
 jest.mock('./logger', () => ({
-  logger: mockLogger
+  logger: {
+    error: jest.fn(),
+    warn: jest.fn(),
+    info: jest.fn()
+  }
 }));
+
+// Get the mocked logger after the mock is set up
+import { logger } from './logger';
+const mockLogger = logger as jest.Mocked<typeof logger>;
 
 describe('GlobalErrorHandler测试', () => {
   let handler: GlobalErrorHandler;

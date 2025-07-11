@@ -173,6 +173,7 @@ export class InventoryService {
         address: '',
         manager: '',
         isDefault: true,
+        isActive: true,
         createdAt: new Date(),
         updatedAt: new Date()
       };

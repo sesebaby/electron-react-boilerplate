@@ -4,13 +4,16 @@ import { serviceManager } from '../../../services/core';
 import WeeklyCalendarView from './WeeklyCalendarView';
 import DayDetailModal from './DayDetailModal';
 
+// Helper function to get week start
+const getWeekStart = (date: Date): Date => {
+  const day = date.getDay();
+  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+  return new Date(date.getFullYear(), date.getMonth(), diff);
+};
+
 const CalendarOverviewPage: React.FC = () => {
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(() => {
-    // 临时实现获取周开始日期
-    const date = new Date();
-    const day = date.getDay();
-    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(date.setDate(diff));
+    return getWeekStart(new Date());
   });
   const [weekData, setWeekData] = useState<WeeklyCalendarData | null>(null);
   const [selectedDay, setSelectedDay] = useState<DailyBusinessSummary | null>(null);
@@ -23,7 +26,7 @@ const CalendarOverviewPage: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const dataResult = await calendarDataService.getWeeklyData(weekStart);
+      const dataResult = await serviceManager.getReportService().getWeeklyData(weekStart);
       if (dataResult.success && dataResult.data) {
         setWeekData(dataResult.data as any);
       } else {
@@ -58,7 +61,7 @@ const CalendarOverviewPage: React.FC = () => {
 
   // 导航到当前周
   const goToCurrentWeek = () => {
-    const currentWeek = CalendarDataService.getWeekStart(new Date());
+    const currentWeek = getWeekStart(new Date());
     setCurrentWeekStart(currentWeek);
   };
 
@@ -83,7 +86,7 @@ const CalendarOverviewPage: React.FC = () => {
 
   // 检查是否是当前周
   const isCurrentWeek = (): boolean => {
-    const currentWeek = CalendarDataService.getWeekStart(new Date());
+    const currentWeek = getWeekStart(new Date());
     return currentWeekStart.getTime() === currentWeek.getTime();
   };
 

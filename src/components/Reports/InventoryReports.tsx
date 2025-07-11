@@ -82,9 +82,9 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
       ]);
 
       const categoriesData = categoriesResult.success ? 
-        (Array.isArray(categoriesResult.data) ? categoriesResult.data : categoriesResult.data?.items || []) : [];
+        (Array.isArray(categoriesResult.data) ? categoriesResult.data : (categoriesResult.data as any)?.items || []) : [];
       const warehousesData = warehousesResult.success ? 
-        (Array.isArray(warehousesResult.data) ? warehousesResult.data : warehousesResult.data?.items || []) : [];
+        (Array.isArray(warehousesResult.data) ? warehousesResult.data : (warehousesResult.data as any)?.items || []) : [];
 
       setCategories(Array.isArray(categoriesData) ? categoriesData as Category[] : []);
       setWarehouses(Array.isArray(warehousesData) ? warehousesData as Warehouse[] : []);

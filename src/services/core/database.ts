@@ -28,7 +28,7 @@ class DatabaseManager {
 
   private static async initialize(): Promise<ElectronDatabase> {
     if (!this.instance) {
-      this.instance = new ElectronDatabase();
+      this.instance = ElectronDatabase.getInstance();
       await this.instance.initialize();
     }
     return this.instance;
@@ -36,7 +36,7 @@ class DatabaseManager {
 
   static async close(): Promise<void> {
     if (this.instance) {
-      await this.instance.close();
+      // ElectronDatabase doesn't have a close method since it uses IPC
       this.instance = null;
       this.initPromise = null;
     }

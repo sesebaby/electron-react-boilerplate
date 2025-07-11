@@ -66,7 +66,8 @@ const DailyConsumptionView: React.FC<DailyConsumptionViewProps> = ({
     
     try {
       console.log('开始加载消耗数据...', config);
-      const result = await dailyConsumptionService.getConsumptionData(config.dateRange.startDate, config.dateRange.endDate);
+      const reportService = serviceManager.getReportService();
+      const result = await reportService.getConsumptionData(config.dateRange.startDate, config.dateRange.endDate);
       const consumptionServiceData = result.success ? result.data : null;
       // Transform service result to ConsumptionTableData format
       const consumptionData: ConsumptionTableData = {

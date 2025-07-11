@@ -12,7 +12,13 @@ import {
   SalesOrderStatus,
   PaymentStatus,
   Supplier,
-  Customer
+  Customer,
+  CustomerType,
+  CustomerLevel,
+  CustomerStatus,
+  SupplierRating,
+  SupplierStatus,
+  OrderItemStatus
 } from '../../../types/entities';
 import { ValidationError, BusinessError } from '../../../utils/errors';
 
@@ -26,7 +32,7 @@ describe('OrderService - 采购和销售订单完整流程', () => {
   let orderService: OrderService;
   let mockDb: any;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
     
     mockDb = {
@@ -44,6 +50,18 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       createSalesDelivery: jest.fn(),
       updateInventoryStock: jest.fn(),
       createInventoryTransaction: jest.fn(),
+      insertPurchaseOrderItem: jest.fn(),
+      insertSalesOrderItem: jest.fn(),
+      insertPurchaseReceiptItem: jest.fn(),
+      insertSalesDeliveryItem: jest.fn(),
+      getAllPurchaseOrders: jest.fn().mockResolvedValue([]),
+      getAllPurchaseOrderItems: jest.fn().mockResolvedValue([]),
+      getAllPurchaseReceipts: jest.fn().mockResolvedValue([]),
+      getAllPurchaseReceiptItems: jest.fn().mockResolvedValue([]),
+      getAllSalesOrders: jest.fn().mockResolvedValue([]),
+      getAllSalesOrderItems: jest.fn().mockResolvedValue([]),
+      getAllSalesDeliveries: jest.fn().mockResolvedValue([]),
+      getAllSalesDeliveryItems: jest.fn().mockResolvedValue([]),
       query: jest.fn(),
       run: jest.fn(),
       beginTransaction: jest.fn(),
@@ -51,8 +69,9 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       rollback: jest.fn(),
     };
 
-    mockDatabaseManager.getInstance.mockReturnValue(mockDb);
+    mockDatabaseManager.getInstance.mockResolvedValue(mockDb);
     orderService = new OrderService();
+    await orderService.initialize();
   });
 
   describe('场景1：采购订单完整流程', () => {
@@ -60,11 +79,16 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       // 准备测试数据
       const supplier: Supplier = {
         id: 'sup-1',
+        code: 'SUP-001',
         name: '北京科技公司',
         contactPerson: '张三',
         phone: '13800138000',
         email: 'zhangsan@company.com',
         address: '北京市朝阳区',
+        paymentTerms: '30天',
+        creditLimit: 50000,
+        rating: SupplierRating.A,
+        status: SupplierStatus.ACTIVE,
         isActive: true,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -74,20 +98,27 @@ describe('OrderService - 采购和销售订单完整流程', () => {
         id: 'po-1',
         orderNo: 'PO-2024-001',
         supplierId: 'sup-1',
-        status: PurchaseOrderStatus.PENDING,
+        status: PurchaseOrderStatus.DRAFT,
         paymentStatus: PaymentStatus.UNPAID,
         orderDate: new Date(),
         expectedDate: new Date(),
         totalAmount: 10000,
+        discountAmount: 0,
+        taxAmount: 0,
+        finalAmount: 10000,
         items: [{
           id: 'poi-1',
-          purchaseOrderId: 'po-1',
+          orderId: 'po-1',
           productId: 'prod-1',
           quantity: 10,
           unitPrice: 1000,
+          discountRate: 0,
+          amount: 10000,
           totalPrice: 10000,
           receivedQuantity: 0,
-          status: 'PENDING'
+          status: OrderItemStatus.PENDING,
+          createdAt: new Date(),
+          updatedAt: new Date()
         }],
         creator: 'user-1',
         isActive: true,
@@ -109,11 +140,17 @@ describe('OrderService - 采购和销售订单完整流程', () => {
 
       // 1. 创建供应商
       const supplierResult = await orderService.createSupplier({
+        code: supplier.code,
         name: supplier.name,
         contactPerson: supplier.contactPerson,
         phone: supplier.phone,
         email: supplier.email,
-        address: supplier.address
+        address: supplier.address,
+        paymentTerms: supplier.paymentTerms,
+        creditLimit: supplier.creditLimit,
+        rating: supplier.rating,
+        status: supplier.status,
+        isActive: supplier.isActive
       });
       expect(supplierResult.success).toBe(true);
       expect(mockDb.createSupplier).toHaveBeenCalledWith(expect.objectContaining({
@@ -125,7 +162,7 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       const orderResult = await orderService.createPurchaseOrder({
         supplierId: supplier.id,
         expectedDate: purchaseOrder.expectedDate,
-        items: purchaseOrder.items.map(item => ({
+        items: purchaseOrder.items!.map(item => ({
           productId: item.productId,
           quantity: item.quantity,
           unitPrice: item.unitPrice
@@ -136,25 +173,31 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       expect(mockDb.createPurchaseOrder).toHaveBeenCalled();
 
       // 3. 审批订单
+      const createdOrderId = (orderResult.data as PurchaseOrder)?.id;
       const approveResult = await orderService.updatePurchaseOrderStatus(
-        purchaseOrder.id,
-        PurchaseOrderStatus.APPROVED,
+        createdOrderId!,
+        PurchaseOrderStatus.CONFIRMED,
         'user-manager'
       );
       expect(approveResult.success).toBe(true);
       expect(mockDb.updatePurchaseOrder).toHaveBeenCalledWith(
-        purchaseOrder.id,
+        createdOrderId,
         expect.objectContaining({
-          status: PurchaseOrderStatus.APPROVED
+          status: PurchaseOrderStatus.CONFIRMED
         })
       );
 
       // 4. 收货入库
+      // Get the created order items
+      const createdOrder = (orderService as any).purchaseOrders.get(createdOrderId);
+      const orderItemId = (Array.from((orderService as any).purchaseOrderItems.values())
+        .find((item: any) => item.orderId === createdOrderId) as any)?.id;
+      
       const receiptResult = await orderService.createPurchaseReceipt({
-        purchaseOrderId: purchaseOrder.id,
+        purchaseOrderId: createdOrderId!,
         warehouseId: 'wh-1',
         items: [{
-          purchaseOrderItemId: 'poi-1',
+          purchaseOrderItemId: orderItemId!,
           receivedQuantity: 10,
           unitPrice: 1000
         }],
@@ -188,26 +231,38 @@ describe('OrderService - 采购和销售订单完整流程', () => {
         id: 'po-1',
         orderNo: 'PO-2024-001',
         supplierId: 'sup-1',
-        status: PurchaseOrderStatus.APPROVED,
+        status: PurchaseOrderStatus.CONFIRMED,
         paymentStatus: PaymentStatus.UNPAID,
         orderDate: new Date(),
         expectedDate: new Date(),
         totalAmount: 10000,
-        items: [{
-          id: 'poi-1',
-          purchaseOrderId: 'po-1',
-          productId: 'prod-1',
-          quantity: 10,
-          unitPrice: 1000,
-          totalPrice: 10000,
-          receivedQuantity: 5, // 已收货5个
-          status: 'PARTIAL'
-        }],
+        discountAmount: 0,
+        taxAmount: 0,
+        finalAmount: 10000,
         creator: 'user-1',
         isActive: true,
         createdAt: new Date(),
         updatedAt: new Date()
       };
+
+      const purchaseOrderItem = {
+        id: 'poi-1',
+        orderId: 'po-1',
+        productId: 'prod-1',
+        quantity: 10,
+        unitPrice: 1000,
+        discountRate: 0,
+        amount: 10000,
+        totalPrice: 10000,
+        receivedQuantity: 5, // 已收货5个
+        status: OrderItemStatus.PARTIAL,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      // 手动添加订单到服务内存中
+      (orderService as any).purchaseOrders.set('po-1', purchaseOrder);
+      (orderService as any).purchaseOrderItems.set('poi-1', purchaseOrderItem);
 
       mockDb.getPurchaseOrder.mockResolvedValue({ success: true, data: purchaseOrder });
 
@@ -232,12 +287,18 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       // 准备测试数据
       const customer: Customer = {
         id: 'cust-1',
+        code: 'CUST-001',
         name: '上海贸易公司',
         contactPerson: '李四',
         phone: '13900139000',
         email: 'lisi@trade.com',
         address: '上海市浦东新区',
+        customerType: CustomerType.COMPANY,
         creditLimit: 100000,
+        paymentTerms: '30天',
+        discountRate: 0.05,
+        level: CustomerLevel.GOLD,
+        status: CustomerStatus.ACTIVE,
         isActive: true,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -247,20 +308,27 @@ describe('OrderService - 采购和销售订单完整流程', () => {
         id: 'so-1',
         orderNo: 'SO-2024-001',
         customerId: 'cust-1',
-        status: SalesOrderStatus.PENDING,
+        status: SalesOrderStatus.DRAFT,
         paymentStatus: PaymentStatus.UNPAID,
         orderDate: new Date(),
         deliveryDate: new Date(),
         totalAmount: 12000,
+        discountAmount: 0,
+        taxAmount: 0,
+        finalAmount: 12000,
         items: [{
           id: 'soi-1',
-          salesOrderId: 'so-1',
+          orderId: 'so-1',
           productId: 'prod-1',
           quantity: 10,
           unitPrice: 1200,
+          discountRate: 0,
+          amount: 12000,
           totalPrice: 12000,
           deliveredQuantity: 0,
-          status: 'PENDING'
+          status: OrderItemStatus.PENDING,
+          createdAt: new Date(),
+          updatedAt: new Date()
         }],
         creator: 'user-sales',
         isActive: true,
@@ -282,12 +350,19 @@ describe('OrderService - 采购和销售订单完整流程', () => {
 
       // 1. 创建客户
       const customerResult = await orderService.createCustomer({
+        code: customer.code,
         name: customer.name,
         contactPerson: customer.contactPerson,
         phone: customer.phone,
         email: customer.email,
         address: customer.address,
-        creditLimit: customer.creditLimit
+        customerType: customer.customerType,
+        creditLimit: customer.creditLimit,
+        paymentTerms: customer.paymentTerms,
+        discountRate: customer.discountRate,
+        level: customer.level,
+        status: customer.status,
+        isActive: customer.isActive
       });
       expect(customerResult.success).toBe(true);
 
@@ -295,7 +370,7 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       const orderResult = await orderService.createSalesOrder({
         customerId: customer.id,
         deliveryDate: salesOrder.deliveryDate,
-        items: salesOrder.items.map(item => ({
+        items: salesOrder.items!.map(item => ({
           productId: item.productId,
           quantity: item.quantity,
           unitPrice: item.unitPrice
@@ -305,8 +380,9 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       expect(orderResult.success).toBe(true);
 
       // 3. 确认订单
+      const createdSalesOrderId = (orderResult.data as SalesOrder)?.id;
       const confirmResult = await orderService.updateSalesOrderStatus(
-        salesOrder.id,
+        createdSalesOrderId!,
         SalesOrderStatus.CONFIRMED,
         'user-manager'
       );
@@ -314,7 +390,7 @@ describe('OrderService - 采购和销售订单完整流程', () => {
 
       // 4. 发货出库
       const deliveryResult = await orderService.createSalesDelivery({
-        salesOrderId: salesOrder.id,
+        salesOrderId: createdSalesOrderId!,
         warehouseId: 'wh-1',
         items: [{
           salesOrderItemId: 'soi-1',
@@ -331,12 +407,18 @@ describe('OrderService - 采购和销售订单完整流程', () => {
     it('应该在超过客户信用额度时抛出BusinessError', async () => {
       const customer: Customer = {
         id: 'cust-1',
+        code: 'CUST-002',
         name: '小型贸易公司',
         contactPerson: '王五',
         phone: '13700137000',
         email: 'wangwu@small.com',
         address: '深圳市南山区',
+        customerType: CustomerType.COMPANY,
         creditLimit: 10000, // 信用额度较低
+        paymentTerms: '15天',
+        discountRate: 0.02,
+        level: CustomerLevel.BRONZE,
+        status: CustomerStatus.ACTIVE,
         isActive: true,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -369,17 +451,32 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       const orderId = 'po-1';
       const mockOrder = {
         id: orderId,
-        status: PurchaseOrderStatus.PENDING,
-        items: [{ id: 'poi-1', quantity: 10, receivedQuantity: 0 }]
+        orderNo: 'PO-2024-001',
+        supplierId: 'sup-1',
+        status: PurchaseOrderStatus.DRAFT,
+        paymentStatus: PaymentStatus.UNPAID,
+        orderDate: new Date(),
+        expectedDate: new Date(),
+        totalAmount: 10000,
+        discountAmount: 0,
+        taxAmount: 0,
+        finalAmount: 10000,
+        creator: 'user-1',
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
+
+      // 添加订单到服务内存中
+      (orderService as any).purchaseOrders.set(orderId, mockOrder);
 
       mockDb.getPurchaseOrder.mockResolvedValue({ success: true, data: mockOrder });
       mockDb.updatePurchaseOrder.mockResolvedValue({ success: true });
 
-      // 状态流转：PENDING → APPROVED → RECEIVING → COMPLETED
+      // 状态流转：PENDING → CONFIRMED → PARTIAL → COMPLETED
       const transitions = [
-        { status: PurchaseOrderStatus.APPROVED, operator: 'manager' },
-        { status: PurchaseOrderStatus.RECEIVING, operator: 'warehouse' },
+        { status: PurchaseOrderStatus.CONFIRMED, operator: 'manager' },
+        { status: PurchaseOrderStatus.PARTIAL, operator: 'warehouse' },
         { status: PurchaseOrderStatus.COMPLETED, operator: 'system' }
       ];
 
@@ -397,6 +494,9 @@ describe('OrderService - 采购和销售订单完整流程', () => {
             updatedBy: transition.operator
           })
         );
+        
+        // 更新内存中的订单状态以便下次转换
+        mockOrder.status = transition.status;
       }
     });
 
@@ -404,16 +504,31 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       const orderId = 'po-1';
       const mockOrder = {
         id: orderId,
+        orderNo: 'PO-2024-001',
+        supplierId: 'sup-1',
         status: PurchaseOrderStatus.COMPLETED, // 已完成的订单
-        items: []
+        paymentStatus: PaymentStatus.UNPAID,
+        orderDate: new Date(),
+        expectedDate: new Date(),
+        totalAmount: 10000,
+        discountAmount: 0,
+        taxAmount: 0,
+        finalAmount: 10000,
+        creator: 'user-1',
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
+
+      // 添加订单到服务内存中
+      (orderService as any).purchaseOrders.set(orderId, mockOrder);
 
       mockDb.getPurchaseOrder.mockResolvedValue({ success: true, data: mockOrder });
 
-      // 尝试将已完成的订单改为待审批
+      // 尝试将已完成的订单改为草稿
       await expect(orderService.updatePurchaseOrderStatus(
         orderId,
-        PurchaseOrderStatus.PENDING,
+        PurchaseOrderStatus.DRAFT,
         'user'
       )).rejects.toThrow(BusinessError);
 
@@ -426,9 +541,24 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       const orderId = 'po-1';
       const mockOrder = {
         id: orderId,
-        status: PurchaseOrderStatus.APPROVED,
-        items: [{ id: 'poi-1', quantity: 10, receivedQuantity: 0 }]
+        orderNo: 'PO-2024-001',
+        supplierId: 'sup-1',
+        status: PurchaseOrderStatus.CONFIRMED,
+        paymentStatus: PaymentStatus.UNPAID,
+        orderDate: new Date(),
+        expectedDate: new Date(),
+        totalAmount: 10000,
+        discountAmount: 0,
+        taxAmount: 0,
+        finalAmount: 10000,
+        creator: 'user-1',
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
+
+      // 添加订单到服务内存中
+      (orderService as any).purchaseOrders.set(orderId, mockOrder);
 
       mockDb.getPurchaseOrder.mockResolvedValue({ success: true, data: mockOrder });
       mockDb.updatePurchaseOrder.mockResolvedValue({ success: true });
@@ -450,9 +580,24 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       const orderId = 'po-1';
       const mockOrder = {
         id: orderId,
-        status: PurchaseOrderStatus.RECEIVING,
-        items: [{ id: 'poi-1', quantity: 10, receivedQuantity: 5 }] // 已部分收货
+        orderNo: 'PO-2024-001',
+        supplierId: 'sup-1',
+        status: PurchaseOrderStatus.PARTIAL,
+        paymentStatus: PaymentStatus.UNPAID,
+        orderDate: new Date(),
+        expectedDate: new Date(),
+        totalAmount: 10000,
+        discountAmount: 0,
+        taxAmount: 0,
+        finalAmount: 10000,
+        creator: 'user-1',
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
+
+      // 添加订单到服务内存中
+      (orderService as any).purchaseOrders.set(orderId, mockOrder);
 
       mockDb.getPurchaseOrder.mockResolvedValue({ success: true, data: mockOrder });
 
@@ -469,17 +614,38 @@ describe('OrderService - 采购和销售订单完整流程', () => {
   describe('场景5：并发订单处理', () => {
     it('应该正确处理并发的订单状态更新', async () => {
       const orderId = 'po-1';
+      const mockOrder = {
+        id: orderId,
+        orderNo: 'PO-2024-001',
+        supplierId: 'sup-1',
+        status: PurchaseOrderStatus.DRAFT,
+        paymentStatus: PaymentStatus.UNPAID,
+        orderDate: new Date(),
+        expectedDate: new Date(),
+        totalAmount: 10000,
+        discountAmount: 0,
+        taxAmount: 0,
+        finalAmount: 10000,
+        creator: 'user-1',
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      // 添加订单到服务内存中
+      (orderService as any).purchaseOrders.set(orderId, mockOrder);
+
       mockDb.beginTransaction.mockResolvedValue({ success: true });
       mockDb.commit.mockResolvedValue({ success: true });
       mockDb.getPurchaseOrder.mockResolvedValue({
         success: true,
-        data: { id: orderId, status: PurchaseOrderStatus.PENDING }
+        data: mockOrder
       });
       mockDb.updatePurchaseOrder.mockResolvedValue({ success: true });
 
       // 模拟并发状态更新
       const operations = [
-        orderService.updatePurchaseOrderStatus(orderId, PurchaseOrderStatus.APPROVED, 'user1'),
+        orderService.updatePurchaseOrderStatus(orderId, PurchaseOrderStatus.CONFIRMED, 'user1'),
         orderService.addPurchaseOrderNote(orderId, '备注1', 'user2')
       ];
 

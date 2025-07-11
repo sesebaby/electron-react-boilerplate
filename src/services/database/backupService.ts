@@ -4,13 +4,8 @@
  */
 
 import { format } from 'date-fns';
-
-// 类型断言以确保 ElectronAPI 方法可用
-declare global {
-  interface Window {
-    electronAPI: any;
-  }
-}
+// 确保 ElectronAPI 类型可用
+import './electronDatabase';
 
 export interface BackupInfo {
   id: string;
@@ -71,10 +66,7 @@ export class DatabaseBackupService {
         message: '正在备份数据库...'
       });
 
-      const result = await window.electronAPI.dbBackup({
-        filename,
-        description: description || `系统备份 - ${format(timestamp, 'yyyy-MM-dd HH:mm:ss')}`
-      });
+      const result = await window.electronAPI.dbBackup(filename);
 
       if (!result.success) {
         const errorMessage = result.error || '备份失败：未知错误';
@@ -157,7 +149,7 @@ export class DatabaseBackupService {
         throw new Error('删除备份功能不可用');
       }
 
-      const result = await window.electronAPI.dbDeleteBackup({ backupId });
+      const result = await window.electronAPI.dbDeleteBackup(backupId);
       
       if (!result.success) {
         throw new Error(result.error || '删除备份失败');
@@ -192,7 +184,7 @@ export class DatabaseBackupService {
         message: '正在恢复数据库...'
       });
 
-      const result = await window.electronAPI.dbRestore({ backupId });
+      const result = await window.electronAPI.dbRestore(backupId);
       
       if (!result.success) {
         throw new Error(result.error || '恢复失败');
@@ -227,7 +219,7 @@ export class DatabaseBackupService {
         throw new Error('验证备份功能不可用');
       }
 
-      const result = await window.electronAPI.dbValidateBackup({ backupId });
+      const result = await window.electronAPI.dbValidateBackup(backupId);
       
       return result.success && result.valid;
     } catch (error) {
