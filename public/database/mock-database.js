@@ -28,6 +28,10 @@ class MockDatabase {
       },
       get: (...args) => {
         console.log('Mock SQL Get:', sql, args);
+        // 处理 COUNT 查询
+        if (sql.includes('COUNT(*)')) {
+          return { count: 0 };
+        }
         // 返回模拟数据
         return null;
       },

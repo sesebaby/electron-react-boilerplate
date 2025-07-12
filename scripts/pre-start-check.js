@@ -15,8 +15,8 @@ let hasError = false;
 console.log('1. 检查 Node.js 版本...');
 const nodeVersion = process.version;
 console.log(`   当前版本: ${nodeVersion}`);
-if (!nodeVersion.match(/^v(16|18|20)\./)) {
-  console.error('   ❌ Node.js 版本不兼容，需要 v16、v18 或 v20');
+if (!nodeVersion.match(/^v(16|18|20|22)\./)) {
+  console.error('   ❌ Node.js 版本不兼容，需要 v16、v18、v20 或 v22');
   hasError = true;
 } else {
   console.log('   ✅ Node.js 版本正确');
