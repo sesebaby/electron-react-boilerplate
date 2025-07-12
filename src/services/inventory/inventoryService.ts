@@ -32,7 +32,7 @@ export class InventoryService {
     // 数据验证
     const validation = validateInventoryItem({
       ...item,
-      totalValue: item.stockQuantity * item.unitPrice
+      totalValue: (item.stockQuantity || 0) * item.unitPrice
     });
 
     if (!validation.success) {
@@ -51,7 +51,7 @@ export class InventoryService {
     // 计算总价值
     const itemWithCalculatedValue = {
       ...item,
-      totalValue: item.stockQuantity * item.unitPrice
+      totalValue: (item.stockQuantity || 0) * item.unitPrice
     };
 
     return this.db.createItem(itemWithCalculatedValue);
@@ -65,7 +65,7 @@ export class InventoryService {
 
     // 如果更新了库存数量或单价，重新计算总价值
     if (updates.stockQuantity !== undefined || updates.unitPrice !== undefined) {
-      const stockQuantity = updates.stockQuantity ?? currentItem.stockQuantity;
+      const stockQuantity = updates.stockQuantity ?? (currentItem.stockQuantity || 0);
       const unitPrice = updates.unitPrice ?? currentItem.unitPrice;
       updates.totalValue = stockQuantity * unitPrice;
     }
@@ -131,12 +131,13 @@ export class InventoryService {
     }
 
     let newQuantity: number;
+    const currentStock = item.stockQuantity || 0;
     switch (type) {
       case 'in':
-        newQuantity = item.stockQuantity + Math.abs(quantity);
+        newQuantity = currentStock + Math.abs(quantity);
         break;
       case 'out':
-        newQuantity = item.stockQuantity - Math.abs(quantity);
+        newQuantity = currentStock - Math.abs(quantity);
         if (newQuantity < 0) {
           throw new Error('库存不足，无法出库');
         }
@@ -152,11 +153,11 @@ export class InventoryService {
     // 更新库存状态
     let status = item.status;
     if (newQuantity <= 0) {
-      status = 'out-of-stock';
+      status = 'out-of-stock' as const;
     } else if (newQuantity <= item.reorderLevel) {
-      status = 'low-stock';
+      status = 'low-stock' as const;
     } else {
-      status = 'in-stock';
+      status = 'in-stock' as const;
     }
 
     return this.updateItem(id, {
@@ -170,9 +171,9 @@ export class InventoryService {
     
     const summary: InventorySummary = {
       totalItems: allItems.length,
-      totalValue: allItems.reduce((sum, item) => sum + item.totalValue, 0),
-      lowStockItems: allItems.filter(item => item.stockQuantity <= item.reorderLevel).length,
-      outOfStockItems: allItems.filter(item => item.stockQuantity <= 0).length,
+      totalValue: allItems.reduce((sum, item) => sum + (item.totalValue || 0), 0),
+      lowStockItems: allItems.filter(item => (item.stockQuantity || 0) <= item.reorderLevel).length,
+      outOfStockItems: allItems.filter(item => (item.stockQuantity || 0) <= 0).length,
       categories: [...new Set(allItems.map(item => item.category))]
     };
 
