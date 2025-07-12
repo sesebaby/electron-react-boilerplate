@@ -116,9 +116,9 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       const { creator, ...restData } = data;
       const submitData = {
         ...restData,
-        createdBy: creator, // 正确映射：creator 应该映射到 createdBy 字段
-        manager: restData.manager || creator, // 如果没有指定管理者，使用创建者
-        isActive: true // 新建的仓库默认为激活状态
+        manager: creator, // 将creator映射到manager字段
+        // 编辑时保持原有isActive状态，新建时默认为激活状态
+        isActive: editingWarehouse ? editingWarehouse.isActive : true
       };
       
       const inventoryService = serviceManager.getInventoryService();
@@ -144,7 +144,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       code: warehouse.code,
       name: warehouse.name,
       address: warehouse.address || '',
-      creator: warehouse.manager || '',
+      creator: warehouse.manager || '', // 从manager字段获取负责人信息
       isDefault: warehouse.isDefault
     });
     clearErrors();
@@ -341,7 +341,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 🏭
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">{stats.total}</div>
+                <div className="text-2xl font-bold text-white">{stats.totalWarehouses}</div>
                 <div className="text-white/70 text-sm">总仓库数</div>
               </div>
             </div>
@@ -353,8 +353,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 ✅
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">{stats.active}</div>
-                <div className="text-white/70 text-sm">启用仓库</div>
+                <div className="text-2xl font-bold text-white">{stats.warehousesWithManagers}</div>
+                <div className="text-white/70 text-sm">有管理员仓库</div>
               </div>
             </div>
           </GlassCard>
@@ -365,7 +365,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 ⭐
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">{stats.hasDefault ? 1 : 0}</div>
+                <div className="text-2xl font-bold text-white">{stats.defaultWarehouses}</div>
                 <div className="text-white/70 text-sm">默认仓库</div>
               </div>
             </div>

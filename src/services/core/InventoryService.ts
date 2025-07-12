@@ -279,7 +279,7 @@ export class InventoryService {
       };
 
       // 保存到数据库
-      const result = await this.database.createProduct(product);
+      const result = await this.database.createItem(product);
 
       if (!result.success) {
         return {
@@ -355,7 +355,7 @@ export class InventoryService {
       };
 
       // 更新数据库
-      await this.database.updateProduct(id, updatedProduct);
+      await this.database.updateItem(id, updatedProduct);
       
       // 更新内存缓存
       this.products.set(id, updatedProduct);
@@ -411,7 +411,7 @@ export class InventoryService {
       }
 
       // 删除数据库记录
-      await this.database.deleteProduct(id);
+      await this.database.deleteItem(id);
       
       // 更新内存缓存
       this.products.delete(id);
@@ -472,7 +472,7 @@ export class InventoryService {
   async getProducts(filter?: InventoryFilter, pagination?: PaginationParams): Promise<ServiceResult<PaginatedResult<Product>>> {
     try {
       // 从数据库重新加载最新的产品数据
-      const allProducts = await this.database.getAllProducts();
+      const allProducts = await this.database.getAllItems();
 
       // 更新内存中的产品数据
       this.products.clear();

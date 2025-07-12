@@ -30,6 +30,8 @@ declare global {
       dbCreateWarehouse: (warehouse: any) => Promise<any>;
       dbUpdateWarehouse: (id: string, updates: any) => Promise<any>;
       dbDeleteWarehouse: (id: string) => Promise<any>;
+      dbSetDefaultWarehouse: (id: string) => Promise<any>;
+      dbGetWarehouseStats: () => Promise<any>;
       dbGetUsers: () => Promise<any>;
       dbGetAllUsers: () => Promise<any>;
       dbCreateUser: (user: any) => Promise<any>;
@@ -239,11 +241,11 @@ export class ElectronDatabase {
   }
 
   async setDefaultWarehouse(id: string): Promise<any> {
-    return (window.electronAPI as any).dbSetDefaultWarehouse(id);
+    return window.electronAPI.dbSetDefaultWarehouse(id);
   }
 
   async getWarehouseStats(): Promise<any> {
-    return (window.electronAPI as any).dbGetWarehouseStats();
+    return window.electronAPI.dbGetWarehouseStats();
   }
 
   // 用户
