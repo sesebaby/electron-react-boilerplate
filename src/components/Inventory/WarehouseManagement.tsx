@@ -27,6 +27,7 @@ interface WarehouseForm {
   name: string;
   address: string;
   creator: string;
+  manager?: string;
   isDefault: boolean;
 }
 
@@ -111,11 +112,12 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
 
   const onSubmit = async (data: WarehouseForm) => {
     try {
-      // 构建提交数据，移除不存在的字段，正确映射字段
+      // 构建提交数据，正确映射字段
       const { creator, ...restData } = data;
       const submitData = {
         ...restData,
-        manager: creator, // 将 creator 映射到 manager 字段
+        createdBy: creator, // 正确映射：creator 应该映射到 createdBy 字段
+        manager: restData.manager || creator, // 如果没有指定管理者，使用创建者
         isActive: true // 新建的仓库默认为激活状态
       };
       

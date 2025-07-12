@@ -128,25 +128,57 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
       setSubmitting(true);
       setError(null);
       
-      // 逐个处理入库项目
+      // 使用事务处理批量入库操作
       const inventoryService = serviceManager.getInventoryService();
-      const results = [];
-      for (const item of formData.items) {
-        const result = await inventoryService.updateStock(
-          item.productId,
-          item.warehouseId,
-          item.quantity,
-          'IN' as any,
-          `${formData.referenceType || '手工入库'}: ${item.remark || '无备注'}`
-        );
-        results.push(result);
+      
+      try {
+        // 准备批量入库数据
+        const stockInData = formData.items.map(item => ({
+          productId: item.productId,
+          warehouseId: item.warehouseId,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          unitCost: item.unitCost,
+          transactionType: 'IN' as any,
+          remark: `${formData.referenceType || '手工入库'}: ${item.remark || '无备注'}`,
+          referenceType: formData.referenceType,
+          referenceNumber: formData.referenceId
+        }));
+        
+        // 使用批量入库操作（事务处理）
+        const result = await inventoryService.batchStockIn(stockInData);
+        
+        if (result.success) {
+          setSuccessMessage(`成功处理 ${formData.items.length} 个入库项目`);
+          setFormData(emptyForm);
+          
+          // 3秒后清除成功消息
+          setTimeout(() => setSuccessMessage(null), 3000);
+        } else {
+          throw new Error(result.error || '批量入库失败');
+        }
+      } catch (batchError) {
+        console.error('批量入库失败，回退到逐个处理:', batchError);
+        
+        // 回退到逐个处理（用于兼容旧版本）
+        const results = [];
+        for (const item of formData.items) {
+          const result = await inventoryService.updateStock(
+            item.productId,
+            item.warehouseId,
+            item.quantity,
+            'IN' as any,
+            `${formData.referenceType || '手工入库'}: ${item.remark || '无备注'}`
+          );
+          results.push(result);
+        }
+        
+        setSuccessMessage(`成功处理 ${results.length} 个入库项目（兼容模式）`);
+        setFormData(emptyForm);
+        
+        // 3秒后清除成功消息
+        setTimeout(() => setSuccessMessage(null), 3000);
       }
-      
-      setSuccessMessage(`成功处理 ${results.length} 个入库项目`);
-      setFormData(emptyForm);
-      
-      // 3秒后清除成功消息
-      setTimeout(() => setSuccessMessage(null), 3000);
       
     } catch (err) {
       setError(err instanceof Error ? err.message : '入库操作失败');

@@ -4,14 +4,14 @@
  */
 
 // 基础类型
-export interface ServiceResult<T = any> {
+export interface ServiceResult<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;
   message?: string;
 }
 
-export interface PaginatedResult<T = any> {
+export interface PaginatedResult<T = unknown> {
   items: T[];
   total: number;
   page: number;

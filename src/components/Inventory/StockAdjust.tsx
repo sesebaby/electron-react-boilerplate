@@ -24,6 +24,7 @@ interface StockAdjustForm {
   reason: string;
   remark: string;
   operator: string;
+  referenceNumber?: string;
   items: StockAdjustItem[];
 }
 
@@ -199,36 +200,72 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
       setSubmitting(true);
       setError(null);
       
-      // 逐个处理调整项目
-      const results = [];
-      for (const item of formData.items) {
-        const inventoryService = serviceManager.getInventoryService();
-        // 计算调整数量
-        const currentStock = stockData.get(`${item.productId}:${item.warehouseId}`)?.currentStock || 0;
-        const adjustmentQuantity = item.adjustedStock - currentStock;
-        const transactionType = adjustmentQuantity > 0 ? 'IN' : 'OUT';
+      // 使用事务处理批量库存调整
+      const inventoryService = serviceManager.getInventoryService();
+      
+      try {
+        // 准备批量调整数据
+        const adjustmentData = formData.items.map(item => {
+          const currentStock = stockData.get(`${item.productId}:${item.warehouseId}`)?.currentStock || 0;
+          const adjustmentQuantity = item.adjustedStock - currentStock;
+          const transactionType = adjustmentQuantity > 0 ? 'IN' : 'OUT';
+          
+          return {
+            productId: item.productId,
+            warehouseId: item.warehouseId,
+            quantity: Math.abs(adjustmentQuantity),
+            transactionType: transactionType,
+            remark: `库存调整: ${item.remark || formData.reason || '无备注'}`,
+            adjustmentType: formData.adjustmentType,
+            referenceNumber: formData.referenceNumber
+          };
+        });
         
-        const result = await inventoryService.updateStock(
-          item.productId,
-          item.warehouseId,
-          Math.abs(adjustmentQuantity),
-          transactionType as any,
-          `库存调整: ${item.remark || '无备注'}`
-        );
-        if (!result.success) {
-          throw new Error(result.error || '库存调整失败');
+        // 使用批量库存调整操作（事务处理）
+        const result = await inventoryService.batchStockAdjust(adjustmentData);
+        
+        if (result.success) {
+          setSuccessMessage(`成功处理 ${formData.items.length} 个库存调整项目`);
+          setFormData(emptyForm);
+          
+          // 重新加载库存数据
+          await loadData();
+          
+          // 3秒后清除成功消息
+          setTimeout(() => setSuccessMessage(null), 3000);
+        } else {
+          throw new Error(result.error || '批量库存调整失败');
         }
-        results.push(result);
+      } catch (batchError) {
+        console.error('批量库存调整失败，回退到逐个处理:', batchError);
+        
+        // 回退到逐个处理（用于兼容旧版本）
+        const results = [];
+        for (const item of formData.items) {
+          // 计算调整数量
+          const currentStock = stockData.get(`${item.productId}:${item.warehouseId}`)?.currentStock || 0;
+          const adjustmentQuantity = item.adjustedStock - currentStock;
+          const transactionType = adjustmentQuantity > 0 ? 'IN' : 'OUT';
+          
+          const result = await inventoryService.updateStock(
+            item.productId,
+            item.warehouseId,
+            Math.abs(adjustmentQuantity),
+            transactionType as any,
+            `库存调整: ${item.remark || formData.reason || '无备注'}`
+          );
+          results.push(result);
+        }
+        
+        setSuccessMessage(`成功处理 ${results.length} 个库存调整项目（兼容模式）`);
+        setFormData(emptyForm);
+        
+        // 重新加载库存数据
+        await loadData();
+        
+        // 3秒后清除成功消息
+        setTimeout(() => setSuccessMessage(null), 3000);
       }
-      
-      setSuccessMessage(`成功处理 ${results.length} 个库存调整项目`);
-      setFormData(emptyForm);
-      
-      // 重新加载库存数据
-      await loadData();
-      
-      // 3秒后清除成功消息
-      setTimeout(() => setSuccessMessage(null), 3000);
       
     } catch (err) {
       setError(err instanceof Error ? err.message : '库存调整操作失败');

@@ -7,6 +7,7 @@ import { serviceManager } from '../../services/core';
 import { Product, Category, Unit, ProductStatus, ProductConversionSetting } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { Card, CardContent } from '../ui/card';
+import { notificationHelper } from '../../utils/notificationHelper';
 import { 
   Table, 
   TableContainer,
@@ -279,34 +280,33 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       }
       
       // 保存或更新单位换算设置
-      // TODO: 需要将 productConversionService 集成到新的依赖注入系统中
       try {
         if (conversionSettings.enableConversion) {
-          console.log('单位换算设置已保存（暂时跳过）:', conversionSettings);
-          // const existingConversionSetting = await services.productConversionService?.findByProductId(productId);
-          //
-          // const conversionData = {
-          //   productId,
-          //   enableConversion: conversionSettings.enableConversion,
-          //   conversionType: conversionSettings.conversionType,
-          //   globalRuleId: conversionSettings.globalRuleId,
-          //   customRule: conversionSettings.customRule,
-          //   isActive: true
-          // };
-          //
-          // if (existingConversionSetting) {
-          //   await services.productConversionService.update(existingConversionSetting.id, conversionData);
-          // } else {
-          //   await services.productConversionService.create(conversionData);
-          // }
+          // 使用InventoryService来保存单位换算设置
+          const conversionData = {
+            productId,
+            enableConversion: conversionSettings.enableConversion,
+            conversionType: conversionSettings.conversionType,
+            globalRuleId: conversionSettings.globalRuleId,
+            customRule: conversionSettings.customRule,
+            isActive: true
+          };
+          
+          const conversionResult = await serviceManager.getInventoryService().updateProductConversion(productId, conversionData);
+          if (!conversionResult.success) {
+            throw new Error(conversionResult.error || '单位换算设置保存失败');
+          }
         } else {
           // 如果禁用换算，删除现有的换算设置
-          console.log('单位换算设置已禁用（暂时跳过）');
-          // await services.productConversionService?.deleteByProductId(productId);
+          const deleteResult = await serviceManager.getInventoryService().deleteProductConversion(productId);
+          if (!deleteResult.success) {
+            console.warn('删除单位换算设置失败:', deleteResult.error);
+          }
         }
       } catch (conversionError) {
-        console.warn('单位换算设置保存失败:', conversionError);
-        // 不阻止产品保存流程
+        console.error('单位换算设置保存失败:', conversionError);
+        notificationHelper.showError('保存失败', `单位换算设置保存失败: ${conversionError instanceof Error ? conversionError.message : '未知错误'}`);
+        // 不阻止产品保存流程，但需要提醒用户
       }
       
       await loadData();

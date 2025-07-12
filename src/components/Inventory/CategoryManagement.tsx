@@ -108,7 +108,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     console.log('Form data:', JSON.stringify(data, null, 2));
     
     try {
-      // 处理根分类的parentId：将空字符串转换为undefined
+      // 统一处理parentId：使用undefined表示根分类
       const submitData = {
         ...data,
         parentId: data.parentId || undefined
@@ -153,7 +153,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     setEditingCategory(category);
     reset({
       name: category.name,
-      parentId: category.parentId || '',
+      parentId: category.parentId || undefined,
       level: category.level,
       sortOrder: category.sortOrder,
       isActive: category.isActive
@@ -171,6 +171,24 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     if (!deleteTargetId) return;
 
     try {
+      // 检查是否有子分类
+      const hasChildren = categories.some(category => category.parentId === deleteTargetId);
+      if (hasChildren) {
+        notificationHelper.showError('删除失败', '不能删除包含子分类的分类，请先删除所有子分类');
+        setShowConfirmDialog(false);
+        setDeleteTargetId(null);
+        return;
+      }
+
+      // 检查是否有产品使用此分类
+      const categoryUsageResult = await serviceManager.getInventoryService().checkCategoryUsage(deleteTargetId);
+      if (categoryUsageResult.success && categoryUsageResult.data && categoryUsageResult.data.productCount > 0) {
+        notificationHelper.showError('删除失败', `该分类下还有 ${categoryUsageResult.data.productCount} 个商品，请先移除或重新分类这些商品`);
+        setShowConfirmDialog(false);
+        setDeleteTargetId(null);
+        return;
+      }
+
       const deleteResult = await serviceManager.getInventoryService().deleteCategory(deleteTargetId);
       if (!deleteResult.success) {
         throw new Error(deleteResult.error || '删除分类失败');

@@ -164,12 +164,26 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
         return;
       }
       
-      // 检查库存是否足够
-      if (item.availableStock !== undefined && item.quantity > item.availableStock) {
-        const product = products.find(p => p.id === item.productId);
-        const warehouse = warehouses.find(w => w.id === item.warehouseId);
-        setError(`商品 "${product?.name}" 在仓库 "${warehouse?.name}" 的可用库存不足，当前可用: ${item.availableStock}，需要: ${item.quantity}`);
-        return;
+      // 实时检查库存是否足够
+      const inventoryService = serviceManager.getInventoryService();
+      const stockResult = await inventoryService.getInventoryStock(item.productId, item.warehouseId);
+      
+      if (stockResult.success && stockResult.data) {
+        const currentStock = stockResult.data.availableStock || 0;
+        if (item.quantity > currentStock) {
+          const product = products.find(p => p.id === item.productId);
+          const warehouse = warehouses.find(w => w.id === item.warehouseId);
+          setError(`商品 "${product?.name}" 在仓库 "${warehouse?.name}" 的可用库存不足，当前可用: ${currentStock}，需要: ${item.quantity}`);
+          return;
+        }
+      } else {
+        // 无法获取库存信息，使用缓存的库存数据
+        if (item.availableStock !== undefined && item.quantity > item.availableStock) {
+          const product = products.find(p => p.id === item.productId);
+          const warehouse = warehouses.find(w => w.id === item.warehouseId);
+          setError(`商品 "${product?.name}" 在仓库 "${warehouse?.name}" 的可用库存不足，当前可用: ${item.availableStock}，需要: ${item.quantity}`);
+          return;
+        }
       }
     }
 

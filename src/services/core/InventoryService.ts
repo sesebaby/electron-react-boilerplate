@@ -61,8 +61,14 @@ export interface InventoryStatistics extends ServiceStatistics {
  * 库存服务实现
  */
 export class InventoryService {
+  private static instance: InventoryService;
   private initialized = false;
   private database: any = null;
+
+  // 缓存大小限制常量
+  private readonly MAX_CACHE_SIZE = 10000;
+  private readonly MAX_TRANSACTION_CACHE = 5000;
+  private readonly MAX_STOCK_CACHE = 8000;
 
   // 内存缓存
   private products: Map<string, Product> = new Map();
@@ -76,6 +82,9 @@ export class InventoryService {
   private skuIndex: Map<string, string> = new Map();
   private barcodeIndex: Map<string, string> = new Map();
   private categoryProductIndex: Map<string, string[]> = new Map();
+
+  // 缓存访问时间跟踪（用于LRU淘汰）
+  private cacheAccessTimes: Map<string, number> = new Map();
 
   async initialize(): Promise<void> {
     if (this.initialized) return;
@@ -770,6 +779,7 @@ export class InventoryService {
           unitCost: 0,
           unitPrice: 0,
           totalValue: 0,
+          version: 1, // 初始版本号
           lastUpdated: new Date(),
           createdAt: new Date(),
           updatedAt: new Date()
@@ -794,6 +804,7 @@ export class InventoryService {
       }
 
       stock.totalValue = stock.currentStock * stock.unitCost;
+      stock.version = (stock.version || 0) + 1; // 更新版本号（乐观锁机制）
       stock.lastUpdated = new Date();
       stock.updatedAt = new Date();
 
@@ -1098,6 +1109,33 @@ export class InventoryService {
     }
   }
 
+  async checkCategoryUsage(id: string): Promise<ServiceResult<{ productCount: number; childCategories: string[] }>> {
+    try {
+      // 检查是否有产品使用此分类
+      const productCount = Array.from(this.products.values()).filter(
+        product => product.categoryId === id
+      ).length;
+      
+      // 检查是否有子分类
+      const childCategories = Array.from(this.categories.values())
+        .filter(category => category.parentId === id)
+        .map(category => category.name);
+
+      return {
+        success: true,
+        data: {
+          productCount,
+          childCategories
+        }
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '检查分类使用情况失败'
+      };
+    }
+  }
+
   async deleteCategory(id: string): Promise<ServiceResult<boolean>> {
     try {
       const category = this.categories.get(id);
@@ -1344,5 +1382,226 @@ export class InventoryService {
       return this.deleteWarehouse(id);
     }
     return { success: false, error: '找不到指定的记录' };
+  }
+
+  /**
+   * 更新产品单位换算设置
+   */
+  async updateProductConversion(productId: string, conversionData: any): Promise<ServiceResult> {
+    try {
+      const result = await this.database.updateProductConversion(productId, conversionData);
+      return result;
+    } catch (error) {
+      return { success: false, error: `更新产品换算设置失败: ${error}` };
+    }
+  }
+
+  /**
+   * 删除产品单位换算设置
+   */
+  async deleteProductConversion(productId: string): Promise<ServiceResult> {
+    try {
+      const result = await this.database.deleteProductConversion(productId);
+      return result;
+    } catch (error) {
+      return { success: false, error: `删除产品换算设置失败: ${error}` };
+    }
+  }
+
+  /**
+   * 获取产品单位换算设置
+   */
+  async getProductConversion(productId: string): Promise<ServiceResult> {
+    try {
+      const result = await this.database.getProductConversion(productId);
+      return result;
+    } catch (error) {
+      return { success: false, error: `获取产品换算设置失败: ${error}` };
+    }
+  }
+
+  /**
+   * 批量入库操作（事务处理）
+   */
+  async batchStockIn(stockInData: any[]): Promise<ServiceResult> {
+    try {
+      // 使用数据库事务处理批量入库
+      const result = await this.database.batchStockIn(stockInData);
+      
+      if (result.success) {
+        // 更新内存缓存
+        for (const item of stockInData) {
+          await this.refreshStockCache(item.productId, item.warehouseId);
+        }
+      }
+      
+      return result;
+    } catch (error) {
+      return { success: false, error: `批量入库失败: ${error}` };
+    }
+  }
+
+  /**
+   * 批量出库操作（事务处理）
+   */
+  async batchStockOut(stockOutData: any[]): Promise<ServiceResult> {
+    try {
+      // 使用数据库事务处理批量出库
+      const result = await this.database.batchStockOut(stockOutData);
+      
+      if (result.success) {
+        // 更新内存缓存
+        for (const item of stockOutData) {
+          await this.refreshStockCache(item.productId, item.warehouseId);
+        }
+      }
+      
+      return result;
+    } catch (error) {
+      return { success: false, error: `批量出库失败: ${error}` };
+    }
+  }
+
+  /**
+   * 批量库存调整操作（事务处理）
+   */
+  async batchStockAdjust(adjustmentData: any[]): Promise<ServiceResult> {
+    try {
+      // 使用数据库事务处理批量库存调整
+      const result = await this.database.batchStockAdjust(adjustmentData);
+      
+      if (result.success) {
+        // 更新内存缓存
+        for (const item of adjustmentData) {
+          await this.refreshStockCache(item.productId, item.warehouseId);
+        }
+      }
+      
+      return result;
+    } catch (error) {
+      return { success: false, error: `批量库存调整失败: ${error}` };
+    }
+  }
+
+  /**
+   * 刷新库存缓存
+   */
+  private async refreshStockCache(productId: string, warehouseId: string): Promise<void> {
+    try {
+      const stockKey = `${productId}_${warehouseId}`;
+      const stockResult = await this.database.getStock(productId, warehouseId);
+      if (stockResult.success) {
+        this.inventoryStocks.set(stockKey, stockResult.data);
+        this.updateCacheAccessTime('stock', stockKey);
+      }
+    } catch (error) {
+      console.warn('刷新库存缓存失败:', error);
+    }
+  }
+
+  /**
+   * 获取单例实例
+   */
+  static getInstance(): InventoryService {
+    if (!InventoryService.instance) {
+      InventoryService.instance = new InventoryService();
+    }
+    return InventoryService.instance;
+  }
+
+  /**
+   * 销毁实例和缓存（修复内存泄漏问题）
+   */
+  static destroyInstance(): void {
+    if (InventoryService.instance) {
+      InventoryService.instance.clearAllCaches();
+      InventoryService.instance.initialized = false;
+      InventoryService.instance.database = null;
+      InventoryService.instance = null as any;
+      logger.info('InventoryService instance destroyed');
+    }
+  }
+
+  /**
+   * 清理所有缓存
+   */
+  private clearAllCaches(): void {
+    this.products.clear();
+    this.categories.clear();
+    this.units.clear();
+    this.warehouses.clear();
+    this.inventoryStocks.clear();
+    this.transactions.clear();
+    this.skuIndex.clear();
+    this.barcodeIndex.clear();
+    this.categoryProductIndex.clear();
+    this.cacheAccessTimes.clear();
+    // this.stocks.clear(); // 已移除stocks属性
+    logger.info('All caches cleared');
+  }
+
+  /**
+   * 管理缓存大小，使用LRU策略清理
+   */
+  private evictOldestCacheEntries(): void {
+    // 清理交易记录缓存
+    if (this.transactions.size > this.MAX_TRANSACTION_CACHE) {
+      const sortedEntries = Array.from(this.transactions.keys())
+        .map(key => ({ key, accessTime: this.cacheAccessTimes.get(`transaction_${key}`) || 0 }))
+        .sort((a, b) => a.accessTime - b.accessTime);
+      
+      const removeCount = this.transactions.size - this.MAX_TRANSACTION_CACHE + 100; // 多删除一些避免频繁清理
+      for (let i = 0; i < removeCount && i < sortedEntries.length; i++) {
+        this.transactions.delete(sortedEntries[i].key);
+        this.cacheAccessTimes.delete(`transaction_${sortedEntries[i].key}`);
+      }
+      logger.info(`Evicted ${removeCount} transaction cache entries`);
+    }
+
+    // 清理库存缓存
+    if (this.inventoryStocks.size > this.MAX_STOCK_CACHE) {
+      const sortedEntries = Array.from(this.inventoryStocks.keys())
+        .map(key => ({ key, accessTime: this.cacheAccessTimes.get(`stock_${key}`) || 0 }))
+        .sort((a, b) => a.accessTime - b.accessTime);
+      
+      const removeCount = this.inventoryStocks.size - this.MAX_STOCK_CACHE + 200;
+      for (let i = 0; i < removeCount && i < sortedEntries.length; i++) {
+        this.inventoryStocks.delete(sortedEntries[i].key);
+        this.cacheAccessTimes.delete(`stock_${sortedEntries[i].key}`);
+      }
+      logger.info(`Evicted ${removeCount} stock cache entries`);
+    }
+  }
+
+  /**
+   * 更新缓存访问时间
+   */
+  private updateCacheAccessTime(cacheType: string, key: string): void {
+    this.cacheAccessTimes.set(`${cacheType}_${key}`, Date.now());
+    
+    // 定期清理缓存（每1000次访问检查一次）
+    if (this.cacheAccessTimes.size % 1000 === 0) {
+      this.evictOldestCacheEntries();
+    }
+  }
+
+  /**
+   * 获取缓存统计信息
+   */
+  getCacheStats(): any {
+    return {
+      products: this.products.size,
+      categories: this.categories.size,
+      units: this.units.size,
+      warehouses: this.warehouses.size,
+      inventoryStocks: this.inventoryStocks.size,
+      transactions: this.transactions.size,
+      cacheAccessTimes: this.cacheAccessTimes.size,
+      maxLimits: {
+        products: this.MAX_CACHE_SIZE,
+        transactions: this.MAX_TRANSACTION_CACHE,
+        stocks: this.MAX_STOCK_CACHE
+      }
+    };
   }
 }
