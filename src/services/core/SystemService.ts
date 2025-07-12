@@ -61,6 +61,7 @@ interface RolePermissions {
  * 负责用户管理、权限控制、供应商和客户管理
  */
 export class SystemService {
+  private static instance: SystemService;
   private database: any;
   private initialized = false;
   private currentUser: User | null = null;
@@ -1001,5 +1002,15 @@ export class SystemService {
       password += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return password;
+  }
+
+  /**
+   * 获取单例实例
+   */
+  static getInstance(): SystemService {
+    if (!SystemService.instance) {
+      SystemService.instance = new SystemService();
+    }
+    return SystemService.instance;
   }
 }

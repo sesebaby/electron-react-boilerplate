@@ -1,0 +1,170 @@
+{
+  "config": {
+    "configFile": "/mnt/d/project/InventoryTest/playwright.config.ts",
+    "rootDir": "/mnt/d/project/InventoryTest/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/mnt/d/project/InventoryTest/e2e/global-setup.ts",
+    "globalTeardown": "/mnt/d/project/InventoryTest/e2e/global-teardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "test-framework": "playwright",
+      "app-type": "electron-desktop",
+      "test-env": "test"
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "test-results/html-report",
+          "open": "on-failure"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "test-results/junit.xml"
+        }
+      ],
+      [
+        "line",
+        null
+      ],
+      [
+        "/mnt/d/project/InventoryTest/e2e/reporters/coverage-reporter.ts",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/mnt/d/project/InventoryTest/test-results/artifacts",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "test-framework": "playwright",
+          "app-type": "electron-desktop",
+          "test-env": "test"
+        },
+        "id": "setup",
+        "name": "setup",
+        "testDir": "/mnt/d/project/InventoryTest/e2e",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/build/**"
+        ],
+        "testMatch": [
+          "/.*\\.setup\\.ts/"
+        ],
+        "timeout": 120000
+      },
+      {
+        "outputDir": "/mnt/d/project/InventoryTest/test-results/artifacts",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "test-framework": "playwright",
+          "app-type": "electron-desktop",
+          "test-env": "test"
+        },
+        "id": "cleanup",
+        "name": "cleanup",
+        "testDir": "/mnt/d/project/InventoryTest/e2e",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/build/**"
+        ],
+        "testMatch": [
+          "/.*\\.cleanup\\.ts/"
+        ],
+        "timeout": 120000
+      },
+      {
+        "outputDir": "/mnt/d/project/InventoryTest/test-results/artifacts",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "test-framework": "playwright",
+          "app-type": "electron-desktop",
+          "test-env": "test"
+        },
+        "id": "electron-desktop",
+        "name": "electron-desktop",
+        "testDir": "/mnt/d/project/InventoryTest/e2e",
+        "testIgnore": [
+          "**/*.setup.ts",
+          "**/*.cleanup.ts"
+        ],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 120000
+      },
+      {
+        "outputDir": "/mnt/d/project/InventoryTest/test-results/artifacts",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "test-framework": "playwright",
+          "app-type": "electron-desktop",
+          "test-env": "test"
+        },
+        "id": "performance",
+        "name": "performance",
+        "testDir": "/mnt/d/project/InventoryTest/e2e",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/build/**"
+        ],
+        "testMatch": [
+          "**/performance/*.spec.ts"
+        ],
+        "timeout": 120000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.54.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [],
+  "errors": [
+    {
+      "message": "Error: electron.launch: WebSocket error: connect ECONNREFUSED 127.0.0.1:6814\nCall log:\n\u001b[2m  - <launching> /mnt/d/project/InventoryTest/node_modules/electron/dist/electron.exe -r /mnt/d/project/InventoryTest/node_modules/playwright-core/lib/server/electron/loader.js --inspect=0 --remote-debugging-port=0 /mnt/d/project/InventoryTest/public/main.js --test-mode --test-db-path=/mnt/d/project/InventoryTest/test-db/inventory.db\u001b[22m\n\u001b[2m  - <launched> pid=31963\u001b[22m\n\u001b[2m  - [pid=31963][out]\u001b[22m\n\u001b[2m  - [pid=31963][err] Debugger listening on ws://127.0.0.1:6814/f342be18-ac15-4d3d-8bca-bbdfb4f2da8a\u001b[22m\n\u001b[2m  - [pid=31963][err] For help, see: https://nodejs.org/en/docs/inspector\u001b[22m\n\u001b[2m  - <ws connecting> ws://127.0.0.1:6814/f342be18-ac15-4d3d-8bca-bbdfb4f2da8a\u001b[22m\n\u001b[2m  - <ws error> ws://127.0.0.1:6814/f342be18-ac15-4d3d-8bca-bbdfb4f2da8a error connect ECONNREFUSED 127.0.0.1:6814\u001b[22m\n\u001b[2m  - <ws connect error> ws://127.0.0.1:6814/f342be18-ac15-4d3d-8bca-bbdfb4f2da8a connect ECONNREFUSED 127.0.0.1:6814\u001b[22m\n\u001b[2m  - <ws disconnected> ws://127.0.0.1:6814/f342be18-ac15-4d3d-8bca-bbdfb4f2da8a code=1006 reason=\u001b[22m\n",
+      "stack": "Error: electron.launch: WebSocket error: connect ECONNREFUSED 127.0.0.1:6814\nCall log:\n\u001b[2m  - <launching> /mnt/d/project/InventoryTest/node_modules/electron/dist/electron.exe -r /mnt/d/project/InventoryTest/node_modules/playwright-core/lib/server/electron/loader.js --inspect=0 --remote-debugging-port=0 /mnt/d/project/InventoryTest/public/main.js --test-mode --test-db-path=/mnt/d/project/InventoryTest/test-db/inventory.db\u001b[22m\n\u001b[2m  - <launched> pid=31963\u001b[22m\n\u001b[2m  - [pid=31963][out]\u001b[22m\n\u001b[2m  - [pid=31963][err] Debugger listening on ws://127.0.0.1:6814/f342be18-ac15-4d3d-8bca-bbdfb4f2da8a\u001b[22m\n\u001b[2m  - [pid=31963][err] For help, see: https://nodejs.org/en/docs/inspector\u001b[22m\n\u001b[2m  - <ws connecting> ws://127.0.0.1:6814/f342be18-ac15-4d3d-8bca-bbdfb4f2da8a\u001b[22m\n\u001b[2m  - <ws error> ws://127.0.0.1:6814/f342be18-ac15-4d3d-8bca-bbdfb4f2da8a error connect ECONNREFUSED 127.0.0.1:6814\u001b[22m\n\u001b[2m  - <ws connect error> ws://127.0.0.1:6814/f342be18-ac15-4d3d-8bca-bbdfb4f2da8a connect ECONNREFUSED 127.0.0.1:6814\u001b[22m\n\u001b[2m  - <ws disconnected> ws://127.0.0.1:6814/f342be18-ac15-4d3d-8bca-bbdfb4f2da8a code=1006 reason=\u001b[22m\n\n    at verifyElectronApp (/mnt/d/project/InventoryTest/e2e/global-setup.ts:98:25)\n    at globalSetup (/mnt/d/project/InventoryTest/e2e/global-setup.ts:24:5)",
+      "location": {
+        "file": "/mnt/d/project/InventoryTest/e2e/global-setup.ts",
+        "column": 25,
+        "line": 98
+      },
+      "snippet": "\u001b[90m   at \u001b[39mglobal-setup.ts:98\n\n   96 | async function verifyElectronApp() {\n   97 |   try {\n>  98 |     const electronApp = await electron.launch({\n      |                         ^\n   99 |       args: [\n  100 |         path.join(__dirname, '../public/main.js'),\n  101 |         '--test-mode', // 测试模式标志"
+    }
+  ],
+  "stats": {
+    "startTime": "2025-07-11T15:25:23.326Z",
+    "duration": 413.40799999999945,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

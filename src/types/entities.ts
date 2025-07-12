@@ -224,6 +224,7 @@ export interface InventoryStock extends BaseEntity {
   unitCost: number;               // 单位成本
   unitPrice: number;              // 单价
   totalValue: number;             // 总价值
+  version: number;                // 版本号（用于乐观锁并发控制）
   safetyStock?: number;           // 安全库存（兼容字段）
   isLowStock?: boolean;           // 是否低库存（兼容字段）
   isOutOfStock?: boolean;         // 是否缺货（兼容字段）

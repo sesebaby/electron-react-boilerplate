@@ -9,6 +9,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/tests/integration/setup.ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^better-sqlite3$': '<rootDir>/tests/mocks/better-sqlite3.js',
   },
   // 集成测试不使用 mock
   clearMocks: false,

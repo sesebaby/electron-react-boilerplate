@@ -60,6 +60,7 @@ interface PaymentRecord {
  * 负责应收账款、应付账款和财务报表管理
  */
 export class FinancialService {
+  private static instance: FinancialService;
   private database: any;
   private initialized = false;
 
@@ -789,5 +790,15 @@ export class FinancialService {
     } catch (error) {
       return { success: false, error: `获取财务汇总失败: ${error}` };
     }
+  }
+
+  /**
+   * 获取单例实例
+   */
+  static getInstance(): FinancialService {
+    if (!FinancialService.instance) {
+      FinancialService.instance = new FinancialService();
+    }
+    return FinancialService.instance;
   }
 }

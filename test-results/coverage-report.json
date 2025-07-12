@@ -1,0 +1,39 @@
+{
+  "summary": {
+    "total": 0,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "passRate": "0",
+    "totalDuration": 79,
+    "avgDuration": "0"
+  },
+  "tests": [],
+  "environment": {
+    "platform": "linux",
+    "nodeVersion": "v22.17.0",
+    "timestamp": "2025-07-11T15:25:23.818Z"
+  },
+  "coverage": {
+    "lines": {
+      "covered": 0,
+      "total": 0,
+      "percentage": 0
+    },
+    "functions": {
+      "covered": 0,
+      "total": 0,
+      "percentage": 0
+    },
+    "branches": {
+      "covered": 0,
+      "total": 0,
+      "percentage": 0
+    },
+    "statements": {
+      "covered": 0,
+      "total": 0,
+      "percentage": 0
+    }
+  }
+}

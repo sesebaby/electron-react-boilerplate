@@ -85,6 +85,23 @@ const UnitManagement: React.FC = () => {
       return;
     }
 
+    // 检查单位名称和符号的唯一性
+    const trimmedName = unitForm.name.trim();
+    const trimmedSymbol = unitForm.symbol.trim();
+    
+    const existingUnit = units.find(unit => {
+      if (editingUnit && unit.id === editingUnit.id) {
+        return false; // 编辑时排除自身
+      }
+      return unit.name === trimmedName || unit.symbol === trimmedSymbol;
+    });
+
+    if (existingUnit) {
+      const duplicateField = existingUnit.name === trimmedName ? '单位名称' : '单位符号';
+      showAlert('输入错误', `${duplicateField}"${existingUnit.name === trimmedName ? trimmedName : trimmedSymbol}"已存在，请使用其他名称或符号`, 'warning');
+      return;
+    }
+
     try {
       const inventoryService = serviceManager.getInventoryService();
       if (editingUnit) {

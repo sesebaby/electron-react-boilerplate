@@ -14,5 +14,11 @@ module.exports = {
   ],
   coverageReporters: ['text', 'lcov', 'html'],
   testMatch: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/e2e/',
+    '.*\\.integration\\.test\\.(ts|tsx)$',
+    '.*\\.integration\\.spec\\.(ts|tsx)$'
+  ],
   testTimeout: 10000,
 };

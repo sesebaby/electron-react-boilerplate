@@ -1,10 +1,10 @@
 import { useState, useMemo, useEffect, useCallback, useReducer } from 'react';
-import { InventoryItem, InventorySummary } from '../types/inventory';
+import { Product } from '../types/entities';
 import InventoryService from '../services/inventory/inventoryService';
 
 // 定义状态接口
 interface InventoryState {
-  items: InventoryItem[];
+  items: Product[];
   searchTerm: string;
   categoryFilter: string;
   statusFilter: string;
@@ -14,17 +14,26 @@ interface InventoryState {
   itemsPerPage: number;
 }
 
+// 定义InventorySummary接口（从原inventory.ts迁移）
+interface InventorySummary {
+  totalItems: number;
+  totalValue: number;
+  lowStockItems: number;
+  outOfStockItems: number;
+  categories: string[];
+}
+
 // 定义Action类型
 type InventoryAction = 
-  | { type: 'SET_ITEMS'; payload: InventoryItem[] }
+  | { type: 'SET_ITEMS'; payload: Product[] }
   | { type: 'SET_SEARCH_TERM'; payload: string }
   | { type: 'SET_CATEGORY_FILTER'; payload: string }
   | { type: 'SET_STATUS_FILTER'; payload: string }
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: string | null }
   | { type: 'SET_CURRENT_PAGE'; payload: number }
-  | { type: 'UPDATE_ITEM'; payload: { id: string; item: InventoryItem } }
-  | { type: 'ADD_ITEM'; payload: InventoryItem }
+  | { type: 'UPDATE_ITEM'; payload: { id: string; item: Product } }
+  | { type: 'ADD_ITEM'; payload: Product }
   | { type: 'REMOVE_ITEM'; payload: string }
   | { type: 'RESET_PAGE' };
 

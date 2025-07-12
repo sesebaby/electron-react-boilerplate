@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { InventoryItem } from '../types/inventory';
+import { Product } from '../types/entities';
 import { Card, CardContent } from './ui/card';
 import { 
   Table, 
@@ -17,8 +17,8 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 import { Package } from 'lucide-react';
 
 interface InventoryTableProps {
-  items: InventoryItem[];
-  onUpdateItem: (id: string, updates: Partial<InventoryItem>) => void;
+  items: Product[];
+  onUpdateItem: (id: string, updates: Partial<Product>) => void;
   // Pagination props
   currentPage: number;
   totalPages: number;
@@ -72,8 +72,8 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
     }
   }, []);
 
-  const getAvailableQuantity = useCallback((item: InventoryItem) => {
-    return Math.max(0, item.stockQuantity - item.reservedQuantity);
+  const getAvailableQuantity = useCallback((item: Product) => {
+    return Math.max(0, item.stockQuantity - (item.reservedQuantity || 0));
   }, []);
 
   // 加载状态
@@ -228,7 +228,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                     <div>
                       <div className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>{item.name}</div>
                       <div className="text-sm mb-1 leading-relaxed" style={{color: 'var(--text-secondary)'}}>{item.description}</div>
-                      <div className="text-xs italic" style={{color: 'var(--text-tertiary)'}}>供应商: {item.supplier}</div>
+                      <div className="text-xs italic" style={{color: 'var(--text-tertiary)'}}>供应商: {item.supplierId || '-'}</div>
                     </div>
                   </TableCell>
                   <TableCell className="min-w-[140px]">
@@ -236,12 +236,12 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                       {item.sku}
                     </code>
                   </TableCell>
-                  <TableCell className="min-w-[100px]">{item.category}</TableCell>
+                  <TableCell className="min-w-[100px]">{item.categoryId || '-'}</TableCell>
                   <TableCell className="min-w-[80px] text-center">
                     <Badge variant="success" className="mb-1">
                       {item.stockQuantity}
                     </Badge>
-                    {item.reservedQuantity > 0 && (
+                    {(item.reservedQuantity || 0) > 0 && (
                       <div className="text-xs text-white/60 mt-1">
                         ({item.reservedQuantity} 预留)
                       </div>
@@ -255,10 +255,10 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                     </Badge>
                   </TableCell>
                   <TableCell className="min-w-[100px] text-right font-semibold">
-                    {formatCurrency(item.unitPrice)}
+                    {formatCurrency(item.salePrice || 0)}
                   </TableCell>
                   <TableCell className="min-w-[100px] text-right font-semibold">
-                    {formatCurrency(item.totalValue)}
+                    {formatCurrency((item.salePrice || 0) * item.stockQuantity)}
                   </TableCell>
                   <TableCell className="min-w-[100px] text-center">
                     <Badge variant={getStatusVariant(item.status)}>
@@ -267,7 +267,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                   </TableCell>
                   <TableCell className="min-w-[120px]">{item.location}</TableCell>
                   <TableCell className="min-w-[100px] text-sm">
-                    {formatDate(item.lastUpdated)}
+                    {formatDate(item.updatedAt || new Date())}
                   </TableCell>
                 </TableRow>
               ))}

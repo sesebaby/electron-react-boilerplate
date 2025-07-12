@@ -6,6 +6,8 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import Database from 'better-sqlite3';
+import { mockDataProvider } from '../../mocks/mockDataProvider';
+import { DatabaseInventoryItem } from '../../mocks/centralMockData';
 
 describe('库存数据库集成测试', () => {
   let db: Database.Database;
@@ -20,15 +22,33 @@ describe('库存数据库集成测试', () => {
     // 创建新的测试数据库
     db = new Database(testDbPath);
     
-    // 创建表结构
+    // 创建表结构（使用与实际项目一致的结构）
     db.exec(`
       CREATE TABLE IF NOT EXISTS inventory_items (
-        id TEXT PRIMARY KEY,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
+        description TEXT,
         sku TEXT UNIQUE NOT NULL,
         stock_quantity INTEGER NOT NULL DEFAULT 0,
+        reserved_quantity INTEGER NOT NULL DEFAULT 0,
         unit_price REAL NOT NULL DEFAULT 0,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        purchase_price REAL NOT NULL DEFAULT 0,
+        total_value REAL NOT NULL DEFAULT 0,
+        last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
+        reorder_level INTEGER DEFAULT 0,
+        max_stock INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        category INTEGER,
+        supplier INTEGER,
+        location TEXT,
+        status TEXT DEFAULT 'active',
+        unit_id INTEGER,
+        brand TEXT,
+        model TEXT,
+        barcode TEXT,
+        is_active BOOLEAN DEFAULT 1,
+        images TEXT
       );
       
       CREATE TABLE IF NOT EXISTS inventory_transactions (
@@ -58,19 +78,23 @@ describe('库存数据库集成测试', () => {
   
   describe('库存物品管理', () => {
     it('应该创建库存物品并正确保存', () => {
-      // 准备数据
-      const item = {
-        id: 'ITEM-001',
-        name: '测试产品',
-        sku: 'TEST-SKU-001',
-        stock_quantity: 100,
-        unit_price: 50.00
-      };
+      // 使用中央化Mock数据
+      const mockItems = mockDataProvider.getRawDatabaseItems();
+      const item = mockItems[0]; // 使用第一个Mock数据
       
-      // 插入数据
+      // 插入数据（使用完整的字段）
       const stmt = db.prepare(`
-        INSERT INTO inventory_items (id, name, sku, stock_quantity, unit_price)
-        VALUES (@id, @name, @sku, @stock_quantity, @unit_price)
+        INSERT INTO inventory_items (
+          name, description, sku, stock_quantity, reserved_quantity,
+          unit_price, purchase_price, total_value, last_updated,
+          reorder_level, max_stock, category, supplier, location,
+          status, unit_id, brand, model, barcode, is_active, images
+        ) VALUES (
+          @name, @description, @sku, @stock_quantity, @reserved_quantity,
+          @unit_price, @purchase_price, @total_value, @last_updated,
+          @reorder_level, @max_stock, @category, @supplier, @location,
+          @status, @unit_id, @brand, @model, @barcode, @is_active, @images
+        )
       `);
       
       const result = stmt.run(item);

@@ -81,6 +81,7 @@ export interface OrderStatistics extends ServiceStatistics {
  * 订单服务实现
  */
 export class OrderService {
+  private static instance: OrderService;
   private initialized = false;
   private database: any = null;
 
@@ -1715,5 +1716,15 @@ export class OrderService {
     } catch (error) {
       return { success: false, error: error instanceof Error ? error.message : '删除发货明细失败' };
     }
+  }
+
+  /**
+   * 获取单例实例
+   */
+  static getInstance(): OrderService {
+    if (!OrderService.instance) {
+      OrderService.instance = new OrderService();
+    }
+    return OrderService.instance;
   }
 }

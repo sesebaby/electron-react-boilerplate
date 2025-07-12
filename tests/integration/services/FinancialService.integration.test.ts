@@ -14,7 +14,7 @@ import {
   Product, 
   PurchaseOrder, 
   SalesOrder 
-} from '../../../src/types';
+} from '../../../src/types/entities';
 
 // Mock Electron IPC
 const mockIpcRenderer = {

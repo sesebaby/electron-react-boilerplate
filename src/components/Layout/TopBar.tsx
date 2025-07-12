@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 import QuickActions from './QuickActions';
 import { InventoryService } from '../../services/inventory/inventoryService';
-import { InventoryItem } from '../../types/inventory';
+import { Product } from '../../types/entities';
 import { notificationHelper } from '../../utils/notificationHelper';
 import { SimpleNotification, NotificationType } from '../../types/simpleNotification';
 import { useAuth } from '../../hooks/useAuth';

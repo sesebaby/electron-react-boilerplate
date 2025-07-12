@@ -97,20 +97,20 @@ describe('LogRotation工具测试', () => {
 
   describe('Electron环境测试', () => {
     beforeEach(() => {
+      // 重新配置 mockElectronAPI
+      mockElectronAPI.readdir = jest.fn().mockResolvedValue({ 
+        success: true, 
+        data: ['app.log', 'error.log'] 
+      });
+      mockElectronAPI.stat = jest.fn().mockResolvedValue({ 
+        success: true, 
+        data: { size: 1024, mtime: new Date(), birthtime: new Date() } 
+      });
+      mockElectronAPI.rename = jest.fn().mockResolvedValue({ success: true });
+      mockElectronAPI.unlink = jest.fn().mockResolvedValue({ success: true });
+
       Object.defineProperty(window, 'electronAPI', {
-        value: {
-          ...mockElectronAPI,
-          readdir: jest.fn().mockResolvedValue({ 
-            success: true, 
-            data: ['app.log', 'error.log'] 
-          }),
-          stat: jest.fn().mockResolvedValue({ 
-            success: true, 
-            data: { size: 1024, mtime: new Date(), birthtime: new Date() } 
-          }),
-          rename: jest.fn().mockResolvedValue({ success: true }),
-          unlink: jest.fn().mockResolvedValue({ success: true })
-        },
+        value: mockElectronAPI,
         writable: true
       });
 
@@ -166,17 +166,23 @@ describe('LogRotation工具测试', () => {
 
     test('应该在浏览器环境中使用localStorage获取文件', async () => {
       localStorageMock.getItem.mockReturnValue('test data');
+      const originalObjectKeys = Object.keys;
       Object.keys = jest.fn().mockReturnValue(['log_app_log', 'log_error_log', 'other_key']);
 
       const files = await rotationService.getLogFiles('/browser/logs');
       
-      expect(files).toHaveLength(2);
+      expect(files.length).toBe(2);
       expect(files[0].path).toContain('app/log');
       expect(files[1].path).toContain('error/log');
+      
+      // 恢复 Object.keys
+      Object.keys = originalObjectKeys;
     });
 
     test('应该在浏览器环境中处理文件重命名', async () => {
       localStorageMock.getItem.mockReturnValue('log data');
+      const originalObjectKeys = Object.keys;
+      Object.keys = jest.fn().mockReturnValue(['log_app_log']);
       
       const config: LogRotationConfig = {
         maxFileSize: 0.001, // 很小的大小强制轮转
@@ -188,12 +194,21 @@ describe('LogRotation工具测试', () => {
       
       expect(localStorageMock.setItem).toHaveBeenCalled();
       expect(localStorageMock.removeItem).toHaveBeenCalled();
+      
+      // 恢复 Object.keys
+      Object.keys = originalObjectKeys;
     });
 
     test('应该在浏览器环境中删除文件', async () => {
+      const originalObjectKeys = Object.keys;
+      Object.keys = jest.fn().mockReturnValue(['log_app_log']);
+      
       await rotationService.cleanupOldLogs('/browser/logs', 0);
       
       expect(localStorageMock.removeItem).toHaveBeenCalled();
+      
+      // 恢复 Object.keys
+      Object.keys = originalObjectKeys;
     });
   });
 
@@ -213,7 +228,7 @@ describe('LogRotation工具测试', () => {
       const files = await rotationService.getLogFiles('/logs');
       
       expect(mockFs.readdir).toHaveBeenCalledWith('/logs', expect.any(Function));
-      expect(files).toHaveLength(2); // 只有.log文件
+      expect(files.length).toBe(2); // 只有.log文件
       
       files.forEach(file => {
         expect(file).toEqual({
