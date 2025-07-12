@@ -28,7 +28,7 @@ interface WarehouseForm {
   address: string;
   creator: string;
   manager?: string;
-  isDefault: boolean;
+  isDefault: string; // 改为字符串类型以匹配GlassSelect组件
 }
 
 const emptyForm: WarehouseForm = {
@@ -36,7 +36,7 @@ const emptyForm: WarehouseForm = {
   name: '',
   address: '',
   creator: '',
-  isDefault: false
+  isDefault: 'false' // 改为字符串类型
 };
 
 export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ className }) => {
@@ -117,9 +117,16 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       const submitData = {
         ...restData,
         manager: creator, // 将creator映射到manager字段
+        isDefault: restData.isDefault === 'true', // 将字符串转换为布尔值
         // 编辑时保持原有isActive状态，新建时默认为激活状态
         isActive: editingWarehouse ? editingWarehouse.isActive : true
       };
+      
+      console.log('提交数据验证:', { 
+        originalIsDefault: editingWarehouse?.isDefault,
+        formIsDefault: data.isDefault,
+        submitIsDefault: submitData.isDefault 
+      });
       
       const inventoryService = serviceManager.getInventoryService();
       if (editingWarehouse) {
@@ -145,7 +152,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       name: warehouse.name,
       address: warehouse.address || '',
       creator: warehouse.manager || '', // 从manager字段获取负责人信息
-      isDefault: warehouse.isDefault
+      isDefault: warehouse.isDefault.toString() // 转换布尔值为字符串
     });
     clearErrors();
     setShowForm(true);
