@@ -43,6 +43,12 @@ declare global {
       dbCreateUnit: (unit: any) => Promise<any>;
       dbUpdateUnit: (id: string, updates: any) => Promise<any>;
       dbDeleteUnit: (id: string) => Promise<any>;
+      // 产品管理方法（按照重构计划添加）
+      dbCreateProduct: (product: any) => Promise<any>;
+      dbUpdateProduct: (id: string, updates: any) => Promise<any>;
+      dbDeleteProduct: (id: string) => Promise<any>;
+      dbGetProduct: (id: string) => Promise<any>;
+      dbGetAllProducts: () => Promise<any>;
       // 额外的数据库方法
       dbGetAllInventoryStocks: () => Promise<any>;
       dbGetAllTransactions: () => Promise<any>;
@@ -398,9 +404,25 @@ export class ElectronDatabase {
     return window.electronAPI.dbDeleteUnit(id);
   }
 
-  // 产品
+  // 产品管理（按照重构计划实现）
+  async createProduct(product: any): Promise<any> {
+    return window.electronAPI.dbCreateProduct(product);
+  }
+
+  async updateProduct(id: string, updates: any): Promise<any> {
+    return window.electronAPI.dbUpdateProduct(id, updates);
+  }
+
+  async deleteProduct(id: string): Promise<any> {
+    return window.electronAPI.dbDeleteProduct(id);
+  }
+
+  async getProduct(id: string): Promise<any> {
+    return window.electronAPI.dbGetProduct(id);
+  }
+
   async getAllProducts(): Promise<any> {
-    const result = await window.electronAPI.dbGetAllItems();
+    const result = await window.electronAPI.dbGetAllProducts();
     return result.success ? result.data : [];
   }
 

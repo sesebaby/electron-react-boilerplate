@@ -111,7 +111,7 @@ export class InventoryDomainService {
       }
 
       if (filter?.categoryId) {
-        whereClause += ' AND p.categoryId = ?';
+        whereClause += ' AND p.category_id = ?';
         params.push(filter.categoryId);
       }
 
@@ -121,35 +121,36 @@ export class InventoryDomainService {
       }
 
       if (filter?.warehouseId) {
-        whereClause += ' AND s.warehouseId = ?';
+        whereClause += ' AND s.warehouse_id = ?';
         params.push(filter.warehouseId);
       }
 
-      // 单次查询获取产品和库存信息（使用实际的inventory_items表）
+      // 按照重构计划修复：使用正确的products表和字段映射
       const query = `
         SELECT
-          i.id, i.name, i.sku, i.description,
-          i.category as categoryId,
-          i.supplier as supplierId,
-          i.unit_price as salePrice,
-          i.unit_price as costPrice,
-          i.status,
-          i.reorder_level as minStock,
-          i.max_stock as maxStock,
-          i.stock_quantity as currentStock,
-          (i.stock_quantity - COALESCE(i.reserved_quantity, 0)) as availableStock,
-          COALESCE(i.reserved_quantity, 0) as reservedStock,
-          'default' as warehouseId,
-          '默认仓库' as warehouseName,
-          i.total_value as totalValue,
-          i.location,
-          i.brand,
-          i.model,
-          i.barcode,
-          i.last_updated as lastUpdated
-        FROM inventory_items i
+          p.id, p.name, p.sku, p.description,
+          p.category_id as categoryId,
+          p.purchase_price as costPrice,
+          p.sale_price as salePrice,
+          p.status,
+          p.min_stock as minStock,
+          p.max_stock as maxStock,
+          COALESCE(s.current_stock, 0) as currentStock,
+          COALESCE(s.available_stock, 0) as availableStock,
+          COALESCE(s.reserved_stock, 0) as reservedStock,
+          COALESCE(s.warehouse_id, 'default') as warehouseId,
+          COALESCE(w.name, '默认仓库') as warehouseName,
+          COALESCE(s.total_value, 0) as totalValue,
+          p.brand,
+          p.model,
+          p.barcode,
+          p.unit_id as unitId,
+          p.updated_at as lastUpdated
+        FROM products p
+        LEFT JOIN inventory_stocks s ON p.id = s.product_id
+        LEFT JOIN warehouses w ON s.warehouse_id = w.id
         ${whereClause}
-        ORDER BY i.name
+        ORDER BY p.name
       `;
 
       const result = await window.electronAPI.dbAll(query, params);
@@ -213,19 +214,20 @@ export class InventoryDomainService {
         return { success: false, error: '产品ID不能为空' };
       }
 
-      // 从inventory_items表获取库存信息
+      // 按照重构计划修复：从正确的表结构获取库存信息
       const stockResult = await window.electronAPI.dbGet(
         `SELECT
-          id as productId,
-          stock_quantity as currentStock,
-          (stock_quantity - COALESCE(reserved_quantity, 0)) as availableStock,
-          COALESCE(reserved_quantity, 0) as reservedStock,
-          reorder_level as minStock,
-          max_stock as maxStock,
-          unit_price as unitPrice,
-          total_value as totalValue
-        FROM inventory_items WHERE id = ?`,
-        [productId]
+          s.product_id as productId,
+          s.current_stock as currentStock,
+          s.available_stock as availableStock,
+          s.reserved_stock as reservedStock,
+          s.min_stock as minStock,
+          s.max_stock as maxStock,
+          s.unit_price as unitPrice,
+          s.total_value as totalValue,
+          s.warehouse_id as warehouseId
+        FROM inventory_stocks s WHERE s.product_id = ? AND s.warehouse_id = ?`,
+        [productId, warehouseId || 'default']
       );
       const stock = stockResult.success ? stockResult.data : null;
       
@@ -309,7 +311,7 @@ export class InventoryDomainService {
       try {
         // 1. 验证产品存在
         const productResult = await window.electronAPI.dbGet(
-          'SELECT * FROM inventory_items WHERE id = ?', [request.productId]
+          'SELECT * FROM products WHERE id = ?', [request.productId]
         );
         if (!productResult.success || !productResult.data) {
           throw new Error('产品不存在');
@@ -446,7 +448,7 @@ export class InventoryDomainService {
 
       // 检查SKU唯一性
       const existingResult = await window.electronAPI.dbGet(
-        'SELECT * FROM inventory_items WHERE sku = ?', [productData.sku]
+        'SELECT * FROM products WHERE sku = ?', [productData.sku]
       );
       if (existingResult.success && existingResult.data) {
         return { success: false, error: `SKU "${productData.sku}" 已存在` };
@@ -459,7 +461,8 @@ export class InventoryDomainService {
         updatedAt: new Date()
       };
 
-      await window.electronAPI.dbCreateItem(product);
+      // 按照重构计划：使用标准的产品创建API
+      await window.electronAPI.dbCreateProduct(product);
       return { success: true, data: product };
     } catch (error) {
       return {
@@ -475,7 +478,7 @@ export class InventoryDomainService {
   async updateProduct(id: string, updates: Partial<Product>): Promise<DomainServiceResult<Product>> {
     try {
       const existingResult = await window.electronAPI.dbGet(
-        'SELECT * FROM inventory_items WHERE id = ?', [id]
+        'SELECT * FROM products WHERE id = ?', [id]
       );
       if (!existingResult.success || !existingResult.data) {
         return { success: false, error: '产品不存在' };
@@ -485,7 +488,7 @@ export class InventoryDomainService {
       // SKU唯一性检查
       if (updates.sku && updates.sku !== existingProduct.sku) {
         const duplicateResult = await window.electronAPI.dbGet(
-          'SELECT * FROM inventory_items WHERE sku = ?', [updates.sku]
+          'SELECT * FROM products WHERE sku = ?', [updates.sku]
         );
         if (duplicateResult.success && duplicateResult.data && duplicateResult.data.id !== id) {
           return { success: false, error: `SKU "${updates.sku}" 已存在` };
@@ -498,7 +501,8 @@ export class InventoryDomainService {
         updatedAt: new Date()
       };
 
-      await window.electronAPI.dbUpdateItem(id, updatedProduct);
+      // 按照重构计划：使用标准的产品更新API
+      await window.electronAPI.dbUpdateProduct(id, updatedProduct);
       return { success: true, data: updatedProduct };
     } catch (error) {
       return {
@@ -514,7 +518,7 @@ export class InventoryDomainService {
   async deleteProduct(id: string): Promise<DomainServiceResult<boolean>> {
     try {
       const productResult = await window.electronAPI.dbGet(
-        'SELECT * FROM inventory_items WHERE id = ?', [id]
+        'SELECT * FROM products WHERE id = ?', [id]
       );
       if (!productResult.success || !productResult.data) {
         return { success: false, error: '产品不存在' };
@@ -522,14 +526,15 @@ export class InventoryDomainService {
 
       // 检查是否有库存
       const stockResult = await window.electronAPI.dbGet(
-        'SELECT stock_quantity FROM inventory_items WHERE id = ? AND stock_quantity > 0', [id]
+        'SELECT current_stock FROM inventory_stocks WHERE product_id = ? AND current_stock > 0', [id]
       );
-      const hasStock = stockResult.success && stockResult.data && stockResult.data.stock_quantity > 0;
+      const hasStock = stockResult.success && stockResult.data && stockResult.data.current_stock > 0;
       if (hasStock) {
         return { success: false, error: '商品有库存，无法删除' };
       }
 
-      await window.electronAPI.dbDeleteItem(id);
+      // 按照重构计划：使用标准的产品删除API
+      await window.electronAPI.dbDeleteProduct(id);
       return { success: true, data: true };
     } catch (error) {
       return {
@@ -556,7 +561,7 @@ export class InventoryDomainService {
   async getProduct(id: string): Promise<DomainServiceResult<Product>> {
     try {
       const productResult = await window.electronAPI.dbGet(
-        'SELECT * FROM inventory_items WHERE id = ?', [id]
+        'SELECT * FROM products WHERE id = ?', [id]
       );
       if (!productResult.success || !productResult.data) {
         return { success: false, error: '产品不存在' };
