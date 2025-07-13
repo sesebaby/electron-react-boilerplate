@@ -548,6 +548,45 @@ export class InventoryService {
     }
   }
 
+  /**
+   * 搜索产品
+   */
+  async searchProducts(searchTerm: string): Promise<ServiceResult<Product[]>> {
+    try {
+      if (!searchTerm || searchTerm.trim() === '') {
+        // 如果搜索词为空，返回所有产品
+        const allProducts = await this.database.dbGetAllItems();
+        return {
+          success: true,
+          data: allProducts
+        };
+      }
+
+      const term = searchTerm.toLowerCase().trim();
+      const allProducts = await this.database.dbGetAllItems();
+
+      const filteredProducts = allProducts.filter(product =>
+        product.name.toLowerCase().includes(term) ||
+        product.sku.toLowerCase().includes(term) ||
+        (product.description && product.description.toLowerCase().includes(term)) ||
+        (product.brand && product.brand.toLowerCase().includes(term)) ||
+        (product.model && product.model.toLowerCase().includes(term)) ||
+        (product.barcode && product.barcode.toLowerCase().includes(term))
+      );
+
+      return {
+        success: true,
+        data: filteredProducts
+      };
+    } catch (error) {
+      logger.error('Failed to search products', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '搜索产品失败'
+      };
+    }
+  }
+
   // ==================== 分类管理 ====================
 
   async createCategory(categoryData: Omit<Category, 'id' | 'createdAt' | 'updatedAt'>): Promise<ServiceResult<Category>> {

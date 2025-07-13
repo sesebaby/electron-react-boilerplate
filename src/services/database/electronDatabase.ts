@@ -46,6 +46,7 @@ declare global {
       // 额外的数据库方法
       dbGetAllInventoryStocks: () => Promise<any>;
       dbGetAllTransactions: () => Promise<any>;
+      dbAddTransaction: (transaction: any) => Promise<any>;
       dbGetAllCustomers: () => Promise<any>;
       dbGetAccountsReceivable: () => Promise<any>;
       dbGetAccountsPayable: () => Promise<any>;
@@ -128,6 +129,111 @@ export class ElectronDatabase {
 
   async all(sql: string, params: any[] = []): Promise<any> {
     return window.electronAPI.dbAll(sql, params);
+  }
+
+  // 库存更新方法
+  async updateInventoryStock(params: {
+    productId: string;
+    warehouseId?: string;
+    quantity: number;
+    type: 'in' | 'out' | 'adjust';
+    unitPrice?: number;
+    reason?: string;
+  }): Promise<any> {
+    // 对于简化的库存系统，我们直接更新inventory_items表
+    // 在更复杂的系统中，这里会更新inventory_stocks表
+
+    // 首先获取当前库存信息
+    const currentItem = await this.getItemById(params.productId);
+    if (!currentItem) {
+      throw new Error(`商品不存在: ${params.productId}`);
+    }
+
+    let newQuantity: number;
+    const currentStock = currentItem.stockQuantity || 0;
+
+    switch (params.type) {
+      case 'in':
+        newQuantity = currentStock + Math.abs(params.quantity);
+        break;
+      case 'out':
+        newQuantity = currentStock - Math.abs(params.quantity);
+        if (newQuantity < 0) {
+          throw new Error('库存不足，无法出库');
+        }
+        break;
+      case 'adjust':
+        newQuantity = params.quantity;
+        if (newQuantity < 0) {
+          throw new Error('调整后的库存数量不能为负数');
+        }
+        break;
+      default:
+        throw new Error(`无效的库存操作类型: ${params.type}`);
+    }
+
+    // 更新库存状态
+    let status = currentItem.status;
+    if (newQuantity <= 0) {
+      status = 'out-of-stock';
+    } else if (newQuantity <= (currentItem.reorderLevel || 0)) {
+      status = 'low-stock';
+    } else {
+      status = 'in-stock';
+    }
+
+    // 计算新的总价值
+    const unitPrice = params.unitPrice || currentItem.unitPrice || 0;
+    const totalValue = newQuantity * unitPrice;
+
+    // 更新库存项目
+    const updateResult = await this.updateItem(params.productId, {
+      stockQuantity: newQuantity,
+      totalValue: totalValue,
+      status: status,
+      lastUpdated: new Date()
+    });
+
+    return {
+      success: true,
+      data: updateResult,
+      newStockLevel: newQuantity,
+      stockChange: newQuantity - currentStock
+    };
+  }
+
+  // 创建库存交易记录
+  async createInventoryTransaction(params: {
+    productId: string;
+    warehouseId?: string;
+    type: 'in' | 'out' | 'adjust';
+    quantity: number;
+    unitPrice?: number;
+    totalAmount?: number;
+    referenceNo?: string;
+    reason?: string;
+    operator?: string;
+  }): Promise<any> {
+    const transactionData = {
+      id: this.generateId(),
+      itemId: params.productId,
+      transactionType: params.type === 'in' ? 'purchase' : params.type === 'out' ? 'sale' : 'adjustment',
+      quantity: params.quantity,
+      unitPrice: params.unitPrice || 0,
+      totalAmount: params.totalAmount || (params.quantity * (params.unitPrice || 0)),
+      referenceNumber: params.referenceNo || '',
+      notes: params.reason || '',
+      createdBy: params.operator || 'system',
+      createdAt: new Date().toISOString()
+    };
+
+    // 使用现有的交易记录创建方法
+    return window.electronAPI.dbAddTransaction(transactionData);
+  }
+
+  // 生成ID的辅助方法
+  private generateId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
 
   // 事务支持
@@ -330,6 +436,176 @@ export class ElectronDatabase {
   async getPaymentRecords(): Promise<any> {
     const result = await window.electronAPI.dbGetPaymentRecords();
     return result.success ? result.data : [];
+  }
+
+  // 销售订单相关方法
+  async createSalesOrder(order: any): Promise<any> {
+    // 使用通用的数据库操作方法
+    const sql = `
+      INSERT INTO sales_orders (
+        id, order_no, customer_id, order_date, delivery_date, status,
+        total_amount, discount_amount, tax_amount, final_amount,
+        payment_status, remark, creator, is_active, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const params = [
+      order.id, order.orderNo, order.customerId, order.orderDate.toISOString(),
+      order.deliveryDate?.toISOString() || null, order.status,
+      order.totalAmount, order.discountAmount, order.taxAmount, order.finalAmount,
+      order.paymentStatus, order.remark || '', order.creator, order.isActive ? 1 : 0,
+      order.createdAt.toISOString(), order.updatedAt.toISOString()
+    ];
+
+    return this.run(sql, params);
+  }
+
+  async updateSalesOrder(id: string, updates: any): Promise<any> {
+    const setClause = [];
+    const params = [];
+
+    if (updates.status !== undefined) {
+      setClause.push('status = ?');
+      params.push(updates.status);
+    }
+    if (updates.paymentStatus !== undefined) {
+      setClause.push('payment_status = ?');
+      params.push(updates.paymentStatus);
+    }
+    if (updates.totalAmount !== undefined) {
+      setClause.push('total_amount = ?');
+      params.push(updates.totalAmount);
+    }
+    if (updates.finalAmount !== undefined) {
+      setClause.push('final_amount = ?');
+      params.push(updates.finalAmount);
+    }
+    if (updates.updatedAt !== undefined) {
+      setClause.push('updated_at = ?');
+      params.push(updates.updatedAt.toISOString());
+    }
+
+    if (setClause.length === 0) {
+      return { success: true };
+    }
+
+    params.push(id);
+    const sql = `UPDATE sales_orders SET ${setClause.join(', ')} WHERE id = ?`;
+
+    return this.run(sql, params);
+  }
+
+  async insertSalesOrderItem(item: any): Promise<any> {
+    const sql = `
+      INSERT INTO sales_order_items (
+        id, order_id, product_id, quantity, unit_price, discount_rate,
+        amount, shipped_quantity, status, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const params = [
+      item.id, item.orderId, item.productId, item.quantity, item.unitPrice,
+      item.discountRate || 0, item.amount,
+      item.deliveredQuantity || 0, item.status,
+      item.createdAt.toISOString(), item.updatedAt.toISOString()
+    ];
+
+    return this.run(sql, params);
+  }
+
+  async updateSalesOrderItem(id: string, updates: any): Promise<any> {
+    const setClause = [];
+    const params = [];
+
+    if (updates.deliveredQuantity !== undefined) {
+      setClause.push('shipped_quantity = ?');
+      params.push(updates.deliveredQuantity);
+    }
+    if (updates.status !== undefined) {
+      setClause.push('status = ?');
+      params.push(updates.status);
+    }
+    if (updates.updatedAt !== undefined) {
+      setClause.push('updated_at = ?');
+      params.push(updates.updatedAt.toISOString());
+    }
+
+    if (setClause.length === 0) {
+      return { success: true };
+    }
+
+    params.push(id);
+    const sql = `UPDATE sales_order_items SET ${setClause.join(', ')} WHERE id = ?`;
+
+    return this.run(sql, params);
+  }
+
+  // 销售发货单相关方法
+  async createSalesDelivery(delivery: any): Promise<any> {
+    const sql = `
+      INSERT INTO sales_deliveries (
+        id, order_id, delivery_no, customer_id, warehouse_id, status,
+        delivery_date, total_quantity, total_amount, delivery_person,
+        created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const params = [
+      delivery.id, delivery.orderId, delivery.deliveryNo, delivery.customerId,
+      delivery.warehouseId, delivery.status, delivery.deliveryDate.toISOString(),
+      delivery.totalQuantity, delivery.totalAmount, delivery.deliveryPerson || delivery.deliverer || '',
+      delivery.createdAt.toISOString(), delivery.updatedAt.toISOString()
+    ];
+
+    return this.run(sql, params);
+  }
+
+  async updateSalesDelivery(id: string, updates: any): Promise<any> {
+    const setClause = [];
+    const params = [];
+
+    if (updates.status !== undefined) {
+      setClause.push('status = ?');
+      params.push(updates.status);
+    }
+    if (updates.totalAmount !== undefined) {
+      setClause.push('total_amount = ?');
+      params.push(updates.totalAmount);
+    }
+    if (updates.totalQuantity !== undefined) {
+      setClause.push('total_quantity = ?');
+      params.push(updates.totalQuantity);
+    }
+    if (updates.updatedAt !== undefined) {
+      setClause.push('updated_at = ?');
+      params.push(updates.updatedAt.toISOString());
+    }
+
+    if (setClause.length === 0) {
+      return { success: true };
+    }
+
+    params.push(id);
+    const sql = `UPDATE sales_deliveries SET ${setClause.join(', ')} WHERE id = ?`;
+
+    return this.run(sql, params);
+  }
+
+  async insertSalesDeliveryItem(item: any): Promise<any> {
+    const sql = `
+      INSERT INTO sales_delivery_items (
+        id, delivery_id, order_item_id, product_id, quantity,
+        unit_price, amount, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const params = [
+      item.id, item.deliveryId, item.orderItemId, item.productId,
+      item.quantity, item.unitPrice, item.amount,
+      item.createdAt.toISOString(), item.updatedAt.toISOString()
+    ];
+
+    return this.run(sql, params);
   }
 
   // 用户认证

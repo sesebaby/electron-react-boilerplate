@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useCallback, useReducer } from 'react';
 import { InventoryItem, InventorySummary } from '../types/inventory';
-import InventoryService from '../services/inventory/inventoryService';
+import { serviceManager } from '../services/core';
 
 // 定义状态接口
 interface InventoryState {
@@ -106,7 +106,7 @@ export const useInventory = () => {
       try {
         dispatch({ type: 'SET_LOADING', payload: true });
         dispatch({ type: 'SET_ERROR', payload: null });
-        await InventoryService.initialize();
+        // 新架构不需要手动初始化，serviceManager已经处理了
         await loadItems();
       } catch (err) {
         dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '初始化失败' });
@@ -120,8 +120,33 @@ export const useInventory = () => {
 
   const loadItems = useCallback(async () => {
     try {
-      const allItems = await InventoryService.getAllItems();
-      dispatch({ type: 'SET_ITEMS', payload: allItems });
+      const inventoryService = serviceManager.getInventoryService();
+      const result = await inventoryService.getProducts();
+      if (result.success && result.data) {
+        // 转换新架构的Product数据为旧的InventoryItem格式
+        const items: InventoryItem[] = result.data.items.map(product => ({
+          id: product.id,
+          name: product.name,
+          description: product.description || '',
+          sku: product.sku,
+          category: product.categoryId || '',
+          supplier: product.supplierId || '',
+          stockQuantity: product.stockQuantity || 0,
+          reservedQuantity: product.reservedQuantity || 0,
+          unitPrice: product.salePrice || 0,
+          totalValue: product.totalValue || 0,
+          status: product.status as InventoryItem['status'],
+          location: product.location || '',
+          reorderLevel: product.minStock || 0,
+          maxStock: product.maxStock || 0,
+          lastUpdated: product.lastUpdated || new Date(),
+          createdAt: product.createdAt,
+          updatedAt: product.updatedAt
+        }));
+        dispatch({ type: 'SET_ITEMS', payload: items });
+      } else {
+        throw new Error(result.error || '获取产品数据失败');
+      }
     } catch (err) {
       dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '加载数据失败' });
     }
@@ -137,9 +162,17 @@ export const useInventory = () => {
 
   // Update summary when items change
   useEffect(() => {
-    const updateSummary = async () => {
+    const updateSummary = () => {
       try {
-        const newSummary = await InventoryService.calculateSummary();
+        // 使用本地计算而不是服务调用，因为新架构中没有直接的calculateSummary方法
+        const allItems = state.items;
+        const newSummary: InventorySummary = {
+          totalItems: allItems.length,
+          totalValue: allItems.reduce((sum, item) => sum + (item.totalValue || 0), 0),
+          lowStockItems: allItems.filter(item => (item.stockQuantity || 0) <= item.reorderLevel).length,
+          outOfStockItems: allItems.filter(item => (item.stockQuantity || 0) <= 0).length,
+          categories: [...new Set(allItems.map(item => item.category))]
+        };
         setSummary(newSummary);
       } catch (err) {
         console.error('Failed to calculate summary:', err);
@@ -170,9 +203,52 @@ export const useInventory = () => {
   const addItem = useCallback(async (newItem: Omit<InventoryItem, 'id' | 'lastUpdated'>) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const createdItem = await InventoryService.createItem(newItem);
-      dispatch({ type: 'ADD_ITEM', payload: createdItem } );
-      return createdItem;
+      const inventoryService = serviceManager.getInventoryService();
+
+      // 转换InventoryItem格式为Product格式
+      const productData = {
+        name: newItem.name,
+        description: newItem.description,
+        sku: newItem.sku,
+        categoryId: newItem.category,
+        supplierId: newItem.supplier,
+        stockQuantity: newItem.stockQuantity,
+        reservedQuantity: newItem.reservedQuantity,
+        salePrice: newItem.unitPrice,
+        purchasePrice: newItem.unitPrice, // 添加必需的purchasePrice字段
+        totalValue: newItem.totalValue,
+        status: newItem.status,
+        location: newItem.location,
+        minStock: newItem.reorderLevel,
+        maxStock: newItem.maxStock,
+        isActive: true // 添加必需的isActive字段
+      };
+
+      const result = await inventoryService.createProduct(productData);
+      if (result.success && result.data) {
+        // 转换回InventoryItem格式
+        const createdItem: InventoryItem = {
+          id: result.data.id,
+          name: result.data.name,
+          description: result.data.description || '',
+          sku: result.data.sku,
+          category: result.data.categoryId || '',
+          supplier: result.data.supplierId || '',
+          stockQuantity: result.data.stockQuantity || 0,
+          reservedQuantity: result.data.reservedQuantity || 0,
+          unitPrice: result.data.salePrice || 0,
+          totalValue: result.data.totalValue || 0,
+          status: result.data.status as InventoryItem['status'],
+          location: result.data.location || '',
+          reorderLevel: result.data.minStock || 0,
+          maxStock: result.data.maxStock || 0,
+          lastUpdated: result.data.lastUpdated || new Date()
+        };
+        dispatch({ type: 'ADD_ITEM', payload: createdItem });
+        return createdItem;
+      } else {
+        throw new Error(result.error || '创建产品失败');
+      }
     } catch (err) {
       dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '创建失败' });
       throw err;
@@ -182,11 +258,14 @@ export const useInventory = () => {
   const deleteItem = useCallback(async (id: string) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const success = await InventoryService.deleteItem(id);
-      if (success) {
+      const inventoryService = serviceManager.getInventoryService();
+      const result = await inventoryService.deleteProduct(id);
+      if (result.success) {
         dispatch({ type: 'REMOVE_ITEM', payload: id });
+        return true;
+      } else {
+        throw new Error(result.error || '删除失败');
       }
-      return success;
     } catch (err) {
       dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '删除失败' });
       throw err;
@@ -196,9 +275,32 @@ export const useInventory = () => {
   const searchItems = useCallback(async (term: string) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const results = await InventoryService.searchItems(term);
-      dispatch({ type: 'SET_ITEMS', payload: results });
-      dispatch({ type: 'RESET_PAGE' });
+      const inventoryService = serviceManager.getInventoryService();
+      const result = await inventoryService.searchProducts(term);
+      if (result.success && result.data) {
+        // 转换搜索结果为InventoryItem格式
+        const items: InventoryItem[] = result.data.map(product => ({
+          id: product.id,
+          name: product.name,
+          description: product.description || '',
+          sku: product.sku,
+          category: product.categoryId || '',
+          supplier: product.supplierId || '',
+          stockQuantity: product.stockQuantity || 0,
+          reservedQuantity: product.reservedQuantity || 0,
+          unitPrice: product.salePrice || 0,
+          totalValue: product.totalValue || 0,
+          status: product.status as InventoryItem['status'],
+          location: product.location || '',
+          reorderLevel: product.minStock || 0,
+          maxStock: product.maxStock || 0,
+          lastUpdated: product.lastUpdated || new Date()
+        }));
+        dispatch({ type: 'SET_ITEMS', payload: items });
+        dispatch({ type: 'RESET_PAGE' });
+      } else {
+        throw new Error(result.error || '搜索失败');
+      }
     } catch (err) {
       dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '搜索失败' });
     }
@@ -207,9 +309,36 @@ export const useInventory = () => {
   const updateStock = useCallback(async (id: string, quantity: number, type: 'in' | 'out' | 'adjust') => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const updatedItem = await InventoryService.updateStock(id, quantity, type);
-      dispatch({ type: 'UPDATE_ITEM', payload: { id, item: updatedItem } });
-      return updatedItem;
+      const inventoryService = serviceManager.getInventoryService();
+
+      // 新架构中使用updateStock方法
+      const transactionType = type === 'in' ? 'IN' : type === 'out' ? 'OUT' : 'ADJUST';
+      const result = await inventoryService.updateStock(id, '', quantity, transactionType as any);
+
+      if (result.success && result.data) {
+        // 转换更新后的数据为InventoryItem格式
+        const updatedItem: InventoryItem = {
+          id: result.data.id,
+          name: result.data.name || '',
+          description: result.data.description || '',
+          sku: result.data.sku || '',
+          category: result.data.categoryId || '',
+          supplier: result.data.supplierId || '',
+          stockQuantity: result.data.stockQuantity || 0,
+          reservedQuantity: result.data.reservedQuantity || 0,
+          unitPrice: result.data.salePrice || 0,
+          totalValue: result.data.totalValue || 0,
+          status: result.data.status as InventoryItem['status'] || 'in-stock',
+          location: result.data.location || '',
+          reorderLevel: result.data.minStock || 0,
+          maxStock: result.data.maxStock || 0,
+          lastUpdated: result.data.lastUpdated || new Date()
+        };
+        dispatch({ type: 'UPDATE_ITEM', payload: { id, item: updatedItem } });
+        return updatedItem;
+      } else {
+        throw new Error(result.error || '库存更新失败');
+      }
     } catch (err) {
       dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : '库存更新失败' });
       throw err;

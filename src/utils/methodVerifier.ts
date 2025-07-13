@@ -628,8 +628,8 @@ export class MethodVerifier {
     // 为了演示，这里使用模拟对象
     
     // 实际实现中，应该这样导入服务：
-    // import { inventoryService } from '../services/inventory/inventoryService';
-    // this.services.set('inventoryService', inventoryService);
+    // import { serviceManager } from '../services/core';
+    // this.services.set('inventoryService', serviceManager.getInventoryService());
     
     // 模拟服务对象（用于演示）
     this.services.set('inventoryService', this.createMockInventoryService());

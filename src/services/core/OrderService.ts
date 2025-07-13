@@ -1531,30 +1531,118 @@ export class OrderService {
 
         await this.database.createSalesDelivery(delivery);
 
-        // 创建发货明细
+        // 创建发货明细并处理库存扣减
         for (const itemData of deliveryData.items) {
           const orderItem = this.salesOrderItems.get(itemData.salesOrderItemId);
+          if (!orderItem) {
+            throw new ValidationError(`销售订单明细不存在: ${itemData.salesOrderItemId}`);
+          }
+
+          // 1. 库存验证 - 检查库存充足性
+          const currentItem = await this.database.getItemById(orderItem.productId);
+          if (!currentItem) {
+            throw new ValidationError(`商品不存在: ${orderItem.productId}`);
+          }
+
+          const currentStock = currentItem.stockQuantity || 0;
+          if (currentStock < itemData.deliveredQuantity) {
+            throw new BusinessError(
+              `商品 "${currentItem.name}" 库存不足。当前库存: ${currentStock}，发货数量: ${itemData.deliveredQuantity}`
+            );
+          }
+
+          // 2. 创建发货明细
           const deliveryItem: SalesDeliveryItem = {
             id: uuidv4(),
             deliveryId: delivery.id,
             orderItemId: itemData.salesOrderItemId,
-            productId: orderItem?.productId || '',
+            productId: orderItem.productId,
             quantity: itemData.deliveredQuantity,
             deliveredQuantity: itemData.deliveredQuantity,
-            unitPrice: orderItem?.unitPrice || 0,
-            amount: itemData.deliveredQuantity * (orderItem?.unitPrice || 0),
-            totalPrice: itemData.deliveredQuantity * (orderItem?.unitPrice || 0),
+            unitPrice: orderItem.unitPrice,
+            amount: itemData.deliveredQuantity * orderItem.unitPrice,
+            totalPrice: itemData.deliveredQuantity * orderItem.unitPrice,
             createdAt: new Date(),
             updatedAt: new Date()
           };
 
-          // 这里应该从数据库获取具体的商品信息和价格
+          await this.database.insertSalesDeliveryItem(deliveryItem);
           this.salesDeliveryItems.set(deliveryItem.id, deliveryItem);
+
+          // 3. 库存扣减
+          await this.database.updateInventoryStock({
+            productId: orderItem.productId,
+            warehouseId: deliveryData.warehouseId,
+            quantity: itemData.deliveredQuantity,
+            type: 'out',
+            unitPrice: orderItem.unitPrice,
+            reason: `销售发货 - 发货单号: ${delivery.deliveryNo}`
+          });
+
+          // 4. 创建库存交易记录
+          await this.database.createInventoryTransaction({
+            productId: orderItem.productId,
+            warehouseId: deliveryData.warehouseId,
+            type: 'out',
+            quantity: itemData.deliveredQuantity,
+            unitPrice: orderItem.unitPrice,
+            totalAmount: itemData.deliveredQuantity * orderItem.unitPrice,
+            referenceNo: delivery.deliveryNo,
+            reason: `销售发货 - 订单号: ${order.orderNo}`,
+            operator: deliveryData.deliverer
+          });
+
+          // 5. 更新销售订单项状态
+          const updatedOrderItem = { ...orderItem };
+          updatedOrderItem.deliveredQuantity = (updatedOrderItem.deliveredQuantity || 0) + itemData.deliveredQuantity;
+
+          // 判断订单项状态
+          if (updatedOrderItem.deliveredQuantity >= updatedOrderItem.quantity) {
+            updatedOrderItem.status = OrderItemStatus.COMPLETED;
+          } else {
+            updatedOrderItem.status = OrderItemStatus.PARTIAL;
+          }
+
+          updatedOrderItem.updatedAt = new Date();
+          await this.database.updateSalesOrderItem(updatedOrderItem.id, updatedOrderItem);
+          this.salesOrderItems.set(updatedOrderItem.id, updatedOrderItem);
         }
 
-        // 更新库存
-        await this.database.updateInventoryStock({ /* inventory update logic */ });
-        await this.database.createInventoryTransaction({ /* transaction log */ });
+        // 6. 更新销售订单状态
+        const orderItems = Array.from(this.salesOrderItems.values()).filter(
+          item => item.orderId === order.id
+        );
+
+        const allDelivered = orderItems.every(item =>
+          (item.deliveredQuantity || 0) >= item.quantity
+        );
+        const anyDelivered = orderItems.some(item =>
+          (item.deliveredQuantity || 0) > 0
+        );
+
+        let newOrderStatus = order.status;
+        if (allDelivered) {
+          newOrderStatus = SalesOrderStatus.COMPLETED;
+        } else if (anyDelivered) {
+          newOrderStatus = SalesOrderStatus.SHIPPED;
+        }
+
+        if (newOrderStatus !== order.status) {
+          const updatedOrder = { ...order, status: newOrderStatus, updatedAt: new Date() };
+          await this.database.updateSalesOrder(order.id, updatedOrder);
+          this.salesOrders.set(order.id, updatedOrder);
+        }
+
+        // 7. 更新发货单总金额
+        const totalAmount = Array.from(this.salesDeliveryItems.values())
+          .filter(item => item.deliveryId === delivery.id)
+          .reduce((sum, item) => sum + item.amount, 0);
+
+        delivery.totalAmount = totalAmount;
+        delivery.status = DeliveryStatus.CONFIRMED; // 发货确认
+        delivery.updatedAt = new Date();
+
+        await this.database.updateSalesDelivery(delivery.id, delivery);
 
         await this.database.commit();
 

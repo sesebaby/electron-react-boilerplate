@@ -41,6 +41,7 @@ interface ElectronAPI {
   dbGetAllCategories: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
   dbGetAllSuppliers: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
   dbGetAllTransactions: () => Promise<{ success: boolean; data?: any[]; error?: string }>;
+  dbAddTransaction: (transaction: any) => Promise<{ success: boolean; data?: any; error?: string }>;
 
   // Warehouse operations
   dbGetAllWarehouses: () => Promise<{ success: boolean; data?: any[]; error?: string }>;

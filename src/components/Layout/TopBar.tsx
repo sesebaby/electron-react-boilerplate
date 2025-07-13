@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 import QuickActions from './QuickActions';
-import { InventoryService } from '../../services/inventory/inventoryService';
+import { serviceManager } from '../../services/core';
 import { InventoryItem } from '../../types/inventory';
 import { notificationHelper } from '../../utils/notificationHelper';
 import { SimpleNotification, NotificationType } from '../../types/simpleNotification';
@@ -96,7 +96,6 @@ export const TopBar: React.FC<TopBarProps> = ({
   const notificationRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const searchResultsRef = useRef<HTMLDivElement>(null);
-  const inventoryService = useRef(new InventoryService());
 
   // 点击外部关闭弹出窗体
   useEffect(() => {
@@ -188,10 +187,34 @@ export const TopBar: React.FC<TopBarProps> = ({
 
     setIsSearching(true);
     try {
-      await inventoryService.current.initialize();
-      const results = await inventoryService.current.searchItems(searchValue.trim());
-      setSearchResults(results);
-      setShowSearchResults(true);
+      const inventoryService = serviceManager.getInventoryService();
+      const result = await inventoryService.searchProducts(searchValue.trim());
+
+      if (result.success && result.data) {
+        // 转换Product数据为InventoryItem格式
+        const items: InventoryItem[] = result.data.map(product => ({
+          id: product.id,
+          name: product.name,
+          description: product.description || '',
+          sku: product.sku,
+          category: product.categoryId || '',
+          supplier: product.supplierId || '',
+          stockQuantity: product.stockQuantity || 0,
+          reservedQuantity: product.reservedQuantity || 0,
+          unitPrice: product.salePrice || 0,
+          totalValue: product.totalValue || 0,
+          status: product.status as InventoryItem['status'],
+          location: product.location || '',
+          reorderLevel: product.minStock || 0,
+          maxStock: product.maxStock || 0,
+          lastUpdated: product.lastUpdated || new Date()
+        }));
+        setSearchResults(items);
+        setShowSearchResults(true);
+      } else {
+        setSearchResults([]);
+        setShowSearchResults(false);
+      }
     } catch (error) {
       console.error('搜索失败:', error);
       setSearchResults([]);
