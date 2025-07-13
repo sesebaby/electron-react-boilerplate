@@ -1,0 +1,148 @@
+# Page snapshot
+
+```yaml
+- text: 📦
+- heading "进销存系统" [level=1]
+- paragraph: Inventory System
+- list:
+  - listitem:
+    - button "📊 仪表盘"
+  - listitem:
+    - button "📈 报表分析 ⏷"
+    - list:
+      - listitem:
+        - button "🗂️ 卡片视图"
+      - listitem:
+        - button "📅 日历视图"
+      - listitem:
+        - button "📈 逐日消耗"
+      - listitem:
+        - button "📋 出入库登记"
+      - listitem:
+        - button "📊 库存报表"
+      - listitem:
+        - button "📋 出入库汇总"
+      - listitem:
+        - button "📈 销售报表"
+      - listitem:
+        - button "📉 采购报表"
+      - listitem:
+        - button "💹 财务报表"
+  - listitem:
+    - button "⚙️ 通用设置 ⏷"
+    - list:
+      - listitem:
+        - button "🏭 仓库管理"
+      - listitem:
+        - button "🏷️ 商品管理"
+      - listitem:
+        - button "📂 商品分类"
+      - listitem:
+        - button "👥 客户管理"
+      - listitem:
+        - button "📏 单位管理"
+      - listitem:
+        - button "⚖️ 换算规则"
+  - listitem:
+    - button "📦 库存管理 ⏷"
+    - list:
+      - listitem:
+        - button "📊 月度结余"
+      - listitem:
+        - button "📥 入库管理"
+      - listitem:
+        - button "📤 出库管理"
+      - listitem:
+        - button "⚖️ 库存调整"
+  - listitem:
+    - button "🛒 采购管理 ⏷"
+    - list:
+      - listitem:
+        - button "🏢 供应商管理"
+      - listitem:
+        - button "📋 采购订单"
+      - listitem:
+        - button "📦 采购收货"
+  - listitem:
+    - button "💰 销售管理 ⏷"
+    - list:
+      - listitem:
+        - button "📝 销售订单"
+      - listitem:
+        - button "🚚 销售出库"
+  - listitem:
+    - button "💳 财务管理 ⏷"
+    - list:
+      - listitem:
+        - button "💸 应付账款"
+      - listitem:
+        - button "💰 应收账款"
+      - listitem:
+        - button "🧾 付款记录"
+      - listitem:
+        - button "🧾 收款记录"
+  - listitem:
+    - button "⚙️ 系统管理 ⏷"
+    - list:
+      - listitem:
+        - button "👤 用户管理"
+      - listitem:
+        - button "🔐 权限管理"
+      - listitem:
+        - button "🔧 系统设置"
+      - listitem:
+        - button "📋 操作日志"
+      - listitem:
+        - button "🔄 系统初始化"
+- text: 👤 系统管理员 Administrator 系统正常 v1.0.0
+- banner:
+  - navigation: 仪表盘
+  - heading "仪表盘" [level=1]
+  - text: 🔍
+  - textbox "搜索商品、订单、客户..."
+  - button "⚡"
+  - button "🔔"
+  - button "👤 系统管理员 ⏷"
+  - button "🎨 玻璃未来风 ⏷"
+  - text: 在线
+- main:
+  - button "📊 📊 概览"
+  - button "📈 📈 图表"
+  - button "⚡ ⚡ 操作"
+  - text: 系统运行正常
+  - heading "进销存管理系统" [level=1]
+  - paragraph: 实时监控系统运行状态和关键业务指标
+  - text: "最后更新: 2025/7/13 17:57:21"
+  - button "刷新数据"
+  - text: 系统运行正常 📦
+  - heading "商品总数" [level=3]
+  - paragraph: "0"
+  - text: 个商品 📊
+  - heading "库存总值" [level=3]
+  - paragraph: ¥0.00
+  - text: 当前库存价值 🏢
+  - heading "供应商" [level=3]
+  - paragraph: "0"
+  - text: 合作供应商 👥
+  - heading "客户" [level=3]
+  - paragraph: "0"
+  - text: 注册客户 🏭
+  - heading "仓库" [level=3]
+  - paragraph: "0"
+  - text: 管理仓库 ⚠️
+  - heading "库存预警" [level=3]
+  - paragraph: "0"
+  - text: 低库存商品 🚨
+  - heading "缺货商品" [level=3]
+  - paragraph: "0"
+  - text: 需要补货 📈
+  - heading "库存流水" [level=3]
+  - paragraph: "0"
+  - text: 总流水记录
+  - heading "商品统计" [level=3]
+  - text: 总商品数 0 活跃商品 0 停用商品 0 低库存商品 0
+  - heading "库存统计" [level=3]
+  - text: 库存总值 ¥0.00 库存品种 0 平均单品价值 ¥0.00 库存周转率 0.00
+  - heading "业务统计" [level=3]
+  - text: 供应商数量 10 客户数量 25 VIP客户 0 优质供应商 0
+```

@@ -790,6 +790,44 @@ function setupSystemHandlers(ipcMain, db) {
     }
   }, 'db-all'));
 
+  // 通用数据库执行处理器 - 用于 INSERT、UPDATE、DELETE 操作
+  ipcMain.handle('db-run', wrapIpcHandler(async (event, sql, params = []) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    if (!sql || typeof sql !== 'string') {
+      return errorResult('SQL query is required');
+    }
+
+    try {
+      // 安全检查：不允许 SELECT 查询，只允许修改操作
+      const trimmedSql = sql.trim().toUpperCase();
+      if (trimmedSql.startsWith('SELECT')) {
+        throw new Error('SELECT queries are not allowed, use db-get or db-all instead');
+      }
+
+      // 允许的操作类型
+      const allowedOperations = ['INSERT', 'UPDATE', 'DELETE', 'CREATE', 'DROP', 'ALTER'];
+      const isAllowed = allowedOperations.some(op => trimmedSql.startsWith(op));
+
+      if (!isAllowed) {
+        throw new Error(`Operation not allowed. Allowed operations: ${allowedOperations.join(', ')}`);
+      }
+
+      const stmt = db.prepare(sql);
+      const result = stmt.run(params);
+
+      return successResult({
+        changes: result.changes,
+        lastInsertRowid: result.lastInsertRowid
+      });
+    } catch (error) {
+      console.error('Database run error:', error);
+      return errorResult(`Database operation failed: ${error.message}`);
+    }
+  }, 'db-run'));
+
   // 获取表结构
   ipcMain.handle('db-get-table-schema', wrapIpcHandler(async (event, { tableName }) => {
     if (!checkDatabaseInitialized(db)) {

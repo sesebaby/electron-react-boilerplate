@@ -452,18 +452,14 @@ export class MasterDataService {
         return { success: false, error: '仓库ID不能为空' };
       }
 
-      const warehouseResult = await window.electronAPI.dbGet(
-        'SELECT * FROM warehouses WHERE id = ?', [id]
-      );
-      if (!warehouseResult.success || !warehouseResult.data) {
-        return { success: false, error: '仓库不存在' };
-      }
+      // 使用专门的设置默认仓库处理器
+      const result = await window.electronAPI.dbSetDefaultWarehouse(id);
 
-      // 先将所有仓库设为非默认
-      await window.electronAPI.dbRun('UPDATE warehouses SET isDefault = 0');
-      // 设置指定仓库为默认
-      await window.electronAPI.dbRun('UPDATE warehouses SET isDefault = 1 WHERE id = ?', [id]);
-      return { success: true, data: true };
+      if (result.success) {
+        return { success: true, data: true };
+      } else {
+        return { success: false, error: result.error || '设置默认仓库失败' };
+      }
     } catch (error) {
       return {
         success: false,

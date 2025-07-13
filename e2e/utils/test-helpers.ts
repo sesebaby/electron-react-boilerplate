@@ -50,14 +50,29 @@ export class TestHelpers {
    * 等待应用完全加载
    */
   static async waitForAppLoad(page: Page): Promise<void> {
-    // 等待系统初始化完成
-    await page.waitForSelector('[data-testid="app-loaded"]', { 
-      timeout: 30000,
-      state: 'attached'
-    });
+    // 等待页面基本加载（登录页面或主应用）
+    await page.waitForLoadState('domcontentloaded');
     
-    // 等待加载动画消失
-    await expect(page.locator('.loading-indicator')).toBeHidden({ timeout: 10000 });
+    // 等待React应用挂载
+    await page.waitForFunction(() => {
+      return document.querySelector('[data-testid="login-form"]') || 
+             document.querySelector('[data-testid="loading-screen"]') ||
+             document.querySelector('[data-testid="app-loaded"]');
+    }, { timeout: 30000 });
+    
+    // 如果仍在加载中，等待加载完成
+    try {
+      await page.waitForSelector('[data-testid="loading-screen"]', { timeout: 2000 });
+      // 等待加载屏幕消失
+      await page.waitForSelector('[data-testid="loading-screen"]', { 
+        state: 'hidden', 
+        timeout: 30000 
+      });
+    } catch {
+      // 如果没有加载屏幕，直接继续
+    }
+    
+    console.log('✅ 应用基础加载完成');
   }
   
   /**
@@ -74,10 +89,13 @@ export class TestHelpers {
     // 点击登录按钮
     await page.click('[data-testid="login-button"]');
     
-    // 等待登录成功，进入dashboard
+    // 等待登录成功，应用完全加载
+    await page.waitForSelector('[data-testid="app-loaded"]', { timeout: 30000 });
+    
+    // 等待Dashboard加载
     await page.waitForSelector('[data-testid="dashboard"]', { timeout: 15000 });
     
-    console.log(`✅ 用户 ${username} 登录成功`);
+    console.log(`✅ 用户 ${username} 登录成功并进入主应用`);
   }
   
   /**

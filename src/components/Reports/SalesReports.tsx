@@ -207,36 +207,12 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
   const generateProductReport = (orders: SalesOrder[], deliveries: SalesDelivery[]): SalesReportData[] => {
     const productMap = new Map<string, SalesReportData>();
 
-    // 由于我们没有订单项目的直接访问，这里做简化处理
-    orders.forEach(order => {
-      // 模拟产品销售数据
-      const sampleProducts = products.slice(0, 3); // 取前3个产品作为示例
-      
-      sampleProducts.forEach(product => {
-        if (!productMap.has(product.name)) {
-          productMap.set(product.name, {
-            period: '',
-            customerName: '',
-            productName: product.name,
-            orderCount: 0,
-            totalQuantity: 0,
-            totalAmount: 0,
-            avgOrderValue: 0,
-            deliveryCount: 0,
-            deliveredQuantity: 0,
-            deliveredAmount: 0,
-            customerType: ''
-          });
-        }
+    // 🚨 生产环境禁止使用模拟数据 - 需要实现真实的订单项目数据获取
+    // TODO: 实现从订单项目表获取真实的产品销售数据
+    console.warn('⚠️ 产品销售报表需要实现真实数据源，当前返回空数据');
 
-        const data = productMap.get(product.name)!;
-        data.orderCount += Math.floor(Math.random() * 2) + 1; // 模拟订单数
-        data.totalQuantity += Math.floor(Math.random() * 10) + 1; // 模拟数量
-        data.totalAmount += Math.random() * order.finalAmount * 0.3; // 模拟金额
-      });
-    });
-
-    return Array.from(productMap.values());
+    // 返回空数据，避免显示虚假信息
+    return [];
   };
 
   const generateTrendReport = (orders: SalesOrder[], deliveries: SalesDelivery[]): SalesReportData[] => {
@@ -312,8 +288,9 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
     const totalDeliveries = deliveries.length;
     const avgOrderValue = totalOrders > 0 ? totalSales / totalOrders : 0;
 
-    // 计算增长率（模拟数据）
-    const growthRate = Math.random() * 20 - 10; // -10% 到 +10%
+    // 🚨 生产环境禁止使用模拟数据 - 需要实现真实的增长率计算
+    // TODO: 实现基于历史数据的真实增长率计算
+    const growthRate = 0; // 暂时返回0，避免显示虚假增长率
     
     // 计算转化率
     const conversionRate = totalOrders > 0 ? (totalDeliveries / totalOrders) * 100 : 0;

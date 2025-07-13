@@ -641,58 +641,34 @@ export class MethodVerifier {
     this.services.set('warehouseService', this.createMockWarehouseService());
   }
 
-  // 模拟服务对象（实际使用时应该删除这些方法）
-  
+  // 🚨 生产环境禁止使用Mock服务 - 已移除所有Mock实现
+  // 如需测试，请使用专门的测试文件和测试环境
+
   private createMockInventoryService() {
-    return {
-      getInventoryItems: async () => [],
-      updateInventoryItem: async (id: number, data: any) => ({ success: true }),
-      calculateAvailableStock: async (productId: number) => 100
-    };
+    throw new Error('🚨 PRODUCTION ERROR: Mock services are not allowed in production environment. Use real services instead.');
   }
 
   private createMockFifoService() {
-    return {
-      calculateFifoConsumption: async (productId: number, quantity: number) => ({
-        consumedBatches: [],
-        totalCost: 100
-      }),
-      updateFifoQueue: async (productId: number, quantity: number, type: string) => ({ success: true })
-    };
+    throw new Error('🚨 PRODUCTION ERROR: Mock services are not allowed in production environment. Use real services instead.');
   }
 
   private createMockPurchaseOrderService() {
-    return {
-      createPurchaseOrder: async (orderData: any) => ({ id: 1, order_number: 'PO000001' }),
-      updateOrderStatus: async (orderId: number, status: string) => ({ success: true })
-    };
+    throw new Error('🚨 PRODUCTION ERROR: Mock services are not allowed in production environment. Use real services instead.');
   }
 
   private createMockSalesOrderService() {
-    return {
-      createSalesOrder: async (orderData: any) => ({ id: 1, order_number: 'SO000001' }),
-      reserveStock: async (productId: number, quantity: number) => ({ success: true })
-    };
+    throw new Error('🚨 PRODUCTION ERROR: Mock services are not allowed in production environment. Use real services instead.');
   }
 
   private createMockAccountsPayableService() {
-    return {
-      createPayable: async (purchaseOrderId: number) => ({ id: 1, total_amount: 1000 }),
-      processPayment: async (payableId: number, amount: number) => ({ success: true })
-    };
+    throw new Error('🚨 PRODUCTION ERROR: Mock services are not allowed in production environment. Use real services instead.');
   }
 
   private createMockAccountsReceivableService() {
-    return {
-      createReceivable: async (salesOrderId: number) => ({ id: 1, total_amount: 500 }),
-      processReceipt: async (receivableId: number, amount: number) => ({ success: true })
-    };
+    throw new Error('🚨 PRODUCTION ERROR: Mock services are not allowed in production environment. Use real services instead.');
   }
 
   private createMockWarehouseService() {
-    return {
-      transferStock: async (productId: number, fromWarehouse: number, toWarehouse: number, quantity: number) => ({ success: true }),
-      getWarehouseStock: async (warehouseId: number) => []
-    };
+    throw new Error('🚨 PRODUCTION ERROR: Mock services are not allowed in production environment. Use real services instead.');
   }
 }

@@ -6,13 +6,18 @@
 
 class MockDatabase {
   constructor() {
-    // 检查是否在生产环境中被误用
+    // 🚨 严格检查生产环境，绝对禁止在生产环境中使用Mock数据库
     const isProduction = process.env.NODE_ENV === 'production' ||
                         (global.process && global.process.env.NODE_ENV === 'production') ||
                         (typeof require !== 'undefined' && require('electron') && require('electron').app && require('electron').app.isPackaged);
 
     if (isProduction) {
-      throw new Error('🚨 CRITICAL: MockDatabase cannot be used in production environment!');
+      console.error('🚨 CRITICAL ERROR: Attempted to use MockDatabase in production environment!');
+      console.error('Environment details:', {
+        NODE_ENV: process.env.NODE_ENV,
+        isPackaged: typeof require !== 'undefined' && require('electron') && require('electron').app && require('electron').app.isPackaged
+      });
+      throw new Error('🚨 PRODUCTION ERROR: MockDatabase cannot be used in production environment! This would result in data loss and security issues.');
     }
 
     this.data = {

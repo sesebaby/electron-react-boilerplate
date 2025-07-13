@@ -14,7 +14,21 @@ class SmartDatabase {
 
   async initialize(dbPath) {
     console.log('Initializing Smart Database...');
-    
+
+    // 策略0: 尝试简单的 SQLite 实现（使用现有数据库文件）
+    if (dbPath && fs.existsSync(dbPath)) {
+      try {
+        const SimpleSQLite = require('./simple-sqlite');
+        this.db = new SimpleSQLite(dbPath);
+        await this.db.initialize();
+        this.type = 'simple-sqlite';
+        console.log('✅ Using Simple SQLite with existing database');
+        return this;
+      } catch (e) {
+        console.warn('⚠️ Simple SQLite failed:', e.message);
+      }
+    }
+
     // 策略1: 尝试 better-sqlite3
     try {
       const Database = require('better-sqlite3');
@@ -64,9 +78,19 @@ class SmartDatabase {
                         (global.process && global.process.env.NODE_ENV === 'production') ||
                         (typeof require !== 'undefined' && require('electron') && require('electron').app && require('electron').app.isPackaged);
 
-    if (isProduction) {
-      // 生产环境下禁止使用mock数据库
-      const error = new Error('生产环境数据库连接失败：所有数据库策略都无法使用，应用无法启动');
+    // 检查是否强制要求真实数据库
+    const forceRealDatabase = process.env.FORCE_REAL_DATABASE === 'true';
+
+    // 🚨 生产环境严格禁止使用Mock数据库
+    if (isProduction || forceRealDatabase) {
+      console.error('🚨 CRITICAL ERROR: Cannot use mock database in production environment!');
+      console.error('Production environment detected:', {
+        NODE_ENV: process.env.NODE_ENV,
+        isPackaged: typeof require !== 'undefined' && require('electron') && require('electron').app && require('electron').app.isPackaged,
+        forceRealDatabase: forceRealDatabase
+      });
+
+      const error = new Error('🚨 PRODUCTION ERROR: 数据库连接失败，生产环境禁止使用模拟数据库。请检查数据库配置和文件权限。');
       error.code = 'DATABASE_CONNECTION_FAILED';
       throw error;
     }
@@ -89,8 +113,10 @@ class SmartDatabase {
   // 代理所有数据库方法
   prepare(...args) {
     if (!this.db) throw new Error('Database not initialized');
-    
+
     if (this.type === 'mock') {
+      return this.db.prepare(...args);
+    } else if (this.type === 'simple-sqlite') {
       return this.db.prepare(...args);
     } else if (this.type === 'sql.js') {
       // sql.js 的适配
@@ -129,7 +155,7 @@ class SmartDatabase {
 
   transaction(...args) {
     if (!this.db) throw new Error('Database not initialized');
-    
+
     if (this.type === 'mock' || this.type === 'sql.js') {
       // 简单的事务模拟
       return (fn) => {
@@ -141,7 +167,13 @@ class SmartDatabase {
         }
       };
     }
-    
+
+    if (this.type === 'simple-sqlite') {
+      return (fn) => {
+        return this.db.transaction(fn);
+      };
+    }
+
     return this.db.transaction(...args);
   }
 
@@ -157,9 +189,10 @@ class SmartDatabase {
       type: this.type,
       isRealDatabase: this.type !== 'mock',
       supportsPersistence: this.type !== 'mock',
-      supportsTransactions: this.type === 'sqlite3',
+      supportsTransactions: this.type === 'sqlite3' || this.type === 'simple-sqlite',
       features: {
         sqlite3: this.type === 'sqlite3' ? '✅' : '❌',
+        'simple-sqlite': this.type === 'simple-sqlite' ? '✅' : '❌',
         sqljs: this.type === 'sql.js' ? '✅' : '❌',
         indexeddb: this.type === 'indexeddb' ? '✅' : '❌',
         mock: this.type === 'mock' ? '⚠️' : '❌'

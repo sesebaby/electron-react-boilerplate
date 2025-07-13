@@ -83,7 +83,6 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       setLoading(true);
       setError(null);
       
-      console.log('WarehouseManagement: Starting to load data...');
 
       // 使用新的领域服务
       const masterDataService = serviceManager.getMasterDataService();
@@ -96,8 +95,6 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       const warehousesData = warehousesResult.success ? (warehousesResult.data || []) : [];
       const statsData = statsResult.success ? (statsResult.data || {}) : {};
 
-      console.log('WarehouseManagement: Loaded warehouses:', warehousesData.map(w => ({ id: w.id, name: w.name, code: w.code })));
-      console.log('WarehouseManagement: Loaded stats:', statsData);
 
       setWarehouses(warehousesData);
       setStats(statsData);
@@ -221,17 +218,14 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
   };
 
   const handleCancel = () => {
-    console.log('WarehouseManagement: Canceling form');
     setShowForm(false);
     setEditingWarehouse(null);
     reset(emptyForm);
     clearErrors();
-    setError(null); // 清除错误信息
-    console.log('WarehouseManagement: Form closed, showForm state:', false);
+    setError(null);
   };
 
   const handleCreateNew = () => {
-    console.log('WarehouseManagement: Creating new warehouse, user:', user);
     
     // 设置按钮被点击的状态，提供即时反馈
     setButtonClicked(true);
@@ -451,13 +445,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 </TableHeader>
 
                 <TableBody>
-                  {filteredWarehouses.map(warehouse => {
-                    console.log('🔍 DEBUG: Warehouse object:', JSON.stringify(warehouse, null, 2));
-                    console.log('🔍 DEBUG: warehouse.name value:', warehouse.name);
-                    console.log('🔍 DEBUG: warehouse.name type:', typeof warehouse.name);
-                    console.log('🔍 DEBUG: warehouse.name length:', warehouse.name?.length);
-                    console.log('🔍 DEBUG: warehouse.name charCodes:', warehouse.name?.split('').map(c => c.charCodeAt(0)));
-                    return (
+                  {filteredWarehouses.map(warehouse => (
                     <TableRow key={warehouse.id}>
                       <TableCell 
                         fixed 
@@ -527,8 +515,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                         </div>
                       </TableCell>
                     </TableRow>
-                    );
-                  })}
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>

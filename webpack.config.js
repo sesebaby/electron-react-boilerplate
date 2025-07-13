@@ -59,6 +59,8 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      // 🚨 生产环境标识，用于禁用Mock数据
+      'process.env.FORCE_REAL_DATABASE': JSON.stringify(process.env.FORCE_REAL_DATABASE || 'false'),
     }),
   ],
   devServer: {
