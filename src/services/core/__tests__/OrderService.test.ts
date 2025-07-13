@@ -67,6 +67,10 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       beginTransaction: jest.fn(),
       commit: jest.fn(),
       rollback: jest.fn(),
+      getItemById: jest.fn(),
+      insertSalesDeliveryItem: jest.fn().mockResolvedValue({ success: true }),
+      updateSalesDelivery: jest.fn().mockResolvedValue({ success: true }),
+      updateSalesOrderItem: jest.fn().mockResolvedValue({ success: true }),
     };
 
     mockDatabaseManager.getInstance.mockResolvedValue(mockDb);
@@ -388,16 +392,46 @@ describe('OrderService - 采购和销售订单完整流程', () => {
       );
       expect(confirmResult.success).toBe(true);
 
-      // 4. 发货出库
+      // 4. 获取销售订单明细ID
+      const orderItemsResult = await orderService.getOrderItems(createdSalesOrderId!);
+      expect(orderItemsResult.success).toBe(true);
+      const orderItems = orderItemsResult.data as any[];
+      expect(orderItems.length).toBeGreaterThan(0);
+
+      const firstOrderItemId = orderItems[0].id;
+
+      // Mock getItemById for delivery process - 这个方法用于获取商品信息和库存
+      mockDb.getItemById.mockImplementation((productId: string) => {
+        if (productId === 'prod-1') {
+          return Promise.resolve({
+            id: 'prod-1',
+            name: 'Test Product',
+            stockQuantity: 100, // 充足的库存
+            unitPrice: 1200
+          });
+        }
+        return Promise.resolve(null);
+      });
+
+      // 5. 发货出库
       const deliveryResult = await orderService.createSalesDelivery({
         salesOrderId: createdSalesOrderId!,
         warehouseId: 'wh-1',
         items: [{
-          salesOrderItemId: 'soi-1',
+          salesOrderItemId: firstOrderItemId,
           deliveredQuantity: 10
         }],
         deliverer: 'user-warehouse'
       });
+
+      // Debug the delivery result
+      if (!deliveryResult.success) {
+        console.log('Delivery creation failed:', deliveryResult.error);
+        console.log('Sales order ID:', createdSalesOrderId);
+        console.log('First order item ID:', firstOrderItemId);
+        console.log('Order items result:', orderItemsResult);
+      }
+
       expect(deliveryResult.success).toBe(true);
       expect(mockDb.createSalesDelivery).toHaveBeenCalled();
       expect(mockDb.updateInventoryStock).toHaveBeenCalled();

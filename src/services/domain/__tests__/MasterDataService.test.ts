@@ -11,6 +11,32 @@ import { UnitType } from '../../../types/entities';
 jest.mock('../../core/database');
 jest.mock('../../../utils/secureLogger');
 
+// Mock electronAPI
+const mockElectronAPI = {
+  dbGet: jest.fn(),
+  dbRun: jest.fn(),
+  dbAll: jest.fn(),
+};
+
+// Setup global mocks
+beforeAll(() => {
+  if (typeof window === 'undefined') {
+    (global as any).window = {};
+  }
+
+  // 只在electronAPI不存在时才定义
+  if (!window.electronAPI) {
+    Object.defineProperty(window, 'electronAPI', {
+      value: mockElectronAPI,
+      writable: true,
+      configurable: true
+    });
+  } else {
+    // 如果已存在，则更新其方法
+    Object.assign(window.electronAPI, mockElectronAPI);
+  }
+});
+
 describe('MasterDataService - 基础数据管理', () => {
   let service: MasterDataService;
   let mockDb: any;
@@ -21,21 +47,21 @@ describe('MasterDataService - 基础数据管理', () => {
 
     // Setup mock database
     mockDb = {
-      getCategory: jest.fn(),
-      createCategory: jest.fn(),
-      updateCategory: jest.fn(),
-      deleteCategory: jest.fn(),
-      getCategories: jest.fn().mockResolvedValue([]),
-      getUnit: jest.fn(),
-      createUnit: jest.fn(),
-      updateUnit: jest.fn(),
-      deleteUnit: jest.fn(),
-      getUnits: jest.fn().mockResolvedValue([]),
-      getWarehouse: jest.fn(),
-      createWarehouse: jest.fn(),
-      updateWarehouse: jest.fn(),
-      deleteWarehouse: jest.fn(),
-      getWarehouses: jest.fn().mockResolvedValue([]),
+      getCategory: jest.fn().mockResolvedValue({ success: true, data: null }),
+      createCategory: jest.fn().mockResolvedValue({ success: true }),
+      updateCategory: jest.fn().mockResolvedValue({ success: true }),
+      deleteCategory: jest.fn().mockResolvedValue({ success: true }),
+      getCategories: jest.fn().mockResolvedValue({ success: true, data: [] }),
+      getUnit: jest.fn().mockResolvedValue({ success: true, data: null }),
+      createUnit: jest.fn().mockResolvedValue({ success: true }),
+      updateUnit: jest.fn().mockResolvedValue({ success: true }),
+      deleteUnit: jest.fn().mockResolvedValue({ success: true }),
+      getUnits: jest.fn().mockResolvedValue({ success: true, data: [] }),
+      getWarehouse: jest.fn().mockResolvedValue({ success: true, data: null }),
+      createWarehouse: jest.fn().mockResolvedValue({ success: true }),
+      updateWarehouse: jest.fn().mockResolvedValue({ success: true }),
+      deleteWarehouse: jest.fn().mockResolvedValue({ success: true }),
+      getWarehouses: jest.fn().mockResolvedValue({ success: true, data: [] }),
       query: jest.fn(),
       run: jest.fn(),
       beginTransaction: jest.fn(),

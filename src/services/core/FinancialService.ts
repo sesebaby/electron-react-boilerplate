@@ -455,14 +455,22 @@ export class FinancialService {
       const now = new Date();
 
       // 应收账款统计
-      const totalReceivableAmount = receivables.reduce((sum, r) => sum + (r.amount || r.totalAmount), 0);
+      const totalReceivableAmount = receivables.reduce((sum, r) => sum + (r.amount || r.totalAmount || 0), 0);
       const overdueReceivables = receivables.filter(r => new Date(r.dueDate) < now && r.status !== ReceivableStatus.PAID);
-      const overdueReceivableAmount = overdueReceivables.reduce((sum, r) => sum + ((r.amount || r.totalAmount) - r.receivedAmount), 0);
+      const overdueReceivableAmount = overdueReceivables.reduce((sum, r) => {
+        const totalAmount = r.amount || r.totalAmount || 0;
+        const receivedAmount = r.receivedAmount || 0;
+        return sum + (totalAmount - receivedAmount);
+      }, 0);
 
       // 应付账款统计
-      const totalPayableAmount = payables.reduce((sum, p) => sum + (p.amount || p.totalAmount), 0);
+      const totalPayableAmount = payables.reduce((sum, p) => sum + (p.amount || p.totalAmount || 0), 0);
       const overduePayables = payables.filter(p => new Date(p.dueDate) < now && p.status !== PayableStatus.PAID);
-      const overduePayableAmount = overduePayables.reduce((sum, p) => sum + ((p.amount || p.totalAmount) - p.paidAmount), 0);
+      const overduePayableAmount = overduePayables.reduce((sum, p) => {
+        const totalAmount = p.amount || p.totalAmount || 0;
+        const paidAmount = p.paidAmount || 0;
+        return sum + (totalAmount - paidAmount);
+      }, 0);
 
       const statistics: FinancialStatistics = {
         totalReceivables: receivables.length,

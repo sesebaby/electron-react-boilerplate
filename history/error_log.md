@@ -57,3 +57,37 @@
   - ✅ 仓库新建功能正常工作
   - ✅ 仓库数据加载正常显示
   - ✅ 分类和单位管理的数据库查询功能恢复正常
+
+## [2025-07-13 19:40] better-sqlite3 编译失败导致应用无法启动
+- **类型**：Native Module Compilation Error
+- **位置**：
+  - node_modules/better-sqlite3/ (原生模块编译失败)
+  - Python distutils 模块缺失
+  - NODE_MODULE_VERSION 版本不匹配
+- **描述**：
+  - better-sqlite3 需要原生编译，但 Python 3.12 环境缺少 distutils 模块
+  - 编译的模块版本(NODE_MODULE_VERSION 123)与当前 Node.js 版本(115)不匹配
+  - 导致 npm build 和 npm start 都失败，应用无法启动
+  - 错误信息：`ModuleNotFoundError: No module named 'distutils'`
+  - 错误信息：`was compiled against a different Node.js version`
+- **解决方案**：
+  1. **根本解决**：使用预编译版本避免本地编译
+     ```bash
+     npm uninstall better-sqlite3
+     npm install better-sqlite3 --build-from-source=false
+     ```
+  2. **预防措施**：
+     - 优先使用预编译的 better-sqlite3 版本
+     - 避免依赖本地 Python/C++ 编译环境
+     - 在 package.json 中锁定 better-sqlite3 版本
+  3. **环境诊断**：
+     - Windows 环境下 Python distutils 模块经常缺失
+     - Electron 版本与 Node.js 版本可能不匹配
+- **根本原因**：
+  - **频发性**：此问题已出现数百次，说明编译环境不稳定
+  - **环境依赖**：依赖复杂的原生编译工具链(Python, Visual Studio, node-gyp)
+  - **版本冲突**：Electron 内置 Node.js 版本与系统 Node.js 版本不同步
+- **长期解决策略**：
+  - 项目中应始终使用预编译版本
+  - 添加环境检查脚本确保兼容性
+  - 考虑替代方案(如 sql.js)减少原生依赖

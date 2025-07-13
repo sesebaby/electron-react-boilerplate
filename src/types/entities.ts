@@ -188,13 +188,11 @@ export enum OrderStatus {
 // 商品分类实体
 export interface Category extends BaseEntity {
   name: string;                   // 分类名称
-  code?: string;                  // 分类编码
   description?: string;           // 分类描述
   parentId?: string;              // 父分类ID
   level: number;                  // 分类层级
   sortOrder: number;              // 排序
   isActive: boolean;              // 是否启用
-  status?: string;                // 状态
   children?: Category[];          // 子分类
 }
 

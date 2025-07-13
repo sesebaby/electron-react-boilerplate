@@ -50,10 +50,17 @@ export class MasterDataService {
   
   /**
    * 获取所有分类
+   * @param buildTree 是否构建树形结构，默认为false返回平坦列表
    */
-  async getCategories(): Promise<DomainServiceResult<Category[]>> {
+  async getCategories(buildTree: boolean = false): Promise<DomainServiceResult<Category[]>> {
     try {
       const categories = await window.electronAPI.dbGetAllCategories();
+      
+      if (buildTree) {
+        const categoryTree = this.buildCategoryTree(categories);
+        return { success: true, data: categoryTree };
+      }
+      
       return { success: true, data: categories };
     } catch (error) {
       return {
@@ -61,6 +68,13 @@ export class MasterDataService {
         error: error instanceof Error ? error.message : '获取分类失败'
       };
     }
+  }
+
+  /**
+   * 获取分类树形结构
+   */
+  async getCategoryTree(): Promise<DomainServiceResult<Category[]>> {
+    return this.getCategories(true);
   }
 
   /**
@@ -106,13 +120,39 @@ export class MasterDataService {
         return { success: false, error: `分类名称 "${data.name}" 已存在` };
       }
 
+      // 计算正确的层级
+      let level = 1; // 根分类默认为1级
+      if (data.parentId) {
+        const parentResult = await window.electronAPI.dbGet(
+          'SELECT * FROM categories WHERE id = ?', [data.parentId]
+        );
+        if (!parentResult.success || !parentResult.data) {
+          return { success: false, error: '父分类不存在' };
+        }
+        level = parentResult.data.level + 1;
+        
+        // 检查层级限制
+        if (level > 5) {
+          return { success: false, error: '分类层级不能超过5级' };
+        }
+      }
+
+      // 计算同级分类的下一个排序号
+      const maxSortOrderResult = await window.electronAPI.dbGet(
+        'SELECT MAX(sort_order) as maxSort FROM categories WHERE parent_id IS ? OR parent_id = ?', 
+        [data.parentId || null, data.parentId || null]
+      );
+      const nextSortOrder = (maxSortOrderResult.success && maxSortOrderResult.data?.maxSort !== null) 
+        ? maxSortOrderResult.data.maxSort + 1 
+        : 0;
+
       const category: Category = {
         id: uuidv4(),
         name: data.name.trim(),
         description: data.description?.trim() || '',
         parentId: data.parentId || undefined,
-        level: data.parentId ? 1 : 0, // 简单的层级计算，后续可以优化
-        sortOrder: 0, // 默认排序
+        level,
+        sortOrder: nextSortOrder,
         isActive: data.isActive !== false,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -155,9 +195,59 @@ export class MasterDataService {
         }
       }
 
+      // 处理父分类变更时的层级重计算
+      let updatedLevel = existingCategory.level;
+      if (data.parentId !== undefined && data.parentId !== existingCategory.parentId) {
+        // 检查是否会造成循环引用
+        if (data.parentId === id) {
+          return { success: false, error: '不能将分类设为自己的子分类' };
+        }
+        
+        // 检查是否会造成循环引用（父分类不能是当前分类的子分类）
+        if (data.parentId) {
+          const checkCircularResult = await this.checkCircularReference(id, data.parentId);
+          if (!checkCircularResult.success) {
+            return checkCircularResult;
+          }
+        }
+
+        // 重新计算层级
+        if (data.parentId) {
+          const parentResult = await window.electronAPI.dbGet(
+            'SELECT * FROM categories WHERE id = ?', [data.parentId]
+          );
+          if (!parentResult.success || !parentResult.data) {
+            return { success: false, error: '父分类不存在' };
+          }
+          updatedLevel = parentResult.data.level + 1;
+          
+          // 检查层级限制
+          if (updatedLevel > 5) {
+            return { success: false, error: '分类层级不能超过5级' };
+          }
+        } else {
+          updatedLevel = 1; // 根分类
+        }
+      }
+
+      // 处理父分类变更时的排序重计算
+      let updatedSortOrder = data.sortOrder !== undefined ? data.sortOrder : existingCategory.sortOrder;
+      if (data.parentId !== undefined && data.parentId !== existingCategory.parentId) {
+        // 父分类变更了，需要重新计算同级排序
+        const maxSortOrderResult = await window.electronAPI.dbGet(
+          'SELECT MAX(sort_order) as maxSort FROM categories WHERE parent_id IS ? OR parent_id = ?', 
+          [data.parentId || null, data.parentId || null]
+        );
+        updatedSortOrder = (maxSortOrderResult.success && maxSortOrderResult.data?.maxSort !== null) 
+          ? maxSortOrderResult.data.maxSort + 1 
+          : 0;
+      }
+
       const updatedCategory = {
         ...existingCategory,
         ...data,
+        level: updatedLevel,
+        sortOrder: updatedSortOrder,
         updatedAt: new Date()
       };
 
@@ -187,9 +277,18 @@ export class MasterDataService {
         return { success: false, error: '分类不存在' };
       }
 
+      // 获取要删除的分类信息，用于后续重整排序
+      const categoryToDeleteResult = await window.electronAPI.dbGet(
+        'SELECT * FROM categories WHERE id = ?', [id]
+      );
+      if (!categoryToDeleteResult.success || !categoryToDeleteResult.data) {
+        return { success: false, error: '要删除的分类不存在' };
+      }
+      const categoryToDelete = categoryToDeleteResult.data;
+
       // 检查是否有产品使用此分类
       const productCountResult = await window.electronAPI.dbGet(
-        'SELECT COUNT(*) as count FROM products WHERE categoryId = ?', [id]
+        'SELECT COUNT(*) as count FROM products WHERE category_id = ?', [id]
       );
       const productCount = productCountResult.success ? productCountResult.data?.count || 0 : 0;
       if (productCount > 0) {
@@ -198,14 +297,19 @@ export class MasterDataService {
 
       // 检查是否有子分类
       const childCategoriesResult = await window.electronAPI.dbAll(
-        'SELECT * FROM categories WHERE parentId = ?', [id]
+        'SELECT * FROM categories WHERE parent_id = ?', [id]
       );
       const childCategories = childCategoriesResult.success ? childCategoriesResult.data || [] : [];
       if (childCategories.length > 0) {
         return { success: false, error: `该分类下有 ${childCategories.length} 个子分类，无法删除` };
       }
 
+      // 删除分类
       await window.electronAPI.dbDeleteCategory(id);
+
+      // 重整同级分类的排序号
+      await this.reorderSiblingCategories(categoryToDelete.parent_id);
+      
       return { success: true, data: true };
     } catch (error) {
       return {
@@ -246,6 +350,127 @@ export class MasterDataService {
       return {
         success: false,
         error: error instanceof Error ? error.message : '检查分类使用情况失败'
+      };
+    }
+  }
+
+  /**
+   * 构建分类树形结构
+   * 将平坦的分类列表转换为树形结构
+   */
+  private buildCategoryTree(categories: Category[]): Category[] {
+    // 创建分类映射表，便于快速查找
+    const categoryMap = new Map<string, Category>();
+    const rootCategories: Category[] = [];
+
+    // 初始化所有分类，确保children属性存在
+    categories.forEach(category => {
+      categoryMap.set(category.id, {
+        ...category,
+        children: []
+      });
+    });
+
+    // 构建树形结构
+    categories.forEach(category => {
+      const categoryWithChildren = categoryMap.get(category.id)!;
+      
+      if (category.parentId) {
+        // 有父分类，添加到父分类的children中
+        const parent = categoryMap.get(category.parentId);
+        if (parent) {
+          parent.children!.push(categoryWithChildren);
+        } else {
+          // 父分类不存在，作为根分类处理
+          rootCategories.push(categoryWithChildren);
+        }
+      } else {
+        // 无父分类，是根分类
+        rootCategories.push(categoryWithChildren);
+      }
+    });
+
+    // 对每个层级的分类按 sortOrder 排序
+    const sortCategories = (cats: Category[]): Category[] => {
+      cats.sort((a, b) => a.sortOrder - b.sortOrder);
+      cats.forEach(cat => {
+        if (cat.children && cat.children.length > 0) {
+          cat.children = sortCategories(cat.children);
+        }
+      });
+      return cats;
+    };
+
+    return sortCategories(rootCategories);
+  }
+
+  /**
+   * 重整同级分类的排序号
+   * 删除分类后调用，确保排序号连续无间隙
+   */
+  private async reorderSiblingCategories(parentId: string | null): Promise<void> {
+    try {
+      // 获取同级分类，按排序号排序
+      const siblingsResult = await window.electronAPI.dbAll(
+        'SELECT id, sort_order FROM categories WHERE parent_id IS ? OR parent_id = ? ORDER BY sort_order ASC', 
+        [parentId || null, parentId || null]
+      );
+      
+      if (!siblingsResult.success || !siblingsResult.data) {
+        return;
+      }
+      
+      const siblings = siblingsResult.data;
+      
+      // 重新分配排序号（从0开始）
+      for (let i = 0; i < siblings.length; i++) {
+        const sibling = siblings[i];
+        if (sibling.sort_order !== i) {
+          // 更新排序号
+          await window.electronAPI.dbUpdateCategory(sibling.id, { sort_order: i });
+        }
+      }
+    } catch (error) {
+      console.error('重整分类排序失败:', error);
+      // 这里不抛出错误，因为这是一个优化操作，不应该影响主要的删除流程
+    }
+  }
+
+  /**
+   * 检查循环引用
+   * 确保新的父分类不是当前分类的子分类
+   */
+  private async checkCircularReference(categoryId: string, newParentId: string): Promise<DomainServiceResult<boolean>> {
+    try {
+      // 递归检查所有子分类
+      const childCategoriesResult = await window.electronAPI.dbAll(
+        'SELECT id FROM categories WHERE parent_id = ?', [categoryId]
+      );
+      
+      if (!childCategoriesResult.success) {
+        return { success: false, error: '查询子分类失败' };
+      }
+      
+      const childCategories = childCategoriesResult.data || [];
+      
+      // 检查新父分类是否在子分类中
+      for (const child of childCategories) {
+        if (child.id === newParentId) {
+          return { success: false, error: '不能将分类设为其子分类的父分类，这会造成循环引用' };
+        }
+        
+        // 递归检查子分类的子分类
+        const checkResult = await this.checkCircularReference(child.id, newParentId);
+        if (!checkResult.success) {
+          return checkResult;
+        }
+      }
+      
+      return { success: true, data: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '检查循环引用失败'
       };
     }
   }

@@ -10,20 +10,13 @@ module.exports = {
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-  },
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
-    '!src/**/*.test.{ts,tsx}',
-    '!src/**/*.spec.{ts,tsx}',
   ],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+  },
   testTimeout: 10000,
-  testPathIgnorePatterns: [
-    '/node_modules/',
-    '/e2e/',
-    '/tests/integration/',
-  ],
 };

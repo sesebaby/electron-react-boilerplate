@@ -128,10 +128,18 @@ try {
 console.log('\n8. 检查端口...');
 const checkPort = (port) => {
   try {
-    execSync(`netstat -an | findstr :${port}`, { encoding: 'utf8' });
+    // 尝试使用 ss 命令（现代 Linux 系统）
+    execSync(`ss -ln | grep :${port}`, { encoding: 'utf8' });
     return true;
-  } catch (e) {
-    return false;
+  } catch (e1) {
+    try {
+      // 尝试使用 netstat 命令（传统系统）
+      execSync(`netstat -an | grep :${port}`, { encoding: 'utf8' });
+      return true;
+    } catch (e2) {
+      // 如果都不可用，跳过端口检查
+      return false;
+    }
   }
 };
 

@@ -493,10 +493,12 @@ async function initializeDatabase() {
         name TEXT NOT NULL,
         description TEXT,
         parent_id TEXT,
+        level INTEGER NOT NULL DEFAULT 1,
+        sort_order INTEGER NOT NULL DEFAULT 0,
         is_active BOOLEAN NOT NULL DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (parent_id) REFERENCES categories(id)
+        FOREIGN KEY (parent_id) REFERENCES categories(id) ON DELETE SET NULL
       );
 
       -- 供应商表

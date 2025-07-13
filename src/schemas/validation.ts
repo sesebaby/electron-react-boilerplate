@@ -6,7 +6,6 @@ import {
   SupplierStatus,
   PurchaseOrderStatus,
   OrderItemStatus,
-  ReceiptStatus,
   CustomerType,
   CustomerLevel,
   CustomerStatus,

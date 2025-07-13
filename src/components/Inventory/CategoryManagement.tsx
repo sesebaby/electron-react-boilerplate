@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { serviceManager } from '../../services/core';
 import { Category } from '../../types/entities';
+import { CategorySchema } from '../../schemas/validation';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { Card, CardContent } from '../ui/card';
 import { 
@@ -25,22 +26,20 @@ interface CategoryManagementProps {
   className?: string;
 }
 
-// 定义验证模式
-const categorySchema = z.object({
-  name: z.string().min(1, '分类名称不能为空').max(50, '分类名称最多50个字符'),
-  parentId: z.string().optional(),
-  level: z.number().min(1, '级别不能小于1').max(10, '级别不能超过10'),
-  sortOrder: z.number().min(1, '排序号不能小于1'),
-  isActive: z.boolean()
+// 使用全局验证模式，去掉不需要的字段
+const categoryFormSchema = CategorySchema.omit({ 
+  id: true, 
+  createdAt: true, 
+  updatedAt: true 
 });
 
-type CategoryForm = z.infer<typeof categorySchema>;
+type CategoryForm = z.infer<typeof categoryFormSchema>;
 
 const emptyForm: CategoryForm = {
   name: '',
-  parentId: '',
+  parentId: undefined,
   level: 1,
-  sortOrder: 1,
+  sortOrder: 0,
   isActive: true
 };
 
@@ -68,7 +67,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     watch,
     clearErrors
   } = useForm<CategoryForm>({
-    resolver: zodResolver(categorySchema),
+    resolver: zodResolver(categoryFormSchema),
     defaultValues: emptyForm,
     mode: 'onBlur'
   });
