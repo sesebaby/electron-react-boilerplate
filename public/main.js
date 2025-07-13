@@ -65,17 +65,63 @@ function createWindow() {
 
   // 捕获渲染进程中的错误
   mainWindow.webContents.on('console-message', (event, level, message, line, sourceId) => {
+    // 过滤掉一些常见的非关键错误信息，避免日志噪音
+    if (message.includes('DevTools') || message.includes('Extension')) {
+      return;
+    }
     console.log(`Console [${level}]: ${message} (${sourceId}:${line})`);
   });
 
   // 捕获未处理的异常
   mainWindow.webContents.on('crashed', (event, killed) => {
     console.error('Renderer process crashed:', { killed });
+    // 尝试重新创建窗口
+    if (!killed) {
+      setTimeout(() => {
+        try {
+          createWindow();
+        } catch (error) {
+          console.error('Failed to recreate window after crash:', error);
+        }
+      }, 1000);
+    }
   });
 
   // 捕获渲染进程错误
   mainWindow.webContents.on('render-process-gone', (event, details) => {
     console.error('Render process gone:', details);
+    // 如果是异常退出，尝试重新加载
+    if (details.reason !== 'clean-exit') {
+      setTimeout(() => {
+        try {
+          if (!mainWindow.isDestroyed()) {
+            mainWindow.reload();
+          }
+        } catch (error) {
+          console.error('Failed to reload after render process gone:', error);
+        }
+      }, 1000);
+    }
+  });
+
+  // 添加IPC通信错误处理
+  mainWindow.webContents.on('ipc-message-sync', (event, channel, ...args) => {
+    // 监控同步IPC消息，记录可能的问题
+    if (channel.startsWith('db-')) {
+      console.log(`Sync IPC: ${channel}`);
+    }
+  });
+
+  // 处理窗口关闭前的清理
+  mainWindow.on('close', (event) => {
+    try {
+      // 清理资源，避免EPIPE错误
+      if (db && typeof db.close === 'function') {
+        db.close();
+      }
+    } catch (error) {
+      console.error('Error during window close cleanup:', error);
+    }
   });
 }
 
@@ -112,6 +158,43 @@ app.on('activate', () => {
 
 app.on('ready', () => {
   console.log('Electron app is ready');
+});
+
+// 全局错误处理
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  // 记录错误但不退出应用，除非是严重错误
+  if (error.code === 'EPIPE' || error.code === 'ECONNRESET') {
+    console.log('Handled EPIPE/ECONNRESET error, continuing...');
+    return;
+  }
+  // 对于其他严重错误，优雅退出
+  console.error('Critical error, shutting down...');
+  app.quit();
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // 记录但不退出，让应用继续运行
+});
+
+// 处理SIGPIPE信号（在某些系统上可能有用）
+process.on('SIGPIPE', () => {
+  console.log('Received SIGPIPE, ignoring...');
+});
+
+// 应用退出前的清理
+app.on('before-quit', (event) => {
+  console.log('App is about to quit, cleaning up...');
+  try {
+    // 清理数据库连接
+    if (db && typeof db.close === 'function') {
+      db.close();
+      console.log('Database connection closed');
+    }
+  } catch (error) {
+    console.error('Error during app cleanup:', error);
+  }
 });
 
 // IPC handlers for file operations
@@ -155,6 +238,18 @@ ipcMain.handle('read-file', async (event, filePath) => {
     return { success: true, data: data.buffer };
   } catch (error) {
     console.error('Read file error:', error);
+    // 检查是否是EPIPE相关错误
+    if (error.code === 'EPIPE' || error.code === 'ECONNRESET') {
+      console.log('File read interrupted by pipe error, retrying...');
+      // 简单重试机制
+      try {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        const retryData = await fs.readFile(filePath);
+        return { success: true, data: retryData.buffer };
+      } catch (retryError) {
+        return { success: false, error: retryError.message };
+      }
+    }
     return { success: false, error: error.message };
   }
 });
@@ -165,6 +260,18 @@ ipcMain.handle('write-file', async (event, filePath, data) => {
     return { success: true };
   } catch (error) {
     console.error('Write file error:', error);
+    // 检查是否是EPIPE相关错误
+    if (error.code === 'EPIPE' || error.code === 'ECONNRESET') {
+      console.log('File write interrupted by pipe error, retrying...');
+      // 简单重试机制
+      try {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        await fs.writeFile(filePath, Buffer.from(data));
+        return { success: true };
+      } catch (retryError) {
+        return { success: false, error: retryError.message };
+      }
+    }
     return { success: false, error: error.message };
   }
 });

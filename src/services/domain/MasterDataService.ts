@@ -485,13 +485,20 @@ export class MasterDataService {
       }
       const existingWarehouse = existingResult.data;
 
+      // 只传递需要更新的字段，避免传递Date对象等不兼容的类型
+      const updateFields = {
+        ...data,
+        // 不包含created_at, updated_at等Date字段，让数据库处理器自动设置
+      };
+
+      await window.electronAPI.dbUpdateWarehouse(id, updateFields);
+
+      // 构建返回的完整对象
       const updatedWarehouse = {
         ...existingWarehouse,
         ...data,
         updatedAt: new Date()
       };
-
-      await window.electronAPI.dbUpdateWarehouse(id, updatedWarehouse);
       return { success: true, data: updatedWarehouse };
     } catch (error) {
       return {

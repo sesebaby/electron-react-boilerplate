@@ -442,7 +442,7 @@ export const MovementSummaryTable: React.FC<MovementSummaryTableProps> = ({
         <CardContent className="p-0 h-full">
           <TableEmpty
             icon={<div className="text-6xl">📊</div>}
-            message="暂无汇总数据"
+            message="暂无数据"
             description="请调整筛选条件或时间范围"
           />
         </CardContent>

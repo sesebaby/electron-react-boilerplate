@@ -125,22 +125,31 @@ export class InventoryDomainService {
         params.push(filter.warehouseId);
       }
 
-      // 单次查询获取产品和库存信息
+      // 单次查询获取产品和库存信息（使用实际的inventory_items表）
       const query = `
-        SELECT 
-          p.id, p.name, p.sku, p.description, p.categoryId, p.unitId,
-          p.costPrice, p.salePrice, p.status, p.minStock, p.maxStock,
-          COALESCE(s.currentStock, 0) as currentStock,
-          COALESCE(s.availableStock, 0) as availableStock,
-          COALESCE(s.reservedStock, 0) as reservedStock,
-          COALESCE(s.warehouseId, 'default') as warehouseId,
-          w.name as warehouseName,
-          (COALESCE(s.currentStock, 0) * p.salePrice) as totalValue
-        FROM products p
-        LEFT JOIN inventory_stocks s ON p.id = s.productId
-        LEFT JOIN warehouses w ON s.warehouseId = w.id
+        SELECT
+          i.id, i.name, i.sku, i.description,
+          i.category as categoryId,
+          i.supplier as supplierId,
+          i.unit_price as salePrice,
+          i.unit_price as costPrice,
+          i.status,
+          i.reorder_level as minStock,
+          i.max_stock as maxStock,
+          i.stock_quantity as currentStock,
+          (i.stock_quantity - COALESCE(i.reserved_quantity, 0)) as availableStock,
+          COALESCE(i.reserved_quantity, 0) as reservedStock,
+          'default' as warehouseId,
+          '默认仓库' as warehouseName,
+          i.total_value as totalValue,
+          i.location,
+          i.brand,
+          i.model,
+          i.barcode,
+          i.last_updated as lastUpdated
+        FROM inventory_items i
         ${whereClause}
-        ORDER BY p.name
+        ORDER BY i.name
       `;
 
       const result = await window.electronAPI.dbAll(query, params);
@@ -151,8 +160,8 @@ export class InventoryDomainService {
         id: row.id,
         name: row.name,
         sku: row.sku,
-        description: row.description,
-        categoryId: row.categoryId,
+        description: row.description || '',
+        categoryId: row.categoryId || '',
         unitId: row.unitId,
         costPrice: row.costPrice || 0,
         salePrice: row.salePrice || 0,
@@ -204,10 +213,19 @@ export class InventoryDomainService {
         return { success: false, error: '产品ID不能为空' };
       }
 
-      const warehouse = warehouseId || 'default';
+      // 从inventory_items表获取库存信息
       const stockResult = await window.electronAPI.dbGet(
-        'SELECT * FROM inventory_stocks WHERE productId = ? AND warehouseId = ?',
-        [productId, warehouse]
+        `SELECT
+          id as productId,
+          stock_quantity as currentStock,
+          (stock_quantity - COALESCE(reserved_quantity, 0)) as availableStock,
+          COALESCE(reserved_quantity, 0) as reservedStock,
+          reorder_level as minStock,
+          max_stock as maxStock,
+          unit_price as unitPrice,
+          total_value as totalValue
+        FROM inventory_items WHERE id = ?`,
+        [productId]
       );
       const stock = stockResult.success ? stockResult.data : null;
       
@@ -216,7 +234,7 @@ export class InventoryDomainService {
         const defaultStock: InventoryStock = {
           id: uuidv4(),
           productId,
-          warehouseId: warehouse,
+          warehouseId: warehouseId || 'default',
           currentStock: 0,
           availableStock: 0,
           reservedStock: 0,
@@ -291,7 +309,7 @@ export class InventoryDomainService {
       try {
         // 1. 验证产品存在
         const productResult = await window.electronAPI.dbGet(
-          'SELECT * FROM products WHERE id = ?', [request.productId]
+          'SELECT * FROM inventory_items WHERE id = ?', [request.productId]
         );
         if (!productResult.success || !productResult.data) {
           throw new Error('产品不存在');
@@ -428,7 +446,7 @@ export class InventoryDomainService {
 
       // 检查SKU唯一性
       const existingResult = await window.electronAPI.dbGet(
-        'SELECT * FROM products WHERE sku = ?', [productData.sku]
+        'SELECT * FROM inventory_items WHERE sku = ?', [productData.sku]
       );
       if (existingResult.success && existingResult.data) {
         return { success: false, error: `SKU "${productData.sku}" 已存在` };
@@ -457,7 +475,7 @@ export class InventoryDomainService {
   async updateProduct(id: string, updates: Partial<Product>): Promise<DomainServiceResult<Product>> {
     try {
       const existingResult = await window.electronAPI.dbGet(
-        'SELECT * FROM products WHERE id = ?', [id]
+        'SELECT * FROM inventory_items WHERE id = ?', [id]
       );
       if (!existingResult.success || !existingResult.data) {
         return { success: false, error: '产品不存在' };
@@ -467,7 +485,7 @@ export class InventoryDomainService {
       // SKU唯一性检查
       if (updates.sku && updates.sku !== existingProduct.sku) {
         const duplicateResult = await window.electronAPI.dbGet(
-          'SELECT * FROM products WHERE sku = ?', [updates.sku]
+          'SELECT * FROM inventory_items WHERE sku = ?', [updates.sku]
         );
         if (duplicateResult.success && duplicateResult.data && duplicateResult.data.id !== id) {
           return { success: false, error: `SKU "${updates.sku}" 已存在` };
@@ -496,7 +514,7 @@ export class InventoryDomainService {
   async deleteProduct(id: string): Promise<DomainServiceResult<boolean>> {
     try {
       const productResult = await window.electronAPI.dbGet(
-        'SELECT * FROM products WHERE id = ?', [id]
+        'SELECT * FROM inventory_items WHERE id = ?', [id]
       );
       if (!productResult.success || !productResult.data) {
         return { success: false, error: '产品不存在' };
@@ -504,9 +522,9 @@ export class InventoryDomainService {
 
       // 检查是否有库存
       const stockResult = await window.electronAPI.dbGet(
-        'SELECT COUNT(*) as count FROM inventory_stocks WHERE productId = ? AND currentStock > 0', [id]
+        'SELECT stock_quantity FROM inventory_items WHERE id = ? AND stock_quantity > 0', [id]
       );
-      const hasStock = stockResult.success && stockResult.data && stockResult.data.count > 0;
+      const hasStock = stockResult.success && stockResult.data && stockResult.data.stock_quantity > 0;
       if (hasStock) {
         return { success: false, error: '商品有库存，无法删除' };
       }
@@ -538,7 +556,7 @@ export class InventoryDomainService {
   async getProduct(id: string): Promise<DomainServiceResult<Product>> {
     try {
       const productResult = await window.electronAPI.dbGet(
-        'SELECT * FROM products WHERE id = ?', [id]
+        'SELECT * FROM inventory_items WHERE id = ?', [id]
       );
       if (!productResult.success || !productResult.data) {
         return { success: false, error: '产品不存在' };

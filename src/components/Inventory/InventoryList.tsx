@@ -257,7 +257,7 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
           {filteredInventories.length === 0 ? (
             <TableEmpty
               icon={<div className="text-6xl">📦</div>}
-              message="没有找到库存数据"
+              message="暂无数据"
               description="请调整搜索条件或创建新的库存记录"
             />
           ) : (

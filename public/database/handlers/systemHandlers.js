@@ -1488,13 +1488,66 @@ function addUserAndCustomerHandlers(ipcMain, db) {
     return successResult([]);
   }, 'get-payment-records'));
 
-  // 库存相关的占位符处理器
+  // 库存相关的处理器
   ipcMain.handle('db-get-all-inventory-stocks', wrapIpcHandler(async () => {
     if (!checkDatabaseInitialized(db)) {
       return errorResult('Database not initialized');
     }
-    // 暂时返回空数组，避免服务初始化失败
-    return successResult([]);
+
+    try {
+      // 查询库存数据，从inventory_items表获取
+      const query = `
+        SELECT
+          i.id as productId,
+          i.name as productName,
+          i.sku,
+          i.category,
+          i.supplier,
+          i.stock_quantity as currentStock,
+          i.reserved_quantity as reservedStock,
+          i.reorder_level as minStock,
+          i.max_stock as maxStock,
+          i.unit_price as unitPrice,
+          i.total_value as totalValue,
+          i.last_updated as lastUpdated,
+          i.status,
+          i.location,
+          -- 假设默认仓库ID为1，实际应该从warehouses表查询
+          COALESCE((SELECT id FROM warehouses WHERE is_default = 1 LIMIT 1), 1) as warehouseId
+        FROM inventory_items i
+        WHERE i.status = 'active'
+        ORDER BY i.name ASC
+      `;
+
+      const stmt = db.prepare(query);
+      const rows = stmt.all();
+
+      // 转换数据格式以匹配预期的库存结构
+      const stocks = rows.map(row => ({
+        id: `stock_${row.productId}`, // 生成库存记录ID
+        productId: row.productId,
+        warehouseId: row.warehouseId,
+        currentStock: row.currentStock || 0,
+        reservedStock: row.reservedStock || 0,
+        minStock: row.minStock || 0,
+        maxStock: row.maxStock || 999999,
+        unitPrice: row.unitPrice || 0,
+        totalValue: row.totalValue || 0,
+        lastUpdated: row.lastUpdated ? new Date(row.lastUpdated) : new Date(),
+        // 添加产品信息以便报表使用
+        productName: row.productName,
+        sku: row.sku,
+        category: row.category,
+        supplier: row.supplier,
+        status: row.status,
+        location: row.location
+      }));
+
+      return successResult(stocks);
+    } catch (error) {
+      console.error('Error getting inventory stocks:', error);
+      return errorResult(`Failed to get inventory stocks: ${error.message}`);
+    }
   }, 'get-all-inventory-stocks'));
 }
 

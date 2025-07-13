@@ -94,7 +94,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
         <CardContent className="p-0 h-full">
           <TableEmpty
             icon={<Package className="h-16 w-16" />}
-            message="暂无库存数据"
+            message="暂无数据"
             description="请尝试调整搜索条件或筛选器"
           />
         </CardContent>
