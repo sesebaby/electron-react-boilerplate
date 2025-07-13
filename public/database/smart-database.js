@@ -59,19 +59,30 @@ class SmartDatabase {
       }
     }
 
-    // 策略4: 最后的备选 - 内存 Mock
-    console.warn('⚠️ All database strategies failed, using in-memory mock');
+    // 策略4: 最后的备选 - 内存 Mock (仅限开发环境)
+    const isProduction = process.env.NODE_ENV === 'production' ||
+                        (global.process && global.process.env.NODE_ENV === 'production') ||
+                        (typeof require !== 'undefined' && require('electron') && require('electron').app && require('electron').app.isPackaged);
+
+    if (isProduction) {
+      // 生产环境下禁止使用mock数据库
+      const error = new Error('生产环境数据库连接失败：所有数据库策略都无法使用，应用无法启动');
+      error.code = 'DATABASE_CONNECTION_FAILED';
+      throw error;
+    }
+
+    console.warn('⚠️ All database strategies failed, using in-memory mock (DEVELOPMENT ONLY)');
     const MockDatabase = require('./mock-database');
     this.db = new MockDatabase();
     this.type = 'mock';
-    
+
     // 显示警告
     if (global.window && global.window.alert) {
       setTimeout(() => {
         alert('注意：应用正在使用模拟数据库，数据不会被保存！');
       }, 1000);
     }
-    
+
     return this;
   }
 

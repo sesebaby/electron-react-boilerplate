@@ -255,7 +255,18 @@ async function initializeDatabase() {
     // 显示数据库信息
     const dbInfo = smartDb.getInfo();
     console.log('Database initialized:', dbInfo);
-    
+
+    // 生产环境安全检查
+    if (app.isPackaged && dbInfo.type === 'mock') {
+      console.error('🚨 CRITICAL: Production environment is using mock database!');
+      dialog.showErrorBox(
+        '严重错误：数据库连接失败',
+        '生产环境无法连接到数据库，应用将退出以防止数据丢失。\n\n请检查数据库文件和权限设置。'
+      );
+      app.quit();
+      return;
+    }
+
     // 在开发模式下显示警告
     if (dbInfo.type === 'mock' && !app.isPackaged) {
       dialog.showMessageBox({
@@ -265,6 +276,37 @@ async function initializeDatabase() {
         detail: '由于原生数据库模块加载失败，当前使用的是内存模拟数据库。\n\n数据将不会被保存！',
         buttons: ['我知道了']
       });
+    }
+
+    // 验证数据库完整性
+    if (dbInfo.type === 'sqlite3') {
+      try {
+        // 测试数据库写入能力
+        const testStmt = db.prepare('CREATE TABLE IF NOT EXISTS _health_check (id INTEGER PRIMARY KEY, timestamp TEXT)');
+        testStmt.run();
+
+        const insertStmt = db.prepare('INSERT OR REPLACE INTO _health_check (id, timestamp) VALUES (1, ?)');
+        insertStmt.run(new Date().toISOString());
+
+        const selectStmt = db.prepare('SELECT timestamp FROM _health_check WHERE id = 1');
+        const result = selectStmt.get();
+
+        if (!result) {
+          throw new Error('Database write test failed');
+        }
+
+        console.log('✅ Database health check passed');
+      } catch (error) {
+        console.error('🚨 Database health check failed:', error);
+        if (app.isPackaged) {
+          dialog.showErrorBox(
+            '数据库健康检查失败',
+            '数据库无法正常读写，应用将退出。\n\n错误信息：' + error.message
+          );
+          app.quit();
+          return;
+        }
+      }
     }
     console.log('Connected to SQLite database');
     

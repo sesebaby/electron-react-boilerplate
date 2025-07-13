@@ -1,10 +1,20 @@
 /**
  * Mock 数据库实现
- * 用于开发和测试环境，避免原生模块依赖问题
+ * ⚠️ 仅用于开发和测试环境，避免原生模块依赖问题
+ * 🚨 生产环境禁止使用 - 数据不会持久化保存
  */
 
 class MockDatabase {
   constructor() {
+    // 检查是否在生产环境中被误用
+    const isProduction = process.env.NODE_ENV === 'production' ||
+                        (global.process && global.process.env.NODE_ENV === 'production') ||
+                        (typeof require !== 'undefined' && require('electron') && require('electron').app && require('electron').app.isPackaged);
+
+    if (isProduction) {
+      throw new Error('🚨 CRITICAL: MockDatabase cannot be used in production environment!');
+    }
+
     this.data = {
       products: new Map(),
       categories: new Map(),
@@ -15,8 +25,8 @@ class MockDatabase {
       purchase_orders: new Map(),
       sales_orders: new Map(),
     };
-    
-    console.log('Using Mock Database (Development Mode)');
+
+    console.warn('⚠️ Using Mock Database (Development Mode Only) - Data will not be persisted!');
   }
 
   // 模拟 better-sqlite3 的 API

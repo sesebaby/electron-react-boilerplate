@@ -124,19 +124,8 @@ export class InventoryService {
       });
     } catch (error) {
       logger.error('Failed to load categories', error);
-      // 如果加载失败，创建默认分类
-      const defaultCategory: Category = {
-        id: 'default',
-        name: '默认分类',
-        description: '系统默认分类',
-        parentId: '',
-        level: 1,
-        sortOrder: 0,
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-      this.categories.set('default', defaultCategory);
+      // 不再创建默认数据，让错误向上传播以确保数据完整性
+      throw new Error(`无法加载商品分类数据: ${error instanceof Error ? error.message : '未知错误'}`);
     }
   }
 
@@ -149,19 +138,8 @@ export class InventoryService {
       });
     } catch (error) {
       logger.error('Failed to load units', error);
-      // 如果加载失败，创建默认单位
-      const defaultUnit: Unit = {
-        id: 'default',
-        name: '个',
-        symbol: '个',
-        type: 'quantity' as any,
-        precision: 0,
-        description: '默认单位',
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-      this.units.set('default', defaultUnit);
+      // 不再创建默认数据，让错误向上传播以确保数据完整性
+      throw new Error(`无法加载计量单位数据: ${error instanceof Error ? error.message : '未知错误'}`);
     }
   }
 
@@ -174,19 +152,8 @@ export class InventoryService {
       });
     } catch (error) {
       logger.error('Failed to load warehouses', error);
-      // 如果加载失败，创建默认仓库
-      const defaultWarehouse: Warehouse = {
-        id: 'default',
-        code: 'DEFAULT',
-        name: '默认仓库',
-        address: '',
-        manager: '',
-        isDefault: true,
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-      this.warehouses.set('default', defaultWarehouse);
+      // 不再创建默认数据，让错误向上传播以确保数据完整性
+      throw new Error(`无法加载仓库数据: ${error instanceof Error ? error.message : '未知错误'}`);
     }
   }
 
@@ -565,7 +532,7 @@ export class InventoryService {
       const term = searchTerm.toLowerCase().trim();
       const allProducts = await this.database.dbGetAllItems();
 
-      const filteredProducts = allProducts.filter(product =>
+      const filteredProducts = allProducts.filter((product: any) =>
         product.name.toLowerCase().includes(term) ||
         product.sku.toLowerCase().includes(term) ||
         (product.description && product.description.toLowerCase().includes(term)) ||
