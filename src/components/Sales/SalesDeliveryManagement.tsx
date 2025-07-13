@@ -78,14 +78,15 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
       
       const orderService = serviceManager.getOrderService();
       const systemService = serviceManager.getSystemService();
-      const inventoryService = serviceManager.getInventoryService();
-      
+      const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
+      const masterDataService = serviceManager.getMasterDataService();
+
       const [deliveriesResult, ordersResult, customersResult, warehousesResult, productsResult, statsResult] = await Promise.all([
         orderService.getSalesDeliveries(),
         orderService.getSalesOrders(),
         systemService.getCustomers(),
-        inventoryService.findAllWarehouses(),
-        inventoryService.findAllProducts(),
+        masterDataService.getWarehouses(),
+        inventoryService.getProductsWithStock(),
         Promise.resolve({ success: true, data: {} }) // 临时使用空统计数据
       ]);
 
@@ -97,15 +98,15 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
         (Array.isArray(customersResult.data) ? customersResult.data : customersResult.data?.items || []) : [];
       const warehousesData = warehousesResult.success ? 
         (Array.isArray(warehousesResult.data) ? warehousesResult.data : (warehousesResult.data as any)?.items || []) : [];
-      const productsData = productsResult.success ? 
-        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const productsData = productsResult.success ?
+        (Array.isArray(productsResult.data) ? productsResult.data : []) : [];
       const statsData = statsResult.success ? (statsResult.data || {}) : {};
 
       setDeliveries((Array.isArray(deliveriesData) ? deliveriesData : []) as SalesDelivery[]);
       setOrders((Array.isArray(ordersData) ? ordersData : []) as SalesOrder[]);
       setCustomers((Array.isArray(customersData) ? customersData : []) as Customer[]);
       setWarehouses((Array.isArray(warehousesData) ? warehousesData : []) as Warehouse[]);
-      setProducts((Array.isArray(productsData) ? productsData : []) as Product[]);
+      setProducts((Array.isArray(productsData) ? productsData : []) as any[]);
       setStats(statsData);
     } catch (err) {
       setError('加载销售出库数据失败');

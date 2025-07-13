@@ -89,10 +89,10 @@ export const SalesReports: React.FC<SalesReportsProps> = ({ className }) => {
       ]);
 
       const customersData = customersResult.success ? (customersResult.data?.items || customersResult.data || []) : [];
-      const productsData = productsResult.success ? (productsResult.data?.items || productsResult.data || []) : [];
+      const productsData = productsResult.success ? (productsResult.data || []) : [];
 
       setCustomers(customersData as Customer[]);
-      setProducts(productsData as Product[]);
+      setProducts(productsData as any[]);
       
       await generateReport();
     } catch (err) {

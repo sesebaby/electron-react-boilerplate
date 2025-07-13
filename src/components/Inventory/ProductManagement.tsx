@@ -142,13 +142,14 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
         setServicesLoading(true);
         setServicesError(null);
 
-        // 获取服务实例
+        // 获取服务实例 - 使用新的领域服务
         await serviceManager.initialize();
-        const inventoryService = serviceManager.getInventoryService();
+        const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
+        const masterDataService = serviceManager.getMasterDataService();
         setServices({
           productService: inventoryService,
-          categoryService: inventoryService,
-          unitService: inventoryService
+          categoryService: masterDataService,
+          unitService: masterDataService
         });
 
         console.log('服务初始化成功');
@@ -183,8 +184,8 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
 
       const [productsResult, categoriesResult, unitsResult] = await Promise.all([
         services.productService.findAllProducts(),
-        services.categoryService.findAllCategories(),
-        services.unitService.findAllUnits()
+        services.categoryService.getCategories(),
+        services.unitService.getUnits()
       ]);
 
       const productsData = productsResult.success ? 
@@ -298,7 +299,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
           }
         } else {
           // 如果禁用换算，删除现有的换算设置
-          const deleteResult = await serviceManager.getInventoryService().deleteProductConversion(productId);
+          const deleteResult = await serviceManager.getInventoryService().deleteProductConversion(productId, 'default');
           if (!deleteResult.success) {
             console.warn('删除单位换算设置失败:', deleteResult.error);
           }

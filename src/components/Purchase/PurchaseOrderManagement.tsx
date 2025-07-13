@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { serviceManager } from '../../services/core';
 import { PurchaseOrder, PurchaseOrderItem, PurchaseOrderStatus, Supplier, Product } from '../../types/entities';
+import { ProductWithStock } from '../../services/domain/InventoryDomainService';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import ErrorDisplay from '../ui/ErrorDisplay';
@@ -86,7 +87,7 @@ const emptyItem: OrderItemForm = {
 export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = ({ className }) => {
   const [orders, setOrders] = useState<PurchaseOrder[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductWithStock[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -135,12 +136,12 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
 
       const orderService = serviceManager.getOrderService();
       const systemService = serviceManager.getSystemService();
-      const inventoryService = serviceManager.getInventoryService();
+      const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
 
       const [ordersResult, suppliersResult, productsResult, statsResult] = await Promise.all([
         orderService.getPurchaseOrders(),
         systemService.getSuppliers(),
-        inventoryService.findAllProducts(),
+        inventoryService.getProductsWithStock(),
         orderService.getPurchaseOrders() // 临时使用相同方法
       ]);
 
@@ -148,8 +149,8 @@ export const PurchaseOrderManagement: React.FC<PurchaseOrderManagementProps> = (
         (Array.isArray(ordersResult.data) ? ordersResult.data : ordersResult.data?.items || []) : [];
       const suppliersData = suppliersResult.success ? 
         (Array.isArray(suppliersResult.data) ? suppliersResult.data : suppliersResult.data?.items || []) : [];
-      const productsData = productsResult.success ? 
-        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const productsData = productsResult.success ?
+        (Array.isArray(productsResult.data) ? productsResult.data : []) : [];
       const statsData = statsResult.success ? (statsResult.data || {}) : {};
 
       setOrders(Array.isArray(ordersData) ? ordersData : []);

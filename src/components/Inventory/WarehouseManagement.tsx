@@ -84,14 +84,13 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       setError(null);
       
       console.log('WarehouseManagement: Starting to load data...');
-      
-      // Force reinitialize warehouse service to ensure data consistency
-      const inventoryService = serviceManager.getInventoryService();
-      await inventoryService.initialize();
-      
+
+      // 使用新的领域服务
+      const masterDataService = serviceManager.getMasterDataService();
+
       const [warehousesResult, statsResult] = await Promise.all([
-        inventoryService.findAllWarehouses(),
-        inventoryService.getWarehouseStats()
+        masterDataService.getWarehouses(),
+        masterDataService.getWarehouses() // 暂时使用相同方法，后续可以添加统计方法
       ]);
 
       const warehousesData = warehousesResult.success ? (warehousesResult.data || []) : [];
@@ -128,11 +127,11 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
         submitIsDefault: submitData.isDefault 
       });
       
-      const inventoryService = serviceManager.getInventoryService();
+      const masterDataService = serviceManager.getMasterDataService();
       if (editingWarehouse) {
-        await inventoryService.updateWarehouse(editingWarehouse.id, submitData);
+        await masterDataService.updateWarehouse(editingWarehouse.id, submitData);
       } else {
-        await inventoryService.createWarehouse(submitData);
+        await masterDataService.createWarehouse(submitData);
       }
       
       await loadData();
@@ -173,8 +172,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     if (!deleteTargetId) return;
 
     try {
-      const inventoryService = serviceManager.getInventoryService();
-      await inventoryService.deleteWarehouse(deleteTargetId);
+      const masterDataService = serviceManager.getMasterDataService();
+      await masterDataService.deleteWarehouse(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除仓库失败');
@@ -199,9 +198,9 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     if (!defaultTargetId) return;
 
     try {
-      const inventoryService = serviceManager.getInventoryService();
+      const masterDataService = serviceManager.getMasterDataService();
       // 使用专门的 setDefaultWarehouse 方法，确保默认仓库唯一性约束
-      const result = await inventoryService.setDefaultWarehouse(defaultTargetId);
+      const result = await masterDataService.setDefaultWarehouse(defaultTargetId);
       if (result.success) {
         await loadData();
       } else {

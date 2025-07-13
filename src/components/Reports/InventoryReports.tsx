@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 // 移除直接导入服务实例，改为使用 serviceManager
 import { serviceManager } from '../../services/core';
 import { Product, Category, Warehouse, InventoryStock } from '../../types/entities';
+import { convertProductWithStockToProduct } from '../../services/domain/InventoryDomainService';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { 
   Table, 
@@ -75,10 +76,10 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
       setLoading(true);
       setError(null);
       
-      const inventoryService = serviceManager.getInventoryService();
+      const masterDataService = serviceManager.getMasterDataService();
       const [categoriesResult, warehousesResult] = await Promise.all([
-        inventoryService.findAllCategories(),
-        inventoryService.findAllWarehouses()
+        masterDataService.getCategories(),
+        masterDataService.getWarehouses()
       ]);
 
       const categoriesData = categoriesResult.success ? 
@@ -100,14 +101,16 @@ export const InventoryReports: React.FC<InventoryReportsProps> = ({ className })
 
   const generateReport = async () => {
     try {
-      const inventoryService = serviceManager.getInventoryService();
+      const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
+      const reportService = serviceManager.getDomainReportService();
       const [productsResult, stocksResult] = await Promise.all([
-        inventoryService.findAllProducts(),
-        inventoryService.findAllInventoryStocks()
+        inventoryService.getProductsWithStock(),
+        reportService.getStockReport({}) // 使用报表服务获取库存报表数据
       ]);
 
-      const products = (productsResult.success ? (productsResult.data?.items || productsResult.data || []) : []) as Product[];
-      const stocks = (stocksResult.success ? (stocksResult.data?.items || stocksResult.data || []) : []) as any[];
+      const productsWithStock = productsResult.success ? (productsResult.data || []) : [];
+      const products = productsWithStock.map(convertProductWithStockToProduct);
+      const stocks = (stocksResult.success ? (stocksResult.data || []) : []) as any[];
 
       const reportItems: InventoryReportData[] = [];
 

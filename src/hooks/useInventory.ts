@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useCallback, useReducer } from 'react';
 import { InventoryItem, InventorySummary } from '../types/inventory';
 import { serviceManager } from '../services/core';
+import { DomainServiceManager } from '../services/domain/DomainServiceManager';
 import { Product, ProductStatus } from '../types/entities';
 
 // 状态转换函数
@@ -169,11 +170,12 @@ export const useInventory = () => {
 
   const loadItems = useCallback(async () => {
     try {
-      const inventoryService = serviceManager.getInventoryService();
-      const result = await inventoryService.getProducts();
+      const domainServiceManager = DomainServiceManager.getInstance();
+      const inventoryService = domainServiceManager.getInventoryDomainService();
+      const result = await inventoryService.getProductsWithStock();
       if (result.success && result.data) {
-        // 转换新架构的Product数据为旧的InventoryItem格式
-        const items: InventoryItem[] = result.data.items.map(convertProductToInventoryItem);
+        // 转换新架构的ProductWithStock数据为旧的InventoryItem格式
+        const items: InventoryItem[] = result.data.map((product: any) => convertProductToInventoryItem(product));
         dispatch({ type: 'SET_ITEMS', payload: items });
       } else {
         throw new Error(result.error || '获取产品数据失败');
@@ -223,7 +225,8 @@ export const useInventory = () => {
   const updateItem = useCallback(async (id: string, updates: Partial<InventoryItem>) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const inventoryService = serviceManager.getInventoryService();
+      const domainServiceManager = DomainServiceManager.getInstance();
+      const inventoryService = domainServiceManager.getInventoryDomainService();
 
       // 转换InventoryItem更新为Product更新格式
       const productUpdates: any = {};
@@ -258,7 +261,8 @@ export const useInventory = () => {
   const addItem = useCallback(async (newItem: Omit<InventoryItem, 'id' | 'lastUpdated'>) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const inventoryService = serviceManager.getInventoryService();
+      const domainServiceManager = DomainServiceManager.getInstance();
+      const inventoryService = domainServiceManager.getInventoryDomainService();
 
       // 转换InventoryItem格式为Product格式
       const productData = {
@@ -297,7 +301,8 @@ export const useInventory = () => {
   const deleteItem = useCallback(async (id: string) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const inventoryService = serviceManager.getInventoryService();
+      const domainServiceManager = DomainServiceManager.getInstance();
+      const inventoryService = domainServiceManager.getInventoryDomainService();
       const result = await inventoryService.deleteProduct(id);
       if (result.success) {
         dispatch({ type: 'REMOVE_ITEM', payload: id });
@@ -314,11 +319,12 @@ export const useInventory = () => {
   const searchItems = useCallback(async (term: string) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const inventoryService = serviceManager.getInventoryService();
+      const domainServiceManager = DomainServiceManager.getInstance();
+      const inventoryService = domainServiceManager.getInventoryDomainService();
       const result = await inventoryService.searchProducts(term);
       if (result.success && result.data) {
         // 转换搜索结果为InventoryItem格式
-        const items: InventoryItem[] = result.data.map(product => ({
+        const items: InventoryItem[] = result.data.map((product: any) => ({
           id: product.id,
           name: product.name,
           description: product.description || '',
@@ -348,7 +354,9 @@ export const useInventory = () => {
   const updateStock = useCallback(async (id: string, quantity: number, type: 'in' | 'out' | 'adjust') => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const inventoryService = serviceManager.getInventoryService();
+      const domainServiceManager = DomainServiceManager.getInstance();
+      const inventoryService = domainServiceManager.getInventoryDomainService();
+      const masterDataService = domainServiceManager.getMasterDataService();
 
       // 新架构中使用updateStock方法，需要先获取产品信息
       const productResult = await inventoryService.getProduct(id);
@@ -357,7 +365,7 @@ export const useInventory = () => {
       }
 
       // 获取默认仓库
-      const warehousesResult = await inventoryService.getWarehouses();
+      const warehousesResult = await masterDataService.getWarehouses();
       const defaultWarehouse = warehousesResult.success && warehousesResult.data && warehousesResult.data.length > 0
         ? warehousesResult.data[0].id
         : 'default';
@@ -386,7 +394,8 @@ export const useInventory = () => {
   const bulkCreateItems = useCallback(async (items: Array<Omit<InventoryItem, 'id' | 'lastUpdated'>>) => {
     try {
       dispatch({ type: 'SET_ERROR', payload: null });
-      const inventoryService = serviceManager.getInventoryService();
+      const domainServiceManager = DomainServiceManager.getInstance();
+      const inventoryService = domainServiceManager.getInventoryDomainService();
 
       // 批量创建产品 - 新架构中没有直接的bulkCreateItems方法，需要逐个创建
       const createdItems: InventoryItem[] = [];

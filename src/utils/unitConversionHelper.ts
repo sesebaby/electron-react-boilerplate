@@ -103,10 +103,10 @@ export class UnitConversionHelper {
    */
   static async getUnitName(unitId: string): Promise<string> {
     try {
-      const inventoryService = serviceManager.getInventoryService();
-      const units = await inventoryService.getUnits();
+      const masterDataService = serviceManager.getMasterDataService();
+      const units = await masterDataService.getUnits();
       if (units.success) {
-        const unit = units.data?.find(u => u.id === unitId);
+        const unit = units.data?.find((u: any) => u.id === unitId);
         return unit?.name || '个';
       }
       return '个';

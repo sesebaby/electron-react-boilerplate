@@ -84,9 +84,9 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       setLoading(true);
       setError(null);
       
-      const inventoryService = serviceManager.getInventoryService();
+      const masterDataService = serviceManager.getMasterDataService();
       const [categoriesData, statsData] = await Promise.all([
-        inventoryService.getCategories(),
+        masterDataService.getCategories(),
         Promise.resolve({ total: 0, active: 0, inactive: 0 }) // Mock stats for now
       ]);
       
@@ -118,14 +118,14 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
 
       if (editingCategory) {
         console.log('Updating existing category:', editingCategory.id);
-        const updateResult = await serviceManager.getInventoryService().updateCategory(editingCategory.id, submitData);
+        const updateResult = await serviceManager.getMasterDataService().updateCategory(editingCategory.id, submitData);
         console.log('Update result:', updateResult);
         if (!updateResult.success) {
           throw new Error(updateResult.error || '更新分类失败');
         }
       } else {
         console.log('Creating new category');
-        const createResult = await serviceManager.getInventoryService().createCategory(submitData);
+        const createResult = await serviceManager.getMasterDataService().createCategory(submitData);
         console.log('Create result:', createResult);
         if (!createResult.success) {
           throw new Error(createResult.error || '创建分类失败');
@@ -181,7 +181,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       }
 
       // 检查是否有产品使用此分类
-      const categoryUsageResult = await serviceManager.getInventoryService().checkCategoryUsage(deleteTargetId);
+      const categoryUsageResult = await serviceManager.getMasterDataService().checkCategoryUsage(deleteTargetId);
       if (categoryUsageResult.success && categoryUsageResult.data && categoryUsageResult.data.productCount > 0) {
         notificationHelper.showError('删除失败', `该分类下还有 ${categoryUsageResult.data.productCount} 个商品，请先移除或重新分类这些商品`);
         setShowConfirmDialog(false);
@@ -189,7 +189,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
         return;
       }
 
-      const deleteResult = await serviceManager.getInventoryService().deleteCategory(deleteTargetId);
+      const deleteResult = await serviceManager.getMasterDataService().deleteCategory(deleteTargetId);
       if (!deleteResult.success) {
         throw new Error(deleteResult.error || '删除分类失败');
       }

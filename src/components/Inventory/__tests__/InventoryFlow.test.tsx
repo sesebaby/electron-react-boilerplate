@@ -12,11 +12,11 @@ import { StockOut } from '../StockOut';
 import { StockAdjust } from '../StockAdjust';
 
 // Mock services
-jest.mock('../../../services/core/InventoryService');
+jest.mock('../../../services/domain/InventoryDomainService');
 jest.mock('../../../hooks/useInventory');
 jest.mock('../../../hooks/useAuth');
 
-const mockInventoryService = {
+const mockInventoryDomainService = {
   getProducts: jest.fn(),
   createProduct: jest.fn(),
   updateProduct: jest.fn(),
@@ -246,7 +246,7 @@ describe('Inventory组件集成测试 - 用户操作流程', () => {
 
   describe('场景2：库存操作完整流程', () => {
     it('应该支持用户执行入库操作', async () => {
-      mockInventoryService.updateStock = jest.fn().mockResolvedValue({ success: true });
+      mockInventoryDomainService.updateStock = jest.fn().mockResolvedValue({ success: true });
 
       render(<StockIn />);
 
@@ -278,7 +278,7 @@ describe('Inventory组件集成测试 - 用户操作流程', () => {
 
       // 验证入库操作被调用
       await waitFor(() => {
-        expect(mockInventoryService.updateStock).toHaveBeenCalledWith({
+        expect(mockInventoryDomainService.updateStock).toHaveBeenCalledWith({
           productId: 'prod-1',
           warehouseId: 'wh-1',
           quantity: 20,
@@ -290,7 +290,7 @@ describe('Inventory组件集成测试 - 用户操作流程', () => {
     });
 
     it('应该支持用户执行出库操作', async () => {
-      mockInventoryService.updateStock = jest.fn().mockResolvedValue({ success: true });
+      mockInventoryDomainService.updateStock = jest.fn().mockResolvedValue({ success: true });
 
       render(<StockOut />);
 
@@ -318,7 +318,7 @@ describe('Inventory组件集成测试 - 用户操作流程', () => {
 
       // 验证出库操作被调用
       await waitFor(() => {
-        expect(mockInventoryService.updateStock).toHaveBeenCalledWith({
+        expect(mockInventoryDomainService.updateStock).toHaveBeenCalledWith({
           productId: 'prod-1',
           warehouseId: 'wh-1',
           quantity: 10,
@@ -329,7 +329,7 @@ describe('Inventory组件集成测试 - 用户操作流程', () => {
     });
 
     it('应该支持用户执行库存调整操作', async () => {
-      mockInventoryService.updateStock = jest.fn().mockResolvedValue({ success: true });
+      mockInventoryDomainService.updateStock = jest.fn().mockResolvedValue({ success: true });
 
       render(<StockAdjust />);
 
@@ -362,7 +362,7 @@ describe('Inventory组件集成测试 - 用户操作流程', () => {
 
       // 验证调整操作被调用
       await waitFor(() => {
-        expect(mockInventoryService.updateStock).toHaveBeenCalledWith({
+        expect(mockInventoryDomainService.updateStock).toHaveBeenCalledWith({
           productId: 'prod-1',
           warehouseId: 'wh-1',
           quantity: -5,
@@ -374,7 +374,7 @@ describe('Inventory组件集成测试 - 用户操作流程', () => {
 
     it('应该在库存不足时显示错误提示', async () => {
       // Mock库存不足错误
-      mockInventoryService.updateStock = jest.fn().mockRejectedValue(
+      mockInventoryDomainService.updateStock = jest.fn().mockRejectedValue(
         new Error('库存不足，当前库存：50，出库数量：100')
       );
 
@@ -406,7 +406,7 @@ describe('Inventory组件集成测试 - 用户操作流程', () => {
 
   describe('场景3：数据实时更新验证', () => {
     it('应该在库存操作后刷新商品数据', async () => {
-      mockInventoryService.updateStock = jest.fn().mockResolvedValue({ success: true });
+      mockInventoryDomainService.updateStock = jest.fn().mockResolvedValue({ success: true });
       mockUseInventory.refreshProducts = jest.fn();
 
       render(<StockIn />);
@@ -433,7 +433,7 @@ describe('Inventory组件集成测试 - 用户操作流程', () => {
     });
 
     it('应该显示操作成功提示', async () => {
-      mockInventoryService.updateStock = jest.fn().mockResolvedValue({ 
+      mockInventoryDomainService.updateStock = jest.fn().mockResolvedValue({ 
         success: true, 
         message: '入库操作成功' 
       });

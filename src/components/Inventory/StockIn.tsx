@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { serviceManager } from '../../services/core';
 import { Product, Warehouse } from '../../types/entities';
+import { ProductWithStock } from '../../services/domain/InventoryDomainService';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 
 interface StockInProps {
@@ -43,7 +44,7 @@ const emptyItem: Omit<StockInItem, 'id'> = {
 };
 
 export const StockIn: React.FC<StockInProps> = ({ className }) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductWithStock[]>([]);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -60,15 +61,16 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
       setLoading(true);
       setError(null);
       
-      const inventoryService = serviceManager.getInventoryService();
+      const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
+      const masterDataService = serviceManager.getMasterDataService();
       const [productsResult, warehousesResult] = await Promise.all([
-        inventoryService.findAllProducts(),
-        inventoryService.findAllWarehouses()
+        inventoryService.getProductsWithStock(),
+        masterDataService.getWarehouses()
       ]);
 
-      const productsData = productsResult.success ? 
-        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
-      const warehousesData = warehousesResult.success ? 
+      const productsData = productsResult.success ?
+        (Array.isArray(productsResult.data) ? productsResult.data : []) : [];
+      const warehousesData = warehousesResult.success ?
         (Array.isArray(warehousesResult.data) ? warehousesResult.data : []) : [];
 
       setProducts(productsData);
@@ -138,11 +140,8 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
           warehouseId: item.warehouseId,
           quantity: item.quantity,
           unitPrice: item.unitPrice,
-          unitCost: item.unitCost,
-          transactionType: 'IN' as any,
           remark: `${formData.referenceType || '手工入库'}: ${item.remark || '无备注'}`,
-          referenceType: formData.referenceType,
-          referenceNumber: formData.referenceId
+          operator: formData.operator || '系统管理员'
         }));
         
         // 使用批量入库操作（事务处理）

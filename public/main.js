@@ -8,7 +8,11 @@ const { setupDatabaseHandlers } = require('./database');
 let db = null;
 
 function createWindow() {
-  const mainWindow = new BrowserWindow({
+  // 检测测试模式
+  const isTestMode = process.argv.includes('--test-mode') || process.env.TEST_MODE === 'true';
+  
+  // 测试模式下的窗口配置
+  const windowConfig = {
     width: 1400,
     height: 900,
     webPreferences: {
@@ -20,8 +24,17 @@ function createWindow() {
       webSecurity: true              // Keep web security enabled
     },
     titleBarStyle: 'hiddenInset',
-    show: false
-  });
+    show: !isTestMode  // 测试模式下不自动显示窗口
+  };
+
+  // 测试模式下的额外配置
+  if (isTestMode) {
+    console.log('🧪 Running in test mode');
+    windowConfig.webPreferences.webSecurity = false; // 测试模式下放宽安全限制
+    windowConfig.webPreferences.allowRunningInsecureContent = true;
+  }
+
+  const mainWindow = new BrowserWindow(windowConfig);
 
   // Always load the built file for now
   const indexPath = path.join(__dirname, '../dist/index.html');
@@ -32,11 +45,14 @@ function createWindow() {
   });
 
   mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
-    console.log('Window shown successfully');
+    // 测试模式下不自动显示窗口，但会触发ready-to-show事件
+    if (!isTestMode) {
+      mainWindow.show();
+    }
+    console.log('Window ready:', isTestMode ? '(test mode - hidden)' : 'shown successfully');
 
     // 在开发环境中自动打开开发者工具
-    if (process.env.NODE_ENV === 'development' || !app.isPackaged) {
+    if ((process.env.NODE_ENV === 'development' || !app.isPackaged) && !isTestMode) {
       mainWindow.webContents.openDevTools({
         mode: 'bottom'
       });

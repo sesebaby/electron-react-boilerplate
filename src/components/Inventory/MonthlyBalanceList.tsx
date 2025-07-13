@@ -37,10 +37,10 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
 
   const loadFormData = async () => {
     try {
-      const inventoryService = serviceManager.getInventoryService();
+      const masterDataService = serviceManager.getMasterDataService();
       const [warehouseList, categoryList] = await Promise.all([
-        inventoryService.findAllWarehouses(),
-        inventoryService.findAllCategories()
+        masterDataService.findAllWarehouses(),
+        masterDataService.findAllCategories()
       ]);
 
       setWarehouses(warehouseList.success ? warehouseList.data || [] : []);

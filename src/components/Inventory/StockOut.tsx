@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { serviceManager } from '../../services/core';
 import { Product, Warehouse, InventoryStock } from '../../types/entities';
+import { ProductWithStock } from '../../services/domain/InventoryDomainService';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 
 interface StockOutProps {
@@ -45,7 +46,7 @@ const emptyItem: Omit<StockOutItem, 'id'> = {
 };
 
 export const StockOut: React.FC<StockOutProps> = ({ className }) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductWithStock[]>([]);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [stockData, setStockData] = useState<Map<string, InventoryStock>>(new Map());
   const [loading, setLoading] = useState(true);
@@ -63,19 +64,20 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
       setLoading(true);
       setError(null);
       
-      const inventoryService = serviceManager.getInventoryService();
+      const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
+      const masterDataService = serviceManager.getMasterDataService();
       const [productsResult, warehousesResult, stocksResult] = await Promise.all([
-        inventoryService.findAllProducts(),
-        inventoryService.findAllWarehouses(),
-        inventoryService.findAllInventoryStocks()
+        inventoryService.getProductsWithStock(),
+        masterDataService.getWarehouses(),
+        inventoryService.getProductsWithStock() // 获取带库存的产品信息
       ]);
 
-      const productsData = productsResult.success ? 
-        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
-      const warehousesData = warehousesResult.success ? 
+      const productsData = productsResult.success ?
+        (Array.isArray(productsResult.data) ? productsResult.data : []) : [];
+      const warehousesData = warehousesResult.success ?
         (Array.isArray(warehousesResult.data) ? warehousesResult.data : []) : [];
-      const stocksData = stocksResult.success ? 
-        (Array.isArray(stocksResult.data) ? stocksResult.data : stocksResult.data?.items || []) : [];
+      const stocksData = stocksResult.success ?
+        (Array.isArray(stocksResult.data) ? stocksResult.data : []) : [];
 
       setProducts(productsData);
       setWarehouses(warehousesData);
@@ -83,7 +85,25 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
       // 创建库存数据映射 (productId:warehouseId -> stock)
       const stockMap = new Map<string, InventoryStock>();
       if (Array.isArray(stocksData)) {
-        stocksData.forEach((stock: InventoryStock) => {
+        stocksData.forEach((productWithStock: ProductWithStock) => {
+          // 从ProductWithStock创建InventoryStock对象
+          const stock: InventoryStock = {
+            id: `stock_${productWithStock.id}_${productWithStock.warehouseId}`,
+            productId: productWithStock.id,
+            warehouseId: productWithStock.warehouseId,
+            currentStock: productWithStock.currentStock,
+            availableStock: productWithStock.availableStock,
+            reservedStock: productWithStock.reservedStock,
+            minStock: productWithStock.minStock,
+            maxStock: productWithStock.maxStock,
+            avgCost: 0,
+            unitCost: 0,
+            unitPrice: 0,
+            totalValue: productWithStock.totalValue,
+            version: 1,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          };
           const key = `${stock.productId}:${stock.warehouseId}`;
           stockMap.set(key, stock);
         });
@@ -165,8 +185,8 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
       }
       
       // 实时检查库存是否足够
-      const inventoryService = serviceManager.getInventoryService();
-      const stockResult = await inventoryService.getInventoryStock(item.productId, item.warehouseId);
+      const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
+      const stockResult = await inventoryService.getProductStock(item.productId, item.warehouseId);
       
       if (stockResult.success && stockResult.data) {
         const currentStock = stockResult.data.availableStock || 0;
@@ -194,14 +214,16 @@ export const StockOut: React.FC<StockOutProps> = ({ className }) => {
       // 逐个处理出库项目
       const results = [];
       for (const item of formData.items) {
-        const inventoryService = serviceManager.getInventoryService();
-        const result = await inventoryService.updateStock(
-          item.productId,
-          item.warehouseId,
-          item.quantity,
-          'OUT' as any,
-          `${formData.referenceType || '手工出库'}: ${item.remark || '无备注'}`
-        );
+        const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
+        const result = await inventoryService.stockOut({
+          productId: item.productId,
+          warehouseId: item.warehouseId,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          operator: formData.operator,
+          referenceType: formData.referenceType || '手工出库',
+          remark: `${formData.referenceType || '手工出库'}: ${item.remark || '无备注'}`
+        });
         results.push(result);
       }
       

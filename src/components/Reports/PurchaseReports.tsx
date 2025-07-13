@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { serviceManager } from '../../services/core';
 import { PurchaseOrder, PurchaseReceipt, Supplier, Product } from '../../types/entities';
+import { convertProductWithStockToProduct } from '../../services/domain/InventoryDomainService';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { 
   Table, 
@@ -56,12 +57,12 @@ export const PurchaseReports: React.FC<PurchaseReportsProps> = ({ className }) =
       const ordersData = ordersResult.success ? (ordersResult.data?.items || ordersResult.data || []) : [];
       const receiptsData = receiptsResult.success ? (receiptsResult.data?.items || receiptsResult.data || []) : [];
       const suppliersData = suppliersResult.success ? (suppliersResult.data?.items || suppliersResult.data || []) : [];
-      const productsData = productsResult.success ? (productsResult.data?.items || productsResult.data || []) : [];
+      const productsData = productsResult.success ? (productsResult.data || []) : [];
 
       setPurchaseOrders(ordersData as PurchaseOrder[]);
       setPurchaseReceipts(receiptsData as PurchaseReceipt[]);
       setSuppliers(suppliersData as Supplier[]);
-      setProducts(productsData as Product[]);
+      setProducts(productsData.map(convertProductWithStockToProduct));
     } catch (err) {
       setError('加载采购报表数据失败');
       console.error('Failed to load purchase reports data:', err);

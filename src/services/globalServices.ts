@@ -4,7 +4,8 @@
  * 提供向后兼容的服务访问接口，使用新的核心服务架构
  */
 
-import { serviceManager, InventoryService, OrderService, FinancialService, SystemService, ReportService } from './core';
+import { serviceManager, OrderService, FinancialService, SystemService, ReportService } from './core';
+import { InventoryDomainService } from './domain/InventoryDomainService';
 
 // 向后兼容的服务接口
 export interface LegacyServiceInstances {
@@ -48,8 +49,8 @@ export async function getGlobalServices(): Promise<Partial<LegacyServiceInstance
   // 确保核心服务管理器已初始化
   await serviceManager.initialize();
   
-  // 创建向后兼容的服务映射
-  const inventoryService = serviceManager.getInventoryService();
+  // 创建向后兼容的服务映射 - 使用新的领域服务
+  const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
   const orderService = serviceManager.getOrderService();
   const financialService = serviceManager.getFinancialService();
   const systemService = serviceManager.getSystemService();

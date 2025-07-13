@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { serviceManager } from '../../services/core';
 import { Product, Warehouse, InventoryTransaction, TransactionType } from '../../types/entities';
+import { ProductWithStock } from '../../services/domain/InventoryDomainService';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { Card, CardContent } from '../ui/card';
 import { 
@@ -42,7 +43,7 @@ const emptyFilter: TransactionFilter = {
 export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ className }) => {
   const [transactions, setTransactions] = useState<InventoryTransaction[]>([]);
   const [filteredTransactions, setFilteredTransactions] = useState<InventoryTransaction[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductWithStock[]>([]);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -63,17 +64,18 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
       setLoading(true);
       setError(null);
       
-      const inventoryService = serviceManager.getInventoryService();
+      const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
+      const masterDataService = serviceManager.getMasterDataService();
       const [transactionsResult, productsResult, warehousesResult] = await Promise.all([
-        inventoryService.findAllTransactions(),
-        inventoryService.findAllProducts(),
-        inventoryService.findAllWarehouses()
+        inventoryService.getTransactionHistory(),
+        inventoryService.getProductsWithStock(),
+        masterDataService.getWarehouses()
       ]);
 
-      const transactionsData = transactionsResult.success ? 
-        (Array.isArray(transactionsResult.data) ? transactionsResult.data : transactionsResult.data?.items || []) : [];
+      const transactionsData = transactionsResult.success ?
+        (Array.isArray(transactionsResult.data) ? transactionsResult.data : []) : [];
       const productsData = productsResult.success ? 
-        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+        (Array.isArray(productsResult.data) ? productsResult.data : []) : [];
       const warehousesData = warehousesResult.success ? 
         (Array.isArray(warehousesResult.data) ? warehousesResult.data : []) : [];
 

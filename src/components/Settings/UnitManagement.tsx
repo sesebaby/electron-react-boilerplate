@@ -47,8 +47,8 @@ const UnitManagement: React.FC = () => {
 
   const loadUnits = async () => {
     try {
-      const inventoryService = serviceManager.getInventoryService();
-      const result = await inventoryService.getUnits();
+      const masterDataService = serviceManager.getMasterDataService();
+      const result = await masterDataService.getUnits();
       const allUnits = result.success ? (result.data || []) : [];
       setUnits((Array.isArray(allUnits) ? allUnits : []) as Unit[]);
     } catch (error) {
@@ -103,14 +103,14 @@ const UnitManagement: React.FC = () => {
     }
 
     try {
-      const inventoryService = serviceManager.getInventoryService();
+      const masterDataService = serviceManager.getMasterDataService();
       if (editingUnit) {
-        const updateResult = await inventoryService.updateUnit(editingUnit.id, unitForm);
+        const updateResult = await masterDataService.updateUnit(editingUnit.id, unitForm);
         if (!updateResult.success) {
           throw new Error(updateResult.error || '更新单位失败');
         }
       } else {
-        const createResult = await inventoryService.createUnit(unitForm);
+        const createResult = await masterDataService.createUnit(unitForm);
         if (!createResult.success) {
           throw new Error(createResult.error || '创建单位失败');
         }
@@ -148,8 +148,8 @@ const UnitManagement: React.FC = () => {
     return new Promise((resolve) => {
       showConfirm('确定要删除这个单位吗？', async () => {
         try {
-          const inventoryService = serviceManager.getInventoryService();
-          const deleteResult = await inventoryService.deleteUnit(unitId);
+          const masterDataService = serviceManager.getMasterDataService();
+          const deleteResult = await masterDataService.deleteUnit(unitId);
           if (!deleteResult.success) {
             throw new Error(deleteResult.error || '删除单位失败');
           }

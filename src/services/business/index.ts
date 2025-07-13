@@ -41,12 +41,12 @@ export type {
 } from '../../types/entities';
 
 
-// 兼容性服务实例获取器
+// 兼容性服务实例获取器 - 使用新的领域服务
 export const getProductService = () => serviceManager.getInventoryService();
-export const getCategoryService = () => serviceManager.getInventoryService();
+export const getCategoryService = () => serviceManager.getMasterDataService();
 export const getInventoryStockService = () => serviceManager.getInventoryService();
-export const getWarehouseService = () => serviceManager.getInventoryService();
-export const getUnitService = () => serviceManager.getInventoryService();
+export const getWarehouseService = () => serviceManager.getMasterDataService();
+export const getUnitService = () => serviceManager.getMasterDataService();
 
 export const getPurchaseOrderService = () => serviceManager.getOrderService();
 export const getSalesOrderService = () => serviceManager.getOrderService();

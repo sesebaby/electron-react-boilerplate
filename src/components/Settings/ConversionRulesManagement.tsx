@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { GlassCard, GlassInput, GlassSelect, GlassButton } from '../ui/FormControls';
 import { GlobalConversionRule, Unit, UnitType } from '../../types/entities';
+import { serviceManager } from '../../services/core';
 import { 
   Table, 
   TableContainer,
@@ -131,15 +132,16 @@ const ConversionRulesManagement: React.FC = () => {
         setUnits(exampleUnits);
       }
       
-      // 加载换算规则数据 - 暂时使用空数据
-      // const rulesResult = await window.electronAPI.dbGetAllConversionRules();
-      // if (rulesResult.success) {
-      //   setConversionRules(rulesResult.data);
-      // } else {
-      //   console.error('加载换算规则失败:', rulesResult.error);
-      //   setError('加载换算规则失败');
-      // }
-      setConversionRules([]);
+      // 加载换算规则数据
+      const masterDataService = serviceManager.getMasterDataService();
+      const rulesResult = await masterDataService.getConversionRules();
+      if (rulesResult.success) {
+        setConversionRules(rulesResult.data || []);
+      } else {
+        console.error('加载换算规则失败:', rulesResult.error);
+        setError('加载换算规则失败');
+        setConversionRules([]);
+      }
     } catch (err) {
       console.error('加载数据失败:', err);
       setError('加载数据失败');
@@ -178,32 +180,29 @@ const ConversionRulesManagement: React.FC = () => {
       setError(null);
       
       if (editingConversion) {
-        // 编辑现有规则 - 暂时模拟成功
-        // const result = await window.electronAPI.dbUpdateConversionRule({
-        //   id: editingConversion.id,
-        //   updates: conversionForm
-        // });
-        const result = { success: true, error: null };
-        
+        // 编辑现有规则
+        // 暂时模拟成功，后续需要实现实际的更新逻辑
+        const result = { success: true, error: undefined };
+
         if (result.success) {
           // 重新加载数据
           await loadData();
           setShowConversionForm(false);
           setEditingConversion(null);
         } else {
-          setError('更新换算规则失败: ' + result.error);
+          setError('更新换算规则失败');
         }
       } else {
-        // 添加新规则 - 暂时模拟成功
-        // const result = await window.electronAPI.dbCreateConversionRule(conversionForm);
-        const result = { success: true, error: null };
+        // 添加新规则
+        // 暂时模拟成功，后续需要实现实际的创建逻辑
+        const result = { success: true, error: undefined };
         
         if (result.success) {
           // 重新加载数据
           await loadData();
           setShowConversionForm(false);
         } else {
-          setError('创建换算规则失败: ' + result.error);
+          setError('创建换算规则失败');
         }
       }
       
@@ -245,14 +244,14 @@ const ConversionRulesManagement: React.FC = () => {
         setLoading(true);
         setError(null);
         
-        // const result = await window.electronAPI.dbDeleteConversionRule({ id: ruleId });
-        const result = { success: true, error: null };
+        // 暂时模拟成功，后续需要实现实际的删除逻辑
+        const result = { success: true, error: undefined };
         
         if (result.success) {
           // 重新加载数据
           await loadData();
         } else {
-          setError('删除换算规则失败: ' + result.error);
+          setError('删除换算规则失败');
         }
       } catch (error) {
         console.error('删除换算规则失败:', error);

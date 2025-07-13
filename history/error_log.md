@@ -32,3 +32,28 @@
      - 添加 `import { CalendarDataService } from '../../../services/business'`
      - 将 `calendarDataService.getWeeklyData()` 替换为 `serviceManager.getReportService().getWeeklyData()`
      - 添加 `await serviceManager.initialize()` 确保服务初始化
+
+## [2025-07-13 17:30] 仓库新建操作及关键业务数据库查询失败修复
+- **类型**：Database Handler Missing + Data Structure Error
+- **位置**：
+  - public/database/handlers/systemHandlers.js (缺少 db-get 处理器)
+  - src/services/domain/MasterDataService.ts (数据结构处理错误)
+- **描述**：
+  1. 系统缺少通用的 `db-get` IPC 处理器，导致所有使用 `window.electronAPI.dbGet()` 的业务功能失败
+  2. MasterDataService 的 `getWarehouses()` 方法没有正确处理 `dbGetAllWarehouses()` 的返回结果结构
+  3. 影响范围：仓库管理、分类管理、单位管理的创建、更新、删除操作中的唯一性检查
+- **错误信息**：
+  - `Error: No handler registered for 'db-get'`
+  - `TypeError: n.map is not a function`
+- **解决方案**：
+  1. 在 `public/database/handlers/systemHandlers.js` 中添加通用数据库查询处理器：
+     - 添加 `db-get` 处理器用于单行查询
+     - 添加 `db-all` 处理器用于多行查询
+     - 包含安全检查，只允许 SELECT 查询
+  2. 修复 `MasterDataService.getWarehouses()` 方法：
+     - 正确处理返回结果的 `success` 和 `data` 字段
+     - 确保返回数组格式的数据
+- **验证结果**：
+  - ✅ 仓库新建功能正常工作
+  - ✅ 仓库数据加载正常显示
+  - ✅ 分类和单位管理的数据库查询功能恢复正常

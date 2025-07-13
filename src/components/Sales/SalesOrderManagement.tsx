@@ -139,12 +139,12 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
       
       const orderService = serviceManager.getOrderService();
       const systemService = serviceManager.getSystemService();
-      const inventoryService = serviceManager.getInventoryService();
-      
+      const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
+
       const [ordersResult, customersResult, productsResult, statsResult] = await Promise.all([
         orderService.getSalesOrders(),
         systemService.getCustomers(),
-        inventoryService.findAllProducts(),
+        inventoryService.getProductsWithStock(),
         orderService.getOrderStats()
       ]);
 
@@ -152,13 +152,13 @@ export const SalesOrderManagement: React.FC<SalesOrderManagementProps> = ({ clas
         (Array.isArray(ordersResult.data) ? ordersResult.data : ordersResult.data?.items || []) : [];
       const customersData = customersResult.success ? 
         (Array.isArray(customersResult.data) ? customersResult.data : customersResult.data?.items || []) : [];
-      const productsData = productsResult.success ? 
-        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const productsData = productsResult.success ?
+        (Array.isArray(productsResult.data) ? productsResult.data : []) : [];
       const statsData = statsResult.success ? (statsResult.data || {}) : {};
 
       setOrders((Array.isArray(ordersData) ? ordersData : []) as SalesOrder[]);
       setCustomers((Array.isArray(customersData) ? customersData : []) as Customer[]);
-      setProducts((Array.isArray(productsData) ? productsData : []) as Product[]);
+      setProducts((Array.isArray(productsData) ? productsData : []) as any[]);
       setStats(statsData);
     } catch (err) {
       setError('加载销售订单数据失败');

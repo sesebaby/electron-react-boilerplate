@@ -3,7 +3,13 @@
  * 替代复杂的DI容器，使用简单的单例模式
  */
 
-import { InventoryService } from './InventoryService';
+// 使用新的领域服务架构
+import { DomainServiceManager } from '../domain/DomainServiceManager';
+import { InventoryDomainService } from '../domain/InventoryDomainService';
+import { MasterDataService } from '../domain/MasterDataService';
+import { ReportService as DomainReportService } from '../domain/ReportService';
+
+// 保留其他核心服务
 import { OrderService } from './OrderService';
 import { FinancialService } from './FinancialService';
 import { SystemService } from './SystemService';
@@ -40,23 +46,29 @@ export class ServiceManager {
       // 确保数据库已初始化
       await DatabaseManager.getInstance();
 
-      // 初始化核心服务
-      const inventoryService = new InventoryService();
+      // 初始化领域服务管理器
+      const domainServiceManager = DomainServiceManager.getInstance();
+
+      // 初始化其他核心服务
       const orderService = new OrderService();
       const financialService = new FinancialService();
       const systemService = new SystemService();
       const reportService = new ReportService();
 
-      // 注册服务
-      this.services.set('inventory', inventoryService);
+      // 注册领域服务（通过领域服务管理器访问）
+      this.services.set('domainServiceManager', domainServiceManager);
+      this.services.set('inventoryDomain', domainServiceManager.getInventoryDomainService());
+      this.services.set('masterData', domainServiceManager.getMasterDataService());
+      this.services.set('domainReport', domainServiceManager.getReportService());
+
+      // 注册其他核心服务
       this.services.set('order', orderService);
       this.services.set('financial', financialService);
       this.services.set('system', systemService);
       this.services.set('report', reportService);
 
-      // 初始化服务
+      // 初始化其他服务（领域服务已在domainServiceManager中初始化）
       await Promise.all([
-        inventoryService.initialize(),
         orderService.initialize(),
         financialService.initialize(),
         systemService.initialize(),
@@ -87,10 +99,31 @@ export class ServiceManager {
   }
 
   /**
-   * 获取库存服务
+   * 获取库存服务（领域服务）
    */
-  getInventoryService(): InventoryService {
-    return this.getService<InventoryService>('inventory');
+  getInventoryService(): InventoryDomainService {
+    return this.getService<InventoryDomainService>('inventoryDomain');
+  }
+
+  /**
+   * 获取主数据服务
+   */
+  getMasterDataService(): MasterDataService {
+    return this.getService<MasterDataService>('masterData');
+  }
+
+  /**
+   * 获取领域报表服务
+   */
+  getDomainReportService(): DomainReportService {
+    return this.getService<DomainReportService>('domainReport');
+  }
+
+  /**
+   * 获取领域服务管理器
+   */
+  getDomainServiceManager(): DomainServiceManager {
+    return this.getService<DomainServiceManager>('domainServiceManager');
   }
 
   /**

@@ -192,7 +192,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 
       if (result.success && result.data) {
         // 转换Product数据为InventoryItem格式
-        const items: InventoryItem[] = result.data.map(product => ({
+        const items: InventoryItem[] = result.data.map((product: any) => ({
           id: product.id,
           name: product.name,
           description: product.description || '',

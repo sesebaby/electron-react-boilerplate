@@ -132,19 +132,25 @@ export class ReportService {
   async getInventoryStatistics(): Promise<DomainServiceResult<InventoryStatistics>> {
     try {
       // 获取基础数据
-      const [products, categories, units, warehouses, stocks] = await Promise.all([
-        window.electronAPI.dbGetAllProducts(),
+      const [productsResult, categoriesResult, unitsResult, warehousesResult, stocksResult] = await Promise.all([
+        window.electronAPI.dbAll('SELECT * FROM products', []),
         window.electronAPI.dbGetAllCategories(),
         window.electronAPI.dbGetAllUnits(),
         window.electronAPI.dbGetAllWarehouses(),
-        window.electronAPI.dbGetAllStocks()
+        window.electronAPI.dbGetAllInventoryStocks()
       ]);
 
+      const products = productsResult.success ? productsResult.data || [] : [];
+      const categories = categoriesResult.success ? categoriesResult.data || [] : [];
+      const units = unitsResult.success ? unitsResult.data || [] : [];
+      const warehouses = warehousesResult.success ? warehousesResult.data || [] : [];
+      const stocks = stocksResult.success ? stocksResult.data || [] : [];
+
       // 计算统计信息
-      const activeProducts = products.filter(p => p.status === ProductStatus.ACTIVE);
-      const totalInventoryValue = stocks.reduce((sum, stock) => sum + (stock.totalValue || 0), 0);
-      const lowStockCount = stocks.filter(stock => stock.currentStock <= stock.minStock).length;
-      const outOfStockCount = stocks.filter(stock => stock.currentStock === 0).length;
+      const activeProducts = products.filter((p: any) => p.status === ProductStatus.ACTIVE);
+      const totalInventoryValue = stocks.reduce((sum: any, stock: any) => sum + (stock.totalValue || 0), 0);
+      const lowStockCount = stocks.filter((stock: any) => stock.currentStock <= stock.minStock).length;
+      const outOfStockCount = stocks.filter((stock: any) => stock.currentStock === 0).length;
 
       // 按状态统计产品数量
       const countByStatus: Record<ProductStatus, number> = {
@@ -153,20 +159,20 @@ export class ReportService {
         [ProductStatus.DISCONTINUED]: 0
       };
 
-      products.forEach(product => {
-        if (countByStatus[product.status] !== undefined) {
-          countByStatus[product.status]++;
+      products.forEach((product: any) => {
+        if (countByStatus[product.status as ProductStatus] !== undefined) {
+          countByStatus[product.status as ProductStatus]++;
         }
       });
 
       // 按分类统计产品数量
       const countByCategory: Record<string, number> = {};
-      categories.forEach(category => {
-        countByCategory[category.name] = products.filter(p => p.categoryId === category.id).length;
+      categories.forEach((category: any) => {
+        countByCategory[category.name] = products.filter((p: any) => p.categoryId === category.id).length;
       });
 
       // 计算平均价格
-      const totalPrice = products.reduce((sum, product) => sum + (product.salePrice || 0), 0);
+      const totalPrice = products.reduce((sum: any, product: any) => sum + (product.salePrice || 0), 0);
       const averagePrice = products.length > 0 ? totalPrice / products.length : 0;
 
       const statistics: InventoryStatistics = {
@@ -194,6 +200,140 @@ export class ReportService {
   }
 
   /**
+   * 获取月度报表
+   */
+  async getMonthlyReport(params: { year: number; month: number }): Promise<DomainServiceResult<any>> {
+    try {
+      const { year, month } = params;
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 0);
+
+      // 获取月度库存变动数据
+      const transactionsResult = await window.electronAPI.dbAll(
+        `SELECT * FROM inventory_transactions
+         WHERE createdAt >= ? AND createdAt <= ?
+         ORDER BY createdAt DESC`,
+        [startDate.toISOString(), endDate.toISOString()]
+      );
+      const transactions = transactionsResult.success ? transactionsResult.data || [] : [];
+
+      // 计算月度统计
+      const monthlyStats = {
+        totalInbound: transactions.filter((t: any) => t.type === 'IN').reduce((sum: number, t: any) => sum + t.quantity, 0),
+        totalOutbound: transactions.filter((t: any) => t.type === 'OUT').reduce((sum: number, t: any) => sum + t.quantity, 0),
+        totalAdjustments: transactions.filter((t: any) => t.type === 'ADJUST').reduce((sum: number, t: any) => sum + t.quantity, 0),
+        transactionCount: transactions.length,
+        period: { year, month, startDate, endDate }
+      };
+
+      return { success: true, data: monthlyStats };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '获取月度报表失败'
+      };
+    }
+  }
+
+  /**
+   * 获取库存移动汇总
+   */
+  async getInventoryMovementSummary(params: any): Promise<DomainServiceResult<any[]>> {
+    try {
+      const { startDate, endDate } = params;
+
+      // 获取指定时间范围内的库存变动
+      const transactionsResult = await window.electronAPI.dbAll(
+        `SELECT t.*, p.name as productName, p.sku, c.name as categoryName
+         FROM inventory_transactions t
+         LEFT JOIN products p ON t.productId = p.id
+         LEFT JOIN categories c ON p.categoryId = c.id
+         WHERE t.createdAt >= ? AND t.createdAt <= ?
+         ORDER BY t.createdAt DESC`,
+        [startDate, endDate]
+      );
+      const transactions = transactionsResult.success ? transactionsResult.data || [] : [];
+
+      // 按产品分组汇总
+      const summaryMap = new Map();
+      transactions.forEach((transaction: any) => {
+        const key = transaction.productId;
+        if (!summaryMap.has(key)) {
+          summaryMap.set(key, {
+            productId: transaction.productId,
+            productName: transaction.productName,
+            sku: transaction.sku,
+            categoryName: transaction.categoryName,
+            totalIn: 0,
+            totalOut: 0,
+            totalAdjust: 0,
+            netChange: 0
+          });
+        }
+
+        const summary = summaryMap.get(key);
+        if (transaction.type === 'IN') {
+          summary.totalIn += transaction.quantity;
+        } else if (transaction.type === 'OUT') {
+          summary.totalOut += transaction.quantity;
+        } else if (transaction.type === 'ADJUST') {
+          summary.totalAdjust += transaction.quantity;
+        }
+        summary.netChange = summary.totalIn - summary.totalOut + summary.totalAdjust;
+      });
+
+      const summaryData = Array.from(summaryMap.values());
+      return { success: true, data: summaryData };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '获取库存移动汇总失败'
+      };
+    }
+  }
+
+  /**
+   * 获取库存预警
+   */
+  async getInventoryAlerts(): Promise<DomainServiceResult<any[]>> {
+    try {
+      // 获取低库存和缺货预警
+      const alertsResult = await window.electronAPI.dbAll(
+        `SELECT p.id, p.name, p.sku, s.currentStock, s.minStock, s.maxStock,
+                c.name as categoryName, w.name as warehouseName,
+                CASE
+                  WHEN s.currentStock = 0 THEN 'OUT_OF_STOCK'
+                  WHEN s.currentStock <= s.minStock THEN 'LOW_STOCK'
+                  WHEN s.currentStock >= s.maxStock THEN 'OVERSTOCK'
+                  ELSE 'NORMAL'
+                END as alertType
+         FROM products p
+         LEFT JOIN inventory_stocks s ON p.id = s.productId
+         LEFT JOIN categories c ON p.categoryId = c.id
+         LEFT JOIN warehouses w ON s.warehouseId = w.id
+         WHERE s.currentStock <= s.minStock OR s.currentStock >= s.maxStock
+         ORDER BY
+           CASE
+             WHEN s.currentStock = 0 THEN 1
+             WHEN s.currentStock <= s.minStock THEN 2
+             WHEN s.currentStock >= s.maxStock THEN 3
+             ELSE 4
+           END, p.name`
+      );
+
+      const alerts = alertsResult.success ? alertsResult.data || [] : [];
+      return { success: true, data: alerts };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '获取库存预警失败'
+      };
+    }
+  }
+
+
+
+  /**
    * 获取仪表板数据
    */
   async getDashboardData(): Promise<DomainServiceResult<DashboardData>> {
@@ -205,10 +345,19 @@ export class ReportService {
       }
 
       // 获取最近交易记录
-      const recentTransactions = await window.electronAPI.dbGetRecentTransactions(10);
-      
+      const recentTransactionsResult = await window.electronAPI.dbAll(
+        'SELECT * FROM inventory_transactions ORDER BY createdAt DESC LIMIT ?', [10]
+      );
+      const recentTransactions = recentTransactionsResult.success ? recentTransactionsResult.data || [] : [];
+
       // 获取库存价值最高的产品
-      const topProducts = await window.electronAPI.dbGetTopValueProducts(5);
+      const topProductsResult = await window.electronAPI.dbAll(
+        `SELECT p.*, s.currentStock, s.totalValue
+         FROM products p
+         LEFT JOIN inventory_stocks s ON p.id = s.productId
+         ORDER BY s.totalValue DESC LIMIT ?`, [5]
+      );
+      const topProducts = topProductsResult.success ? topProductsResult.data || [] : [];
 
       // 获取预警信息
       const alertsResult = await this.getStockAlerts();
@@ -221,14 +370,14 @@ export class ReportService {
           lowStockItems: statsResult.data!.lowStockCount,
           outOfStockItems: statsResult.data!.outOfStockCount
         },
-        recentTransactions: recentTransactions.map(tx => ({
+        recentTransactions: recentTransactions.map((tx: any) => ({
           id: tx.id,
           productName: tx.productName || '未知产品',
           type: tx.type,
           quantity: tx.quantity,
           date: tx.createdAt
         })),
-        topProducts: topProducts.map(product => ({
+        topProducts: topProducts.map((product: any) => ({
           id: product.id,
           name: product.name,
           totalValue: product.totalValue || 0,
@@ -282,15 +431,16 @@ export class ReportService {
         ORDER BY p.name
       `;
 
-      const products = await window.electronAPI.dbQuery(query, params);
+      const productsResult = await window.electronAPI.dbAll(query, params);
+      const products = productsResult.success ? productsResult.data || [] : [];
 
       // 计算汇总信息
-      const totalValue = products.reduce((sum, p) => sum + (p.totalValue || 0), 0);
-      const lowStockItems = products.filter(p => p.currentStock <= p.minStock).length;
-      const outOfStockItems = products.filter(p => p.currentStock === 0).length;
+      const totalValue = products.reduce((sum: any, p: any) => sum + (p.totalValue || 0), 0);
+      const lowStockItems = products.filter((p: any) => p.currentStock <= p.minStock).length;
+      const outOfStockItems = products.filter((p: any) => p.currentStock === 0).length;
 
       const reportData: StockReportData = {
-        products: products.map(p => ({
+        products: products.map((p: any) => ({
           id: p.id,
           name: p.name,
           sku: p.sku,
@@ -361,21 +511,22 @@ export class ReportService {
         ORDER BY t.createdAt DESC
       `;
 
-      const transactions = await window.electronAPI.dbQuery(query, params);
+      const transactionsResult = await window.electronAPI.dbAll(query, params);
+      const transactions = transactionsResult.success ? transactionsResult.data || [] : [];
 
       // 计算汇总信息
       const totalInbound = transactions
-        .filter(t => t.type === 'in')
-        .reduce((sum, t) => sum + Math.abs(t.quantity), 0);
-      
+        .filter((t: any) => t.type === 'in')
+        .reduce((sum: any, t: any) => sum + Math.abs(t.quantity), 0);
+
       const totalOutbound = transactions
-        .filter(t => t.type === 'out')
-        .reduce((sum, t) => sum + Math.abs(t.quantity), 0);
-      
-      const totalValue = transactions.reduce((sum, t) => sum + (t.totalAmount || 0), 0);
+        .filter((t: any) => t.type === 'out')
+        .reduce((sum: any, t: any) => sum + Math.abs(t.quantity), 0);
+
+      const totalValue = transactions.reduce((sum: any, t: any) => sum + (t.totalAmount || 0), 0);
 
       const reportData: MovementReportData = {
-        transactions: transactions.map(t => ({
+        transactions: transactions.map((t: any) => ({
           id: t.id,
           date: t.createdAt,
           productName: t.productName || '未知产品',
@@ -430,9 +581,10 @@ export class ReportService {
           END
       `;
 
-      const alertItems = await window.electronAPI.dbQuery(query);
+      const alertItemsResult = await window.electronAPI.dbAll(query, []);
+      const alertItems = alertItemsResult.success ? alertItemsResult.data || [] : [];
 
-      const alerts: StockAlert[] = alertItems.map(item => {
+      const alerts: StockAlert[] = alertItems.map((item: any) => {
         let type: 'low_stock' | 'out_of_stock' | 'overstock';
         let message: string;
         let severity: 'high' | 'medium' | 'low';

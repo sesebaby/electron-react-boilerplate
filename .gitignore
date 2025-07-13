@@ -6,3 +6,5 @@
 /logs
 logs/2025-07-08-info-PerformanceMonitor.log
 *.log
+/dist
+/dist

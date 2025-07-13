@@ -14,39 +14,30 @@ jest.mock('../../../utils/secureLogger');
 
 describe('InventoryDomainService - 使用新数据工厂', () => {
   let service: InventoryDomainService;
-  let mockDb: any;
+  let mockElectronAPI: any;
 
   beforeEach(async () => {
     // 清理数据工厂
     MasterDataFactory.clearAllData();
     InventoryDomainFactory.clearAllData();
 
-    // Setup mock database
-    mockDb = {
-      getProduct: jest.fn(),
-      createProduct: jest.fn(),
-      updateProduct: jest.fn(),
-      deleteProduct: jest.fn(),
-      getProducts: jest.fn().mockResolvedValue([]),
-      getInventoryStock: jest.fn(),
-      getInventoryStocks: jest.fn().mockResolvedValue([]),
-      updateInventoryStock: jest.fn(),
-      createInventoryStock: jest.fn(),
-      upsertInventoryStock: jest.fn(),
-      insertInventoryTransaction: jest.fn(),
-      createInventoryTransaction: jest.fn(),
-      getInventoryTransactions: jest.fn().mockResolvedValue([]),
-      query: jest.fn(),
-      run: jest.fn(),
-      beginTransaction: jest.fn(),
-      commit: jest.fn(),
-      rollback: jest.fn(),
+    // Setup mock electronAPI
+    mockElectronAPI = {
+      dbGet: jest.fn(),
+      dbAll: jest.fn(),
+      dbRun: jest.fn(),
+      dbBeginTransaction: jest.fn(),
+      dbCommit: jest.fn(),
+      dbRollback: jest.fn(),
     };
 
-    // Create service instance (assuming similar interface to InventoryService)
+    // Mock window.electronAPI
+    (global as any).window = {
+      electronAPI: mockElectronAPI
+    };
+
+    // Create service instance
     service = new InventoryDomainService();
-    // Mock database injection
-    (service as any).db = mockDb;
   });
 
   afterEach(() => {
@@ -65,9 +56,9 @@ describe('InventoryDomainService - 使用新数据工厂', () => {
         unitId: unit.id
       });
 
-      // Mock database response
-      mockDb.getProduct.mockResolvedValue({ success: true, data: null }); // SKU不存在
-      mockDb.createProduct.mockResolvedValue({ success: true, data: productData });
+      // Mock electronAPI response
+      mockElectronAPI.dbGet.mockResolvedValue({ success: true, data: null }); // SKU不存在
+      mockElectronAPI.dbRun.mockResolvedValue({ success: true, data: productData });
 
       // 执行测试
       const result = await service.createProduct({
@@ -84,13 +75,16 @@ describe('InventoryDomainService - 使用新数据工厂', () => {
 
       // 验证结果
       expect(result.success).toBe(true);
-      expect(mockDb.createProduct).toHaveBeenCalledWith(
-        expect.objectContaining({
-          name: productData.name,
-          sku: productData.sku,
-          categoryId: productData.categoryId,
-          unitId: productData.unitId
-        })
+      expect(mockElectronAPI.dbRun).toHaveBeenCalledWith(
+        expect.stringContaining('INSERT INTO products'),
+        expect.arrayContaining([
+          expect.any(String), // id
+          productData.name,
+          productData.sku,
+          expect.any(String), // description
+          productData.categoryId,
+          productData.unitId
+        ])
       );
     });
 

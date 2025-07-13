@@ -77,10 +77,10 @@ export const UnitConversionSettings: React.FC<UnitConversionSettingsProps> = ({
       setLoading(true);
       setError(null);
       
-      const inventoryService = serviceManager.getInventoryService();
+      const masterDataService = serviceManager.getMasterDataService();
       const [rulesResult, unitsResult] = await Promise.all([
-        inventoryService.findAllGlobalConversionRules(),
-        inventoryService.findAllUnits()
+        masterDataService.getConversionRules(), // 需要在MasterDataService中实现此方法
+        masterDataService.getUnits()
       ]);
 
       const rulesData = rulesResult.success ? (rulesResult.data || []) : [];

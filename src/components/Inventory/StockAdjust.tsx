@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { serviceManager } from '../../services/core';
 import { Product, Warehouse, InventoryStock } from '../../types/entities';
+import { ProductWithStock } from '../../services/domain/InventoryDomainService';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 
 interface StockAdjustProps {
@@ -48,7 +49,7 @@ const emptyItem: Omit<StockAdjustItem, 'id'> = {
 };
 
 export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductWithStock[]>([]);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [stockData, setStockData] = useState<Map<string, InventoryStock>>(new Map());
   const [loading, setLoading] = useState(true);
@@ -66,20 +67,39 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
       setLoading(true);
       setError(null);
       
-      const inventoryService = serviceManager.getInventoryService();
+      const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
+      const masterDataService = serviceManager.getMasterDataService();
       const [productsData, warehousesData, stocksData] = await Promise.all([
-        inventoryService.findAllProducts(),
-        inventoryService.findAllWarehouses(),
-        inventoryService.findAllInventoryStocks()
+        inventoryService.getProductsWithStock(),
+        masterDataService.getWarehouses(),
+        inventoryService.getProductsWithStock() // 获取带库存的产品信息
       ]);
 
-      setProducts(productsData.success ? productsData.data?.items || [] : []);
+      setProducts(productsData.success ? productsData.data || [] : []);
       setWarehouses(warehousesData.success ? warehousesData.data || [] : []);
-      
+
       // 创建库存数据映射 (productId:warehouseId -> stock)
       const stockMap = new Map<string, InventoryStock>();
-      const stocksArray = stocksData.success ? stocksData.data?.items || [] : [];
-      stocksArray.forEach((stock: InventoryStock) => {
+      const stocksArray = stocksData.success ? stocksData.data || [] : [];
+      stocksArray.forEach((productWithStock: ProductWithStock) => {
+        // 从ProductWithStock创建InventoryStock对象
+        const stock: InventoryStock = {
+          id: `stock_${productWithStock.id}_${productWithStock.warehouseId}`,
+          productId: productWithStock.id,
+          warehouseId: productWithStock.warehouseId,
+          currentStock: productWithStock.currentStock,
+          availableStock: productWithStock.availableStock,
+          reservedStock: productWithStock.reservedStock,
+          minStock: productWithStock.minStock,
+          maxStock: productWithStock.maxStock,
+          avgCost: 0,
+          unitCost: 0,
+          unitPrice: 0,
+          totalValue: productWithStock.totalValue,
+          version: 1,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
         const key = `${stock.productId}:${stock.warehouseId}`;
         stockMap.set(key, stock);
       });
@@ -214,10 +234,8 @@ export const StockAdjust: React.FC<StockAdjustProps> = ({ className }) => {
             productId: item.productId,
             warehouseId: item.warehouseId,
             quantity: Math.abs(adjustmentQuantity),
-            transactionType: transactionType,
             remark: `库存调整: ${item.remark || formData.reason || '无备注'}`,
-            adjustmentType: formData.adjustmentType,
-            referenceNumber: formData.referenceNumber
+            operator: formData.operator || '系统管理员'
           };
         });
         

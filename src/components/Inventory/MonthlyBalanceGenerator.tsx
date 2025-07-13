@@ -36,10 +36,10 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
 
   const loadFormData = async () => {
     try {
-      const inventoryService = serviceManager.getInventoryService();
+      const masterDataService = serviceManager.getMasterDataService();
       const [warehouseResult, categoryResult] = await Promise.all([
-        inventoryService.getWarehouses(),
-        inventoryService.getCategories()
+        masterDataService.getWarehouses(),
+        masterDataService.getCategories()
       ]);
 
       const warehouseList = warehouseResult.success ? (warehouseResult.data || []) : [];

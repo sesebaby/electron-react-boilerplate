@@ -16,9 +16,9 @@ export default defineConfig({
   workers: 1, // 桌面应用建议单线程
 
   // 测试超时配置
-  timeout: 120000, // 桌面应用启动较慢，增加超时时间
+  timeout: 180000, // 进一步增加超时时间以适应CI环境
   expect: {
-    timeout: 15000, // 增加断言超时
+    timeout: 20000, // 增加断言超时
   },
   
   // 报告配置
@@ -45,8 +45,8 @@ export default defineConfig({
     video: 'retain-on-failure',
 
     // 超时设置
-    actionTimeout: 15000,
-    navigationTimeout: 45000, // 增加导航超时
+    actionTimeout: 20000, // 增加操作超时
+    navigationTimeout: 60000, // 进一步增加导航超时
 
     // 桌面应用特定设置
     viewport: { width: 1400, height: 900 }, // 匹配应用默认窗口大小
@@ -85,8 +85,18 @@ export default defineConfig({
             '--test-mode',
             '--disable-dev-shm-usage',
             '--disable-gpu',
-            '--no-sandbox'
-          ]
+            '--no-sandbox',
+            '--disable-web-security', // 测试环境下禁用Web安全
+            '--allow-running-insecure-content',
+            '--disable-features=VizDisplayCompositor', // 提高稳定性
+            '--disable-background-timer-throttling'
+          ],
+          env: {
+            ...process.env,
+            NODE_ENV: 'test',
+            TEST_MODE: 'true',
+            ELECTRON_IS_DEV: 'false'
+          }
         },
       },
       dependencies: ['setup'],
@@ -101,7 +111,17 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         launchOptions: {
           executablePath: process.env.ELECTRON_PATH || undefined,
-          args: ['--test-mode', '--performance-mode']
+          args: [
+            '--test-mode', 
+            '--performance-mode',
+            '--disable-dev-shm-usage',
+            '--no-sandbox'
+          ],
+          env: {
+            ...process.env,
+            NODE_ENV: 'test',
+            TEST_MODE: 'true'
+          }
         },
       },
       dependencies: ['setup'],

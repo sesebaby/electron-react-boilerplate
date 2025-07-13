@@ -72,12 +72,14 @@ export class MasterDataService {
         return { success: false, error: '分类ID不能为空' };
       }
 
-      const category = await window.electronAPI.dbGetCategory(id);
-      if (!category) {
+      const categoryResult = await window.electronAPI.dbGet(
+        'SELECT * FROM categories WHERE id = ?', [id]
+      );
+      if (!categoryResult.success || !categoryResult.data) {
         return { success: false, error: '分类不存在' };
       }
 
-      return { success: true, data: category };
+      return { success: true, data: categoryResult.data };
     } catch (error) {
       return {
         success: false,
@@ -97,8 +99,10 @@ export class MasterDataService {
       }
 
       // 检查名称唯一性
-      const existingCategory = await window.electronAPI.dbGetCategoryByName(data.name.trim());
-      if (existingCategory) {
+      const existingResult = await window.electronAPI.dbGet(
+        'SELECT * FROM categories WHERE name = ?', [data.name.trim()]
+      );
+      if (existingResult.success && existingResult.data) {
         return { success: false, error: `分类名称 "${data.name}" 已存在` };
       }
 
@@ -106,14 +110,16 @@ export class MasterDataService {
         id: uuidv4(),
         name: data.name.trim(),
         description: data.description?.trim() || '',
-        parentId: data.parentId || null,
+        parentId: data.parentId || undefined,
+        level: data.parentId ? 1 : 0, // 简单的层级计算，后续可以优化
+        sortOrder: 0, // 默认排序
         isActive: data.isActive !== false,
         createdAt: new Date(),
         updatedAt: new Date()
       };
 
-      const result = await window.electronAPI.dbCreateCategory(category);
-      return { success: true, data: result };
+      await window.electronAPI.dbCreateCategory(category);
+      return { success: true, data: category };
     } catch (error) {
       return {
         success: false,
@@ -131,15 +137,20 @@ export class MasterDataService {
         return { success: false, error: '分类ID不能为空' };
       }
 
-      const existingCategory = await window.electronAPI.dbGetCategory(id);
-      if (!existingCategory) {
+      const existingResult = await window.electronAPI.dbGet(
+        'SELECT * FROM categories WHERE id = ?', [id]
+      );
+      if (!existingResult.success || !existingResult.data) {
         return { success: false, error: '分类不存在' };
       }
+      const existingCategory = existingResult.data;
 
       // 检查名称唯一性（如果更新了名称）
       if (data.name && data.name !== existingCategory.name) {
-        const duplicateCategory = await window.electronAPI.dbGetCategoryByName(data.name);
-        if (duplicateCategory && duplicateCategory.id !== id) {
+        const duplicateResult = await window.electronAPI.dbGet(
+          'SELECT * FROM categories WHERE name = ?', [data.name]
+        );
+        if (duplicateResult.success && duplicateResult.data && duplicateResult.data.id !== id) {
           return { success: false, error: `分类名称 "${data.name}" 已存在` };
         }
       }
@@ -150,8 +161,8 @@ export class MasterDataService {
         updatedAt: new Date()
       };
 
-      const result = await window.electronAPI.dbUpdateCategory(id, updatedCategory);
-      return { success: true, data: result };
+      await window.electronAPI.dbUpdateCategory(id, updatedCategory);
+      return { success: true, data: updatedCategory };
     } catch (error) {
       return {
         success: false,
@@ -169,19 +180,27 @@ export class MasterDataService {
         return { success: false, error: '分类ID不能为空' };
       }
 
-      const category = await window.electronAPI.dbGetCategory(id);
-      if (!category) {
+      const categoryResult = await window.electronAPI.dbGet(
+        'SELECT * FROM categories WHERE id = ?', [id]
+      );
+      if (!categoryResult.success || !categoryResult.data) {
         return { success: false, error: '分类不存在' };
       }
 
       // 检查是否有产品使用此分类
-      const productCount = await window.electronAPI.dbGetProductCountByCategory(id);
+      const productCountResult = await window.electronAPI.dbGet(
+        'SELECT COUNT(*) as count FROM products WHERE categoryId = ?', [id]
+      );
+      const productCount = productCountResult.success ? productCountResult.data?.count || 0 : 0;
       if (productCount > 0) {
         return { success: false, error: `该分类下有 ${productCount} 个产品，无法删除` };
       }
 
       // 检查是否有子分类
-      const childCategories = await window.electronAPI.dbGetChildCategories(id);
+      const childCategoriesResult = await window.electronAPI.dbAll(
+        'SELECT * FROM categories WHERE parentId = ?', [id]
+      );
+      const childCategories = childCategoriesResult.success ? childCategoriesResult.data || [] : [];
       if (childCategories.length > 0) {
         return { success: false, error: `该分类下有 ${childCategories.length} 个子分类，无法删除` };
       }
@@ -205,14 +224,22 @@ export class MasterDataService {
         return { success: false, error: '分类ID不能为空' };
       }
 
-      const productCount = await window.electronAPI.dbGetProductCountByCategory(id);
-      const childCategories = await window.electronAPI.dbGetChildCategories(id);
+      const productCountResult = await window.electronAPI.dbGet(
+        'SELECT COUNT(*) as count FROM products WHERE categoryId = ?', [id]
+      );
+      const productCount = productCountResult.success ? productCountResult.data?.count || 0 : 0;
+
+      const childCategoriesResult = await window.electronAPI.dbAll(
+        'SELECT id FROM categories WHERE parentId = ?', [id]
+      );
+      const childCategories = childCategoriesResult.success ?
+        (childCategoriesResult.data || []).map((cat: any) => cat.id) : [];
 
       return {
         success: true,
         data: {
           productCount,
-          childCategories: childCategories.map(cat => cat.name)
+          childCategories: childCategories.map((cat: any) => cat.name)
         }
       };
     } catch (error) {
@@ -254,8 +281,10 @@ export class MasterDataService {
       }
 
       // 检查名称和符号唯一性
-      const existingUnit = await window.electronAPI.dbGetUnitByNameOrSymbol(data.name.trim(), data.symbol.trim());
-      if (existingUnit) {
+      const existingResult = await window.electronAPI.dbGet(
+        'SELECT * FROM units WHERE name = ? OR symbol = ?', [data.name.trim(), data.symbol.trim()]
+      );
+      if (existingResult.success && existingResult.data) {
         return { success: false, error: '单位名称或符号已存在' };
       }
 
@@ -271,8 +300,8 @@ export class MasterDataService {
         updatedAt: new Date()
       };
 
-      const result = await window.electronAPI.dbCreateUnit(unit);
-      return { success: true, data: result };
+      await window.electronAPI.dbCreateUnit(unit);
+      return { success: true, data: unit };
     } catch (error) {
       return {
         success: false,
@@ -290,10 +319,13 @@ export class MasterDataService {
         return { success: false, error: '单位ID不能为空' };
       }
 
-      const existingUnit = await window.electronAPI.dbGetUnit(id);
-      if (!existingUnit) {
+      const existingResult = await window.electronAPI.dbGet(
+        'SELECT * FROM units WHERE id = ?', [id]
+      );
+      if (!existingResult.success || !existingResult.data) {
         return { success: false, error: '单位不存在' };
       }
+      const existingUnit = existingResult.data;
 
       const updatedUnit = {
         ...existingUnit,
@@ -301,8 +333,8 @@ export class MasterDataService {
         updatedAt: new Date()
       };
 
-      const result = await window.electronAPI.dbUpdateUnit(id, updatedUnit);
-      return { success: true, data: result };
+      await window.electronAPI.dbUpdateUnit(id, updatedUnit);
+      return { success: true, data: updatedUnit };
     } catch (error) {
       return {
         success: false,
@@ -320,13 +352,18 @@ export class MasterDataService {
         return { success: false, error: '单位ID不能为空' };
       }
 
-      const unit = await window.electronAPI.dbGetUnit(id);
-      if (!unit) {
+      const unitResult = await window.electronAPI.dbGet(
+        'SELECT * FROM units WHERE id = ?', [id]
+      );
+      if (!unitResult.success || !unitResult.data) {
         return { success: false, error: '单位不存在' };
       }
 
       // 检查是否有产品使用此单位
-      const productCount = await window.electronAPI.dbGetProductCountByUnit(id);
+      const productCountResult = await window.electronAPI.dbGet(
+        'SELECT COUNT(*) as count FROM products WHERE unitId = ?', [id]
+      );
+      const productCount = productCountResult.success ? productCountResult.data?.count || 0 : 0;
       if (productCount > 0) {
         return { success: false, error: `该单位被 ${productCount} 个产品使用，无法删除` };
       }
@@ -348,8 +385,12 @@ export class MasterDataService {
    */
   async getWarehouses(): Promise<DomainServiceResult<Warehouse[]>> {
     try {
-      const warehouses = await window.electronAPI.dbGetAllWarehouses();
-      return { success: true, data: warehouses };
+      const result = await window.electronAPI.dbGetAllWarehouses();
+      if (result && result.success) {
+        return { success: true, data: result.data || [] };
+      } else {
+        return { success: false, error: result?.error || '获取仓库失败' };
+      }
     } catch (error) {
       return {
         success: false,
@@ -372,8 +413,10 @@ export class MasterDataService {
       }
 
       // 检查编码唯一性
-      const existingWarehouse = await window.electronAPI.dbGetWarehouseByCode(data.code.trim());
-      if (existingWarehouse) {
+      const existingResult = await window.electronAPI.dbGet(
+        'SELECT * FROM warehouses WHERE code = ?', [data.code.trim()]
+      );
+      if (existingResult.success && existingResult.data) {
         return { success: false, error: `仓库编码 "${data.code}" 已存在` };
       }
 
@@ -390,8 +433,8 @@ export class MasterDataService {
         updatedAt: new Date()
       };
 
-      const result = await window.electronAPI.dbCreateWarehouse(warehouse);
-      return { success: true, data: result };
+      await window.electronAPI.dbCreateWarehouse(warehouse);
+      return { success: true, data: warehouse };
     } catch (error) {
       return {
         success: false,
@@ -409,17 +452,106 @@ export class MasterDataService {
         return { success: false, error: '仓库ID不能为空' };
       }
 
-      const warehouse = await window.electronAPI.dbGetWarehouse(id);
-      if (!warehouse) {
+      const warehouseResult = await window.electronAPI.dbGet(
+        'SELECT * FROM warehouses WHERE id = ?', [id]
+      );
+      if (!warehouseResult.success || !warehouseResult.data) {
         return { success: false, error: '仓库不存在' };
       }
 
-      await window.electronAPI.dbSetDefaultWarehouse(id);
+      // 先将所有仓库设为非默认
+      await window.electronAPI.dbRun('UPDATE warehouses SET isDefault = 0');
+      // 设置指定仓库为默认
+      await window.electronAPI.dbRun('UPDATE warehouses SET isDefault = 1 WHERE id = ?', [id]);
       return { success: true, data: true };
     } catch (error) {
       return {
         success: false,
         error: error instanceof Error ? error.message : '设置默认仓库失败'
+      };
+    }
+  }
+
+  /**
+   * 更新仓库
+   */
+  async updateWarehouse(id: string, data: UpdateWarehouseRequest): Promise<DomainServiceResult<Warehouse>> {
+    try {
+      if (!id) {
+        return { success: false, error: '仓库ID不能为空' };
+      }
+
+      const existingResult = await window.electronAPI.dbGet(
+        'SELECT * FROM warehouses WHERE id = ?', [id]
+      );
+      if (!existingResult.success || !existingResult.data) {
+        return { success: false, error: '仓库不存在' };
+      }
+      const existingWarehouse = existingResult.data;
+
+      const updatedWarehouse = {
+        ...existingWarehouse,
+        ...data,
+        updatedAt: new Date()
+      };
+
+      await window.electronAPI.dbUpdateWarehouse(id, updatedWarehouse);
+      return { success: true, data: updatedWarehouse };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '更新仓库失败'
+      };
+    }
+  }
+
+  /**
+   * 删除仓库
+   */
+  async deleteWarehouse(id: string): Promise<DomainServiceResult<boolean>> {
+    try {
+      if (!id) {
+        return { success: false, error: '仓库ID不能为空' };
+      }
+
+      const warehouseResult = await window.electronAPI.dbGet(
+        'SELECT * FROM warehouses WHERE id = ?', [id]
+      );
+      if (!warehouseResult.success || !warehouseResult.data) {
+        return { success: false, error: '仓库不存在' };
+      }
+
+      // 检查是否有库存在此仓库
+      const stockCountResult = await window.electronAPI.dbGet(
+        'SELECT COUNT(*) as count FROM inventory_stocks WHERE warehouseId = ? AND currentStock > 0', [id]
+      );
+      const stockCount = stockCountResult.success ? stockCountResult.data?.count || 0 : 0;
+      if (stockCount > 0) {
+        return { success: false, error: `该仓库有 ${stockCount} 个产品有库存，无法删除` };
+      }
+
+      await window.electronAPI.dbDeleteWarehouse(id);
+      return { success: true, data: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '删除仓库失败'
+      };
+    }
+  }
+
+  /**
+   * 转换规则管理
+   */
+  async getConversionRules(): Promise<DomainServiceResult<any[]>> {
+    try {
+      // 这里应该实现获取转换规则的逻辑
+      // 暂时返回空数组，后续需要完善
+      return { success: true, data: [] };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '获取转换规则失败'
       };
     }
   }

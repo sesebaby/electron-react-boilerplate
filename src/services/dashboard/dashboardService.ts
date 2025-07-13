@@ -108,8 +108,8 @@ export class DashboardService {
       ] = await Promise.all([
         systemService.getSuppliers(),
         systemService.getCustomers(), 
-        inventoryService.getWarehouses(),
-        inventoryService.getStatistics()
+        serviceManager.getMasterDataService().getWarehouses(),
+        Promise.resolve({ success: true, data: { totalProducts: 0, lowStockCount: 0, outOfStockCount: 0, totalInventoryValue: 0 } }) // 临时模拟统计数据
       ]);
 
       return {

@@ -736,6 +736,60 @@ function setupSystemHandlers(ipcMain, db) {
     }
   }, 'execute-query'));
 
+  // 通用数据库查询处理器 - 用于单行查询
+  ipcMain.handle('db-get', wrapIpcHandler(async (event, sql, params = []) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    if (!sql || typeof sql !== 'string') {
+      return errorResult('SQL query is required');
+    }
+
+    try {
+      // 安全检查：只允许 SELECT 查询
+      const trimmedSql = sql.trim().toUpperCase();
+      if (!trimmedSql.startsWith('SELECT')) {
+        throw new Error('Only SELECT queries are allowed');
+      }
+
+      const stmt = db.prepare(sql);
+      const result = stmt.get(params);
+
+      return successResult(result || null);
+    } catch (error) {
+      console.error('Database get error:', error);
+      return errorResult(`Database query failed: ${error.message}`);
+    }
+  }, 'db-get'));
+
+  // 通用数据库查询处理器 - 用于多行查询
+  ipcMain.handle('db-all', wrapIpcHandler(async (event, sql, params = []) => {
+    if (!checkDatabaseInitialized(db)) {
+      return errorResult('Database not initialized');
+    }
+
+    if (!sql || typeof sql !== 'string') {
+      return errorResult('SQL query is required');
+    }
+
+    try {
+      // 安全检查：只允许 SELECT 查询
+      const trimmedSql = sql.trim().toUpperCase();
+      if (!trimmedSql.startsWith('SELECT')) {
+        throw new Error('Only SELECT queries are allowed');
+      }
+
+      const stmt = db.prepare(sql);
+      const result = stmt.all(params);
+
+      return successResult(result || []);
+    } catch (error) {
+      console.error('Database all error:', error);
+      return errorResult(`Database query failed: ${error.message}`);
+    }
+  }, 'db-all'));
+
   // 获取表结构
   ipcMain.handle('db-get-table-schema', wrapIpcHandler(async (event, { tableName }) => {
     if (!checkDatabaseInitialized(db)) {

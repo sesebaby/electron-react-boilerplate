@@ -92,34 +92,45 @@ const InventoryMovementSummary: React.FC<InventoryMovementSummaryProps> = ({ cla
   // =============== 数据获取 ===============
   const loadBasicData = useCallback(async () => {
     try {
+      setLoading(true);
+      setError(null);
+
       const inventoryService = serviceManager.getInventoryService();
+      const masterDataService = serviceManager.getMasterDataService();
       const [productsResult, categoriesResult, warehousesResult] = await Promise.all([
         inventoryService.findAllProducts(),
-        inventoryService.findAllCategories(),
-        inventoryService.findAllWarehouses()
+        masterDataService.getCategories(),
+        masterDataService.getWarehouses()
       ]);
 
       const productsData = productsResult.success ? (productsResult.data || []) : [];
       const categoriesData = categoriesResult.success ? (categoriesResult.data || []) : [];
       const warehousesData = warehousesResult.success ? (warehousesResult.data || []) : [];
 
-      setProducts(productsData as Product[]);
+      setProducts(productsData as any[]);
       setCategories(Array.isArray(categoriesData) ? categoriesData as Category[] : []);
       setWarehouses(Array.isArray(warehousesData) ? warehousesData as Warehouse[] : []);
+
+      console.log('基础数据加载完成:', {
+        products: productsData.length,
+        categories: categoriesData.length,
+        warehouses: warehousesData.length
+      });
     } catch (err) {
       console.error('加载基础数据失败:', err);
       setError('加载基础数据失败，请稍后重试');
+      setLoading(false);
     }
   }, []);
 
   const calculateMovementSummary = useCallback(async (): Promise<InventoryMovementSummaryData[]> => {
     const { timeRange } = filters;
     
-    // 获取所有相关的库存事务（使用现有方法）
-    const inventoryService = serviceManager.getInventoryService();
-    const transactionsResult = await inventoryService.findAllTransactions();
-    const allTransactions = transactionsResult.success ? 
-      (Array.isArray(transactionsResult.data) ? transactionsResult.data : transactionsResult.data?.items || []) : [];
+    // 获取所有相关的库存事务（使用新的报表服务）
+    const reportService = serviceManager.getDomainReportService();
+    const transactionsResult = await reportService.getMovementReport(filters);
+    const allTransactions = transactionsResult.success ?
+      (Array.isArray(transactionsResult.data) ? transactionsResult.data : []) : [];
 
     // 过滤时间范围内的事务
     const transactions = allTransactions.filter((t: any) => {

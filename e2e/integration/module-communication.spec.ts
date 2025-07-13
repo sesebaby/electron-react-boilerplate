@@ -114,8 +114,8 @@ test.describe('模块间通信集成测试', () => {
 
     // 验证关键服务的依赖关系
     expect(serviceDependencies.databaseService).toBeTruthy();
-    expect(serviceDependencies.inventoryService.dependencies).toContain('databaseService');
-    expect(serviceDependencies.reportService.dependencies).toContain('inventoryService');
+    expect(serviceDependencies.inventoryDomainService.dependencies).toContain('databaseService');
+    expect(serviceDependencies.reportService.dependencies).toContain('inventoryDomainService');
 
     // 3. 测试服务间的数据传递
     const serviceDataFlow = await page.evaluate(async () => {
@@ -129,7 +129,7 @@ test.describe('模块间通信集成测试', () => {
     });
 
     expect(serviceDataFlow.success).toBe(true);
-    expect(serviceDataFlow.servicesInvolved).toContain('inventoryService');
+    expect(serviceDataFlow.servicesInvolved).toContain('inventoryDomainService');
     expect(serviceDataFlow.servicesInvolved).toContain('databaseService');
     expect(serviceDataFlow.servicesInvolved).toContain('auditService');
 

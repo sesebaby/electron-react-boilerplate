@@ -67,13 +67,14 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
       setError(null);
       
       const orderService = serviceManager.getOrderService();
-      const inventoryService = serviceManager.getInventoryService();
+      const inventoryService = serviceManager.getInventoryService(); // 现在返回InventoryDomainService
+      const masterDataService = serviceManager.getMasterDataService();
 
       const [receiptsResult, ordersResult, warehousesResult, productsResult, statsResult] = await Promise.all([
         orderService.getPurchaseOrders(), // 获取收货记录需要单独实现
         orderService.getPurchaseOrders(),
-        inventoryService.findAllWarehouses(),
-        inventoryService.findAllProducts(),
+        masterDataService.getWarehouses(),
+        inventoryService.getProductsWithStock(),
         orderService.getReceiptStats() // 获取收货统计
       ]);
 
@@ -83,14 +84,14 @@ export const PurchaseReceiptManagement: React.FC<PurchaseReceiptManagementProps>
         (Array.isArray(ordersResult.data) ? ordersResult.data : ordersResult.data?.items || []) : [];
       const warehousesData = warehousesResult.success ? 
         (Array.isArray(warehousesResult.data) ? warehousesResult.data : (warehousesResult.data as any)?.items || []) : [];
-      const productsData = productsResult.success ? 
-        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const productsData = productsResult.success ?
+        (Array.isArray(productsResult.data) ? productsResult.data : []) : [];
       const statsData = statsResult.success ? (statsResult.data || {}) : {};
 
       setReceipts(Array.isArray(receiptsData) ? receiptsData as PurchaseReceipt[] : []);
       setOrders(Array.isArray(ordersData) ? ordersData as PurchaseOrder[] : []);
       setWarehouses((Array.isArray(warehousesData) ? warehousesData : []) as Warehouse[]);
-      setProducts(Array.isArray(productsData) ? productsData as Product[] : []);
+      setProducts(Array.isArray(productsData) ? productsData as any[] : []);
       setStats(statsData);
     } catch (err) {
       setError('加载采购收货数据失败');
