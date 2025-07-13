@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import monthlyBalanceService from '../../services/business/monthlyBalanceService';
+import { serviceManager } from '../../services/core';
 import { MonthlyBalanceStatistics } from '../../types/monthlyBalance';
 import { GlassButton, GlassCard } from '../ui/FormControls';
 
@@ -29,15 +29,16 @@ export const MonthlyBalanceStatisticsView: React.FC<MonthlyBalanceStatisticsView
     loadStatistics();
   }, [selectedYear, selectedMonth]);
 
-  const _loadStatistics = async () => {
+  const loadStatistics = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const _result = await monthlyBalanceService.getMonthlyBalanceStatistics(selectedYear, selectedMonth);
+      const reportService = serviceManager.getReportService();
+      const result = await reportService.getMonthlyBalanceStats();
 
       if (!result.success) {
-        setError(result.error?.message || '获取统计数据失败');
+        setError(result.error || '获取统计数据失败');
         setStatistics(null);
         return;
       }
@@ -53,29 +54,29 @@ export const MonthlyBalanceStatisticsView: React.FC<MonthlyBalanceStatisticsView
     }
   };
 
-  const _formatCurrency = (value: number): string => {
+  const formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('zh-CN', {
       style: 'currency',
       currency: 'CNY'
     }).format(value);
   };
 
-  const _formatNumber = (value: number): string => {
+  const formatNumber = (value: number): string => {
     return new Intl.NumberFormat('zh-CN').format(value);
   };
 
-  const _formatPercentage = (value: number): string => {
+  const formatPercentage = (value: number): string => {
     return `${value.toFixed(1)}%`;
   };
 
-  const _formatPeriod = (year: number, month: number): string => {
+  const formatPeriod = (year: number, month: number): string => {
     return `${year}年${month}月`;
   };
 
   // 生成年份和月份选项
-  const _currentYear = new Date().getFullYear();
-  const _yearOptions = Array.from({ length: 5 }, (_, i) => currentYear - i);
-  const _monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
+  const currentYear = new Date().getFullYear();
+  const yearOptions = Array.from({ length: 5 }, (_, i) => currentYear - i);
+  const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
 
   if (loading) {
     return (

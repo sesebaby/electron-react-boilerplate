@@ -45,7 +45,7 @@ const menuItems: MenuItem[] = [
     children: [
       { id: 'warehouses', label: '仓库管理', icon: '🏭' },
       { id: 'products', label: '商品管理', icon: '🏷️' },
-      { id: 'categories', label: '分类管理', icon: '📂' },
+      { id: 'categories', label: '商品分类', icon: '📂' },
       { id: 'customers', label: '客户管理', icon: '👥' },
       { id: 'units', label: '单位管理', icon: '📏' },
       { id: 'conversion-rules', label: '换算规则', icon: '⚖️' }
@@ -90,15 +90,6 @@ const menuItems: MenuItem[] = [
       { id: 'accounts-receivable', label: '应收账款', icon: '💰' },
       { id: 'payments', label: '付款记录', icon: '🧾' },
       { id: 'receipts', label: '收款记录', icon: '🧾' }
-    ]
-  },
-  {
-    id: 'common-settings',
-    label: '通用设置',
-    icon: '🔧',
-    children: [
-      { id: 'units', label: '单位管理', icon: '📏' },
-      { id: 'conversion-rules', label: '换算规则', icon: '🔄' }
     ]
   },
   {

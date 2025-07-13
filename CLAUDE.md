@@ -1,6 +1,19 @@
 # CLAUDE.md
-
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## 重要原则
+
+1. **项目定位**：这是一个单机版小型进销存项目，不要过度工程化
+2. **语言规范**：总使用中文输出
+3. **代码风格**：保持和原来代码一致的代码风格
+
+## RIPER-5 协议
+
+当用户要求使用 RIPER-5 协议时：
+1. 阅读 ai/RIPER-5.md 文件的具体内容
+2. 开启 YOLO ON 模式
+3. 自动在不同模式间流转而无需用户确认
+4. 进入研究模式并回答："收到！现在使用RIPER-5协议的 YOLO ON，请下达指令。"
 
 ## Development Commands
 
@@ -43,3 +56,4 @@ The application uses a standardized inventory item interface with fields for:
 - Responsive grid systems for inventory display
 - Smooth animations and hover effects
 - Professional color scheme with blue/purple gradients
+

@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useCallback, useContext, createContext } from 'react';
-import { User, UserRole } from '../types/entities';
-import { userService } from '../services/business';
-import { _dialogService as dialogService } from '../services/dialogService';
+import { User, UserRole, UserStatus } from '../types/entities';
+import { serviceManager } from '../services/core';
+import { dialogService } from '../services/dialogService';
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  error: string | null;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => Promise<void>;
   refreshToken: () => Promise<boolean>;
   hasPermission: (permission: string) => boolean;
   hasRole: (role: UserRole) => boolean;
   sessionTimeRemaining: number;
+  clearError: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -39,6 +41,7 @@ const SESSION_WARNING_TIME = 5 * 60 * 1000;
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [sessionStartTime, setSessionStartTime] = useState<number>(Date.now());
   const [lastActivity, setLastActivity] = useState<number>(Date.now());
 
@@ -72,33 +75,68 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return user?.role === role;
   }, [user]);
 
+  const clearError = useCallback(() => {
+    setError(null);
+  }, []);
+
   const login = useCallback(async (username: string, password: string): Promise<boolean> => {
     try {
+      // 批量更新状态，减少重新渲染次数
       setIsLoading(true);
-      
-      // Use UserService for authentication
-      const authenticatedUser = await userService.authenticate(username.trim(), password);
+      setError(null);
 
-      if (authenticatedUser) {
+      // Use UserService for authentication
+      await serviceManager.initialize();
+      const systemService = serviceManager.getSystemService();
+      if (!systemService) {
+        throw new Error('系统服务不可用');
+      }
+
+      const authResult = await systemService.authenticateUser(username.trim(), password);
+
+      if (authResult && authResult.success && authResult.data) {
+        // Transform to full User type
+        const fullUser: User = {
+          id: authResult.data.id,
+          username: authResult.data.username,
+          password: '', // Don't expose password
+          nickname: authResult.data.username,
+          role: UserRole.ADMIN, // Default role
+          status: UserStatus.ACTIVE,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
         // Store user data in localStorage for session persistence
-        localStorage.setItem('_auth_user', JSON.stringify(authenticatedUser));
-        
-        setUser(authenticatedUser);
-        setSessionStartTime(Date.now());
-        setLastActivity(Date.now());
-        
+        localStorage.setItem('_auth_user', JSON.stringify(fullUser));
+
+        // 批量更新状态，减少重新渲染
+        const now = Date.now();
+        setUser(fullUser);
+        setSessionStartTime(now);
+        setLastActivity(now);
+        setIsLoading(false);
+
         // Log successful login (without sensitive data)
-        console.log(`User logged in: ${authenticatedUser.id}`);
-        
+        console.log(`User logged in: ${fullUser.id}`);
+
+        // 登录成功后跳转到仪表板
+        window.location.hash = 'dashboard';
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+
         return true;
       }
-      
+
+      // 认证失败，批量更新状态
+      setError('用户名或密码错误');
+      setIsLoading(false);
       return false;
     } catch (error) {
       console.error('Login failed:', error);
-      return false;
-    } finally {
+      // 批量更新错误状态
+      setError(error instanceof Error ? error.message : '登录失败');
       setIsLoading(false);
+      return false;
     }
   }, []);
 
@@ -106,8 +144,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
       
-      // Use UserService for logout
-      userService.logout();
+      // Use SystemService for logout
+      const systemService = serviceManager.getSystemService();
+      if (systemService && systemService.logout) {
+        systemService.logout();
+      }
       
       // Clear local session data
       localStorage.removeItem('_auth_user');
@@ -219,9 +260,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           try {
             const parsedUser = JSON.parse(userData);
             // Verify user still exists in the system
-            const currentUser = await userService.findById(parsedUser.id);
+            const systemService = serviceManager.getSystemService();
+            const userResult = await systemService.getUser(parsedUser.id);
+            const currentUser = userResult.success ? userResult.data : null;
             
-            if (currentUser && currentUser.status === 'active') {
+            if (currentUser && (currentUser as any).status === UserStatus.ACTIVE) {
               setUser(currentUser);
               setSessionStartTime(Date.now());
               setLastActivity(Date.now());
@@ -249,12 +292,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     user,
     isAuthenticated: !!user,
     isLoading,
+    error,
     login,
     logout,
     refreshToken,
     hasPermission,
     hasRole,
-    sessionTimeRemaining
+    sessionTimeRemaining,
+    clearError
   };
 
   return (

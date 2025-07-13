@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GlobalConversionRule, Unit } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassCard } from '../ui/FormControls';
-import { globalConversionService, unitService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 
 interface UnitConversionSettingsProps {
   enableConversion: boolean;
@@ -77,11 +77,15 @@ export const UnitConversionSettings: React.FC<UnitConversionSettingsProps> = ({
       setLoading(true);
       setError(null);
       
-      const [rulesData, unitsData] = await Promise.all([
-        globalConversionService.findAll(true),
-        unitService.findAll()
+      const inventoryService = serviceManager.getInventoryService();
+      const [rulesResult, unitsResult] = await Promise.all([
+        inventoryService.findAllGlobalConversionRules(),
+        inventoryService.findAllUnits()
       ]);
-      
+
+      const rulesData = rulesResult.success ? (rulesResult.data || []) : [];
+      const unitsData = unitsResult.success ? (unitsResult.data || []) : [];
+
       setGlobalRules(rulesData);
       setUnits(unitsData);
     } catch (err) {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { warehouseService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Warehouse } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -14,7 +14,8 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty
+  TableEmpty,
+  TableLoading
 } from '../ui/table';
 
 interface WarehouseManagementProps {
@@ -26,7 +27,8 @@ interface WarehouseForm {
   name: string;
   address: string;
   creator: string;
-  isDefault: boolean;
+  manager?: string;
+  isDefault: string; // 改为字符串类型以匹配GlassSelect组件
 }
 
 const emptyForm: WarehouseForm = {
@@ -34,7 +36,7 @@ const emptyForm: WarehouseForm = {
   name: '',
   address: '',
   creator: '',
-  isDefault: false
+  isDefault: 'false' // 改为字符串类型
 };
 
 export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ className }) => {
@@ -53,6 +55,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
   const [showDefaultDialog, setShowDefaultDialog] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const [defaultTargetId, setDefaultTargetId] = useState<string | null>(null);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   // React Hook Form setup
   const {
@@ -62,20 +65,20 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     reset,
     setValue,
     watch,
-    trigger: _trigger,
+    trigger,
     clearErrors
   } = useForm<WarehouseForm>({
     defaultValues: emptyForm,
     mode: 'onBlur'
   });
 
-  const _formData = watch(); // 监听表单数据变化
+  const formData = watch(); // 监听表单数据变化
 
   useEffect(() => {
     loadData();
   }, []);
 
-  const _loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -83,16 +86,20 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
       console.log('WarehouseManagement: Starting to load data...');
       
       // Force reinitialize warehouse service to ensure data consistency
-      await warehouseService.forceReinitialize();
+      const inventoryService = serviceManager.getInventoryService();
+      await inventoryService.initialize();
       
-      const [warehousesData, statsData] = await Promise.all([
-        warehouseService.findAll(),
-        warehouseService.getWarehouseStats()
+      const [warehousesResult, statsResult] = await Promise.all([
+        inventoryService.findAllWarehouses(),
+        inventoryService.getWarehouseStats()
       ]);
-      
-      console.log('WarehouseManagement: Loaded warehouses:', warehousesData);
+
+      const warehousesData = warehousesResult.success ? (warehousesResult.data || []) : [];
+      const statsData = statsResult.success ? (statsResult.data || {}) : {};
+
+      console.log('WarehouseManagement: Loaded warehouses:', warehousesData.map(w => ({ id: w.id, name: w.name, code: w.code })));
       console.log('WarehouseManagement: Loaded stats:', statsData);
-      
+
       setWarehouses(warehousesData);
       setStats(statsData);
     } catch (err) {
@@ -103,17 +110,29 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }
   };
 
-  const _onSubmit = async (data: WarehouseForm) => {
+  const onSubmit = async (data: WarehouseForm) => {
     try {
-      const _submitData = {
-        ...data,
-        manager: data.creator
+      // 构建提交数据，正确映射字段
+      const { creator, ...restData } = data;
+      const submitData = {
+        ...restData,
+        manager: creator, // 将creator映射到manager字段
+        isDefault: restData.isDefault === 'true', // 将字符串转换为布尔值
+        // 编辑时保持原有isActive状态，新建时默认为激活状态
+        isActive: editingWarehouse ? editingWarehouse.isActive : true
       };
       
+      console.log('提交数据验证:', { 
+        originalIsDefault: editingWarehouse?.isDefault,
+        formIsDefault: data.isDefault,
+        submitIsDefault: submitData.isDefault 
+      });
+      
+      const inventoryService = serviceManager.getInventoryService();
       if (editingWarehouse) {
-        await warehouseService.update(editingWarehouse.id, submitData);
+        await inventoryService.updateWarehouse(editingWarehouse.id, submitData);
       } else {
-        await warehouseService.create(submitData);
+        await inventoryService.createWarehouse(submitData);
       }
       
       await loadData();
@@ -126,21 +145,21 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }
   };
 
-  const _handleEdit = (warehouse: Warehouse) => {
+  const handleEdit = (warehouse: Warehouse) => {
     setEditingWarehouse(warehouse);
     reset({
       code: warehouse.code,
       name: warehouse.name,
       address: warehouse.address || '',
-      creator: warehouse.manager || '',
-      isDefault: warehouse.isDefault
+      creator: warehouse.manager || '', // 从manager字段获取负责人信息
+      isDefault: warehouse.isDefault.toString() // 转换布尔值为字符串
     });
     clearErrors();
     setShowForm(true);
   };
 
-  const _handleDelete = (warehouseId: string) => {
-    const _warehouse = warehouses.find(w => w.id === warehouseId);
+  const handleDelete = (warehouseId: string) => {
+    const warehouse = warehouses.find(w => w.id === warehouseId);
     if (warehouse?.isDefault) {
       setError('默认仓库不能删除');
       return;
@@ -150,11 +169,12 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     setShowDeleteDialog(true);
   };
 
-  const _confirmDelete = async () => {
+  const confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
-      await warehouseService.delete(deleteTargetId);
+      const inventoryService = serviceManager.getInventoryService();
+      await inventoryService.deleteWarehouse(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除仓库失败');
@@ -165,22 +185,28 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }
   };
 
-  const _cancelDelete = () => {
+  const cancelDelete = () => {
     setShowDeleteDialog(false);
     setDeleteTargetId(null);
   };
 
-  const _handleSetDefault = (warehouseId: string) => {
+  const handleSetDefault = (warehouseId: string) => {
     setDefaultTargetId(warehouseId);
     setShowDefaultDialog(true);
   };
 
-  const _confirmSetDefault = async () => {
+  const confirmSetDefault = async () => {
     if (!defaultTargetId) return;
 
     try {
-      await warehouseService.setDefault(defaultTargetId);
-      await loadData();
+      const inventoryService = serviceManager.getInventoryService();
+      // 使用专门的 setDefaultWarehouse 方法，确保默认仓库唯一性约束
+      const result = await inventoryService.setDefaultWarehouse(defaultTargetId);
+      if (result.success) {
+        await loadData();
+      } else {
+        setError(result.error || '设置默认仓库失败');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : '设置默认仓库失败');
       console.error('Failed to set default warehouse:', err);
@@ -190,39 +216,51 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }
   };
 
-  const _cancelSetDefault = () => {
+  const cancelSetDefault = () => {
     setShowDefaultDialog(false);
     setDefaultTargetId(null);
   };
 
-  const _handleCancel = () => {
+  const handleCancel = () => {
+    console.log('WarehouseManagement: Canceling form');
     setShowForm(false);
     setEditingWarehouse(null);
     reset(emptyForm);
     clearErrors();
+    setError(null); // 清除错误信息
+    console.log('WarehouseManagement: Form closed, showForm state:', false);
   };
 
-  const _handleCreateNew = () => {
-    const _newFormData = {
+  const handleCreateNew = () => {
+    console.log('WarehouseManagement: Creating new warehouse, user:', user);
+    
+    // 设置按钮被点击的状态，提供即时反馈
+    setButtonClicked(true);
+    setTimeout(() => setButtonClicked(false), 300);
+    
+    const newFormData = {
       ...emptyForm,
       creator: user?.nickname || user?.username || ''
     };
+    console.log('WarehouseManagement: New form data:', newFormData);
     reset(newFormData);
     clearErrors();
+    setEditingWarehouse(null); // 确保清空编辑状态
     setShowForm(true);
+    console.log('WarehouseManagement: Form visibility set to true, showForm state:', true);
   };
 
-  const _generateWarehouseCode = () => {
-    const _maxCode = warehouses.reduce((max, warehouse) => {
-      const _match = warehouse.code.match(/WH(\d+)/);
+  const generateWarehouseCode = () => {
+    const maxCode = warehouses.reduce((max, warehouse) => {
+      const match = warehouse.code.match(/WH(\d+)/);
       if (match) {
-        const _num = parseInt(match[1]);
+        const num = parseInt(match[1]);
         return Math.max(max, num);
       }
       return max;
     }, 0);
     
-    const _newCode = `WH${String(maxCode + 1).padStart(3, '0')}`;
+    const newCode = `WH${String(maxCode + 1).padStart(3, '0')}`;
     setValue('code', newCode);
     clearErrors('code');
   };
@@ -234,14 +272,14 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
     }
   }, [showForm, editingWarehouse, warehouses.length]);
 
-  const _filteredWarehouses = warehouses.filter(warehouse => {
-    const _matchesSearch = !searchTerm || 
+  const filteredWarehouses = warehouses.filter(warehouse => {
+    const matchesSearch = !searchTerm || 
       warehouse.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       warehouse.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (warehouse.address || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (warehouse.manager || '').toLowerCase().includes(searchTerm.toLowerCase());
     
-    const _matchesStatus = !selectedStatus || 
+    const matchesStatus = !selectedStatus || 
       (selectedStatus === 'default' && warehouse.isDefault);
     
     return matchesSearch && matchesStatus;
@@ -269,14 +307,22 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
           <h1 className="text-3xl font-bold text-white mb-2">仓库管理</h1>
           <p className="text-white/70">管理仓库信息、位置和仓库配置</p>
         </div>
-        <GlassButton
-          variant="primary"
-          onClick={handleCreateNew}
-          className="self-start lg:self-auto"
-        >
-          <span className="mr-2">🏭</span>
-          新建仓库
-        </GlassButton>
+        <div className="flex flex-col items-end gap-2">
+          <GlassButton
+            variant="primary"
+            onClick={handleCreateNew}
+            className={`self-start lg:self-auto ${buttonClicked ? 'transform scale-95' : ''}`}
+          >
+            <span className="mr-2">🏭</span>
+            新建仓库
+            {buttonClicked && <span className="ml-2">✨</span>}
+          </GlassButton>
+          {buttonClicked && (
+            <p className="text-white/60 text-xs animate-pulse">
+              正在打开新建仓库表单...
+            </p>
+          )}
+        </div>
       </div>
 
       {/* 错误消息 */}
@@ -302,7 +348,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 🏭
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">{stats.total}</div>
+                <div className="text-2xl font-bold text-white">{stats.totalWarehouses}</div>
                 <div className="text-white/70 text-sm">总仓库数</div>
               </div>
             </div>
@@ -314,8 +360,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 ✅
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">{stats.active}</div>
-                <div className="text-white/70 text-sm">启用仓库</div>
+                <div className="text-2xl font-bold text-white">{stats.warehousesWithManagers}</div>
+                <div className="text-white/70 text-sm">有管理员仓库</div>
               </div>
             </div>
           </GlassCard>
@@ -326,7 +372,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 ⭐
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">{stats.hasDefault ? 1 : 0}</div>
+                <div className="text-2xl font-bold text-white">{stats.defaultWarehouses}</div>
                 <div className="text-white/70 text-sm">默认仓库</div>
               </div>
             </div>
@@ -345,13 +391,26 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           
-          <GlassSelect
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-          >
-            <option value="">全部仓库</option>
-            <option value="default">默认仓库</option>
-          </GlassSelect>
+          <div className="flex gap-2">
+            <GlassSelect
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="flex-1"
+            >
+              <option value="">全部仓库</option>
+              <option value="default">默认仓库</option>
+            </GlassSelect>
+            
+            {/* 备用新建按钮 */}
+            <GlassButton
+              variant="secondary"
+              onClick={handleCreateNew}
+              className="px-4"
+              title="新建仓库"
+            >
+              ➕
+            </GlassButton>
+          </div>
         </div>
       </GlassCard>
 
@@ -393,7 +452,13 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                 </TableHeader>
 
                 <TableBody>
-                  {filteredWarehouses.map(warehouse => (
+                  {filteredWarehouses.map(warehouse => {
+                    console.log('🔍 DEBUG: Warehouse object:', JSON.stringify(warehouse, null, 2));
+                    console.log('🔍 DEBUG: warehouse.name value:', warehouse.name);
+                    console.log('🔍 DEBUG: warehouse.name type:', typeof warehouse.name);
+                    console.log('🔍 DEBUG: warehouse.name length:', warehouse.name?.length);
+                    console.log('🔍 DEBUG: warehouse.name charCodes:', warehouse.name?.split('').map(c => c.charCodeAt(0)));
+                    return (
                     <TableRow key={warehouse.id}>
                       <TableCell 
                         fixed 
@@ -403,8 +468,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                       >
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="font-semibold text-white">{warehouse.name}</span>
-                            {warehouse.isDefault && (
+                            <span className="font-semibold text-white" data-warehouse-name={warehouse.name} title={`原始名称: "${warehouse.name}" (类型: ${typeof warehouse.name})`}>{warehouse.name}</span>
+                            {Boolean(warehouse.isDefault) && (
                               <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30">
                                 默认
                               </span>
@@ -425,7 +490,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                         </div>
                       </TableCell>
                       <TableCell className="min-w-[100px] text-center">
-                        {warehouse.isDefault && (
+                        {Boolean(warehouse.isDefault) && (
                           <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30">
                             默认
                           </span>
@@ -441,7 +506,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                           ✏️
                         </button>
                         
-                        {!warehouse.isDefault && (
+                        {!Boolean(warehouse.isDefault) && (
                           <button
                             onClick={() => handleSetDefault(warehouse.id)}
                             className="px-3 py-1 text-xs bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 rounded hover:bg-yellow-500/30 transition-colors"
@@ -451,7 +516,7 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                           </button>
                         )}
                         
-                        {!warehouse.isDefault && (
+                        {!Boolean(warehouse.isDefault) && (
                           <button
                             onClick={() => handleDelete(warehouse.id)}
                             className="px-3 py-1 text-xs bg-red-500/20 text-red-300 border border-red-400/30 rounded hover:bg-red-500/30 transition-colors"
@@ -463,7 +528,8 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
                         </div>
                       </TableCell>
                     </TableRow>
-                  ))}
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -471,9 +537,28 @@ export const WarehouseManagement: React.FC<WarehouseManagementProps> = ({ classN
         </CardContent>
       </Card>
 
+
+
       {/* 仓库表单模态框 */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]">
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9998]"
+          style={{ 
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9998,
+            display: 'flex'
+          }}
+          onClick={(e) => {
+            // 只有点击背景时才关闭
+            if (e.target === e.currentTarget) {
+              handleCancel();
+            }
+          }}
+        >
           <div className="glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-4">

@@ -33,10 +33,10 @@ const TRANSACTION_FIELD_MAP = {
  * 库存交易查询基础SQL
  */
 const TRANSACTION_BASE_QUERY = `
-  SELECT 
-    id, item_id as itemId, transaction_type as transactionType, 
+  SELECT
+    id, item_id as itemId, transaction_type as transactionType,
     quantity, unit_price as unitPrice, total_amount as totalAmount,
-    reason, reference_number as referenceNumber, notes,
+    reference_number as referenceNumber, notes,
     created_at as createdAt, created_by as createdBy
   FROM inventory_transactions
 `;
@@ -128,8 +128,8 @@ function setupTransactionHandlers(ipcMain, db) {
     const query = `
       INSERT INTO inventory_transactions (
         id, item_id, transaction_type, quantity, unit_price, total_amount,
-        reason, reference_number, notes, created_at, created_by
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        reference_number, notes, created_at, created_by
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     
     const stmt = db.prepare(query);
@@ -145,9 +145,8 @@ function setupTransactionHandlers(ipcMain, db) {
       transaction.quantity,
       unitPrice,
       totalAmount,
-      transaction.reason || transaction.remark || '',
       transaction.referenceNumber || transaction.reference_no || transaction.transactionNo || '',
-      transaction.notes || '',
+      transaction.notes || transaction.reason || transaction.remark || '',
       transaction.createdAt || transaction.created_at || now,
       transaction.createdBy || transaction.created_by || transaction.operator || 'system'
     );
@@ -182,8 +181,8 @@ function setupTransactionHandlers(ipcMain, db) {
     const insertStmt = db.prepare(`
       INSERT INTO inventory_transactions (
         id, item_id, transaction_type, quantity, unit_price, total_amount,
-        reason, reference_number, notes, created_at, created_by
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        reference_number, notes, created_at, created_by
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     
     const updateStockStmt = db.prepare(`
@@ -221,9 +220,8 @@ function setupTransactionHandlers(ipcMain, db) {
             txn.quantity,
             unitPrice,
             totalAmount,
-            txn.reason || txn.remark || '',
             txn.referenceNumber || txn.reference_no || txn.transactionNo || '',
-            txn.notes || '',
+            txn.notes || txn.reason || txn.remark || '',
             txn.createdAt || txn.created_at || now,
             txn.createdBy || txn.created_by || txn.operator || 'system'
           );
@@ -385,13 +383,13 @@ function setupTransactionHandlers(ipcMain, db) {
     
     const query = `
       ${TRANSACTION_BASE_QUERY}
-      WHERE reason LIKE ? OR reference_number LIKE ? OR notes LIKE ?
+      WHERE notes LIKE ? OR reference_number LIKE ?
       ORDER BY created_at DESC
     `;
     
     const searchPattern = `%${searchTerm}%`;
     const stmt = db.prepare(query);
-    const rows = stmt.all(searchPattern, searchPattern, searchPattern);
+    const rows = stmt.all(searchPattern, searchPattern);
     
     const transactions = transformRows(rows, TRANSACTION_FIELD_MAP);
     return successResult(transactions);

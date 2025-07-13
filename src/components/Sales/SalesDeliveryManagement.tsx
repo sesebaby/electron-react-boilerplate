@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { salesDeliveryService, salesOrderService, customerService, warehouseService, productService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { SalesDelivery, SalesDeliveryItem, DeliveryStatus, SalesOrder, SalesOrderStatus, Customer, Warehouse, Product } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -71,25 +71,41 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     loadData();
   }, []);
 
-  const _loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const [deliveriesData, ordersData, customersData, warehousesData, productsData, statsData] = await Promise.all([
-        salesDeliveryService.findAll(),
-        salesOrderService.findAll(),
-        customerService.findAll(),
-        warehouseService.findAll(),
-        productService.findAll(),
-        salesDeliveryService.getDeliveryStats()
-      ]);
+      const orderService = serviceManager.getOrderService();
+      const systemService = serviceManager.getSystemService();
+      const inventoryService = serviceManager.getInventoryService();
       
-      setDeliveries(deliveriesData);
-      setOrders(ordersData);
-      setCustomers(customersData);
-      setWarehouses(warehousesData);
-      setProducts(productsData);
+      const [deliveriesResult, ordersResult, customersResult, warehousesResult, productsResult, statsResult] = await Promise.all([
+        orderService.getSalesDeliveries(),
+        orderService.getSalesOrders(),
+        systemService.getCustomers(),
+        inventoryService.findAllWarehouses(),
+        inventoryService.findAllProducts(),
+        Promise.resolve({ success: true, data: {} }) // 临时使用空统计数据
+      ]);
+
+      const deliveriesData = deliveriesResult.success ? 
+        (Array.isArray(deliveriesResult.data) ? deliveriesResult.data : deliveriesResult.data?.items || []) : [];
+      const ordersData = ordersResult.success ? 
+        (Array.isArray(ordersResult.data) ? ordersResult.data : ordersResult.data?.items || []) : [];
+      const customersData = customersResult.success ? 
+        (Array.isArray(customersResult.data) ? customersResult.data : customersResult.data?.items || []) : [];
+      const warehousesData = warehousesResult.success ? 
+        (Array.isArray(warehousesResult.data) ? warehousesResult.data : (warehousesResult.data as any)?.items || []) : [];
+      const productsData = productsResult.success ? 
+        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const statsData = statsResult.success ? (statsResult.data || {}) : {};
+
+      setDeliveries((Array.isArray(deliveriesData) ? deliveriesData : []) as SalesDelivery[]);
+      setOrders((Array.isArray(ordersData) ? ordersData : []) as SalesOrder[]);
+      setCustomers((Array.isArray(customersData) ? customersData : []) as Customer[]);
+      setWarehouses((Array.isArray(warehousesData) ? warehousesData : []) as Warehouse[]);
+      setProducts((Array.isArray(productsData) ? productsData : []) as Product[]);
       setStats(statsData);
     } catch (err) {
       setError('加载销售出库数据失败');
@@ -99,14 +115,16 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     }
   };
 
-  const _loadOrderItems = async (orderId: string) => {
+  const loadOrderItems = async (orderId: string) => {
     if (!orderId) {
       setAvailableOrderItems([]);
       return;
     }
 
     try {
-      const _orderItems = await salesOrderService.getOrderItems(orderId);
+      const orderService = serviceManager.getOrderService();
+      const orderItemsResult = await orderService.getOrderItems(orderId);
+      const orderItems = orderItemsResult.success ? (orderItemsResult.data || []) : [];
       setAvailableOrderItems(orderItems);
     } catch (err) {
       console.error('Failed to load order items:', err);
@@ -114,11 +132,11 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     }
   };
 
-  const _handleOrderChange = async (orderId: string) => {
+  const handleOrderChange = async (orderId: string) => {
     handleInputChange('orderId', orderId);
     
     if (orderId) {
-      const _order = orders.find(o => o.id === orderId);
+      const order = orders.find(o => o.id === orderId);
       if (order) {
         handleInputChange('customerId', order.customerId);
         await loadOrderItems(orderId);
@@ -129,7 +147,7 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     }
   };
 
-  const _handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (formItems.length === 0) {
@@ -150,33 +168,41 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
       
       if (editingDelivery) {
         // 更新出库单
-        delivery = await salesDeliveryService.update(editingDelivery.id, {
+        const orderService = serviceManager.getOrderService();
+        const updateResult = await orderService.update(editingDelivery.id, {
           ...formData,
           deliveryDate: new Date(formData.deliveryDate)
         });
+        if (!updateResult.success) {
+          throw new Error(updateResult.error || '更新出库单失败');
+        }
+        delivery = updateResult.data as SalesDelivery;
         
         // 更新出库项目（简化：删除所有重新添加）
-        const _existingItems = await salesDeliveryService.getDeliveryItems(editingDelivery.id);
+        const existingItemsResult = await orderService.getDeliveryItems(editingDelivery.id);
+        const existingItems = existingItemsResult.success ? (existingItemsResult.data || []) : [];
         for (const item of existingItems) {
-          await salesDeliveryService.removeDeliveryItem(item.id);
+          await orderService.removeDeliveryItem(item.id);
         }
       } else {
         // 创建新出库单
-        delivery = await salesDeliveryService.create({
-          ...formData,
-          deliveryDate: new Date(formData.deliveryDate)
+        const orderService = serviceManager.getOrderService();
+        const createResult = await orderService.createSalesDelivery({
+          salesOrderId: formData.orderId,
+          warehouseId: formData.warehouseId,
+          items: formItems.map(item => ({
+            salesOrderItemId: item.orderItemId,
+            deliveredQuantity: item.quantity
+          })),
+          deliverer: formData.deliveryPerson
         });
+        if (!createResult.success) {
+          throw new Error(createResult.error || '创建出库单失败');
+        }
+        delivery = createResult.data as SalesDelivery;
       }
       
-      // 添加出库项目
-      for (const itemData of formItems) {
-        await salesDeliveryService.addDeliveryItem(delivery.id, {
-          productId: itemData.productId,
-          orderItemId: itemData.orderItemId,
-          quantity: itemData.quantity,
-          unitPrice: itemData.unitPrice
-        });
-      }
+      // 出库单和明细已在createSalesDelivery中一次性创建
       
       await loadData();
       setShowForm(false);
@@ -190,7 +216,7 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     }
   };
 
-  const _handleEdit = async (delivery: SalesDelivery) => {
+  const handleEdit = async (delivery: SalesDelivery) => {
     setEditingDelivery(delivery);
     setFormData({
       orderId: delivery.orderId,
@@ -204,8 +230,10 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     
     // 加载订单项目和出库项目
     await loadOrderItems(delivery.orderId);
-    const _items = await salesDeliveryService.getDeliveryItems(delivery.id);
-    setFormItems(items.map(item => ({
+    const orderService = serviceManager.getOrderService();
+    const itemsResult = await orderService.getDeliveryItems(delivery.id);
+    const items = itemsResult.success ? (itemsResult.data || []) : [];
+    setFormItems(items.map((item: any) => ({
       id: item.id,
       productId: item.productId,
       orderItemId: item.orderItemId,
@@ -216,16 +244,17 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     setShowForm(true);
   };
 
-  const _handleDelete = (deliveryId: string) => {
+  const handleDelete = (deliveryId: string) => {
     setDeleteTargetId(deliveryId);
     setShowConfirmDialog(true);
   };
 
-  const _confirmDelete = async () => {
+  const confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
-      await salesDeliveryService.delete(deleteTargetId);
+      const orderService = serviceManager.getOrderService();
+      await orderService.delete(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除销售出库单失败');
@@ -236,14 +265,15 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     }
   };
 
-  const _cancelDelete = () => {
+  const cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const _handleStatusUpdate = async (deliveryId: string, newStatus: DeliveryStatus) => {
+  const handleStatusUpdate = async (deliveryId: string, newStatus: DeliveryStatus) => {
     try {
-      await salesDeliveryService.updateStatus(deliveryId, newStatus);
+      const orderService = serviceManager.getOrderService();
+      await orderService.updateStatus(deliveryId, newStatus);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '更新出库状态失败');
@@ -251,7 +281,7 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     }
   };
 
-  const _handleCancel = () => {
+  const handleCancel = () => {
     setShowForm(false);
     setEditingDelivery(null);
     setFormData(emptyForm);
@@ -259,11 +289,11 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     setAvailableOrderItems([]);
   };
 
-  const _handleInputChange = (field: keyof DeliveryForm, value: any) => {
+  const handleInputChange = (field: keyof DeliveryForm, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const _addItem = () => {
+  const addItem = () => {
     const newItem: DeliveryItemForm = {
       ...emptyItem,
       id: Date.now().toString()
@@ -271,17 +301,17 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     setFormItems(prev => [...prev, newItem]);
   };
 
-  const _removeItem = (itemId: string) => {
+  const removeItem = (itemId: string) => {
     setFormItems(prev => prev.filter(item => item.id !== itemId));
   };
 
-  const _updateItem = (itemId: string, field: keyof DeliveryItemForm, value: any) => {
+  const updateItem = (itemId: string, field: keyof DeliveryItemForm, value: any) => {
     setFormItems(prev => prev.map(item =>
       item.id === itemId ? { ...item, [field]: value } : item
     ));
   };
 
-  const _getStatusText = (status: DeliveryStatus): string => {
+  const getStatusText = (status: DeliveryStatus): string => {
     switch (status) {
       case DeliveryStatus.DRAFT: return '草稿';
       case DeliveryStatus.SHIPPED: return '已发货';
@@ -290,7 +320,7 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     }
   };
 
-  const _getStatusStyles = (status: DeliveryStatus): string => {
+  const getStatusStyles = (status: DeliveryStatus): string => {
     switch (status) {
       case DeliveryStatus.DRAFT: return 'text-gray-300 bg-gray-500/20 border-gray-400/30';
       case DeliveryStatus.SHIPPED: return 'text-orange-300 bg-orange-500/20 border-orange-400/30';
@@ -299,48 +329,48 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
     }
   };
 
-  const _getCustomerName = (customerId: string): string => {
-    const _customer = customers.find(c => c.id === customerId);
+  const getCustomerName = (customerId: string): string => {
+    const customer = customers.find(c => c.id === customerId);
     return customer ? customer.name : '未知客户';
   };
 
-  const _getWarehouseName = (warehouseId: string): string => {
-    const _warehouse = warehouses.find(w => w.id === warehouseId);
+  const getWarehouseName = (warehouseId: string): string => {
+    const warehouse = warehouses.find(w => w.id === warehouseId);
     return warehouse ? warehouse.name : '未知仓库';
   };
 
-  const _getProductName = (productId: string): string => {
-    const _product = products.find(p => p.id === productId);
+  const getProductName = (productId: string): string => {
+    const product = products.find(p => p.id === productId);
     return product ? product.name : '未知商品';
   };
 
-  const _getOrderNo = (orderId: string): string => {
-    const _order = orders.find(o => o.id === orderId);
+  const getOrderNo = (orderId: string): string => {
+    const order = orders.find(o => o.id === orderId);
     return order ? order.orderNo : '未知订单';
   };
 
-  const _getTotalAmount = (): number => {
+  const getTotalAmount = (): number => {
     return formItems.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
   };
 
-  const _getTotalQuantity = (): number => {
+  const getTotalQuantity = (): number => {
     return formItems.reduce((sum, item) => sum + item.quantity, 0);
   };
 
-  const _formatDate = (date: Date): string => {
+  const formatDate = (date: Date): string => {
     return new Date(date).toLocaleDateString('zh-CN');
   };
 
-  const _filteredDeliveries = deliveries.filter(delivery => {
-    const _matchesSearch = !searchTerm || 
+  const filteredDeliveries = deliveries.filter(delivery => {
+    const matchesSearch = !searchTerm || 
       delivery.deliveryNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       getCustomerName(delivery.customerId).toLowerCase().includes(searchTerm.toLowerCase()) ||
       getOrderNo(delivery.orderId).toLowerCase().includes(searchTerm.toLowerCase()) ||
       (delivery.remark || '').toLowerCase().includes(searchTerm.toLowerCase());
     
-    const _matchesStatus = !selectedStatus || delivery.status === selectedStatus;
-    const _matchesCustomer = !selectedCustomer || delivery.customerId === selectedCustomer;
-    const _matchesWarehouse = !selectedWarehouse || delivery.warehouseId === selectedWarehouse;
+    const matchesStatus = !selectedStatus || delivery.status === selectedStatus;
+    const matchesCustomer = !selectedCustomer || delivery.customerId === selectedCustomer;
+    const matchesWarehouse = !selectedWarehouse || delivery.warehouseId === selectedWarehouse;
     
     return matchesSearch && matchesStatus && matchesCustomer && matchesWarehouse;
   });
@@ -741,7 +771,7 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
                       </TableHeader>
                       <TableBody>
                         {formItems.map(item => {
-                          const _amount = item.quantity * item.unitPrice;
+                          const amount = item.quantity * item.unitPrice;
                           return (
                             <TableRow key={item.id}>
                               <TableCell className="py-3 px-4">
@@ -765,7 +795,7 @@ export const SalesDeliveryManagement: React.FC<SalesDeliveryManagementProps> = (
                                   onChange={(e) => {
                                     updateItem(item.id, 'orderItemId', e.target.value);
                                     // 自动填充产品信息
-                                    const _orderItem = availableOrderItems.find(oi => oi.id === e.target.value);
+                                    const orderItem = availableOrderItems.find(oi => oi.id === e.target.value);
                                     if (orderItem) {
                                       updateItem(item.id, 'productId', orderItem.productId);
                                       updateItem(item.id, 'unitPrice', orderItem.unitPrice);

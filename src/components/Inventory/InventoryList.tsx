@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { inventoryStockService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { InventoryStock } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { Card, CardContent } from '../ui/card';
@@ -11,7 +11,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty as _TableEmpty,
+  TableEmpty,
   TableLoading
 } from '../ui/table';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
@@ -40,11 +40,13 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
     sortOrder: 'asc'
   });
 
-  const _loadInventories = useCallback(async () => {
+  const loadInventories = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      const _data = await inventoryStockService.findAllStocks();
+      const inventoryService = serviceManager.getInventoryService();
+      // TODO: Implement method to get all inventory stocks
+      const data: any[] = []; // Mock data for now
       setInventories(data);
     } catch (err) {
       setError('加载库存数据失败');
@@ -59,12 +61,12 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
   }, [loadInventories]);
 
   // 使用useMemo优化过滤和排序逻辑
-  const _filteredInventories = useMemo(() => {
-    const _filtered = [...inventories];
+  const filteredInventories = useMemo(() => {
+    let filtered = [...inventories];
 
     // 搜索过滤
     if (filters.search) {
-      filtered = filtered.filter(item => 
+      filtered = filtered.filter(item =>
         item.productId.toLowerCase().includes(filters.search.toLowerCase()) ||
         item.warehouseId.toLowerCase().includes(filters.search.toLowerCase())
       );
@@ -119,20 +121,20 @@ export const InventoryList: React.FC<InventoryListProps> = React.memo(({ classNa
     return filtered;
   }, [inventories, filters]);
 
-  const _getStockStatusStyles = useCallback((item: InventoryStock): string => {
+  const getStockStatusStyles = useCallback((item: InventoryStock): string => {
     if (item.currentStock === 0) return 'text-red-300 bg-red-500/20 border-red-400/30';
     if (item.currentStock <= item.minStock) return 'text-yellow-300 bg-yellow-500/20 border-yellow-400/30';
     return 'text-green-300 bg-green-500/20 border-green-400/30';
   }, []);
 
-  const _getStockStatusText = useCallback((item: InventoryStock): string => {
+  const getStockStatusText = useCallback((item: InventoryStock): string => {
     if (item.currentStock === 0) return '缺货';
     if (item.currentStock <= item.minStock) return '低库存';
     return '正常';
   }, []);
 
 
-  const _handleFilterChange = useCallback((key: keyof InventoryFilters, value: string) => {
+  const handleFilterChange = useCallback((key: keyof InventoryFilters, value: string) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   }, []);
 

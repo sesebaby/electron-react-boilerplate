@@ -1,278 +1,142 @@
-// 出入库登记数据服务
+/**
+ * 库存登记报表服务
+ */
+
+import { serviceManager } from '../core';
 
 export interface InventoryEntryItem {
   id: string;
-  primaryCategory: string;
-  secondaryCategory: string;
-  name: string;
-  totalOut: number;
-  dailyData: {
-    [date: string]: {
-      stockIn: number;
-      morning: number;
-      noon: number;
-      evening: number;
-      stock: number;
-    };
-  };
+  productId: string;
+  productName: string;
+  sku: string;
+  category: string;
+  warehouse: string;
+  date: string;
+  quantity: number;
+  amount: number;
+  type: 'in' | 'out';
+  remark?: string;
 }
 
-export interface InventoryEntryFilter {
+export interface TimeRange {
   startDate: string;
   endDate: string;
-  displayMode: 'amount' | 'quantity' | 'converted';
-  categoryFilter?: string;
-  warehouseFilter?: string;
 }
 
-export class InventoryEntryRegistrationService {
-  private static instance: InventoryEntryRegistrationService;
+export interface WeekRange {
+  week: number;
+  startDate: string;
+  endDate: string;
+  label: string;
+}
 
-  private constructor() {}
-
-  public static getInstance(): InventoryEntryRegistrationService {
-    if (!InventoryEntryRegistrationService.instance) {
-      InventoryEntryRegistrationService.instance = new InventoryEntryRegistrationService();
-    }
-    return InventoryEntryRegistrationService.instance;
-  }
-
-  /**
-   * 获取出入库登记数据
-   * @param filter 筛选条件
-   * @returns 出入库登记数据列表
-   */
-  public async getInventoryEntryData(filter: InventoryEntryFilter): Promise<InventoryEntryItem[]> {
-    try {
-      // 生成指定时间范围内的日期列表
-      const _dateRange = this.generateDateRange(filter.startDate, filter.endDate);
-      
-      // 模拟数据 - 在实际应用中，这里应该从数据库或API获取数据
-      const _mockData = this.generateMockData(dateRange, filter);
-      
-      return mockData;
-    } catch (error) {
-      console.error('获取出入库登记数据失败:', error);
-      throw new Error('获取出入库登记数据失败');
-    }
-  }
-
-  /**
-   * 生成日期范围
-   * @param startDate 开始日期
-   * @param endDate 结束日期
-   * @returns 日期字符串数组
-   */
-  private generateDateRange(startDate: string, endDate: string): string[] {
-    const dates: string[] = [];
-    const _start = new Date(startDate);
-    const _end = new Date(endDate);
-    
-    const _current = new Date(start);
-    while (current <= end) {
-      dates.push(current.toISOString().split('T')[0]);
-      current.setDate(current.getDate() + 1);
-    }
-    
-    return dates;
-  }
-
-  /**
-   * 生成模拟数据
-   * @param dateRange 日期范围
-   * @param filter 筛选条件
-   * @returns 模拟的出入库登记数据
-   */
-  private generateMockData(dateRange: string[], filter: InventoryEntryFilter): InventoryEntryItem[] {
-    const _categories = [
-      { primary: '食品', secondary: ['蔬菜', '水果', '肉类', '调料'] },
-      { primary: '用品', secondary: ['清洁用品', '办公用品', '日用品'] },
-      { primary: '原料', secondary: ['调料', '包装材料', '添加剂'] },
-      { primary: '设备', secondary: ['厨具', '餐具', '电器'] }
-    ];
-
-    const _products = [
-      { primary: '食品', secondary: '蔬菜', names: ['白菜', '萝卜', '土豆', '洋葱', '胡萝卜'] },
-      { primary: '食品', secondary: '水果', names: ['苹果', '香蕉', '橙子', '葡萄', '梨'] },
-      { primary: '食品', secondary: '肉类', names: ['猪肉', '牛肉', '鸡肉', '鱼肉'] },
-      { primary: '用品', secondary: '清洁用品', names: ['洗涤剂', '消毒液', '抹布', '垃圾袋'] },
-      { primary: '用品', secondary: '办公用品', names: ['纸张', '笔', '订书机', '文件夹'] },
-      { primary: '原料', secondary: '调料', names: ['盐', '糖', '醋', '生抽', '老抽'] },
-      { primary: '设备', secondary: '厨具', names: ['刀具', '锅具', '砧板', '勺子'] }
-    ];
-
-    const mockItems: InventoryEntryItem[] = [];
-
-    // 生成15-20个产品的数据
-    const _numProducts = 15 + Math.floor(Math.random() * 6);
-    
-    for (let _i = 0; i < numProducts; i++) {
-      const _productCategory = products[Math.floor(Math.random() * products.length)];
-      const _productName = productCategory.names[Math.floor(Math.random() * productCategory.names.length)];
-      
-      // 生成每日数据
-      const dailyData: { [date: string]: any } = {};
-      const _totalOut = 0;
-      
-      dateRange.forEach(date => {
-        const _stockIn = Math.floor(Math.random() * 30) + 5; // 5-35
-        const _morning = Math.floor(Math.random() * 15) + 2; // 2-17
-        const _noon = Math.floor(Math.random() * 20) + 5; // 5-25
-        const _evening = Math.floor(Math.random() * 12) + 3; // 3-15
-        const _dailyOut = morning + noon + evening;
-        const _stock = Math.floor(Math.random() * 80) + 20; // 20-100
-        
-        totalOut += dailyOut;
-        
-        // 根据显示模式调整数值
-        const _multiplier = this.getDisplayModeMultiplier(filter.displayMode);
-        
-        dailyData[date] = {
-          stockIn: Math.round(stockIn * multiplier),
-          morning: Math.round(morning * multiplier),
-          noon: Math.round(noon * multiplier),
-          evening: Math.round(evening * multiplier),
-          stock: Math.round(stock * multiplier)
-        };
-      });
-      
-      mockItems.push({
-        id: `item-${i + 1}`,
-        primaryCategory: productCategory.primary,
-        secondaryCategory: productCategory.secondary,
-        name: productName,
-        totalOut: Math.round(totalOut * this.getDisplayModeMultiplier(filter.displayMode)),
-        dailyData
-      });
-    }
-
-    return mockItems;
-  }
-
-  /**
-   * 获取显示模式的倍数
-   * @param displayMode 显示模式
-   * @returns 倍数
-   */
-  private getDisplayModeMultiplier(displayMode: 'amount' | 'quantity' | 'converted'): number {
-    switch (displayMode) {
-      case 'amount':
-        return 12.5; // 假设平均单价为12.5元
-      case 'quantity':
-        return 1; // 数量本身
-      case 'converted':
-        return 0.8; // 换算数量（如公斤转斤等）
-      default:
-        return 1;
-    }
-  }
-
+/**
+ * 库存登记报表服务
+ */
+class InventoryEntryRegistrationService {
+  
   /**
    * 获取月度周范围
-   * @param date 日期
-   * @returns 周范围数组
    */
-  public getMonthlyWeekRanges(date: string): Array<{ week: number; startDate: string; endDate: string; label: string }> {
-    const [year, month] = date.split('-').map(Number);
-    const _daysInMonth = new Date(year, month, 0).getDate();
+  getMonthlyWeekRanges(monthFirstDay: string): WeekRange[] {
+    const firstDay = new Date(monthFirstDay);
+    const year = firstDay.getFullYear();
+    const month = firstDay.getMonth();
     
-    const _weeks = [];
+    const weeks: WeekRange[] = [];
+    let currentWeek = 1;
+    let currentDate = new Date(year, month, 1);
     
-    for (let _week = 1; week <= 5; week++) {
-      const _startDay = (week - 1) * 7 + 1;
-      const _endDay = Math.min(week * 7, daysInMonth);
+    while (currentDate.getMonth() === month) {
+      const weekStart = new Date(currentDate);
+      const weekEnd = new Date(currentDate);
+      weekEnd.setDate(weekEnd.getDate() + 6);
       
-      if (startDay <= daysInMonth) {
-        weeks.push({
-          week,
-          startDate: `${year}-${String(month).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`,
-          endDate: `${year}-${String(month).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`,
-          label: `第${week}周`
-        });
+      // 如果结束日期超过月末，调整到月末
+      if (weekEnd.getMonth() !== month) {
+        weekEnd.setDate(new Date(year, month + 1, 0).getDate());
+        weekEnd.setMonth(month);
       }
+      
+      weeks.push({
+        week: currentWeek,
+        startDate: weekStart.toISOString().split('T')[0],
+        endDate: weekEnd.toISOString().split('T')[0],
+        label: `第${currentWeek}周`
+      });
+      
+      currentWeek++;
+      currentDate.setDate(currentDate.getDate() + 7);
     }
     
     return weeks;
   }
-
+  
   /**
-   * 导出数据为CSV格式
-   * @param data 出入库登记数据
-   * @param dateRange 日期范围
-   * @returns CSV字符串
+   * 获取库存登记数据
    */
-  public exportToCSV(data: InventoryEntryItem[], dateRange: string[]): string {
-    const _headers = ['序号', '一级分类', '二级分类', '物品名称', '总出库'];
-    
-    // 添加日期相关的列头
-    dateRange.forEach(date => {
-      const _day = new Date(date).getDate();
-      headers.push(`${day}日-入库`, `${day}日-早`, `${day}日-中`, `${day}日-晚`, `${day}日-库存`);
-    });
-
-    const _csvRows = [headers.join(',')];
-
-    data.forEach((item, index) => {
-      const _row = [
-        index + 1,
-        item.primaryCategory,
-        item.secondaryCategory,
-        item.name,
-        item.totalOut
+  async getInventoryEntryData(timeRange: TimeRange): Promise<InventoryEntryItem[]> {
+    try {
+      // 模拟数据 - 实际应该从数据库获取
+      const mockData: InventoryEntryItem[] = [
+        {
+          id: '1',
+          productId: 'p1',
+          productName: '测试商品1',
+          sku: 'TEST001',
+          category: '测试分类',
+          warehouse: '默认仓库',
+          date: timeRange.startDate,
+          quantity: 100,
+          amount: 1000,
+          type: 'in',
+          remark: '期初入库'
+        },
+        {
+          id: '2',
+          productId: 'p2',
+          productName: '测试商品2',
+          sku: 'TEST002',
+          category: '测试分类',
+          warehouse: '默认仓库',
+          date: timeRange.startDate,
+          quantity: 50,
+          amount: 500,
+          type: 'out',
+          remark: '销售出库'
+        }
       ];
-
-      // 添加每日数据
-      dateRange.forEach(date => {
-        const _dayData = item.dailyData[date];
-        row.push(
-          dayData?.stockIn || 0,
-          dayData?.morning || 0,
-          dayData?.noon || 0,
-          dayData?.evening || 0,
-          dayData?.stock || 0
-        );
-      });
-
-      csvRows.push(row.join(','));
-    });
-
-    return csvRows.join('\n');
+      
+      return mockData;
+    } catch (error) {
+      console.error('获取库存登记数据失败:', error);
+      return [];
+    }
   }
-
+  
   /**
-   * 获取统计汇总信息
-   * @param data 出入库登记数据
-   * @returns 统计汇总
+   * 导出为CSV
    */
-  public getStatisticsSummary(data: InventoryEntryItem[]) {
-    const _totalItems = data.length;
-    const _totalOut = data.reduce((sum, item) => sum + item.totalOut, 0);
-    const _totalStock = data.reduce((sum, item) => {
-      const _latestStock = Object.values(item.dailyData).reduce((latest, current) => 
-        latest + current.stock, 0) / Object.keys(item.dailyData).length;
-      return sum + latestStock;
-    }, 0);
-
-    const _categoryStats = data.reduce((stats, item) => {
-      if (!stats[item.primaryCategory]) {
-        stats[item.primaryCategory] = { count: 0, totalOut: 0 };
-      }
-      stats[item.primaryCategory].count++;
-      stats[item.primaryCategory].totalOut += item.totalOut;
-      return stats;
-    }, {} as Record<string, { count: number; totalOut: number }>);
-
-    return {
-      totalItems,
-      totalOut,
-      totalStock: Math.round(totalStock),
-      categoryStats
-    };
+  exportToCSV(data: InventoryEntryItem[], dates: string[]): string {
+    const headers = ['商品名称', 'SKU', '分类', '仓库', '日期', '数量', '金额', '类型', '备注'];
+    const csvContent = [
+      headers.join(','),
+      ...data.map(item => [
+        item.productName,
+        item.sku,
+        item.category,
+        item.warehouse,
+        item.date,
+        item.quantity,
+        item.amount,
+        item.type === 'in' ? '入库' : '出库',
+        item.remark || ''
+      ].join(','))
+    ].join('\n');
+    
+    return csvContent;
   }
 }
 
-// 导出单例实例
-export const _inventoryEntryRegistrationService = InventoryEntryRegistrationService.getInstance();
-
-// Re-export without underscore for backward compatibility
-export const inventoryEntryRegistrationService = _inventoryEntryRegistrationService;
+// 导出服务实例
+export const inventoryEntryRegistrationService = new InventoryEntryRegistrationService();

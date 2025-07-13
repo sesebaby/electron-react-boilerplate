@@ -1,0 +1,193 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # 每天凌晨2点运行
+    - cron: '0 2 * * *'
+
+jobs:
+  e2e-tests:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        node-version: [18.x, 20.x]
+      fail-fast: false
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        npm ci
+        npx playwright install --with-deps
+        
+    - name: Setup test environment
+      run: |
+        mkdir -p test-db
+        mkdir -p test-results
+        
+    - name: Run E2E tests
+      run: |
+        npm run test:e2e
+      env:
+        CI: true
+        NODE_ENV: test
+        TEST_MODE: true
+        ELECTRON_DISABLE_SECURITY_WARNINGS: true
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results-${{ matrix.os }}-${{ matrix.node-version }}
+        path: |
+          test-results/
+          playwright-report/
+        retention-days: 30
+        
+    - name: Upload coverage reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: coverage-${{ matrix.os }}-${{ matrix.node-version }}
+        path: coverage/
+        retention-days: 30
+        
+    - name: Publish test report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: E2E Test Results (${{ matrix.os }}-${{ matrix.node-version }})
+        path: test-results/junit.xml
+        reporter: java-junit
+        
+  performance-tests:
+    runs-on: ubuntu-latest
+    needs: e2e-tests
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        npm ci
+        npx playwright install --with-deps
+        
+    - name: Run performance tests
+      run: |
+        npm run test:performance
+      env:
+        CI: true
+        NODE_ENV: test
+        PERFORMANCE_MODE: true
+        
+    - name: Upload performance results
+      uses: actions/upload-artifact@v4
+      with:
+        name: performance-results
+        path: test-results/performance/
+        
+  security-tests:
+    runs-on: ubuntu-latest
+    needs: e2e-tests
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run security audit
+      run: |
+        npm audit --audit-level moderate
+        
+    - name: Run dependency check
+      run: |
+        npx audit-ci --moderate
+        
+    - name: Scan for secrets
+      uses: trufflesecurity/trufflehog@main
+      with:
+        path: ./
+        base: main
+        head: HEAD
+        
+  build-and-package:
+    runs-on: ${{ matrix.os }}
+    needs: [e2e-tests, performance-tests, security-tests]
+    
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Package application
+      run: npm run package
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-${{ matrix.os }}
+        path: dist/
+        retention-days: 7
+        
+  notify:
+    runs-on: ubuntu-latest
+    needs: [e2e-tests, performance-tests, security-tests, build-and-package]
+    if: always()
+    
+    steps:
+    - name: Notify on success
+      if: ${{ needs.e2e-tests.result == 'success' && needs.performance-tests.result == 'success' && needs.security-tests.result == 'success' && needs.build-and-package.result == 'success' }}
+      run: |
+        echo "✅ All tests passed successfully!"
+        
+    - name: Notify on failure
+      if: ${{ needs.e2e-tests.result == 'failure' || needs.performance-tests.result == 'failure' || needs.security-tests.result == 'failure' || needs.build-and-package.result == 'failure' }}
+      run: |
+        echo "❌ Some tests failed. Please check the logs."
+        exit 1

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { customerService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Customer, CustomerType, CustomerLevel, CustomerStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -14,7 +14,7 @@ interface CustomerManagementProps {
 }
 
 // 定义验证模式
-const _customerSchema = z.object({
+const customerSchema = z.object({
   code: z.string().min(1, '客户编码不能为空').max(20, '客户编码最多20个字符'),
   name: z.string().min(1, '客户名称不能为空').max(100, '客户名称最多100个字符'),
   contactPerson: z.string().max(50, '联系人名称最多50个字符').optional().or(z.literal('')),
@@ -79,7 +79,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     mode: 'onBlur'
   });
 
-  const _formData = watch(); // 监听表单数据变化
+  const formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -89,17 +89,21 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     loadData();
   }, []);
 
-  const _loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const [customersData, statsData] = await Promise.all([
-        customerService.findAll(),
-        customerService.getCustomerStats()
+      const systemService = serviceManager.getSystemService();
+      const [customersResult, statsResult] = await Promise.all([
+        systemService.getCustomers(),
+        Promise.resolve({ success: true, data: {} }) // 临时使用空统计数据
       ]);
-      
-      setCustomers(customersData);
+
+      const customersData = customersResult.success ? (customersResult.data?.items || customersResult.data || []) : [];
+      const statsData = statsResult.success ? (statsResult.data || {}) : {};
+
+      setCustomers(customersData as Customer[]);
       setStats(statsData);
     } catch (err) {
       setError('加载客户数据失败');
@@ -109,22 +113,25 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const _onSubmit = async (data: CustomerForm) => {
+  const onSubmit = async (data: CustomerForm) => {
     try {
-      const _submitData = {
+      const submitData = {
         ...data,
         // 处理空字符串为undefined
         contactPerson: data.contactPerson || undefined,
         phone: data.phone || undefined,
         email: data.email || undefined,
         address: data.address || undefined,
-        paymentTerms: data.paymentTerms || undefined
+        paymentTerms: data.paymentTerms || undefined,
+        discountRate: data.discountRate || 0,
+        isActive: true
       };
       
+      const systemService = serviceManager.getSystemService();
       if (editingCustomer) {
-        await customerService.update(editingCustomer.id, submitData);
+        await systemService.updateCustomer(editingCustomer.id, submitData);
       } else {
-        await customerService.create(submitData);
+        await systemService.createCustomer(submitData);
       }
       
       await loadData();
@@ -138,7 +145,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const _handleEdit = (customer: Customer) => {
+  const handleEdit = (customer: Customer) => {
     setEditingCustomer(customer);
     reset({
       code: customer.code,
@@ -158,16 +165,17 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     setShowForm(true);
   };
 
-  const _handleDelete = (customerId: string) => {
+  const handleDelete = (customerId: string) => {
     setDeleteTargetId(customerId);
     setShowConfirmDialog(true);
   };
 
-  const _confirmDelete = async () => {
+  const confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
-      await customerService.delete(deleteTargetId);
+      const systemService = serviceManager.getSystemService();
+      await systemService.deleteCustomer(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除客户失败');
@@ -178,12 +186,12 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const _cancelDelete = () => {
+  const cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const _handleCancel = () => {
+  const handleCancel = () => {
     setShowForm(false);
     setEditingCustomer(null);
     reset(emptyForm);
@@ -191,28 +199,35 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     setError(null); // 清除错误信息
   };
 
-  const _handleCreateNew = () => {
+  const handleCreateNew = async () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
+    // 自动生成客户编码
+    try {
+      const newCode = `CUS${Date.now()}`; // 临时生成方案
+      setValue('code', newCode);
+    } catch (err) {
+      console.error('Failed to generate customer code:', err);
+    }
   };
 
-  const _generateCustomerCode = () => {
-    const _maxCode = customers.reduce((max, customer) => {
-      const _match = customer.code.match(/CUS(\d+)/);
+  const generateCustomerCode = () => {
+    const maxCode = customers.reduce((max, customer) => {
+      const match = customer.code.match(/CUS(\d+)/);
       if (match) {
-        const _num = parseInt(match[1]);
+        const num = parseInt(match[1]);
         return Math.max(max, num);
       }
       return max;
     }, 0);
     
-    const _newCode = `CUS${String(maxCode + 1).padStart(3, '0')}`;
+    const newCode = `CUS${String(maxCode + 1).padStart(3, '0')}`;
     setValue('code', newCode);
     clearErrors('code');
   };
 
-  const _getTypeText = (type: CustomerType): string => {
+  const getTypeText = (type: CustomerType): string => {
     switch (type) {
       case CustomerType.COMPANY: return '企业客户';
       case CustomerType.INDIVIDUAL: return '个人客户';
@@ -220,7 +235,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const _getLevelText = (level: CustomerLevel): string => {
+  const getLevelText = (level: CustomerLevel): string => {
     switch (level) {
       case CustomerLevel.VIP: return 'VIP';
       case CustomerLevel.GOLD: return '金牌';
@@ -230,7 +245,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const _getStatusText = (status: CustomerStatus): string => {
+  const getStatusText = (status: CustomerStatus): string => {
     switch (status) {
       case CustomerStatus.ACTIVE: return '活跃';
       case CustomerStatus.INACTIVE: return '非活跃';
@@ -238,7 +253,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const _getStatusStyles = (status: CustomerStatus): string => {
+  const getStatusStyles = (status: CustomerStatus): string => {
     switch (status) {
       case CustomerStatus.ACTIVE: return 'text-green-300 bg-green-500/20 border-green-400/30';
       case CustomerStatus.INACTIVE: return 'text-red-300 bg-red-500/20 border-red-400/30';
@@ -246,7 +261,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const _getLevelStyles = (level: CustomerLevel): string => {
+  const getLevelStyles = (level: CustomerLevel): string => {
     switch (level) {
       case CustomerLevel.VIP: return 'text-purple-300 bg-purple-500/20 border-purple-400/30';
       case CustomerLevel.GOLD: return 'text-yellow-300 bg-yellow-500/20 border-yellow-400/30';
@@ -256,17 +271,17 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
     }
   };
 
-  const _filteredCustomers = customers.filter(customer => {
-    const _matchesSearch = !searchTerm || 
+  const filteredCustomers = customers.filter(customer => {
+    const matchesSearch = !searchTerm || 
       customer.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (customer.contactPerson || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (customer.phone || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (customer.email || '').toLowerCase().includes(searchTerm.toLowerCase());
     
-    const _matchesType = !selectedType || customer.customerType === selectedType;
-    const _matchesLevel = !selectedLevel || customer.level === selectedLevel;
-    const _matchesStatus = !selectedStatus || customer.status === selectedStatus;
+    const matchesType = !selectedType || customer.customerType === selectedType;
+    const matchesLevel = !selectedLevel || customer.level === selectedLevel;
+    const matchesStatus = !selectedStatus || customer.status === selectedStatus;
     
     return matchesSearch && matchesType && matchesLevel && matchesStatus;
   });
@@ -390,6 +405,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
             label="客户类型"
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value as CustomerType)}
+            title="仅用于筛选和标记，不与实际业务挂钩"
           >
             <option value="">全部类型</option>
             <option value={CustomerType.COMPANY}>企业客户</option>
@@ -400,6 +416,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
             label="客户等级"
             value={selectedLevel}
             onChange={(e) => setSelectedLevel(e.target.value as CustomerLevel)}
+            title="仅用于筛选和标记，不与实际业务挂钩"
           >
             <option value="">全部等级</option>
             <option value={CustomerLevel.VIP}>VIP</option>
@@ -438,7 +455,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                 <TableRow>
                   <TableHead className="min-w-[200px]">客户信息</TableHead>
                   <TableHead className="min-w-[200px]">联系方式</TableHead>
-                  <TableHead className="min-w-[120px]">类型/等级</TableHead>
+                  <TableHead className="min-w-[120px]" title="仅用于筛选和标记，不与实际业务挂钩">类型/等级</TableHead>
                   <TableHead className="min-w-[120px]">信用额度</TableHead>
                   <TableHead className="min-w-[100px]">折扣率</TableHead>
                   <TableHead className="min-w-[100px]">状态</TableHead>
@@ -481,8 +498,8 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                     </TableCell>
                     <TableCell className="py-3 px-4">
                       <div className="space-y-1">
-                        <div className="text-white/80 text-sm">{getTypeText(customer.customerType)}</div>
-                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getLevelStyles(customer.level)}`}>
+                        <div className="text-white/80 text-sm" title="仅用于筛选和标记，不与实际业务挂钩">{getTypeText(customer.customerType)}</div>
+                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getLevelStyles(customer.level)}`} title="仅用于筛选和标记，不与实际业务挂钩">
                           {getLevelText(customer.level)}
                         </span>
                       </div>
@@ -491,7 +508,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                       <div>
                         <div className="font-semibold text-white">¥{customer.creditLimit.toLocaleString()}</div>
                         {customer.paymentTerms && (
-                          <div className="text-white/70 text-sm">{customer.paymentTerms}</div>
+                          <div className="text-white/70 text-sm" title="仅用于筛选和标记，不与实际业务挂钩">{customer.paymentTerms}</div>
                         )}
                       </div>
                     </TableCell>
@@ -618,6 +635,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                   label="客户类型"
                   register={register('customerType')}
                   error={errors.customerType?.message}
+                  title="仅用于筛选和标记，不与实际业务挂钩"
                 >
                   <option value={CustomerType.COMPANY}>企业客户</option>
                   <option value={CustomerType.INDIVIDUAL}>个人客户</option>
@@ -627,6 +645,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                   label="客户等级"
                   register={register('level')}
                   error={errors.level?.message}
+                  title="仅用于筛选和标记，不与实际业务挂钩"
                 >
                   <option value={CustomerLevel.BRONZE}>铜牌</option>
                   <option value={CustomerLevel.SILVER}>银牌</option>
@@ -674,6 +693,7 @@ export const CustomerManagement: React.FC<CustomerManagementProps> = ({ classNam
                   register={register('paymentTerms')}
                   error={errors.paymentTerms?.message}
                   placeholder="如：月结30天"
+                  title="仅用于筛选和标记，不与实际业务挂钩"
                 />
               </div>
 

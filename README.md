@@ -275,140 +275,291 @@ npm test
 ## 📁 项目结构
 
 ```
-inventory-management/
+InventoryTest/
+├── .tasks/                          # 任务管理目录
+│   ├── 2025-01-12_2_build-error-fix.md
+│   └── 2025-01-12_2_warehouse-default-field-bug.md
+├── ai/                              # AI协作指南
+│   ├── RIPER-5.md                   # RIPER-5协议文档
+│   └── ai_collab_guideline.md       # AI协作指导
+├── e2e/                             # 端到端测试
+│   ├── auth/                        # 认证测试
+│   ├── database/                    # 数据库测试
+│   ├── financial/                   # 财务测试
+│   ├── fixtures/                    # 测试夹具
+│   ├── integration/                 # 集成测试
+│   ├── inventory/                   # 库存测试
+│   ├── performance/                 # 性能测试
+│   ├── purchase/                    # 采购测试
+│   ├── reporters/                   # 测试报告器
+│   ├── reports/                     # 测试报告
+│   ├── sales/                       # 销售测试
+│   ├── system/                      # 系统测试
+│   ├── ui/                          # UI测试
+│   └── utils/                       # 测试工具
+├── history/                         # 历史记录
+│   ├── error_log.md
+│   └── error_log_20250710_1349.md
 ├── public/                          # Electron 主进程
 │   ├── main.js                      # Electron 主进程入口
 │   ├── preload.js                   # 预加载脚本
 │   ├── database-handlers.js         # 数据库处理器
+│   ├── database/                    # 数据库处理模块
+│   │   ├── handlers/                # 数据库处理器
+│   │   │   ├── backupHandlers.js
+│   │   │   ├── conversionHandlers.js
+│   │   │   ├── inventoryHandlers.js
+│   │   │   ├── systemHandlers.js
+│   │   │   ├── transactionHandlers.js
+│   │   │   ├── unitHandlers.js
+│   │   │   └── warehouseHandlers.js
+│   │   ├── utils/                   # 数据库工具
+│   │   │   ├── dbUtils.js
+│   │   │   └── errorHandler.js
+│   │   ├── index.js
+│   │   ├── mock-database.js
+│   │   ├── smart-database.js
+│   │   └── test-handlers.js
 │   └── index.html                   # HTML 模板
+├── release/                         # 发布目录
+│   └── app/
+├── scripts/                         # 构建脚本
+│   ├── generate-test-report.js
+│   ├── pre-start-check.js
+│   └── test-monitor.js
 ├── data/                            # 数据存储
 │   └── inventory.db                 # SQLite 数据库文件
 ├── src/                             # React 应用源码
+│   ├── __tests__/                   # 测试文件
+│   │   └── electron-integration/
 │   ├── components/                  # React 组件
-│   │   ├── Calendar/                # 日历模块
-│   │   │   ├── CalendarOverviewPage.tsx
-│   │   │   ├── DayCell.tsx
-│   │   │   ├── DayDetailModal.tsx
-│   │   │   └── WeeklyCalendarView.tsx
 │   │   ├── Dashboard/               # 仪表盘模块
 │   │   │   ├── Dashboard.tsx
 │   │   │   ├── DashboardCharts.tsx
 │   │   │   ├── DashboardOverview.tsx
-│   │   │   └── DashboardQuickActions.tsx
+│   │   │   ├── DashboardQuickActions.tsx
+│   │   │   ├── __tests__/
+│   │   │   └── index.ts
 │   │   ├── Financial/               # 财务管理模块
 │   │   │   ├── AccountsPayableManagement.tsx
 │   │   │   ├── AccountsReceivableManagement.tsx
+│   │   │   ├── Financial.tsx
 │   │   │   ├── PaymentRecordsManagement.tsx
 │   │   │   └── ReceiptRecordsManagement.tsx
 │   │   ├── Inventory/               # 库存管理模块
-│   │   │   ├── InventoryOverview.tsx
-│   │   │   ├── ProductManagement.tsx
 │   │   │   ├── CategoryManagement.tsx
-│   │   │   ├── WarehouseManagement.tsx
+│   │   │   ├── InventoryFilter.tsx
+│   │   │   ├── InventoryList.tsx
+│   │   │   ├── InventorySearch.tsx
+│   │   │   ├── MonthlyBalanceGenerator.tsx
+│   │   │   ├── MonthlyBalanceList.tsx
+│   │   │   ├── MonthlyBalanceOverview.tsx
+│   │   │   ├── MonthlyBalanceStatisticsView.tsx
+│   │   │   ├── ProductItem.tsx
+│   │   │   ├── ProductManagement.tsx
+│   │   │   ├── StockAdjust.tsx
 │   │   │   ├── StockIn.tsx
 │   │   │   ├── StockOut.tsx
-│   │   │   ├── StockAdjust.tsx
-│   │   │   └── TransactionRecords.tsx
+│   │   │   ├── TransactionRecords.tsx
+│   │   │   ├── UnitConversionSettings.tsx
+│   │   │   ├── WarehouseDetailModal.tsx
+│   │   │   ├── WarehouseManagement.tsx
+│   │   │   ├── WarehouseSelector.tsx
+│   │   │   ├── __tests__/
+│   │   │   └── index.ts
 │   │   ├── Purchase/                # 采购管理模块
-│   │   │   ├── SupplierManagement.tsx
 │   │   │   ├── PurchaseOrderManagement.tsx
-│   │   │   └── PurchaseReceiptManagement.tsx
+│   │   │   ├── PurchaseReceiptManagement.tsx
+│   │   │   ├── SupplierManagement.tsx
+│   │   │   └── index.ts
 │   │   ├── Sales/                   # 销售管理模块
 │   │   │   ├── CustomerManagement.tsx
+│   │   │   ├── SalesDeliveryManagement.tsx
 │   │   │   ├── SalesOrderManagement.tsx
-│   │   │   └── SalesDeliveryManagement.tsx
+│   │   │   └── index.tsx
 │   │   ├── Reports/                 # 报表模块
+│   │   │   ├── AnalysisViews/       # 分析视图 (包含日历功能)
+│   │   │   │   ├── CalendarOverviewPage.tsx    # 日历概览页面
+│   │   │   │   ├── ConsumptionControls.tsx
+│   │   │   │   ├── ConsumptionSummary.tsx
+│   │   │   │   ├── ConsumptionTable.tsx
+│   │   │   │   ├── ConsumptionTableHeader.tsx
+│   │   │   │   ├── ConsumptionTableRow.tsx
+│   │   │   │   ├── DailyConsumptionView.tsx
+│   │   │   │   ├── DayCell.tsx                  # 日历日期单元格
+│   │   │   │   ├── DayDetailModal.tsx           # 日期详情弹窗
+│   │   │   │   ├── InventoryCardView.tsx
+│   │   │   │   ├── WarehouseCard.tsx
+│   │   │   │   ├── WarehouseCardSkeleton.tsx
+│   │   │   │   ├── WeeklyCalendarView.tsx       # 周视图日历
+│   │   │   │   └── index.ts
+│   │   │   ├── components/          # 报表子组件
+│   │   │   │   ├── ColumnDisplayConfig.tsx
+│   │   │   │   ├── ExportOptions.tsx
+│   │   │   │   ├── MovementSummaryTable.tsx
+│   │   │   │   ├── TimeControl.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── examples/            # 报表示例
+│   │   │   │   └── InventoryMovementSummaryExample.tsx
+│   │   │   ├── __tests__/
+│   │   │   ├── FinancialReports.tsx
+│   │   │   ├── InventoryEntryRegistration.tsx
+│   │   │   ├── InventoryMovementSummary.md
+│   │   │   ├── InventoryMovementSummary.test.tsx
+│   │   │   ├── InventoryMovementSummary.tsx
 │   │   │   ├── InventoryReports.tsx
-│   │   │   ├── SalesReports.tsx
 │   │   │   ├── PurchaseReports.tsx
-│   │   │   └── FinancialReports.tsx
+│   │   │   ├── SalesReports.tsx
+│   │   │   └── index.tsx
 │   │   ├── System/                  # 系统管理模块
-│   │   │   ├── UserManagement.tsx
+│   │   │   ├── ConversionRulesTab.tsx
+│   │   │   ├── OperationLogs.tsx
 │   │   │   ├── PermissionManagement.tsx
+│   │   │   ├── System.tsx
+│   │   │   ├── SystemInitialization.tsx
 │   │   │   ├── SystemSettings.tsx
-│   │   │   └── OperationLogs.tsx
+│   │   │   ├── UnitManagementTab.tsx
+│   │   │   ├── UserManagement.tsx
+│   │   │   └── index.ts
+│   │   ├── SystemManagement/        # 系统管理入口
+│   │   │   └── index.tsx
 │   │   ├── Layout/                  # 布局组件
 │   │   │   ├── AppLayout.tsx
+│   │   │   ├── QuickActions.tsx
 │   │   │   ├── Sidebar.tsx
-│   │   │   └── TopBar.tsx
+│   │   │   ├── TopBar.tsx
+│   │   │   └── index.ts
+│   │   ├── Notifications/           # 通知模块
+│   │   │   └── NotificationsPage.tsx
+│   │   ├── Settings/                # 设置模块
+│   │   │   ├── ConversionRulesManagement.tsx
+│   │   │   └── UnitManagement.tsx
+│   │   ├── ThemeSwitcher/           # 主题切换器
+│   │   │   └── ThemeSwitcher.tsx
+│   │   ├── auth/                    # 认证组件
+│   │   │   ├── LoginPage.tsx
+│   │   │   └── ProtectedRoute.tsx
+│   │   ├── providers/               # 上下文提供者
+│   │   │   └── GlobalDialogProvider.tsx
+│   │   ├── security/                # 安全组件
+│   │   │   ├── PermissionGate.tsx
+│   │   │   └── SecurityMonitor.tsx
 │   │   ├── ui/                      # 基础UI组件
+│   │   │   ├── AlertDialog.tsx
+│   │   │   ├── ConfirmDialog.tsx
+│   │   │   ├── DialogContainer.tsx
+│   │   │   ├── ErrorDisplay.tsx
 │   │   │   ├── FormControls.tsx     # React Hook Form集成组件
+│   │   │   ├── GlassCard.tsx
+│   │   │   ├── SkeletonLoader.tsx
+│   │   │   ├── ThemeSelector.tsx
+│   │   │   ├── Toast.tsx
+│   │   │   ├── VirtualizedList.tsx
+│   │   │   ├── badge.tsx
 │   │   │   ├── button.tsx
 │   │   │   ├── card.tsx
-│   │   │   ├── table.tsx
 │   │   │   ├── input.tsx
-│   │   │   └── ...
-│   │   └── security/                # 安全组件
-│   │       ├── PermissionGate.tsx
-│   │       └── SecurityMonitor.tsx
+│   │   │   ├── pagination.tsx
+│   │   │   ├── scroll-area.tsx
+│   │   │   ├── select.tsx
+│   │   │   ├── separator.tsx
+│   │   │   ├── skeleton.tsx
+│   │   │   └── table.tsx
+│   │   ├── ErrorBoundary.tsx        # 错误边界
+│   │   ├── GlobalPasswordChangeModal.tsx
+│   │   ├── InventoryTable.tsx       # 库存表格
+│   │   ├── PageContainer.tsx        # 页面容器
+│   │   ├── SearchAndFilters.tsx     # 搜索过滤器
+│   │   └── StatusBar.tsx            # 状态栏
 │   ├── services/                    # 服务层
+│   │   ├── core/                    # 核心服务
+│   │   │   ├── FinancialService.ts
+│   │   │   ├── InventoryService.ts
+│   │   │   ├── OrderService.ts
+│   │   │   ├── ReportService.ts
+│   │   │   ├── ServiceManager.ts    # 服务管理器
+│   │   │   ├── SystemService.ts
+│   │   │   ├── __tests__/           # 服务测试
+│   │   │   ├── database.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
 │   │   ├── business/                # 业务服务
-│   │   │   ├── categoryService.ts
-│   │   │   ├── productService.ts
-│   │   │   ├── inventoryStockService.ts
-│   │   │   ├── warehouseService.ts
-│   │   │   ├── supplierService.ts
-│   │   │   ├── customerService.ts
-│   │   │   ├── purchaseOrderService.ts
-│   │   │   ├── salesOrderService.ts
-│   │   │   ├── accountsPayableService.ts
-│   │   │   ├── accountsReceivableService.ts
-│   │   │   ├── userService.ts
-│   │   │   ├── permissionService.ts
-│   │   │   └── index.ts             # 服务管理器
+│   │   │   ├── index.ts
+│   │   │   └── inventoryEntryRegistrationService.ts
 │   │   ├── database/                # 数据库服务
+│   │   │   ├── backupService.ts
 │   │   │   ├── connection.ts
 │   │   │   ├── electronDatabase.ts
-│   │   │   ├── memoryDatabase.ts
-│   │   │   └── inventoryDb.ts
+│   │   │   ├── inventoryDb.ts
+│   │   │   └── memoryDatabase.ts
 │   │   ├── excel/                   # Excel 导入导出
 │   │   │   ├── exporter.ts
 │   │   │   └── importer.ts
+│   │   ├── inventory/               # 库存服务
+│   │   │   └── inventoryService.ts
+│   │   ├── logging/                 # 日志服务
+│   │   │   ├── fileLoggerService.test.ts
+│   │   │   └── fileLoggerService.ts
 │   │   ├── api/                     # API 客户端
 │   │   │   └── apiClient.ts
-│   │   └── dashboard/               # 仪表盘服务
-│   │       └── dashboardService.ts
+│   │   ├── dashboard/               # 仪表盘服务
+│   │   │   └── dashboardService.ts
+│   │   ├── dialogService.ts         # 对话框服务
+│   │   ├── globalServices.ts        # 全局服务
+│   │   └── systemInitializationService.ts
 │   ├── hooks/                       # 自定义 Hooks
 │   │   ├── useAuth.tsx
-│   │   ├── useInventory.ts
-│   │   ├── useTheme.ts
-│   │   ├── useExcel.ts
+│   │   ├── useDialog.ts             # 对话框管理Hook
 │   │   ├── useErrorHandler.ts
-│   │   └── useDialog.ts              # 对话框管理Hook
+│   │   ├── useExcel.ts
+│   │   ├── useInventory.ts
+│   │   ├── usePerformanceLogger.ts
+│   │   └── useTheme.ts
 │   ├── contexts/                    # React Context
-│   │   ├── DialogContext.tsx         # 对话框上下文
-│   │   └── ThemeContext.tsx          # 主题上下文
+│   │   └── DialogContext.tsx        # 对话框上下文
 │   ├── types/                       # TypeScript 类型定义
-│   │   ├── entities.ts              # 实体类型
-│   │   ├── database.ts              # 数据库类型
-│   │   ├── inventory.ts             # 库存类型
-│   │   ├── excel.ts                 # Excel类型
-│   │   ├── electron.ts              # Electron类型
 │   │   ├── consumption.ts           # 消耗数据类型
+│   │   ├── database.ts              # 数据库类型
+│   │   ├── electron.d.ts            # Electron类型
+│   │   ├── entities.ts              # 实体类型
+│   │   ├── excel.ts                 # Excel类型
 │   │   ├── fifo.ts                  # FIFO库存类型
+│   │   ├── inventory.ts             # 库存类型
+│   │   ├── inventoryCard.ts         # 库存卡片类型
+│   │   ├── inventoryMovement.ts     # 库存流动类型
 │   │   ├── monthlyBalance.ts        # 月度结余类型
-│   │   └── simpleNotification.ts    # 通知类型
+│   │   ├── simpleNotification.ts    # 通知类型
+│   │   └── strict.ts                # 严格类型
 │   ├── utils/                       # 工具函数
-│   │   ├── formatters.ts            # 格式化工具
-│   │   ├── errors.ts                # 错误处理
-│   │   ├── secureLogger.ts          # 安全日志
+│   │   ├── businessLogicTester.ts   # 业务逻辑测试器
+│   │   ├── cn.ts                    # 类名工具
 │   │   ├── concurrency.ts           # 并发控制
-│   │   ├── notificationHelper.ts    # 通知帮助
-│   │   ├── dataCleanup.ts           # 数据清理
-│   │   ├── logger.ts                # 高级日志系统
-│   │   ├── concurrencyManager.ts    # 并发管理器
 │   │   ├── consumptionCalculator.ts # 消耗计算器
+│   │   ├── dataChangeTracker.ts     # 数据变更跟踪
+│   │   ├── dataCleanup.ts           # 数据清理
+│   │   ├── databaseSnapshot.ts      # 数据库快照
+│   │   ├── errors.ts                # 错误处理
+│   │   ├── formatters.ts            # 格式化工具
+│   │   ├── globalErrorHandler.ts    # 全局错误处理
+│   │   ├── inventoryMovementStorage.ts
+│   │   ├── logger.ts                # 高级日志系统
+│   │   ├── logRotation.ts           # 日志轮转
+│   │   ├── methodVerifier.ts        # 方法验证器
+│   │   ├── notificationHelper.ts    # 通知帮助
+│   │   ├── notificationStore.ts     # 通知存储
+│   │   ├── performanceMonitor.ts    # 性能监控
+│   │   ├── resultLogger.ts          # 结果日志
+│   │   ├── secureLogger.ts          # 安全日志
+│   │   ├── testDataGenerator.ts     # 测试数据生成器
 │   │   ├── timeSlotHelper.ts        # 时间段帮助器
-│   │   └── unitConversionHelper.ts  # 单位转换帮助器
+│   │   ├── unitConversionHelper.ts  # 单位转换帮助器
+│   │   ├── userActionLogger.ts      # 用户操作日志
+│   │   └── workflowVerifier.ts      # 工作流验证器
 │   ├── data/                        # 数据相关
-│   │   └── (数据库表结构已嵌入到main.js中)
 │   ├── database/                    # 数据库迁移
-│   │   ├── migrations.ts            # 数据库迁移
-│   │   └── seedData.ts              # 种子数据
+│   │   └── migrations.ts            # 数据库迁移
 │   ├── schemas/                     # 数据验证模式
 │   │   └── validation.ts            # Zod 验证模式
-│   ├── pages/                       # 页面组件
-│   │   └── InventoryCardView.tsx
 │   ├── styles/                      # 样式文件
 │   │   ├── themes.css               # 主题样式
 │   │   └── theme-adaptations.css    # 主题适配
@@ -421,20 +572,30 @@ inventory-management/
 │   ├── globals.css                  # 全局样式
 │   ├── App.tsx                      # 主应用组件
 │   └── index.tsx                    # React 入口文件
+├── 临时/                            # 临时文件目录
 ├── dist/                            # 构建输出目录
-├── 检查报告/                         # 开发文档
-│   ├── DEVELOPMENT_PLAN.md          # 开发计划
-│   ├── STATUS.md                    # 项目状态
-│   └── ...                          # 其他开发文档
+├── node_modules/                    # 依赖包
+├── check_db.js                      # 数据库检查脚本
+├── eslint.config.js                 # ESLint 配置
+├── jest.config.js                   # Jest 测试配置
+├── jest.config.contract.js          # 契约测试配置
+├── jest.config.integration.js       # 集成测试配置
+├── jest.setup.ts                    # Jest 设置
+├── playwright.config.ts             # Playwright 配置
 ├── webpack.config.js                # Webpack 生产配置
 ├── webpack.dev.config.js            # Webpack 开发配置
+├── webpack.test.config.js           # Webpack 测试配置
 ├── tailwind.config.js               # Tailwind CSS 配置
 ├── postcss.config.js                # PostCSS 配置
 ├── tsconfig.json                    # TypeScript 配置
 ├── package.json                     # 项目依赖配置
+├── package-lock.json                # 依赖锁定文件
 ├── CLAUDE.md                        # AI 开发指南
 ├── UI_DESIGN_SYSTEM.md             # UI 设计系统文档
-└── README.md                        # 项目说明文档
+├── LESSONS_LEARNED.md               # 经验总结
+├── README.md                        # 项目说明文档
+├── 待修复问题.md                     # 问题跟踪
+└── 进销存管理系统用户操作指导手册.md    # 用户手册
 ```
 
 ## 🎨 设计系统

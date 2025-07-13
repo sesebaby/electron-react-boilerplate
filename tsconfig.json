@@ -14,10 +14,20 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": [
     "src",
-    "src/types/electron.d.ts"
+    "src/types/electron.d.ts",
+    "jest.setup.ts"
+  ],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/__tests__/**/*",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
   ]
 }

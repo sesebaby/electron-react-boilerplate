@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import monthlyBalanceService from '../../services/business/monthlyBalanceService';
+import { serviceManager } from '../../services/core';
+import { 
+  MonthlyBalanceStatistics, 
+  MonthlyBalanceGenerateParams,
+  MonthlyBalanceQueryParams 
+} from '../../types/monthlyBalance';
 import { GlassButton, GlassCard } from '../ui/FormControls';
 import { MonthlyBalanceGenerator } from './MonthlyBalanceGenerator';
 import { MonthlyBalanceList } from './MonthlyBalanceList';
@@ -33,32 +38,33 @@ export const MonthlyBalanceOverview: React.FC<MonthlyBalanceOverviewProps> = ({ 
     loadOverviewStats();
   }, []);
 
-  const _loadOverviewStats = async () => {
+  const loadOverviewStats = async () => {
     try {
       setLoading(true);
       setError(null);
       
       // 获取服务统计
-      const _serviceStats = await monthlyBalanceService.getServiceStats();
+      const reportService = serviceManager.getReportService();
+      const serviceStats = await reportService.getMonthlyBalanceStats();
       
       // 这里可以添加更多统计逻辑，比如获取最新期间的数据
-      const _currentDate = new Date();
-      const _currentYear = currentDate.getFullYear();
-      const _currentMonth = currentDate.getMonth() + 1;
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth() + 1;
       
       // 尝试获取上个月的结余数据
-      const _lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
-      const _lastYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+      const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+      const lastYear = currentMonth === 1 ? currentYear - 1 : currentYear;
       
-      const _latestPeriod = undefined;
+      let latestPeriod = undefined;
       try {
-        const _queryResult = await monthlyBalanceService.queryMonthlyBalance({
+        const queryResult = await reportService.queryMonthlyBalance({
           year: lastYear,
           month: lastMonth
         });
         
         if (queryResult.success && queryResult.data && queryResult.data.length > 0) {
-          const _balances = queryResult.data;
+          const balances = queryResult.data;
           latestPeriod = {
             year: lastYear,
             month: lastMonth,
@@ -71,10 +77,10 @@ export const MonthlyBalanceOverview: React.FC<MonthlyBalanceOverviewProps> = ({ 
       }
 
       setStats({
-        totalPeriods: serviceStats.totalPeriods,
-        totalValue: serviceStats.totalValue,
-        totalBatches: serviceStats.totalBalances,
-        totalProducts: serviceStats.totalProducts,
+        totalPeriods: serviceStats.success ? serviceStats.data?.totalRecords || 0 : 0,
+        totalValue: serviceStats.success ? serviceStats.data?.totalValue || 0 : 0,
+        totalBatches: serviceStats.success ? serviceStats.data?.totalRecords || 0 : 0,
+        totalProducts: serviceStats.success ? serviceStats.data?.totalRecords || 0 : 0,
         latestPeriod
       });
     } catch (err) {
@@ -85,32 +91,32 @@ export const MonthlyBalanceOverview: React.FC<MonthlyBalanceOverviewProps> = ({ 
     }
   };
 
-  const _formatCurrency = (value: number): string => {
+  const formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('zh-CN', {
       style: 'currency',
       currency: 'CNY'
     }).format(value);
   };
 
-  const _formatNumber = (value: number): string => {
+  const formatNumber = (value: number): string => {
     return new Intl.NumberFormat('zh-CN').format(value);
   };
 
-  const _formatPeriod = (year: number, month: number): string => {
+  const formatPeriod = (year: number, month: number): string => {
     return `${year}年${month}月`;
   };
 
-  const _handleGenerateSuccess = () => {
+  const handleGenerateSuccess = () => {
     loadOverviewStats();
     setActiveTab('list');
   };
 
-  const _handleViewStatistics = (year: number, month: number) => {
+  const handleViewStatistics = (year: number, month: number) => {
     setSelectedPeriod({ year, month });
     setActiveTab('statistics');
   };
 
-  const _renderTabButton = (
+  const renderTabButton = (
     tabKey: typeof activeTab, 
     label: string, 
     icon: string

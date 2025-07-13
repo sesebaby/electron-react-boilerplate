@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 import QuickActions from './QuickActions';
-import { InventoryService } from '../../services/inventory/inventoryService';
+import { serviceManager } from '../../services/core';
 import { InventoryItem } from '../../types/inventory';
 import { notificationHelper } from '../../utils/notificationHelper';
 import { SimpleNotification, NotificationType } from '../../types/simpleNotification';
@@ -25,7 +25,7 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
   'calendar-overview': { title: '日历总览', breadcrumb: ['库存管理', '日历总览'] },
   'daily-consumption': { title: '逐日消耗视图', breadcrumb: ['库存管理', '逐日消耗视图'] },
   'products': { title: '商品管理', breadcrumb: ['库存管理', '商品管理'] },
-  'categories': { title: '分类管理', breadcrumb: ['库存管理', '分类管理'] },
+  'categories': { title: '商品分类', breadcrumb: ['库存管理', '商品分类'] },
   'warehouses': { title: '仓库管理', breadcrumb: ['库存管理', '仓库管理'] },
   'stock-in': { title: '入库管理', breadcrumb: ['库存管理', '入库管理'] },
   'stock-out': { title: '出库管理', breadcrumb: ['库存管理', '出库管理'] },
@@ -76,7 +76,7 @@ const pageTitles: Record<string, { title: string; breadcrumb: string[] }> = {
 export const TopBar: React.FC<TopBarProps> = ({
   currentPage,
   onToggleSidebar,
-  sidebarCollapsed: _sidebarCollapsed
+  sidebarCollapsed
 }) => {
   const [searchValue, setSearchValue] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
@@ -93,14 +93,13 @@ export const TopBar: React.FC<TopBarProps> = ({
   // 用户认证状态
   const { user, logout, isAuthenticated } = useAuth();
 
-  const _notificationRef = useRef<HTMLDivElement>(null);
-  const _userMenuRef = useRef<HTMLDivElement>(null);
-  const _searchResultsRef = useRef<HTMLDivElement>(null);
-  const _inventoryService = useRef(new InventoryService());
+  const notificationRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+  const searchResultsRef = useRef<HTMLDivElement>(null);
 
   // 点击外部关闭弹出窗体
   useEffect(() => {
-    const _handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
         setShowNotifications(false);
       }
@@ -120,17 +119,17 @@ export const TopBar: React.FC<TopBarProps> = ({
     }
   }, [showNotifications, showUserMenu, showSearchResults]);
 
-  const _currentPageInfo = pageTitles[currentPage] || {
+  const currentPageInfo = pageTitles[currentPage] || {
     title: '未知页面',
     breadcrumb: ['未知页面']
   };
 
   // 加载通知数据
-  const _loadNotifications = () => {
+  const loadNotifications = () => {
     setIsLoadingNotifications(true);
     try {
-      const _unreadNotifications = notificationHelper.getUnreadNotifications(10);
-      const _unreadCount = notificationHelper.getUnreadCount();
+      const unreadNotifications = notificationHelper.getUnreadNotifications(10);
+      const unreadCount = notificationHelper.getUnreadCount();
 
       setNotifications(unreadNotifications);
       setUnreadCount(unreadCount);
@@ -151,7 +150,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 
 
   // 标记通知为已读
-  const _handleNotificationClick = (notificationId: string) => {
+  const handleNotificationClick = (notificationId: string) => {
     try {
       notificationHelper.markAsRead(notificationId);
       // 重新加载通知数据
@@ -162,7 +161,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   // 标记所有通知为已读
-  const _handleMarkAllAsRead = () => {
+  const handleMarkAllAsRead = () => {
     try {
       notificationHelper.markAllAsRead();
       loadNotifications();
@@ -173,13 +172,13 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   // 跳转到通知页面
-  const _handleShowMoreNotifications = () => {
+  const handleShowMoreNotifications = () => {
     setShowNotifications(false);
     window.location.hash = 'notifications';
     window.dispatchEvent(new HashChangeEvent('hashchange'));
   };
 
-  const _handleSearch = async (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchValue.trim()) {
       setShowSearchResults(false);
@@ -188,10 +187,34 @@ export const TopBar: React.FC<TopBarProps> = ({
 
     setIsSearching(true);
     try {
-      await inventoryService.current.initialize();
-      const _results = await inventoryService.current.searchItems(searchValue.trim());
-      setSearchResults(results);
-      setShowSearchResults(true);
+      const inventoryService = serviceManager.getInventoryService();
+      const result = await inventoryService.searchProducts(searchValue.trim());
+
+      if (result.success && result.data) {
+        // 转换Product数据为InventoryItem格式
+        const items: InventoryItem[] = result.data.map(product => ({
+          id: product.id,
+          name: product.name,
+          description: product.description || '',
+          sku: product.sku,
+          category: product.categoryId || '',
+          supplier: product.supplierId || '',
+          stockQuantity: product.stockQuantity || 0,
+          reservedQuantity: product.reservedQuantity || 0,
+          unitPrice: product.salePrice || 0,
+          totalValue: product.totalValue || 0,
+          status: product.status as InventoryItem['status'],
+          location: product.location || '',
+          reorderLevel: product.minStock || 0,
+          maxStock: product.maxStock || 0,
+          lastUpdated: product.lastUpdated || new Date()
+        }));
+        setSearchResults(items);
+        setShowSearchResults(true);
+      } else {
+        setSearchResults([]);
+        setShowSearchResults(false);
+      }
     } catch (error) {
       console.error('搜索失败:', error);
       setSearchResults([]);
@@ -203,7 +226,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 
   // 实时搜索
   useEffect(() => {
-    const _timeoutId = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       if (searchValue.trim()) {
         handleSearch({ preventDefault: () => {} } as React.FormEvent);
       } else {
@@ -215,13 +238,13 @@ export const TopBar: React.FC<TopBarProps> = ({
     return () => clearTimeout(timeoutId);
   }, [searchValue]);
 
-  const _handleSearchResultClick = (item: InventoryItem) => {
+  const handleSearchResultClick = (item: InventoryItem) => {
     setShowSearchResults(false);
     setSearchValue('');
     
     // 导航到商品管理页面，并通过URL参数传递选中的商品SKU
-    const _targetPage = 'products';
-    const _searchParams = new URLSearchParams();
+    const targetPage = 'products';
+    const searchParams = new URLSearchParams();
     searchParams.set('search', item.sku);
     searchParams.set('highlight', item.id);
     
@@ -232,8 +255,8 @@ export const TopBar: React.FC<TopBarProps> = ({
     window.dispatchEvent(new HashChangeEvent('hashchange'));
   };
 
-  const _getNotificationTypeStyles = (type: NotificationType) => {
-    const _baseStyle = 'border-l-4';
+  const getNotificationTypeStyles = (type: NotificationType) => {
+    const baseStyle = 'border-l-4';
     switch (type) {
       case 'warning': return `${baseStyle} notification-warning`;
       case 'info': return `${baseStyle} notification-info`;
@@ -244,7 +267,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   // 刷新数据处理函数
-  const _handleRefreshData = () => {
+  const handleRefreshData = () => {
     // 重新加载通知
     loadNotifications();
     
@@ -256,7 +279,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   // 导出数据处理函数
-  const _handleExportData = () => {
+  const handleExportData = () => {
     // 根据当前页面导出对应数据
     const exportActions: Record<string, () => void> = {
       'products': () => {
@@ -273,7 +296,7 @@ export const TopBar: React.FC<TopBarProps> = ({
       }
     };
 
-    const _action = exportActions[currentPage] || exportActions.default;
+    const action = exportActions[currentPage] || exportActions.default;
     action();
     
     // 显示导出提示
@@ -281,31 +304,31 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   // 用户管理相关函数
-  const _handleUserProfile = () => {
+  const handleUserProfile = () => {
     setShowUserMenu(false);
     window.location.hash = 'users';
     window.dispatchEvent(new HashChangeEvent('hashchange'));
   };
 
-  const _handleSystemSettings = () => {
+  const handleSystemSettings = () => {
     setShowUserMenu(false);
     window.location.hash = 'settings';
     window.dispatchEvent(new HashChangeEvent('hashchange'));
   };
 
-  const _handleChangePassword = () => {
+  const handleChangePassword = () => {
     setShowUserMenu(false);
     // 可以触发密码修改弹窗或导航到密码修改页面
     window.dispatchEvent(new CustomEvent('change-password'));
   };
 
-  const _handleOperationLogs = () => {
+  const handleOperationLogs = () => {
     setShowUserMenu(false);
     window.location.hash = 'logs';
     window.dispatchEvent(new HashChangeEvent('hashchange'));
   };
 
-  const _handleLogout = async () => {
+  const handleLogout = async () => {
     try {
       setShowUserMenu(false);
       await logout();
@@ -320,7 +343,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   // 获取用户角色显示名称
-  const _getUserRoleName = (role: UserRole): string => {
+  const getUserRoleName = (role: UserRole): string => {
     switch (role) {
       case UserRole.ADMIN:
         return '系统管理员';
@@ -332,7 +355,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   // 获取用户状态显示
-  const _getUserStatusDisplay = (status: string): { text: string; color: string } => {
+  const getUserStatusDisplay = (status: string): { text: string; color: string } => {
     switch (status) {
       case 'active':
         return { text: '正常', color: 'var(--success-color)' };

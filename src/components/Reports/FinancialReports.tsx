@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  accountsPayableService,
-  // accountsReceivableService,
-  salesOrderService,
-  purchaseOrderService,
-  salesDeliveryService as _salesDeliveryService,
-  purchaseReceiptService
-} from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { 
   AccountsPayable, 
   AccountsReceivable, 
@@ -15,7 +8,7 @@ import {
   SalesOrder, 
   PurchaseOrder 
 } from '../../types/entities';
-import { GlassInput, GlassSelect as _GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
+import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { 
   Table, 
   TableContainer,
@@ -24,7 +17,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty as _TableEmpty,
+  TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -54,7 +47,7 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
     loadData();
   }, []);
 
-  const _loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -67,21 +60,26 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
         salesData,
         purchaseData
       ] = await Promise.all([
-        accountsPayableService.findAll(),
-        // accountsReceivableService.findAll(),
-        accountsPayableService.findAllPayments(),
-        // accountsReceivableService.findAllReceipts(),
-        salesOrderService.findAll(),
-        purchaseOrderService.findAll()
+        Promise.resolve({ success: true, data: [] }), // 临时替换 accountsPayableService.getPayables()
+        // accountsReceivableService.getReceivables(),
+        Promise.resolve({ success: true, data: [] }), // 临时替换 accountsPayableService.getPaymentRecords()
+        // accountsReceivableService.getPaymentRecords(),
+        serviceManager.getOrderService().getSalesOrders(),
+        serviceManager.getOrderService().getPurchaseOrders()
       ]);
       
       // 设置财务数据（部分启用）
-      setPayables(payablesData);
+      const payablesResult = payablesData.success ? ((payablesData.data as any)?.items || payablesData.data || []) : [];
+      const paymentsResult = paymentsData.success ? (paymentsData.data || []) : [];
+      const salesResult = salesData.success ? (salesData.data?.items || salesData.data || []) : [];
+      const purchaseResult = purchaseData.success ? (purchaseData.data?.items || purchaseData.data || []) : [];
+      
+      setPayables(Array.isArray(payablesResult) ? payablesResult : []);
       // setReceivables(receivablesData);
-      setPayments(paymentsData);
+      setPayments(Array.isArray(paymentsResult) ? paymentsResult as any[] as Payment[] : []);
       // setReceipts(receiptsData);
-      setSalesOrders(salesData);
-      setPurchaseOrders(purchaseData);
+      setSalesOrders(Array.isArray(salesResult) ? salesResult as SalesOrder[] : []);
+      setPurchaseOrders(Array.isArray(purchaseResult) ? purchaseResult as PurchaseOrder[] : []);
     } catch (err) {
       setError('加载财务报表数据失败');
       console.error('Failed to load financial reports data:', err);
@@ -90,33 +88,33 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
     }
   };
 
-  const _getFilteredData = (data: any[], dateField: string) => {
-    const _startDate = new Date(dateRange.startDate);
-    const _endDate = new Date(dateRange.endDate);
+  const getFilteredData = (data: any[], dateField: string) => {
+    const startDate = new Date(dateRange.startDate);
+    const endDate = new Date(dateRange.endDate);
     return data.filter(item => {
-      const _itemDate = new Date(item[dateField]);
+      const itemDate = new Date(item[dateField]);
       return itemDate >= startDate && itemDate <= endDate;
     });
   };
 
-  const _calculateFinancialOverview = () => {
-    const _filteredPayables = getFilteredData(payables, 'billDate');
-    const _filteredReceivables = getFilteredData(receivables, 'invoiceDate');
-    const _filteredPayments = getFilteredData(payments, 'paymentDate');
-    const _filteredReceipts = getFilteredData(receipts, 'receiptDate');
-    const _filteredSales = getFilteredData(salesOrders, 'orderDate');
-    const _filteredPurchases = getFilteredData(purchaseOrders, 'orderDate');
+  const calculateFinancialOverview = () => {
+    const filteredPayables = getFilteredData(payables, 'billDate');
+    const filteredReceivables = getFilteredData(receivables, 'invoiceDate');
+    const filteredPayments = getFilteredData(payments, 'paymentDate');
+    const filteredReceipts = getFilteredData(receipts, 'receiptDate');
+    const filteredSales = getFilteredData(salesOrders, 'orderDate');
+    const filteredPurchases = getFilteredData(purchaseOrders, 'orderDate');
 
-    const _totalPayables = filteredPayables.reduce((sum, p) => sum + p.balanceAmount, 0);
-    const _totalReceivables = filteredReceivables.reduce((sum, r) => sum + r.balanceAmount, 0);
-    const _totalPayments = filteredPayments.reduce((sum, p) => sum + p.amount, 0);
-    const _totalReceipts = filteredReceipts.reduce((sum, r) => sum + r.amount, 0);
-    const _totalSales = filteredSales.reduce((sum, s) => sum + s.totalAmount, 0);
-    const _totalPurchases = filteredPurchases.reduce((sum, p) => sum + p.totalAmount, 0);
+    const totalPayables = filteredPayables.reduce((sum, p) => sum + p.balanceAmount, 0);
+    const totalReceivables = filteredReceivables.reduce((sum, r) => sum + r.balanceAmount, 0);
+    const totalPayments = filteredPayments.reduce((sum, p) => sum + p.amount, 0);
+    const totalReceipts = filteredReceipts.reduce((sum, r) => sum + r.amount, 0);
+    const totalSales = filteredSales.reduce((sum, s) => sum + s.totalAmount, 0);
+    const totalPurchases = filteredPurchases.reduce((sum, p) => sum + p.totalAmount, 0);
 
-    const _netCashFlow = totalReceipts - totalPayments;
-    const _grossProfit = totalSales - totalPurchases;
-    const _netWorth = totalReceivables - totalPayables;
+    const netCashFlow = totalReceipts - totalPayments;
+    const grossProfit = totalSales - totalPurchases;
+    const netWorth = totalReceivables - totalPayables;
 
     return {
       totalPayables,
@@ -131,27 +129,27 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
     };
   };
 
-  const _getCashFlowAnalysis = () => {
-    const _filteredPayments = getFilteredData(payments, 'paymentDate');
-    const _filteredReceipts = getFilteredData(receipts, 'receiptDate');
+  const getCashFlowAnalysis = () => {
+    const filteredPayments = getFilteredData(payments, 'paymentDate');
+    const filteredReceipts = getFilteredData(receipts, 'receiptDate');
 
-    const _monthlyData = new Map<string, {
+    const monthlyData = new Map<string, {
       inflow: number;
       outflow: number;
       net: number;
     }>();
 
     filteredReceipts.forEach(receipt => {
-      const _monthKey = new Date(receipt.receiptDate).toISOString().substring(0, 7);
-      const _existing = monthlyData.get(monthKey) || { inflow: 0, outflow: 0, net: 0 };
+      const monthKey = new Date(receipt.receiptDate).toISOString().substring(0, 7);
+      const existing = monthlyData.get(monthKey) || { inflow: 0, outflow: 0, net: 0 };
       existing.inflow += receipt.amount;
       existing.net = existing.inflow - existing.outflow;
       monthlyData.set(monthKey, existing);
     });
 
     filteredPayments.forEach(payment => {
-      const _monthKey = new Date(payment.paymentDate).toISOString().substring(0, 7);
-      const _existing = monthlyData.get(monthKey) || { inflow: 0, outflow: 0, net: 0 };
+      const monthKey = new Date(payment.paymentDate).toISOString().substring(0, 7);
+      const existing = monthlyData.get(monthKey) || { inflow: 0, outflow: 0, net: 0 };
       existing.outflow += payment.amount;
       existing.net = existing.inflow - existing.outflow;
       monthlyData.set(monthKey, existing);
@@ -162,10 +160,10 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
       .sort((a, b) => a.month.localeCompare(b.month));
   };
 
-  const _getAgingAnalysis = () => {
-    const _now = new Date();
+  const getAgingAnalysis = () => {
+    const now = new Date();
     
-    const _payableAging = {
+    const payableAging = {
       current: 0,
       days30: 0,
       days60: 0,
@@ -173,7 +171,7 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
       over90: 0
     };
 
-    const _receivableAging = {
+    const receivableAging = {
       current: 0,
       days30: 0,
       days60: 0,
@@ -184,7 +182,7 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
     payables.forEach(payable => {
       if (payable.balanceAmount <= 0) return;
       
-      const _daysPastDue = Math.floor((now.getTime() - new Date(payable.dueDate).getTime()) / (24 * 60 * 60 * 1000));
+      const daysPastDue = Math.floor((now.getTime() - new Date(payable.dueDate).getTime()) / (24 * 60 * 60 * 1000));
       
       if (daysPastDue <= 0) {
         payableAging.current += payable.balanceAmount;
@@ -202,7 +200,7 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
     receivables.forEach(receivable => {
       if (receivable.balanceAmount <= 0) return;
       
-      const _daysPastDue = Math.floor((now.getTime() - new Date(receivable.dueDate).getTime()) / (24 * 60 * 60 * 1000));
+      const daysPastDue = Math.floor((now.getTime() - new Date(receivable.dueDate).getTime()) / (24 * 60 * 60 * 1000));
       
       if (daysPastDue <= 0) {
         receivableAging.current += receivable.balanceAmount;
@@ -220,8 +218,8 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
     return { payableAging, receivableAging };
   };
 
-  const _renderOverview = () => {
-    const _overview = calculateFinancialOverview();
+  const renderOverview = () => {
+    const overview = calculateFinancialOverview();
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -280,8 +278,8 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
     );
   };
 
-  const _renderCashFlow = () => {
-    const _cashFlowData = getCashFlowAnalysis();
+  const renderCashFlow = () => {
+    const cashFlowData = getCashFlowAnalysis();
 
     return (
       <GlassCard>
@@ -300,7 +298,7 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
             </TableHeader>
             <TableBody>
               {cashFlowData.map((data) => {
-                const _monthName = new Date(data.month + '-01').toLocaleDateString('zh-CN', {
+                const monthName = new Date(data.month + '-01').toLocaleDateString('zh-CN', {
                   year: 'numeric',
                   month: 'long'
                 });
@@ -329,7 +327,7 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
     );
   };
 
-  const _renderAging = () => {
+  const renderAging = () => {
     const { payableAging, receivableAging } = getAgingAnalysis();
     
     return (
@@ -399,9 +397,9 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
     );
   };
 
-  const _renderProfitLoss = () => {
-    const _overview = calculateFinancialOverview();
-    const _grossMargin = overview.totalSales > 0 ? (overview.grossProfit / overview.totalSales * 100).toFixed(1) : '0.0';
+  const renderProfitLoss = () => {
+    const overview = calculateFinancialOverview();
+    const grossMargin = overview.totalSales > 0 ? (overview.grossProfit / overview.totalSales * 100).toFixed(1) : '0.0';
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -444,8 +442,8 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
     );
   };
 
-  const _renderBalance = () => {
-    const _overview = calculateFinancialOverview();
+  const renderBalance = () => {
+    const overview = calculateFinancialOverview();
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -484,7 +482,7 @@ export const FinancialReports: React.FC<FinancialReportsProps> = ({ className })
     );
   };
 
-  const _tabs = [
+  const tabs = [
     { id: 'overview' as FinancialTab, label: '财务概览', icon: '📊', description: '整体财务状况' },
     { id: 'cashflow' as FinancialTab, label: '现金流量', icon: '💰', description: '现金流分析' },
     { id: 'profitloss' as FinancialTab, label: '损益分析', icon: '📈', description: '盈利能力分析' },

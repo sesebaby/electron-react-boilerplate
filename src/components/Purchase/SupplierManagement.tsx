@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { supplierService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Supplier, SupplierStatus, SupplierRating } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -14,7 +14,9 @@ import {
   TableCell, 
   TableHead, 
   TableHeader, 
-  TableRow
+  TableRow,
+  TableEmpty,
+  TableLoading
 } from '../ui/table';
 
 interface SupplierManagementProps {
@@ -22,7 +24,7 @@ interface SupplierManagementProps {
 }
 
 // 定义验证模式
-const _supplierSchema = z.object({
+const supplierSchema = z.object({
   code: z.string().min(1, '供应商编码不能为空').max(20, '供应商编码最多20个字符'),
   name: z.string().min(1, '供应商名称不能为空').max(100, '供应商名称最多100个字符'),
   contactPerson: z.string().max(50, '联系人名称最多50个字符').optional().or(z.literal('')),
@@ -82,7 +84,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     mode: 'onBlur'
   });
 
-  const __formData = watch(); // 监听表单数据变化
+  const formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -92,16 +94,21 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     loadData();
   }, []);
 
-  const _loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const [suppliersData, statsData] = await Promise.all([
-        supplierService.findAll(),
-        supplierService.getSupplierStats()
+      const systemService = serviceManager.getSystemService();
+      const [suppliersResult, statsResult] = await Promise.all([
+        systemService.getSuppliers(),
+        systemService.getSupplierStats()
       ]);
-      
+
+      const suppliersData = suppliersResult.success ? 
+        (Array.isArray(suppliersResult.data) ? suppliersResult.data : suppliersResult.data?.items || []) : [];
+      const statsData = statsResult.success ? (statsResult.data || {}) : {};
+
       setSuppliers(suppliersData);
       setStats(statsData);
     } catch (err) {
@@ -112,26 +119,29 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const _onSubmit = async (data: SupplierForm) => {
+  const onSubmit = async (data: SupplierForm) => {
     try {
-      const _submitData = {
+      const submitData = {
         ...data,
         // 处理空字符串为undefined
         contactPerson: data.contactPerson || undefined,
         phone: data.phone || undefined,
         email: data.email || undefined,
         address: data.address || undefined,
-        paymentTerms: data.paymentTerms || undefined
+        paymentTerms: data.paymentTerms || undefined,
+        isActive: true
       };
       
+      const systemService = serviceManager.getSystemService();
       if (editingSupplier) {
-        await supplierService.update(editingSupplier.id, submitData);
+        await systemService.updateSupplier(editingSupplier.id, submitData);
       } else {
         // 如果code为空，自动生成
         if (!submitData.code) {
-          submitData.code = await supplierService.generateSupplierCode();
+          const codeResult = await systemService.generateSupplierCode();
+          submitData.code = codeResult.success && codeResult.data ? codeResult.data : `SUP${Date.now()}`;
         }
-        await supplierService.create(submitData);
+        await systemService.createSupplier(submitData);
       }
       
       await loadData();
@@ -145,7 +155,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const _handleEdit = (supplier: Supplier) => {
+  const handleEdit = (supplier: Supplier) => {
     setEditingSupplier(supplier);
     reset({
       code: supplier.code,
@@ -163,16 +173,17 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     setShowForm(true);
   };
 
-  const _handleDelete = (supplierId: string) => {
+  const handleDelete = (supplierId: string) => {
     setDeleteTargetId(supplierId);
     setShowConfirmDialog(true);
   };
 
-  const _confirmDelete = async () => {
+  const confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
-      await supplierService.delete(deleteTargetId);
+      const systemService = serviceManager.getSystemService();
+      await systemService.deleteSupplier(deleteTargetId);
       await loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除供应商失败');
@@ -183,12 +194,12 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const _cancelDelete = () => {
+  const cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const _handleCancel = () => {
+  const handleCancel = () => {
     setShowForm(false);
     setEditingSupplier(null);
     reset(emptyForm);
@@ -196,16 +207,27 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     setError(null); // 清除错误信息
   };
 
-  const _handleCreateNew = () => {
+  const handleCreateNew = async () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
+    // 自动生成供应商编码
+    try {
+      const systemService = serviceManager.getSystemService();
+      const codeResult = await systemService.generateSupplierCode();
+      const newCode = codeResult.success && codeResult.data ? codeResult.data : `SUP${Date.now()}`;
+      setValue('code', newCode || '');
+    } catch (err) {
+      console.error('Failed to generate supplier code:', err);
+    }
   };
 
-  const _generateSupplierCode = async () => {
+  const generateSupplierCode = async () => {
     try {
-      const _newCode = await supplierService.generateSupplierCode();
-      setValue('code', newCode);
+      const systemService = serviceManager.getSystemService();
+      const codeResult = await systemService.generateSupplierCode();
+      const newCode = codeResult.success && codeResult.data ? codeResult.data : `SUP${Date.now()}`;
+      setValue('code', newCode || '');
       clearErrors('code');
     } catch (err) {
       console.error('Failed to generate supplier code:', err);
@@ -213,7 +235,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
   };
 
 
-  const _getStatusText = (status: SupplierStatus): string => {
+  const getStatusText = (status: SupplierStatus): string => {
     switch (status) {
       case SupplierStatus.ACTIVE: return '正常';
       case SupplierStatus.INACTIVE: return '停用';
@@ -221,7 +243,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const _getStatusStyles = (status: SupplierStatus): string => {
+  const getStatusStyles = (status: SupplierStatus): string => {
     switch (status) {
       case SupplierStatus.ACTIVE: return 'text-green-300 bg-green-500/20 border-green-400/30';
       case SupplierStatus.INACTIVE: return 'text-red-300 bg-red-500/20 border-red-400/30';
@@ -229,7 +251,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const __getRatingText = (rating: SupplierRating): string => {
+  const getRatingText = (rating: SupplierRating): string => {
     switch (rating) {
       case SupplierRating.A: return 'A级 - 优秀';
       case SupplierRating.B: return 'B级 - 良好';
@@ -239,7 +261,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const _getRatingStyles = (rating: SupplierRating): string => {
+  const getRatingStyles = (rating: SupplierRating): string => {
     switch (rating) {
       case SupplierRating.A: return 'text-green-300 bg-green-500/20 border-green-400/30';
       case SupplierRating.B: return 'text-blue-300 bg-blue-500/20 border-blue-400/30';
@@ -249,15 +271,15 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
     }
   };
 
-  const _filteredSuppliers = suppliers.filter(supplier => {
-    const _matchesSearch = !searchTerm || 
+  const filteredSuppliers = suppliers.filter(supplier => {
+    const matchesSearch = !searchTerm || 
       supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       supplier.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (supplier.contactPerson || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (supplier.email || '').toLowerCase().includes(searchTerm.toLowerCase());
     
-    const _matchesStatus = !selectedStatus || supplier.status === selectedStatus;
-    const _matchesRating = !selectedRating || supplier.rating === selectedRating;
+    const matchesStatus = !selectedStatus || supplier.status === selectedStatus;
+    const matchesRating = !selectedRating || supplier.rating === selectedRating;
     
     return matchesSearch && matchesStatus && matchesRating;
   });
@@ -467,12 +489,12 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                       <div>
                         <div className="font-semibold text-white">¥{supplier.creditLimit.toLocaleString()}</div>
                         {supplier.paymentTerms && (
-                          <div className="text-white/70 text-sm">{supplier.paymentTerms}</div>
+                          <div className="text-white/70 text-sm" title="仅用于筛选和标记，不与实际业务挂钩">{supplier.paymentTerms}</div>
                         )}
                       </div>
                     </TableCell>
                     <TableCell className="min-w-[100px]">
-                      <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getRatingStyles(supplier.rating)}`}>
+                      <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium border ${getRatingStyles(supplier.rating)}`} title="仅用于筛选和标记，不与实际业务挂钩">
                         {supplier.rating}级
                       </span>
                     </TableCell>
@@ -597,6 +619,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                   register={register('paymentTerms')}
                   error={errors.paymentTerms?.message}
                   placeholder="如：30天付款"
+                  title="仅用于筛选和标记，不与实际业务挂钩"
                 />
 
                 <GlassInput
@@ -616,6 +639,7 @@ export const SupplierManagement: React.FC<SupplierManagementProps> = ({ classNam
                   label="供应商评级"
                   register={register('rating')}
                   error={errors.rating?.message}
+                  title="仅用于筛选和标记，不与实际业务挂钩"
                 >
                   <option value={SupplierRating.A}>A级 - 优秀</option>
                   <option value={SupplierRating.B}>B级 - 良好</option>

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import monthlyBalanceService from '../../services/business/monthlyBalanceService';
-import { warehouseService } from '../../services/business/warehouseService';
-import categoryService from '../../services/business/categoryService';
+import { serviceManager } from '../../services/core';
 import { 
   MonthlyBalance, 
   MonthlyBalanceQueryParams, 
@@ -39,13 +37,14 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
 
   const loadFormData = async () => {
     try {
+      const inventoryService = serviceManager.getInventoryService();
       const [warehouseList, categoryList] = await Promise.all([
-        warehouseService.findAll(),
-        categoryService.findAll()
+        inventoryService.findAllWarehouses(),
+        inventoryService.findAllCategories()
       ]);
-      
-      setWarehouses(warehouseList);
-      setCategories(categoryList);
+
+      setWarehouses(warehouseList.success ? warehouseList.data || [] : []);
+      setCategories(categoryList.success ? categoryList.data || [] : []);
     } catch (err) {
       console.error('Failed to load form data:', err);
     }
@@ -56,10 +55,11 @@ export const MonthlyBalanceList: React.FC<MonthlyBalanceListProps> = ({ onViewSt
       setLoading(true);
       setError(null);
 
-      const result = await monthlyBalanceService.queryMonthlyBalance(queryParams);
+      const reportService = serviceManager.getReportService();
+      const result = await reportService.queryMonthlyBalance(queryParams);
 
       if (!result.success) {
-        setError(result.error?.message || '查询失败');
+        setError(result.error || '查询失败');
         return;
       }
 

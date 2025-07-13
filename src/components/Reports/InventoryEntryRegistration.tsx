@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Card } from '../ui/card';
-import { _inventoryEntryRegistrationService as inventoryEntryRegistrationService, InventoryEntryItem } from '../../services/business/inventoryEntryRegistrationService';
+import { inventoryEntryRegistrationService, InventoryEntryItem } from '../../services/business/inventoryEntryRegistrationService';
 import { 
   Table, 
   TableContainer,
@@ -9,7 +9,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty as _TableEmpty,
+  TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -34,11 +34,11 @@ const displayModes: DisplayMode[] = [
 export const InventoryEntryRegistration: React.FC = () => {
   // 获取当前月份的开始和结束日期
   const getCurrentMonthRange = () => {
-    const _now = new Date();
-    const _year = now.getFullYear();
-    const _month = now.getMonth();
-    const _startDate = new Date(year, month, 1).toISOString().split('T')[0];
-    const _endDate = new Date(year, month + 1, 0).toISOString().split('T')[0];
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const startDate = new Date(year, month, 1).toISOString().split('T')[0];
+    const endDate = new Date(year, month + 1, 0).toISOString().split('T')[0];
     return { startDate, endDate };
   };
 
@@ -50,13 +50,13 @@ export const InventoryEntryRegistration: React.FC = () => {
 
   // 获取当前月份的所有日期 - 基于当前实际月份，不依赖timeRange
   const monthDates = useMemo(() => {
-    const _now = new Date();
-    const _year = now.getFullYear();
-    const _month = now.getMonth();
-    const _daysInMonth = new Date(year, month + 1, 0).getDate();
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
     
     return Array.from({ length: daysInMonth }, (_, i) => {
-      const _day = i + 1;
+      const day = i + 1;
       // 直接构建日期字符串，避免时区问题
       return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     });
@@ -64,36 +64,31 @@ export const InventoryEntryRegistration: React.FC = () => {
 
   // 生成周快捷选择 - 基于当前月份
   const weekRanges = useMemo(() => {
-    const _now = new Date();
-    const _year = now.getFullYear();
-    const _month = now.getMonth();
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
     // 直接构建日期字符串，避免时区问题
-    const _currentMonthFirstDay = `${year}-${String(month + 1).padStart(2, '0')}-01`;
+    const currentMonthFirstDay = `${year}-${String(month + 1).padStart(2, '0')}-01`;
     return inventoryEntryRegistrationService.getMonthlyWeekRanges(currentMonthFirstDay);
   }, []); // 移除依赖，只基于当前月份
 
   // 获取数据
   useEffect(() => {
-    const _fetchData = async () => {
+    const fetchData = async () => {
       setLoading(true);
       try {
-        const _result = await inventoryEntryRegistrationService.getInventoryEntryData({
+        const result = await inventoryEntryRegistrationService.getInventoryEntryData({
           startDate: timeRange.startDate,
-          endDate: timeRange.endDate,
-          displayMode
+          endDate: timeRange.endDate
         });
-        // 按一级分类、二级分类排序
-        const _sortedData = result.sort((a, b) => {
-          // 首先按一级分类排序
-          if (a.primaryCategory !== b.primaryCategory) {
-            return a.primaryCategory.localeCompare(b.primaryCategory, 'zh-CN');
+        // 按分类、商品名称排序
+        const sortedData = result.sort((a, b) => {
+          // 首先按分类排序
+          if (a.category !== b.category) {
+            return a.category.localeCompare(b.category, 'zh-CN');
           }
-          // 然后按二级分类排序
-          if (a.secondaryCategory !== b.secondaryCategory) {
-            return a.secondaryCategory.localeCompare(b.secondaryCategory, 'zh-CN');
-          }
-          // 最后按物品名称排序
-          return a.name.localeCompare(b.name, 'zh-CN');
+          // 然后按商品名称排序
+          return a.productName.localeCompare(b.productName, 'zh-CN');
         });
         setData(sortedData);
       } catch (error) {
@@ -110,10 +105,10 @@ export const InventoryEntryRegistration: React.FC = () => {
   // 导出数据功能
   const handleExportData = () => {
     try {
-      const _csvData = inventoryEntryRegistrationService.exportToCSV(data, filteredDates);
-      const _blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-      const _link = document.createElement('a');
-      const _url = URL.createObjectURL(blob);
+      const csvData = inventoryEntryRegistrationService.exportToCSV(data, filteredDates);
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
       link.setAttribute('href', url);
       link.setAttribute('download', `出入库登记_${timeRange.startDate}_${timeRange.endDate}.csv`);
       link.style.visibility = 'hidden';
@@ -126,7 +121,7 @@ export const InventoryEntryRegistration: React.FC = () => {
   };
 
   const handleWeekSelect = (week: number) => {
-    const _weekRange = weekRanges.find(w => w.week === week);
+    const weekRange = weekRanges.find(w => w.week === week);
     if (weekRange) {
       setTimeRange({
         startDate: weekRange.startDate,
@@ -354,7 +349,7 @@ export const InventoryEntryRegistration: React.FC = () => {
                       fixedOffset="60px"
                       className="min-w-[120px] text-left border-r"
                     >
-                      {item.primaryCategory}
+                      {item.category}
                     </TableCell>
                     <TableCell 
                       fixed 
@@ -362,7 +357,7 @@ export const InventoryEntryRegistration: React.FC = () => {
                       fixedOffset="180px"
                       className="min-w-[120px] text-left border-r"
                     >
-                      {item.secondaryCategory}
+                      {item.category}
                     </TableCell>
                     <TableCell 
                       fixed 
@@ -370,7 +365,7 @@ export const InventoryEntryRegistration: React.FC = () => {
                       fixedOffset="300px"
                       className="min-w-[150px] text-left border-r"
                     >
-                      {item.name}
+                      {item.productName}
                     </TableCell>
                     <TableCell 
                       fixed 
@@ -379,11 +374,11 @@ export const InventoryEntryRegistration: React.FC = () => {
                       className="min-w-[100px] text-center border-r"
                     >
                       <span className="financial-value-accent">
-                        {item.totalOut}
+                        {item.amount || 0}
                       </span>
                     </TableCell>
                     {filteredDates.map(date => {
-                      const _dayData = item.dailyData[date];
+                      const dayData = { in: 0, out: 0, stockIn: 0, morning: 0, noon: 0, evening: 0, stock: 0 }; // TODO: Implement daily data logic
                       return (
                         <React.Fragment key={date}>
                           <TableCell className="text-center border-r min-w-[60px]">

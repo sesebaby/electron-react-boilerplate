@@ -4,7 +4,8 @@
  */
 
 import { format } from 'date-fns';
-import { ElectronAPI, DatabaseResult } from '../../types/electronAPI';
+// 确保 ElectronAPI 类型可用
+import './electronDatabase';
 
 export interface BackupInfo {
   id: string;
@@ -41,9 +42,9 @@ export class DatabaseBackupService {
     description?: string,
     onProgress?: (progress: BackupProgress) => void
   ): Promise<BackupInfo> {
-    const _timestamp = new Date();
-    const _backupId = `backup_${format(timestamp, 'yyyyMMdd_HHmmss')}`;
-    const _filename = `${backupId}.db`;
+    const timestamp = new Date();
+    const backupId = `backup_${format(timestamp, 'yyyyMMdd_HHmmss')}`;
+    const filename = `${backupId}.db`;
 
     try {
       // 准备阶段
@@ -54,9 +55,8 @@ export class DatabaseBackupService {
       });
 
       // 检查Electron API是否可用
-      const electronAPI: ElectronAPI = window.electronAPI;
-      if (!electronAPI?.dbBackupData) {
-        throw new Error('数据库备份功能不可用');
+      if (!window.electronAPI?.dbBackup) {
+        throw new Error('数据库备份功能不可用：Electron API未初始化');
       }
 
       // 执行备份
@@ -66,10 +66,17 @@ export class DatabaseBackupService {
         message: '正在备份数据库...'
       });
 
-      const result: DatabaseResult<any> = await electronAPI.dbBackupData(filename);
+      const result = await window.electronAPI.dbBackup(filename);
 
       if (!result.success) {
-        throw new Error(result.error || '备份失败');
+        const errorMessage = result.error || '备份失败：未知错误';
+        console.error('数据库备份失败:', {
+          filename,
+          description,
+          error: errorMessage,
+          result
+        });
+        throw new Error(errorMessage);
       }
 
       // 压缩阶段
@@ -89,9 +96,9 @@ export class DatabaseBackupService {
       const backupInfo: BackupInfo = {
         id: backupId,
         filename,
-        filepath: result.data?.filepath || filename,
+        filepath: result.filepath,
         timestamp,
-        size: result.data?.size || 0,
+        size: result.size || 0,
         description
       };
 
@@ -116,12 +123,11 @@ export class DatabaseBackupService {
    */
   async getBackupList(): Promise<BackupInfo[]> {
     try {
-      const electronAPI: ElectronAPI = window.electronAPI;
-      if (!electronAPI?.dbGetBackupList) {
+      if (!window.electronAPI?.dbGetBackupList) {
         throw new Error('获取备份列表功能不可用');
       }
 
-      const result: DatabaseResult<BackupInfo[]> = await electronAPI.dbGetBackupList();
+      const result = await window.electronAPI.dbGetBackupList();
       
       if (!result.success) {
         throw new Error(result.error || '获取备份列表失败');
@@ -139,14 +145,15 @@ export class DatabaseBackupService {
    */
   async deleteBackup(backupId: string): Promise<void> {
     try {
-      const electronAPI: ElectronAPI = window.electronAPI;
-      if (!electronAPI?.dbRestoreData) {
+      if (!window.electronAPI?.dbDeleteBackup) {
         throw new Error('删除备份功能不可用');
       }
 
-      // Note: The new API doesn't have a specific delete backup function
-      // This would need to be implemented or handled differently
-      throw new Error('删除备份功能需要在主进程中实现');
+      const result = await window.electronAPI.dbDeleteBackup(backupId);
+      
+      if (!result.success) {
+        throw new Error(result.error || '删除备份失败');
+      }
     } catch (error) {
       console.error('删除备份失败:', error);
       throw error;
@@ -167,8 +174,7 @@ export class DatabaseBackupService {
         message: '正在准备恢复...'
       });
 
-      const electronAPI: ElectronAPI = window.electronAPI;
-      if (!electronAPI?.dbRestoreData) {
+      if (!window.electronAPI?.dbRestore) {
         throw new Error('数据库恢复功能不可用');
       }
 
@@ -178,7 +184,7 @@ export class DatabaseBackupService {
         message: '正在恢复数据库...'
       });
 
-      const result: DatabaseResult<any> = await electronAPI.dbRestoreData(backupId);
+      const result = await window.electronAPI.dbRestore(backupId);
       
       if (!result.success) {
         throw new Error(result.error || '恢复失败');
@@ -209,14 +215,13 @@ export class DatabaseBackupService {
    */
   async validateBackup(backupId: string): Promise<boolean> {
     try {
-      const electronAPI: ElectronAPI = window.electronAPI;
-      if (!electronAPI?.dbCheckDatabaseIntegrity) {
+      if (!window.electronAPI?.dbValidateBackup) {
         throw new Error('验证备份功能不可用');
       }
 
-      const result: DatabaseResult<any> = await electronAPI.dbCheckDatabaseIntegrity();
+      const result = await window.electronAPI.dbValidateBackup(backupId);
       
-      return result.success && result.data?.valid;
+      return result.success && result.valid;
     } catch (error) {
       console.error('验证备份失败:', error);
       return false;

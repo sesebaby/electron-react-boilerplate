@@ -34,6 +34,12 @@ function setupDatabaseHandlers(ipcMain, db) {
     'db-get-low-stock-items',
     'db-get-categories',
     'db-get-suppliers',
+    'db-create-category',
+    'db-update-category', 
+    'db-delete-category',
+    'db-create-supplier',
+    'db-update-supplier',
+    'db-delete-supplier',
     'db-batch-update-stock',
     'db-get-inventory-stats',
     
@@ -83,7 +89,7 @@ function setupDatabaseHandlers(ipcMain, db) {
     'db-validate-integrity',
     'db-clear-database',
     'db-rebuild-schema',
-    'db-import-mock-data',
+    'db-import-builtin-data',
     'db-optimize',
     'db-get-database-info',
     'db-execute-query',
@@ -111,7 +117,12 @@ function setupDatabaseHandlers(ipcMain, db) {
     
     // 其他处理器
     'db-get-all-categories',
-    'db-get-all-suppliers'
+    'db-get-all-suppliers',
+    'db-get-customer-by-id',
+    'db-create-customer',
+    'db-update-customer', 
+    'db-delete-customer',
+    'db-search-customers'
   ];
 
   // 移除已存在的处理器
@@ -175,41 +186,41 @@ function setupLegacyHandlers(ipcMain, db) {
   
   // 添加一些可能缺失的处理器
   
-  // 获取所有分类（从categories表）
-  if (!ipcMain.listenerCount('db-get-all-categories')) {
-    ipcMain.handle('db-get-all-categories', async () => {
-      try {
-        if (!db) {
-          return { success: false, error: 'Database not initialized' };
-        }
-        
-        const stmt = db.prepare('SELECT * FROM categories ORDER BY name');
-        const rows = stmt.all();
-        
-        return { success: true, data: rows };
-      } catch (error) {
-        return { success: false, error: error.message };
-      }
-    });
-  }
+  // 获取所有分类（从categories表）- 已在 inventoryHandlers 中注册，跳过
+  // if (!ipcMain.listenerCount('db-get-all-categories')) {
+  //   ipcMain.handle('db-get-all-categories', async () => {
+  //     try {
+  //       if (!db) {
+  //         return { success: false, error: 'Database not initialized' };
+  //       }
+  //
+  //       const stmt = db.prepare('SELECT * FROM categories ORDER BY name');
+  //       const rows = stmt.all();
+  //
+  //       return { success: true, data: rows };
+  //     } catch (error) {
+  //       return { success: false, error: error.message };
+  //     }
+  //   });
+  // }
   
-  // 获取所有供应商（从suppliers表）
-  if (!ipcMain.listenerCount('db-get-all-suppliers')) {
-    ipcMain.handle('db-get-all-suppliers', async () => {
-      try {
-        if (!db) {
-          return { success: false, error: 'Database not initialized' };
-        }
-        
-        const stmt = db.prepare('SELECT * FROM suppliers ORDER BY name');
-        const rows = stmt.all();
-        
-        return { success: true, data: rows };
-      } catch (error) {
-        return { success: false, error: error.message };
-      }
-    });
-  }
+  // 获取所有供应商（从suppliers表）- 已在 inventoryHandlers 中注册，跳过
+  // if (!ipcMain.listenerCount('db-get-all-suppliers')) {
+  //   ipcMain.handle('db-get-all-suppliers', async () => {
+  //     try {
+  //       if (!db) {
+  //         return { success: false, error: 'Database not initialized' };
+  //       }
+  //
+  //       const stmt = db.prepare('SELECT * FROM suppliers ORDER BY name');
+  //       const rows = stmt.all();
+  //
+  //       return { success: true, data: rows };
+  //     } catch (error) {
+  //       return { success: false, error: error.message };
+  //     }
+  //   });
+  // }
   
   console.log('Legacy compatibility handlers registered');
 }

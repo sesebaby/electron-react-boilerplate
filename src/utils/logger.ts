@@ -68,6 +68,12 @@ export class Logger {
    * 初始化文件日志功能
    */
   private async initializeFileLogging(): Promise<void> {
+    // Disable file logging in renderer process (Electron with contextIsolation)
+    if (typeof window !== 'undefined') {
+      this.config.enableFileLogging = false;
+      return;
+    }
+    
     if (!this.config.enableFileLogging) {
       return;
     }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { UserRole, PermissionModule, PermissionAction, PermissionConfig } from '../../types/entities';
-import { permissionService } from '../../services/business';
+import { UserRole, PermissionModule, PermissionAction, PermissionConfig, RolePermission } from '../../types/entities';
+import { serviceManager } from '../../services/core';
 import { GlassCard } from '../ui/FormControls';
 import { Button } from '../ui/button';
 
@@ -32,13 +32,13 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   // 角色名称映射
-  const _roleNames = {
+  const roleNames = {
     [UserRole.ADMIN]: '管理员',
     [UserRole.OPERATOR]: '操作员'
   };
 
   // 角色描述映射
-  const _roleDescriptions = {
+  const roleDescriptions = {
     [UserRole.ADMIN]: '拥有系统所有权限，可以管理用户、权限、系统设置等',
     [UserRole.OPERATOR]: '拥有业务操作权限，可以进行库存、采购、销售等日常业务操作'
   };
@@ -47,24 +47,53 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
     loadData();
   }, []);
 
-  const _loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
-      const [rolesData, modulesData, actionsData] = await Promise.all([
-        permissionService.getAllRoles(),
-        permissionService.getAllModules(),
-        permissionService.getAllActions()
+      const systemService = serviceManager.getSystemService();
+      const [rolesResult, modulesResult, actionsResult] = await Promise.all([
+        systemService.getAllRoles(),
+        systemService.getAllModules(),
+        systemService.getAllActions()
       ]);
 
-      setRoles(rolesData);
+      const rolesData = rolesResult.success ? (rolesResult.data || []) : [];
+      const modulesRawData = modulesResult.success ? (modulesResult.data || []) : [];
+      const actionsRawData = actionsResult.success ? (actionsResult.data || []) : [];
+
+      // Transform string arrays to structured objects
+      const modulesData: ModuleInfo[] = Array.isArray(modulesRawData) ?
+        modulesRawData.map((module: any) => ({
+          module: (typeof module === 'string' ? module : module.module || 'unknown') as PermissionModule,
+          name: typeof module === 'string' ? module : module.name || 'unknown',
+          description: typeof module === 'string' ? `${module}模块权限` : module.description || '未知模块权限'
+        })) : [];
+
+      const actionsData: ActionInfo[] = Array.isArray(actionsRawData) ?
+        actionsRawData.map((action: any) => ({
+          action: (typeof action === 'string' ? action : action.action || 'unknown') as PermissionAction,
+          name: typeof action === 'string' ? action : action.name || 'unknown',
+          description: typeof action === 'string' ? `${action}操作权限` : action.description || '未知操作权限'
+        })) : [];
+
+      setRoles(rolesData as UserRole[]);
       setModules(modulesData);
       setActions(actionsData);
 
       // 默认选择第一个角色
       if (rolesData.length > 0) {
         setSelectedRole(rolesData[0]);
-        const _permissions = await permissionService.getRolePermissions(rolesData[0]);
-        setRolePermissions(permissions);
+        const systemService = serviceManager.getSystemService();
+        const permissionsResult = await systemService.getRolePermissions(rolesData[0]);
+        const permissions = permissionsResult.success ? (permissionsResult.data || []) : [];
+        // Convert Permission array to PermissionConfig if needed
+        const permissionConfig = Array.isArray(permissions) && permissions.length > 0
+          ? {
+              role: rolesData[0],
+              permissions: permissions
+            } as PermissionConfig
+          : null;
+        setRolePermissions(permissionConfig);
       }
     } catch (error) {
       console.error('Failed to load permission data:', error);
@@ -74,26 +103,35 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
     }
   };
 
-  const _handleRoleSelect = async (role: UserRole) => {
+  const handleRoleSelect = async (role: UserRole) => {
     try {
       setSelectedRole(role);
-      const _permissions = await permissionService.getRolePermissions(role);
-      setRolePermissions(permissions);
+      const systemService = serviceManager.getSystemService();
+      const permissionsResult = await systemService.getRolePermissions(role);
+      const permissionsData = permissionsResult.success ? (permissionsResult.data || []) : [];
+      // Convert array to PermissionConfig format
+      const permissionConfig = Array.isArray(permissionsData) && permissionsData.length > 0
+        ? {
+            role: role,
+            permissions: permissionsData
+          } as PermissionConfig
+        : null;
+      setRolePermissions(permissionConfig);
     } catch (error) {
       console.error('Failed to load role permissions:', error);
       setMessage({ type: 'error', text: '加载角色权限失败' });
     }
   };
 
-  const _handlePermissionChange = (module: PermissionModule, action: PermissionAction, checked: boolean) => {
+  const handlePermissionChange = (module: PermissionModule, action: PermissionAction, checked: boolean) => {
     if (!rolePermissions) return;
 
-    const _updatedPermissions = { ...rolePermissions };
+    const updatedPermissions = { ...rolePermissions };
     if (!updatedPermissions.permissions[module]) {
       updatedPermissions.permissions[module] = [];
     }
 
-    const _moduleActions = updatedPermissions.permissions[module] || [];
+    const moduleActions = updatedPermissions.permissions[module] || [];
     if (checked) {
       if (!moduleActions.includes(action)) {
         updatedPermissions.permissions[module] = [...moduleActions, action];
@@ -105,12 +143,15 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
     setRolePermissions(updatedPermissions);
   };
 
-  const _handleSavePermissions = async () => {
+  const handleSavePermissions = async () => {
     if (!selectedRole || !rolePermissions) return;
 
     try {
       setSaving(true);
-      await permissionService.updateRolePermissions(selectedRole, rolePermissions.permissions);
+      // Convert permissions object to Permission array format expected by service
+      const permissionArray = rolePermissions?.permissions || [];
+      const systemService = serviceManager.getSystemService();
+      await systemService.updateRolePermissions(selectedRole, permissionArray as any);
       setMessage({ type: 'success', text: '权限保存成功' });
     } catch (error) {
       console.error('Failed to save permissions:', error);
@@ -120,9 +161,9 @@ export const PermissionManagement: React.FC<PermissionManagementProps> = ({ clas
     }
   };
 
-  const _isActionAllowed = (module: PermissionModule, action: PermissionAction): boolean => {
+  const isActionAllowed = (module: PermissionModule, action: PermissionAction): boolean => {
     if (!rolePermissions) return false;
-    const _moduleActions = rolePermissions.permissions[module] || [];
+    const moduleActions = rolePermissions.permissions[module] || [];
     return moduleActions.includes(action);
   };
 

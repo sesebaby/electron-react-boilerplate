@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppLayout } from './components/Layout/AppLayout';
 import PageContainer from './components/PageContainer';
-import { businessServiceManager } from './services/business';
-import { dataInitializer } from './services/dataInitializer';
-// testDataInitializer removed - using database mock data instead
+import { serviceManager } from './services/core';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import GlobalDialogProvider from './components/providers/GlobalDialogProvider';
 import { AuthProvider } from './hooks/useAuth';
@@ -22,50 +20,40 @@ const App: React.FC = () => {
   // 简单的哈希路由处理
   useEffect(() => {
     // 初始化主题
-    const _savedTheme = localStorage.getItem('inventory-system-theme') || 'glass-future';
-    document.documentElement.setAttribute('data-theme', _savedTheme);
+    const savedTheme = localStorage.getItem('inventory-system-theme') || 'glass-future';
+    document.documentElement.setAttribute('data-theme', savedTheme);
     
     // 应用主题背景和文字颜色
     document.body.style.background = 'var(--app-background)';
     document.body.style.minHeight = '100vh';
     document.body.style.color = 'var(--text-primary)';
     
-    const _handleHashChange = () => {
-      const _hash = window.location.hash.replace('#', '');
-      if (_hash) {
-        setCurrentPage(_hash);
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        setCurrentPage(hash);
+      } else {
+        // 如果没有hash，默认设置为dashboard
+        setCurrentPage('dashboard');
+        window.location.hash = 'dashboard';
       }
     };
 
     // 初始化页面
-    _handleHashChange();
+    handleHashChange();
 
     // 监听哈希变化
-    window.addEventListener('hashchange', _handleHashChange);
+    window.addEventListener('hashchange', handleHashChange);
 
-    // 初始化系统和数据
-    const _initSystem = async () => {
+    // 简化的系统初始化 - 立即执行，不延迟
+    const initSystem = async () => {
       try {
-        // 首先初始化数据库
-        console.log('Initializing database...');
-        if (window.electronAPI) {
-          // 使用 electronDatabase 服务进行初始化
-          const { default: electronDatabase } = await import('./services/database/electronDatabase');
-          await electronDatabase.initialize();
-          console.log('Database initialized successfully');
-        }
+        console.log('开始初始化系统...');
 
-        // 然后初始化业务服务（会从数据库加载数据）
-        console.log('Initializing business services...');
-        await businessServiceManager.initialize();
+        // 使用新的核心服务管理器进行初始化
+        await serviceManager.initialize();
 
-        // 最后初始化其他数据
-        console.log('Initializing additional data...');
-        await dataInitializer.initializeData();
-
-        // TODO: 初始化库存卡片视图测试数据（暂时禁用）
-        // await testDataInitializer.initializeInventoryCardTestData();
-
+        console.log('系统初始化完成');
         setIsLoading(false);
       } catch (error) {
         console.error('系统初始化失败:', error);
@@ -73,17 +61,17 @@ const App: React.FC = () => {
         setIsLoading(false);
       }
     };
-    
-    const _initTimer = setTimeout(_initSystem, 1000);
+
+    // 立即执行初始化，不使用延迟
+    initSystem();
 
     return () => {
-      window.removeEventListener('hashchange', _handleHashChange);
-      clearTimeout(_initTimer);
+      window.removeEventListener('hashchange', handleHashChange);
     };
   }, []);
 
   // 页面变化处理
-  const __handlePageChange = (page: string) => {
+  const _handlePageChange = (page: string) => {
     setCurrentPage(page);
     window.location.hash = page;
   };
@@ -91,7 +79,7 @@ const App: React.FC = () => {
   // 加载状态
   if (isLoading) {
     return (
-      <div className="min-h-screen relative overflow-hidden" style={{background: 'var(--app-background)'}}>
+      <div className="min-h-screen relative overflow-hidden" style={{background: 'var(--app-background)'}} data-testid="loading-screen">
         {/* 现代化背景效果 */}
         <div className="absolute inset-0">
           <div className="absolute w-72 h-72 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 left-1/4 top-1/3"></div>
@@ -297,7 +285,7 @@ const App: React.FC = () => {
       <AuthProvider>
         <GlobalDialogProvider>
           <ProtectedRoute>
-            <div className="min-h-screen">
+            <div className="min-h-screen" data-testid="app-loaded">
               <AppLayout>
                 <PageContainer currentPage={currentPage} />
               </AppLayout>

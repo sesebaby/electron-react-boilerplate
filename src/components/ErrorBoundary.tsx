@@ -1,7 +1,7 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { _ErrorUtils as ErrorUtils } from '../utils/errors';
-import { _logger as logger } from '../utils/logger';
-import { _globalErrorHandler as globalErrorHandler } from '../utils/globalErrorHandler';
+import { ErrorUtils } from '../utils/errors';
+import { logger } from '../utils/logger';
+import { globalErrorHandler } from '../utils/globalErrorHandler';
 
 interface ExtendedErrorInfo extends ErrorInfo {
   errorBoundary: string;
@@ -67,7 +67,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     this.setState({ errorInfo });
 
     // 生成错误报告
-    const _normalizedError = ErrorUtils.normalizeError(error);
+    const normalizedError = ErrorUtils.normalizeError(error);
     const errorReport: ErrorReport = {
       error: normalizedError.toJSON(),
       errorInfo: {
@@ -131,7 +131,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   private getErrorSeverity(error: Error): 'low' | 'medium' | 'high' | 'critical' {
     if (ErrorUtils.isAppError(error)) {
-      switch (error.code) {
+      switch ((error as any).code) {
         case 'PERMISSION_ERROR':
         case 'CONFIGURATION_ERROR':
           return 'critical';
@@ -151,10 +151,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   private renderDefaultFallback(error: Error, _errorInfo: ExtendedErrorInfo) {
     const _severity = this.getErrorSeverity(error);
     const _isAppError = ErrorUtils.isAppError(error);
-    
+
     const _severityColors = {
       low: 'error-badge-info',
-      medium: 'error-badge-warning', 
+      medium: 'error-badge-warning',
       high: 'error-badge-error',
       critical: 'error-badge-critical'
     };
@@ -170,22 +170,22 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       <div className="min-h-screen glass-surface flex items-center justify-center p-4">
         <div className="max-w-md w-full glass-card p-8 text-center">
           {/* 错误图标和严重级别 */}
-          <div className={`w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r ${severityColors[severity]} flex items-center justify-center text-4xl`}>
-            {severityEmojis[severity]}
+          <div className={`w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r ${_severityColors[_severity]} flex items-center justify-center text-4xl`}>
+            {_severityEmojis[_severity]}
           </div>
 
           {/* 错误标题 */}
           <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--popup-text-primary)' }}>
             {
-              severity === 'critical' ? '系统错误' :
-              severity === 'high' ? '操作失败' :
-              severity === 'medium' ? '发生错误' : '小问题'
+              _severity === 'critical' ? '系统错误' :
+              _severity === 'high' ? '操作失败' :
+              _severity === 'medium' ? '发生错误' : '小问题'
             }
           </h1>
 
           {/* 错误消息 */}
           <div className="mb-6" style={{ color: 'var(--popup-text-secondary)' }}>
-            {isAppError ? (
+            {_isAppError ? (
               <p className="text-sm">{error.message}</p>
             ) : (
               <div>
@@ -294,7 +294,7 @@ export function withErrorBoundary<P extends object>(
   Component: React.ComponentType<P>,
   errorFallback?: (error: Error, errorInfo: ErrorInfo, onRetry: () => void) => ReactNode
 ) {
-  const _WrappedComponent = (props: P) => (
+  const WrappedComponent = (props: P) => (
     <ErrorBoundary fallback={errorFallback}>
       <Component {...props} />
     </ErrorBoundary>

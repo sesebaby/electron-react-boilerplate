@@ -4,11 +4,10 @@ import { LoadingProgress } from '../ui/SkeletonLoader';
 import { useDialog } from '../../hooks/useDialog';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import Toast from '../ui/Toast';
-import systemInitializationService, { 
-  InitializationProgress, 
-  InitializationOptions 
+import systemInitializationService, {
+  InitializationProgress,
+  InitializationOptions
 } from '../../services/systemInitializationService';
-import backupService, { BackupInfo } from '../../services/database/backupService';
 
 interface SystemStatus {
   databaseSize: number;
@@ -20,16 +19,12 @@ interface SystemStatus {
 
 export const SystemInitialization: React.FC = () => {
   const [systemStatus, setSystemStatus] = useState<SystemStatus | null>(null);
-  const [backupList, setBackupList] = useState<BackupInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isInitializing, setIsInitializing] = useState(false);
   const [initProgress, setInitProgress] = useState<InitializationProgress | null>(null);
   const [initOptions, setInitOptions] = useState<InitializationOptions>({
-    createBackup: true,
-    backupDescription: '',
     preserveUsers: true,
-    preserveSettings: true,
-    importMockData: true
+    preserveSettings: true
   });
 
   const { 
@@ -50,12 +45,9 @@ export const SystemInitialization: React.FC = () => {
   const _loadSystemInfo = async () => {
     try {
       setIsLoading(true);
-      const [status, backups] = await Promise.all([
-        systemInitializationService.getSystemStatus(),
-        backupService.getBackupList()
-      ]);
+      const status = await systemInitializationService.getSystemStatus();
       setSystemStatus(status);
-      setBackupList(backups);
+
     } catch (error) {
       console.error('加载系统信息失败:', error);
       showError('加载系统信息失败，请刷新页面重试');
@@ -69,9 +61,10 @@ export const SystemInitialization: React.FC = () => {
       '系统初始化确认',
       `⚠️ 警告：此操作将执行以下步骤：
 
-${initOptions.createBackup ? '✓ 创建当前数据库备份\n' : ''}✓ 清空现有业务数据
+✓ 清空现有业务数据
 ✓ 重建数据库结构
-${initOptions.importMockData ? '✓ 导入默认示例数据\n' : ''}${initOptions.preserveUsers ? '✓ 保留用户账户信息\n' : ''}${initOptions.preserveSettings ? '✓ 保留系统设置\n' : ''}
+✓ 导入内置初始数据（41个单位、分类、供应商等）
+${initOptions.preserveUsers ? '✓ 保留用户账户信息\n' : ''}${initOptions.preserveSettings ? '✓ 保留系统设置\n' : ''}
 此操作不可逆转，请确认您已了解操作后果！`,
       () => executeInitialization(),
       undefined,
@@ -87,11 +80,7 @@ ${initOptions.importMockData ? '✓ 导入默认示例数据\n' : ''}${initOptio
       setInitProgress(null);
 
       await systemInitializationService.initializeSystem(
-        {
-          ...initOptions,
-          backupDescription: initOptions.backupDescription || 
-            `系统初始化前自动备份 - ${new Date().toLocaleString()}`
-        },
+        initOptions,
         (progress) => {
           setInitProgress(progress);
         }
@@ -146,14 +135,7 @@ ${initOptions.importMockData ? '✓ 导入默认示例数据\n' : ''}${initOptio
             </div>
           )}
 
-          {initProgress.backupInfo && (
-            <div className="mt-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg">
-              <p className="text-green-200 font-medium">备份已创建：</p>
-              <p className="text-green-100 text-sm mt-1">
-                {initProgress.backupInfo.filename} ({formatFileSize(initProgress.backupInfo.size)})
-              </p>
-            </div>
-          )}
+
         </div>
       </GlassCard>
     );
@@ -179,8 +161,8 @@ ${initOptions.importMockData ? '✓ 导入默认示例数据\n' : ''}${initOptio
               <div className="text-white/70 text-sm">数据库大小</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">{backupList.length}</div>
-              <div className="text-white/70 text-sm">备份文件</div>
+              <div className="text-2xl font-bold text-white">简化流程</div>
+              <div className="text-white/70 text-sm">无备份依赖</div>
             </div>
           </div>
         )}
@@ -190,30 +172,14 @@ ${initOptions.importMockData ? '✓ 导入默认示例数据\n' : ''}${initOptio
       <GlassCard className="p-6">
         <h3 className="text-xl font-bold text-white mb-4">初始化选项</h3>
         <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <input
-              type="checkbox"
-              id="createBackup"
-              checked={initOptions.createBackup}
-              onChange={(e) => setInitOptions(prev => ({ ...prev, createBackup: e.target.checked }))}
-              className="w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500"
-            />
-            <label htmlFor="createBackup" className="text-white">
-              执行初始化前创建数据库备份
-            </label>
+          <div className="p-4 bg-blue-500/20 border border-blue-500/30 rounded-lg">
+            <p className="text-white text-sm">
+              <strong>简化初始化流程：</strong>
+              <br />• 不再创建备份文件，提高初始化速度
+              <br />• 使用内置数据，无需外部文件依赖
+              <br />• 自动导入41个单位、分类、供应商等基础数据
+            </p>
           </div>
-
-          {initOptions.createBackup && (
-            <div className="ml-7">
-              <input
-                type="text"
-                placeholder="备份描述（可选）"
-                value={initOptions.backupDescription}
-                onChange={(e) => setInitOptions(prev => ({ ...prev, backupDescription: e.target.value }))}
-                className="w-full px-3 py-2 bg-white/10 border border-white/30 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          )}
 
           <div className="flex items-center gap-3">
             <input
@@ -241,18 +207,7 @@ ${initOptions.importMockData ? '✓ 导入默认示例数据\n' : ''}${initOptio
             </label>
           </div>
 
-          <div className="flex items-center gap-3">
-            <input
-              type="checkbox"
-              id="importMockData"
-              checked={initOptions.importMockData}
-              onChange={(e) => setInitOptions(prev => ({ ...prev, importMockData: e.target.checked }))}
-              className="w-4 h-4 text-blue-600 bg-white/10 border-white/30 rounded focus:ring-blue-500"
-            />
-            <label htmlFor="importMockData" className="text-white">
-              导入默认示例数据
-            </label>
-          </div>
+
         </div>
       </GlassCard>
 

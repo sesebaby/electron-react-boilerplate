@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { userService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { User, UserRole, UserStatus } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -14,7 +14,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty as _TableEmpty,
+  TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -23,7 +23,7 @@ interface UserManagementProps {
 }
 
 // 定义用户表单验证模式
-const _userSchema = z.object({
+const userSchema = z.object({
   username: z.string()
     .min(1, '用户名不能为空')
     .min(3, '用户名至少3个字符')
@@ -53,7 +53,7 @@ const _userSchema = z.object({
 });
 
 // 密码修改表单验证模式
-const _passwordSchema = z.object({
+const passwordSchema = z.object({
   oldPassword: z.string().min(1, '请输入当前密码'),
   newPassword: z.string().min(6, '新密码至少6个字符').max(50, '密码最多50个字符'),
   confirmPassword: z.string().min(1, '请确认新密码')
@@ -150,7 +150,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     mode: 'onBlur'
   });
 
-  const _formData = watchUser(); // 监听表单数据变化
+  const formData = watchUser(); // 监听表单数据变化
 
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
@@ -163,13 +163,16 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     loadCurrentUser();
   }, []);
 
-  const _loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const _usersData = await userService.findAll();
-      setUsers(usersData);
+      const systemService = serviceManager.getSystemService();
+      const usersResult = await systemService.getUsers();
+      const usersData = usersResult.success ? 
+        (Array.isArray(usersResult.data) ? usersResult.data : usersResult.data?.items || []) : [];
+      setUsers((Array.isArray(usersData) ? usersData : []) as User[]);
     } catch (err) {
       setError('加载用户数据失败');
       console.error('Failed to load users:', err);
@@ -178,12 +181,30 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const _loadCurrentUser = () => {
-    const _user = userService.getCurrentUser();
-    setCurrentUser(user);
+  const loadCurrentUser = async () => {
+    try {
+      const systemService = serviceManager.getSystemService();
+      const userData = await systemService.getCurrentUser();
+      if (userData) {
+        // Transform to full User type
+        const user: User = {
+          id: userData.id,
+          username: userData.username,
+          password: '', // Don't expose password
+          nickname: userData.nickname || userData.username,
+          role: userData.role || UserRole.ADMIN, // Default role
+          status: userData.status || UserStatus.ACTIVE,
+          createdAt: userData.createdAt || new Date(),
+          updatedAt: userData.updatedAt || new Date()
+        };
+        setCurrentUser(user);
+      }
+    } catch (err) {
+      console.error('Failed to load current user:', err);
+    }
   };
 
-  const _handleCreate = () => {
+  const handleCreate = () => {
     setModalMode('create');
     resetUser({
       username: '',
@@ -198,7 +219,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     setShowModal(true);
   };
 
-  const _handleEdit = (user: User) => {
+  const handleEdit = (user: User) => {
     setModalMode('edit');
     setSelectedUser(user);
     resetUser({
@@ -214,13 +235,13 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     setShowModal(true);
   };
 
-  const _handleView = (user: User) => {
+  const handleView = (user: User) => {
     setModalMode('view');
     setSelectedUser(user);
     setShowModal(true);
   };
 
-  const _handleChangePassword = (user: User) => {
+  const handleChangePassword = (user: User) => {
     setModalMode('password');
     setSelectedUser(user);
     resetPassword({
@@ -232,7 +253,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     setShowModal(true);
   };
 
-  const _onUserSubmit = async (data: UserForm) => {
+  const onUserSubmit = async (data: UserForm) => {
     try {
       setError(null);
       
@@ -242,7 +263,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
           return;
         }
         
-        await userService.create({
+        const systemService = serviceManager.getSystemService();
+        await systemService.createUser({
           username: data.username.trim(),
           nickname: data.nickname.trim(),
           email: data.email?.trim() || undefined,
@@ -252,7 +274,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
           password: data.password
         });
       } else if (modalMode === 'edit' && selectedUser) {
-        await userService.update(selectedUser.id, {
+        const systemService = serviceManager.getSystemService();
+        await systemService.updateUser(selectedUser.id, {
           username: data.username.trim(),
           nickname: data.nickname.trim(),
           email: data.email?.trim() || undefined,
@@ -269,7 +292,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const _onPasswordSubmit = async (data: PasswordForm) => {
+  const onPasswordSubmit = async (data: PasswordForm) => {
     if (!selectedUser) return;
 
     try {
@@ -277,10 +300,12 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
       
       if (currentUser?.role === UserRole.ADMIN && currentUser.id !== selectedUser.id) {
         // Admin can reset password without old password
-        await userService.resetPassword(selectedUser.id, data.newPassword);
+        const systemService = serviceManager.getSystemService();
+        await systemService.resetPassword(selectedUser.id);
       } else {
         // User changing own password needs old password
-        await userService.changePassword(selectedUser.id, data.oldPassword, data.newPassword);
+        const systemService = serviceManager.getSystemService();
+        await systemService.changePassword(selectedUser.id, data.oldPassword, data.newPassword);
       }
       
       setShowModal(false);
@@ -290,17 +315,18 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const _handleDelete = (user: User) => {
+  const handleDelete = (user: User) => {
     setDeleteTargetId(user.id);
     setShowConfirmDialog(true);
   };
 
-  const _confirmDelete = async () => {
+  const confirmDelete = async () => {
     if (!deleteTargetId) return;
 
     try {
       setError(null);
-      await userService.delete(deleteTargetId);
+      const systemService = serviceManager.getSystemService();
+      await systemService.deleteUser(deleteTargetId);
       loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '删除失败');
@@ -310,23 +336,24 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     }
   };
 
-  const _cancelDelete = () => {
+  const cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const _handleStatusChange = async (user: User, newStatus: UserStatus) => {
+  const handleStatusChange = async (user: User, newStatus: UserStatus) => {
     try {
       setError(null);
-      await userService.setStatus(user.id, newStatus);
+      const systemService = serviceManager.getSystemService();
+      await systemService.setStatus(user.id, newStatus);
       loadData();
     } catch (err) {
       setError(err instanceof Error ? err.message : '状态修改失败');
     }
   };
 
-  const _getFilteredUsers = () => {
-    const _filtered = users;
+  const getFilteredUsers = () => {
+    let filtered = users;
 
     if (searchTerm) {
       filtered = filtered.filter(user =>
@@ -348,7 +375,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ className }) => 
     return filtered;
   };
 
-  const _filteredUsers = getFilteredUsers();
+  const filteredUsers = getFilteredUsers();
 
   if (loading) {
     return (

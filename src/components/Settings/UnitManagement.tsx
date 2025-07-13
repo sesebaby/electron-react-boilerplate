@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GlassCard, GlassButton } from '../ui/FormControls';
-import { unitService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Unit, UnitType } from '../../types/entities';
 import UnitManagementTab from '../System/UnitManagementTab';
 import ConfirmDialog from '../ui/ConfirmDialog';
@@ -48,8 +48,10 @@ const UnitManagement: React.FC = () => {
 
   const loadUnits = async () => {
     try {
-      const allUnits = await unitService.findAll();
-      setUnits(allUnits);
+      const inventoryService = serviceManager.getInventoryService();
+      const result = await inventoryService.getUnits();
+      const allUnits = result.success ? (result.data || []) : [];
+      setUnits((Array.isArray(allUnits) ? allUnits : []) as Unit[]);
     } catch (error) {
       console.error('加载单位失败:', error);
     }
@@ -81,11 +83,35 @@ const UnitManagement: React.FC = () => {
       return;
     }
 
+    // 检查单位名称和符号的唯一性
+    const trimmedName = unitForm.name.trim();
+    const trimmedSymbol = unitForm.symbol.trim();
+    
+    const existingUnit = units.find(unit => {
+      if (editingUnit && unit.id === editingUnit.id) {
+        return false; // 编辑时排除自身
+      }
+      return unit.name === trimmedName || unit.symbol === trimmedSymbol;
+    });
+
+    if (existingUnit) {
+      const duplicateField = existingUnit.name === trimmedName ? '单位名称' : '单位符号';
+      showAlert('输入错误', `${duplicateField}"${existingUnit.name === trimmedName ? trimmedName : trimmedSymbol}"已存在，请使用其他名称或符号`, 'warning');
+      return;
+    }
+
     try {
+      const inventoryService = serviceManager.getInventoryService();
       if (editingUnit) {
-        await unitService.update(editingUnit.id, unitForm);
+        const updateResult = await inventoryService.updateUnit(editingUnit.id, unitForm);
+        if (!updateResult.success) {
+          throw new Error(updateResult.error || '更新单位失败');
+        }
       } else {
-        await unitService.create(unitForm);
+        const createResult = await inventoryService.createUnit(unitForm);
+        if (!createResult.success) {
+          throw new Error(createResult.error || '创建单位失败');
+        }
       }
       await loadUnits();
       setShowUnitForm(false);
@@ -120,7 +146,11 @@ const UnitManagement: React.FC = () => {
     return new Promise((resolve) => {
       showConfirm('确定要删除这个单位吗？', async () => {
         try {
-          await unitService.delete(unitId);
+          const inventoryService = serviceManager.getInventoryService();
+          const deleteResult = await inventoryService.deleteUnit(unitId);
+          if (!deleteResult.success) {
+            throw new Error(deleteResult.error || '删除单位失败');
+          }
           await loadUnits();
           resolve();
         } catch (error) {

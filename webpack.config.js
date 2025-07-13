@@ -5,12 +5,8 @@ const webpack = require('webpack');
 module.exports = {
   mode: 'development', // 设置为开发模式以获取详细错误信息
   entry: './src/index.tsx',
-  target: 'web', // 改为web target，因为我们禁用了nodeIntegration
+  target: 'web', // Change to 'web' for proper browser environment
   devtool: 'source-map', // 启用source map以便调试
-  node: {
-    __dirname: false,
-    __filename: false,
-  },
   module: {
     rules: [
       {
@@ -44,13 +40,13 @@ module.exports = {
     }
   },
   externals: {
-    // 移除Node.js模块的externals，因为我们现在使用web target
-    // 这些功能将通过electronAPI在preload脚本中提供
+    // Since we're using IPC for database operations, we don't need these in the renderer
   },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
+    globalObject: 'this',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -59,9 +55,10 @@ module.exports = {
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer'],
+      global: 'window',
     }),
     new webpack.DefinePlugin({
-      global: 'globalThis',
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
     }),
   ],
   devServer: {

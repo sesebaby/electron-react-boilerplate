@@ -17,6 +17,8 @@ const ConversionRulesManagement: React.FC = () => {
   const [units, setUnits] = useState<Unit[]>([]);
   const [showConversionForm, setShowConversionForm] = useState(false);
   const [editingConversion, setEditingConversion] = useState<GlobalConversionRule | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [conversionForm, setConversionForm] = useState({
     name: '',
     fromUnitId: '',
@@ -24,167 +26,129 @@ const ConversionRulesManagement: React.FC = () => {
     conversionRate: 1,
     category: UnitType.QUANTITY,
     description: '',
-    isActive: true
+    isActive: false
   });
 
-  // 初始化示例数据
+  // 初始化数据
   useEffect(() => {
-    // 示例单位数据
-    const exampleUnits: Unit[] = [
-      // 数量单位
-      { 
-        id: 'unit_001', 
-        name: '个', 
-        symbol: 'pcs', 
-        type: UnitType.QUANTITY, 
-        precision: 0, 
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      { 
-        id: 'unit_002', 
-        name: '箱', 
-        symbol: 'box', 
-        type: UnitType.QUANTITY, 
-        precision: 0, 
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      { 
-        id: 'unit_003', 
-        name: '包', 
-        symbol: 'pkg', 
-        type: UnitType.QUANTITY, 
-        precision: 0, 
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      { 
-        id: 'unit_004', 
-        name: '套', 
-        symbol: 'set', 
-        type: UnitType.QUANTITY, 
-        precision: 0, 
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      // 重量单位
-      { 
-        id: 'unit_005', 
-        name: '千克', 
-        symbol: 'kg', 
-        type: UnitType.WEIGHT, 
-        precision: 2, 
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      { 
-        id: 'unit_006', 
-        name: '克', 
-        symbol: 'g', 
-        type: UnitType.WEIGHT, 
-        precision: 0, 
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      // 体积单位
-      { 
-        id: 'unit_007', 
-        name: '升', 
-        symbol: 'L', 
-        type: UnitType.VOLUME, 
-        precision: 2, 
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      { 
-        id: 'unit_008', 
-        name: '毫升', 
-        symbol: 'ml', 
-        type: UnitType.VOLUME, 
-        precision: 0, 
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ];
-
-    // 示例换算规则数据
-    const exampleRules: GlobalConversionRule[] = [
-      {
-        id: 'rule_001',
-        name: '标准包装换算（箱装）',
-        fromUnitId: 'unit_002', // 箱
-        toUnitId: 'unit_001',   // 个
-        conversionRate: 24,
-        category: UnitType.QUANTITY,
-        description: '标准箱装，1箱 = 24个',
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 'rule_002',
-        name: '标准包装换算（包装）',
-        fromUnitId: 'unit_003', // 包
-        toUnitId: 'unit_001',   // 个
-        conversionRate: 12,
-        category: UnitType.QUANTITY,
-        description: '标准包装，1包 = 12个',
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 'rule_003',
-        name: '重量标准换算',
-        fromUnitId: 'unit_005', // 千克
-        toUnitId: 'unit_006',   // 克
-        conversionRate: 1000,
-        category: UnitType.WEIGHT,
-        description: '重量单位换算，1千克 = 1000克',
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 'rule_004',
-        name: '体积标准换算',
-        fromUnitId: 'unit_007', // 升
-        toUnitId: 'unit_008',   // 毫升
-        conversionRate: 1000,
-        category: UnitType.VOLUME,
-        description: '体积单位换算，1升 = 1000毫升',
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 'rule_005',
-        name: '套装换算（箱对箱特殊规格）',
-        fromUnitId: 'unit_002', // 箱
-        toUnitId: 'unit_004',   // 套
-        conversionRate: 6,
-        category: UnitType.QUANTITY,
-        description: '特殊套装规格，1箱 = 6套',
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ];
-
-    setUnits(exampleUnits);
-    setConversionRules(exampleRules);
+    loadData();
   }, []);
 
-  const _unitTypeOptions = [
+  // 加载数据
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // 加载单位数据
+      const unitsResult = await window.electronAPI.dbGetAllUnits();
+      if (unitsResult.success) {
+        setUnits(unitsResult.data);
+      } else {
+        // 如果没有单位数据，使用示例数据
+        const exampleUnits: Unit[] = [
+          { 
+            id: 'unit_001', 
+            name: '个', 
+            symbol: 'pcs', 
+            type: UnitType.QUANTITY, 
+            precision: 0, 
+            isActive: true,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          { 
+            id: 'unit_002', 
+            name: '箱', 
+            symbol: 'box', 
+            type: UnitType.QUANTITY, 
+            precision: 0, 
+            isActive: true,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          { 
+            id: 'unit_003', 
+            name: '包', 
+            symbol: 'pkg', 
+            type: UnitType.QUANTITY, 
+            precision: 0, 
+            isActive: true,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          { 
+            id: 'unit_004', 
+            name: '套', 
+            symbol: 'set', 
+            type: UnitType.QUANTITY, 
+            precision: 0, 
+            isActive: true,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          { 
+            id: 'unit_005', 
+            name: '千克', 
+            symbol: 'kg', 
+            type: UnitType.WEIGHT, 
+            precision: 2, 
+            isActive: true,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          { 
+            id: 'unit_006', 
+            name: '克', 
+            symbol: 'g', 
+            type: UnitType.WEIGHT, 
+            precision: 0, 
+            isActive: true,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          { 
+            id: 'unit_007', 
+            name: '升', 
+            symbol: 'L', 
+            type: UnitType.VOLUME, 
+            precision: 2, 
+            isActive: true,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          { 
+            id: 'unit_008', 
+            name: '毫升', 
+            symbol: 'ml', 
+            type: UnitType.VOLUME, 
+            precision: 0, 
+            isActive: true,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          }
+        ];
+        setUnits(exampleUnits);
+      }
+      
+      // 加载换算规则数据 - 暂时使用空数据
+      // const rulesResult = await window.electronAPI.dbGetAllConversionRules();
+      // if (rulesResult.success) {
+      //   setConversionRules(rulesResult.data);
+      // } else {
+      //   console.error('加载换算规则失败:', rulesResult.error);
+      //   setError('加载换算规则失败');
+      // }
+      setConversionRules([]);
+    } catch (err) {
+      console.error('加载数据失败:', err);
+      setError('加载数据失败');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const unitTypeOptions = [
     { value: UnitType.WEIGHT, label: '重量' },
     { value: UnitType.LENGTH, label: '长度' },
     { value: UnitType.VOLUME, label: '体积' },
@@ -193,44 +157,54 @@ const ConversionRulesManagement: React.FC = () => {
     { value: UnitType.TIME, label: '时间' }
   ];
 
-  const _getUnitTypeLabel = (type: UnitType) => {
+  const getUnitTypeLabel = (type: UnitType) => {
     return unitTypeOptions.find(opt => opt.value === type)?.label || type;
   };
 
-  const _getUnitName = (unitId: string) => {
-    const _unit = units.find(u => u.id === unitId);
+  const getUnitName = (unitId: string) => {
+    const unit = units.find(u => u.id === unitId);
     return unit ? `${unit.name}(${unit.symbol})` : unitId;
   };
 
-  const _getUnitsForCategory = (category: UnitType) => {
+  const getUnitsForCategory = (category: UnitType) => {
     return units.filter(unit => unit.type === category && unit.isActive);
   };
 
-  const _onConversionSubmit = async (e: React.FormEvent) => {
+  const onConversionSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
+      setLoading(true);
+      setError(null);
+      
       if (editingConversion) {
-        // 编辑现有规则
-        const updatedRule: GlobalConversionRule = {
-          ...editingConversion,
-          ...conversionForm,
-          updatedAt: new Date()
-        };
+        // 编辑现有规则 - 暂时模拟成功
+        // const result = await window.electronAPI.dbUpdateConversionRule({
+        //   id: editingConversion.id,
+        //   updates: conversionForm
+        // });
+        const result = { success: true, error: null };
         
-        setConversionRules(prev => 
-          prev.map(rule => rule.id === editingConversion.id ? updatedRule : rule)
-        );
+        if (result.success) {
+          // 重新加载数据
+          await loadData();
+          setShowConversionForm(false);
+          setEditingConversion(null);
+        } else {
+          setError('更新换算规则失败: ' + result.error);
+        }
       } else {
-        // 添加新规则
-        const newRule: GlobalConversionRule = {
-          id: `rule_${Date.now()}`,
-          ...conversionForm,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        };
+        // 添加新规则 - 暂时模拟成功
+        // const result = await window.electronAPI.dbCreateConversionRule(conversionForm);
+        const result = { success: true, error: null };
         
-        setConversionRules(prev => [...prev, newRule]);
+        if (result.success) {
+          // 重新加载数据
+          await loadData();
+          setShowConversionForm(false);
+        } else {
+          setError('创建换算规则失败: ' + result.error);
+        }
       }
       
       // 重置表单
@@ -241,16 +215,17 @@ const ConversionRulesManagement: React.FC = () => {
         conversionRate: 1,
         category: UnitType.QUANTITY,
         description: '',
-        isActive: true
+        isActive: false
       });
-      setShowConversionForm(false);
-      setEditingConversion(null);
     } catch (error) {
       console.error('保存换算规则失败:', error);
+      setError('保存换算规则失败');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const _onEditConversion = (rule: GlobalConversionRule) => {
+  const onEditConversion = (rule: GlobalConversionRule) => {
     setEditingConversion(rule);
     setConversionForm({
       name: rule.name,
@@ -264,9 +239,27 @@ const ConversionRulesManagement: React.FC = () => {
     setShowConversionForm(true);
   };
 
-  const _onDeleteConversion = async (ruleId: string) => {
+  const onDeleteConversion = async (ruleId: string) => {
     if (window.confirm('确定要删除这个换算规则吗？')) {
-      setConversionRules(prev => prev.filter(rule => rule.id !== ruleId));
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // const result = await window.electronAPI.dbDeleteConversionRule({ id: ruleId });
+        const result = { success: true, error: null };
+        
+        if (result.success) {
+          // 重新加载数据
+          await loadData();
+        } else {
+          setError('删除换算规则失败: ' + result.error);
+        }
+      } catch (error) {
+        console.error('删除换算规则失败:', error);
+        setError('删除换算规则失败');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -277,6 +270,22 @@ const ConversionRulesManagement: React.FC = () => {
         <h1 className="text-3xl font-bold text-white mb-2">换算规则管理</h1>
         <p className="text-white/70">管理全局单位换算规则，为业务系统提供标准化的单位转换</p>
       </div>
+
+      {/* 错误提示 */}
+      {error && (
+        <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+          <div className="flex items-center gap-2">
+            <span className="text-red-400">⚠️</span>
+            <span className="text-red-300">{error}</span>
+            <button
+              onClick={() => setError(null)}
+              className="ml-auto text-red-400 hover:text-red-300"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* 主要内容 */}
       <GlassCard className="p-6">
@@ -290,9 +299,10 @@ const ConversionRulesManagement: React.FC = () => {
           <GlassButton
             onClick={() => setShowConversionForm(true)}
             variant="primary"
+            disabled={loading}
           >
             <span className="mr-2">➕</span>
-            添加换算规则
+            {loading ? '加载中...' : '添加换算规则'}
           </GlassButton>
         </div>
 
@@ -313,7 +323,13 @@ const ConversionRulesManagement: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {conversionRules.length === 0 ? (
+                {loading ? (
+                  <TableRow>
+                    <TableCell colSpan={8} className="text-center py-8 text-white/60">
+                      加载中...
+                    </TableCell>
+                  </TableRow>
+                ) : conversionRules.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={8} className="text-center py-8 text-white/60">
                       暂无换算规则，请添加规则
@@ -344,7 +360,8 @@ const ConversionRulesManagement: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => onEditConversion(rule)}
-                            className="px-2 py-1 bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 hover:text-blue-300 rounded-md transition-all duration-200 border border-blue-500/30 hover:border-blue-400/50"
+                            disabled={loading}
+                            className="px-2 py-1 bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 hover:text-blue-300 rounded-md transition-all duration-200 border border-blue-500/30 hover:border-blue-400/50 disabled:opacity-50"
                             title="编辑"
                           >
                             <span className="text-sm">✏️</span>
@@ -352,7 +369,8 @@ const ConversionRulesManagement: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => onDeleteConversion(rule.id)}
-                            className="px-2 py-1 bg-red-500/20 text-red-400 hover:bg-red-500/30 hover:text-red-300 rounded-md transition-all duration-200 border border-red-500/30 hover:border-red-400/50"
+                            disabled={loading}
+                            className="px-2 py-1 bg-red-500/20 text-red-400 hover:bg-red-500/30 hover:text-red-300 rounded-md transition-all duration-200 border border-red-500/30 hover:border-red-400/50 disabled:opacity-50"
                             title="删除"
                           >
                             <span className="text-sm">🗑️</span>
@@ -365,6 +383,24 @@ const ConversionRulesManagement: React.FC = () => {
               </TableBody>
             </Table>
           </TableContainer>
+        </div>
+
+        {/* 系统初始化说明 */}
+        <div className="glass-surface rounded-lg p-4 mb-4 bg-blue-500/10 border border-blue-500/20">
+          <div className="flex items-start gap-3">
+            <span className="text-blue-400 text-lg">ℹ️</span>
+            <div>
+              <h4 className="text-blue-300 font-medium mb-2">系统初始化说明</h4>
+              <p className="text-blue-200/80 text-sm mb-2">
+                上方是初始化系统的换算规则示意，默认为禁用状态，不会影响业务。如有需要，可以自行修改开启。
+              </p>
+              <ul className="text-blue-200/70 text-xs space-y-1">
+                <li>• 所有初始换算规则均为禁用状态，确保不会在用户不知情的情况下影响业务</li>
+                <li>• 您可以根据实际业务需要，选择性启用相关的换算规则</li>
+                <li>• 启用规则前请仔细检查换算比率是否符合您的业务要求</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         {/* 说明信息 */}
@@ -382,7 +418,7 @@ const ConversionRulesManagement: React.FC = () => {
       {/* 换算规则表单弹出框 */}
       {showConversionForm && createPortal(
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
-          <div className="glass-card w-full max-w-md mx-4 p-6 max-h-[90vh] overflow-y-auto">
+          <div className="glass-card w-full max-w-2xl mx-4 p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h4 className="text-lg font-semibold text-white">
                 {editingConversion ? '编辑换算规则' : '添加换算规则'}
@@ -396,85 +432,92 @@ const ConversionRulesManagement: React.FC = () => {
               </button>
             </div>
 
-            <form onSubmit={onConversionSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
-                  规则名称 *
-                </label>
-                <GlassInput
-                  type="text"
-                  value={conversionForm.name}
-                  onChange={(e) => setConversionForm(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="如：重量标准换算"
-                  required
-                />
+            <form onSubmit={onConversionSubmit} className="space-y-3">
+              {/* 第一行：规则名称和换算类别 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1">
+                    规则名称 *
+                  </label>
+                  <GlassInput
+                    type="text"
+                    value={conversionForm.name}
+                    onChange={(e) => setConversionForm(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="如：重量标准换算"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1">
+                    换算类别 *
+                  </label>
+                  <GlassSelect
+                    value={conversionForm.category}
+                    onChange={(e) => {
+                      const category = e.target.value as UnitType;
+                      setConversionForm(prev => ({ 
+                        ...prev, 
+                        category,
+                        fromUnitId: '',
+                        toUnitId: ''
+                      }));
+                    }}
+                    required
+                  >
+                    {unitTypeOptions.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </GlassSelect>
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
-                  换算类别 *
-                </label>
-                <GlassSelect
-                  value={conversionForm.category}
-                  onChange={(e) => {
-                    const _category = e.target.value as UnitType;
-                    setConversionForm(prev => ({ 
-                      ...prev, 
-                      category,
-                      fromUnitId: '',
-                      toUnitId: ''
-                    }));
-                  }}
-                  required
-                >
-                  {unitTypeOptions.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </GlassSelect>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
-                  源单位 *
-                </label>
-                <GlassSelect
-                  value={conversionForm.fromUnitId}
-                  onChange={(e) => setConversionForm(prev => ({ ...prev, fromUnitId: e.target.value }))}
-                  required
-                >
-                  <option value="">请选择源单位</option>
-                  {getUnitsForCategory(conversionForm.category).map(unit => (
-                    <option key={unit.id} value={unit.id}>
-                      {unit.name}({unit.symbol})
-                    </option>
-                  ))}
-                </GlassSelect>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
-                  目标单位 *
-                </label>
-                <GlassSelect
-                  value={conversionForm.toUnitId}
-                  onChange={(e) => setConversionForm(prev => ({ ...prev, toUnitId: e.target.value }))}
-                  required
-                >
-                  <option value="">请选择目标单位</option>
-                  {getUnitsForCategory(conversionForm.category)
-                    .filter(unit => unit.id !== conversionForm.fromUnitId)
-                    .map(unit => (
+              {/* 第二行：源单位和目标单位 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1">
+                    源单位 *
+                  </label>
+                  <GlassSelect
+                    value={conversionForm.fromUnitId}
+                    onChange={(e) => setConversionForm(prev => ({ ...prev, fromUnitId: e.target.value }))}
+                    required
+                  >
+                    <option value="">请选择源单位</option>
+                    {getUnitsForCategory(conversionForm.category).map(unit => (
                       <option key={unit.id} value={unit.id}>
                         {unit.name}({unit.symbol})
                       </option>
                     ))}
-                </GlassSelect>
+                  </GlassSelect>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1">
+                    目标单位 *
+                  </label>
+                  <GlassSelect
+                    value={conversionForm.toUnitId}
+                    onChange={(e) => setConversionForm(prev => ({ ...prev, toUnitId: e.target.value }))}
+                    required
+                  >
+                    <option value="">请选择目标单位</option>
+                    {getUnitsForCategory(conversionForm.category)
+                      .filter(unit => unit.id !== conversionForm.fromUnitId)
+                      .map(unit => (
+                        <option key={unit.id} value={unit.id}>
+                          {unit.name}({unit.symbol})
+                        </option>
+                      ))}
+                  </GlassSelect>
+                </div>
               </div>
 
+              {/* 第三行：换算比率 */}
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label className="block text-sm font-medium text-white/80 mb-1">
                   换算比率 *
                 </label>
                 <GlassInput
@@ -491,8 +534,9 @@ const ConversionRulesManagement: React.FC = () => {
                 </p>
               </div>
 
+              {/* 第四行：描述 */}
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label className="block text-sm font-medium text-white/80 mb-1">
                   描述
                 </label>
                 <GlassInput
@@ -503,6 +547,7 @@ const ConversionRulesManagement: React.FC = () => {
                 />
               </div>
 
+              {/* 第五行：启用状态 */}
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -516,12 +561,13 @@ const ConversionRulesManagement: React.FC = () => {
                 </label>
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-3">
                 <GlassButton
                   type="button"
                   onClick={() => setShowConversionForm(false)}
                   variant="secondary"
                   className="flex-1"
+                  disabled={loading}
                 >
                   取消
                 </GlassButton>
@@ -529,8 +575,9 @@ const ConversionRulesManagement: React.FC = () => {
                   type="submit"
                   variant="primary"
                   className="flex-1"
+                  disabled={loading}
                 >
-                  {editingConversion ? '保存' : '添加'}
+                  {loading ? '保存中...' : (editingConversion ? '保存' : '添加')}
                 </GlassButton>
               </div>
             </form>

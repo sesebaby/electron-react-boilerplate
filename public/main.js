@@ -1,7 +1,8 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs').promises;
-const Database = require('better-sqlite3');
+// const Database = require('better-sqlite3');
+const SmartDatabase = require('./database/smart-database');
 const { setupDatabaseHandlers } = require('./database');
 
 let db = null;
@@ -62,8 +63,18 @@ function createWindow() {
   });
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   console.log('App ready, creating window...');
+
+  // 立即初始化数据库和注册处理器
+  try {
+    await initializeDatabase();
+    setupDatabaseHandlers(ipcMain, db);
+    console.log('Database and handlers initialized on app startup');
+  } catch (error) {
+    console.error('Failed to initialize database on startup:', error);
+  }
+
   createWindow();
 }).catch(err => {
   console.error('App failed to start:', err);
@@ -222,6 +233,14 @@ ipcMain.handle('unlink', async (event, filePath) => {
 // Database initialization
 async function initializeDatabase() {
   try {
+    // Log environment info for debugging
+    console.log('Environment info:', {
+      platform: process.platform,
+      arch: process.arch,
+      nodeVersion: process.version,
+      electronVersion: process.versions.electron
+    });
+    
     const dbPath = path.join(app.getPath('userData'), 'inventory.db');
     console.log('Database path:', dbPath);
     
@@ -229,7 +248,24 @@ async function initializeDatabase() {
     const dbDir = path.dirname(dbPath);
     await fs.mkdir(dbDir, { recursive: true });
     
-    db = new Database(dbPath);
+    // 使用智能数据库适配器
+    const smartDb = new SmartDatabase();
+    db = await smartDb.initialize(dbPath);
+    
+    // 显示数据库信息
+    const dbInfo = smartDb.getInfo();
+    console.log('Database initialized:', dbInfo);
+    
+    // 在开发模式下显示警告
+    if (dbInfo.type === 'mock' && !app.isPackaged) {
+      dialog.showMessageBox({
+        type: 'warning',
+        title: '数据库警告',
+        message: '应用正在使用模拟数据库',
+        detail: '由于原生数据库模块加载失败，当前使用的是内存模拟数据库。\n\n数据将不会被保存！',
+        buttons: ['我知道了']
+      });
+    }
     console.log('Connected to SQLite database');
     
     // Create tables
@@ -253,12 +289,16 @@ async function initializeDatabase() {
       -- 仓库表
       CREATE TABLE IF NOT EXISTS warehouses (
         id TEXT PRIMARY KEY,
-        code TEXT UNIQUE NOT NULL,
+        code TEXT UNIQUE,
         name TEXT NOT NULL,
+        location TEXT,
         address TEXT,
         manager TEXT,
         phone TEXT,
+        type TEXT CHECK(type IN ('main', 'branch', 'temporary')) DEFAULT 'branch',
+        capacity INTEGER DEFAULT 0,
         is_default BOOLEAN NOT NULL DEFAULT 0,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
@@ -288,6 +328,7 @@ async function initializeDatabase() {
         name TEXT NOT NULL,
         description TEXT,
         parent_id TEXT,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (parent_id) REFERENCES categories(id)
@@ -301,6 +342,7 @@ async function initializeDatabase() {
         phone TEXT,
         email TEXT,
         address TEXT,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
@@ -316,6 +358,20 @@ async function initializeDatabase() {
         is_active BOOLEAN NOT NULL DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      -- 全局转换规则表
+      CREATE TABLE IF NOT EXISTS global_conversion_rules (
+        id TEXT PRIMARY KEY,
+        from_unit_id TEXT NOT NULL,
+        to_unit_id TEXT NOT NULL,
+        factor REAL NOT NULL,
+        description TEXT,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (from_unit_id) REFERENCES units(id),
+        FOREIGN KEY (to_unit_id) REFERENCES units(id)
       );
 
       -- 库存交易记录表
@@ -372,7 +428,10 @@ async function initializeDatabase() {
     
     db.exec(schema);
     console.log('Database schema initialized');
-    
+
+    // 执行数据库迁移
+    await runDatabaseMigrations();
+
     // 检查数据库是否为空，如果是则导入mock数据
     await importMockDataIfEmpty();
     
@@ -380,6 +439,111 @@ async function initializeDatabase() {
   } catch (error) {
     console.error('Database initialization failed:', error);
     return Promise.reject(error);
+  }
+}
+
+// 执行数据库迁移
+async function runDatabaseMigrations() {
+  try {
+    console.log('Running database migrations...');
+
+    // 检查 warehouses 表是否有 is_active 字段
+    const warehouseTableInfo = db.prepare("PRAGMA table_info(warehouses)").all();
+    const hasIsActiveField = warehouseTableInfo.some(column => column.name === 'is_active');
+
+    if (!hasIsActiveField) {
+      console.log('Adding is_active field to warehouses table...');
+      db.exec('ALTER TABLE warehouses ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT 1');
+      console.log('is_active field added successfully');
+    } else {
+      console.log('warehouses table already has is_active field');
+    }
+
+    // 检查 categories 表字段
+    const categoryTableInfo = db.prepare("PRAGMA table_info(categories)").all();
+    const categoryColumns = categoryTableInfo.map(col => col.name);
+    
+    // 添加缺失的 level 字段
+    if (!categoryColumns.includes('level')) {
+      console.log('Adding level field to categories table...');
+      db.exec('ALTER TABLE categories ADD COLUMN level INTEGER DEFAULT 1');
+      console.log('level field added successfully');
+    }
+    
+    // 添加缺失的 sort_order 字段
+    if (!categoryColumns.includes('sort_order')) {
+      console.log('Adding sort_order field to categories table...');
+      db.exec('ALTER TABLE categories ADD COLUMN sort_order INTEGER DEFAULT 0');
+      console.log('sort_order field added successfully');
+    }
+    
+    // 检查 suppliers 表是否有 is_active 字段
+    const supplierTableInfo = db.prepare("PRAGMA table_info(suppliers)").all();
+    const supplierHasIsActive = supplierTableInfo.some(column => column.name === 'is_active');
+    
+    if (!supplierHasIsActive) {
+      console.log('Adding is_active field to suppliers table...');
+      db.exec('ALTER TABLE suppliers ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT 1');
+      console.log('is_active field added to suppliers table successfully');
+    }
+
+    // 检查 inventory_items 表字段
+    const inventoryTableInfo = db.prepare("PRAGMA table_info(inventory_items)").all();
+    const inventoryColumns = inventoryTableInfo.map(col => col.name);
+    
+    // 添加缺失的 unit_id 字段
+    if (!inventoryColumns.includes('unit_id')) {
+      console.log('Adding unit_id field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN unit_id TEXT');
+      console.log('unit_id field added successfully');
+    }
+    
+    // 添加缺失的 brand 字段
+    if (!inventoryColumns.includes('brand')) {
+      console.log('Adding brand field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN brand TEXT');
+      console.log('brand field added successfully');
+    }
+    
+    // 添加缺失的 model 字段
+    if (!inventoryColumns.includes('model')) {
+      console.log('Adding model field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN model TEXT');
+      console.log('model field added successfully');
+    }
+    
+    // 添加缺失的 barcode 字段
+    if (!inventoryColumns.includes('barcode')) {
+      console.log('Adding barcode field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN barcode TEXT');
+      console.log('barcode field added successfully');
+    }
+    
+    // 添加缺失的 purchase_price 字段
+    if (!inventoryColumns.includes('purchase_price')) {
+      console.log('Adding purchase_price field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN purchase_price REAL DEFAULT 0');
+      console.log('purchase_price field added successfully');
+    }
+    
+    // 添加缺失的 is_active 字段
+    if (!inventoryColumns.includes('is_active')) {
+      console.log('Adding is_active field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT 1');
+      console.log('is_active field added successfully');
+    }
+    
+    // 添加缺失的 images 字段（使用TEXT存储JSON字符串）
+    if (!inventoryColumns.includes('images')) {
+      console.log('Adding images field to inventory_items table...');
+      db.exec('ALTER TABLE inventory_items ADD COLUMN images TEXT');
+      console.log('images field added successfully');
+    }
+
+    console.log('Database migrations completed');
+  } catch (error) {
+    console.error('Database migration failed:', error);
+    // 不抛出错误，让应用继续运行
   }
 }
 
@@ -399,7 +563,10 @@ async function importMockDataIfEmpty() {
     }
     
     console.log(`Database missing data (items: ${itemCount.count}, units: ${unitCount.count}, categories: ${categoryCount.count}, suppliers: ${supplierCount.count}), importing mock data...`);
-    
+
+    // 首先确保有默认管理员用户
+    await createDefaultAdminUser();
+
     // 读取mock-data.sql文件
     const mockDataPath = path.join(__dirname, '../mock-data.sql');
     
@@ -435,6 +602,51 @@ async function importMockDataIfEmpty() {
   }
 }
 
+// 创建默认管理员用户
+async function createDefaultAdminUser() {
+  try {
+    // 检查是否已有admin用户
+    const adminUser = db.prepare('SELECT * FROM users WHERE username = ?').get('admin');
+    if (adminUser) {
+      console.log('Admin user already exists, checking password format...');
+
+      // 如果密码是加密的（bcrypt格式），更新为明文
+      if (adminUser.password && adminUser.password.startsWith('$2b$')) {
+        console.log('Updating admin password to plain text for development...');
+        db.prepare('UPDATE users SET password = ? WHERE username = ?').run('123456', 'admin');
+        console.log('Admin password updated to plain text: admin/123456');
+      } else {
+        console.log('Admin user password is already in plain text format');
+      }
+      return;
+    }
+
+    console.log('Creating default admin user...');
+    const adminId = generateId();
+    const timestamp = new Date().toISOString();
+
+    db.prepare(`
+      INSERT INTO users (
+        id, username, password, nickname, email, role, status, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      adminId,
+      'admin',
+      '123456', // 默认密码，使用明文以便认证
+      '系统管理员',
+      'admin@system.com',
+      'admin',
+      'active',
+      timestamp,
+      timestamp
+    );
+
+    console.log('Default admin user created: admin/123456');
+  } catch (error) {
+    console.error('Failed to create default admin user:', error);
+  }
+}
+
 // Database IPC handlers
 // 清理已存在的处理器，避免重复注册
 ipcMain.removeHandler('db-initialize');
@@ -443,9 +655,11 @@ ipcMain.removeHandler('db-reimport-units');
 
 ipcMain.handle('db-initialize', async () => {
   try {
-    await initializeDatabase();
-    // Setup all database handlers
-    setupDatabaseHandlers(ipcMain, db);
+    // 数据库已在应用启动时初始化，这里只需要确认状态
+    if (!db) {
+      await initializeDatabase();
+      setupDatabaseHandlers(ipcMain, db);
+    }
     return { success: true };
   } catch (error) {
     console.error('Database initialization failed:', error);

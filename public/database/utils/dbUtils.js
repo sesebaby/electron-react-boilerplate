@@ -80,6 +80,18 @@ function transformRow(row, fieldMap = {}) {
     }
   });
   
+  // 解析JSON字段
+  ['images'].forEach(field => {
+    if (transformed[field] && typeof transformed[field] === 'string') {
+      try {
+        transformed[field] = JSON.parse(transformed[field]);
+      } catch (e) {
+        console.warn(`Failed to parse JSON field ${field}:`, e);
+        transformed[field] = [];
+      }
+    }
+  });
+  
   return transformed;
 }
 
@@ -119,7 +131,12 @@ function buildUpdateQuery(tableName, updates, fieldMap = {}, whereClause = 'WHER
       // 特殊处理布尔值
       if (typeof value === 'boolean') {
         params.push(value ? 1 : 0);
-      } else {
+      } 
+      // 特殊处理JSON字段（如images）
+      else if (key === 'images' && Array.isArray(value)) {
+        params.push(JSON.stringify(value));
+      } 
+      else {
         params.push(value);
       }
     }

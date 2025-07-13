@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { productService, categoryService, unitService, productConversionService } from '../../services/business';
-import { Product, Category, Unit, ProductStatus } from '../../types/entities';
+// 使用简化的服务管理器
+import { serviceManager } from '../../services/core';
+import { Product, Category, Unit, ProductStatus, ProductConversionSetting } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { Card, CardContent } from '../ui/card';
+import { notificationHelper } from '../../utils/notificationHelper';
 import { 
   Table, 
   TableContainer,
@@ -88,6 +90,12 @@ const emptyConversionSettings: ConversionSettings = {
 };
 
 export const ProductManagement: React.FC<ProductManagementProps> = ({ className }) => {
+  // 服务状态管理
+  const [services, setServices] = useState<any>(null);
+  const [servicesLoading, setServicesLoading] = useState(true);
+  const [servicesError, setServicesError] = useState<string | null>(null);
+
+  // 原有状态
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [units, setUnits] = useState<Unit[]>([]);
@@ -115,36 +123,80 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     mode: 'onBlur'
   });
 
-  const __formData = watch(); // 监听表单数据变化
+  const formData = watch(); // 监听表单数据变化
 
   // 确认对话框状态
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   // 性能监控
-  const { stats: _stats } = usePerformanceLogger('ProductManagement', {
+  const { stats } = usePerformanceLogger('ProductManagement', {
     enableInProduction: true,
     trackRerenders: true
   });
 
+  // 初始化服务
   useEffect(() => {
-    loadData();
+    const initServices = async () => {
+      try {
+        setServicesLoading(true);
+        setServicesError(null);
+
+        // 获取服务实例
+        await serviceManager.initialize();
+        const inventoryService = serviceManager.getInventoryService();
+        setServices({
+          productService: inventoryService,
+          categoryService: inventoryService,
+          unitService: inventoryService
+        });
+
+        console.log('服务初始化成功');
+
+      } catch (error) {
+        console.error('服务初始化失败:', error);
+        setServicesError(error instanceof Error ? error.message : '服务初始化失败');
+      } finally {
+        setServicesLoading(false);
+      }
+    };
+
+    initServices();
   }, []);
 
-  const _loadData = async () => {
+  // 当服务初始化完成后加载数据
+  useEffect(() => {
+    if (services) {
+      loadData();
+    }
+  }, [services]);
+
+  const loadData = async () => {
+    if (!services) {
+      console.warn('Services not initialized, skipping data load');
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
-      
-      const [productsData, categoriesData, unitsData] = await Promise.all([
-        productService.findAll(),
-        categoryService.findAll(),
-        unitService.findAll()
+
+      const [productsResult, categoriesResult, unitsResult] = await Promise.all([
+        services.productService.findAllProducts(),
+        services.categoryService.findAllCategories(),
+        services.unitService.findAllUnits()
       ]);
-      
-      setProducts(productsData);
-      setCategories(categoriesData);
-      setUnits(unitsData);
+
+      const productsData = productsResult.success ? 
+        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const categoriesData = categoriesResult.success ? 
+        (Array.isArray(categoriesResult.data) ? categoriesResult.data : []) : [];
+      const unitsData = unitsResult.success ? 
+        (Array.isArray(unitsResult.data) ? unitsResult.data : []) : [];
+
+      setProducts(Array.isArray(productsData) ? productsData : []);
+      setCategories(Array.isArray(categoriesData) ? categoriesData : []);
+      setUnits(Array.isArray(unitsData) ? unitsData : []);
     } catch (err) {
       setError('加载数据失败');
       console.error('Failed to load product data:', err);
@@ -153,7 +205,12 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     }
   };
 
-  const _onSubmit = async (data: ProductForm) => {
+  const onSubmit = async (data: ProductForm) => {
+    if (!services) {
+      setError('服务未初始化，无法创建产品');
+      return;
+    }
+
     // 记录操作开始
     const actionId = `product-${editingProduct ? 'update' : 'create'}-${Date.now()}`;
     userActionLogger.startAction(actionId, {
@@ -167,7 +224,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
         sku: data.sku
       }
     });
-    
+
     try {
       // 处理空字符串为undefined
       const submitData = {
@@ -177,11 +234,14 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
         model: data.model || undefined,
         barcode: data.barcode || undefined
       };
-      
+
       let productId: string;
-      
+
       if (editingProduct) {
-        await productService.update(editingProduct.id, submitData);
+        const updateResult = await services.productService.updateProduct(editingProduct.id, submitData);
+        if (!updateResult.success) {
+          throw new Error(updateResult.error || '更新商品失败');
+        }
         productId = editingProduct.id;
         
         // 记录更新成功
@@ -198,8 +258,11 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
           success: true
         });
       } else {
-        const newProduct = await productService.create(submitData);
-        productId = newProduct.id;
+        const createResult = await services.productService.createProduct(submitData);
+        if (!createResult.success) {
+          throw new Error(createResult.error || '创建商品失败');
+        }
+        productId = createResult.data.id;
         
         // 记录创建成功
         userActionLogger.logBusinessAction({
@@ -217,26 +280,33 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       }
       
       // 保存或更新单位换算设置
-      if (conversionSettings.enableConversion) {
-        const existingConversionSetting = await productConversionService.findByProductId(productId);
-        
-        const conversionData = {
-          productId,
-          enableConversion: conversionSettings.enableConversion,
-          conversionType: conversionSettings.conversionType,
-          globalRuleId: conversionSettings.globalRuleId,
-          customRule: conversionSettings.customRule,
-          isActive: true
-        };
-        
-        if (existingConversionSetting) {
-          await productConversionService.update(existingConversionSetting.id, conversionData);
+      try {
+        if (conversionSettings.enableConversion) {
+          // 使用InventoryService来保存单位换算设置
+          const conversionData = {
+            productId,
+            enableConversion: conversionSettings.enableConversion,
+            conversionType: conversionSettings.conversionType,
+            globalRuleId: conversionSettings.globalRuleId,
+            customRule: conversionSettings.customRule,
+            isActive: true
+          };
+          
+          const conversionResult = await serviceManager.getInventoryService().updateProductConversion(productId, conversionData);
+          if (!conversionResult.success) {
+            throw new Error(conversionResult.error || '单位换算设置保存失败');
+          }
         } else {
-          await productConversionService.create(conversionData);
+          // 如果禁用换算，删除现有的换算设置
+          const deleteResult = await serviceManager.getInventoryService().deleteProductConversion(productId);
+          if (!deleteResult.success) {
+            console.warn('删除单位换算设置失败:', deleteResult.error);
+          }
         }
-      } else {
-        // 如果禁用换算，删除现有的换算设置
-        await productConversionService.deleteByProductId(productId);
+      } catch (conversionError) {
+        console.error('单位换算设置保存失败:', conversionError);
+        notificationHelper.showError('保存失败', `单位换算设置保存失败: ${conversionError instanceof Error ? conversionError.message : '未知错误'}`);
+        // 不阻止产品保存流程，但需要提醒用户
       }
       
       await loadData();
@@ -278,7 +348,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     }
   };
 
-  const _handleEdit = async (product: Product) => {
+  const handleEdit = async (product: Product) => {
     // 记录查看/编辑操作
     userActionLogger.logBusinessAction({
       type: UserActionType.VIEW,
@@ -312,18 +382,23 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     clearErrors();
     
     // 加载现有的单位换算设置
+    // TODO: 需要将 productConversionService 集成到新的依赖注入系统中
     try {
-      const existingConversionSetting = await productConversionService.findByProductId(product.id);
-      if (existingConversionSetting) {
-        setConversionSettings({
-          enableConversion: existingConversionSetting.enableConversion,
-          conversionType: existingConversionSetting.conversionType,
-          globalRuleId: existingConversionSetting.globalRuleId,
-          customRule: existingConversionSetting.customRule
-        });
-      } else {
-        setConversionSettings(emptyConversionSettings);
-      }
+      console.log('加载单位换算设置（暂时跳过）:', product.id);
+      // const existingConversionSetting = await services.productConversionService?.findByProductId(product.id);
+      // if (existingConversionSetting) {
+      //   setConversionSettings({
+      //     enableConversion: existingConversionSetting.enableConversion,
+      //     conversionType: existingConversionSetting.conversionType,
+      //     globalRuleId: existingConversionSetting.globalRuleId,
+      //     customRule: existingConversionSetting.customRule
+      //   });
+      // } else {
+      //   setConversionSettings(emptyConversionSettings);
+      // }
+
+      // 暂时使用默认设置
+      setConversionSettings(emptyConversionSettings);
     } catch (err) {
       console.error('Failed to load conversion settings:', err);
       setConversionSettings(emptyConversionSettings);
@@ -332,19 +407,22 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     setShowForm(true);
   };
 
-  const _handleDelete = (id: string) => {
+  const handleDelete = (id: string) => {
     setDeleteTargetId(id);
     setShowConfirmDialog(true);
   };
 
-  const _confirmDelete = async () => {
-    if (!deleteTargetId) return;
+  const confirmDelete = async () => {
+    if (!deleteTargetId || !services) return;
 
     // 找到要删除的产品信息
     const productToDelete = products.find(p => p.id === deleteTargetId);
-    
+
     try {
-      await productService.delete(deleteTargetId);
+      const deleteResult = await services.productService.deleteProduct(deleteTargetId);
+      if (!deleteResult.success) {
+        throw new Error(deleteResult.error || '删除商品失败');
+      }
       
       // 记录删除成功
       userActionLogger.logBusinessAction({
@@ -387,12 +465,12 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     }
   };
 
-  const _cancelDelete = () => {
+  const cancelDelete = () => {
     setShowConfirmDialog(false);
     setDeleteTargetId(null);
   };
 
-  const _handleCancel = () => {
+  const handleCancel = () => {
     setShowForm(false);
     setEditingProduct(null);
     reset(emptyForm);
@@ -401,15 +479,15 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     setError(null); // 清除错误信息
   };
 
-  const _handleCreateNew = () => {
+  const handleCreateNew = () => {
     reset(emptyForm);
     clearErrors();
     setShowForm(true);
     // 自动生成SKU编码
-    _generateSKU();
+    generateSKU();
   };
 
-  const _generateSKU = () => {
+  const generateSKU = () => {
     try {
       // 生成基于时间戳和随机数的SKU
       const timestamp = Date.now().toString().slice(-6);
@@ -433,7 +511,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     return matchesSearch && matchesCategory && matchesStatus;
   });
 
-  const _getStatusText = (status: ProductStatus) => {
+  const getStatusText = (status: ProductStatus) => {
     switch (status) {
       case ProductStatus.ACTIVE: return '正常';
       case ProductStatus.INACTIVE: return '停用';
@@ -442,7 +520,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
     }
   };
 
-  const _getStatusColor = (status: ProductStatus) => {
+  const getStatusColor = (status: ProductStatus) => {
     switch (status) {
       case ProductStatus.ACTIVE: return 'bg-green-500/20 text-green-300 border-green-400/30';
       case ProductStatus.INACTIVE: return 'bg-yellow-500/20 text-yellow-300 border-yellow-400/30';
@@ -450,6 +528,38 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
       default: return 'bg-gray-500/20 text-gray-300 border-gray-400/30';
     }
   };
+
+  // 服务加载状态处理
+  if (servicesLoading) {
+    return (
+      <Card className="glass-card h-full">
+        <CardContent className="p-0 h-full">
+          <TableLoading message="正在初始化服务..." />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (servicesError) {
+    return (
+      <GlassCard className="text-center">
+        <div className="text-red-400 text-6xl mb-4">⚠️</div>
+        <h3 className="text-xl font-semibold text-white mb-2">服务初始化失败</h3>
+        <p className="text-red-400 mb-4">{servicesError}</p>
+        <GlassButton onClick={() => window.location.reload()}>重新加载</GlassButton>
+      </GlassCard>
+    );
+  }
+
+  if (!services) {
+    return (
+      <GlassCard className="text-center">
+        <div className="text-gray-400 text-6xl mb-4">⏳</div>
+        <h3 className="text-xl font-semibold text-white mb-2">服务不可用</h3>
+        <p className="text-gray-400 mb-4">服务正在初始化中，请稍候...</p>
+      </GlassCard>
+    );
+  }
 
   if (loading) {
     return (
@@ -569,7 +679,7 @@ export const ProductManagement: React.FC<ProductManagementProps> = ({ className 
 
                 <TableBody>
                   {filteredProducts.map((product) => {
-                    const _category = categories.find(c => c.id === product.categoryId);
+                    const category = categories.find(c => c.id === product.categoryId);
                     return (
                       <TableRow key={product.id}>
                         <TableCell 

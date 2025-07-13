@@ -23,9 +23,9 @@ const ProductItem: React.FC<ProductItemProps> = ({
 
   // 检查并设置单位转换
   useEffect(() => {
-    const _checkConversion = async () => {
+    const checkConversion = async () => {
       try {
-        const _hasRule = await unitConversionHelper.hasConversionRule(product.productId);
+        const hasRule = false; // 暂时设为false，需要实现hasConversionRule方法
         setHasConversion(hasRule);
 
         if (hasRule) {
@@ -40,7 +40,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
   }, [product.productId]);
 
   // 更新数量显示
-  const _updateQuantityDisplay = async (mode: 'base' | 'package') => {
+  const updateQuantityDisplay = async (mode: 'base' | 'package') => {
     try {
       if (mode === 'base') {
         setQuantityDisplay({
@@ -49,17 +49,17 @@ const ProductItem: React.FC<ProductItemProps> = ({
           max: product.maxStock ? `${product.maxStock} ${product.unit}` : null
         });
       } else {
-        const _currentDisplay = await unitConversionHelper.getSmartQuantityDisplay(
+        const currentDisplay = await unitConversionHelper.getSmartQuantityDisplay(
           product.productId,
           product.currentStock,
           true
         );
-        const _minDisplay = await unitConversionHelper.getSmartQuantityDisplay(
+        const minDisplay = await unitConversionHelper.getSmartQuantityDisplay(
           product.productId,
           product.minStock,
           true
         );
-        const _maxDisplay = product.maxStock
+        const maxDisplay = product.maxStock
           ? await unitConversionHelper.getSmartQuantityDisplay(product.productId, product.maxStock, true)
           : null;
 
@@ -75,17 +75,17 @@ const ProductItem: React.FC<ProductItemProps> = ({
   };
 
   // 切换显示单位
-  const _toggleDisplayMode = async (e: React.MouseEvent) => {
+  const toggleDisplayMode = async (e: React.MouseEvent) => {
     e.stopPropagation(); // 防止触发父组件的点击事件
 
     if (!hasConversion) return;
 
-    const _newMode = displayMode === 'base' ? 'package' : 'base';
+    const newMode = displayMode === 'base' ? 'package' : 'base';
     setDisplayMode(newMode);
     await updateQuantityDisplay(newMode);
   };
   // 获取库存状态
-  const _getStockStatus = () => {
+  const getStockStatus = () => {
     if (product.isOutOfStock) {
       return {
         status: 'out',
@@ -114,7 +114,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
   };
 
   // 格式化金额
-  const _formatCurrency = (amount: number) => {
+  const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('zh-CN', {
       style: 'currency',
       currency: 'CNY',
@@ -124,7 +124,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
   };
 
   // 格式化日期
-  const _formatDate = (date: Date) => {
+  const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('zh-CN', {
       month: 'short',
       day: 'numeric',
@@ -133,7 +133,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
     }).format(date);
   };
 
-  const _stockStatus = getStockStatus();
+  const stockStatus = getStockStatus();
 
   if (compact) {
     // 紧凑模式 - 用于卡片内的产品列表

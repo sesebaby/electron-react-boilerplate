@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { productService, warehouseService, inventoryStockService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Product, Warehouse, InventoryTransaction, TransactionType } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { Card, CardContent } from '../ui/card';
@@ -11,7 +11,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty as _TableEmpty,
+  TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -58,25 +58,34 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
     applyFilters();
   }, [transactions, filter]);
 
-  const _loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const [transactionsData, productsData, warehousesData] = await Promise.all([
-        inventoryStockService.findAllTransactions(),
-        productService.findAll(),
-        warehouseService.findAll()
+      const inventoryService = serviceManager.getInventoryService();
+      const [transactionsResult, productsResult, warehousesResult] = await Promise.all([
+        inventoryService.findAllTransactions(),
+        inventoryService.findAllProducts(),
+        inventoryService.findAllWarehouses()
       ]);
 
+      const transactionsData = transactionsResult.success ? 
+        (Array.isArray(transactionsResult.data) ? transactionsResult.data : transactionsResult.data?.items || []) : [];
+      const productsData = productsResult.success ? 
+        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const warehousesData = warehousesResult.success ? 
+        (Array.isArray(warehousesResult.data) ? warehousesResult.data : []) : [];
+
       // 按创建时间降序排序
-      const _sortedTransactions = transactionsData.sort((a: any, b: any) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
+      const sortedTransactions = Array.isArray(transactionsData) ? 
+        transactionsData.sort((a: any, b: any) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        ) : [];
 
       setTransactions(sortedTransactions);
-      setProducts(productsData);
-      setWarehouses(warehousesData);
+      setProducts(Array.isArray(productsData) ? productsData : []);
+      setWarehouses(Array.isArray(warehousesData) ? warehousesData : []);
       
     } catch (err) {
       setError('加载交易记录失败');
@@ -86,17 +95,17 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
     }
   };
 
-  const _applyFilters = () => {
-    const _filtered = [...transactions];
+  const applyFilters = () => {
+    let filtered = [...transactions];
 
     // 日期过滤
     if (filter.startDate) {
-      const _startDate = new Date(filter.startDate);
+      const startDate = new Date(filter.startDate);
       filtered = filtered.filter(t => new Date(t.createdAt) >= startDate);
     }
     
     if (filter.endDate) {
-      const _endDate = new Date(filter.endDate + 'T23:59:59');
+      const endDate = new Date(filter.endDate + 'T23:59:59');
       filtered = filtered.filter(t => new Date(t.createdAt) <= endDate);
     }
 
@@ -124,7 +133,7 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
 
     // 搜索词过滤（搜索交易单号、备注等）
     if (filter.searchTerm) {
-      const _term = filter.searchTerm.toLowerCase();
+      const term = filter.searchTerm.toLowerCase();
       filtered = filtered.filter(t => 
         t.transactionNo.toLowerCase().includes(term) ||
         (t.remark && t.remark.toLowerCase().includes(term)) ||
@@ -137,22 +146,22 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
     setCurrentPage(1); // 重置到第一页
   };
 
-  const _updateFilter = (field: keyof TransactionFilter, value: string) => {
+  const updateFilter = (field: keyof TransactionFilter, value: string) => {
     setFilter(prev => ({ ...prev, [field]: value }));
   };
 
-  const _resetFilters = () => {
+  const resetFilters = () => {
     setFilter(emptyFilter);
   };
 
-  const _exportTransactions = () => {
+  const exportTransactions = () => {
     // 简单的CSV导出
-    const _headers = [
+    const headers = [
       '交易单号', '交易类型', '商品', '仓库', '数量', '单价', '总金额', 
       '参考类型', '参考单号', '操作员', '备注', '创建时间'
     ];
     
-    const _csvData = filteredTransactions.map(t => [
+    const csvData = filteredTransactions.map(t => [
       t.transactionNo,
       getTransactionTypeText(t.transactionType),
       getProductName(t.productId),
@@ -167,28 +176,28 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
       new Date(t.createdAt).toLocaleString()
     ]);
 
-    const _csvContent = [headers, ...csvData]
+    const csvContent = [headers, ...csvData]
       .map(row => row.map(field => `"${field}"`).join(','))
       .join('\n');
 
-    const _blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const _link = document.createElement('a');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = `库存交易记录_${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
   };
 
-  const _getProductName = (productId: string): string => {
-    const _product = products.find(p => p.id === productId);
+  const getProductName = (productId: string): string => {
+    const product = products.find(p => p.id === productId);
     return product ? product.name : `未知商品(${productId})`;
   };
 
-  const _getWarehouseName = (warehouseId: string): string => {
-    const _warehouse = warehouses.find(w => w.id === warehouseId);
+  const getWarehouseName = (warehouseId: string): string => {
+    const warehouse = warehouses.find(w => w.id === warehouseId);
     return warehouse ? warehouse.name : `未知仓库(${warehouseId})`;
   };
 
-  const _getTransactionTypeText = (type: TransactionType): string => {
+  const getTransactionTypeText = (type: TransactionType): string => {
     switch (type) {
       case TransactionType.IN: return '入库';
       case TransactionType.OUT: return '出库';
@@ -197,7 +206,7 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
     }
   };
 
-  const _getTransactionTypeStyles = (type: TransactionType): string => {
+  const getTransactionTypeStyles = (type: TransactionType): string => {
     switch (type) {
       case TransactionType.IN: return 'text-green-300 bg-green-500/20 border-green-400/30';
       case TransactionType.OUT: return 'text-red-300 bg-red-500/20 border-red-400/30';
@@ -206,7 +215,7 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
     }
   };
 
-  const _getTransactionIcon = (type: TransactionType): string => {
+  const getTransactionIcon = (type: TransactionType): string => {
     switch (type) {
       case TransactionType.IN: return '📥';
       case TransactionType.OUT: return '📤';
@@ -215,7 +224,7 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
     }
   };
 
-  const _formatDateTime = (date: Date): string => {
+  const formatDateTime = (date: Date): string => {
     return new Date(date).toLocaleString('zh-CN', {
       year: 'numeric',
       month: '2-digit',
@@ -226,11 +235,11 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
     });
   };
 
-  const _formatAmount = (amount: number): string => {
+  const formatAmount = (amount: number): string => {
     return amount >= 0 ? `+¥${amount.toFixed(2)}` : `-¥${Math.abs(amount).toFixed(2)}`;
   };
 
-  const _getAmountStyles = (type: TransactionType): string => {
+  const getAmountStyles = (type: TransactionType): string => {
     switch (type) {
       case TransactionType.IN: return 'text-green-300';
       case TransactionType.OUT: return 'text-red-300';
@@ -239,8 +248,8 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
     }
   };
 
-  const _getStatistics = () => {
-    const _stats = filteredTransactions.reduce((acc, t) => {
+  const getStatistics = () => {
+    const stats = filteredTransactions.reduce((acc, t) => {
       acc.total++;
       switch (t.transactionType) {
         case TransactionType.IN:
@@ -271,12 +280,12 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
   };
 
   // 分页计算
-  const _startIndex = (currentPage - 1) * pageSize;
-  const _endIndex = startIndex + pageSize;
-  const _currentTransactions = filteredTransactions.slice(startIndex, endIndex);
-  const _totalPages = Math.ceil(filteredTransactions.length / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const currentTransactions = filteredTransactions.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredTransactions.length / pageSize);
 
-  const _statistics = getStatistics();
+  const statistics = getStatistics();
 
   if (loading) {
     return (
@@ -602,7 +611,7 @@ export const TransactionRecords: React.FC<TransactionRecordsProps> = ({ classNam
                 {/* 页码显示 */}
                 <div className="flex gap-2">
                   {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    const _pageNum = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
+                    const pageNum = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
                     if (pageNum <= totalPages) {
                       return (
                         <button

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { productService, warehouseService, inventoryStockService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Product, Warehouse } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 
@@ -13,6 +13,7 @@ interface StockInItem {
   warehouseId: string;
   quantity: number;
   unitPrice: number;
+  unitCost: number;
   remark?: string;
 }
 
@@ -37,6 +38,7 @@ const emptyItem: Omit<StockInItem, 'id'> = {
   warehouseId: '',
   quantity: 0,
   unitPrice: 0,
+  unitCost: 0,
   remark: ''
 };
 
@@ -53,15 +55,21 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
     loadData();
   }, []);
 
-  const _loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const [productsData, warehousesData] = await Promise.all([
-        productService.findAll(),
-        warehouseService.findAll()
+      const inventoryService = serviceManager.getInventoryService();
+      const [productsResult, warehousesResult] = await Promise.all([
+        inventoryService.findAllProducts(),
+        inventoryService.findAllWarehouses()
       ]);
+
+      const productsData = productsResult.success ? 
+        (Array.isArray(productsResult.data) ? productsResult.data : productsResult.data?.items || []) : [];
+      const warehousesData = warehousesResult.success ? 
+        (Array.isArray(warehousesResult.data) ? warehousesResult.data : []) : [];
 
       setProducts(productsData);
       setWarehouses(warehousesData);
@@ -73,7 +81,7 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
     }
   };
 
-  const _addItem = () => {
+  const addItem = () => {
     const newItem: StockInItem = {
       ...emptyItem,
       id: Date.now().toString()
@@ -84,14 +92,14 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
     }));
   };
 
-  const _removeItem = (itemId: string) => {
+  const removeItem = (itemId: string) => {
     setFormData(prev => ({
       ...prev,
       items: prev.items.filter(item => item.id !== itemId)
     }));
   };
 
-  const _updateItem = (itemId: string, field: keyof StockInItem, value: any) => {
+  const updateItem = (itemId: string, field: keyof StockInItem, value: any) => {
     setFormData(prev => ({
       ...prev,
       items: prev.items.map(item =>
@@ -100,7 +108,7 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
     }));
   };
 
-  const _handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (formData.items.length === 0) {
@@ -120,27 +128,57 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
       setSubmitting(true);
       setError(null);
       
-      // 逐个处理入库项目
-      const _results = [];
-      for (const item of formData.items) {
-        const _result = await inventoryStockService.stockIn({
+      // 使用事务处理批量入库操作
+      const inventoryService = serviceManager.getInventoryService();
+      
+      try {
+        // 准备批量入库数据
+        const stockInData = formData.items.map(item => ({
           productId: item.productId,
           warehouseId: item.warehouseId,
           quantity: item.quantity,
           unitPrice: item.unitPrice,
-          referenceType: formData.referenceType || '手工入库',
-          referenceId: formData.referenceId || `MANUAL_${Date.now()}`,
-          remark: item.remark || formData.remark,
-          operator: formData.operator
-        });
-        results.push(result);
+          unitCost: item.unitCost,
+          transactionType: 'IN' as any,
+          remark: `${formData.referenceType || '手工入库'}: ${item.remark || '无备注'}`,
+          referenceType: formData.referenceType,
+          referenceNumber: formData.referenceId
+        }));
+        
+        // 使用批量入库操作（事务处理）
+        const result = await inventoryService.batchStockIn(stockInData);
+        
+        if (result.success) {
+          setSuccessMessage(`成功处理 ${formData.items.length} 个入库项目`);
+          setFormData(emptyForm);
+          
+          // 3秒后清除成功消息
+          setTimeout(() => setSuccessMessage(null), 3000);
+        } else {
+          throw new Error(result.error || '批量入库失败');
+        }
+      } catch (batchError) {
+        console.error('批量入库失败，回退到逐个处理:', batchError);
+        
+        // 回退到逐个处理（用于兼容旧版本）
+        const results = [];
+        for (const item of formData.items) {
+          const result = await inventoryService.updateStock(
+            item.productId,
+            item.warehouseId,
+            item.quantity,
+            'IN' as any,
+            `${formData.referenceType || '手工入库'}: ${item.remark || '无备注'}`
+          );
+          results.push(result);
+        }
+        
+        setSuccessMessage(`成功处理 ${results.length} 个入库项目（兼容模式）`);
+        setFormData(emptyForm);
+        
+        // 3秒后清除成功消息
+        setTimeout(() => setSuccessMessage(null), 3000);
       }
-      
-      setSuccessMessage(`成功处理 ${results.length} 个入库项目`);
-      setFormData(emptyForm);
-      
-      // 3秒后清除成功消息
-      setTimeout(() => setSuccessMessage(null), 3000);
       
     } catch (err) {
       setError(err instanceof Error ? err.message : '入库操作失败');
@@ -150,21 +188,21 @@ export const StockIn: React.FC<StockInProps> = ({ className }) => {
     }
   };
 
-  const __getProductName = (productId: string): string => {
-    const _product = products.find(p => p.id === productId);
+  const getProductName = (productId: string): string => {
+    const product = products.find(p => p.id === productId);
     return product ? product.name : '';
   };
 
-  const __getWarehouseName = (warehouseId: string): string => {
-    const _warehouse = warehouses.find(w => w.id === warehouseId);
+  const getWarehouseName = (warehouseId: string): string => {
+    const warehouse = warehouses.find(w => w.id === warehouseId);
     return warehouse ? warehouse.name : '';
   };
 
-  const _getTotalAmount = (): number => {
+  const getTotalAmount = (): number => {
     return formData.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
   };
 
-  const _getTotalQuantity = (): number => {
+  const getTotalQuantity = (): number => {
     return formData.items.reduce((sum, item) => sum + item.quantity, 0);
   };
 

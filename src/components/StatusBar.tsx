@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { InventorySummary } from '../types/inventory';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { Clock, BarChart3, DollarSign, AlertTriangle, X, RefreshCw, User } from 'lucide-react';
+import { InventorySummary } from '../types/inventory';
 
 interface StatusBarProps {
   summary: InventorySummary;

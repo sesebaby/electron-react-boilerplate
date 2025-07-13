@@ -33,7 +33,7 @@ interface InventoryTableProps {
 
 export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({ 
   items, 
-  onUpdateItem: _onUpdateItem,
+  onUpdateItem,
   currentPage,
   totalPages,
   onPageChange,
@@ -43,26 +43,26 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
   height = "600px"
 }) => {
   // 缓存格式化器以避免重复创建
-  const _currencyFormatter = useMemo(() => new Intl.NumberFormat('en-US', {
+  const currencyFormatter = useMemo(() => new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD'
   }), []);
 
-  const _dateFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', {
+  const dateFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric'
   }), []);
 
-  const _formatCurrency = useCallback((amount: number) => {
+  const formatCurrency = useCallback((amount: number) => {
     return currencyFormatter.format(amount);
   }, [currencyFormatter]);
 
-  const _formatDate = useCallback((date: Date) => {
+  const formatDate = useCallback((date: Date) => {
     return dateFormatter.format(date);
   }, [dateFormatter]);
 
-  const _getStatusVariant = useCallback((status: string): "default" | "secondary" | "destructive" | "success" | "warning" => {
+  const getStatusVariant = useCallback((status: string): "default" | "secondary" | "destructive" | "success" | "warning" => {
     switch (status) {
       case 'in-stock': return 'success';
       case 'low-stock': return 'warning';
@@ -72,8 +72,8 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
     }
   }, []);
 
-  const _getAvailableQuantity = useCallback((item: InventoryItem) => {
-    return Math.max(0, item.stockQuantity - item.reservedQuantity);
+  const getAvailableQuantity = useCallback((item: InventoryItem) => {
+    return Math.max(0, (item.stockQuantity || 0) - (item.reservedQuantity || 0));
   }, []);
 
   // 加载状态
@@ -102,9 +102,9 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
     );
   }
 
-  const _renderPaginationItems = useMemo(() => {
-    const _items = [];
-    const _showEllipsis = totalPages > 7;
+  const renderPaginationItems = useMemo(() => {
+    const items = [];
+    const showEllipsis = totalPages > 7;
     
     if (showEllipsis) {
       // Show first page
@@ -129,10 +129,10 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
       }
       
       // Show current page and neighbors
-      const _start = Math.max(2, currentPage - 1);
-      const _end = Math.min(totalPages - 1, currentPage + 1);
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
       
-      for (let _i = start; i <= end; i++) {
+      for (let i = start; i <= end; i++) {
         items.push(
           <PaginationItem key={i}>
             <PaginationLink
@@ -169,7 +169,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
       }
     } else {
       // Show all pages if total is small
-      for (let _i = 1; i <= totalPages; i++) {
+      for (let i = 1; i <= totalPages; i++) {
         items.push(
           <PaginationItem key={i}>
             <PaginationLink
@@ -228,7 +228,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                     <div>
                       <div className="font-semibold mb-1" style={{color: 'var(--text-primary)'}}>{item.name}</div>
                       <div className="text-sm mb-1 leading-relaxed" style={{color: 'var(--text-secondary)'}}>{item.description}</div>
-                      <div className="text-xs italic" style={{color: 'var(--text-tertiary)'}}>供应商: {item.supplier}</div>
+                      <div className="text-xs italic" style={{color: 'var(--text-tertiary)'}}>供应商: {item.supplier || '-'}</div>
                     </div>
                   </TableCell>
                   <TableCell className="min-w-[140px]">
@@ -236,12 +236,12 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                       {item.sku}
                     </code>
                   </TableCell>
-                  <TableCell className="min-w-[100px]">{item.category}</TableCell>
+                  <TableCell className="min-w-[100px]">{item.category || '-'}</TableCell>
                   <TableCell className="min-w-[80px] text-center">
                     <Badge variant="success" className="mb-1">
                       {item.stockQuantity}
                     </Badge>
-                    {item.reservedQuantity > 0 && (
+                    {(item.reservedQuantity || 0) > 0 && (
                       <div className="text-xs text-white/60 mt-1">
                         ({item.reservedQuantity} 预留)
                       </div>
@@ -255,10 +255,10 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                     </Badge>
                   </TableCell>
                   <TableCell className="min-w-[100px] text-right font-semibold">
-                    {formatCurrency(item.unitPrice)}
+                    {formatCurrency(item.unitPrice || 0)}
                   </TableCell>
                   <TableCell className="min-w-[100px] text-right font-semibold">
-                    {formatCurrency(item.totalValue)}
+                    {formatCurrency((item.unitPrice || 0) * (item.stockQuantity || 0))}
                   </TableCell>
                   <TableCell className="min-w-[100px] text-center">
                     <Badge variant={getStatusVariant(item.status)}>
@@ -267,7 +267,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = React.memo(({
                   </TableCell>
                   <TableCell className="min-w-[120px]">{item.location}</TableCell>
                   <TableCell className="min-w-[100px] text-sm">
-                    {formatDate(item.lastUpdated)}
+                    {formatDate(item.lastUpdated || new Date())}
                   </TableCell>
                 </TableRow>
               ))}

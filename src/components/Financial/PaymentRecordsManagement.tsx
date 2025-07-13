@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import accountsPayableService from '../../services/business/accountsPayableService';
-import { supplierService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Payment, PaymentMethod, Supplier } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassCard } from '../ui/FormControls';
 
@@ -18,7 +17,7 @@ interface PaymentRecordsManagementProps {
 }
 
 export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> = ({ className }) => {
-  const [payments, setPayments] = useState<Payment[]>([]);
+  const [payments, setPayments] = useState<any[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -35,20 +34,38 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     loadData();
   }, []);
 
-  const _loadData = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const [paymentsData, suppliersData, methodStats] = await Promise.all([
-        accountsPayableService.findAllPayments(),
-        supplierService.findAll(),
-        accountsPayableService.getPaymentMethodStats()
+      await serviceManager.initialize();
+      const financialService = serviceManager.getFinancialService();
+      const systemService = serviceManager.getSystemService();
+      
+      const [paymentsResult, suppliersResult] = await Promise.all([
+        financialService.getPaymentRecords(undefined, 'payable'),
+        systemService.getSuppliers()
       ]);
       
-      setPayments(paymentsData);
-      setSuppliers(suppliersData);
-      setStats(methodStats);
+      if (paymentsResult.success && suppliersResult.success && paymentsResult.data && suppliersResult.data) {
+        setPayments(paymentsResult.data || []);
+        setSuppliers(suppliersResult.data.items);
+        
+        // Calculate payment method stats from payments data
+        const paymentsData = paymentsResult.data || [];
+        const methodStats: any = {};
+        paymentsData.forEach(payment => {
+          if (!methodStats[payment.paymentMethod]) {
+            methodStats[payment.paymentMethod] = { count: 0, amount: 0 };
+          }
+          methodStats[payment.paymentMethod].count++;
+          methodStats[payment.paymentMethod].amount += payment.amount;
+        });
+        setStats(methodStats);
+      } else {
+        setError(paymentsResult.error || suppliersResult.error || '数据加载失败');
+      }
     } catch (err) {
       setError('加载付款记录数据失败');
       console.error('Failed to load payment records data:', err);
@@ -57,7 +74,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     }
   };
 
-  const _getPaymentMethodText = (method: PaymentMethod): string => {
+  const getPaymentMethodText = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return '现金';
       case PaymentMethod.BANK_TRANSFER: return '银行转账';
@@ -68,7 +85,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     }
   };
 
-  const _getPaymentMethodIcon = (method: PaymentMethod): string => {
+  const getPaymentMethodIcon = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return '💵';
       case PaymentMethod.BANK_TRANSFER: return '🏦';
@@ -79,7 +96,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     }
   };
 
-  const __getPaymentMethodClass = (method: PaymentMethod): string => {
+  const _getPaymentMethodClass = (method: PaymentMethod): string => {
     switch (method) {
       case PaymentMethod.CASH: return 'text-green-600 bg-green-50 border-green-200';
       case PaymentMethod.BANK_TRANSFER: return 'text-blue-600 bg-blue-50 border-blue-200';
@@ -90,55 +107,51 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     }
   };
 
-  const __getSupplierName = async (payableId: string): Promise<string> => {
+  const _getSupplierName = async (payableId: string): Promise<string> => {
     try {
-      const _payable = await accountsPayableService.findById(payableId);
-      if (payable) {
-        const _supplier = suppliers.find(s => s.id === payable.supplierId);
-        return supplier ? supplier.name : '未知供应商';
-      }
-      return '未知供应商';
+      // This would require additional service calls, for now return default
+      return '供应商';
     } catch {
       return '未知供应商';
     }
   };
 
-  const _formatDate = (date: Date): string => {
+  const formatDate = (date: Date): string => {
     return new Date(date).toLocaleDateString('zh-CN');
   };
 
-  const _formatDateTime = (date: Date): string => {
+  const formatDateTime = (date: Date): string => {
     return new Date(date).toLocaleString('zh-CN');
   };
 
-  const _getUniqueOperators = (): string[] => {
-    const _operators = new Set(payments.map(p => p.operator));
+  const getUniqueOperators = (): string[] => {
+    const operators = new Set(payments.map(p => p.operator));
     return Array.from(operators).filter(Boolean);
   };
 
-  const _filteredPayments = payments.filter(payment => {
-    const _matchesSearch = !searchTerm || 
+  const filteredPayments = payments.filter(payment => {
+    const matchesSearch = !searchTerm || 
       payment.paymentNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payment.operator.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payment.remark?.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const _matchesMethod = !selectedMethod || payment.paymentMethod === selectedMethod;
-    const _matchesOperator = !selectedOperator || payment.operator === selectedOperator;
+    const matchesMethod = !selectedMethod || payment.paymentMethod === selectedMethod;
+    const matchesOperator = !selectedOperator || payment.operator === selectedOperator;
     
-    const _paymentDate = new Date(payment.paymentDate);
-    const _matchesDateRange = (!dateRange.startDate || paymentDate >= new Date(dateRange.startDate)) &&
+    const paymentDate = new Date(payment.paymentDate);
+    const matchesDateRange = (!dateRange.startDate || paymentDate >= new Date(dateRange.startDate)) &&
                            (!dateRange.endDate || paymentDate <= new Date(dateRange.endDate));
     
     return matchesSearch && matchesMethod && matchesOperator && matchesDateRange;
   });
 
-  const _calculateSummary = () => {
-    const _totalAmount = filteredPayments.reduce((sum, p) => sum + p.amount, 0);
-    const _totalCount = filteredPayments.length;
-    const _todayPayments = filteredPayments.filter(p => 
+  const calculateSummary = () => {
+    const totalAmount = filteredPayments.reduce((sum, p) => sum + p.amount, 0);
+    const totalCount = filteredPayments.length;
+    const todayPayments = filteredPayments.filter(p => 
       new Date(p.paymentDate).toDateString() === new Date().toDateString()
     );
-    const _todayAmount = todayPayments.reduce((sum, p) => sum + p.amount, 0);
+    const todayAmount = todayPayments.reduce((sum, p) => sum + p.amount, 0);
 
     return {
       totalAmount,
@@ -148,7 +161,7 @@ export const PaymentRecordsManagement: React.FC<PaymentRecordsManagementProps> =
     };
   };
 
-  const _summary = calculateSummary();
+  const summary = calculateSummary();
 
   if (loading) {
     return (

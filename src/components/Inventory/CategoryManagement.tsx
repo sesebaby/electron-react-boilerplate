@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { categoryService } from '../../services/business';
+import { serviceManager } from '../../services/core';
 import { Category } from '../../types/entities';
 import { GlassInput, GlassSelect, GlassButton, GlassCard } from '../ui/FormControls';
 import { Card, CardContent } from '../ui/card';
@@ -91,12 +91,15 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       setLoading(true);
       setError(null);
       
+      const inventoryService = serviceManager.getInventoryService();
       const [categoriesData, statsData] = await Promise.all([
-        categoryService.findAll(),
-        categoryService.getCategoryStats()
+        inventoryService.getCategories(),
+        Promise.resolve({ total: 0, active: 0, inactive: 0 }) // Mock stats for now
       ]);
       
-      setCategories(categoriesData);
+      if (categoriesData.success && categoriesData.data) {
+        setCategories(categoriesData.data);
+      }
       setStats(statsData);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '加载分类数据失败';
@@ -108,29 +111,48 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
   };
 
   const onSubmit = async (data: CategoryForm) => {
+    console.log('=== CATEGORY FORM SUBMIT DEBUG ===');
+    console.log('Form data:', JSON.stringify(data, null, 2));
+    
     try {
-      // 处理根分类的parentId：将空字符串转换为undefined
+      // 统一处理parentId：使用undefined表示根分类
       const submitData = {
         ...data,
         parentId: data.parentId || undefined
       };
+      
+      console.log('Submit data after processing:', JSON.stringify(submitData, null, 2));
 
       if (editingCategory) {
-        await categoryService.update(editingCategory.id, submitData);
+        console.log('Updating existing category:', editingCategory.id);
+        const updateResult = await serviceManager.getInventoryService().updateCategory(editingCategory.id, submitData);
+        console.log('Update result:', updateResult);
+        if (!updateResult.success) {
+          throw new Error(updateResult.error || '更新分类失败');
+        }
       } else {
-        await categoryService.create(submitData);
+        console.log('Creating new category');
+        const createResult = await serviceManager.getInventoryService().createCategory(submitData);
+        console.log('Create result:', createResult);
+        if (!createResult.success) {
+          throw new Error(createResult.error || '创建分类失败');
+        }
       }
 
+      console.log('Category saved successfully, reloading data...');
       await loadData();
       setShowForm(false);
       setEditingCategory(null);
       reset(emptyForm);
       clearErrors();
+      console.log('=== END CATEGORY FORM SUBMIT DEBUG ===');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '保存分类失败';
+      console.error('Category save error:', err);
+      console.error('Error message:', errorMessage);
       setError(errorMessage);
       notificationHelper.showError('分类保存失败', errorMessage);
-      console.error('Failed to save category:', err);
+      console.log('=== END CATEGORY FORM SUBMIT DEBUG (ERROR) ===');
     }
   };
 
@@ -138,7 +160,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     setEditingCategory(category);
     reset({
       name: category.name,
-      parentId: category.parentId || '',
+      parentId: category.parentId || undefined,
       level: category.level,
       sortOrder: category.sortOrder,
       isActive: category.isActive
@@ -156,7 +178,28 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
     if (!deleteTargetId) return;
 
     try {
-      await categoryService.delete(deleteTargetId);
+      // 检查是否有子分类
+      const hasChildren = categories.some(category => category.parentId === deleteTargetId);
+      if (hasChildren) {
+        notificationHelper.showError('删除失败', '不能删除包含子分类的分类，请先删除所有子分类');
+        setShowConfirmDialog(false);
+        setDeleteTargetId(null);
+        return;
+      }
+
+      // 检查是否有产品使用此分类
+      const categoryUsageResult = await serviceManager.getInventoryService().checkCategoryUsage(deleteTargetId);
+      if (categoryUsageResult.success && categoryUsageResult.data && categoryUsageResult.data.productCount > 0) {
+        notificationHelper.showError('删除失败', `该分类下还有 ${categoryUsageResult.data.productCount} 个商品，请先移除或重新分类这些商品`);
+        setShowConfirmDialog(false);
+        setDeleteTargetId(null);
+        return;
+      }
+
+      const deleteResult = await serviceManager.getInventoryService().deleteCategory(deleteTargetId);
+      if (!deleteResult.success) {
+        throw new Error(deleteResult.error || '删除分类失败');
+      }
       await loadData();
       notificationHelper.showSuccess('删除成功', '分类已成功删除');
     } catch (err) {
@@ -244,7 +287,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
         {/* 页面头部 */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">分类管理</h1>
+            <h1 className="text-3xl font-bold text-white mb-2">商品分类</h1>
             <p className="text-white/70">管理商品分类、层级关系和分类属性</p>
           </div>
         </div>
@@ -262,7 +305,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
       {/* 页面头部 */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">分类管理</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">商品分类</h1>
           <p className="text-white/70">管理商品分类、层级关系和分类属性</p>
         </div>
         <GlassButton
@@ -551,6 +594,7 @@ export const CategoryManagement: React.FC<CategoryManagementProps> = ({ classNam
                     register={register('isActive', {
                       setValueAs: (value) => value === 'true'
                     })}
+                    value={_formData.isActive ? 'true' : 'false'}
                     error={errors.isActive?.message}
                   >
                     <option value="true">启用</option>

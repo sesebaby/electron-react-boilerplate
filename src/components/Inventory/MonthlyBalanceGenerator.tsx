@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import monthlyBalanceService from '../../services/business/monthlyBalanceService';
-import { warehouseService } from '../../services/business/warehouseService';
-import categoryService from '../../services/business/categoryService';
+import { serviceManager } from '../../services/core';
 import { MonthlyBalanceGenerateParams, MonthlyBalanceGenerateResult } from '../../types/monthlyBalance';
 import { Warehouse, Category } from '../../types/entities';
 import { GlassButton, GlassCard } from '../ui/FormControls';
@@ -38,13 +36,17 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
 
   const loadFormData = async () => {
     try {
-      const [warehouseList, categoryList] = await Promise.all([
-        warehouseService.findAll(),
-        categoryService.findAll()
+      const inventoryService = serviceManager.getInventoryService();
+      const [warehouseResult, categoryResult] = await Promise.all([
+        inventoryService.getWarehouses(),
+        inventoryService.getCategories()
       ]);
-      
-      setWarehouses(warehouseList);
-      setCategories(categoryList);
+
+      const warehouseList = warehouseResult.success ? (warehouseResult.data || []) : [];
+      const categoryList = categoryResult.success ? (categoryResult.data || []) : [];
+
+      setWarehouses(warehouseList as any[]);
+      setCategories(categoryList as any[]);
     } catch (err) {
       console.error('Failed to load form data:', err);
       setError('加载表单数据失败');
@@ -63,10 +65,12 @@ export const MonthlyBalanceGenerator: React.FC<MonthlyBalanceGeneratorProps> = (
         return;
       }
 
-      const generateResult = await monthlyBalanceService.generateMonthlyBalance(params);
+      // 注意：月度结余功能需要从报表服务中获取
+      const reportService = serviceManager.getReportService();
+      const generateResult = await reportService.generateMonthlyBalance(params);
 
       if (!generateResult.success) {
-        setError(generateResult.error?.message || '生成失败');
+        setError(generateResult.error || '生成失败');
         return;
       }
 

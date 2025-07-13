@@ -10,7 +10,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableEmpty as _TableEmpty,
+  TableEmpty,
   TableLoading
 } from '../ui/table';
 
@@ -47,7 +47,7 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
   onEditConversion,
   onDeleteConversion
 }) => {
-  const _unitTypeOptions = [
+  const unitTypeOptions = [
     { value: UnitType.WEIGHT, label: '重量' },
     { value: UnitType.LENGTH, label: '长度' },
     { value: UnitType.VOLUME, label: '体积' },
@@ -56,17 +56,17 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
     { value: UnitType.TIME, label: '时间' }
   ];
 
-  const _getUnitTypeLabel = (type: UnitType) => {
+  const getUnitTypeLabel = (type: UnitType) => {
     return unitTypeOptions.find(opt => opt.value === type)?.label || type;
   };
 
-  const _getUnitName = (unitId: string) => {
-    const _unit = units.find(u => u.id === unitId);
+  const getUnitName = (unitId: string) => {
+    const unit = units.find(u => u.id === unitId);
     return unit ? `${unit.name}(${unit.symbol})` : unitId;
   };
 
   // 按类别过滤单位
-  const _getUnitsForCategory = (category: UnitType) => {
+  const getUnitsForCategory = (category: UnitType) => {
     return units.filter(unit => unit.type === category && unit.isActive);
   };
 
@@ -157,10 +157,39 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
         </TableContainer>
       </div>
 
+      {/* 系统初始化说明 */}
+      <div className="glass-surface rounded-lg p-4 mb-4 bg-blue-500/10 border border-blue-500/20">
+        <div className="flex items-start gap-3">
+          <span className="text-blue-400 text-lg">ℹ️</span>
+          <div>
+            <h4 className="text-blue-300 font-medium mb-2">系统初始化说明</h4>
+            <p className="text-blue-200/80 text-sm mb-2">
+              下方是初始化系统的换算规则示意，默认为禁用状态，不会影响业务。如有需要，可以自行修改开启。
+            </p>
+            <ul className="text-blue-200/70 text-xs space-y-1">
+              <li>• 所有初始换算规则均为禁用状态，确保不会在用户不知情的情况下影响业务</li>
+              <li>• 您可以根据实际业务需要，选择性启用相关的换算规则</li>
+              <li>• 启用规则前请仔细检查换算比率是否符合您的业务要求</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* 使用说明 */}
+      <div className="glass-surface rounded-lg p-4">
+        <h4 className="text-white font-medium mb-2">使用说明</h4>
+        <ul className="text-white/70 text-sm space-y-1">
+          <li>• 这些换算规则是全局生效的，将在整个系统中保持一致</li>
+          <li>• 换算比率表示：1个源单位 = 比率数量的目标单位</li>
+          <li>• 建议为常用的单位组合创建换算规则，提高业务效率</li>
+          <li>• 禁用的规则不会在业务中显示，但保留数据便于后续启用</li>
+        </ul>
+      </div>
+
       {/* 换算规则表单弹出框 */}
       {showConversionForm && createPortal(
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
-          <div className="glass-card w-full max-w-md mx-4 p-6 max-h-[90vh] overflow-y-auto">
+          <div className="glass-card w-full max-w-2xl mx-4 p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h4 className="text-lg font-semibold text-white">
                 {editingConversion ? '编辑换算规则' : '添加换算规则'}
@@ -174,85 +203,92 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
               </button>
             </div>
 
-            <form onSubmit={onConversionSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
-                  规则名称 *
-                </label>
-                <GlassInput
-                  type="text"
-                  value={conversionForm.name}
-                  onChange={(e) => setConversionForm((prev: typeof conversionForm) => ({ ...prev, name: e.target.value }))}
-                  placeholder="如：重量标准换算"
-                  required
-                />
+            <form onSubmit={onConversionSubmit} className="space-y-3">
+              {/* 第一行：规则名称和换算类别 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1">
+                    规则名称 *
+                  </label>
+                  <GlassInput
+                    type="text"
+                    value={conversionForm.name}
+                    onChange={(e) => setConversionForm((prev: typeof conversionForm) => ({ ...prev, name: e.target.value }))}
+                    placeholder="如：重量标准换算"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1">
+                    换算类别 *
+                  </label>
+                  <GlassSelect
+                    value={conversionForm.category}
+                    onChange={(e) => {
+                      const category = e.target.value as UnitType;
+                      setConversionForm((prev: typeof conversionForm) => ({ 
+                        ...prev, 
+                        category,
+                        fromUnitId: '',
+                        toUnitId: ''
+                      }));
+                    }}
+                    required
+                  >
+                    {unitTypeOptions.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </GlassSelect>
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
-                  换算类别 *
-                </label>
-                <GlassSelect
-                  value={conversionForm.category}
-                  onChange={(e) => {
-                    const _category = e.target.value as UnitType;
-                    setConversionForm((prev: typeof conversionForm) => ({ 
-                      ...prev, 
-                      category,
-                      fromUnitId: '',
-                      toUnitId: ''
-                    }));
-                  }}
-                  required
-                >
-                  {unitTypeOptions.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </GlassSelect>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
-                  源单位 *
-                </label>
-                <GlassSelect
-                  value={conversionForm.fromUnitId}
-                  onChange={(e) => setConversionForm((prev: typeof conversionForm) => ({ ...prev, fromUnitId: e.target.value }))}
-                  required
-                >
-                  <option value="">请选择源单位</option>
-                  {getUnitsForCategory(conversionForm.category).map(unit => (
-                    <option key={unit.id} value={unit.id}>
-                      {unit.name}({unit.symbol})
-                    </option>
-                  ))}
-                </GlassSelect>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
-                  目标单位 *
-                </label>
-                <GlassSelect
-                  value={conversionForm.toUnitId}
-                  onChange={(e) => setConversionForm((prev: typeof conversionForm) => ({ ...prev, toUnitId: e.target.value }))}
-                  required
-                >
-                  <option value="">请选择目标单位</option>
-                  {getUnitsForCategory(conversionForm.category)
-                    .filter(unit => unit.id !== conversionForm.fromUnitId)
-                    .map(unit => (
+              {/* 第二行：源单位和目标单位 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1">
+                    源单位 *
+                  </label>
+                  <GlassSelect
+                    value={conversionForm.fromUnitId}
+                    onChange={(e) => setConversionForm((prev: typeof conversionForm) => ({ ...prev, fromUnitId: e.target.value }))}
+                    required
+                  >
+                    <option value="">请选择源单位</option>
+                    {getUnitsForCategory(conversionForm.category).map(unit => (
                       <option key={unit.id} value={unit.id}>
                         {unit.name}({unit.symbol})
                       </option>
                     ))}
-                </GlassSelect>
+                  </GlassSelect>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1">
+                    目标单位 *
+                  </label>
+                  <GlassSelect
+                    value={conversionForm.toUnitId}
+                    onChange={(e) => setConversionForm((prev: typeof conversionForm) => ({ ...prev, toUnitId: e.target.value }))}
+                    required
+                  >
+                    <option value="">请选择目标单位</option>
+                    {getUnitsForCategory(conversionForm.category)
+                      .filter(unit => unit.id !== conversionForm.fromUnitId)
+                      .map(unit => (
+                        <option key={unit.id} value={unit.id}>
+                          {unit.name}({unit.symbol})
+                        </option>
+                      ))}
+                  </GlassSelect>
+                </div>
               </div>
 
+              {/* 第三行：换算比率 */}
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label className="block text-sm font-medium text-white/80 mb-1">
                   换算比率 *
                 </label>
                 <GlassInput
@@ -269,8 +305,9 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
                 </p>
               </div>
 
+              {/* 第四行：描述 */}
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label className="block text-sm font-medium text-white/80 mb-1">
                   描述
                 </label>
                 <GlassInput
@@ -281,6 +318,7 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
                 />
               </div>
 
+              {/* 第五行：启用状态 */}
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -294,7 +332,7 @@ const ConversionRulesTab: React.FC<ConversionRulesTabProps> = ({
                 </label>
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-3">
                 <GlassButton
                   type="button"
                   onClick={() => setShowConversionForm(false)}
