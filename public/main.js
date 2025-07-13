@@ -489,11 +489,12 @@ async function runDatabaseMigrations() {
   try {
     console.log('Running database migrations...');
 
-    // 检查 warehouses 表是否有 is_active 字段
+    // 检查 warehouses 表字段
     const warehouseTableInfo = db.prepare("PRAGMA table_info(warehouses)").all();
-    const hasIsActiveField = warehouseTableInfo.some(column => column.name === 'is_active');
+    const warehouseColumns = warehouseTableInfo.map(col => col.name);
 
-    if (!hasIsActiveField) {
+    // 添加缺失的 is_active 字段
+    if (!warehouseColumns.includes('is_active')) {
       console.log('Adding is_active field to warehouses table...');
       db.exec('ALTER TABLE warehouses ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT 1');
       console.log('is_active field added successfully');
@@ -501,17 +502,31 @@ async function runDatabaseMigrations() {
       console.log('warehouses table already has is_active field');
     }
 
+    // 添加缺失的 location 字段
+    if (!warehouseColumns.includes('location')) {
+      console.log('Adding location field to warehouses table...');
+      db.exec('ALTER TABLE warehouses ADD COLUMN location TEXT');
+      console.log('location field added to warehouses table successfully');
+    }
+
     // 检查 categories 表字段
     const categoryTableInfo = db.prepare("PRAGMA table_info(categories)").all();
     const categoryColumns = categoryTableInfo.map(col => col.name);
-    
+
+    // 添加缺失的 is_active 字段
+    if (!categoryColumns.includes('is_active')) {
+      console.log('Adding is_active field to categories table...');
+      db.exec('ALTER TABLE categories ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT 1');
+      console.log('is_active field added to categories table successfully');
+    }
+
     // 添加缺失的 level 字段
     if (!categoryColumns.includes('level')) {
       console.log('Adding level field to categories table...');
       db.exec('ALTER TABLE categories ADD COLUMN level INTEGER DEFAULT 1');
       console.log('level field added successfully');
     }
-    
+
     // 添加缺失的 sort_order 字段
     if (!categoryColumns.includes('sort_order')) {
       console.log('Adding sort_order field to categories table...');

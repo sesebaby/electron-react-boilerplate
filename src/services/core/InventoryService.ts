@@ -944,9 +944,31 @@ export class InventoryService {
     return this.getTransactions(filter, pagination);
   }
 
-  // 全局转换规则别名（暂时返回空数组，需要实现具体逻辑）
+  // 全局转换规则别名（实现具体逻辑）
   async findAllGlobalConversionRules(): Promise<ServiceResult<any[]>> {
-    return { success: true, data: [] };
+    try {
+      // 使用window.electronAPI直接调用数据库
+      const result = await window.electronAPI.dbGetAllConversionRules();
+
+      if (result.success) {
+        return {
+          success: true,
+          data: result.data || []
+        };
+      } else {
+        logger.error('Failed to fetch global conversion rules', result.error);
+        return {
+          success: false,
+          error: result.error || '获取全局转换规则失败'
+        };
+      }
+    } catch (error) {
+      logger.error('Error fetching global conversion rules', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : '获取全局转换规则失败'
+      };
+    }
   }
 
   // 仓库统计别名
